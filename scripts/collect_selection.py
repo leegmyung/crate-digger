@@ -8,6 +8,7 @@
            TOP15 → TOP10 → TOP3 단계가 바뀔 때마다 읽어야 한다. (robots.txt 허용)
 - sejong : 세종음악창작소 뮤즈세종 '선정 뮤지션' 게시판 (robots.txt 허용)
 - gb     : 경북음악창작소 054사운드빌 공개 API에서 음반 지원 결과 글만 (robots.txt 허용)
+- yjh    : 유재하음악경연대회 역대 수상 페이지 — 본선 10팀 전원 (1989~, robots.txt 허용)
 - 이미 저장한 팀은 data/raw/state/selection_seen.json 으로 걸러 새 행만 쓴다.
 - 형식: docs/csv_spec.md 4장 / scripts/csv_schema.py
 """
@@ -41,6 +42,9 @@ WAYBACK_CDX = ("https://web.archive.org/cdx/search/cdx?url=busanrockfestival.com
 SEJONG_LIST = "https://nurirock.or.kr/base/board/list?boardManagementNo=7&menuLevel=2&menuNo=29&page={page}"
 SEJONG_READ = "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo={no}"
 SEJONG_MAX_PAGES = 10
+YJH_URL = "https://www.yjh.or.kr/History"
+YJH_HEAD = re.compile(r"제\s*(\d+)\s*회\s*유재하\s*음악경연대회")
+YJH_ROW = re.compile(r"<tr[^>]*>\s*<td[^>]*>(.*?)</td>\s*<td[^>]*>(.*?)</td>\s*</tr>", re.S)
 GB_API = "https://054soundville.or.kr/wp-json/wp/v2/project?per_page=100&_fields=date,link,title"
 
 BUSAN_HEAD = re.compile(r"<\s*(\d{4})\s*루키즈 온 더 부락\s*>\s*TOP\s*(\d+)\s*발표")
@@ -133,6 +137,39 @@ def parse_gb(items, collected_at):
     return rows
 
 
+def yjh_year(round_no):
+    """유재하음악경연대회 회차 → 연도. 1회 1989년, 2005년은 열리지 않아 17회(2006)부터 한 해 밀림."""
+    return 1988 + round_no if round_no <= 16 else 1989 + round_no
+
+
+def parse_yjh(page, collected_at):
+    """역대 수상 페이지 → 본선 진출 팀(전원 수상). 같은 회차에 본상·특별상으로 두 번 나오면 1행으로 합치고
+    상 이름은 note에 모은다. 발표일은 연도만 알 수 있어 연도로 적는다 (백테스트는 timing.py가 보수적으로 해석)."""
+    rows, done = [], set()
+    heads = list(YJH_HEAD.finditer(page or ""))
+    for i, m in enumerate(heads):
+        no = int(m.group(1))
+        block = (page or "")[m.end():heads[i + 1].start() if i + 1 < len(heads) else len(page)]
+        if no in done or "<table" not in block:   # 회차 제목만 있고 표가 없는 곳(목차 등)은 건너뜀
+            continue
+        done.add(no)
+        teams = {}
+        for label, cell in YJH_ROW.findall(block):
+            award = clean_text(label)
+            for part in re.split(r"<br\s*/?>|</p>", cell):
+                name = clean_text(part).split("<")[0].strip()
+                if name:
+                    teams.setdefault(name, []).append(award)
+        year = str(yjh_year(no))
+        rows.extend(_row("yjh", "yoojaeha_finalist", f"{no}회", "selected", year, name, YJH_URL, collected_at,
+                         ", ".join(dict.fromkeys(awards))) for name, awards in teams.items())
+    return rows
+
+
+def clean_text(fragment):
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", fragment or ""))).strip()
+
+
 def row_key(row):
     return "|".join(row[k] for k in KEY)
 
@@ -189,6 +226,10 @@ def collect_sejong(collected_at):
     return rows
 
 
+def collect_yjh(collected_at):
+    return parse_yjh(fetch(YJH_URL), collected_at)
+
+
 def collect_gb(collected_at):
     return parse_gb(json.loads(fetch(GB_API)), collected_at)
 
@@ -204,7 +245,7 @@ def collect(site, wayback=False):
     now = datetime.now(KST).replace(microsecond=0)
     at, day = now.isoformat(), f"{now:%Y-%m-%d}"
     jobs = {"busan": lambda: collect_busan(at, wayback), "sejong": lambda: collect_sejong(at),
-            "gb": lambda: collect_gb(at)}
+            "gb": lambda: collect_gb(at), "yjh": lambda: collect_yjh(at)}
     names = list(jobs) if site == "all" else [site]
     seen, report, paths = _load_seen(), [], []
     for name in names:
@@ -223,7 +264,7 @@ def collect(site, wayback=False):
 
 def main(argv):
     ap = argparse.ArgumentParser(description="선정 명단 수집 (부산 루키즈·세종·경북)")
-    ap.add_argument("--site", choices=["busan", "sejong", "gb", "all"], default="all")
+    ap.add_argument("--site", choices=["busan", "sejong", "gb", "yjh", "all"], default="all")
     ap.add_argument("--wayback", action="store_true", help="부산 지난 회차를 인터넷 보관소에서 채우기")
     args = ap.parse_args(argv)
     paths, report = collect(args.site, args.wayback)

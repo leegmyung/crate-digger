@@ -88,6 +88,24 @@ def parse_melon_artist(page):
     }
 
 
+def name_keys(name):
+    """이름 키 + 끝 괄호 속 별칭 키. '피치트럭 하이재커스(Peach Truck Hijackers)' → 한글·영문 둘 다."""
+    keys = {artist_key(name)}
+    m = re.search(r"[\(\[]([^\)\]]+)[\)\]]\s*$", name or "")
+    if m:
+        keys.add(artist_key(m.group(1)))
+    return {k for k in keys if k}
+
+
+def match_candidate(name, candidates):
+    """멜론 검색 결과 [[번호, 이름, 설명], ...] 중 이름 키가 같은 후보. 같은 키가 여럿이면 namesakes>1 (검수 대상)."""
+    want = name_keys(name)
+    hits = [c for c in candidates if name_keys(c[1]) & want]
+    if not hits:
+        return None
+    return {"id": hits[0][0], "name": hits[0][1], "desc": hits[0][2] if len(hits[0]) > 2 else "", "namesakes": len(hits)}
+
+
 def targets(release_rows, seen):
     ids = [r.get("artist_source_id", "") for r in release_rows if r.get("source") == "melon"]
     return [i for i in dict.fromkeys(ids) if i and i not in seen]
@@ -138,6 +156,40 @@ def _js(ids):
 }})();"""
 
 
+SEARCH_URL = "https://www.melon.com/search/artist/index.htm?q="
+
+
+def _search_js(names):
+    return f"""await (async () => {{
+  const out = {{}};
+  for (const n of {json.dumps(names, ensure_ascii=False)}) {{
+    try {{
+      const t = await openTab({json.dumps(SEARCH_URL)} + encodeURIComponent(n)); await sleep({PAGE_WAIT_MS});
+      out[n] = await t.evaluate(() => {{
+        const seen = new Set(); const res = [];
+        for (const a of document.querySelectorAll('a[href*="goArtistDetail"]')) {{
+          const id = ((a.getAttribute('href') || '').match(/\\d+/) || [''])[0]; const name = a.innerText.trim();
+          if (!id || !name || seen.has(id)) continue; seen.add(id);
+          const box = a.closest('li, div'); res.push([id, name, box ? box.innerText.replace(/\\s+/g, ' ').slice(0, 160) : '']);
+        }}
+        return res.slice(0, 8);
+      }});
+      await closeTab(t);
+    }} catch (e) {{ out[n] = []; }}
+  }}
+  console.log('RESULT ' + JSON.stringify(out));
+}})();"""
+
+
+def search_artists(names):
+    out = {}
+    for i in range(0, len(names), BATCH):
+        proc = subprocess.run(["aside", "repl", "--json", _search_js(names[i:i + BATCH])],
+                              capture_output=True, text=True, timeout=REPL_TIMEOUT_SEC)
+        out.update(parse_repl_output(proc.stdout))
+    return out
+
+
 def fetch_profiles(ids):
     out = {}
     for i in range(0, len(ids), BATCH):
@@ -172,12 +224,55 @@ def collect(limit):
     return path, len(ids), len(rows)
 
 
+MATCH_STATE = RAW_DIR / "state" / "outcome_melon_match.json"
+
+
+def collect_from_outcomes(limit):
+    """정답(raw_outcome) 팀 이름 → 멜론 검색으로 번호 찾기 → 프로필. 거꾸로 따라가기(백테스트)용.
+    짝 맞춘 결과(동명 팀 수 포함)는 data/raw/state/outcome_melon_match.json 에 남겨 2단계 검수에서 확인한다."""
+    names = []
+    for f in sorted(glob.glob(str(RAW_DIR / "raw_outcome_*.csv"))):
+        with open(f, encoding="utf-8") as fh:
+            names.extend(r["artist_text"] for r in csv.DictReader(fh))
+    try:
+        matches = json.loads(MATCH_STATE.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        matches = {}
+    todo = [n for n in dict.fromkeys(names) if n and n not in matches][:limit]
+    # 1차: 괄호 앞 이름으로, 2차: 못 찾은 팀은 괄호 속 별칭으로 검색 ('피치트럭 하이재커스(Peach Truck Hijackers)')
+    first = {n: re.sub(r"\s*[\(\[][^\)\]]*[\)\]]\s*$", "", n) or n for n in todo}
+    found = search_artists(sorted(set(first.values()))) if todo else {}
+    for n in todo:
+        matches[n] = match_candidate(n, found.get(first[n], []))
+    alias = {n: m.group(1) for n in todo if not matches[n] and (m := re.search(r"[\(\[]([^\)\]]+)[\)\]]\s*$", n))}
+    found2 = search_artists(sorted(set(alias.values()))) if alias else {}
+    for n, a in alias.items():
+        matches[n] = match_candidate(n, found2.get(a, []))
+    MATCH_STATE.parent.mkdir(parents=True, exist_ok=True)
+    MATCH_STATE.write_text(json.dumps(matches, ensure_ascii=False, indent=1), encoding="utf-8")
+    try:
+        seen = set(json.loads(STATE.read_text(encoding="utf-8")))
+    except (OSError, json.JSONDecodeError):
+        seen = set()
+    ids = [m["id"] for m in matches.values() if m and m["id"] not in seen]
+    ids = list(dict.fromkeys(ids))
+    if not ids:
+        return None, len(todo), 0
+    now = datetime.now(KST).replace(microsecond=0)
+    pages = fetch_profiles(ids)
+    rows = [r for r in (to_row(i, parse_melon_artist(pages.get(i, {})), now.isoformat()) for i in ids) if r]
+    path = write_csv(rows, RAW_DIR, f"{now:%Y-%m-%d}") if rows else None
+    STATE.write_text(json.dumps(sorted(seen | {r["artist_source_id"] for r in rows})), encoding="utf-8")
+    return path, len(todo), len(rows)
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description="멜론 아티스트 메타데이터 수집 (aside 브라우저)")
     ap.add_argument("--limit", type=int, default=DEFAULT_LIMIT)
+    ap.add_argument("--from-outcomes", action="store_true", help="정답 명단 팀을 멜론에서 찾아 프로필 받기 (백테스트용)")
     args = ap.parse_args(argv)
     try:
-        path, n_ids, n_rows = collect(args.limit)
+        path, n_ids, n_rows = (collect_from_outcomes if args.from_outcomes else collect)(args.limit)
     except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError) as e:
         print(f"⚠️ 아티스트 프로필 수집 실패: {e}")
         return 1

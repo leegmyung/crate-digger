@@ -74,5 +74,26 @@ class RowTest(unittest.TestCase):
         self.assertIsNone(ca.to_row("1", ca.parse_melon_artist({}), AT))
 
 
+class MatchTest(unittest.TestCase):
+    CANDS = [["3940959", "산보", "대한민국/혼성/그룹 음악장르 인디음악"],
+             ["111", "산보 (Sanbo)", "대한민국/남성/솔로 음악장르 트로트"],
+             ["222", "산보라", "대한민국/여성/솔로"]]
+
+    def test_name_keys_include_alias(self):
+        self.assertEqual(ca.name_keys("BØJEONG(비공정)"), {"bjeong", "비공정"} | {ca.artist_key("BØJEONG")})
+        self.assertEqual(ca.name_keys("피치트럭 하이재커스(Peach Truck Hijackers)"), {"피치트럭하이재커스", "peachtruckhijackers"})
+
+    def test_exact_key_match_and_namesake_flag(self):
+        m = ca.match_candidate("산보", self.CANDS)
+        self.assertEqual((m["id"], m["namesakes"]), ("3940959", 2))   # '산보 (Sanbo)'도 키가 같음 → 동명 2팀
+
+    def test_alias_match(self):
+        m = ca.match_candidate("피치트럭 하이재커스(Peach Truck Hijackers)", [["9", "Peach Truck Hijackers", ""]])
+        self.assertEqual(m["id"], "9")
+
+    def test_no_match(self):
+        self.assertIsNone(ca.match_candidate("없는팀", self.CANDS))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -96,6 +96,34 @@ class GyeongbukTest(unittest.TestCase):
         self.assertEqual((rows[0]["round"], rows[0]["announced_at"], rows[0]["stage"]), ("2026", "2026-11-17", "selected"))
 
 
+YJH_HTML = """<h4><strong>제 36회 유재하 음악경연대회</strong></h4><hr><table class="noBorder"><tbody>
+<tr><td><strong>대상</strong><br></td><td>OU:RE(아우리) &lt;니가 보낸 기프티콘&gt;<br></td></tr>
+<tr><td><strong>금상</strong><br></td><td>전유동 &lt;스피리아&gt;<br></td></tr>
+<tr><td style="vertical-align: top;"><strong>동상</strong><br></td><td>누에&lt;내게 하려했던 말&gt;<br>박레안 &lt;졸업사&gt;</td></tr>
+<tr><td><strong>유재하동문상</strong><br></td><td>전유동 &lt;스피리아&gt;<br></td></tr></tbody></table>
+<h4><strong><span>제 1회 유재하음악경연대회</span></strong></h4><hr><table><tbody>
+<tr><td><span><strong>금상</strong></span></td><td><span>조규찬 &lt;무지개&gt;<br></span></td></tr>
+<tr><td><span><strong>은상</strong></span></td><td><span>정혜선<span>&nbsp;&lt;나의 하</span>늘&gt;</span></td></tr></tbody></table>"""
+
+
+class YoojaehaTest(unittest.TestCase):
+    def test_rounds_names_and_merged_awards(self):
+        rows = cs.parse_yjh(YJH_HTML, AT)
+        got = [(r["round"], r["announced_at"], r["artist_text"], r["note"]) for r in rows]
+        self.assertEqual(got, [("36회", "2025", "OU:RE(아우리)", "대상"), ("36회", "2025", "전유동", "금상, 유재하동문상"),
+                               ("36회", "2025", "누에", "동상"), ("36회", "2025", "박레안", "동상"),
+                               ("1회", "1989", "조규찬", "금상"), ("1회", "1989", "정혜선", "은상")])
+        self.assertEqual({(r["program"], r["stage"], r["source"]) for r in rows}, {("yoojaeha_finalist", "selected", "yjh")})
+
+    def test_round_split_into_two_tables(self):   # 14회는 대상 표와 나머지 표가 따로 있음
+        page = ("<h4>제 14회 유재하음악경연대회</h4><table><tr><td><strong>대상</strong></td><td>유경옥(유해인) &lt;혼자 걷는 길&gt;</td></tr></table>"
+                "<table><tr><td><strong>금상</strong></td><td><p>이화동네 친구들 &lt;황당&gt;</p></td></tr></table>")
+        self.assertEqual([r["artist_text"] for r in cs.parse_yjh(page, AT)], ["유경옥(유해인)", "이화동네 친구들"])
+
+    def test_round_year(self):
+        self.assertEqual((cs.yjh_year(1), cs.yjh_year(16), cs.yjh_year(17), cs.yjh_year(36)), (1989, 2004, 2006, 2025))
+
+
 class WriteTest(unittest.TestCase):
     def test_written_csv_passes_validator(self):
         rows = cs.parse_busan(BUSAN_TOP3, URL, AT) + cs.parse_sejong(SEJONG_HTML, AT) + cs.parse_gb(GB_ITEMS, AT)
