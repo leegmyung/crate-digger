@@ -1,0 +1,856 @@
+{
+ "rows": [
+  {
+   "weekday_utc": 0,
+   "hour_utc": 0,
+   "sales": 180
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 1,
+   "sales": 160
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 2,
+   "sales": 148
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 3,
+   "sales": 127
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 4,
+   "sales": 97
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 5,
+   "sales": 92
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 6,
+   "sales": 81
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 7,
+   "sales": 92
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 8,
+   "sales": 91
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 9,
+   "sales": 91
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 10,
+   "sales": 102
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 11,
+   "sales": 95
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 12,
+   "sales": 102
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 13,
+   "sales": 120
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 14,
+   "sales": 133
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 15,
+   "sales": 146
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 16,
+   "sales": 168
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 17,
+   "sales": 150
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 18,
+   "sales": 179
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 19,
+   "sales": 174
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 20,
+   "sales": 206
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 21,
+   "sales": 160
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 22,
+   "sales": 177
+  },
+  {
+   "weekday_utc": 0,
+   "hour_utc": 23,
+   "sales": 148
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 0,
+   "sales": 129
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 1,
+   "sales": 127
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 2,
+   "sales": 109
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 3,
+   "sales": 102
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 4,
+   "sales": 103
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 5,
+   "sales": 84
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 6,
+   "sales": 57
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 7,
+   "sales": 63
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 8,
+   "sales": 81
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 9,
+   "sales": 82
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 10,
+   "sales": 82
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 11,
+   "sales": 109
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 12,
+   "sales": 115
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 13,
+   "sales": 104
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 14,
+   "sales": 106
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 15,
+   "sales": 106
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 16,
+   "sales": 141
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 17,
+   "sales": 143
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 18,
+   "sales": 145
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 19,
+   "sales": 156
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 20,
+   "sales": 156
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 21,
+   "sales": 159
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 22,
+   "sales": 151
+  },
+  {
+   "weekday_utc": 1,
+   "hour_utc": 23,
+   "sales": 131
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 0,
+   "sales": 130
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 1,
+   "sales": 100
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 2,
+   "sales": 122
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 3,
+   "sales": 119
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 4,
+   "sales": 102
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 5,
+   "sales": 83
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 6,
+   "sales": 66
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 7,
+   "sales": 66
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 8,
+   "sales": 80
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 9,
+   "sales": 90
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 10,
+   "sales": 65
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 11,
+   "sales": 68
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 12,
+   "sales": 123
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 13,
+   "sales": 119
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 14,
+   "sales": 111
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 15,
+   "sales": 119
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 16,
+   "sales": 139
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 17,
+   "sales": 157
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 18,
+   "sales": 149
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 19,
+   "sales": 142
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 20,
+   "sales": 151
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 21,
+   "sales": 162
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 22,
+   "sales": 155
+  },
+  {
+   "weekday_utc": 2,
+   "hour_utc": 23,
+   "sales": 119
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 0,
+   "sales": 123
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 1,
+   "sales": 114
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 2,
+   "sales": 126
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 3,
+   "sales": 104
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 4,
+   "sales": 85
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 5,
+   "sales": 63
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 6,
+   "sales": 71
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 7,
+   "sales": 75
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 8,
+   "sales": 72
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 9,
+   "sales": 99
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 10,
+   "sales": 76
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 11,
+   "sales": 102
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 12,
+   "sales": 94
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 13,
+   "sales": 110
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 14,
+   "sales": 109
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 15,
+   "sales": 108
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 16,
+   "sales": 134
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 17,
+   "sales": 149
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 18,
+   "sales": 137
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 19,
+   "sales": 167
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 20,
+   "sales": 160
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 21,
+   "sales": 175
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 22,
+   "sales": 132
+  },
+  {
+   "weekday_utc": 3,
+   "hour_utc": 23,
+   "sales": 155
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 0,
+   "sales": 122
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 1,
+   "sales": 109
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 2,
+   "sales": 151
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 3,
+   "sales": 100
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 4,
+   "sales": 99
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 5,
+   "sales": 84
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 6,
+   "sales": 60
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 7,
+   "sales": 64
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 8,
+   "sales": 80
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 9,
+   "sales": 76
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 10,
+   "sales": 90
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 11,
+   "sales": 91
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 12,
+   "sales": 108
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 13,
+   "sales": 100
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 14,
+   "sales": 102
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 15,
+   "sales": 121
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 16,
+   "sales": 138
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 17,
+   "sales": 141
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 18,
+   "sales": 131
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 19,
+   "sales": 163
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 20,
+   "sales": 159
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 21,
+   "sales": 181
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 22,
+   "sales": 151
+  },
+  {
+   "weekday_utc": 4,
+   "hour_utc": 23,
+   "sales": 140
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 0,
+   "sales": 250
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 1,
+   "sales": 249
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 2,
+   "sales": 208
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 3,
+   "sales": 226
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 4,
+   "sales": 166
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 5,
+   "sales": 154
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 6,
+   "sales": 137
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 7,
+   "sales": 152
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 8,
+   "sales": 150
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 9,
+   "sales": 120
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 10,
+   "sales": 143
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 11,
+   "sales": 165
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 12,
+   "sales": 195
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 13,
+   "sales": 218
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 14,
+   "sales": 208
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 15,
+   "sales": 261
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 16,
+   "sales": 283
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 17,
+   "sales": 306
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 18,
+   "sales": 251
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 19,
+   "sales": 303
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 20,
+   "sales": 311
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 21,
+   "sales": 307
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 22,
+   "sales": 303
+  },
+  {
+   "weekday_utc": 5,
+   "hour_utc": 23,
+   "sales": 259
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 0,
+   "sales": 138
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 1,
+   "sales": 124
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 2,
+   "sales": 134
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 3,
+   "sales": 106
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 4,
+   "sales": 114
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 5,
+   "sales": 94
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 6,
+   "sales": 89
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 7,
+   "sales": 81
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 8,
+   "sales": 80
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 9,
+   "sales": 104
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 10,
+   "sales": 82
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 11,
+   "sales": 99
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 12,
+   "sales": 104
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 13,
+   "sales": 121
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 14,
+   "sales": 145
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 15,
+   "sales": 156
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 16,
+   "sales": 171
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 17,
+   "sales": 181
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 18,
+   "sales": 164
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 19,
+   "sales": 180
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 20,
+   "sales": 197
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 21,
+   "sales": 184
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 22,
+   "sales": 185
+  },
+  {
+   "weekday_utc": 6,
+   "hour_utc": 23,
+   "sales": 160
+  }
+ ],
+ "meta": [
+  {
+   "label": "03_hourly_heatmap.sql",
+   "value": "-- 요일 × 시간대(UTC) 판매 건수 (최근 28일)\nSELECT\n    weekday_utc,                       -- 0=일 ... 6=토\n    hour_utc,                          -- 0 ~ 23\n    COUNT(*) AS sales\nFROM v_sales\nWHERE sale_date > (SELECT date(MAX(sale_date), '-28 days') FROM fact_sales)\nGROUP BY weekday_utc, hour_utc\nORDER BY weekday_utc, hour_utc;\n",
+   "type": "code",
+   "lang": "sql"
+  },
+  {
+   "label": "Input",
+   "value": "data/sample_salesfeed.csv → sql/schema.sql + sql/load.sql (SQLite)"
+  }
+ ]
+}

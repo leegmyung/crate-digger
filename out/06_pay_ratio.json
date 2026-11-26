@@ -1,0 +1,46 @@
+{
+ "rows": [
+  {
+   "bucket_order": 1,
+   "bucket": "정가",
+   "sales": 9943,
+   "share_pct": 67.3
+  },
+  {
+   "bucket_order": 2,
+   "bucket": "+1~24%",
+   "sales": 633,
+   "share_pct": 4.3
+  },
+  {
+   "bucket_order": 3,
+   "bucket": "+25~49%",
+   "sales": 1376,
+   "share_pct": 9.3
+  },
+  {
+   "bucket_order": 4,
+   "bucket": "+50~99%",
+   "sales": 1139,
+   "share_pct": 7.7
+  },
+  {
+   "bucket_order": 5,
+   "bucket": "2배 이상",
+   "sales": 1674,
+   "share_pct": 11.3
+  }
+ ],
+ "meta": [
+  {
+   "label": "06_pay_ratio.sql",
+   "value": "-- \"원하는 만큼 내기\": 정가 대비 실제 결제 비율 분포 (디지털 상품, 최근 28일)\nWITH b AS (\n    SELECT CASE\n             WHEN pay_ratio < 1.005 THEN 1\n             WHEN pay_ratio < 1.25  THEN 2\n             WHEN pay_ratio < 1.5   THEN 3\n             WHEN pay_ratio < 2.0   THEN 4\n             ELSE 5\n           END AS bucket_order\n    FROM v_sales\n    WHERE channel = 'Digital' AND pay_ratio IS NOT NULL\n      AND sale_date > (SELECT date(MAX(sale_date), '-28 days') FROM fact_sales)\n)\nSELECT\n    bucket_order,\n    CASE bucket_order\n      WHEN 1 THEN '정가'\n      WHEN 2 THEN '+1~24%'\n      WHEN 3 THEN '+25~49%'\n      WHEN 4 THEN '+50~99%'\n      ELSE        '2배 이상'\n    END                                                       AS bucket,\n    COUNT(*)                                                  AS sales,\n    ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 1)        AS share_pct\nFROM b\nGROUP BY bucket_order\nORDER BY bucket_order;\n",
+   "type": "code",
+   "lang": "sql"
+  },
+  {
+   "label": "Input",
+   "value": "data/sample_salesfeed.csv → sql/schema.sql + sql/load.sql (SQLite)"
+  }
+ ]
+}

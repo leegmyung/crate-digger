@@ -1,0 +1,449 @@
+<meta name="dash-one-writer">
+<style>
+  .bsp { display: flex; flex-direction: column; gap: var(--cds-gap-xl); font-family: var(--font-anthropic-sans); color: var(--color-fg); }
+  .bsp-head { display: flex; flex-direction: column; gap: var(--cds-gap-sm); }
+  .bsp-eyebrow { margin: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); letter-spacing: .04em; text-transform: uppercase; }
+  .bsp-title { margin: 0; font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); text-wrap: balance; }
+  .bsp-lede { margin: 0; max-width: 68ch; font-size: var(--cds-font-size-body); line-height: 1.6; }
+  .bsp-lede b { font-weight: var(--cds-font-weight-medium); font-variant-numeric: tabular-nums; }
+  .bsp-note { margin: 0; max-width: 68ch; padding: var(--cds-pad-sm) var(--cds-pad-md); border: 1px dashed var(--color-border-line); border-radius: var(--cds-radius); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.5; }
+  .bsp-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: var(--cds-gap-md); }
+  .bsp-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: flex; flex-direction: column; gap: var(--cds-gap-xs); min-width: 0; }
+  .bsp-card-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .bsp-card-value { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 2rem; line-height: 1.15; font-variant-numeric: tabular-nums; }
+  .bsp-card-foot { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+  .bsp-chg { font-weight: var(--cds-font-weight-medium); }
+  .bsp-up { color: var(--color-ok); }
+  .bsp-down { color: var(--color-bad); }
+  .bsp-flat { color: var(--color-fg-muted); }
+  .bsp-section { display: flex; flex-direction: column; gap: var(--cds-gap-sm); min-width: 0; }
+  .bsp-h2 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); text-wrap: balance; }
+  .bsp-sub { margin: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.5; max-width: 68ch; }
+  .bsp-sub b { color: var(--color-fg); font-weight: var(--cds-font-weight-medium); font-variant-numeric: tabular-nums; }
+  .bsp-grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: var(--cds-gap-xl); }
+  .bsp-chart { position: relative; min-width: 0; }
+  .bsp-chart svg { display: block; overflow: visible; }
+  .bsp-chart text { fill: var(--cds-text-secondary); font-size: var(--cds-font-size-caption); font-family: var(--font-anthropic-sans); }
+  .bsp-chart .bsp-val { fill: var(--color-fg); font-variant-numeric: tabular-nums; }
+  .bsp-chart .domain { stroke: var(--cds-chart-axis); }
+  .bsp-chart .tick line { stroke: var(--cds-chart-grid); }
+  .bsp-h-trend { min-height: 260px; }
+  .bsp-h-bars { min-height: 300px; }
+  .bsp-h-heat { min-height: 210px; }
+  .bsp-h-small { min-height: 180px; }
+  .bsp-legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .bsp-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .bsp-sw { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .bsp-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); border-radius: var(--cds-radius); padding: 6px 10px; font-size: var(--cds-font-size-caption); color: var(--color-fg); white-space: nowrap; font-variant-numeric: tabular-nums; z-index: 2; }
+  .bsp-tip small { display: block; color: var(--cds-text-secondary); }
+  .bsp-err { color: var(--color-bad); font-size: var(--cds-font-size-caption); }
+  .bsp-tablewrap { overflow-x: auto; }
+  .bsp-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
+  .bsp-table th { text-align: left; font-weight: var(--cds-font-weight-medium); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); padding: 8px 10px; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+  .bsp-table td { padding: 8px 10px; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+  .bsp-table .num { text-align: right; }
+  .bsp-details { font-size: var(--cds-font-size-body); line-height: 1.6; max-width: 72ch; }
+  .bsp-details summary { cursor: pointer; font-weight: var(--cds-font-weight-medium); }
+  .bsp-details dl { display: grid; grid-template-columns: minmax(0, 11em) minmax(0, 1fr); gap: 6px 16px; margin: var(--cds-gap-md) 0; }
+  .bsp-details dt { color: var(--color-fg-muted); }
+  .bsp-details dd { margin: 0; }
+  .bsp-details code { font-size: .92em; }
+</style>
+
+<div class="bsp" data-read lang="ko">
+  <header class="bsp-head" id="overview">
+    <p class="bsp-eyebrow">Bandcamp 판매 피드 · SQL 집계</p>
+    <h1 class="bsp-title">Bandcamp Sales Pulse</h1>
+    <p class="bsp-lede">
+      최근 7일(<span data-draw="period">—</span>) 매출은
+      <b data-draw="lede-rev" data-source="kpi" data-field="revenue_cur" data-row="0">—</b>로 직전 7일 대비
+      <b data-draw="lede-revchg" data-source="kpi" data-field="revenue_chg_pct" data-row="0">—</b> 변했습니다.
+      최근 28일 매출의 <b data-draw="lede-topshare" data-source="country" data-field="revenue_share_pct" data-row="0">—</b>는
+      <b data-draw="lede-topc" data-source="country" data-field="country_name" data-row="0">—</b>에서 나왔고,
+      실물 음반·굿즈가 매출의 <b data-draw="lede-phys" data-source="physShare">—</b>를 차지합니다.
+    </p>
+    <p class="bsp-note" role="note">지금 보이는 숫자는 실제 Bandcamp 데이터가 아니라, 판매 피드와 같은 컬럼으로 만든 <strong>가상 샘플 22,716건</strong>(2026-10-26 ~ 11-22)을 같은 SQL로 집계한 결과입니다. 아티스트 이름도 가상입니다. 직접 크롤링한 CSV로 파이프라인을 다시 돌리면 실제 값으로 바뀝니다.</p>
+  </header>
+
+  <section class="bsp-section" id="kpis" aria-label="최근 7일 핵심 지표">
+    <div class="bsp-kpis">
+      <div class="bsp-card" id="kpi-sales">
+        <span class="bsp-card-label">판매 건수 · 최근 7일</span>
+        <span class="bsp-card-value" data-draw="k-sales" data-source="kpi" data-field="sales_cur" data-row="0">—</span>
+        <span class="bsp-card-foot"><span class="bsp-chg" data-draw="k-sales-chg" data-source="kpi" data-field="sales_chg_pct" data-row="0">—</span> 직전 7일 대비</span>
+      </div>
+      <div class="bsp-card" id="kpi-revenue">
+        <span class="bsp-card-label">매출 (USD) · 최근 7일</span>
+        <span class="bsp-card-value" data-draw="k-rev" data-source="kpi" data-field="revenue_cur" data-row="0">—</span>
+        <span class="bsp-card-foot"><span class="bsp-chg" data-draw="k-rev-chg" data-source="kpi" data-field="revenue_chg_pct" data-row="0">—</span> 직전 7일 대비</span>
+      </div>
+      <div class="bsp-card" id="kpi-avg">
+        <span class="bsp-card-label">건당 평균 결제액 · 최근 7일</span>
+        <span class="bsp-card-value" data-draw="k-avg" data-source="kpi" data-field="avg_paid_cur" data-row="0">—</span>
+        <span class="bsp-card-foot"><span class="bsp-chg" data-draw="k-avg-chg" data-source="kpi" data-field="avg_paid_chg_pct" data-row="0">—</span> 직전 7일 대비</span>
+      </div>
+      <div class="bsp-card" id="kpi-overpay">
+        <span class="bsp-card-label">정가보다 더 낸 비율 · 최근 7일</span>
+        <span class="bsp-card-value" data-draw="k-over" data-source="kpi" data-field="overpay_rate_cur" data-row="0">—</span>
+        <span class="bsp-card-foot"><span class="bsp-chg" data-draw="k-over-chg" data-source="kpi" data-field="overpay_chg_pt" data-row="0">—</span> 직전 7일 대비 (%p)</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="bsp-section" id="trend">
+    <h2 class="bsp-h2">일별 매출: 디지털 vs 실물</h2>
+    <p class="bsp-sub">최근 28일, USD. 가장 많이 팔린 날은 <b data-draw="peak-date" data-source="peak" data-field="sale_date" data-row="0">—</b>로, 하루 매출 <b data-draw="peak-rev" data-source="peak" data-field="revenue_usd" data-row="0">—</b>·판매 <b data-draw="peak-sales" data-source="peak" data-field="sales" data-row="0">—</b>건이었습니다.</p>
+    <div class="bsp-legend"><span><i class="bsp-sw" data-sw="0"></i>디지털 (앨범·트랙)</span><span><i class="bsp-sw" data-sw="1"></i>실물 (음반·굿즈)</span></div>
+    <div class="bsp-chart bsp-h-trend" data-draw="trend" data-source="daily">—</div>
+  </section>
+
+  <div class="bsp-grid2">
+    <section class="bsp-section" id="countries">
+      <h2 class="bsp-h2">국가별 매출 Top 10</h2>
+      <p class="bsp-sub">최근 28일, 구매자 국가 기준. 막대 끝 숫자는 매출 점유율입니다.</p>
+      <div class="bsp-chart bsp-h-bars" data-draw="countries" data-source="country">—</div>
+    </section>
+    <section class="bsp-section" id="formats">
+      <h2 class="bsp-h2">포맷별 매출</h2>
+      <p class="bsp-sub">최근 28일. 막대 끝 숫자는 매출 점유율, 괄호는 판매 건수 점유율입니다.</p>
+      <div class="bsp-chart bsp-h-bars" data-draw="formats" data-source="format">—</div>
+    </section>
+  </div>
+
+  <section class="bsp-section" id="heatmap">
+    <h2 class="bsp-h2">언제 사나: 요일 × 시간대 판매 건수</h2>
+    <p class="bsp-sub">최근 28일, UTC 기준. 색이 진할수록 판매가 많습니다. 한국 시간은 UTC+9입니다.</p>
+    <div class="bsp-chart bsp-h-heat" data-draw="heat" data-source="heatmap">—</div>
+  </section>
+
+  <div class="bsp-grid2">
+    <section class="bsp-section" id="payratio">
+      <h2 class="bsp-h2">원하는 만큼 내기: 정가 대비 결제액</h2>
+      <p class="bsp-sub">디지털 상품, 최근 28일. 판매 건수 비중입니다.</p>
+      <div class="bsp-chart bsp-h-small" data-draw="pay" data-source="payratio">—</div>
+    </section>
+    <section class="bsp-section" id="genres">
+      <h2 class="bsp-h2">장르별 매출</h2>
+      <p class="bsp-sub">최근 28일, 앨범 페이지 태그의 첫 번째 장르 기준. 판매 피드에는 장르가 없어 앨범 페이지를 따로 크롤링해야 채워집니다.</p>
+      <div class="bsp-chart bsp-h-bars" data-draw="genres" data-source="genre">—</div>
+    </section>
+  </div>
+
+  <section class="bsp-section" id="artists">
+    <h2 class="bsp-h2">매출 상위 아티스트</h2>
+    <p class="bsp-sub">최근 28일 Top 15. 실물 비중은 그 아티스트 매출 중 음반·굿즈의 비율입니다.</p>
+    <div class="bsp-tablewrap">
+      <table class="bsp-table" data-source="artists" data-row-key="artist_name">
+        <thead>
+          <tr>
+            <th data-field="rank" class="num">순위</th>
+            <th data-field="artist_name">아티스트</th>
+            <th data-field="sales" class="num">판매</th>
+            <th data-field="revenue_usd" class="num">매출 (USD)</th>
+            <th data-field="revenue_share_pct" class="num">점유율</th>
+            <th data-field="top_country">최대 구매국</th>
+            <th data-field="physical_share_pct" class="num">실물 비중</th>
+          </tr>
+        </thead>
+        <tbody data-draw="artist-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <details class="bsp-details" id="definitions">
+    <summary>지표 정의와 데이터 흐름</summary>
+    <dl>
+      <dt>매출 (USD)</dt><dd>구매자가 실제 결제한 금액의 USD 환산 합계 (<code>amount_paid_usd</code>). 정가가 아니라 결제액 기준입니다.</dd>
+      <dt>정가보다 더 낸 비율</dt><dd>결제액이 정가보다 0.5% 넘게 많은 판매의 비율. Bandcamp는 구매자가 정가 이상을 낼 수 있습니다.</dd>
+      <dt>최근 7일 / 28일</dt><dd>오늘이 아니라 데이터의 마지막 날짜를 기준으로 셉니다.</dd>
+      <dt>포맷</dt><dd><code>item_type</code>과 상품 설명(<code>item_description</code>)의 키워드로 분류합니다 (Vinyl, CD, Cassette, Apparel 등).</dd>
+      <dt>데이터 흐름</dt><dd>크롤링 CSV → <code>stg_salesfeed</code> → <code>load.sql</code> → <code>dim_*</code>·<code>fact_sales</code> → <code>v_sales</code> 뷰 → <code>queries/*.sql</code> → 이 대시보드. 각 차트의 SQL 원문은 Sources에서 볼 수 있습니다.</dd>
+    </dl>
+  </details>
+</div>
+
+<script>
+(function () {
+  const fInt = d3.format(',');
+  const usd0 = (v) => '$' + d3.format(',.0f')(v);
+  const usd2 = (v) => '$' + d3.format(',.2f')(v);
+  const pct1 = (v) => d3.format('.1f')(v) + '%';
+  const signed = (v, unit) => (v > 0 ? '+' : '') + d3.format('.1f')(v) + (unit || '%');
+  const parseDay = d3.utcParse('%Y-%m-%d');
+  const dayKo = d3.utcFormat('%-m월 %-d일');
+  const dayShort = d3.utcFormat('%-m/%-d');
+  const WEEK = ['일', '월', '화', '수', '목', '금', '토'];
+  const FORMAT_KO = { 'Digital album': '디지털 앨범', 'Digital track': '디지털 트랙', 'Vinyl': '바이닐', 'CD': 'CD', 'Cassette': '카세트', 'Apparel': '의류', 'Other merch': '기타 굿즈' };
+
+  // 실물 매출 점유율 = 포맷별 매출 중 Physical 채널 합
+  dash.calc('physShare', {
+    title: '실물 매출 점유율',
+    description: '포맷별 매출 중 실물(음반·굿즈) 채널의 매출 점유율 합계, 최근 28일',
+    inputs: ['format'],
+    fn: (format) => {
+      const tot = d3.sum(format, (r) => +r.revenue_usd);
+      const phys = d3.sum(format.filter((r) => r.channel === 'Physical'), (r) => +r.revenue_usd);
+      return tot ? Math.round(1000 * phys / tot) / 10 : null;
+    },
+  });
+  // 일매출 최고일
+  dash.calc('peak', {
+    title: '일매출 최고일',
+    description: '최근 28일 중 매출(USD)이 가장 큰 날',
+    inputs: ['daily'],
+    fn: (daily) => {
+      const top = d3.greatest(daily, (r) => +r.revenue_usd);
+      return top ? [{ sale_date: top.sale_date, revenue_usd: Math.round(+top.revenue_usd), sales: +top.sales }] : [];
+    },
+  });
+
+  // 범례 색
+  dash.onData(() => {
+    document.querySelectorAll('.bsp [data-sw]').forEach((el) => { el.style.background = dash.colors[+el.dataset.sw]; });
+  });
+
+  function tone(el, v) {
+    el.classList.remove('bsp-up', 'bsp-down', 'bsp-flat');
+    el.classList.add(v > 0.05 ? 'bsp-up' : v < -0.05 ? 'bsp-down' : 'bsp-flat');
+  }
+
+  // 숫자 하나짜리 drawing
+  function val(name, id, fn) {
+    dash.draw(name, (el) => {
+      const d = dash.data(id);
+      el.classList.toggle('dash-skeleton', d.status === 'loading');
+      const rows = d.data;
+      if (d.status !== 'ok' || rows == null || (Array.isArray(rows) && !rows.length)) { el.textContent = '—'; return; }
+      el.textContent = fn(rows, el);
+    });
+  }
+  val('period', 'kpi', (r) => dayKo(parseDay(r[0].period_start)) + '~' + dayKo(parseDay(r[0].period_end)));
+  val('lede-rev', 'kpi', (r) => usd0(+r[0].revenue_cur));
+  val('lede-revchg', 'kpi', (r) => signed(+r[0].revenue_chg_pct));
+  val('lede-topshare', 'country', (r) => pct1(+r[0].revenue_share_pct));
+  val('lede-topc', 'country', (r) => r[0].country_name);
+  val('lede-phys', 'physShare', (v) => pct1(+v));
+  val('k-sales', 'kpi', (r) => fInt(+r[0].sales_cur));
+  val('k-rev', 'kpi', (r) => usd0(+r[0].revenue_cur));
+  val('k-avg', 'kpi', (r) => usd2(+r[0].avg_paid_cur));
+  val('k-over', 'kpi', (r) => pct1(+r[0].overpay_rate_cur));
+  val('k-sales-chg', 'kpi', (r, el) => { tone(el, +r[0].sales_chg_pct); return signed(+r[0].sales_chg_pct); });
+  val('k-rev-chg', 'kpi', (r, el) => { tone(el, +r[0].revenue_chg_pct); return signed(+r[0].revenue_chg_pct); });
+  val('k-avg-chg', 'kpi', (r, el) => { tone(el, +r[0].avg_paid_chg_pct); return signed(+r[0].avg_paid_chg_pct); });
+  val('k-over-chg', 'kpi', (r, el) => { tone(el, +r[0].overpay_chg_pt); return signed(+r[0].overpay_chg_pt, '%p'); });
+  val('peak-date', 'peak', (r) => dayKo(parseDay(r[0].sale_date)));
+  val('peak-rev', 'peak', (r) => usd0(+r[0].revenue_usd));
+  val('peak-sales', 'peak', (r) => fInt(+r[0].sales));
+
+  // 차트 공통: 상태 처리
+  function chartState(el, d) {
+    el.classList.toggle('dash-skeleton', d.status === 'loading');
+    if (d.status === 'ok' && Array.isArray(d.data) && d.data.length) return true;
+    if (d.status === 'error') {
+      el.replaceChildren();
+      const p = document.createElement('p'); p.className = 'bsp-err'; p.textContent = '이 차트의 데이터를 불러오지 못했습니다.';
+      el.appendChild(p);
+    } else if (d.status === 'ok') {
+      el.replaceChildren();
+      const p = document.createElement('p'); p.className = 'bsp-sub'; p.textContent = '아직 집계된 행이 없습니다.';
+      el.appendChild(p);
+    } else {
+      el.textContent = '—';
+    }
+    return false;
+  }
+  function textWidth(svg, strings) {
+    const t = svg.append('text').attr('class', 'bsp-measure');
+    let w = 0;
+    strings.forEach((s) => { t.text(s); w = Math.max(w, t.node().getComputedTextLength()); });
+    t.remove();
+    return w;
+  }
+  function tooltip(el) {
+    const tip = document.createElement('div');
+    tip.className = 'bsp-tip'; tip.hidden = true; el.appendChild(tip);
+    return {
+      show(html, x, y) {
+        tip.replaceChildren();
+        html.forEach((line, i) => {
+          const n = document.createElement(i === 0 ? 'strong' : 'small'); n.textContent = line; tip.appendChild(n);
+        });
+        tip.hidden = false;
+        const W = el.clientWidth, tw = tip.offsetWidth, th = tip.offsetHeight;
+        tip.style.left = Math.max(0, Math.min(W - tw, x - tw / 2)) + 'px';
+        tip.style.top = Math.max(0, y - th - 10) + 'px';
+      },
+      hide() { tip.hidden = true; },
+    };
+  }
+
+  // 가로 막대 차트
+  function hbar(el, rows, o) {
+    el.replaceChildren();
+    const W = el.clientWidth || 360;
+    const rowH = 26;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('role', 'img').attr('aria-label', o.aria);
+    const labels = rows.map(o.label);
+    const ends = rows.map(o.end);
+    const left = Math.ceil(textWidth(svg, labels)) + 10;
+    const right = Math.ceil(textWidth(svg, ends)) + 10;
+    const H = rows.length * rowH + 4;
+    svg.attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    const x = d3.scaleLinear().domain([0, d3.max(rows, o.value) || 1]).range([0, Math.max(10, W - left - right)]);
+    const tip = tooltip(el);
+    const g = svg.selectAll('g.row').data(rows).join('g').attr('class', 'row').attr('transform', (d, i) => `translate(0,${i * rowH})`);
+    g.append('text').attr('x', left - 8).attr('y', rowH / 2).attr('dy', '0.35em').attr('text-anchor', 'end').text(o.label);
+    g.append('rect').attr('x', left).attr('y', 4).attr('height', rowH - 8).attr('rx', 2)
+      .attr('width', (d) => Math.max(1, x(o.value(d))))
+      .style('fill', (d) => o.color ? o.color(d) : dash.colors[0]);
+    g.append('text').attr('class', 'bsp-val').attr('x', (d) => left + x(o.value(d)) + 6).attr('y', rowH / 2).attr('dy', '0.35em').text(o.end);
+    g.append('rect').attr('x', 0).attr('y', 0).attr('width', W).attr('height', rowH).style('fill', 'transparent')
+      .on('pointerenter pointermove', function (ev, d) {
+        const [mx] = d3.pointer(ev, el);
+        const i = rows.indexOf(d);
+        tip.show(o.tip(d), mx, i * rowH + 4);
+      })
+      .on('pointerleave', () => tip.hide());
+  }
+
+  dash.draw('countries', (el) => {
+    const d = dash.data('country');
+    if (!chartState(el, d)) return;
+    const rows = d.data.slice(0, 10);
+    hbar(el, rows, {
+      aria: '최근 28일 국가별 매출 상위 10개국 가로 막대 차트',
+      label: (r) => r.country_name,
+      value: (r) => +r.revenue_usd,
+      end: (r) => pct1(+r.revenue_share_pct),
+      tip: (r) => [r.country_name, `매출 ${usd0(+r.revenue_usd)} · ${fInt(+r.sales)}건`, `건당 평균 ${usd2(+r.avg_paid_usd)}`],
+    });
+  });
+
+  dash.draw('formats', (el) => {
+    const d = dash.data('format');
+    if (!chartState(el, d)) return;
+    hbar(el, d.data, {
+      aria: '최근 28일 포맷별 매출 가로 막대 차트, 디지털과 실물 색 구분',
+      label: (r) => FORMAT_KO[r.format] || r.format,
+      value: (r) => +r.revenue_usd,
+      end: (r) => `${pct1(+r.revenue_share_pct)} (${pct1(+r.sales_share_pct)})`,
+      color: (r) => r.channel === 'Physical' ? dash.colors[1] : dash.colors[0],
+      tip: (r) => [FORMAT_KO[r.format] || r.format, `매출 ${usd0(+r.revenue_usd)} · ${fInt(+r.sales)}건`, `평균 결제 ${usd2(+r.avg_paid_usd)} / 평균 정가 ${usd2(+r.avg_list_usd)}`, `정가 초과 결제 ${pct1(+r.overpay_rate_pct)}`],
+    });
+  });
+
+  dash.draw('genres', (el) => {
+    const d = dash.data('genre');
+    if (!chartState(el, d)) return;
+    hbar(el, d.data, {
+      aria: '최근 28일 대표 장르별 매출 가로 막대 차트',
+      label: (r) => r.genre,
+      value: (r) => +r.revenue_usd,
+      end: (r) => pct1(+r.revenue_share_pct),
+      tip: (r) => [r.genre, `매출 ${usd0(+r.revenue_usd)} · ${fInt(+r.sales)}건`, `건당 평균 ${usd2(+r.avg_paid_usd)}`],
+    });
+  });
+
+  dash.draw('pay', (el) => {
+    const d = dash.data('payratio');
+    if (!chartState(el, d)) return;
+    const rows = d.data.slice().sort((a, b) => a.bucket_order - b.bucket_order);
+    hbar(el, rows, {
+      aria: '디지털 상품의 정가 대비 결제 비율 구간별 판매 비중 막대 차트',
+      label: (r) => r.bucket,
+      value: (r) => +r.share_pct,
+      end: (r) => pct1(+r.share_pct),
+      color: (r) => +r.bucket_order === 1 ? 'var(--cds-chart-muted)' : dash.colors[0],
+      tip: (r) => [r.bucket, `${fInt(+r.sales)}건 · ${pct1(+r.share_pct)}`],
+    });
+  });
+
+  // 일별 추이 (선 2개)
+  dash.draw('trend', (el) => {
+    const d = dash.data('daily');
+    if (!chartState(el, d)) return;
+    el.replaceChildren();
+    const rows = d.data.map((r) => ({ date: parseDay(r.sale_date), raw: r, digital: +r.digital_usd, physical: +r.physical_usd, total: +r.revenue_usd, sales: +r.sales }));
+    const W = el.clientWidth || 600, H = 240;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`)
+      .attr('role', 'img').attr('aria-label', '최근 28일 일별 디지털 매출과 실물 매출 선 차트');
+    const ymax = d3.max(rows, (r) => Math.max(r.digital, r.physical)) || 1;
+    const y = d3.scaleLinear().domain([0, ymax]).nice().range([H - 24, 8]);
+    const yTicks = y.ticks(5);
+    const m = { l: Math.ceil(textWidth(svg, yTicks.map(usd0))) + 10, r: 12 };
+    const x = d3.scaleUtc().domain(d3.extent(rows, (r) => r.date)).range([m.l, W - m.r]);
+    svg.append('g').attr('transform', `translate(${m.l},0)`)
+      .call(d3.axisLeft(y).tickValues(yTicks).tickFormat(usd0).tickSize(-(W - m.l - m.r)))
+      .call((g) => g.select('.domain').remove());
+    svg.append('g').attr('transform', `translate(0,${H - 24})`)
+      .call(d3.axisBottom(x).ticks(W < 500 ? 4 : 7).tickFormat(dayShort).tickSizeOuter(0));
+    const series = [['digital', dash.colors[0]], ['physical', dash.colors[1]]];
+    series.forEach(([k, c]) => {
+      svg.append('path').datum(rows).attr('fill', 'none').attr('stroke-width', 2).style('stroke', c)
+        .attr('d', d3.line().x((r) => x(r.date)).y((r) => y(r[k])));
+      const last = rows[rows.length - 1];
+      svg.append('circle').attr('cx', x(last.date)).attr('cy', y(last[k])).attr('r', 3.5).style('fill', c);
+    });
+    const tip = tooltip(el);
+    const guide = svg.append('line').attr('y1', 8).attr('y2', H - 24).style('stroke', 'var(--cds-chart-reference)').attr('hidden', true);
+    svg.append('rect').attr('x', m.l).attr('y', 0).attr('width', W - m.l - m.r).attr('height', H).style('fill', 'transparent')
+      .on('pointerenter pointermove', (ev) => {
+        const [mx] = d3.pointer(ev);
+        const dt = x.invert(mx);
+        const i = d3.bisector((r) => r.date).center(rows, dt);
+        const r = rows[i];
+        guide.attr('x1', x(r.date)).attr('x2', x(r.date)).attr('hidden', null);
+        tip.show([dayKo(r.date) + ' (' + WEEK[r.date.getUTCDay()] + ')', `디지털 ${usd0(r.digital)} · 실물 ${usd0(r.physical)}`, `합계 ${usd0(r.total)} · ${fInt(r.sales)}건`], x(r.date), y(Math.max(r.digital, r.physical)));
+      })
+      .on('pointerleave', () => { tip.hide(); guide.attr('hidden', true); });
+  });
+
+  // 요일 × 시간 히트맵
+  dash.draw('heat', (el) => {
+    const d = dash.data('heatmap');
+    if (!chartState(el, d)) return;
+    el.replaceChildren();
+    const W = el.clientWidth || 600;
+    const left = 24, top = 4, bottom = 20;
+    const cw = (W - left) / 24, ch = W < 500 ? 20 : 24;
+    const H = top + ch * 7 + bottom;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`)
+      .attr('role', 'img').attr('aria-label', '요일과 UTC 시간대별 판매 건수 히트맵');
+    const byKey = new Map(d.data.map((r) => [r.weekday_utc + '-' + r.hour_utc, +r.sales]));
+    const cells = [];
+    for (let w = 0; w < 7; w++) for (let h = 0; h < 24; h++) cells.push({ w, h, v: byKey.get(w + '-' + h) || 0 });
+    const vmax = d3.max(cells, (c) => c.v) || 1;
+    const op = d3.scaleLinear().domain([0, vmax]).range([0.06, 1]);
+    const tip = tooltip(el);
+    svg.selectAll('rect.cell').data(cells).join('rect').attr('class', 'cell')
+      .attr('x', (c) => left + c.h * cw + 1).attr('y', (c) => top + c.w * ch + 1)
+      .attr('width', Math.max(1, cw - 2)).attr('height', ch - 2).attr('rx', 2)
+      .style('fill', dash.colors[0]).style('fill-opacity', (c) => op(c.v))
+      .on('pointerenter', (ev, c) => tip.show([`${WEEK[c.w]}요일 ${c.h}:00–${c.h}:59 UTC`, `${fInt(c.v)}건 · 한국 ${(c.h + 9) % 24}시`], left + c.h * cw + cw / 2, top + c.w * ch))
+      .on('pointerleave', () => tip.hide());
+    svg.selectAll('text.wd').data(WEEK).join('text').attr('class', 'wd').attr('x', 0).attr('y', (t, i) => top + i * ch + ch / 2).attr('dy', '0.35em').text((t) => t);
+    const step = W < 500 ? 6 : 3;
+    svg.selectAll('text.hr').data(d3.range(0, 24, step)).join('text').attr('class', 'hr')
+      .attr('x', (h) => left + h * cw + 1).attr('y', H - 4).text((h) => h + '시');
+  });
+
+  // 아티스트 표
+  dash.draw('artist-rows', (tb) => {
+    const d = dash.data('artists');
+    tb.replaceChildren();
+    if (d.status !== 'ok' || !d.data.length) {
+      const tr = document.createElement('tr'); const td = document.createElement('td'); td.colSpan = 7;
+      td.textContent = d.status === 'error' ? '표 데이터를 불러오지 못했습니다.' : d.status === 'ok' ? '아직 집계된 행이 없습니다.' : '—';
+      if (d.status === 'error') td.className = 'bsp-err';
+      tr.appendChild(td); tb.appendChild(tr); return;
+    }
+    d.data.forEach((r) => {
+      const tr = document.createElement('tr');
+      tr.dataset.key = encodeURIComponent(r.artist_name);
+      [[r.rank, 'num'], [r.artist_name, ''], [fInt(+r.sales), 'num'], [usd0(+r.revenue_usd), 'num'], [pct1(+r.revenue_share_pct), 'num'], [r.top_country, ''], [d3.format('.0f')(+r.physical_share_pct) + '%', 'num']]
+        .forEach(([v, cls]) => { const td = document.createElement('td'); td.textContent = v; if (cls) td.className = cls; tr.appendChild(td); });
+      tb.appendChild(tr);
+    });
+  });
+})();
+</script>

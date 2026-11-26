@@ -1,0 +1,93 @@
+{
+ "rows": [
+  {
+   "format": "Vinyl",
+   "channel": "Physical",
+   "sales": 4493,
+   "revenue_usd": 128546.0,
+   "avg_paid_usd": 28.61,
+   "avg_list_usd": 27.54,
+   "overpay_rate_pct": 6.8,
+   "revenue_share_pct": 44.3,
+   "sales_share_pct": 19.8
+  },
+  {
+   "format": "Digital album",
+   "channel": "Digital",
+   "sales": 10302,
+   "revenue_usd": 102539.0,
+   "avg_paid_usd": 9.95,
+   "avg_list_usd": 8.3,
+   "overpay_rate_pct": 34.9,
+   "revenue_share_pct": 35.3,
+   "sales_share_pct": 45.4
+  },
+  {
+   "format": "Apparel",
+   "channel": "Physical",
+   "sales": 682,
+   "revenue_usd": 19879.0,
+   "avg_paid_usd": 29.15,
+   "avg_list_usd": 28.25,
+   "overpay_rate_pct": 5.9,
+   "revenue_share_pct": 6.9,
+   "sales_share_pct": 3.0
+  },
+  {
+   "format": "CD",
+   "channel": "Physical",
+   "sales": 1481,
+   "revenue_usd": 18575.0,
+   "avg_paid_usd": 12.54,
+   "avg_list_usd": 11.96,
+   "overpay_rate_pct": 8.8,
+   "revenue_share_pct": 6.4,
+   "sales_share_pct": 6.5
+  },
+  {
+   "format": "Cassette",
+   "channel": "Physical",
+   "sales": 1108,
+   "revenue_usd": 11423.0,
+   "avg_paid_usd": 10.31,
+   "avg_list_usd": 9.98,
+   "overpay_rate_pct": 5.9,
+   "revenue_share_pct": 3.9,
+   "sales_share_pct": 4.9
+  },
+  {
+   "format": "Digital track",
+   "channel": "Digital",
+   "sales": 4463,
+   "revenue_usd": 6107.0,
+   "avg_paid_usd": 1.37,
+   "avg_list_usd": 1.06,
+   "overpay_rate_pct": 27.4,
+   "revenue_share_pct": 2.1,
+   "sales_share_pct": 19.6
+  },
+  {
+   "format": "Other merch",
+   "channel": "Physical",
+   "sales": 187,
+   "revenue_usd": 3125.0,
+   "avg_paid_usd": 16.71,
+   "avg_list_usd": 16.12,
+   "overpay_rate_pct": 5.9,
+   "revenue_share_pct": 1.1,
+   "sales_share_pct": 0.8
+  }
+ ],
+ "meta": [
+  {
+   "label": "05_format_mix.sql",
+   "value": "-- 포맷별 판매: 디지털 앨범/트랙, 바이닐, CD, 카세트, 의류, 기타 굿즈 (최근 28일)\nWITH base AS (\n    SELECT format, channel,\n           COUNT(*)              AS sales,\n           SUM(amount_paid_usd)  AS revenue,\n           AVG(amount_paid_usd)  AS avg_paid,\n           AVG(item_price_usd)   AS avg_list,\n           AVG(paid_over)        AS overpay\n    FROM v_sales\n    WHERE sale_date > (SELECT date(MAX(sale_date), '-28 days') FROM fact_sales)\n    GROUP BY format, channel\n)\nSELECT\n    format,\n    channel,\n    sales,\n    ROUND(revenue, 0)                                        AS revenue_usd,\n    ROUND(avg_paid, 2)                                       AS avg_paid_usd,\n    ROUND(avg_list, 2)                                       AS avg_list_usd,\n    ROUND(100.0 * overpay, 1)                                AS overpay_rate_pct,\n    ROUND(100.0 * revenue / SUM(revenue) OVER (), 1)         AS revenue_share_pct,\n    ROUND(100.0 * sales   / SUM(sales)   OVER (), 1)         AS sales_share_pct\nFROM base\nORDER BY revenue DESC;\n",
+   "type": "code",
+   "lang": "sql"
+  },
+  {
+   "label": "Input",
+   "value": "data/sample_salesfeed.csv → sql/schema.sql + sql/load.sql (SQLite)"
+  }
+ ]
+}

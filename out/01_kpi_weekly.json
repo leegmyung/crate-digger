@@ -1,0 +1,34 @@
+{
+ "rows": [
+  {
+   "period_start": "2026-11-16",
+   "period_end": "2026-11-22",
+   "sales_cur": 5299,
+   "sales_prev": 5216,
+   "sales_chg_pct": 1.6,
+   "revenue_cur": 66411.0,
+   "revenue_prev": 66872.0,
+   "revenue_chg_pct": -0.7,
+   "avg_paid_cur": 12.53,
+   "avg_paid_prev": 12.82,
+   "avg_paid_chg_pct": -2.2,
+   "overpay_rate_cur": 25.1,
+   "overpay_rate_prev": 23.3,
+   "overpay_chg_pt": 1.8,
+   "artists_cur": 543,
+   "countries_cur": 30
+  }
+ ],
+ "meta": [
+  {
+   "label": "01_kpi_weekly.sql",
+   "value": "-- 핵심 지표: 최근 7일 vs 직전 7일 (데이터의 마지막 날짜 기준)\nWITH bounds AS (\n    SELECT MAX(sale_date) AS end_date FROM fact_sales\n),\ntagged AS (\n    SELECT v.*,\n           CASE WHEN v.sale_date >  date(b.end_date, '-7 days')  THEN 'cur'\n                WHEN v.sale_date >  date(b.end_date, '-14 days') THEN 'prev' END AS period\n    FROM v_sales v CROSS JOIN bounds b\n),\nagg AS (\n    SELECT period,\n           COUNT(*)                          AS sales,\n           SUM(amount_paid_usd)              AS revenue,\n           AVG(amount_paid_usd)              AS avg_paid,\n           100.0 * AVG(paid_over)            AS overpay_rate,\n           COUNT(DISTINCT artist_id)         AS artists,\n           COUNT(DISTINCT country_code)      AS countries\n    FROM tagged WHERE period IS NOT NULL\n    GROUP BY period\n)\nSELECT\n    (SELECT date(end_date, '-6 days') FROM bounds)                      AS period_start,\n    (SELECT end_date FROM bounds)                                       AS period_end,\n    c.sales                                                             AS sales_cur,\n    p.sales                                                             AS sales_prev,\n    ROUND(100.0 * (c.sales - p.sales) / p.sales, 1)                     AS sales_chg_pct,\n    ROUND(c.revenue, 0)                                                 AS revenue_cur,\n    ROUND(p.revenue, 0)                                                 AS revenue_prev,\n    ROUND(100.0 * (c.revenue - p.revenue) / p.revenue, 1)               AS revenue_chg_pct,\n    ROUND(c.avg_paid, 2)                                                AS avg_paid_cur,\n    ROUND(p.avg_paid, 2)                                                AS avg_paid_prev,\n    ROUND(100.0 * (c.avg_paid - p.avg_paid) / p.avg_paid, 1)            AS avg_paid_chg_pct,\n    ROUND(c.overpay_rate, 1)                                            AS overpay_rate_cur,\n    ROUND(p.overpay_rate, 1)                                            AS overpay_rate_prev,\n    ROUND(c.overpay_rate - p.overpay_rate, 1)                           AS overpay_chg_pt,\n    c.artists                                                           AS artists_cur,\n    c.countries                                                         AS countries_cur\nFROM agg c JOIN agg p ON c.period = 'cur' AND p.period = 'prev';\n",
+   "type": "code",
+   "lang": "sql"
+  },
+  {
+   "label": "Input",
+   "value": "data/sample_salesfeed.csv → sql/schema.sql + sql/load.sql (SQLite)"
+  }
+ ]
+}

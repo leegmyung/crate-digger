@@ -1,0 +1,166 @@
+{
+ "rows": [
+  {
+   "user_id": "u_apple",
+   "tag": "r&b/soul",
+   "tag_rank": 1,
+   "weight_pct": 19.4
+  },
+  {
+   "user_id": "u_apple",
+   "tag": "neo-soul",
+   "tag_rank": 2,
+   "weight_pct": 18.4
+  },
+  {
+   "user_id": "u_apple",
+   "tag": "hip-hop",
+   "tag_rank": 3,
+   "weight_pct": 17.7
+  },
+  {
+   "user_id": "u_apple",
+   "tag": "jazz",
+   "tag_rank": 4,
+   "weight_pct": 9.9
+  },
+  {
+   "user_id": "u_apple",
+   "tag": "funk",
+   "tag_rank": 5,
+   "weight_pct": 9.8
+  },
+  {
+   "user_id": "u_apple",
+   "tag": "jazz fusion",
+   "tag_rank": 6,
+   "weight_pct": 8.8
+  },
+  {
+   "user_id": "u_apple",
+   "tag": "alternative r&b",
+   "tag_rank": 7,
+   "weight_pct": 8.5
+  },
+  {
+   "user_id": "u_apple",
+   "tag": "instrumental hip-hop",
+   "tag_rank": 8,
+   "weight_pct": 7.5
+  },
+  {
+   "user_id": "u_spotify",
+   "tag": "indie rock",
+   "tag_rank": 1,
+   "weight_pct": 25.0
+  },
+  {
+   "user_id": "u_spotify",
+   "tag": "dream pop",
+   "tag_rank": 2,
+   "weight_pct": 19.6
+  },
+  {
+   "user_id": "u_spotify",
+   "tag": "shoegaze",
+   "tag_rank": 3,
+   "weight_pct": 13.0
+  },
+  {
+   "user_id": "u_spotify",
+   "tag": "electronic",
+   "tag_rank": 4,
+   "weight_pct": 12.3
+  },
+  {
+   "user_id": "u_spotify",
+   "tag": "singer-songwriter",
+   "tag_rank": 5,
+   "weight_pct": 8.8
+  },
+  {
+   "user_id": "u_spotify",
+   "tag": "post-rock",
+   "tag_rank": 6,
+   "weight_pct": 7.7
+  },
+  {
+   "user_id": "u_spotify",
+   "tag": "idm",
+   "tag_rank": 7,
+   "weight_pct": 7.0
+  },
+  {
+   "user_id": "u_spotify",
+   "tag": "alternative",
+   "tag_rank": 8,
+   "weight_pct": 6.6
+  },
+  {
+   "user_id": "u_ytmusic",
+   "tag": "k-pop",
+   "tag_rank": 1,
+   "weight_pct": 24.2
+  },
+  {
+   "user_id": "u_ytmusic",
+   "tag": "pop",
+   "tag_rank": 2,
+   "weight_pct": 20.5
+  },
+  {
+   "user_id": "u_ytmusic",
+   "tag": "korean indie",
+   "tag_rank": 3,
+   "weight_pct": 14.3
+  },
+  {
+   "user_id": "u_ytmusic",
+   "tag": "electronic",
+   "tag_rank": 4,
+   "weight_pct": 10.2
+  },
+  {
+   "user_id": "u_ytmusic",
+   "tag": "city pop",
+   "tag_rank": 5,
+   "weight_pct": 9.5
+  },
+  {
+   "user_id": "u_ytmusic",
+   "tag": "indie rock",
+   "tag_rank": 6,
+   "weight_pct": 8.9
+  },
+  {
+   "user_id": "u_ytmusic",
+   "tag": "house",
+   "tag_rank": 7,
+   "weight_pct": 7.4
+  },
+  {
+   "user_id": "u_ytmusic",
+   "tag": "ambient",
+   "tag_rank": 8,
+   "weight_pct": 4.9
+  }
+ ],
+ "meta": [
+  {
+   "label": "r3_taste_tags.sql",
+   "value": "-- 사용자별 상위 취향 태그 8개 (취향 벡터 가중치, 사용자 내 비중 %)\nWITH t AS (\n    SELECT user_id, tag, w,\n           ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY w DESC) AS rn\n    FROM user_taste WHERE tag NOT LIKE 'fam:%'\n)\nSELECT user_id, tag, rn AS tag_rank,\n       ROUND(100.0 * w / SUM(w) OVER (PARTITION BY user_id), 1) AS weight_pct\nFROM t WHERE rn <= 8\nORDER BY user_id, rn;\n",
+   "type": "code",
+   "lang": "sql"
+  },
+  {
+   "label": "reco.sql (점수 계산 파이프라인)",
+   "value": "-- =====================================================================\n-- 취향 벡터 · 세분화 · Bandcamp 아티스트 추천 점수\n--   점수 = 0.55·태그 유사도 + 0.25·팬 공동구매 + 0.10·최근 상승세 + 0.10·발굴(덜 알려진 정도)\n--   다양성: 한 취향군에서 최대 4팀, 사용자당 12팀\n-- 벡터 표기: (주체, tag, w).  'fam:xxx' 는 취향군 가상 태그 (어휘가 달라도 이어지도록 0.5배)\n-- =====================================================================\n\n-- 1) 사용자 × 아티스트 (좋아요 곡 수)\nDROP TABLE IF EXISTS user_artist;\nCREATE TABLE user_artist AS\nSELECT user_id, artist_key, MAX(primary_artist) AS artist_name, COUNT(*) AS likes\nFROM user_likes GROUP BY user_id, artist_key;\n\n-- 2) 좋아요 아티스트 벡터 (외부 태그 + 취향군)\nDROP TABLE IF EXISTS liked_artist_vec;\nCREATE TABLE liked_artist_vec AS\nWITH raw AS (\n    SELECT artist_key, tag, weight AS w FROM ext_artist_tags\n    UNION ALL\n    SELECT e.artist_key, 'fam:' || f.family, 0.5 * MAX(e.weight)\n    FROM ext_artist_tags e JOIN tag_family f ON f.tag = e.tag\n    GROUP BY e.artist_key, f.family\n),\nn AS (SELECT artist_key, sqrt(SUM(w * w)) AS norm FROM raw GROUP BY artist_key)\nSELECT r.artist_key, r.tag, r.w / n.norm AS w\nFROM raw r JOIN n USING (artist_key);\n\n-- 3) 사용자 취향 벡터 = Σ(아티스트 좋아요 수 × 아티스트 벡터), 정규화\nDROP TABLE IF EXISTS user_taste;\nCREATE TABLE user_taste AS\nWITH raw AS (\n    SELECT ua.user_id, v.tag, SUM(ua.likes * v.w) AS w\n    FROM user_artist ua JOIN liked_artist_vec v USING (artist_key)\n    GROUP BY ua.user_id, v.tag\n),\nn AS (SELECT user_id, sqrt(SUM(w * w)) AS norm FROM raw GROUP BY user_id)\nSELECT r.user_id, r.tag, r.w / n.norm AS w\nFROM raw r JOIN n USING (user_id);\n\n-- 4) 세분화: 사용자별 취향군 비중 (좋아요 곡 × 태그 가중치를 취향군으로 합산)\nDROP TABLE IF EXISTS user_segment;\nCREATE TABLE user_segment AS\nWITH fam AS (\n    SELECT ua.user_id, f.family, SUM(ua.likes * e.weight) AS w\n    FROM user_artist ua\n    JOIN ext_artist_tags e USING (artist_key)\n    JOIN tag_family f ON f.tag = e.tag\n    GROUP BY ua.user_id, f.family\n)\nSELECT user_id, family,\n       ROUND(100.0 * w / SUM(w) OVER (PARTITION BY user_id), 1)             AS share_pct,\n       ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY w DESC)            AS fam_rank\nFROM fam;\n\n-- 5) Bandcamp 아티스트 벡터 (상품 태그 빈도, 대표 장르 1.0 / 서브 태그 0.6) + 대표 취향군\nDROP TABLE IF EXISTS bc_artist_vec;\nCREATE TABLE bc_artist_vec AS\nWITH t AS (\n    SELECT i.artist_id, it.tag, SUM(CASE WHEN it.is_genre = 1 THEN 1.0 ELSE 0.6 END) AS w\n    FROM item_tags it JOIN dim_item i ON i.item_id = it.item_id\n    GROUP BY i.artist_id, it.tag\n),\nraw AS (\n    SELECT artist_id, tag, w FROM t\n    UNION ALL\n    SELECT t.artist_id, 'fam:' || f.family, 0.5 * MAX(t.w)\n    FROM t JOIN tag_family f ON f.tag = t.tag\n    GROUP BY t.artist_id, f.family\n),\nn AS (SELECT artist_id, sqrt(SUM(w * w)) AS norm FROM raw GROUP BY artist_id)\nSELECT r.artist_id, r.tag, r.w / n.norm AS w\nFROM raw r JOIN n USING (artist_id);\n\nDROP TABLE IF EXISTS bc_artist_family;\nCREATE TABLE bc_artist_family AS\nSELECT artist_id, family FROM (\n    SELECT i.artist_id, f.family,\n           ROW_NUMBER() OVER (PARTITION BY i.artist_id ORDER BY COUNT(*) DESC, f.family) AS rn\n    FROM item_tags it\n    JOIN dim_item i   ON i.item_id = it.item_id\n    JOIN tag_family f ON f.tag = it.tag\n    WHERE it.is_genre = 1\n    GROUP BY i.artist_id, f.family\n) WHERE rn = 1;\n\n-- 6) 태그 유사도 (코사인: 두 벡터 모두 정규화되어 있으므로 내적)\nDROP TABLE IF EXISTS reco_sim;\nCREATE TABLE reco_sim AS\nSELECT u.user_id, a.artist_id, SUM(u.w * a.w) AS sim\nFROM user_taste u JOIN bc_artist_vec a ON a.tag = u.tag\nGROUP BY u.user_id, a.artist_id;\n\n-- 7) 팬 공동구매: 유사도 상위 15팀(시드)을 산 팬들이 함께 산 아티스트 비율\nDROP TABLE IF EXISTS reco_cofan;\nCREATE TABLE reco_cofan AS\nWITH fan_artist AS (\n    SELECT DISTINCT c.fan_id, i.artist_id\n    FROM bc_fan_collection c JOIN dim_item i ON i.url = c.item_url\n),\nseed AS (\n    SELECT user_id, artist_id FROM (\n        SELECT user_id, artist_id, ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY sim DESC) AS rn\n        FROM reco_sim) WHERE rn <= 15\n),\nseed_fans AS (\n    SELECT DISTINCT s.user_id, fa.fan_id\n    FROM seed s JOIN fan_artist fa ON fa.artist_id = s.artist_id\n),\nco AS (\n    SELECT sf.user_id, fa.artist_id, COUNT(DISTINCT sf.fan_id) AS fans\n    FROM seed_fans sf JOIN fan_artist fa ON fa.fan_id = sf.fan_id\n    GROUP BY sf.user_id, fa.artist_id\n)\nSELECT user_id, artist_id, fans,\n       1.0 * fans / MAX(fans) OVER (PARTITION BY user_id) AS cofan\nFROM co;\n\n-- 8) 판매 지표 (최근 28일 / 최근 7일 vs 직전 7일)\nDROP TABLE IF EXISTS bc_artist_stats;\nCREATE TABLE bc_artist_stats AS\nWITH b AS (SELECT MAX(sale_date) AS d FROM fact_sales),\ns AS (\n    SELECT i.artist_id,\n           SUM(CASE WHEN f.sale_date > date(b.d, '-28 days') THEN 1 ELSE 0 END) AS sales_28d,\n           SUM(CASE WHEN f.sale_date > date(b.d, '-7 days')  THEN 1 ELSE 0 END) AS sales_7d,\n           SUM(CASE WHEN f.sale_date <= date(b.d, '-7 days')\n                     AND f.sale_date >  date(b.d, '-14 days') THEN 1 ELSE 0 END) AS sales_prev7\n    FROM fact_sales f JOIN dim_item i ON i.item_id = f.item_id CROSS JOIN b\n    GROUP BY i.artist_id\n)\nSELECT artist_id, sales_28d, sales_7d, sales_prev7,\n       -- 상승세 0~1 : (7일 - 직전7일)/(직전7일+5) 를 -1~1로 자르고 0~1로 변환\n       (MAX(-1.0, MIN(1.0, 1.0 * (sales_7d - sales_prev7) / (sales_prev7 + 5))) + 1) / 2 AS momentum,\n       -- 발굴 0~1 : 판매가 적을수록 높음 (로그 스케일)\n       1 - ln(1 + sales_28d) / (SELECT ln(1 + MAX(sales_28d)) FROM s)                     AS discovery\nFROM s;\n\n-- 9) 최종 점수\nDROP TABLE IF EXISTS reco_score;\nCREATE TABLE reco_score AS\nWITH m AS (SELECT user_id, MAX(sim) AS max_sim FROM reco_sim GROUP BY user_id)\nSELECT s.user_id, s.artist_id, fam.family,\n       s.sim / m.max_sim                                  AS tag_score,\n       COALESCE(c.cofan, 0)                               AS cofan_score,\n       COALESCE(st.momentum, 0.5)                         AS momentum_score,\n       COALESCE(st.discovery, 1)                          AS discovery_score,\n       COALESCE(st.sales_28d, 0)                          AS sales_28d,\n       0.55 * s.sim / m.max_sim + 0.25 * COALESCE(c.cofan, 0)\n     + 0.10 * COALESCE(st.momentum, 0.5) + 0.10 * COALESCE(st.discovery, 1) AS score\nFROM reco_sim s\nJOIN m USING (user_id)\nLEFT JOIN reco_cofan c       ON c.user_id = s.user_id AND c.artist_id = s.artist_id\nLEFT JOIN bc_artist_stats st ON st.artist_id = s.artist_id\nLEFT JOIN bc_artist_family fam ON fam.artist_id = s.artist_id;\n\n-- 10) 다양성 적용한 최종 추천 + 추천 이유\nDROP TABLE IF EXISTS reco_final;\nCREATE TABLE reco_final AS\nWITH ranked AS (\n    SELECT r.*, ROW_NUMBER() OVER (PARTITION BY user_id, family ORDER BY score DESC) AS fam_rn\n    FROM reco_score r\n),\npicked AS (\n    SELECT *, ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY score DESC) AS rank\n    FROM ranked WHERE fam_rn <= 4\n),\ntop AS (SELECT * FROM picked WHERE rank <= 12),\n-- 가장 닮은 '내가 좋아요한 아티스트'\nbridge AS (\n    SELECT t.user_id, t.artist_id, ua.artist_name AS liked_artist,\n           ROW_NUMBER() OVER (PARTITION BY t.user_id, t.artist_id ORDER BY SUM(l.w * a.w) DESC, ua.likes DESC) AS rn\n    FROM top t\n    JOIN user_artist ua      ON ua.user_id = t.user_id\n    JOIN liked_artist_vec l  ON l.artist_key = ua.artist_key AND l.tag NOT LIKE 'fam:%'\n    JOIN bc_artist_vec a     ON a.artist_id = t.artist_id AND a.tag = l.tag\n    GROUP BY t.user_id, t.artist_id, ua.artist_key\n),\n-- 겹치는 태그 상위 2개\nshared AS (\n    SELECT user_id, artist_id, group_concat(tag, ', ') AS tags FROM (\n        SELECT t.user_id, t.artist_id, u.tag,\n               ROW_NUMBER() OVER (PARTITION BY t.user_id, t.artist_id ORDER BY u.w * a.w DESC) AS rn\n        FROM top t\n        JOIN user_taste u    ON u.user_id = t.user_id AND u.tag NOT LIKE 'fam:%'\n        JOIN bc_artist_vec a ON a.artist_id = t.artist_id AND a.tag = u.tag\n    ) WHERE rn <= 2 GROUP BY user_id, artist_id\n),\n-- 대표 앨범 (가장 많이 팔린 디지털 앨범) + 앨범 페이지 상세\nalbum AS (\n    SELECT artist_id, title, url, price FROM (\n        SELECT i.artist_id, i.title, i.url, i.list_price * COALESCE(c.usd_rate, 1) AS price,\n               ROW_NUMBER() OVER (PARTITION BY i.artist_id ORDER BY COUNT(f.sale_id) DESC, i.item_id) AS rn\n        FROM dim_item i\n        LEFT JOIN fact_sales f   ON f.item_id = i.item_id\n        LEFT JOIN dim_currency c ON c.currency = i.currency\n        WHERE i.item_type = 'a'\n        GROUP BY i.item_id\n    ) WHERE rn = 1\n),\n-- 같은 앨범 URL로 파는 실물 포맷 (바이닐/CD/카세트)\nformats AS (\n    SELECT al.url, group_concat(DISTINCT i.format) AS physical_formats\n    FROM album al JOIN dim_item i ON i.url = al.url AND i.item_type = 'p'\n    GROUP BY al.url\n),\n-- 앨범 서포터(이 앨범을 컬렉션에 담은 팬) 수\nsupporters AS (\n    SELECT al.url, COUNT(*) AS supporters\n    FROM album al JOIN bc_fan_collection c ON c.item_url = al.url\n    GROUP BY al.url\n),\n-- 앨범 태그 상위 3개 (대표 장르 먼저)\nalbum_tags AS (\n    SELECT url, group_concat(tag, ', ') AS tags FROM (\n        SELECT al.url, it.tag,\n               ROW_NUMBER() OVER (PARTITION BY al.url ORDER BY it.is_genre DESC, it.tag) AS rn\n        FROM album al\n        JOIN dim_item i   ON i.url = al.url AND i.item_type = 'a'\n        JOIN item_tags it ON it.item_id = i.item_id\n    ) WHERE rn <= 3 GROUP BY url\n)\nSELECT t.user_id, t.rank, ar.artist_name, t.family,\n       al.title AS album_title, al.url AS album_url, ROUND(al.price, 2) AS album_price_usd,\n       dt.art_url, dt.release_date, dt.track_count,\n       CAST(dt.duration_sec / 60 AS INTEGER)  AS duration_min,\n       COALESCE(dt.label, '자체 발매')         AS label,\n       dt.location, dt.about,\n       fm.physical_formats, COALESCE(sp.supporters, 0) AS supporters, atg.tags AS album_tags,\n       ROUND(100 * t.score, 1)            AS score,\n       ROUND(100 * t.tag_score, 0)        AS tag_pct,\n       ROUND(100 * t.cofan_score, 0)      AS cofan_pct,\n       ROUND(100 * t.momentum_score, 0)   AS momentum_pct,\n       ROUND(100 * t.discovery_score, 0)  AS discovery_pct,\n       t.sales_28d,\n       b.liked_artist                     AS because_artist,\n       sh.tags                            AS because_tags\nFROM top t\nJOIN dim_artist ar ON ar.artist_id = t.artist_id\nLEFT JOIN bridge b  ON b.user_id = t.user_id AND b.artist_id = t.artist_id AND b.rn = 1\nLEFT JOIN shared sh ON sh.user_id = t.user_id AND sh.artist_id = t.artist_id\nLEFT JOIN album al  ON al.artist_id = t.artist_id\nLEFT JOIN bc_album_detail dt ON dt.url = al.url\nLEFT JOIN formats fm    ON fm.url = al.url\nLEFT JOIN supporters sp ON sp.url = al.url\nLEFT JOIN album_tags atg ON atg.url = al.url;\n",
+   "type": "code",
+   "lang": "sql"
+  },
+  {
+   "label": "Input",
+   "value": "data/likes/*.csv (TuneMyMusic 형식 샘플), data/ext_artist_tags.csv, data/fan_collections.csv, bandcamp.db (가상 판매 샘플)"
+  }
+ ]
+}

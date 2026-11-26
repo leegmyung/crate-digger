@@ -1,0 +1,152 @@
+artist_name,tag,weight
+Slowdive,shoegaze,1
+Slowdive,dream pop,0.8
+Slowdive,indie rock,0.4
+My Bloody Valentine,shoegaze,1
+My Bloody Valentine,noise,0.5
+My Bloody Valentine,indie rock,0.4
+Beach House,dream pop,1
+Beach House,indie rock,0.4
+Beach House,synth-pop,0.3
+Cocteau Twins,dream pop,1
+Cocteau Twins,shoegaze,0.5
+Radiohead,alternative,1
+Radiohead,indie rock,0.6
+Radiohead,electronic,0.4
+Radiohead,experimental,0.4
+Explosions in the Sky,post-rock,1
+Explosions in the Sky,ambient,0.3
+Mogwai,post-rock,1
+Mogwai,indie rock,0.3
+Sigur Rós,post-rock,1
+Sigur Rós,ambient,0.6
+Sigur Rós,dream pop,0.3
+Mitski,indie rock,1
+Mitski,singer-songwriter,0.7
+Mitski,bedroom pop,0.4
+Japanese Breakfast,indie rock,0.8
+Japanese Breakfast,dream pop,0.7
+Japanese Breakfast,synth-pop,0.4
+Phoebe Bridgers,singer-songwriter,1
+Phoebe Bridgers,indie rock,0.6
+Phoebe Bridgers,folk,0.5
+Big Thief,indie rock,0.9
+Big Thief,folk,0.8
+Big Thief,singer-songwriter,0.6
+Turnover,dream pop,0.9
+Turnover,indie rock,0.8
+Turnover,shoegaze,0.3
+Boards of Canada,idm,1
+Boards of Canada,electronic,0.8
+Boards of Canada,ambient,0.7
+Four Tet,electronic,1
+Four Tet,idm,0.7
+Four Tet,house,0.6
+Bonobo,electronic,1
+Bonobo,downtempo,0.8
+Bonobo,house,0.4
+Kendrick Lamar,hip-hop,1
+Kendrick Lamar,conscious hip-hop,0.8
+Kendrick Lamar,jazz fusion,0.2
+Frank Ocean,r&b/soul,1
+Frank Ocean,neo-soul,0.7
+Frank Ocean,alternative r&b,0.9
+SZA,r&b/soul,1
+SZA,neo-soul,0.6
+SZA,alternative r&b,0.7
+Anderson .Paak,funk,1
+Anderson .Paak,r&b/soul,0.8
+Anderson .Paak,hip-hop,0.6
+Anderson .Paak,soul,0.5
+D'Angelo,neo-soul,1
+D'Angelo,r&b/soul,0.9
+D'Angelo,funk,0.5
+Erykah Badu,neo-soul,1
+Erykah Badu,r&b/soul,0.8
+Erykah Badu,soul,0.5
+"Tyler, The Creator",hip-hop,1
+"Tyler, The Creator",neo-soul,0.4
+"Tyler, The Creator",funk,0.3
+Nujabes,instrumental hip-hop,1
+Nujabes,lo-fi,0.8
+Nujabes,jazz,0.5
+Nujabes,boom bap,0.4
+J Dilla,instrumental hip-hop,1
+J Dilla,boom bap,0.8
+J Dilla,hip-hop,0.6
+Madvillain,hip-hop,1
+Madvillain,boom bap,0.8
+Madvillain,underground hip-hop,0.8
+Kamasi Washington,spiritual jazz,1
+Kamasi Washington,jazz,0.9
+Kamasi Washington,jazz fusion,0.6
+Robert Glasper,jazz,1
+Robert Glasper,jazz fusion,0.8
+Robert Glasper,neo-soul,0.6
+Thundercat,funk,1
+Thundercat,jazz fusion,0.8
+Thundercat,soul,0.4
+Solange,r&b/soul,1
+Solange,neo-soul,0.8
+Solange,soul,0.5
+Hiatus Kaiyote,neo-soul,1
+Hiatus Kaiyote,jazz fusion,0.7
+Hiatus Kaiyote,funk,0.5
+Little Simz,hip-hop,1
+Little Simz,uk hip-hop,0.8
+Little Simz,boom bap,0.3
+BADBADNOTGOOD,jazz,1
+BADBADNOTGOOD,jazz fusion,0.8
+BADBADNOTGOOD,instrumental hip-hop,0.6
+Alice Coltrane,spiritual jazz,1
+Alice Coltrane,jazz,0.8
+Alice Coltrane,free jazz,0.5
+NewJeans,k-pop,1
+NewJeans,pop,0.7
+NewJeans,synth-pop,0.4
+IU,k-pop,1
+IU,pop,0.7
+IU,singer-songwriter,0.4
+aespa,k-pop,1
+aespa,pop,0.6
+aespa,electronic,0.4
+LE SSERAFIM,k-pop,1
+LE SSERAFIM,pop,0.7
+LE SSERAFIM,house,0.2
+BTS,k-pop,1
+BTS,pop,0.8
+혁오,korean indie,1
+혁오,indie rock,0.8
+혁오,alternative,0.4
+검정치마,korean indie,1
+검정치마,indie rock,0.8
+검정치마,dream pop,0.3
+잔나비,korean indie,1
+잔나비,indie rock,0.6
+잔나비,soul,0.3
+백예린,korean indie,0.8
+백예린,r&b/soul,0.6
+백예린,bedroom pop,0.6
+백예린,dream pop,0.4
+Mariya Takeuchi,city pop,1
+Mariya Takeuchi,pop,0.6
+Mariya Takeuchi,funk,0.4
+Tatsuro Yamashita,city pop,1
+Tatsuro Yamashita,funk,0.6
+Tatsuro Yamashita,soul,0.4
+Miki Matsubara,city pop,1
+Miki Matsubara,pop,0.5
+Brian Eno,ambient,1
+Brian Eno,new age,0.5
+Brian Eno,drone,0.4
+Brian Eno,experimental,0.4
+Ryuichi Sakamoto,film score,1
+Ryuichi Sakamoto,ambient,0.7
+Ryuichi Sakamoto,soundtrack,0.6
+Ryuichi Sakamoto,electronic,0.4
+Joji,bedroom pop,0.9
+Joji,lo-fi,0.7
+Joji,r&b/soul,0.5
+Peggy Gou,house,1
+Peggy Gou,electronic,0.9
+Peggy Gou,techno,0.4

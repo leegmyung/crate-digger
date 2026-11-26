@@ -1,0 +1,151 @@
+{
+ "rows": [
+  {
+   "rank": 1,
+   "artist_name": "Pale Atlas",
+   "sales": 1215,
+   "revenue_usd": 18507.0,
+   "revenue_share_pct": 6.38,
+   "top_country": "US",
+   "physical_share_pct": 85.0
+  },
+  {
+   "rank": 2,
+   "artist_name": "The Lunar Satellite",
+   "sales": 759,
+   "revenue_usd": 9801.0,
+   "revenue_share_pct": 3.38,
+   "top_country": "US",
+   "physical_share_pct": 55.0
+  },
+  {
+   "rank": 3,
+   "artist_name": "The Midnight Engine",
+   "sales": 583,
+   "revenue_usd": 6814.0,
+   "revenue_share_pct": 2.35,
+   "top_country": "US",
+   "physical_share_pct": 41.0
+  },
+  {
+   "rank": 4,
+   "artist_name": "Crooked Fever",
+   "sales": 435,
+   "revenue_usd": 4989.0,
+   "revenue_share_pct": 1.72,
+   "top_country": "US",
+   "physical_share_pct": 77.0
+  },
+  {
+   "rank": 5,
+   "artist_name": "Distant Garden",
+   "sales": 295,
+   "revenue_usd": 4949.0,
+   "revenue_share_pct": 1.71,
+   "top_country": "US",
+   "physical_share_pct": 84.0
+  },
+  {
+   "rank": 6,
+   "artist_name": "Glass Coast",
+   "sales": 374,
+   "revenue_usd": 4574.0,
+   "revenue_share_pct": 1.58,
+   "top_country": "US",
+   "physical_share_pct": 48.0
+  },
+  {
+   "rank": 7,
+   "artist_name": "The Rusted Ritual",
+   "sales": 273,
+   "revenue_usd": 3847.0,
+   "revenue_share_pct": 1.33,
+   "top_country": "US",
+   "physical_share_pct": 67.0
+  },
+  {
+   "rank": 8,
+   "artist_name": "Glass Machine",
+   "sales": 276,
+   "revenue_usd": 3822.0,
+   "revenue_share_pct": 1.32,
+   "top_country": "US",
+   "physical_share_pct": 61.0
+  },
+  {
+   "rank": 9,
+   "artist_name": "Faded Archive",
+   "sales": 280,
+   "revenue_usd": 3251.0,
+   "revenue_share_pct": 1.12,
+   "top_country": "US",
+   "physical_share_pct": 70.0
+  },
+  {
+   "rank": 10,
+   "artist_name": "The Sunken Garden",
+   "sales": 282,
+   "revenue_usd": 3220.0,
+   "revenue_share_pct": 1.11,
+   "top_country": "US",
+   "physical_share_pct": 55.0
+  },
+  {
+   "rank": 11,
+   "artist_name": "The Burning Static",
+   "sales": 257,
+   "revenue_usd": 2903.0,
+   "revenue_share_pct": 1.0,
+   "top_country": "US",
+   "physical_share_pct": 62.0
+  },
+  {
+   "rank": 12,
+   "artist_name": "Tidal Ritual",
+   "sales": 204,
+   "revenue_usd": 2590.0,
+   "revenue_share_pct": 0.89,
+   "top_country": "US",
+   "physical_share_pct": 52.0
+  },
+  {
+   "rank": 13,
+   "artist_name": "Soft Wolves",
+   "sales": 158,
+   "revenue_usd": 2523.0,
+   "revenue_share_pct": 0.87,
+   "top_country": "US",
+   "physical_share_pct": 77.0
+  },
+  {
+   "rank": 14,
+   "artist_name": "Golden Bloom",
+   "sales": 229,
+   "revenue_usd": 2487.0,
+   "revenue_share_pct": 0.86,
+   "top_country": "US",
+   "physical_share_pct": 43.0
+  },
+  {
+   "rank": 15,
+   "artist_name": "The Faded Room",
+   "sales": 149,
+   "revenue_usd": 2485.0,
+   "revenue_share_pct": 0.86,
+   "top_country": "US",
+   "physical_share_pct": 81.0
+  }
+ ],
+ "meta": [
+  {
+   "label": "07_top_artists.sql",
+   "value": "-- 매출 상위 아티스트 Top 15 (최근 28일): 점유율, 최대 구매 국가, 실물 매출 비중\nWITH recent AS (\n    SELECT * FROM v_sales\n    WHERE sale_date > (SELECT date(MAX(sale_date), '-28 days') FROM fact_sales)\n),\nby_artist AS (\n    SELECT artist_id, artist_name,\n           COUNT(*)                                                         AS sales,\n           SUM(amount_paid_usd)                                             AS revenue,\n           SUM(CASE WHEN channel = 'Physical' THEN amount_paid_usd END)     AS physical_rev\n    FROM recent GROUP BY artist_id, artist_name\n),\nby_artist_country AS (\n    SELECT artist_id, country_code,\n           ROW_NUMBER() OVER (PARTITION BY artist_id ORDER BY COUNT(*) DESC, country_code) AS rn\n    FROM recent GROUP BY artist_id, country_code\n)\nSELECT\n    RANK() OVER (ORDER BY a.revenue DESC)                              AS rank,\n    a.artist_name,\n    a.sales,\n    ROUND(a.revenue, 0)                                                AS revenue_usd,\n    ROUND(100.0 * a.revenue / (SELECT SUM(amount_paid_usd) FROM recent), 2) AS revenue_share_pct,\n    c.country_code                                                     AS top_country,\n    ROUND(100.0 * COALESCE(a.physical_rev, 0) / a.revenue, 0)          AS physical_share_pct\nFROM by_artist a\nJOIN by_artist_country c ON c.artist_id = a.artist_id AND c.rn = 1\nORDER BY a.revenue DESC\nLIMIT 15;\n",
+   "type": "code",
+   "lang": "sql"
+  },
+  {
+   "label": "Input",
+   "value": "data/sample_salesfeed.csv → sql/schema.sql + sql/load.sql (SQLite)"
+  }
+ ]
+}

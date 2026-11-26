@@ -1,0 +1,1 @@
+{ "name": "usage-band", "version": "0.1.0", "description": "채팅 입력창 위에 컨텍스트 사용률, 5시간·주간 사용 한도, 세션 비용을 띄웁니다", "types": "./types/index.d.ts" }

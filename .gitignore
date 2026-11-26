@@ -1,0 +1,8 @@
+# 스크립트로 다시 만들 수 있는 파일
+bandcamp.db
+data/cache/
+data/bc_artist.voy
+__pycache__/
+*.pyc
+# 비밀값
+.env

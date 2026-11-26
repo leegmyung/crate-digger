@@ -1,0 +1,166 @@
+{
+ "rows": [
+  {
+   "rank": 1,
+   "country_code": "US",
+   "country_name": "United States",
+   "region": "North America",
+   "sales": 8409,
+   "revenue_usd": 107393.0,
+   "avg_paid_usd": 12.77,
+   "revenue_share_pct": 37.0
+  },
+  {
+   "rank": 2,
+   "country_code": "GB",
+   "country_name": "United Kingdom",
+   "region": "Europe",
+   "sales": 3220,
+   "revenue_usd": 40607.0,
+   "avg_paid_usd": 12.61,
+   "revenue_share_pct": 14.0
+  },
+  {
+   "rank": 3,
+   "country_code": "DE",
+   "country_name": "Germany",
+   "region": "Europe",
+   "sales": 2133,
+   "revenue_usd": 26635.0,
+   "avg_paid_usd": 12.49,
+   "revenue_share_pct": 9.2
+  },
+  {
+   "rank": 4,
+   "country_code": "CA",
+   "country_name": "Canada",
+   "region": "North America",
+   "sales": 1315,
+   "revenue_usd": 16673.0,
+   "avg_paid_usd": 12.68,
+   "revenue_share_pct": 5.7
+  },
+  {
+   "rank": 5,
+   "country_code": "JP",
+   "country_name": "Japan",
+   "region": "Asia",
+   "sales": 1103,
+   "revenue_usd": 14226.0,
+   "avg_paid_usd": 12.9,
+   "revenue_share_pct": 4.9
+  },
+  {
+   "rank": 6,
+   "country_code": "FR",
+   "country_name": "France",
+   "region": "Europe",
+   "sales": 914,
+   "revenue_usd": 11590.0,
+   "avg_paid_usd": 12.68,
+   "revenue_share_pct": 4.0
+  },
+  {
+   "rank": 7,
+   "country_code": "AU",
+   "country_name": "Australia",
+   "region": "Oceania",
+   "sales": 842,
+   "revenue_usd": 10563.0,
+   "avg_paid_usd": 12.55,
+   "revenue_share_pct": 3.6
+  },
+  {
+   "rank": 8,
+   "country_code": "NL",
+   "country_name": "Netherlands",
+   "region": "Europe",
+   "sales": 594,
+   "revenue_usd": 7805.0,
+   "avg_paid_usd": 13.14,
+   "revenue_share_pct": 2.7
+  },
+  {
+   "rank": 9,
+   "country_code": "IT",
+   "country_name": "Italy",
+   "region": "Europe",
+   "sales": 415,
+   "revenue_usd": 5157.0,
+   "avg_paid_usd": 12.43,
+   "revenue_share_pct": 1.8
+  },
+  {
+   "rank": 10,
+   "country_code": "ES",
+   "country_name": "Spain",
+   "region": "Europe",
+   "sales": 349,
+   "revenue_usd": 4721.0,
+   "avg_paid_usd": 13.53,
+   "revenue_share_pct": 1.6
+  },
+  {
+   "rank": 11,
+   "country_code": "SE",
+   "country_name": "Sweden",
+   "region": "Europe",
+   "sales": 353,
+   "revenue_usd": 4522.0,
+   "avg_paid_usd": 12.81,
+   "revenue_share_pct": 1.6
+  },
+  {
+   "rank": 12,
+   "country_code": "BR",
+   "country_name": "Brazil",
+   "region": "Latin America",
+   "sales": 294,
+   "revenue_usd": 3775.0,
+   "avg_paid_usd": 12.84,
+   "revenue_share_pct": 1.3
+  },
+  {
+   "rank": 13,
+   "country_code": "KR",
+   "country_name": "South Korea",
+   "region": "Asia",
+   "sales": 290,
+   "revenue_usd": 3617.0,
+   "avg_paid_usd": 12.47,
+   "revenue_share_pct": 1.2
+  },
+  {
+   "rank": 14,
+   "country_code": "BE",
+   "country_name": "Belgium",
+   "region": "Europe",
+   "sales": 262,
+   "revenue_usd": 3352.0,
+   "avg_paid_usd": 12.79,
+   "revenue_share_pct": 1.2
+  },
+  {
+   "rank": 15,
+   "country_code": "MX",
+   "country_name": "Mexico",
+   "region": "Latin America",
+   "sales": 220,
+   "revenue_usd": 3168.0,
+   "avg_paid_usd": 14.4,
+   "revenue_share_pct": 1.1
+  }
+ ],
+ "meta": [
+  {
+   "label": "04_country_top.sql",
+   "value": "-- 국가별 매출 순위 Top 15 (최근 28일) + 매출 점유율\nWITH base AS (\n    SELECT country_code, country_name, region,\n           COUNT(*)              AS sales,\n           SUM(amount_paid_usd)  AS revenue\n    FROM v_sales\n    WHERE sale_date > (SELECT date(MAX(sale_date), '-28 days') FROM fact_sales)\n    GROUP BY country_code, country_name, region\n)\nSELECT\n    RANK() OVER (ORDER BY revenue DESC)                      AS rank,\n    country_code,\n    country_name,\n    region,\n    sales,\n    ROUND(revenue, 0)                                        AS revenue_usd,\n    ROUND(revenue / sales, 2)                                AS avg_paid_usd,\n    ROUND(100.0 * revenue / SUM(revenue) OVER (), 1)         AS revenue_share_pct\nFROM base\nORDER BY revenue DESC\nLIMIT 15;\n",
+   "type": "code",
+   "lang": "sql"
+  },
+  {
+   "label": "Input",
+   "value": "data/sample_salesfeed.csv → sql/schema.sql + sql/load.sql (SQLite)"
+  }
+ ]
+}

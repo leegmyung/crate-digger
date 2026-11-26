@@ -1,0 +1,212 @@
+{
+ "rows": [
+  {
+   "sale_date": "2026-10-26",
+   "sales": 642,
+   "revenue_usd": 8501.96,
+   "digital_usd": 3200.21,
+   "physical_usd": 5301.75
+  },
+  {
+   "sale_date": "2026-10-27",
+   "sales": 627,
+   "revenue_usd": 8065.46,
+   "digital_usd": 3192.49,
+   "physical_usd": 4872.97
+  },
+  {
+   "sale_date": "2026-10-28",
+   "sales": 682,
+   "revenue_usd": 8168.89,
+   "digital_usd": 3276.26,
+   "physical_usd": 4892.63
+  },
+  {
+   "sale_date": "2026-10-29",
+   "sales": 691,
+   "revenue_usd": 8849.61,
+   "digital_usd": 3177.37,
+   "physical_usd": 5672.24
+  },
+  {
+   "sale_date": "2026-10-30",
+   "sales": 811,
+   "revenue_usd": 10598.32,
+   "digital_usd": 3895.39,
+   "physical_usd": 6702.93
+  },
+  {
+   "sale_date": "2026-10-31",
+   "sales": 852,
+   "revenue_usd": 11239.29,
+   "digital_usd": 4037.75,
+   "physical_usd": 7201.54
+  },
+  {
+   "sale_date": "2026-11-01",
+   "sales": 795,
+   "revenue_usd": 9896.94,
+   "digital_usd": 3764.29,
+   "physical_usd": 6132.65
+  },
+  {
+   "sale_date": "2026-11-02",
+   "sales": 675,
+   "revenue_usd": 8554.33,
+   "digital_usd": 3122.87,
+   "physical_usd": 5431.46
+  },
+  {
+   "sale_date": "2026-11-03",
+   "sales": 658,
+   "revenue_usd": 8615.78,
+   "digital_usd": 3348.24,
+   "physical_usd": 5267.54
+  },
+  {
+   "sale_date": "2026-11-04",
+   "sales": 652,
+   "revenue_usd": 7649.7,
+   "digital_usd": 3060.99,
+   "physical_usd": 4588.71
+  },
+  {
+   "sale_date": "2026-11-05",
+   "sales": 689,
+   "revenue_usd": 8390.32,
+   "digital_usd": 3347.94,
+   "physical_usd": 5042.38
+  },
+  {
+   "sale_date": "2026-11-06",
+   "sales": 2888,
+   "revenue_usd": 38610.23,
+   "digital_usd": 12521.38,
+   "physical_usd": 26088.85
+  },
+  {
+   "sale_date": "2026-11-07",
+   "sales": 768,
+   "revenue_usd": 9599.57,
+   "digital_usd": 3683.11,
+   "physical_usd": 5916.46
+  },
+  {
+   "sale_date": "2026-11-08",
+   "sales": 771,
+   "revenue_usd": 10172.28,
+   "digital_usd": 3657.01,
+   "physical_usd": 6515.27
+  },
+  {
+   "sale_date": "2026-11-09",
+   "sales": 718,
+   "revenue_usd": 9163.99,
+   "digital_usd": 3228.64,
+   "physical_usd": 5935.35
+  },
+  {
+   "sale_date": "2026-11-10",
+   "sales": 694,
+   "revenue_usd": 8795.12,
+   "digital_usd": 3201.18,
+   "physical_usd": 5593.94
+  },
+  {
+   "sale_date": "2026-11-11",
+   "sales": 679,
+   "revenue_usd": 8620.45,
+   "digital_usd": 3427.12,
+   "physical_usd": 5193.33
+  },
+  {
+   "sale_date": "2026-11-12",
+   "sales": 696,
+   "revenue_usd": 9383.26,
+   "digital_usd": 3234.7,
+   "physical_usd": 6148.56
+  },
+  {
+   "sale_date": "2026-11-13",
+   "sales": 856,
+   "revenue_usd": 10945.56,
+   "digital_usd": 4183.07,
+   "physical_usd": 6762.49
+  },
+  {
+   "sale_date": "2026-11-14",
+   "sales": 747,
+   "revenue_usd": 9457.41,
+   "digital_usd": 3596.27,
+   "physical_usd": 5861.14
+  },
+  {
+   "sale_date": "2026-11-15",
+   "sales": 826,
+   "revenue_usd": 10505.73,
+   "digital_usd": 3792.7,
+   "physical_usd": 6713.03
+  },
+  {
+   "sale_date": "2026-11-16",
+   "sales": 706,
+   "revenue_usd": 8816.34,
+   "digital_usd": 3553.07,
+   "physical_usd": 5263.27
+  },
+  {
+   "sale_date": "2026-11-17",
+   "sales": 758,
+   "revenue_usd": 9464.01,
+   "digital_usd": 3697.28,
+   "physical_usd": 5766.73
+  },
+  {
+   "sale_date": "2026-11-18",
+   "sales": 727,
+   "revenue_usd": 9410.91,
+   "digital_usd": 3587.64,
+   "physical_usd": 5823.27
+  },
+  {
+   "sale_date": "2026-11-19",
+   "sales": 685,
+   "revenue_usd": 8812.31,
+   "digital_usd": 3362.78,
+   "physical_usd": 5449.53
+  },
+  {
+   "sale_date": "2026-11-20",
+   "sales": 770,
+   "revenue_usd": 9548.67,
+   "digital_usd": 3980.36,
+   "physical_usd": 5568.31
+  },
+  {
+   "sale_date": "2026-11-21",
+   "sales": 826,
+   "revenue_usd": 10335.36,
+   "digital_usd": 4296.71,
+   "physical_usd": 6038.65
+  },
+  {
+   "sale_date": "2026-11-22",
+   "sales": 827,
+   "revenue_usd": 10023.03,
+   "digital_usd": 4219.44,
+   "physical_usd": 5803.59
+  }
+ ],
+ "meta": [
+  {
+   "label": "02_daily_trend.sql",
+   "value": "-- 일별 판매 추이 (최근 28일): 디지털 vs 실물 매출\nSELECT\n    sale_date,\n    COUNT(*)                                                         AS sales,\n    ROUND(SUM(amount_paid_usd), 2)                                   AS revenue_usd,\n    ROUND(SUM(CASE WHEN channel = 'Digital'  THEN amount_paid_usd ELSE 0 END), 2) AS digital_usd,\n    ROUND(SUM(CASE WHEN channel = 'Physical' THEN amount_paid_usd ELSE 0 END), 2) AS physical_usd\nFROM v_sales\nWHERE sale_date > (SELECT date(MAX(sale_date), '-28 days') FROM fact_sales)\nGROUP BY sale_date\nORDER BY sale_date;\n",
+   "type": "code",
+   "lang": "sql"
+  },
+  {
+   "label": "Input",
+   "value": "data/sample_salesfeed.csv → sql/schema.sql + sql/load.sql (SQLite)"
+  }
+ ]
+}

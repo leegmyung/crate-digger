@@ -1,0 +1,100 @@
+{
+ "rows": [
+  {
+   "genre": "electronic",
+   "sales": 4196,
+   "revenue_usd": 46992.0,
+   "avg_paid_usd": 11.2,
+   "revenue_share_pct": 16.0
+  },
+  {
+   "genre": "rock",
+   "sales": 2990,
+   "revenue_usd": 39774.0,
+   "avg_paid_usd": 13.3,
+   "revenue_share_pct": 13.5
+  },
+  {
+   "genre": "punk",
+   "sales": 2464,
+   "revenue_usd": 38615.0,
+   "avg_paid_usd": 15.67,
+   "revenue_share_pct": 13.2
+  },
+  {
+   "genre": "metal",
+   "sales": 1918,
+   "revenue_usd": 32027.0,
+   "avg_paid_usd": 16.7,
+   "revenue_share_pct": 10.9
+  },
+  {
+   "genre": "experimental",
+   "sales": 2482,
+   "revenue_usd": 31205.0,
+   "avg_paid_usd": 12.57,
+   "revenue_share_pct": 10.6
+  },
+  {
+   "genre": "jazz",
+   "sales": 1296,
+   "revenue_usd": 18543.0,
+   "avg_paid_usd": 14.31,
+   "revenue_share_pct": 6.3
+  },
+  {
+   "genre": "r&b/soul",
+   "sales": 1504,
+   "revenue_usd": 16983.0,
+   "avg_paid_usd": 11.29,
+   "revenue_share_pct": 5.8
+  },
+  {
+   "genre": "folk",
+   "sales": 1324,
+   "revenue_usd": 16886.0,
+   "avg_paid_usd": 12.75,
+   "revenue_share_pct": 5.8
+  },
+  {
+   "genre": "hip-hop",
+   "sales": 1573,
+   "revenue_usd": 15934.0,
+   "avg_paid_usd": 10.13,
+   "revenue_share_pct": 5.4
+  },
+  {
+   "genre": "soundtrack",
+   "sales": 1130,
+   "revenue_usd": 13250.0,
+   "avg_paid_usd": 11.73,
+   "revenue_share_pct": 4.5
+  },
+  {
+   "genre": "pop",
+   "sales": 983,
+   "revenue_usd": 12274.0,
+   "avg_paid_usd": 12.49,
+   "revenue_share_pct": 4.2
+  },
+  {
+   "genre": "ambient",
+   "sales": 1039,
+   "revenue_usd": 11076.0,
+   "avg_paid_usd": 10.66,
+   "revenue_share_pct": 3.8
+  }
+ ],
+ "meta": [
+  {
+   "label": "08_genre_revenue.sql",
+   "value": "-- 대표 장르별 매출 (최근 28일) — item_tags가 채워져 있을 때만 결과가 나옴\nWITH recent AS (\n    SELECT * FROM v_sales\n    WHERE sale_date > (SELECT date(MAX(sale_date), '-28 days') FROM fact_sales)\n)\nSELECT\n    t.tag                                                    AS genre,\n    COUNT(*)                                                 AS sales,\n    ROUND(SUM(r.amount_paid_usd), 0)                         AS revenue_usd,\n    ROUND(AVG(r.amount_paid_usd), 2)                         AS avg_paid_usd,\n    ROUND(100.0 * SUM(r.amount_paid_usd)\n          / SUM(SUM(r.amount_paid_usd)) OVER (), 1)          AS revenue_share_pct\nFROM recent r\nJOIN item_tags t ON t.item_id = r.item_id AND t.is_genre = 1\nGROUP BY t.tag\nORDER BY revenue_usd DESC\nLIMIT 12;\n",
+   "type": "code",
+   "lang": "sql"
+  },
+  {
+   "label": "Input",
+   "value": "data/sample_salesfeed.csv → sql/schema.sql + sql/load.sql (SQLite)"
+  }
+ ]
+}

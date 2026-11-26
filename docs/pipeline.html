@@ -1,0 +1,383 @@
+<title>신인 발굴 파이프라인</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: 신호 흐름도. 해외·국내 두 수집 레인이 공통 처리 레인으로 합류하고, 그 아래 검증 설계·스키마·일정·결정 사항 */
+  :root {
+    --bg: #f5f6f8;
+    --panel: #ffffff;
+    --ink: #161a22;
+    --muted: #5d6573;
+    --line: #dde1e8;
+    --gl: #0f8a7e;        /* 해외 레인 */
+    --gl-soft: #e2f4f1;
+    --kr: #6a4bd8;        /* 국내 레인 */
+    --kr-soft: #efeafd;
+    --co: #c25a12;        /* 공통 처리 레인 */
+    --co-soft: #fcefe4;
+    --ok: #1f8a3b; --ok-soft: #e3f3e7;
+    --warn: #a86b00; --warn-soft: #fbf0d9;
+    --todo: #6b7280; --todo-soft: #eceef1;
+    --bad: #c0352b; --bad-soft: #fbe6e4;
+    --f-body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+    --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --r: 8px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12151b; --panel: #1a1e26; --ink: #e9ecf2; --muted: #9aa3b2; --line: #2c323d;
+      --gl: #3cc4b4; --gl-soft: #15322f; --kr: #a58cff; --kr-soft: #2a2347;
+      --co: #f0924b; --co-soft: #3a2616;
+      --ok: #5cc777; --ok-soft: #173222; --warn: #e3b04b; --warn-soft: #362a12;
+      --todo: #9aa3b2; --todo-soft: #262b34; --bad: #f07a70; --bad-soft: #3b1d1a;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #12151b; --panel: #1a1e26; --ink: #e9ecf2; --muted: #9aa3b2; --line: #2c323d;
+    --gl: #3cc4b4; --gl-soft: #15322f; --kr: #a58cff; --kr-soft: #2a2347;
+    --co: #f0924b; --co-soft: #3a2616;
+    --ok: #5cc777; --ok-soft: #173222; --warn: #e3b04b; --warn-soft: #362a12;
+    --todo: #9aa3b2; --todo-soft: #262b34; --bad: #f07a70; --bad-soft: #3b1d1a;
+    color-scheme: dark;
+  }
+  body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.6; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding-block: 40px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 52px; }
+  h1, h2, h3 { margin: 0; text-wrap: balance; }
+  h1 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); font-weight: 900; letter-spacing: -0.02em; }
+  h2 { font-size: 1.3rem; font-weight: 700; }
+  h3 { font-size: 0.98rem; font-weight: 700; }
+  p { margin: 0; }
+  .eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .lede { max-width: 70ch; color: var(--muted); font-size: 1.02rem; }
+  .head { display: flex; flex-direction: column; gap: 14px; }
+  .goal { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 10px; }
+  .goal div { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 10px 14px; font-size: 13px; color: var(--muted); }
+  .goal b { display: block; color: var(--ink); font-size: 14px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 13px; color: var(--muted); }
+  .chip { display: inline-flex; align-items: center; gap: 6px; padding: 1px 9px; border-radius: 999px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+  .chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .s-ok { color: var(--ok); background: var(--ok-soft); }
+  .s-warn { color: var(--warn); background: var(--warn-soft); }
+  .s-todo { color: var(--todo); background: var(--todo-soft); }
+  .section { display: flex; flex-direction: column; gap: 16px; }
+  .sub { color: var(--muted); max-width: 72ch; font-size: 14px; }
+  .mono { font-family: var(--f-mono); font-size: 12.5px; }
+
+  /* 흐름도 */
+  .flow { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .lane { border-radius: var(--r); padding: 14px; display: grid; grid-template-columns: 112px repeat(var(--n, 4), minmax(0, 1fr)); gap: 0 26px; align-items: stretch; }
+  .lane-gl { background: var(--gl-soft); --n: 3; }
+  .lane-kr { background: var(--kr-soft); --n: 3; }
+  .lane-co { background: var(--co-soft); --n: 5; }
+  .lane-label { display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+  .lane-label strong { font-size: 14px; }
+  .lane-label span { font-size: 12px; color: var(--muted); }
+  .lane-gl .lane-label strong { color: var(--gl); }
+  .lane-kr .lane-label strong { color: var(--kr); }
+  .lane-co .lane-label strong { color: var(--co); }
+  .node { position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 12px 10px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .node + .node::before { content: "→"; position: absolute; left: -22px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--muted); }
+  .lane-gl .node { border-top: 3px solid var(--gl); }
+  .lane-kr .node { border-top: 3px solid var(--kr); }
+  .lane-co .node { border-top: 3px solid var(--co); }
+  .node .step { font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+  .node ul { margin: 0; padding-left: 16px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .node li + li { margin-top: 2px; }
+  .node .files { display: flex; flex-wrap: wrap; gap: 4px; }
+  .node .files code { font-family: var(--f-mono); font-size: 11.5px; background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; overflow-wrap: anywhere; }
+  .node .chip { align-self: flex-start; margin-top: auto; }
+  .joiner { display: grid; grid-template-columns: 112px 1fr; gap: 0 26px; font-size: 13px; color: var(--muted); }
+  .joiner div:last-child { display: flex; align-items: center; gap: 10px; }
+  .joiner .arrow { font-size: 18px; color: var(--co); line-height: 1; }
+  .out { display: grid; grid-template-columns: 112px repeat(4, minmax(0, 1fr)); gap: 10px 14px; }
+  .out .board { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 12px; font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .out .board b { color: var(--ink); font-size: 14px; }
+  @media (max-width: 900px) {
+    .lane, .joiner, .out { grid-template-columns: 1fr; gap: 22px; }
+    .out { gap: 10px; }
+    .node + .node::before { content: "↓"; left: 50%; top: -20px; transform: translateX(-50%); }
+    .lane-label { flex-direction: row; align-items: baseline; gap: 8px; }
+  }
+
+  /* 검증 설계 */
+  .val { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .card.gl { border-top: 3px solid var(--gl); }
+  .card.kr { border-top: 3px solid var(--kr); }
+  .card dl { display: grid; grid-template-columns: 5.5em minmax(0, 1fr); gap: 6px 12px; margin: 0; font-size: 13.5px; }
+  .card dt { color: var(--muted); font-size: 12.5px; padding-top: 1px; }
+  .card dd { margin: 0; }
+  .horizon { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--panel); }
+  .horizon div { padding: 12px 14px; border-left: 1px solid var(--line); font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 2px; }
+  .horizon div:first-child { border-left: 0; }
+  .horizon b { color: var(--ink); font-family: var(--f-mono); font-size: 14px; }
+  @media (max-width: 640px) { .horizon { grid-template-columns: 1fr 1fr; } .horizon div:nth-child(3) { border-left: 0; } .horizon div:nth-child(n+3) { border-top: 1px solid var(--line); } }
+  .rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 12px; }
+  .rule { border-left: 3px solid var(--line); padding: 2px 0 2px 12px; font-size: 13px; color: var(--muted); }
+  .rule b { color: var(--ink); display: block; font-size: 14px; }
+
+  /* 표 */
+  .tablewrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 760px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; color: var(--muted); font-weight: 500; }
+  tr:last-child td { border-bottom: 0; }
+  td code { font-family: var(--f-mono); font-size: 12px; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 0 6px; border-radius: 4px; margin-right: 4px; }
+  .t-gl { color: var(--gl); background: var(--gl-soft); }
+  .t-kr { color: var(--kr); background: var(--kr-soft); }
+  .t-co { color: var(--co); background: var(--co-soft); }
+
+  /* 결정 · 위험 */
+  .decide { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 12px; }
+  .d-item { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px 14px 20px; position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; }
+  .d-item::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+  .d-high::before { background: var(--bad); }
+  .d-mid::before { background: var(--warn); }
+  .d-item p { color: var(--muted); }
+  .sev { align-self: flex-start; font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 4px; }
+  .d-high .sev { color: var(--bad); background: var(--bad-soft); }
+  .d-mid .sev { color: var(--warn); background: var(--warn-soft); }
+  .next { counter-reset: n; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 12px; padding: 0; margin: 0; list-style: none; }
+  .next li { counter-increment: n; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; font-size: 13.5px; display: flex; flex-direction: column; gap: 4px; }
+  .next li::before { content: counter(n); font-family: var(--f-mono); font-size: 12px; color: var(--co); font-weight: 500; }
+  .next b { font-size: 14px; }
+  .next span { color: var(--muted); }
+  footer { font-size: 12px; color: var(--muted); }
+</style>
+
+<div class="wrap">
+  <header class="head">
+    <span class="eyebrow">신인 발굴 대시보드 · 국내 + 해외 · 2026-11-25 기준</span>
+    <h1>매일 후보를 모으고, 오래 지켜보고, 맞았는지 확인한다</h1>
+    <p class="lede">해외는 Bandcamp, 국내는 인디 큐레이션에서 신인 후보를 매일 모읍니다. 두 갈래를 같은 기준으로 정제하고 반응 지표를 쌓은 뒤, 선정한 아티스트가 2주·3개월·6개월 뒤 실제로 컸는지 비교 그룹과 견줘 검증합니다.</p>
+    <div class="goal">
+      <div><b>발굴</b>아직 작지만 신호가 있는 신인 찾기</div>
+      <div><b>검수</b>플랫폼마다 다른 메타데이터를 하나로 맞추기</div>
+      <div><b>검증</b>선정이 맞았는지 시간을 두고 확인</div>
+      <div><b>역량</b>PostgreSQL 저장 · Tableau 지표 시각화</div>
+    </div>
+    <div class="legend">
+      <span class="chip s-ok">기존 작업 재사용 가능</span>
+      <span class="chip s-warn">방법은 정함 · 확인 필요</span>
+      <span class="chip s-todo">새로 만들어야 함</span>
+    </div>
+  </header>
+
+  <section class="section" id="flow" aria-labelledby="flow-h">
+    <h2 id="flow-h">파이프라인</h2>
+    <div class="flow">
+      <div class="lane lane-gl">
+        <div class="lane-label"><strong>해외</strong><span>Bandcamp 중심</span></div>
+        <div class="node">
+          <span class="step">G1 · 후보 수집 (매일)</span>
+          <h3>Bandcamp discover 차트</h3>
+          <ul><li>장르별 신보·인기 목록</li><li>앨범 페이지: 태그, 발매일, 레이블, 지역, 커버</li></ul>
+          <div class="files"><code>aside</code></div>
+          <span class="chip s-warn">약관상 범위 제한 필요</span>
+        </div>
+        <div class="node">
+          <span class="step">G2 · 평론 신호</span>
+          <h3>매체 RSS</h3>
+          <ul><li>Pitchfork, Stereogum, Bandcamp Daily 등</li><li>리뷰·선정 여부만 기록 (본문 X)</li></ul>
+          <div class="files"><code>RSS 수집 스크립트</code></div>
+          <span class="chip s-warn">피드 제공 여부 확인</span>
+        </div>
+        <div class="node">
+          <span class="step">G3 · 원본 저장</span>
+          <h3>수집일별로 쌓기</h3>
+          <ul><li>고치지 않고 그대로 보관</li><li>재처리·감사 추적용</li></ul>
+          <div class="files"><code>raw_gl_chart</code><code>raw_press</code></div>
+          <span class="chip s-ok">기존 스키마 확장</span>
+        </div>
+      </div>
+
+      <div class="lane lane-kr">
+        <div class="lane-label"><strong>국내</strong><span>인디 큐레이션 중심</span></div>
+        <div class="node">
+          <span class="step">K1 · 후보 수집 (매일·주간)</span>
+          <h3>인디 신보 풀</h3>
+          <ul><li>멜론·벅스 인디 최신 발매</li><li>YouTube 인디 라이브 채널 신규 영상</li><li>킨디라운지 주간 신보, 웹진 리뷰 (평론 신호)</li></ul>
+          <div class="files"><code>aside</code><code>YouTube API</code></div>
+          <span class="chip s-warn">스트리밍 크롤링 약관 확인</span>
+        </div>
+        <div class="node">
+          <span class="step">K2 · 공증 결과 (검증용)</span>
+          <h3>공인 프로그램 선정</h3>
+          <ul><li>헬로루키, OPCD, 원 콘쿨 선정</li><li>한국대중음악상 후보, 주요 페스티벌 라인업</li><li>후보로 쓰지 않고 정답으로만 사용</li></ul>
+          <div class="files"><code>aside</code><code>수동 보완</code></div>
+          <span class="chip s-todo">프로그램 목록·회차 정의</span>
+        </div>
+        <div class="node">
+          <span class="step">K3 · 원본 저장</span>
+          <h3>수집일별로 쌓기</h3>
+          <ul><li>신보: 출처, 발매일, 장르</li><li>결과: 프로그램, 회차, 발표일</li><li>한글·영문 표기 그대로</li></ul>
+          <div class="files"><code>raw_kr_release</code><code>raw_outcome</code></div>
+          <span class="chip s-todo">새 테이블</span>
+        </div>
+      </div>
+
+      <div class="joiner"><div></div><div><span class="arrow">↓</span>두 갈래가 같은 아티스트·지표 체계로 합쳐짐 (track = global / korea 컬럼으로 구분)</div></div>
+
+      <div class="lane lane-co">
+        <div class="lane-label"><strong>공통 처리</strong><span>같은 기준으로</span></div>
+        <div class="node">
+          <span class="step">C1 · 정제 · 검수</span>
+          <h3>메타데이터 검수</h3>
+          <ul><li>MusicBrainz로 아티스트·발매 연결</li><li>한/영 표기, 중복, 누락 검사</li><li>낮은 신뢰도 → 수동 검수 대기열</li></ul>
+          <div class="files"><code>artist_xref</code><code>qa_issue</code></div>
+          <span class="chip s-todo">핵심 작업</span>
+        </div>
+        <div class="node">
+          <span class="step">C2 · 반응 · 입점 (매일)</span>
+          <h3>지표 스냅샷</h3>
+          <ul><li>YouTube 조회수·좋아요·댓글·구독자</li><li>입점: Spotify, Apple Music, Deezer, 멜론</li></ul>
+          <div class="files"><code>metric_snapshot</code></div>
+          <span class="chip s-warn">YouTube API 키 필요</span>
+        </div>
+        <div class="node">
+          <span class="step">C3 · 발굴 선정</span>
+          <h3>관찰 목록 등록</h3>
+          <ul><li>발굴 점수 규칙으로 선정</li><li>같은 풀에서 비교 그룹 무작위 추출</li><li>등록일 지표 = T0</li></ul>
+          <div class="files"><code>watchlist</code></div>
+          <span class="chip s-todo">규칙 정의</span>
+        </div>
+        <div class="node">
+          <span class="step">C4 · 추적</span>
+          <h3>시점별 재측정</h3>
+          <ul><li>T+14 / T+90 / T+180 / T+365</li><li>스냅샷에서 시점 값 추출</li></ul>
+          <div class="files"><code>v_cohort_growth</code></div>
+          <span class="chip s-todo">뷰 작성</span>
+        </div>
+        <div class="node">
+          <span class="step">C5 · 검증</span>
+          <h3>실효성 판정</h3>
+          <ul><li>선정 vs 비교 성장률</li><li>공증 프로그램 선정 적중률 · 선행 기간</li><li>사전에 정한 성공 기준과 대조</li></ul>
+          <div class="files"><code>outcome_event</code><code>v_validation</code></div>
+          <span class="chip s-todo">검증 SQL</span>
+        </div>
+      </div>
+
+      <div class="out">
+        <div class="lane-label"><strong style="color: var(--co)">Tableau</strong><span>4개 보드</span></div>
+        <div class="board"><b>발굴 보드</b>오늘의 신규 후보, 발굴 점수, 국내/해외 필터</div>
+        <div class="board"><b>관찰 목록</b>선정 아티스트별 지표 추이, T0 대비 변화</div>
+        <div class="board"><b>검증 결과</b>시점별 성장률, 공증 프로그램 적중률, 우리가 몇 일 먼저 찾았나</div>
+        <div class="board"><b>데이터 품질</b>매칭률, 검수 대기, 누락·오류 추이</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="validation" aria-labelledby="val-h">
+    <h2 id="val-h">실효성 검증 설계</h2>
+    <p class="sub">검증은 두 가지로 합니다. 하나는 지표 성장(얼마나 컸나), 다른 하나는 공증 결과(나중에 공인 프로그램이 같은 아티스트를 골랐나)입니다. 우리가 먼저 찾은 아티스트가 나중에 헬로루키나 OPCD에 선정되면, 그게 대시보드가 맞았다는 가장 알기 쉬운 증거가 됩니다.</p>
+    <div class="val">
+      <article class="card gl">
+        <h3>해외 · Bandcamp</h3>
+        <dl>
+          <dt>질문</dt><dd>내 발굴 기준으로 고른 아티스트가 같은 차트의 다른 아티스트보다 더 크게 성장하고, 나중에 주목받는가</dd>
+          <dt>선정 그룹</dt><dd>발굴 점수 상위 (예: 주 20팀)</dd>
+          <dt>비교 그룹</dt><dd>같은 주 같은 차트에서 선정되지 않은 아티스트 무작위 20팀</dd>
+          <dt>발굴 점수</dt><dd>신규성(첫 발매 1년 이내) + 차트 진입·상승 + 평론 신호 + 아직 작은 규모(YouTube 구독자 기준)</dd>
+          <dt>공증 결과</dt><dd>Pitchfork Best New Music 등 주요 매체 선정, 주요 페스티벌 라인업, 레이블 계약</dd>
+        </dl>
+      </article>
+      <article class="card kr">
+        <h3>국내 · 인디 신보</h3>
+        <dl>
+          <dt>질문</dt><dd>내가 먼저 고른 신인이 나중에 헬로루키·OPCD 같은 공인 프로그램에 선정되는가, 몇 달 먼저 찾았는가</dd>
+          <dt>선정 그룹</dt><dd>인디 신보 풀에서 발굴 점수 상위</dd>
+          <dt>비교 그룹</dt><dd>같은 시기 같은 풀에서 선정되지 않은 신보 무작위 추출</dd>
+          <dt>발굴 점수</dt><dd>평론·큐레이션 언급(킨디라운지, 웹진) + 초기 반응 속도 + 아직 작은 규모</dd>
+          <dt>공증 결과</dt><dd>헬로루키, OPCD, 원 콘쿨, 한국대중음악상 후보, 주요 페스티벌 라인업</dd>
+        </dl>
+      </article>
+    </div>
+    <div class="rules">
+      <div class="rule"><b>적중률</b>선정 그룹 중 기간 내 공증 결과가 나온 비율. 비교 그룹보다 높아야 의미가 있음</div>
+      <div class="rule"><b>선행 기간</b>우리가 선정한 날부터 공증 발표일까지 며칠 먼저 찾았나 (중앙값)</div>
+      <div class="rule"><b>재현율</b>공증 프로그램 선정자 중 우리가 미리 찾아둔 비율. 놓친 아티스트는 왜 놓쳤는지 분석</div>
+    </div>
+    <div class="horizon" role="list" aria-label="추적 시점">
+      <div role="listitem"><b>T0</b>선정일. 모든 지표 기준값</div>
+      <div role="listitem"><b>T+14</b>단기. 초기 반응 속도</div>
+      <div role="listitem"><b>T+90</b>중기. 성장 지속 여부, 신규 입점</div>
+      <div role="listitem"><b>T+180~365</b>장기. 규모 변화, 레이블·공연</div>
+    </div>
+    <div class="rules">
+      <div class="rule"><b>성과 지표</b>T0 대비 YouTube 조회수·구독자 증가 배수, 새로 입점한 플랫폼 수, 차트 재진입</div>
+      <div class="rule"><b>성공 기준은 먼저 정하기</b>예: 선정 그룹의 90일 조회수 증가 중앙값이 비교 그룹의 1.5배 이상</div>
+      <div class="rule"><b>소급 불가</b>과거 지표는 나중에 구할 수 없어 오늘부터 매일 쌓아야 함</div>
+    </div>
+  </section>
+
+  <section class="section" id="schema" aria-labelledby="schema-h">
+    <h2 id="schema-h">저장 구조 (PostgreSQL)</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>테이블</th><th>한 행</th><th>주요 컬럼</th><th>채우는 단계</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag t-gl">해외</span><code>raw_gl_chart</code></td><td>수집일 × 차트 × 순위</td><td>collected_at, chart, genre, rank, album_url, artist_url</td><td>G1</td></tr>
+          <tr><td><span class="tag t-gl">해외</span><code>raw_press</code></td><td>매체 기사 1건</td><td>outlet, published_at, title, url, artist_text, is_pick</td><td>G2</td></tr>
+          <tr><td><span class="tag t-kr">국내</span><code>raw_kr_release</code></td><td>인디 신보 1건 (후보 풀)</td><td>source, released_at, artist_text, title, genre</td><td>K1</td></tr>
+          <tr><td><span class="tag t-kr">국내</span><span class="tag t-gl">해외</span><code>raw_outcome</code></td><td>공증 프로그램 발표 1건</td><td>program, round, announced_at, artist_text, url</td><td>K2 · 해외 매체·라인업</td></tr>
+          <tr><td><span class="tag t-co">공통</span><code>artist</code> · <code>release</code></td><td>정제된 아티스트·발매</td><td>artist_id, track(global/korea), name, name_alt, mbid, country, first_release_at</td><td>C1</td></tr>
+          <tr><td><span class="tag t-co">공통</span><code>artist_xref</code></td><td>아티스트 × 플랫폼</td><td>platform, external_id, url, match_method, confidence, review_status</td><td>C1</td></tr>
+          <tr><td><span class="tag t-co">공통</span><code>qa_issue</code></td><td>검수 규칙 위반 1건</td><td>rule, entity, detected_at, severity, resolved_at</td><td>C1</td></tr>
+          <tr><td><span class="tag t-co">공통</span><code>metric_snapshot</code></td><td>날짜 × 아티스트 × 플랫폼 × 지표</td><td>captured_on, artist_id, platform, metric, value</td><td>C2 (매일)</td></tr>
+          <tr><td><span class="tag t-co">공통</span><code>watchlist</code></td><td>선정 1건</td><td>artist_id, track, selected_on, cohort(selected/control), score, reason</td><td>C3</td></tr>
+          <tr><td><span class="tag t-co">공통</span><code>outcome_event</code></td><td>아티스트 × 공증 결과</td><td>artist_id, program, announced_at, 이전 선정일, lead_days</td><td>C1 매칭 후 C5</td></tr>
+          <tr><td><span class="tag t-co">공통</span><code>v_cohort_growth</code> · <code>v_validation</code></td><td>뷰</td><td>T0·T+14·T+90·T+180 값, 성장 배수, 적중률, 선행 기간, 그룹별 비교</td><td>C4 · C5 → Tableau</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" id="schedule" aria-labelledby="sched-h">
+    <h2 id="sched-h">누가 언제 돌리나</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>주기</th><th>작업</th><th>도구</th></tr></thead>
+        <tbody>
+          <tr><td>매일</td><td>Bandcamp 차트·앨범 페이지 수집 → <code>raw_gl_chart</code></td><td>aside</td></tr>
+          <tr><td>매일</td><td>매체 RSS 수집 → <code>raw_press</code></td><td>Python</td></tr>
+          <tr><td>매일</td><td>관찰 목록 + 후보의 YouTube·입점 지표 → <code>metric_snapshot</code></td><td>Python (YouTube Data API, 공개 검색 API)</td></tr>
+          <tr><td>매일</td><td>정제·검수 SQL, 검수 대기열 갱신</td><td>SQL</td></tr>
+          <tr><td>매주</td><td>국내 큐레이션 수집, 발굴 선정 + 비교 그룹 추출 → <code>watchlist</code></td><td>aside · SQL</td></tr>
+          <tr><td>매주</td><td>Tableau 데이터 갱신 (Public이면 CSV 내보내기)</td><td>SQL · Tableau</td></tr>
+          <tr><td>수시</td><td>수동 검수 (애매한 매칭 확인)</td><td>사람</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub">YouTube는 채널·영상 ID를 처음 한 번만 검색으로 찾고(비쌈), 이후엔 ID로 통계만 조회(쌈)합니다. 하루 기본 할당량 10,000 단위면 수천 팀을 매일 추적할 수 있습니다.</p>
+  </section>
+
+  <section class="section" id="decisions" aria-labelledby="dec-h">
+    <h2 id="dec-h">정해야 할 것 · 위험</h2>
+    <div class="decide">
+      <div class="d-item d-high"><span class="sev">높음</span><b>Bandcamp 약관</b><p>Acceptable Use 정책이 스크래핑을 금지한다는 보도가 있음. 원문 확인 후 공개 차트만, 하루 1회, 소량으로 범위를 정하고 원본은 공개하지 않기.</p></div>
+      <div class="d-item d-high"><span class="sev">높음</span><b>수집 시작 시점</b><p>장기 검증은 오늘부터 쌓인 기록으로만 가능. 분석보다 수집기를 먼저 돌려야 함.</p></div>
+      <div class="d-item d-high"><span class="sev">높음</span><b>발굴 점수 · 성공 기준</b><p>추적을 시작하기 전에 문서로 고정. 결과를 본 뒤 바꾸면 검증이 무의미해짐.</p></div>
+      <div class="d-item d-high"><span class="sev">높음</span><b>후보와 정답 분리</b><p>공증 프로그램 선정 목록을 후보 수집이나 발굴 점수에 쓰면 정답을 보고 맞히는 셈. 선정 시점에 이미 발표된 결과는 점수에서 빼고, 선정일 이후 발표만 적중으로 셈.</p></div>
+      <div class="d-item d-mid"><span class="sev">중간</span><b>공증 프로그램 목록</b><p>헬로루키, OPCD, 원 콘쿨, 한국대중음악상, 페스티벌별 발표 주기와 과거 회차 자료를 정리. 과거 선정자는 백테스트용으로도 쓸 수 있음.</p></div>
+      <div class="d-item d-mid"><span class="sev">중간</span><b>아티스트 매칭</b><p>동명이인, 한/영 표기, 공식 채널과 팬 업로드 구분. 신뢰도와 수동 검수로 관리하고, 품질 지표로 보여주기.</p></div>
+      <div class="d-item d-mid"><span class="sev">중간</span><b>국내 스트리밍 크롤링</b><p>멜론·벅스는 공개 API가 없음. 비교 그룹용 소량 수집도 약관 확인 필요. 대안은 MusicBrainz의 한국 발매.</p></div>
+      <div class="d-item d-mid"><span class="sev">중간</span><b>Tableau 연결</b><p>Tableau Public은 DB 직접 연결 불가 → CSV·Google Sheets 내보내기. DB 직접 연결은 Desktop (학생 라이선스 확인).</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="next" aria-labelledby="next-h">
+    <h2 id="next-h">다음 순서</h2>
+    <ol class="next">
+      <li><b>스키마 · 수집 형식 확정</b><span>PostgreSQL 테이블, aside가 내보낼 CSV 컬럼 정의</span></li>
+      <li><b>수집 시작</b><span>Bandcamp 차트 매일, 국내 큐레이션 주간, YouTube 지표 매일</span></li>
+      <li><b>검수 · 매칭</b><span>MusicBrainz 연결, 검수 규칙 SQL, 수동 검수 대기열</span></li>
+      <li><b>선정 규칙 고정</b><span>발굴 점수, 비교 그룹 추출, 성공 기준 문서화</span></li>
+      <li><b>Tableau 4개 보드</b><span>발굴 · 관찰 목록 · 검증 · 데이터 품질</span></li>
+    </ol>
+  </section>
+
+  <footer>보류: Last.fm 태그, 취향 기반 추천(Taste Match). 재사용: Bandcamp 판매·앨범 스키마, 판매 대시보드 SQL, Voyager 유사도 검색. 파일 위치 /home/user/bandcamp-dashboard</footer>
+</div>

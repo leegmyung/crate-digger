@@ -1,0 +1,512 @@
+<meta name="dash-one-writer">
+<style>
+  .btm { display: flex; flex-direction: column; gap: var(--cds-gap-xl); font-family: var(--font-anthropic-sans); color: var(--color-fg); }
+  .btm-head { display: flex; flex-direction: column; gap: var(--cds-gap-sm); }
+  .btm-eyebrow { margin: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); letter-spacing: .04em; text-transform: uppercase; }
+  .btm-title { margin: 0; font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); text-wrap: balance; }
+  .btm-lede { margin: 0; max-width: 68ch; line-height: 1.6; }
+  .btm-lede b, .btm-sub b { font-weight: var(--cds-font-weight-medium); font-variant-numeric: tabular-nums; color: var(--color-fg); }
+  .btm-note { margin: 0; max-width: 68ch; padding: var(--cds-pad-sm) var(--cds-pad-md); border: 1px dashed var(--color-border-line); border-radius: var(--cds-radius); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.5; }
+  .btm-picker { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); }
+  .btm-pick { appearance: none; cursor: pointer; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: var(--cds-pad-sm) var(--cds-pad-md); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); color: var(--color-fg); font: inherit; text-align: left; min-width: 0; }
+  .btm-pick small { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+  .btm-pick[aria-pressed="true"] { background: var(--color-panel); border-color: var(--color-fg); }
+  .btm-pick:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .btm-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: var(--cds-gap-md); }
+  .btm-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: flex; flex-direction: column; gap: var(--cds-gap-xs); min-width: 0; }
+  .btm-card-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .btm-card-value { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 1.9rem; line-height: 1.15; font-variant-numeric: tabular-nums; }
+  .btm-card-foot { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .btm-section { display: flex; flex-direction: column; gap: var(--cds-gap-sm); min-width: 0; }
+  .btm-h2 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); text-wrap: balance; }
+  .btm-sub { margin: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.5; max-width: 68ch; }
+  .btm-grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: var(--cds-gap-xl); }
+  .btm-chart { position: relative; min-width: 0; min-height: 200px; }
+  .btm-chart svg { display: block; overflow: visible; }
+  .btm-chart text { fill: var(--cds-text-secondary); font-size: var(--cds-font-size-caption); font-family: var(--font-anthropic-sans); }
+  .btm-chart .btm-val { fill: var(--color-fg); font-variant-numeric: tabular-nums; }
+  .btm-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); border-radius: var(--cds-radius); padding: 6px 10px; font-size: var(--cds-font-size-caption); white-space: nowrap; z-index: 2; font-variant-numeric: tabular-nums; }
+  .btm-tip small { display: block; color: var(--cds-text-secondary); }
+  .btm-recs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: var(--cds-gap-md); min-height: 240px; }
+  .btm-rec { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md) var(--cds-pad-lg); display: flex; flex-direction: column; gap: var(--cds-gap-sm); min-width: 0; }
+  .btm-rec-top { display: flex; align-items: baseline; justify-content: space-between; gap: var(--cds-gap-sm); }
+  .btm-rank { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+  .btm-score { font-family: var(--font-anthropic-serif); font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+  .btm-artist { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); overflow-wrap: anywhere; }
+  .btm-chip { display: inline-block; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--color-border-line); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .btm-album { margin: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .btm-why { margin: 0; font-size: var(--cds-font-size-body); line-height: 1.5; }
+  .btm-why b { font-weight: var(--cds-font-weight-medium); }
+  .btm-bars { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 8px; align-items: center; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+  .btm-bar { height: 6px; border-radius: 3px; background: var(--cds-chart-grid); overflow: hidden; }
+  .btm-bar > i { display: block; height: 100%; border-radius: 3px; }
+  .btm-report { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: var(--cds-gap-xl); align-items: start; }
+  .btm-rtable { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-body); }
+  .btm-rtable th, .btm-rtable td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+  .btm-rtable th { width: 9.5em; font-weight: 400; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); padding-top: 12px; }
+  .btm-rtable td b { font-weight: var(--cds-font-weight-medium); font-variant-numeric: tabular-nums; font-size: 1.05em; }
+  .btm-rtable td small { display: block; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); margin-top: 2px; }
+  .btm-meter { height: 6px; border-radius: 3px; background: var(--cds-chart-grid); margin-top: 6px; overflow: hidden; max-width: 220px; }
+  .btm-meter > i { display: block; height: 100%; border-radius: 3px; }
+  .btm-algo { display: flex; flex-direction: column; gap: var(--cds-gap-sm); background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); }
+  .btm-stack { display: flex; height: 28px; border-radius: var(--cds-radius); overflow: hidden; }
+  .btm-stack > i { display: block; height: 100%; min-width: 2px; }
+  .btm-stack-legend { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px 10px; align-items: center; font-size: var(--cds-font-size-caption); }
+  .btm-stack-legend b { font-variant-numeric: tabular-nums; font-weight: var(--cds-font-weight-medium); text-align: right; }
+  .btm-stack-legend span:nth-child(3n+2) { color: var(--color-fg-muted); }
+  .btm-sw { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .btm-rec-head { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: var(--cds-gap-md); align-items: start; }
+  .btm-cover { width: 112px; height: 112px; border-radius: 4px; display: block; object-fit: cover; background: var(--cds-chart-grid); }
+  .btm-facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 10px; margin: 0; font-size: var(--cds-font-size-caption); }
+  .btm-facts dt { color: var(--color-fg-muted); }
+  .btm-facts dd { margin: 0; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .btm-about { margin: 0; font-size: var(--cds-font-size-caption); line-height: 1.5; color: var(--color-fg-muted); }
+  .btm-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .btm-err { color: var(--color-bad); font-size: var(--cds-font-size-caption); }
+  .btm-details { line-height: 1.6; max-width: 72ch; }
+  .btm-details summary { cursor: pointer; font-weight: var(--cds-font-weight-medium); }
+  .btm-details dl { display: grid; grid-template-columns: minmax(0, 10em) minmax(0, 1fr); gap: 6px 16px; margin: var(--cds-gap-md) 0; }
+  .btm-details dt { color: var(--color-fg-muted); }
+  .btm-details dd { margin: 0; }
+</style>
+
+<div class="btm" data-read lang="ko">
+  <header class="btm-head" id="overview">
+    <p class="btm-eyebrow">TuneMyMusic 좋아요 CSV × Bandcamp 카탈로그</p>
+    <h1 class="btm-title">Bandcamp Taste Match</h1>
+    <p class="btm-lede">
+      <b data-draw="u-platform" data-source="users" data-field="platform">—</b> 좋아요
+      <b data-draw="u-tracks" data-source="users" data-field="liked_tracks">—</b>곡을 분석하면, 취향의
+      <b data-draw="u-topshare" data-source="users" data-field="top_share_pct">—</b>가
+      <b data-draw="u-topfam" data-source="users" data-field="top_family">—</b>이고 그다음은
+      <b data-draw="u-second" data-source="users" data-field="second_family">—</b>입니다.
+      추천 1순위는 <b data-draw="u-first" data-source="recs" data-field="artist_name">—</b>입니다.
+    </p>
+    <p class="btm-note" role="note">샘플 프로토타입입니다. 앨범 커버는 이름으로 만든 생성형 이미지이고 앨범 정보도 가상입니다. 좋아요 목록의 곡은 실제 음악이지만 세 사용자는 가상이고, 아티스트 태그는 Last.fm 대신 손으로 지정했습니다. 추천 대상인 Bandcamp 아티스트, 판매량, 팬 컬렉션은 모두 가상 데이터입니다.</p>
+  </header>
+
+  <section class="btm-section" id="picker" aria-label="사용자 선택">
+    <h2 class="btm-h2">누구의 취향을 볼까요</h2>
+    <div class="btm-picker" data-draw="picker" data-source="users"></div>
+  </section>
+
+  <section class="btm-section" id="report">
+    <h2 class="btm-h2">나의 취향 리포트</h2>
+    <p class="btm-sub">좋아요 목록을 분석한 결과와, 이번 추천을 어떤 기준이 얼마나 결정했는지 보여줍니다.</p>
+    <div class="btm-report">
+      <table class="btm-rtable" aria-label="취향 분석표">
+        <tbody>
+          <tr><th scope="row">최애 아티스트</th><td><b data-draw="r-fav" data-source="report" data-field="fav_artist">—</b><small>좋아요 <span data-draw="r-favn" data-source="report" data-field="fav_likes">—</span>곡</small></td></tr>
+          <tr><th scope="row">시그니처 태그</th><td><b data-draw="r-sig" data-source="report" data-field="signature_tag">—</b><small>취향 벡터에서 가장 무거운 태그</small></td></tr>
+          <tr><th scope="row">취향 유형</th><td><b data-draw="r-persona" data-source="users" data-field="persona">—</b><small><span data-draw="r-topfam" data-source="users" data-field="top_family">—</span> 중심, 비중 12% 이상 취향군 <span data-draw="r-segs" data-source="users" data-field="segments">—</span>개</small></td></tr>
+          <tr><th scope="row">취향 다양성 지수</th><td><b data-draw="r-div" data-source="report" data-field="diversity_idx">—</b> / 100<div class="btm-meter"><i data-draw="r-divbar"></i></div><small>0이면 한 장르만, 100이면 12개 장르를 고르게 듣는 편</small></td></tr>
+          <tr><th scope="row">의외의 취향</th><td><b data-draw="r-hidden" data-source="report" data-field="hidden_family">—</b> <span data-draw="r-hiddenpct" data-source="report" data-field="hidden_share_pct">—</span><small>메인 장르 밖에서 가장 큰 취향</small></td></tr>
+          <tr><th scope="row">나와 닮은 Bandcamp 팬</th><td><b data-draw="r-twins" data-source="report" data-field="twin_fans">—</b>명<small>내 취향과 가까운 아티스트 15팀을 산 팬</small></td></tr>
+          <tr><th scope="row">추천의 발굴 지수</th><td><b data-draw="r-disc" data-source="report" data-field="avg_discovery">—</b> / 100<small>높을수록 덜 알려진 아티스트 · 추천 아티스트 평균 판매 <span data-draw="r-avgsales" data-source="report" data-field="avg_reco_sales_28d">—</span>건/28일</small></td></tr>
+        </tbody>
+      </table>
+      <div class="btm-algo" id="algo">
+        <strong>이번 추천을 만든 알고리즘</strong>
+        <p class="btm-sub">추천 12팀의 점수에서 각 기준이 차지한 몫입니다.</p>
+        <div class="btm-stack" data-draw="r-stack" data-source="report" role="img" aria-label="추천 점수 구성 비율 막대"></div>
+        <div class="btm-stack-legend">
+          <i class="btm-sw" data-sw="0"></i><span>태그 유사도 · 내 취향 태그와 앨범 태그가 얼마나 겹치나</span><b data-draw="r-s-tag" data-source="report" data-field="share_tag_pct">—</b>
+          <i class="btm-sw" data-sw="1"></i><span>팬 공동구매 · 닮은 팬들이 함께 산 앨범인가</span><b data-draw="r-s-cofan" data-source="report" data-field="share_cofan_pct">—</b>
+          <i class="btm-sw" data-sw="2"></i><span>상승세 · 최근 1주 판매가 늘었나</span><b data-draw="r-s-mom" data-source="report" data-field="share_momentum_pct">—</b>
+          <i class="btm-sw" data-sw="3"></i><span>발굴 가치 · 아직 덜 알려졌나</span><b data-draw="r-s-disc" data-source="report" data-field="share_discovery_pct">—</b>
+        </div>
+        <p class="btm-sub">추천은 <b data-draw="r-fams" data-source="report" data-field="reco_families">—</b>개 취향군에 나눠 담았습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="btm-section" id="profile" aria-label="취향 프로필">
+    <div class="btm-kpis">
+      <div class="btm-card" id="card-tracks">
+        <span class="btm-card-label">좋아요 곡</span>
+        <span class="btm-card-value" data-draw="k-tracks" data-source="users" data-field="liked_tracks">—</span>
+        <span class="btm-card-foot">TuneMyMusic으로 내보낸 CSV</span>
+      </div>
+      <div class="btm-card" id="card-artists">
+        <span class="btm-card-label">아티스트</span>
+        <span class="btm-card-value" data-draw="k-artists" data-source="users" data-field="liked_artists">—</span>
+        <span class="btm-card-foot">주 아티스트 기준 중복 제거</span>
+      </div>
+      <div class="btm-card" id="card-match">
+        <span class="btm-card-label">태그를 찾은 아티스트</span>
+        <span class="btm-card-value" data-draw="k-match" data-source="users" data-field="tag_match_pct">—</span>
+        <span class="btm-card-foot">이 비율이 낮으면 추천이 부정확해집니다</span>
+      </div>
+      <div class="btm-card" id="card-persona">
+        <span class="btm-card-label">취향 유형</span>
+        <span class="btm-card-value" data-draw="k-persona" data-source="users" data-field="persona">—</span>
+        <span class="btm-card-foot">비중 12% 이상 취향군 <span data-draw="k-segments" data-source="users" data-field="segments">—</span>개</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="btm-grid2">
+    <section class="btm-section" id="segments">
+      <h2 class="btm-h2">취향 세분화: 취향군 비중</h2>
+      <p class="btm-sub">좋아요 곡 수 × 아티스트 태그 가중치를 12개 취향군으로 합산했습니다.</p>
+      <div class="btm-chart" data-draw="seg-chart" data-source="segments">—</div>
+    </section>
+    <section class="btm-section" id="tags">
+      <h2 class="btm-h2">상위 취향 태그</h2>
+      <p class="btm-sub">취향 벡터에서 가중치가 큰 태그 8개입니다. 이 태그로 Bandcamp 앨범 태그와 비교합니다.</p>
+      <div class="btm-chart" data-draw="tag-chart" data-source="tags">—</div>
+    </section>
+  </div>
+
+  <section class="btm-section" id="recommendations">
+    <h2 class="btm-h2">추천 Bandcamp 아티스트 12팀</h2>
+    <p class="btm-sub">점수 = 태그 유사도 55% + 팬 공동구매 25% + 최근 상승세 10% + 발굴 가치 10%. 한 취향군에서 최대 4팀까지만 넣어 추천이 한쪽으로 쏠리지 않게 했습니다.</p>
+    <div class="btm-recs" data-draw="recs" data-source="recs"></div>
+  </section>
+
+  <section class="btm-section" id="compare">
+    <h2 class="btm-h2">세 사용자 비교: 사용자 × 취향군</h2>
+    <p class="btm-sub">색이 진할수록 비중이 큽니다. 플랫폼이 달라도 같은 기준으로 세분화됩니다.</p>
+    <div class="btm-chart" data-draw="compare" data-source="segments users">—</div>
+  </section>
+
+  <details class="btm-details" id="method">
+    <summary>추천 알고리즘과 데이터 흐름</summary>
+    <dl>
+      <dt>입력</dt><dd>TuneMyMusic에서 Spotify·Apple Music·YouTube Music 좋아요 곡을 CSV로 내보내 업로드합니다. 곡명, 아티스트, 앨범, ISRC 컬럼을 씁니다.</dd>
+      <dt>취향 벡터</dt><dd>아티스트마다 외부 태그(실서비스는 Last.fm·MusicBrainz)를 붙이고, 좋아요 곡 수만큼 가중해 합친 뒤 길이를 1로 맞춥니다. 어휘가 달라도 이어지도록 상위 취향군 태그를 0.5배로 함께 넣습니다.</dd>
+      <dt>태그 유사도</dt><dd>내 취향 벡터와 Bandcamp 아티스트 태그 벡터의 코사인 유사도를 구하고, 사용자별 최댓값을 100으로 맞춥니다.</dd>
+      <dt>팬 공동구매</dt><dd>유사도 상위 15팀을 산 Bandcamp 팬들이 함께 산 아티스트일수록 높습니다.</dd>
+      <dt>상승세 · 발굴</dt><dd>최근 7일과 직전 7일 판매를 비교한 상승세, 그리고 판매가 적을수록 높아지는 발굴 점수입니다.</dd>
+      <dt>앨범 정보</dt><dd>앨범 페이지에서 크롤링한 커버, 발매일, 트랙 수, 재생 시간, 레이블, 지역, 소개문, 같은 앨범의 실물 포맷, 서포터 수를 보여줍니다. 샘플에는 실제 커버가 없어 이름으로 만든 생성형 커버를 그립니다.</dd>
+      <dt>취향 다양성 지수</dt><dd>취향군 비중의 엔트로피를 12개 취향군 기준으로 0~100으로 맞춘 값입니다.</dd>
+      <dt>추천 이유</dt><dd>내가 좋아요한 아티스트 중 태그가 가장 많이 겹치는 아티스트와, 겹치는 태그 상위 2개를 보여줍니다.</dd>
+    </dl>
+  </details>
+</div>
+
+<script>
+(function () {
+  const FAM = { 'rock': '록', 'pop': '팝', 'electronic': '일렉트로닉', 'ambient': '앰비언트', 'hip-hop': '힙합', 'r&b/soul': 'R&B·소울', 'jazz': '재즈', 'punk': '펑크', 'metal': '메탈', 'folk': '포크', 'experimental': '실험음악', 'soundtrack': '사운드트랙' };
+  const fam = (f) => FAM[f] || f || '—';
+  const fInt = d3.format(',');
+  const pct1 = (v) => d3.format('.1f')(v) + '%';
+  const pct0 = (v) => d3.format('.0f')(v) + '%';
+  const state = { user: null };
+  const DRAWS = ['u-platform', 'u-tracks', 'u-topshare', 'u-topfam', 'u-second', 'u-first', 'picker', 'k-tracks', 'k-artists', 'k-match', 'k-persona', 'k-segments', 'seg-chart', 'tag-chart', 'recs', 'compare',
+    'r-fav', 'r-favn', 'r-sig', 'r-persona', 'r-topfam', 'r-segs', 'r-div', 'r-divbar', 'r-hidden', 'r-hiddenpct', 'r-twins', 'r-disc', 'r-avgsales',
+    'r-stack', 'r-s-tag', 'r-s-cofan', 'r-s-mom', 'r-s-disc', 'r-fams'];
+
+  function currentUser() {
+    const d = dash.data('users');
+    if (d.status !== 'ok' || !d.data.length) return null;
+    if (!state.user || !d.data.some((r) => r.user_id === state.user)) state.user = d.data[0].user_id;
+    return state.user;
+  }
+  function select(uid) { state.user = uid; DRAWS.forEach((n) => dash.draw(n)); }
+
+  // 선택한 사용자 한 행의 값을 그리는 drawing
+  function userVal(name, id, fn) {
+    dash.draw(name, (el) => {
+      const d = dash.data(id);
+      el.classList.toggle('dash-skeleton', d.status === 'loading');
+      const uid = currentUser();
+      const rows = d.status === 'ok' ? d.data.filter((r) => r.user_id === uid) : [];
+      if (!rows.length) { el.textContent = '—'; return; }
+      const r = id === 'recs' ? rows.find((x) => +x.rank === 1) || rows[0] : rows[0];
+      el.dataset.where = id === 'recs' ? 'reco_id=' + encodeURIComponent(r.reco_id) : 'user_id=' + encodeURIComponent(uid);
+      el.textContent = fn(r);
+    });
+  }
+  userVal('u-platform', 'users', (r) => r.platform);
+  userVal('u-tracks', 'users', (r) => fInt(+r.liked_tracks));
+  userVal('u-topshare', 'users', (r) => pct1(+r.top_share_pct));
+  userVal('u-topfam', 'users', (r) => fam(r.top_family));
+  userVal('u-second', 'users', (r) => fam(r.second_family));
+  userVal('u-first', 'recs', (r) => r.artist_name);
+  userVal('k-tracks', 'users', (r) => fInt(+r.liked_tracks));
+  userVal('k-artists', 'users', (r) => fInt(+r.liked_artists));
+  userVal('k-match', 'users', (r) => pct0(+r.tag_match_pct));
+  userVal('k-persona', 'users', (r) => r.persona);
+  userVal('k-segments', 'users', (r) => fInt(+r.segments));
+  userVal('r-fav', 'report', (r) => r.fav_artist);
+  userVal('r-favn', 'report', (r) => fInt(+r.fav_likes));
+  userVal('r-sig', 'report', (r) => r.signature_tag);
+  userVal('r-persona', 'users', (r) => r.persona);
+  userVal('r-topfam', 'users', (r) => fam(r.top_family));
+  userVal('r-segs', 'users', (r) => fInt(+r.segments));
+  userVal('r-div', 'report', (r) => d3.format('.0f')(+r.diversity_idx));
+  userVal('r-hidden', 'report', (r) => r.hidden_family ? fam(r.hidden_family) : '없음');
+  userVal('r-hiddenpct', 'report', (r) => r.hidden_share_pct != null ? pct1(+r.hidden_share_pct) : '');
+  userVal('r-twins', 'report', (r) => fInt(+r.twin_fans));
+  userVal('r-disc', 'report', (r) => d3.format('.0f')(+r.avg_discovery));
+  userVal('r-avgsales', 'report', (r) => fInt(+r.avg_reco_sales_28d));
+  userVal('r-s-tag', 'report', (r) => pct0(+r.share_tag_pct));
+  userVal('r-s-cofan', 'report', (r) => pct0(+r.share_cofan_pct));
+  userVal('r-s-mom', 'report', (r) => pct0(+r.share_momentum_pct));
+  userVal('r-s-disc', 'report', (r) => pct0(+r.share_discovery_pct));
+  userVal('r-fams', 'report', (r) => fInt(+r.reco_families));
+
+  function reportRow() {
+    const d = dash.data('report');
+    const uid = currentUser();
+    return d.status === 'ok' ? d.data.find((r) => r.user_id === uid) : null;
+  }
+  dash.draw('r-divbar', (el) => {
+    const r = reportRow();
+    el.style.width = r ? Math.max(0, Math.min(100, +r.diversity_idx)) + '%' : '0';
+    el.style.background = dash.colors[0];
+  });
+  dash.draw('r-stack', (el) => {
+    const r = reportRow();
+    el.replaceChildren();
+    if (!r) return;
+    [['share_tag_pct', '태그 유사도'], ['share_cofan_pct', '팬 공동구매'], ['share_momentum_pct', '상승세'], ['share_discovery_pct', '발굴 가치']].forEach(([k, label], i) => {
+      const seg = document.createElement('i');
+      seg.style.flex = String(Math.max(0, +r[k]));
+      seg.style.background = dash.colors[i % dash.colors.length];
+      seg.title = label + ' ' + pct0(+r[k]);
+      el.appendChild(seg);
+    });
+  });
+  dash.onData(() => {
+    document.querySelectorAll('.btm [data-sw]').forEach((el) => { el.style.background = dash.colors[+el.dataset.sw % dash.colors.length]; });
+  });
+
+  // 생성형 앨범 커버 (실제 커버가 없을 때): 아티스트+앨범명 해시로 색과 도형을 정함
+  function hash(str) { let h = 2166136261; for (const c of str) { h ^= c.codePointAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
+  function coverCanvas(seedText, size) {
+    const cv = document.createElement('canvas');
+    const dpr = window.devicePixelRatio || 1;
+    cv.width = size * dpr; cv.height = size * dpr;
+    cv.className = 'btm-cover';
+    const g = cv.getContext('2d');
+    g.scale(dpr, dpr);
+    let s = hash(seedText);
+    const rnd = () => { s = Math.imul(s ^ (s >>> 15), 2246822507) >>> 0; s = Math.imul(s ^ (s >>> 13), 3266489909) >>> 0; return ((s ^= s >>> 16) >>> 0) / 4294967296; };
+    const h0 = Math.floor(rnd() * 360);
+    const grad = g.createLinearGradient(0, 0, size, size);
+    grad.addColorStop(0, `hsl(${h0} 55% 28%)`);
+    grad.addColorStop(1, `hsl(${(h0 + 40 + rnd() * 80) % 360} 60% 55%)`);
+    g.fillStyle = grad; g.fillRect(0, 0, size, size);
+    const kind = Math.floor(rnd() * 3);
+    for (let i = 0; i < 7; i++) {
+      g.globalAlpha = 0.25 + rnd() * 0.5;
+      g.fillStyle = `hsl(${(h0 + 180 + rnd() * 90) % 360} 70% ${55 + rnd() * 30}%)`;
+      const x = rnd() * size, y = rnd() * size, r = 6 + rnd() * size * 0.35;
+      g.beginPath();
+      if (kind === 0) g.arc(x, y, r, 0, Math.PI * 2);
+      else if (kind === 1) g.rect(x - r / 2, y - r / 2, r, r * (0.3 + rnd()));
+      else { g.moveTo(x, y - r); g.lineTo(x + r, y + r); g.lineTo(x - r, y + r); g.closePath(); }
+      g.fill();
+    }
+    g.globalAlpha = 1;
+    return cv;
+  }
+
+  dash.draw('picker', (el) => {
+    const d = dash.data('users');
+    el.replaceChildren();
+    if (d.status !== 'ok') { el.textContent = d.status === 'error' ? '사용자 목록을 불러오지 못했습니다.' : ''; return; }
+    const uid = currentUser();
+    d.data.forEach((r) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'btm-pick';
+      b.setAttribute('aria-pressed', String(r.user_id === uid));
+      const s = document.createElement('span'); s.textContent = r.platform;
+      const sm = document.createElement('small'); sm.textContent = `${r.user_id} · ${fam(r.top_family)} 중심`;
+      b.append(s, sm);
+      b.addEventListener('click', () => select(r.user_id));
+      el.appendChild(b);
+    });
+  });
+
+  function chartState(el, d, rows) {
+    el.classList.toggle('dash-skeleton', d.status === 'loading');
+    if (d.status === 'ok' && rows.length) return true;
+    el.replaceChildren();
+    const p = document.createElement('p');
+    if (d.status === 'error') { p.className = 'btm-err'; p.textContent = '이 차트의 데이터를 불러오지 못했습니다.'; }
+    else if (d.status === 'ok') { p.className = 'btm-sub'; p.textContent = '이 사용자에게는 표시할 행이 없습니다.'; }
+    else { p.textContent = '—'; }
+    el.appendChild(p);
+    return false;
+  }
+  function textWidth(svg, strings) {
+    const t = svg.append('text');
+    let w = 0;
+    strings.forEach((s) => { t.text(s); w = Math.max(w, t.node().getComputedTextLength()); });
+    t.remove();
+    return w;
+  }
+  function tooltip(el) {
+    const tip = document.createElement('div');
+    tip.className = 'btm-tip'; tip.hidden = true; el.appendChild(tip);
+    return {
+      show(lines, x, y) {
+        tip.replaceChildren();
+        lines.forEach((line, i) => { const n = document.createElement(i ? 'small' : 'strong'); n.textContent = line; tip.appendChild(n); });
+        tip.hidden = false;
+        const W = el.clientWidth;
+        tip.style.left = Math.max(0, Math.min(W - tip.offsetWidth, x - tip.offsetWidth / 2)) + 'px';
+        tip.style.top = Math.max(0, y - tip.offsetHeight - 8) + 'px';
+      },
+      hide() { tip.hidden = true; },
+    };
+  }
+  function hbar(el, rows, o) {
+    el.replaceChildren();
+    const W = el.clientWidth || 340, rowH = 26, H = rows.length * rowH + 4;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', o.aria);
+    const left = Math.ceil(textWidth(svg, rows.map(o.label))) + 10;
+    const right = Math.ceil(textWidth(svg, rows.map(o.end))) + 10;
+    const x = d3.scaleLinear().domain([0, d3.max(rows, o.value) || 1]).range([0, Math.max(10, W - left - right)]);
+    const tip = tooltip(el);
+    const g = svg.selectAll('g').data(rows).join('g').attr('transform', (d, i) => `translate(0,${i * rowH})`);
+    g.append('text').attr('x', left - 8).attr('y', rowH / 2).attr('dy', '0.35em').attr('text-anchor', 'end').text(o.label);
+    g.append('rect').attr('x', left).attr('y', 4).attr('height', rowH - 8).attr('rx', 2).attr('width', (d) => Math.max(1, x(o.value(d)))).style('fill', (d, i) => o.color ? o.color(d, i) : dash.colors[0]);
+    g.append('text').attr('class', 'btm-val').attr('x', (d) => left + x(o.value(d)) + 6).attr('y', rowH / 2).attr('dy', '0.35em').text(o.end);
+    g.append('rect').attr('width', W).attr('height', rowH).style('fill', 'transparent')
+      .on('pointerenter pointermove', (ev, d) => { const [mx] = d3.pointer(ev, el); tip.show(o.tip(d), mx, rows.indexOf(d) * rowH + 4); })
+      .on('pointerleave', () => tip.hide());
+  }
+
+  dash.draw('seg-chart', (el) => {
+    const d = dash.data('segments');
+    const uid = currentUser();
+    const rows = d.status === 'ok' ? d.data.filter((r) => r.user_id === uid).sort((a, b) => a.fam_rank - b.fam_rank) : [];
+    if (!chartState(el, d, rows)) return;
+    hbar(el, rows, {
+      aria: '선택한 사용자의 취향군별 비중 막대 차트',
+      label: (r) => fam(r.family), value: (r) => +r.share_pct, end: (r) => pct1(+r.share_pct),
+      color: (r) => +r.share_pct >= 12 ? dash.colors[0] : 'var(--cds-chart-muted)',
+      tip: (r) => [fam(r.family), `비중 ${pct1(+r.share_pct)} · ${r.fam_rank}위`, +r.share_pct >= 12 ? '세그먼트로 인정 (12% 이상)' : '12% 미만'],
+    });
+  });
+
+  dash.draw('tag-chart', (el) => {
+    const d = dash.data('tags');
+    const uid = currentUser();
+    const rows = d.status === 'ok' ? d.data.filter((r) => r.user_id === uid).sort((a, b) => a.tag_rank - b.tag_rank) : [];
+    if (!chartState(el, d, rows)) return;
+    hbar(el, rows, {
+      aria: '선택한 사용자의 상위 취향 태그 8개 막대 차트',
+      label: (r) => r.tag, value: (r) => +r.weight_pct, end: (r) => pct1(+r.weight_pct),
+      color: () => dash.colors[1],
+      tip: (r) => [r.tag, `상위 8개 태그 중 비중 ${pct1(+r.weight_pct)}`],
+    });
+  });
+
+  dash.draw('recs', (el) => {
+    const d = dash.data('recs');
+    const uid = currentUser();
+    const rows = d.status === 'ok' ? d.data.filter((r) => r.user_id === uid).sort((a, b) => a.rank - b.rank) : [];
+    el.classList.toggle('dash-skeleton', d.status === 'loading');
+    el.replaceChildren();
+    if (!rows.length) {
+      const p = document.createElement('p');
+      p.className = d.status === 'error' ? 'btm-err' : 'btm-sub';
+      p.textContent = d.status === 'error' ? '추천 데이터를 불러오지 못했습니다.' : d.status === 'ok' ? '이 사용자에게는 추천이 없습니다.' : '';
+      el.appendChild(p); return;
+    }
+    const mk = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+    const mark = (n, field, r) => { n.dataset.source = 'recs'; n.dataset.field = field; n.dataset.where = 'reco_id=' + encodeURIComponent(r.reco_id); return n; };
+    rows.forEach((r) => {
+      const card = mk('article', 'btm-rec');
+      card.id = 'rec-' + r.rank;
+      const top = mk('div', 'btm-rec-top');
+      top.append(mk('span', 'btm-rank', '#' + r.rank + ' · '), mark(mk('span', 'btm-score', d3.format('.1f')(+r.score)), 'score', r));
+      top.firstChild.appendChild(mk('span', 'btm-chip', fam(r.family)));
+      const name = mark(mk('h3', 'btm-artist', r.artist_name), 'artist_name', r);
+      const album = mk('p', 'btm-album');
+      if (r.album_title) {
+        album.append(mark(mk('span', '', '『' + r.album_title + '』'), 'album_title', r), document.createTextNode(' · 디지털 '), mark(mk('span', '', '$' + d3.format('.2f')(+r.album_price_usd)), 'album_price_usd', r));
+      } else { album.textContent = '대표 디지털 앨범 없음'; }
+      // 커버: 업로드했거나 data: 인 실제 커버만 표시, 나머지는 생성형 커버
+      let cover;
+      if (r.art_url && (/^\/_blob\//.test(r.art_url) || /^data:image\//.test(r.art_url))) {
+        cover = mk('img', 'btm-cover'); cover.src = r.art_url; cover.alt = (r.album_title || r.artist_name) + ' 앨범 커버';
+      } else {
+        cover = coverCanvas((r.artist_name || '') + '|' + (r.album_title || ''), 112);
+        cover.setAttribute('role', 'img'); cover.setAttribute('aria-label', '샘플 생성형 커버');
+      }
+      const headInfo = mk('div');
+      headInfo.style.minWidth = '0';
+      headInfo.append(name, album);
+      const facts = mk('dl', 'btm-facts');
+      const fact = (label, field, text) => { if (text == null || text === '') return; facts.append(mk('dt', '', label), mark(mk('dd', '', text), field, r)); };
+      fact('발매', 'release_date', r.release_date ? r.release_date.replace(/-/g, '.') : null);
+      fact('구성', 'track_count', r.track_count ? `${r.track_count}곡 · ${r.duration_min}분` : null);
+      fact('레이블', 'label', r.label);
+      fact('지역', 'location', r.location);
+      fact('포맷', 'physical_formats', ['디지털'].concat(r.physical_formats ? r.physical_formats.split(',') : []).join(' · '));
+      fact('서포터', 'supporters', fInt(+r.supporters) + '명');
+      headInfo.appendChild(facts);
+      const head = mk('div', 'btm-rec-head');
+      head.append(cover, headInfo);
+      const about = r.about ? mark(mk('p', 'btm-about', r.about), 'about', r) : null;
+      const chips = mk('div', 'btm-chips');
+      (r.album_tags || '').split(',').map((t) => t.trim()).filter(Boolean).forEach((t) => chips.appendChild(mk('span', 'btm-chip', t)));
+      const why = mk('p', 'btm-why');
+      if (r.because_artist) {
+        why.append(document.createTextNode('좋아요한 '), mark(mk('b', '', r.because_artist), 'because_artist', r), document.createTextNode('와 비슷'));
+      }
+      if (r.because_tags) {
+        why.append(document.createTextNode(r.because_artist ? ' · ' : ''), mark(mk('span', '', r.because_tags), 'because_tags', r));
+      }
+      const bars = mk('div', 'btm-bars');
+      [['태그 유사도', 'tag_pct', 0], ['팬 공동구매', 'cofan_pct', 1], ['상승세', 'momentum_pct', 2], ['발굴 가치', 'discovery_pct', 3]].forEach(([label, field, ci]) => {
+        const bar = mk('div', 'btm-bar'); const fill = mk('i');
+        fill.style.width = Math.max(0, Math.min(100, +r[field])) + '%';
+        fill.style.background = dash.colors[ci % dash.colors.length];
+        bar.appendChild(fill);
+        bars.append(mk('span', '', label), bar, mark(mk('span', '', d3.format('.0f')(+r[field])), field, r));
+      });
+      const sales = mk('p', 'btm-album');
+      sales.append(document.createTextNode('최근 28일 판매 '), mark(mk('span', '', fInt(+r.sales_28d)), 'sales_28d', r), document.createTextNode('건'));
+      card.append(top, head);
+      if (about) card.appendChild(about);
+      card.append(chips, why, bars, sales);
+      el.appendChild(card);
+    });
+  });
+
+  dash.draw('compare', (el) => {
+    const s = dash.data('segments'), u = dash.data('users');
+    const ok = s.status === 'ok' && u.status === 'ok';
+    const rows = ok ? s.data : [];
+    if (!chartState(el, s.status !== 'ok' ? s : u, rows)) return;
+    el.replaceChildren();
+    const users = u.data.map((r) => ({ id: r.user_id, label: r.platform }));
+    const fams = Array.from(d3.rollup(rows, (v) => d3.sum(v, (r) => +r.share_pct), (r) => r.family)).sort((a, b) => b[1] - a[1]).map((x) => x[0]);
+    const byKey = new Map(rows.map((r) => [r.user_id + '|' + r.family, +r.share_pct]));
+    const W = el.clientWidth || 600;
+    const tmp = d3.select(el).append('svg');
+    const left = Math.ceil(textWidth(tmp, users.map((x) => x.label))) + 12;
+    tmp.remove();
+    const cw = (W - left) / fams.length, ch = 34, top = W < 520 ? 60 : 24;
+    const H = top + users.length * ch + 4;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', '사용자별 취향군 비중 히트맵');
+    const vmax = d3.max(rows, (r) => +r.share_pct) || 1;
+    const op = d3.scaleLinear().domain([0, vmax]).range([0.05, 1]);
+    const tip = tooltip(el);
+    fams.forEach((f, j) => {
+      const t = svg.append('text').attr('x', left + j * cw + cw / 2).attr('y', top - 8).text(fam(f));
+      if (W < 520) t.attr('text-anchor', 'start').attr('transform', `rotate(-45 ${left + j * cw + cw / 2} ${top - 8})`);
+      else t.attr('text-anchor', 'middle');
+    });
+    users.forEach((usr, i) => {
+      svg.append('text').attr('x', 0).attr('y', top + i * ch + ch / 2).attr('dy', '0.35em').text(usr.label)
+        .style('font-weight', usr.id === currentUser() ? '600' : null);
+      fams.forEach((f, j) => {
+        const v = byKey.get(usr.id + '|' + f) || 0;
+        svg.append('rect').attr('x', left + j * cw + 1).attr('y', top + i * ch + 1).attr('width', Math.max(1, cw - 2)).attr('height', ch - 2).attr('rx', 2)
+          .style('fill', dash.colors[0]).style('fill-opacity', v ? op(v) : 0.03)
+          .on('pointerenter', () => tip.show([`${usr.label} · ${fam(f)}`, `비중 ${pct1(v)}`], left + j * cw + cw / 2, top + i * ch))
+          .on('pointerleave', () => tip.hide());
+        if (v >= 12 && cw > 34) svg.append('text').attr('class', 'btm-val').attr('x', left + j * cw + cw / 2).attr('y', top + i * ch + ch / 2).attr('dy', '0.35em').attr('text-anchor', 'middle').style('pointer-events', 'none').style('fill', v > vmax * 0.55 ? 'var(--color-bg)' : null).text(d3.format('.0f')(v));
+      });
+    });
+  });
+})();
+</script>
