@@ -1,11 +1,25 @@
 {
- "generated": "2026-11-26T17:29:40+09:00",
+ "generated": "2026-11-26T18:38:37+09:00",
  "runs": [
   {
    "date": "2026-11-26",
    "source": "poclanos",
    "table": "raw_kr_release",
    "rows": 16,
+   "file_ok": true
+  },
+  {
+   "date": "2026-11-26",
+   "source": "indistreet",
+   "table": "raw_kr_gig",
+   "rows": 273,
+   "file_ok": true
+  },
+  {
+   "date": "2026-11-26",
+   "source": "indiego",
+   "table": "raw_kr_gig",
+   "rows": 196,
    "file_ok": true
   }
  ],
@@ -137,6 +151,2347 @@
    "type": "single",
    "source": "poclanos",
    "url": "https://poclanos.com/album/lily-2/"
+  }
+ ],
+ "upcoming_gigs": [
+  {
+   "date": "2026-11-26",
+   "time": "09:30",
+   "venue": "프리즘홀",
+   "title": "BOUND RUSH vol.6",
+   "artists": [
+    "asteria",
+    "BE++ER!!",
+    "ふる~Chu",
+    "H7KD",
+    "solanin",
+    "NO LiMIT",
+    "the BOUND"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-26-bound-rush-vol.6-c20fguxbuvhc8nm6qmozcyr3"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "10:00",
+   "venue": "이화여자대학교 삼성홀",
+   "title": "노래하는 시인 박인희 콘서트 [서울] (11/26)",
+   "artists": [
+    "박인희"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-26-%EB%85%B8%EB%9E%98%ED%95%98%EB%8A%94-%EC%8B%9C%EC%9D%B8-%EB%B0%95%EC%9D%B8%ED%9D%AC-%EC%BD%98%EC%84%9C%ED%8A%B8-%EC%84%9C%EC%9A%B8-1126-doyp4fygtwysv13gfd7maeou"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "10:30",
+   "venue": "A.O.R",
+   "title": "A.O.R CRAZY THURSDAY",
+   "artists": [
+    "일루반",
+    "에브리데이먼데이",
+    "FLEET",
+    "블루화",
+    "다다다"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-26-a.o.r-crazy-thursday-ojflagzuq956one43iuq9ftr"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "10:30",
+   "venue": "거암아트홀",
+   "title": "유성은 재즈콘서트",
+   "artists": [
+    "유성은"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-26-%EC%9C%A0%EC%84%B1%EC%9D%80-%EC%9E%AC%EC%A6%88%EC%BD%98%EC%84%9C%ED%8A%B8-l21cldvachpl83auq60v7rly"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "10:30",
+   "venue": "언플러그드 라운지",
+   "title": "항해",
+   "artists": [
+    "기묘말",
+    "정세영"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-26-%ED%95%AD%ED%95%B4-bavjdr2z1avxx3j8vmxehvff"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "10:30",
+   "venue": "엠피엠지",
+   "title": "78LIVE, kwacamolee",
+   "artists": [
+    "kwacamolee"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-26-78live-kwacamolee-iqwr1dz0eity874s3aewq002"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "10:30",
+   "venue": "우주정거장",
+   "title": "홍대우주정거장 OPEN MIC 공연",
+   "artists": [
+    "송규범",
+    "루시엔",
+    "채민",
+    "소년중앙"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-26-%ED%99%8D%EB%8C%80%EC%9A%B0%EC%A3%BC%EC%A0%95%EA%B1%B0%EC%9E%A5-open-mic-%EA%B3%B5%EC%97%B0-eti1b84atjhlxw0lg56nuxji"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "11:00",
+   "venue": "Club FF",
+   "title": "Thursday Vibes",
+   "artists": [
+    "Sern",
+    "만다린 쥬스",
+    "사양",
+    "아더",
+    "레고",
+    "제임스키스"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-26-thursday-vibes-g0iv79466ww2u4k9lk170q52"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "11:00",
+   "venue": "공상온도",
+   "title": "먼데이프로젝트 IN 라이브클럽, Mombrimz 단독콘서트",
+   "artists": [
+    "MOMBRIMZ"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-26-%EB%A8%BC%EB%8D%B0%EC%9D%B4%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-in-%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%81%B4%EB%9F%BD-mombrimz-%EB%8B%A8%EB%8F%85%EC%BD%98%EC%84%9C%ED%8A%B8-rungxk3vk7o4enrytviw61p8"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "11:00",
+   "venue": "무신사개러지",
+   "title": "2026 ASIAN POP STAGE vol.1",
+   "artists": [
+    "문수진",
+    "Mỹ Anh"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-26-2026-asian-pop-stage-vol.1-a5lzu4o76wmpktopq1toaw8m"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "11:00",
+   "venue": "숲세권 라이브 카인드스퀘어점",
+   "title": "숲세권 라이브, 가비엔제이 단독 공연: 해바라기",
+   "artists": [
+    "가비엔제이"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-26-%EC%88%B2%EC%84%B8%EA%B6%8C-%EB%9D%BC%EC%9D%B4%EB%B8%8C-%EA%B0%80%EB%B9%84%EC%97%94%EC%A0%9C%EC%9D%B4-%EB%8B%A8%EB%8F%85-%EA%B3%B5%EC%97%B0-%ED%95%B4%EB%B0%94%EB%9D%BC%EA%B8%B0-tncri1hq0eypuwv89yc7bfyy"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "11:00",
+   "venue": "재즈클럽 그루브",
+   "title": "그루브재즈데이, Groove in November (11/26)",
+   "artists": [
+    "Groover Kim &amp; Jazzup Band"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-26-%EA%B7%B8%EB%A3%A8%EB%B8%8C%EC%9E%AC%EC%A6%88%EB%8D%B0%EC%9D%B4-groove-in-november-1126-mly4qbnlzw9ligj6fmalu16i"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "11:00",
+   "venue": "채널1969",
+   "title": "목요음악생활 (11/26)",
+   "artists": [
+    "그늘춤"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-26-%EB%AA%A9%EC%9A%94%EC%9D%8C%EC%95%85%EC%83%9D%ED%99%9C-1126-q59htblt8vlxpecxqbhr9qvt"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "11:00",
+   "venue": "카페 언플러그드 홍대점",
+   "title": "언플러그드 오픈스테이지",
+   "artists": [
+    "Lemon Radio",
+    "On",
+    "본하"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-26-%EC%96%B8%ED%94%8C%EB%9F%AC%EA%B7%B8%EB%93%9C-%EC%98%A4%ED%94%88%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80-k4iq8tdk564sk9y6s5zeppk9"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "19:00",
+   "venue": "클럽FF",
+   "title": "Thursday Vibes",
+   "artists": [
+    "사양",
+    "레고",
+    "아더",
+    "제임스키스",
+    "서른",
+    "만다린쥬스"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2001-thursday-vibes"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "19:30",
+   "venue": "AOR",
+   "title": "A.O.R CRAZY THURSDAY",
+   "artists": [
+    "일루반",
+    "에브리데이먼데이",
+    "플릿",
+    "블루화",
+    "다다다"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1741-a-o-r-crazy-thursday"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "19:30",
+   "venue": "언플러그드 라운지",
+   "title": "항해",
+   "artists": [
+    "기묘말",
+    "김준경",
+    "정세영"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1710-%ED%95%AD%ED%95%B4"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "19:30",
+   "venue": "클럽 빵",
+   "title": "먼 바다에서 만남",
+   "artists": [
+    "채소현",
+    "뚜루스",
+    "스틱키레몬슈거",
+    "금넉재",
+    "엘리워드"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1995-%EB%A8%BC-%EB%B0%94%EB%8B%A4%EC%97%90%EC%84%9C-%EB%A7%8C%EB%82%A8"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "20:00",
+   "venue": "CJ아지트",
+   "title": "KKON TANGO",
+   "artists": [
+    "연하늘"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2049-kkon-tango"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "20:00",
+   "venue": "고요의 방",
+   "title": "싱어송라이터의 밤 #49",
+   "artists": [
+    "김다혜",
+    "민규리",
+    "오현성"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1980-%EC%8B%B1%EC%96%B4%EC%86%A1%EB%9D%BC%EC%9D%B4%ED%84%B0%EC%9D%98-%EB%B0%A4-49"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "20:00",
+   "venue": "공상온도",
+   "title": "먼데이프로젝트 IN 라이브클럽 : WE ARE ALIVE",
+   "artists": [
+    "맘브림즈"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1669-%EB%A8%BC%EB%8D%B0%EC%9D%B4%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-in-%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%81%B4%EB%9F%BD-we-are-alive"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "20:00",
+   "venue": "무신사 개러지",
+   "title": "2026 ASIAN POP STAGE vol.1",
+   "artists": [
+    "문수진"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1572-2026-asian-pop-stage-vol-1"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "20:00",
+   "venue": "언플러그드",
+   "title": "언플러그드 오픈스테이지",
+   "artists": [
+    "On",
+    "본하",
+    "Lemon Radio"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1877-%EC%96%B8%ED%94%8C%EB%9F%AC%EA%B7%B8%EB%93%9C-%EC%98%A4%ED%94%88%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "20:00",
+   "venue": "제비다방",
+   "title": "Nyteh",
+   "artists": [
+    "나이테"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2027-nyteh"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "20:30",
+   "venue": "록집",
+   "title": "목요.일상.록집 vol.4",
+   "artists": [
+    "서지영"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2009-%EB%AA%A9%EC%9A%94-%EC%9D%BC%EC%83%81-%EB%A1%9D%EC%A7%91-vol-4"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "09:00",
+   "venue": "이화여자대학교 삼성홀",
+   "title": "노래하는 시인 박인희 콘서트 [서울] (11/27)",
+   "artists": [
+    "박인희"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-%EB%85%B8%EB%9E%98%ED%95%98%EB%8A%94-%EC%8B%9C%EC%9D%B8-%EB%B0%95%EC%9D%B8%ED%9D%AC-%EC%BD%98%EC%84%9C%ED%8A%B8-%EC%84%9C%EC%9A%B8-1127-ji8me8ztjsfo5mfsoc8fxwp3"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "10:00",
+   "venue": "아지토 라이브 홀",
+   "title": "난파란 단독 콘서트: 허공에서",
+   "artists": [
+    "난파란"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-%EB%82%9C%ED%8C%8C%EB%9E%80-%EB%8B%A8%EB%8F%85-%EC%BD%98%EC%84%9C%ED%8A%B8-%ED%97%88%EA%B3%B5%EC%97%90%EC%84%9C-jas1kn65hkoum9f8ikq69lv2"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "10:30",
+   "venue": "Club Victim",
+   "title": "ROCKERS ON FRIDAY vol.111",
+   "artists": [
+    "시네마스퀘어",
+    "콘트라젤리",
+    "IGNITE",
+    "HELLFIRE SURFERS"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-rockers-on-friday-vol.111-gm06cl1wpghrj3712cwn0bjd"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "10:30",
+   "venue": "공상온도",
+   "title": "도빛나리 첫 EP &lt;둥근포크(Round Fol(r)k)&gt; 발매 쇼케이스",
+   "artists": [
+    "도빛나리"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-%EB%8F%84%EB%B9%9B%EB%82%98%EB%A6%AC-%EC%B2%AB-ep-%EB%91%A5%EA%B7%BC%ED%8F%AC%ED%81%ACround-folrk-%EB%B0%9C%EB%A7%A4-%EC%87%BC%EC%BC%80%EC%9D%B4%EC%8A%A4-sqest7iw3h7z8sd815iotrd4"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "10:30",
+   "venue": "베짱이홀",
+   "title": "박강수 콘서트: 11월, 가을의 위로",
+   "artists": [
+    "박강수"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-%EB%B0%95%EA%B0%95%EC%88%98-%EC%BD%98%EC%84%9C%ED%8A%B8-11%EC%9B%94-%EA%B0%80%EC%9D%84%EC%9D%98-%EC%9C%84%EB%A1%9C-nrwyg3jpdkhw3278getmw9nl"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "10:30",
+   "venue": "우무지",
+   "title": "첫 마디 프로젝트 - 빈스프라우트 BEANSPROUT",
+   "artists": [
+    "빈스프라우트"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-%EC%B2%AB-%EB%A7%88%EB%94%94-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%B9%88%EC%8A%A4%ED%94%84%EB%9D%BC%EC%9A%B0%ED%8A%B8-beansprout-j0767j57phnzg8376pjdamhj"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "10:30",
+   "venue": "채널1969",
+   "title": "헤어짐과 재회",
+   "artists": [
+    "한울",
+    "대소콜링",
+    "리프",
+    "갓 오브 유니버스"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-%ED%97%A4%EC%96%B4%EC%A7%90%EA%B3%BC-%EC%9E%AC%ED%9A%8C-r8grxpnl0abo8nfev68tvfo9"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "11:00",
+   "venue": "JS 아트홀",
+   "title": "VOMITORY LIVE [서울]",
+   "artists": [
+    "킬카이저",
+    "Vomitory"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-vomitory-live-%EC%84%9C%EC%9A%B8-vub0abnc7s5by5ouqfqm4cqr"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "11:00",
+   "venue": "롤링홀",
+   "title": "Biuret 4 Seasons : Winter",
+   "artists": [
+    "뷰렛",
+    "개화"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-biuret-4-seasons-winter-kttatypfb84iez2epderfj3v"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "11:00",
+   "venue": "살롱문보우",
+   "title": "열두달",
+   "artists": [
+    "배인혁"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-%EC%97%B4%EB%91%90%EB%8B%AC-n4t9bcsmviyay159pteevzen"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "11:00",
+   "venue": "생기스튜디오",
+   "title": "Time for Tolerance – The Fire",
+   "artists": [
+    "와이프 마테리얼",
+    "나비춤",
+    "쾅프로그램",
+    "비지타 큐"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-time-for-tolerance-the-fire-g60vc8wjskpumaeuuzs5dxu9"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "11:00",
+   "venue": "수상한창고",
+   "title": "수상한스테이지 (11.27)",
+   "artists": [
+    "라용수",
+    "복희",
+    "에고이데"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-%EC%88%98%EC%83%81%ED%95%9C%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80-11.27-csxqjdoqktz5extfbk69qw8l"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "11:00",
+   "venue": "스트레인지 프룻",
+   "title": "참으로 이상한 열매들 (THE STRANGE FRUITS)",
+   "artists": [
+    "MOANZY",
+    "에이트레인",
+    "Bright House",
+    "양동욱 밴드"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-%EC%B0%B8%EC%9C%BC%EB%A1%9C-%EC%9D%B4%EC%83%81%ED%95%9C-%EC%97%B4%EB%A7%A4%EB%93%A4-the-strange-fruits-hnh6q2l664z5ziaenaz74sx6"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "11:00",
+   "venue": "에이치아츠",
+   "title": "찰리재즈퀄텟, ONLY FOR JAZZ [대구] (11월)",
+   "artists": [
+    "찰리재즈오케스트라"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-%EC%B0%B0%EB%A6%AC%EC%9E%AC%EC%A6%88%ED%80%84%ED%85%9F-only-for-jazz-%EB%8C%80%EA%B5%AC-11%EC%9B%94-ybjcd53j9cqyxd9jqkm6yhrs"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "11:00",
+   "venue": "카페 언플러그드 홍대점",
+   "title": "주목",
+   "artists": [
+    "MORLOW",
+    "별도표기",
+    "산호극장"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-%EC%A3%BC%EB%AA%A9-a9jhw3lm4gdcq2dv89825y1h"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "11:00",
+   "venue": "펫사운즈",
+   "title": "Midnight Madnight Vol.13 by DJ Jay",
+   "artists": [
+    "CUTTY"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-midnight-madnight-vol.13-by-dj-jay-d2qchi87b8vkgvohhkza3d91"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "11:00",
+   "venue": "현대카드 언더스테이지",
+   "title": "현대카드 Curated 109, Tahiti 80",
+   "artists": [
+    "TAHITI 80"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-27-%ED%98%84%EB%8C%80%EC%B9%B4%EB%93%9C-curated-109-tahiti-80-e0fnacc4alqzpurs1ofa2nhh"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "19:00",
+   "venue": "KT&G 상상마당 부산",
+   "title": "[ONE HOUR] 예빛",
+   "artists": [
+    "예빛"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1516-one-hour-%EC%98%88%EB%B9%9B"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "19:00",
+   "venue": "인피니티클럽",
+   "title": "Coffin, Maiden, and the Grave",
+   "artists": [
+    "NGTTG",
+    "Noiz Place",
+    "하늘",
+    "고요",
+    "coffin girl",
+    "CrossX"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1805-coffin-maiden-and-the-grave"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "19:30",
+   "venue": "NC문화재단 STAGE BLACK",
+   "title": "[2026 STAGE 100: MUSIC]",
+   "artists": [
+    "트리오 크레도"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1532-2026-stage-100-music"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "19:30",
+   "venue": "VICTIM",
+   "title": "ROCKERS ON FRIDAY vol.111",
+   "artists": [
+    "콘트라젤리",
+    "시네마스퀘어",
+    "이그나이트",
+    "불지옥서퍼즈"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1508-rockers-on-friday-vol-111"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "19:30",
+   "venue": "공상온도",
+   "title": "둥근포크(Round Fol(r)k)",
+   "artists": [
+    "도빛나리"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1767-%EB%91%A5%EA%B7%BC%ED%8F%AC%ED%81%AC-round-fol-r-k"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "19:30",
+   "venue": "라이브앤라우드",
+   "title": "LIVEHOLICNITE 2026",
+   "artists": [
+    "디어데몬",
+    "우기",
+    "이상한술집"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2019-liveholicnite-2026"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "19:30",
+   "venue": "우무지",
+   "title": "첫 마디 프로젝트",
+   "artists": [
+    "빈스프라우트"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1539-%EC%B2%AB-%EB%A7%88%EB%94%94-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "19:30",
+   "venue": "채널1969",
+   "title": "헤어짐과 재회",
+   "artists": [
+    "한울",
+    "대소콜링",
+    "리프",
+    "갓 오브 유니버스"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1547-%ED%97%A4%EC%96%B4%EC%A7%90%EA%B3%BC-%EC%9E%AC%ED%9A%8C"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "19:30",
+   "venue": "클럽 빵",
+   "title": "먼 바다에서 만남",
+   "artists": [
+    "마이베리엔드",
+    "9B2",
+    "조이풀스",
+    "노백",
+    "다다다"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1994-%EB%A8%BC-%EB%B0%94%EB%8B%A4%EC%97%90%EC%84%9C-%EB%A7%8C%EB%82%A8"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "20:00",
+   "venue": "JS 아트홀",
+   "title": "VOMITORY LIVE IN SEOUL 2026",
+   "artists": [
+    "칼카이져"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1462-vomitory-live-in-seoul-2026"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "20:00",
+   "venue": "고요의 방",
+   "title": "서교동 0번지, 고요의 방 EP.05",
+   "artists": [
+    "이고요",
+    "서승현"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1962-%EC%84%9C%EA%B5%90%EB%8F%99-0%EB%B2%88%EC%A7%80-%EA%B3%A0%EC%9A%94%EC%9D%98-%EB%B0%A9-ep-05"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "20:00",
+   "venue": "롤링홀",
+   "title": "Biuret 4 Seasons : Winter",
+   "artists": [
+    "뷰렛",
+    "개화"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1534-biuret-4-seasons-winter"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "20:00",
+   "venue": "모래내 극락",
+   "title": "MRN Groove 데카당(DECADENT) LIVE",
+   "artists": [
+    "데카당"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1969-mrn-groove-%EB%8D%B0%EC%B9%B4%EB%8B%B9-decadent-live"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "20:00",
+   "venue": "생기스튜디오",
+   "title": "Time for Tolerance – The Fire",
+   "artists": [
+    "와이프 마테리얼",
+    "나비춤",
+    "쾅프로그램",
+    "비지타 큐"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1709-time-for-tolerance-the-fire"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "20:00",
+   "venue": "스트레인지프룻",
+   "title": "참으로 이상한 열매들",
+   "artists": [
+    "에이트레인",
+    "브라이트하우스",
+    "MOANZY",
+    "양동욱 밴드"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1929-%EC%B0%B8%EC%9C%BC%EB%A1%9C-%EC%9D%B4%EC%83%81%ED%95%9C-%EC%97%B4%EB%A7%A4%EB%93%A4"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "20:00",
+   "venue": "제비다방",
+   "title": "딕펑스(DPNS)",
+   "artists": [
+    "딕펑스"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2026-%EB%94%95%ED%8E%91%EC%8A%A4-dpns"
+  },
+  {
+   "date": "2026-11-27",
+   "time": "20:00",
+   "venue": "축제",
+   "title": "<𝗥𝗢𝗟𝗟 𝗢𝗩𝗘𝗥 𝗣𝗟𝗔𝗬 𝗗𝗘𝗔𝗗>",
+   "artists": [
+    "키라라",
+    "DDD",
+    "영다이",
+    "요한 일렉트릭 바흐",
+    "최태현"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1839"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "05:00",
+   "venue": "공상온도",
+   "title": "구름 단독공연: What If - vol.2",
+   "artists": [
+    "구름"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%EA%B5%AC%EB%A6%84-%EB%8B%A8%EB%8F%85%EA%B3%B5%EC%97%B0-what-if-vol.2-c1khd9zfj09y9qklqdj3cwwn"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "05:00",
+   "venue": "이들스",
+   "title": "신촌블루스 콘서트 (11/28)",
+   "artists": [
+    "신촌블루스"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%EC%8B%A0%EC%B4%8C%EB%B8%94%EB%A3%A8%EC%8A%A4-%EC%BD%98%EC%84%9C%ED%8A%B8-1128-f2cbick3gvtj29m2m4f0b7hd"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "06:00",
+   "venue": "공연장 미정",
+   "title": "-ist 2026",
+   "artists": [
+    "신예훈"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-ist-2026-ic7g6fuc3namb329b6ibiq0n"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "06:00",
+   "venue": "언플러그드 라운지",
+   "title": "고공행진",
+   "artists": [
+    "웰컴투초초랜드",
+    "일루반"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%EA%B3%A0%EA%B3%B5%ED%96%89%EC%A7%84-mwk851th1asg5p4jtkj2h5v2"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "06:00",
+   "venue": "웨스트브릿지 라이브홀",
+   "title": "CUSE HACKER 2ND RELEASE EVENT",
+   "artists": [
+    "BE++ER!!",
+    "solanin",
+    "CUSE HACKER"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-cuse-hacker-2nd-release-event-omojifc5lpszciqxkp4w7010"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "07:00",
+   "venue": "예림당아트홀",
+   "title": "ONE PACT 3RD ANNIVERSARY FAN CONCERT: MOMENTUM",
+   "artists": [
+    "ONE PACT"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-one-pact-3rd-anniversary-fan-concert-momentum-b6lcndop3riouhm2fdfhsmwb"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "08:00",
+   "venue": "Hukez",
+   "title": "Orchid Brand New Day",
+   "artists": [
+    "WOOD",
+    "올키드"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-orchid-brand-new-day-n9lwzz047nqdxdq9oylg02ma"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "08:00",
+   "venue": "롤링홀",
+   "title": "mono sapa (모노사파) presents, 反骨 (반골)",
+   "artists": [
+    "Ruru",
+    "최성",
+    "mono sapa",
+    "스카이민혁"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-mono-sapa-%EB%AA%A8%EB%85%B8%EC%82%AC%ED%8C%8C-presents-%E5%8F%8D%E9%AA%A8-%EB%B0%98%EA%B3%A8-qbw8xrr7wiqk83aginsdj4b3"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "08:00",
+   "venue": "북두칠성도서관 아트훌",
+   "title": "김승민 &lt;11월 해질녘 콘서트 - KIM&gt;",
+   "artists": [
+    "김승민"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%EA%B9%80%EC%8A%B9%EB%AF%BC-11%EC%9B%94-%ED%95%B4%EC%A7%88%EB%85%98-%EC%BD%98%EC%84%9C%ED%8A%B8-kim-ekxtvywe2i9cdp958zb1u8zv"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "08:00",
+   "venue": "숲세권 라이브 카인드스퀘어점",
+   "title": "숲세권 라이브, 보이드 단독 공연: Evergreen",
+   "artists": [
+    "보이드"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%EC%88%B2%EC%84%B8%EA%B6%8C-%EB%9D%BC%EC%9D%B4%EB%B8%8C-%EB%B3%B4%EC%9D%B4%EB%93%9C-%EB%8B%A8%EB%8F%85-%EA%B3%B5%EC%97%B0-evergreen-s0sk59yj5am7n9s3x80jmeys"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "08:00",
+   "venue": "현대카드 언더스테이지",
+   "title": "JUNG DAE HYUN FAN-CONCERT: CRITICAL [서울] (11/28)",
+   "artists": [
+    "정대현"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-jung-dae-hyun-fan-concert-critical-%EC%84%9C%EC%9A%B8-1128-j7qxcufm4l9zcw76oadvtkdv"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "09:00",
+   "venue": "SPACE SODA2002",
+   "title": "예람 정규 3집 발매 기념 공연: 흐르는 물결 하나",
+   "artists": [
+    "예람"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%EC%98%88%EB%9E%8C-%EC%A0%95%EA%B7%9C-3%EC%A7%91-%EB%B0%9C%EB%A7%A4-%EA%B8%B0%EB%85%90-%EA%B3%B5%EC%97%B0-%ED%9D%90%EB%A5%B4%EB%8A%94-%EB%AC%BC%EA%B2%B0-%ED%95%98%EB%82%98-dgqn13gz8dva4qmupwumrrb5"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "09:00",
+   "venue": "공상온도",
+   "title": "구름 단독공연: What If - vol.2",
+   "artists": [
+    "구름"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%EA%B5%AC%EB%A6%84-%EB%8B%A8%EB%8F%85%EA%B3%B5%EC%97%B0-what-if-vol.2-z1n18klsay944xguuchcrm19"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "09:00",
+   "venue": "대구 제임스레코드",
+   "title": "베리코이버니 Re-make EP 「Extra Sweet」 Club Tour - DAEGU",
+   "artists": [
+    "베리코이버니"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%EB%B2%A0%EB%A6%AC%EC%BD%94%EC%9D%B4%EB%B2%84%EB%8B%88-re-make-ep-extra-sweet-club-tour-daegu-q4nrqnzbq3e49n4oiuebd0o8"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "09:00",
+   "venue": "언드",
+   "title": "SMOKING GOOSE &apos;Small Talks&apos; Release Tour — 15th Stage (GEOJE)",
+   "artists": [
+    "스모킹구스",
+    "이디어츠",
+    "몽키피콰르텟",
+    "사이드카",
+    "위닝샷",
+    "NCMC"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-smoking-goose-small-talks-release-tour-15th-stage-geoje-zsly89mdwbvs1mi86gyz10xk"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "09:00",
+   "venue": "연남장",
+   "title": "한해 데뷔 15주년 기념 콘서트: 15 Vintage (11/28)",
+   "artists": [
+    "한해"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%ED%95%9C%ED%95%B4-%EB%8D%B0%EB%B7%94-15%EC%A3%BC%EB%85%84-%EA%B8%B0%EB%85%90-%EC%BD%98%EC%84%9C%ED%8A%B8-15-vintage-1128-of3pven3ahhcz7t6yb6fvjcs"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "09:00",
+   "venue": "예스24 원더로크홀",
+   "title": "이츠 (IT’S) 단독공연: 영원 (01) / YOUNGONE (01)",
+   "artists": [
+    "이츠"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%EC%9D%B4%EC%B8%A0-its-%EB%8B%A8%EB%8F%85%EA%B3%B5%EC%97%B0-%EC%98%81%EC%9B%90-01-youngone-01-dbuzesq0cpbiru9cmumumu84"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "09:00",
+   "venue": "우무지",
+   "title": "MIGHT GET LOUD",
+   "artists": [
+    "서울부인",
+    "향우회",
+    "데킬라올드패션드"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-might-get-loud-saukq4qjc4rr3sruoru4f6dn"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "09:00",
+   "venue": "톤스튜디오 서울",
+   "title": "JEONJINHEE: Where Seasons Flow (11/28)",
+   "artists": [
+    "전진희"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-jeonjinhee-where-seasons-flow-1128-hlcjv5w1fgj5tzy3wleyytir"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "09:10",
+   "venue": "축제",
+   "title": "Loud Enough? Vol. 2",
+   "artists": [
+    "음질병",
+    "브리커즈",
+    "셔츠안자켓",
+    "원퍼센트",
+    "종이유람선",
+    "갓 오브 유니버스"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-loud-enough-vol.-2-pk5uh5xiwki1rm9o0pz0dmb6"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "09:30",
+   "venue": "신도시",
+   "title": "MUSIMUSI",
+   "artists": [
+    "nuh",
+    "데이드림",
+    "MULTIVEK : FIRST QUESTION"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-musimusi-wqt31kqiv2xqvhjp69vrun3t"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "09:30",
+   "venue": "클럽 프리버드",
+   "title": "HIDE &amp; SEEK",
+   "artists": [
+    "웬즈데이",
+    "천둥오리",
+    "아스라이",
+    "칵투스",
+    "FLEET"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-hide-seek-z1qf84mqie4lg7wky2sodr8o"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "09:30",
+   "venue": "펫사운즈",
+   "title": "SWIM, DANCE, LOVE",
+   "artists": [
+    "불고기디스코",
+    "폴리아모리",
+    "스위머스"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-swim-dance-love-i45n3thw89hnagqbpggmt55k"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "09:40",
+   "venue": "채널1969",
+   "title": "그리고윤성혁과 오이스터즈 &lt;얼큰롤&gt;",
+   "artists": [
+    "그리고윤성혁",
+    "오이스터즈",
+    "DJ이기철"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%EA%B7%B8%EB%A6%AC%EA%B3%A0%EC%9C%A4%EC%84%B1%ED%98%81%EA%B3%BC-%EC%98%A4%EC%9D%B4%EC%8A%A4%ED%84%B0%EC%A6%88-%EC%96%BC%ED%81%B0%EB%A1%A4-hrd7gkgspx8onw0tbiyhtnqw"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "10:00",
+   "venue": "XSCALA(엑스칼라)",
+   "title": "JEON SANG KEUN 10th Anniversary Concert, EPILOGUE: 그리고, 우리는 (11/28)",
+   "artists": [
+    "전상근"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-jeon-sang-keun-10th-anniversary-concert-epilogue-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EC%9A%B0%EB%A6%AC%EB%8A%94-1128-u8uc63kq7unq4x653tnmbgg0"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "10:00",
+   "venue": "공연장 미정",
+   "title": "잔물결절 《사랑의 히치하이커》 쇼케이스 &amp; 생일잔치",
+   "artists": [
+    "잔물결"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%EC%9E%94%EB%AC%BC%EA%B2%B0%EC%A0%88-%EC%82%AC%EB%9E%91%EC%9D%98-%ED%9E%88%EC%B9%98%ED%95%98%EC%9D%B4%EC%BB%A4-%EC%87%BC%EC%BC%80%EC%9D%B4%EC%8A%A4-%EC%83%9D%EC%9D%BC%EC%9E%94%EC%B9%98-tvgzecsywb1pf50ocib98ujf"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "10:00",
+   "venue": "구름아래소극장",
+   "title": "모브닝 10주년 콘서트: 10번의 사계",
+   "artists": [
+    "모브닝"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%EB%AA%A8%EB%B8%8C%EB%8B%9D-10%EC%A3%BC%EB%85%84-%EC%BD%98%EC%84%9C%ED%8A%B8-10%EB%B2%88%EC%9D%98-%EC%82%AC%EA%B3%84-mdfkd0q6fe9a5cfcx0xo6b6v"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "10:00",
+   "venue": "꼬뮨",
+   "title": "Match Composition in 대구",
+   "artists": [
+    "비제로",
+    "EWE (Erøtic Wørms Exhibitiøn)"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-match-composition-in-%EB%8C%80%EA%B5%AC-hn45s9u07qalt6n4voz6oa0a"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "10:00",
+   "venue": "롤링홀",
+   "title": "PM Kenobi (피엠 케노비) Live [서울]",
+   "artists": [
+    "PM KENOBI",
+    "Luci Gang"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-pm-kenobi-%ED%94%BC%EC%97%A0-%EC%BC%80%EB%85%B8%EB%B9%84-live-%EC%84%9C%EC%9A%B8-ui7mystnsu79cvwf317tmrlb"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "10:00",
+   "venue": "무신사개러지",
+   "title": "공원 첫 번째 단독 콘서트 [TAKE 01]",
+   "artists": [
+    "공원"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%EA%B3%B5%EC%9B%90-%EC%B2%AB-%EB%B2%88%EC%A7%B8-%EB%8B%A8%EB%8F%85-%EC%BD%98%EC%84%9C%ED%8A%B8-take-01-u1xfvtdfzsqdhoro664rv3cn"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "10:00",
+   "venue": "베이비돌",
+   "title": "Time for Tolerance – The Harmony",
+   "artists": [
+    "애리",
+    "랜딩기어",
+    "올드잉글리쉬쉽독",
+    "잠",
+    "지아",
+    "zzzaam",
+    "AIRY"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-time-for-tolerance-the-harmony-mzhch8zl8doth9apog2yzz3v"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "10:00",
+   "venue": "벨르",
+   "title": "iVy live in seoul",
+   "artists": [
+    "담담구구",
+    "iVy"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-ivy-live-in-seoul-d1yaykatb6sdskws58d4ugbc"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "10:00",
+   "venue": "세종 음악창작소 누리락",
+   "title": "디깅라이브세종, EP.23 우희준 [세종]",
+   "artists": [
+    "우희준"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%EB%94%94%EA%B9%85%EB%9D%BC%EC%9D%B4%EB%B8%8C%EC%84%B8%EC%A2%85-ep.23-%EC%9A%B0%ED%9D%AC%EC%A4%80-%EC%84%B8%EC%A2%85-e309eilsvs3eb96fsr8gjh66"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "10:00",
+   "venue": "카페 언플러그드 홍대점",
+   "title": "&lt;Peace Of Mind..&gt;",
+   "artists": [
+    "MOMBRIMZ",
+    "PEEPPEEP",
+    "Bendersea"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-peace-of-mind-xvu7pfz18j6o5xoerw2tfwuh"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "10:00",
+   "venue": "코스모스루비",
+   "title": "Red C: An Intimate Night",
+   "artists": [
+    "Red C",
+    "NIBUY"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-red-c-an-intimate-night-bit3cm75mdwjak15921xnbmf"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "10:30",
+   "venue": "언플러그드 라운지",
+   "title": "LIVE CATHARSIS",
+   "artists": [
+    "시인을 위하여",
+    "원니",
+    "최춘목밴드"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-live-catharsis-hez1w0ld3gow7x997k463bkk"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "11:00",
+   "venue": "베리어스 재즈클럽",
+   "title": "강재훈 트리오",
+   "artists": [
+    "강재훈 트리오"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-%EA%B0%95%EC%9E%AC%ED%9B%88-%ED%8A%B8%EB%A6%AC%EC%98%A4-tz4v536q8shxn2wu60ahsk2w"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "11:30",
+   "venue": "Club FF",
+   "title": "FROM THE START@FF",
+   "artists": [
+    "나타샤",
+    "양치기소년단",
+    "다다다"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-from-the-startff-hd56umufxohtak1zm4ky6j3w"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "11:30",
+   "venue": "라이브펍 타락",
+   "title": "2026년 11월 28일 라이브펍 타락 공연",
+   "artists": [
+    "라펠코프",
+    "뮤움",
+    "팡크레인",
+    "네켄킴"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-2026%EB%85%84-11%EC%9B%94-28%EC%9D%BC-%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%8E%8D-%ED%83%80%EB%9D%BD-%EA%B3%B5%EC%97%B0-ifh9qxi5wbuj8l5ewr4wxgxd"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "13:00",
+   "venue": "OL&apos;55",
+   "title": "The Soul Experiment presents Midnight Drive",
+   "artists": [
+    "The Soul Experiment"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-the-soul-experiment-presents-midnight-drive-z04cdux4oopah2kfjg8b4fi0"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "13:00",
+   "venue": "아차산로5길 24-14",
+   "title": "RAMPAGE FEST 2026",
+   "artists": [
+    "할로우 잰",
+    "슬랜트"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1292-rampage-fest-2026"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "13:00",
+   "venue": "언더시티",
+   "title": "MUSHROOM HOUSE Vol.5",
+   "artists": [
+    "힙노시스테라피"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-28-mushroom-house-vol.5-rkpoazcxiy8s02l5umjk6jpd"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "14:00",
+   "venue": "공상온도",
+   "title": "구름 단독공연: What If - vol.2",
+   "artists": [
+    "구름"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1787-%EA%B5%AC%EB%A6%84-%EB%8B%A8%EB%8F%85%EA%B3%B5%EC%97%B0-what-if-vol-2"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "14:00",
+   "venue": "언플러그드",
+   "title": "오디오 기상청 : 청춘예보 486호",
+   "artists": [
+    "오예린밴드",
+    "파아란",
+    "밴드 그린!"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1732-%EC%98%A4%EB%94%94%EC%98%A4-%EA%B8%B0%EC%83%81%EC%B2%AD-%EC%B2%AD%EC%B6%98%EC%98%88%EB%B3%B4-486%ED%98%B8"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "15:00",
+   "venue": "언플러그드 라운지",
+   "title": "고공행진",
+   "artists": [
+    "웰컴투초초랜드",
+    "일루반"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1868-%EA%B3%A0%EA%B3%B5%ED%96%89%EC%A7%84"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "16:00",
+   "venue": "문씨어터",
+   "title": "2nd. WEST JINJU IC ROCK FESTA",
+   "artists": [
+    "램넌츠오브더폴른",
+    "크랙베리",
+    "뱀파이어호텔",
+    "퍼거토리"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2036-2nd-west-jinju-ic-rock-festa"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "18:00",
+   "venue": "언드",
+   "title": "SMALL TALKS Release TOUR IN GEOJE",
+   "artists": [
+    "스모킹구스",
+    "몽키피콰르텟",
+    "사이드카",
+    "위닝샷",
+    "이디어츠",
+    "Nobody Calls Me Chicken"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1747-small-talks-release-tour-in-geoje"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "18:00",
+   "venue": "우무지",
+   "title": "MIGHT GET LOUD VOL.3",
+   "artists": [
+    "서울부인",
+    "향우회",
+    "데킬라올드패션드"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1666-might-get-loud-vol-3"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "18:10",
+   "venue": "축제",
+   "title": "Loud Enough? Vol. 2",
+   "artists": [
+    "종이유람선",
+    "갓 오브 유니버스",
+    "셔츠안자켓",
+    "브리커즈",
+    "원퍼센트",
+    "음질병"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1738-loud-enough-vol-2"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "18:30",
+   "venue": "마더스 오피스",
+   "title": "ALONERS Listening Session",
+   "artists": [
+    "아시안 글로우",
+    "khc"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2004-aloners-listening-session"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "18:30",
+   "venue": "신도시",
+   "title": "MUSIMUSI",
+   "artists": [
+    "누",
+    "데이드림",
+    "MULTIVEK"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1582-musimusi"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "18:30",
+   "venue": "펫사운즈",
+   "title": "SWIM DANCE LOVE",
+   "artists": [
+    "불고기디스코",
+    "폴리아모리",
+    "스위머스"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1853-swim-dance-love"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "18:30",
+   "venue": "프리버드",
+   "title": "HIDE & SEEK",
+   "artists": [
+    "아스라이",
+    "칵투스",
+    "웬즈데이",
+    "천둥오리",
+    "플릿"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1843-hide-seek"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "19:00",
+   "venue": "무신사 개러지",
+   "title": "공원 첫 번째 단독 콘서트 [TAKE 01]",
+   "artists": [
+    "공원"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1546-%EA%B3%B5%EC%9B%90-%EC%B2%AB-%EB%B2%88%EC%A7%B8-%EB%8B%A8%EB%8F%85-%EC%BD%98%EC%84%9C%ED%8A%B8-take-01"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "19:00",
+   "venue": "벨르",
+   "title": "iVy live in seoul",
+   "artists": [
+    "담담구구"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1800-ivy-live-in-seoul"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "19:00",
+   "venue": "비호소",
+   "title": "WANT TO MAKE YOU SMILE, TOO",
+   "artists": [
+    "최제니"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1811-want-to-make-you-smile-too"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "19:00",
+   "venue": "언플러그드",
+   "title": "Peace Of Mind..",
+   "artists": [
+    "벤더씨",
+    "핍핍",
+    "맘브림즈"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1867-peace-of-mind"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "19:00",
+   "venue": "코스모스루비",
+   "title": "Red C: An Intimate Night",
+   "artists": [
+    "레드씨",
+    "니바이"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2059-red-c-an-intimate-night"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "05:00",
+   "venue": "공상온도",
+   "title": "구름 단독공연: What If - vol.2",
+   "artists": [
+    "구름"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%EA%B5%AC%EB%A6%84-%EB%8B%A8%EB%8F%85%EA%B3%B5%EC%97%B0-what-if-vol.2-bkud2fn61w5ge81ykv9w4n58"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "05:00",
+   "venue": "이들스",
+   "title": "신촌블루스 콘서트 (11/29)",
+   "artists": [
+    "신촌블루스"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%EC%8B%A0%EC%B4%8C%EB%B8%94%EB%A3%A8%EC%8A%A4-%EC%BD%98%EC%84%9C%ED%8A%B8-1129-xdnkt6yv60gepjy5713opzb6"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "06:00",
+   "venue": "구름아래소극장",
+   "title": "박민수 첫 번째 단독 콘서트: 민수왔쇼 WHAT SHOW",
+   "artists": [
+    "박민수"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%EB%B0%95%EB%AF%BC%EC%88%98-%EC%B2%AB-%EB%B2%88%EC%A7%B8-%EB%8B%A8%EB%8F%85-%EC%BD%98%EC%84%9C%ED%8A%B8-%EB%AF%BC%EC%88%98%EC%99%94%EC%87%BC-what-show-p0w5m7ulkzah5tfnfiq3jpvl"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "06:00",
+   "venue": "벨르",
+   "title": "한올 어쿠스틱 콘서트: 겨울 인사",
+   "artists": [
+    "한올"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%ED%95%9C%EC%98%AC-%EC%96%B4%EC%BF%A0%EC%8A%A4%ED%8B%B1-%EC%BD%98%EC%84%9C%ED%8A%B8-%EA%B2%A8%EC%9A%B8-%EC%9D%B8%EC%82%AC-snyhzc0spphi95jg728ujj5y"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "06:00",
+   "venue": "오방가르드",
+   "title": "베리코이버니 Re-make EP 「Extra Sweet」 Club Tour - BUSAN (Show 1)",
+   "artists": [
+    "베리코이버니",
+    "해서웨이"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%EB%B2%A0%EB%A6%AC%EC%BD%94%EC%9D%B4%EB%B2%84%EB%8B%88-re-make-ep-extra-sweet-club-tour-busan-show-1-doegr8817cagw61j33e6tc63"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "06:30",
+   "venue": "쇼킹 케이팝 센터",
+   "title": "도라도 첫 단독 콘서트: DORADO: CRESCENDO",
+   "artists": [
+    "도라도"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%EB%8F%84%EB%9D%BC%EB%8F%84-%EC%B2%AB-%EB%8B%A8%EB%8F%85-%EC%BD%98%EC%84%9C%ED%8A%B8-dorado-crescendo-h023a6ftsem5xfj86xjf06jr"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "07:00",
+   "venue": "XSCALA(엑스칼라)",
+   "title": "JEON SANG KEUN 10th Anniversary Concert, EPILOGUE: 그리고, 우리는 (11/29)",
+   "artists": [
+    "전상근"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-jeon-sang-keun-10th-anniversary-concert-epilogue-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EC%9A%B0%EB%A6%AC%EB%8A%94-1129-fvtsjiarfflf48wkex1h16r0"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "08:00",
+   "venue": "Club Victim",
+   "title": "BLAGGED &amp; FreFra South Korea Tour 2026",
+   "artists": [
+    "더 스트라이커스",
+    "폭음만취",
+    "코튼스틱",
+    "SEKIMAL",
+    "HORSEMANS",
+    "오버헤드",
+    "BLAGGED (ENGLAND)",
+    "FreFra (JAPAN)"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-blagged-frefra-south-korea-tour-2026-xdbv802hdbl49vl8l8lq54ea"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "08:00",
+   "venue": "무신사개러지",
+   "title": "공원 첫 번째 단독 콘서트 [TAKE 01] (11/29)",
+   "artists": [
+    "공원"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%EA%B3%B5%EC%9B%90-%EC%B2%AB-%EB%B2%88%EC%A7%B8-%EB%8B%A8%EB%8F%85-%EC%BD%98%EC%84%9C%ED%8A%B8-take-01-1129-o4cqntcxlcqqj1x0lfwulyvu"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "08:00",
+   "venue": "살롱문보우",
+   "title": "2026 윤은빈 단독공연",
+   "artists": [
+    "윤은빈"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-2026-%EC%9C%A4%EC%9D%80%EB%B9%88-%EB%8B%A8%EB%8F%85%EA%B3%B5%EC%97%B0-mu63gveucd07x4072omhcf5o"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "08:00",
+   "venue": "숲세권 라이브 카인드스퀘어점",
+   "title": "숲세권 라이브, 오르내림 &amp; 률 단독 공연: 해바라기",
+   "artists": [
+    "오르내림",
+    "률"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%EC%88%B2%EC%84%B8%EA%B6%8C-%EB%9D%BC%EC%9D%B4%EB%B8%8C-%EC%98%A4%EB%A5%B4%EB%82%B4%EB%A6%BC-%EB%A5%A0-%EB%8B%A8%EB%8F%85-%EA%B3%B5%EC%97%B0-%ED%95%B4%EB%B0%94%EB%9D%BC%EA%B8%B0-nvr32id9t85htgilodhzw56y"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "08:00",
+   "venue": "연남장",
+   "title": "한해 데뷔 15주년 기념 콘서트: 15 Vintage (11/29)",
+   "artists": [
+    "한해"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%ED%95%9C%ED%95%B4-%EB%8D%B0%EB%B7%94-15%EC%A3%BC%EB%85%84-%EA%B8%B0%EB%85%90-%EC%BD%98%EC%84%9C%ED%8A%B8-15-vintage-1129-qooy6jq8zy9cgmylcuzhwex1"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "08:00",
+   "venue": "웨스트브릿지 라이브홀",
+   "title": "가오가이 첫번째 단독 콘서트: 노모",
+   "artists": [
+    "가오가이"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%EA%B0%80%EC%98%A4%EA%B0%80%EC%9D%B4-%EC%B2%AB%EB%B2%88%EC%A7%B8-%EB%8B%A8%EB%8F%85-%EC%BD%98%EC%84%9C%ED%8A%B8-%EB%85%B8%EB%AA%A8-gkmr96vjpjgvslqinws8fadk"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "08:00",
+   "venue": "톤스튜디오 서울",
+   "title": "JEONJINHEE: Where Seasons Flow (11/29)",
+   "artists": [
+    "전진희"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-jeonjinhee-where-seasons-flow-1129-ty0otkdy31he86suy27zz65q"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "08:00",
+   "venue": "현대카드 언더스테이지",
+   "title": "JUNG DAE HYUN FAN-CONCERT: CRITICAL [서울] (11/29)",
+   "artists": [
+    "정대현"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-jung-dae-hyun-fan-concert-critical-%EC%84%9C%EC%9A%B8-1129-f1ex0l43rorc64oocejmkbs4"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "08:30",
+   "venue": "JS 아트홀",
+   "title": "JUMP TOGETHER JUMP TONIGHT",
+   "artists": [
+    "해티스",
+    "Methkamel",
+    "일팔피버스",
+    "CHOHA",
+    "고니밴드",
+    "김세호",
+    "해머링"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-jump-together-jump-tonight-ap4p88ers3etz1v7mamqhq6t"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "08:30",
+   "venue": "예스24 원더로크홀",
+   "title": "Hi-Fi Un!corn 2026 LIVE HOUSE TOUR Ⅱ IN SEOUL -TELESCOPE-",
+   "artists": [
+    "Hi-Fi Un!corn"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-hi-fi-uncorn-2026-live-house-tour-in-seoul-telescope-ebqvn8zkuzk26x8gi5p3l87c"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "09:00",
+   "venue": "Club 빵",
+   "title": "요시자와케이스케",
+   "artists": [
+    "요시자와케이스케"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%EC%9A%94%EC%8B%9C%EC%9E%90%EC%99%80%EC%BC%80%EC%9D%B4%EC%8A%A4%EC%BC%80-dsw027ce1s3xmazmq977x4nz"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "09:00",
+   "venue": "Club 빵",
+   "title": "old &amp; new",
+   "artists": [
+    "요시자와케이스케",
+    "생각의여름",
+    "황푸하",
+    "김목인"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-old-new-nymaa4ongk8dkpnexegxo9t3"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "09:00",
+   "venue": "Hukez",
+   "title": "SISODAN FIRST SOLO CONCERT : 단 하나뿐인 짝",
+   "artists": [
+    "Dewpoint°",
+    "시소단"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-sisodan-first-solo-concert-%EB%8B%A8-%ED%95%98%EB%82%98%EB%BF%90%EC%9D%B8-%EC%A7%9D-btur7b4n5xpmtsp7m7b90rel"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "09:00",
+   "venue": "공상온도",
+   "title": "구름 단독공연: What If - vol.2",
+   "artists": [
+    "구름"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%EA%B5%AC%EB%A6%84-%EB%8B%A8%EB%8F%85%EA%B3%B5%EC%97%B0-what-if-vol.2-vkix3toa3w69irmnfdm9tiul"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "09:00",
+   "venue": "생기스튜디오",
+   "title": "NO BRAKE",
+   "artists": [
+    "아나키컬쳐",
+    "나타샤"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-no-brake-wjjyrjcbvi7fll3bjaxq6ad7"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "09:30",
+   "venue": "스트레인지 프룻",
+   "title": "Some kind of freaks!",
+   "artists": [
+    "달위의콜린스",
+    "317",
+    "유스티나스",
+    "페이퍼피클",
+    "낫마이베이스"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-some-kind-of-freaks-ietf365r0ahzh09b4d0id4wq"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "10:00",
+   "venue": "대구 제임스레코드",
+   "title": "김산돌 [탕유관동록 Pt. 2] 쇼케이스 (11/29)",
+   "artists": [
+    "김산돌",
+    "쓰다",
+    "모허"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%EA%B9%80%EC%82%B0%EB%8F%8C-%ED%83%95%EC%9C%A0%EA%B4%80%EB%8F%99%EB%A1%9D-pt.-2-%EC%87%BC%EC%BC%80%EC%9D%B4%EC%8A%A4-1129-zgag6b0fi4tyqu5j3zj4u0mz"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "10:00",
+   "venue": "야만",
+   "title": "모여라 Vol.03 : INDIE WITH FRIENDS",
+   "artists": [
+    "우린이치",
+    "단감자"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%EB%AA%A8%EC%97%AC%EB%9D%BC-vol.03-indie-with-friends-qfqdmykjig1iu68ku4u8yszx"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "10:00",
+   "venue": "오방가르드",
+   "title": "베리코이버니 Re-make EP 「Extra Sweet」 Club Tour - BUSAN (Show 2)",
+   "artists": [
+    "베리코이버니",
+    "해서웨이"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%EB%B2%A0%EB%A6%AC%EC%BD%94%EC%9D%B4%EB%B2%84%EB%8B%88-re-make-ep-extra-sweet-club-tour-busan-show-2-homw9g8czsaw13z6zvybbrrm"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "10:00",
+   "venue": "축제",
+   "title": "섬세함은 조카고",
+   "artists": [
+    "Fin Fior",
+    "레토",
+    "폴리아모리",
+    "Riff Fool"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%EC%84%AC%EC%84%B8%ED%95%A8%EC%9D%80-%EC%A1%B0%EC%B9%B4%EA%B3%A0-evrsgnbpbh1rjfgm3ubf0656"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "10:00",
+   "venue": "카페 언플러그드 홍대점",
+   "title": "&lt;농담&gt;",
+   "artists": [
+    "무이야드",
+    "이형주"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-%EB%86%8D%EB%8B%B4-cej012p9eiie8zdufz00vqmx"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "10:30",
+   "venue": "록집",
+   "title": "Time for Tolerance – The Kindness",
+   "artists": [
+    "청요일",
+    "고슴도치클럽",
+    "사막꽃",
+    "Music Mantra"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-29-time-for-tolerance-the-kindness-kpfnq0hosa4wgp0ufbc8pb01"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "17:00",
+   "venue": "프리버드",
+   "title": "2026 서울인디뮤직페스타 인디교류전",
+   "artists": [
+    "비제로",
+    "모스힐",
+    "세일러허니문",
+    "갤럭시익스프레스"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1866-2026-%EC%84%9C%EC%9A%B8%EC%9D%B8%EB%94%94%EB%AE%A4%EC%A7%81%ED%8E%98%EC%8A%A4%ED%83%80-%EC%9D%B8%EB%94%94%EA%B5%90%EB%A5%98%EC%A0%84"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "18:00",
+   "venue": "스페이스 브릭",
+   "title": "Fake Product vol.6",
+   "artists": [
+    "다브다",
+    "녹이녹",
+    "다플루토"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1724-fake-product-vol-6"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "18:00",
+   "venue": "클럽 딥퍼플",
+   "title": "Into The Live Vol.26 <Extreme Chaos>",
+   "artists": [
+    "칼카이져",
+    "Sturmangriff",
+    "헤도니악",
+    "서울스핏",
+    "도굴"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1676-into-the-live-vol-26-extreme-chaos"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "18:00",
+   "venue": "후케즈",
+   "title": "시소단 첫 단독 공연 : 단 하나뿐인 짝",
+   "artists": [
+    "시소단",
+    "듀포인트"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1793-%EC%8B%9C%EC%86%8C%EB%8B%A8-%EC%B2%AB-%EB%8B%A8%EB%8F%85-%EA%B3%B5%EC%97%B0-%EB%8B%A8-%ED%95%98%EB%82%98%EB%BF%90%EC%9D%B8-%EC%A7%9D"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "18:30",
+   "venue": "KT&G상상마당 홍대",
+   "title": "Best Friends Forever Festival 2026",
+   "artists": [
+    "단편선 순간들",
+    "전기뱀장어",
+    "기쿠하시",
+    "김사월"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1652-best-friends-forever-festival-2026"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "18:30",
+   "venue": "베이비돌",
+   "title": "오늘도 방방 뛰는 페스티벌",
+   "artists": [
+    "크라잉넛",
+    "초록불꽃소년단",
+    "스타트라인",
+    "스윗가솔린"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1923-%EC%98%A4%EB%8A%98%EB%8F%84-%EB%B0%A9%EB%B0%A9-%EB%9B%B0%EB%8A%94-%ED%8E%98%EC%8A%A4%ED%8B%B0%EB%B2%8C"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "18:30",
+   "venue": "스트레인지프룻",
+   "title": "Some kind of freaks!",
+   "artists": [
+    "317",
+    "유스티나스",
+    "페이퍼피클",
+    "낫마이베이스",
+    "달위의콜린스"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1917-some-kind-of-freaks"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "18:30",
+   "venue": "클럽 빵",
+   "title": "Keisuke Yoshizawa",
+   "artists": [
+    "요시자와케이스케",
+    "생각의 여름",
+    "황푸하",
+    "김목인"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1931-keisuke-yoshizawa"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "19:00",
+   "venue": "언플러그드",
+   "title": "농담",
+   "artists": [
+    "무이야드",
+    "이형주"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1697-%EB%86%8D%EB%8B%B4"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "19:00",
+   "venue": "제임스레코드",
+   "title": "김산돌 [탕유관동록 Pt. 2] 쇼케이스",
+   "artists": [
+    "김산돌",
+    "모허",
+    "쓰다"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1752-%EA%B9%80%EC%82%B0%EB%8F%8C-%ED%83%95%EC%9C%A0%EA%B4%80%EB%8F%99%EB%A1%9D-pt-2-%EC%87%BC%EC%BC%80%EC%9D%B4%EC%8A%A4"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "19:00",
+   "venue": "축제",
+   "title": "섬세함은 조카고",
+   "artists": [
+    "핀 피오르",
+    "레토",
+    "폴리아모리",
+    "Riff Fool"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1762-%EC%84%AC%EC%84%B8%ED%95%A8%EC%9D%80-%EC%A1%B0%EC%B9%B4%EA%B3%A0"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "19:30",
+   "venue": "록집",
+   "title": "Time for Tolerance – The Kindness",
+   "artists": [
+    "고슴도치클럽",
+    "청요일",
+    "사막꽃",
+    "뮤직 만트라"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1714-time-for-tolerance-the-kindness"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "20:00",
+   "venue": "제비다방",
+   "title": "여진우와 친구들",
+   "artists": [
+    "여진우와 친구들"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2024-%EC%97%AC%EC%A7%84%EC%9A%B0%EC%99%80-%EC%B9%9C%EA%B5%AC%EB%93%A4"
+  },
+  {
+   "date": "2026-11-29",
+   "time": "22:00",
+   "venue": "고요의 방",
+   "title": "고요초대장 Vol.04 〈유지상 × 김정민〉",
+   "artists": [
+    "김정민",
+    "유지상"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2041-%EA%B3%A0%EC%9A%94%EC%B4%88%EB%8C%80%EC%9E%A5-vol-04-%EC%9C%A0%EC%A7%80%EC%83%81-%EA%B9%80%EC%A0%95%EB%AF%BC"
+  },
+  {
+   "date": "2026-11-30",
+   "time": "11:00",
+   "venue": "생기스튜디오",
+   "title": "월요일의 거짓말",
+   "artists": [
+    "roon",
+    "기묘말",
+    "박태욱"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-11-30-%EC%9B%94%EC%9A%94%EC%9D%BC%EC%9D%98-%EA%B1%B0%EC%A7%93%EB%A7%90-tiyyfb3nfdc0zcl0v5ke6v8o"
+  },
+  {
+   "date": "2026-11-30",
+   "time": "20:00",
+   "venue": "생기스튜디오",
+   "title": "월요일의 거짓말",
+   "artists": [
+    "룬",
+    "기묘말",
+    "박태욱"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1903-%EC%9B%94%EC%9A%94%EC%9D%BC%EC%9D%98-%EA%B1%B0%EC%A7%93%EB%A7%90"
+  },
+  {
+   "date": "2026-12-01",
+   "time": "11:00",
+   "venue": "스페이스 한강",
+   "title": "오픈마이크 열린회로",
+   "artists": [
+    "주명",
+    "밴드 이로",
+    "TYVE",
+    "여운",
+    "Balantisse",
+    "장시우"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-01-%EC%98%A4%ED%94%88%EB%A7%88%EC%9D%B4%ED%81%AC-%EC%97%B4%EB%A6%B0%ED%9A%8C%EB%A1%9C-p2gmh08vdwkhpbqj89q09ihb"
+  },
+  {
+   "date": "2026-12-02",
+   "time": "10:00",
+   "venue": "KT&amp;G상상마당 부산",
+   "title": "END AND",
+   "artists": [
+    "정도기",
+    "LELE",
+    "뭉개구름",
+    "2524"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-02-end-and-vvjav9i690k4rqe119ixdp4a"
+  },
+  {
+   "date": "2026-12-02",
+   "time": "10:00",
+   "venue": "아지토 라이브 홀",
+   "title": "AZITO PLAY, 오리복",
+   "artists": [
+    "마지큥",
+    "니지슈",
+    "시로나",
+    "아스테리아",
+    "멧챠파티",
+    "SPEED! 98%"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-02-azito-play-%EC%98%A4%EB%A6%AC%EB%B3%B5-ly13kblusw1qt3w644o2an2h"
+  },
+  {
+   "date": "2026-12-02",
+   "time": "10:30",
+   "venue": "언플러그드 라운지",
+   "title": "아지트 13번지",
+   "artists": [
+    "새비",
+    "에이다인"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-02-%EC%95%84%EC%A7%80%ED%8A%B8-13%EB%B2%88%EC%A7%80-tuie8l7ku66wyp50tcw7vcj0"
+  },
+  {
+   "date": "2026-12-02",
+   "time": "10:30",
+   "venue": "우주정거장",
+   "title": "홍대우주정거장 OPEN MIC 공연",
+   "artists": [
+    "여백",
+    "정치헌(Ch.)",
+    "배용원",
+    "양희우"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-02-%ED%99%8D%EB%8C%80%EC%9A%B0%EC%A3%BC%EC%A0%95%EA%B1%B0%EC%9E%A5-open-mic-%EA%B3%B5%EC%97%B0-f0yf2qizj5obajuhrx0djjh8"
+  },
+  {
+   "date": "2026-12-02",
+   "time": "10:30",
+   "venue": "클럽 프리버드",
+   "title": "클럽 프리버드 수요일 라이브",
+   "artists": [
+    "벙커프로덕션",
+    "Rough with smooth",
+    "유랑",
+    "청새"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-02-%ED%81%B4%EB%9F%BD-%ED%94%84%EB%A6%AC%EB%B2%84%EB%93%9C-%EC%88%98%EC%9A%94%EC%9D%BC-%EB%9D%BC%EC%9D%B4%EB%B8%8C-uxggik3wiwpv46cgtcbvjq6q"
+  },
+  {
+   "date": "2026-12-02",
+   "time": "11:00",
+   "venue": "우무지",
+   "title": "먼데이프로젝트 시즌9 with 미러볼뮤직 - 이글루베이 정규 3집 발매 콘서트 &lt;삼(三)&gt;",
+   "artists": [
+    "이글루베이"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-02-%EB%A8%BC%EB%8D%B0%EC%9D%B4%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%8B%9C%EC%A6%8C9-with-%EB%AF%B8%EB%9F%AC%EB%B3%BC%EB%AE%A4%EC%A7%81-%EC%9D%B4%EA%B8%80%EB%A3%A8%EB%B2%A0%EC%9D%B4-%EC%A0%95%EA%B7%9C-3%EC%A7%91-%EB%B0%9C%EB%A7%A4-%EC%BD%98%EC%84%9C%ED%8A%B8-%EC%82%BC%E4%B8%89-szvcikr4slli8grzilpwijwg"
+  },
+  {
+   "date": "2026-12-02",
+   "time": "19:30",
+   "venue": "언플러그드 라운지",
+   "title": "아지트 13번지",
+   "artists": [
+    "에이다인",
+    "새비"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1876-%EC%95%84%EC%A7%80%ED%8A%B8-13%EB%B2%88%EC%A7%80"
+  },
+  {
+   "date": "2026-12-02",
+   "time": "19:30",
+   "venue": "프리버드",
+   "title": "CLUB FREEBIRD LIVE",
+   "artists": [
+    "벙커프로덕션",
+    "유랑",
+    "청새",
+    "러프위드스무스"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1977-club-freebird-live"
+  },
+  {
+   "date": "2026-12-02",
+   "time": "20:00",
+   "venue": "우무지",
+   "title": "이글루베이 정규 3집 발매 콘서트 < 삼(三) >",
+   "artists": [
+    "이글루베이"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1751-%EC%9D%B4%EA%B8%80%EB%A3%A8%EB%B2%A0%EC%9D%B4-%EC%A0%95%EA%B7%9C-3%EC%A7%91-%EB%B0%9C%EB%A7%A4-%EC%BD%98%EC%84%9C%ED%8A%B8-%EC%82%BC-%E4%B8%89"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "10:00",
+   "venue": "우무지",
+   "title": "Light ON x Thirsty Thursday (12/3)",
+   "artists": [
+    "아저미",
+    "소나기",
+    "안효주",
+    "나인티스칠드런"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-03-light-on-x-thirsty-thursday-123-doh4o39zepbdxrqj2gnb1pe9"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "10:30",
+   "venue": "언플러그드 라운지",
+   "title": "항해",
+   "artists": [
+    "밴드 그린",
+    "Fireflies"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-03-%ED%95%AD%ED%95%B4-ye85ia1cdcspbesm2w57na22"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "10:30",
+   "venue": "엠피엠지",
+   "title": "78LIVE, 이파란",
+   "artists": [
+    "이파란"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-03-78live-%EC%9D%B4%ED%8C%8C%EB%9E%80-ygo965kcul694qkphvrymu91"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "10:30",
+   "venue": "우주정거장",
+   "title": "로켓라이브 #105",
+   "artists": [
+    "이르미",
+    "민타",
+    "che!vee"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-03-%EB%A1%9C%EC%BC%93%EB%9D%BC%EC%9D%B4%EB%B8%8C-105-zpn9bjcgcefwjnljoipzrjww"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "11:00",
+   "venue": "공상온도",
+   "title": "레토(LETO) 단독 콘서트",
+   "artists": [
+    "레토"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-03-%EB%A0%88%ED%86%A0leto-%EB%8B%A8%EB%8F%85-%EC%BD%98%EC%84%9C%ED%8A%B8-jn2ghzaqdjzc8tu1mpljgnkg"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "11:00",
+   "venue": "무신사개러지",
+   "title": "𝐒𝐮𝐧𝐧𝐲 𝐃𝐚𝐲 𝐒𝐞𝐫𝐯𝐢𝐜𝐞 𝗧𝗼𝘂𝗿 𝟮𝟬𝟮𝟲 𝗶𝗻 𝗦𝗲𝗼𝘂𝗹",
+   "artists": [
+    "Sunny Day Service"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-03-cd56kroiq6ivlsc0sqa8b7pn"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "11:00",
+   "venue": "스트레인지 프룻",
+   "title": "아구쨈 덥 쿠커스 - 조금은 이른 연말 파티",
+   "artists": [
+    "케타케",
+    "오마르와 동방전력",
+    "아구쨈 덥 쿠커스",
+    "장예지"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-03-%EC%95%84%EA%B5%AC%EC%A8%88-%EB%8D%A5-%EC%BF%A0%EC%BB%A4%EC%8A%A4-%EC%A1%B0%EA%B8%88%EC%9D%80-%EC%9D%B4%EB%A5%B8-%EC%97%B0%EB%A7%90-%ED%8C%8C%ED%8B%B0-wxeblx41vwuorug74cb7c4ol"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "11:00",
+   "venue": "스페이스 한강",
+   "title": "레이븐즈(RAVENS) [UNCHARTED] EP 발매기념 단독공연",
+   "artists": [
+    "레이븐즈"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-03-%EB%A0%88%EC%9D%B4%EB%B8%90%EC%A6%88ravens-uncharted-ep-%EB%B0%9C%EB%A7%A4%EA%B8%B0%EB%85%90-%EB%8B%A8%EB%8F%85%EA%B3%B5%EC%97%B0-oz6uzmn3pjn3wicr4tfh5ywx"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "11:00",
+   "venue": "아지토 라이브 홀",
+   "title": "먼데이프로젝트 시즌9, Stardust: LOW X 한성일",
+   "artists": [
+    "LOW",
+    "한성일"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-03-%EB%A8%BC%EB%8D%B0%EC%9D%B4%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%8B%9C%EC%A6%8C9-stardust-low-x-%ED%95%9C%EC%84%B1%EC%9D%BC-t7xy2jat6ad0s9amla3xxqdd"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "19:00",
+   "venue": "우무지",
+   "title": "Light ON x Thirsty Thursday",
+   "artists": [
+    "소나기",
+    "나인티스칠드런",
+    "아저미",
+    "안효주"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1976-light-on-x-thirsty-thursday"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "19:30",
+   "venue": "언플러그드 라운지",
+   "title": "항해",
+   "artists": [
+    "밴드 그린!",
+    "파이어플라이스"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1972-%ED%95%AD%ED%95%B4"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "19:30",
+   "venue": "우주정거장",
+   "title": "로켓라이브 #105",
+   "artists": [
+    "민타",
+    "이르미",
+    "Che!vee"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2038-%EB%A1%9C%EC%BC%93%EB%9D%BC%EC%9D%B4%EB%B8%8C-105"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "20:00",
+   "venue": "공상온도",
+   "title": "먼데이프로젝트 IN 라이브클럽 : WE ARE ALIVE [레토(LETO) 단독 콘서트]",
+   "artists": [
+    "레토"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1794-%EB%A8%BC%EB%8D%B0%EC%9D%B4%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-in-%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%81%B4%EB%9F%BD-we-are-alive-%EB%A0%88%ED%86%A0-leto-%EB%8B%A8%EB%8F%85"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "20:00",
+   "venue": "아지토",
+   "title": "먼데이프로젝트 시즌9 : STARDUST",
+   "artists": [
+    "한성일",
+    "로우"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1784-%EB%A8%BC%EB%8D%B0%EC%9D%B4%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%8B%9C%EC%A6%8C9-stardust"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "20:30",
+   "venue": "스트레인지프룻",
+   "title": "조금은 이른 연말파티",
+   "artists": [
+    "오마르와 동방전력",
+    "케타케",
+    "아구쨈 덥 쿠커스"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2015-%EC%A1%B0%EA%B8%88%EC%9D%80-%EC%9D%B4%EB%A5%B8-%EC%97%B0%EB%A7%90%ED%8C%8C%ED%8B%B0"
   }
  ]
 }

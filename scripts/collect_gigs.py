@@ -13,6 +13,7 @@ import json
 import re
 import subprocess
 import sys
+import time
 import urllib.parse
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -26,6 +27,7 @@ BATCH_SIZE = 12
 DETAIL_DELAY_MS = 2000
 REPL_TIMEOUT_SEC = 150
 MAX_GIGS_PER_SITE = 200
+RETRY_WAIT_SEC = 20
 
 SITES = {
     "indiego": {"list_urls": ["https://www.indiego.co.kr/events"], "scrolls": 8},
@@ -183,6 +185,19 @@ def list_gig_urls(site, first_day, last_day):
     return filter_listed(items, first_day, last_day)[:MAX_GIGS_PER_SITE]
 
 
+def _details_with_retry(site, batch):
+    """상세 묶음을 읽는다. aside 응답이 없거나 시간이 넘으면 잠시 쉬고 한 번 더 시도한다."""
+    code = DETAIL_JS % {"urls": json.dumps(batch), "delay": DETAIL_DELAY_MS}
+    for attempt in (1, 2):
+        try:
+            return run_repl(code)
+        except (RuntimeError, subprocess.TimeoutExpired) as e:
+            print(f"  ⚠️ {site} 상세 묶음 실패 ({len(batch)}건, {attempt}번째): {e}", file=sys.stderr)
+            if attempt == 1:
+                time.sleep(RETRY_WAIT_SEC)
+    return None
+
+
 def collect_site(site, days, out_dir):
     now = datetime.now(KST).replace(microsecond=0)
     first_day, last_day = f"{now:%Y-%m-%d}", f"{now + timedelta(days=days):%Y-%m-%d}"
@@ -190,11 +205,9 @@ def collect_site(site, days, out_dir):
     rows, stats = [], {"listed": len(urls), "in_window": 0, "no_performer": 0, "failed": 0}
     for i in range(0, len(urls), BATCH_SIZE):
         batch = urls[i:i + BATCH_SIZE]
-        try:
-            details = run_repl(DETAIL_JS % {"urls": json.dumps(batch), "delay": DETAIL_DELAY_MS})
-        except (RuntimeError, subprocess.TimeoutExpired) as e:
+        details = _details_with_retry(site, batch)
+        if details is None:
             stats["failed"] += len(batch)
-            print(f"  ⚠️ {site} 상세 묶음 실패 ({len(batch)}건): {e}", file=sys.stderr)
             continue
         for d in details:
             if d.get("error"):

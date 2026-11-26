@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"
 OUT = ROOT / "docs" / "data" / "collect.json"
 RECENT_LIMIT = 60
-GIG_LIMIT = 150
+GIG_LIMIT = 300
 KST = timezone(timedelta(hours=9))
 
 
