@@ -1,6 +1,7 @@
 # CLAUDE.md
 
 **Crate Digger** — Bandcamp 신인 발굴 대시보드 프로젝트. 자세한 내용은 `PROJECT.md`(방향·결정·할 일), `README.md`(실행 방법), `HISTORY.md`(진행 기록)를 먼저 읽는다.
+- **세션을 시작하면 `PROJECT.md`의 '0. 재개 지점'부터 확인하고, 멈춘 작업을 이어서 한다** (사용량 한도·인터넷 끊김 대비). 큰 작업 단위가 끝날 때마다 그 칸을 갱신한다.
 
 - GitHub 저장소: https://github.com/leegmyung/crate-digger (공개)
 - 응답과 문서는 한국어로. 사용자는 개발에 익숙하지 않으니 기술 용어는 쉽게 풀어서 설명한다.

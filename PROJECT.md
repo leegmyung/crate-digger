@@ -5,6 +5,22 @@
 > 대화 흐름 전체는 [HISTORY.md](HISTORY.md). 이 문서는 Claude Code 세션(2026-11-23 ~ 11-26)에서 정리한 방향, 결정 사항, 조사 결과, 할 일을 모은 것입니다.
 > 대화 원문은 포함되지 않았습니다. 2026-11-26 기준.
 
+## 0. 재개 지점 (중단되면 여기부터) — 마지막 갱신 2026-11-26 23시
+사용량 한도·인터넷 끊김으로 멈추면 다음 세션은 이 칸부터 본다. 수집기는 `data/raw/state/*.json`에 '이미 받은 것'을 기록하므로 같은 명령을 다시 돌리면 이어서 받는다.
+
+**진행 중이던 것**
+- [ ] 인디스트릿 과거 공연 수집 (`scripts/collect_gigs_history.py --since 2024-01-01`, 상태 `data/raw/state/gigs_history_seen.json`) — 끝났는지 `data/raw/raw_kr_gig_*_indistreet_history*.csv`로 확인, 안 끝났으면 같은 명령 재실행. 수집기·테스트 파일이 아직 커밋 전이면 테스트 후 커밋
+- [ ] 채용공고 대비 타당성 조사 → `records/job_research_2026-11-26.md` (비공개)
+- [ ] **폴더 이동**: `~/Desktop/crate-digger` → `~/Projects/crate-digger`, 데스크탑에 바로가기(`ln -s`) 남기기 → `bash ~/Projects/crate-digger/scripts/install_daily.sh 21 0` (macOS가 데스크탑 백그라운드 접근을 막아 21시 자동 실행이 실패함)
+
+**다음 순서 (내일 완성본)**
+1. 거꾸로 따라가기 재실행 `python3 scripts/backtrace.py` → `docs/backtrace.md`
+2. 점수 v0 (갈래 겹침·선정/실연 단계(`STAGE_RANK`)·중간 정답(`OUTCOME_TIER`)·같은 무대 동료, DMZ는 약한 가점) → 백테스트 + 기준선(무작위 신인)
+3. 결과 페이지(GitHub Pages) + README 정리
+4. 그 뒤: PostgreSQL 검수, 유튜브 매일 지표, 사운드 지도(7.5)
+
+**최근 결정 (2026-11-26)**: 신인 기준 3년·10개 / 정답 2단계(중간→최종 신호 허용) / 섞인 정답은 첫 발매 5년 이내만 / aside 수집은 쉬는 시간 없이 / Every Noise는 비공개 참고용으로 저장(`data/raw/reference/`)
+
 ## 1. 목표
 | 목표 | 내용 |
 |---|---|
