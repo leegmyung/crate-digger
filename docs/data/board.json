@@ -5,15 +5,15 @@
   {
    "no": "0",
    "name": "후보 풀 정하기",
-   "status": "done",
-   "detail": "22곳 조사 → 가능한 곳 전부 사용으로 결정 (유통사·셀프 유통·음원 플랫폼·공연 정보 + 웹진은 평론 신호)",
+   "status": "now",
+   "detail": "1차 22곳 + 확대 조사(지원사업·인스타 큐레이션·공연장·웹매거진·펀딩·경연) → 후보 풀 4갈래: 발매 / 공연 / 선정·지원 / 큐레이션",
    "added": false
   },
   {
    "no": "1",
    "name": "원본 수집 (매일)",
    "status": "now",
-   "detail": "정의서·검사기 ✅ · 포크라노스 수집기 ✅ (첫 수집 15건) · 다음: aside 수집(벅스·인디고 등)",
+   "detail": "정의서·검사기 ✅ · 포크라노스 수집기 ✅ · 선정 명단 테이블 raw_kr_selection 추가 예정",
    "added": false
   },
   {
@@ -41,7 +41,7 @@
    "no": "4",
    "name": "선정 + 비교 그룹",
    "status": "todo",
-   "detail": "점수 규칙으로 선정, 선정 안 된 팀 중 무작위로 비교 그룹 → 관찰 목록, T0 기록",
+   "detail": "점수 규칙: 신규성, 교차 등장(여러 소스·여러 지원사업에 동시 선정), 공연 증가, 평론 신호, 아직 작은 규모. 비교 그룹 무작위 → 관찰 목록, T0",
    "added": false
   },
   {
@@ -55,7 +55,7 @@
    "no": "6",
    "name": "검증",
    "status": "todo",
-   "detail": "공증 소스(헬로루키·CJ 튠업·펜타 슈퍼루키·한대음): 적중률, 선행 기간, 성장 배수",
+   "detail": "정답 소스로 적중률·선행 기간·성장 배수. 같은 프로그램의 앞 단계를 후보로 쓴 경우 그 프로그램 결과는 적중에서 제외",
    "added": false
   },
   {
@@ -146,6 +146,36 @@
    "found": "지원사업·인스타 큐레이션·공연장 라인업·웹매거진이 후보 풀에 빠져 있었음",
    "fix": "aside로 4갈래 추가 조사 중. 같은 소스를 후보와 정답에 동시에 쓰지 않도록 한쪽으로만 분류",
    "status": "예정"
+  },
+  {
+   "found": "사람이 고르고 소개하는 곳(지원사업·인스타 큐레이션·공연장·펀딩·경연)이 후보 풀에 없었음",
+   "fix": "후보 풀을 4갈래(발매 / 공연 / 선정·지원 / 큐레이션)로 확대, 22곳 추가",
+   "status": "반영"
+  },
+  {
+   "found": "같은 신인이 여러 지원사업에 겹쳐 선정됨 (산보·블낫블·구구·산만한시선 등)",
+   "fix": "점수 규칙에 '교차 등장 횟수' 추가: 여러 소스·사업에 동시 등장할수록 가점",
+   "status": "반영"
+  },
+  {
+   "found": "한 프로그램의 앞 단계(응모·서류통과)를 후보로 쓰면 같은 프로그램의 수상은 저절로 적중 → 적중률 부풀림",
+   "fix": "앞 단계를 후보로 쓴 프로그램은 그 결과를 적중에서 빼고, 다른 프로그램 결과로만 검증",
+   "status": "결정 필요"
+  },
+  {
+   "found": "지원사업·경연 선정 명단(후보 신호)을 담을 테이블이 없음",
+   "fix": "raw_kr_selection 신설. 정답용 raw_outcome과 테이블을 분리해서 섞이지 않게",
+   "status": "예정"
+  },
+  {
+   "found": "인스타는 비로그인 시 최근 12개만 보임, 일부는 팀명이 포스터 이미지에만 있음",
+   "fix": "매일 aside로 최근 게시물 확인. 포스터만 있는 곳은 인디고·인디스트릿 텍스트로 대체, 필요 시 글자 인식",
+   "status": "반영"
+  },
+  {
+   "found": "인디고 목록에는 출연팀이 2~3팀만 보임",
+   "fix": "상세 페이지까지 수집 (팀별 팔로워 수는 추적 지표로도 사용)",
+   "status": "반영"
   }
  ],
  "sources": [
@@ -315,7 +345,7 @@
    "method": "사이트맵·페이지 읽기",
    "robots": "허용 (/api/ 제외)",
    "verdict": "메인",
-   "note": "음원 내기 전 팀까지 보임. 출연진·공연장·인스타 팔로워"
+   "note": "음원 내기 전 팀까지 보임. 출연진·공연장·인스타 팔로워 · 상세에 팀별 팔로워 수·미등록 팀 표시 (목록엔 2~3팀만 → 상세까지 수집)"
   },
   {
    "name": "인디스트릿",
@@ -327,7 +357,7 @@
    "method": "사이트맵·페이지 읽기",
    "robots": "차단 (AI 봇)",
    "verdict": "메인",
-   "note": "아티스트별 공연 기록·셋리스트·앨범까지 있음"
+   "note": "아티스트별 공연 기록·셋리스트·앨범까지 있음 · 인디고와 서로 놓치는 공연이 많아 둘 다 필수"
   },
   {
    "name": "킨디라운지 보도자료",
@@ -448,29 +478,297 @@
    "robots": "-",
    "verdict": "부적합",
    "note": "과거 출연 이력은 공증용"
+  },
+  {
+   "name": "마포 인디스커버리 (서울마포음악창작소)",
+   "kind": "지원사업 · 후보",
+   "url": "https://www.mapoindie.or.kr/",
+   "per_day": "연 1회, 24팀→8→3",
+   "newcomer": "매우 높음 (소속사 없는 팀)",
+   "history": "2023~",
+   "method": "페이지 읽기 (텍스트 명단)",
+   "robots": "허용",
+   "verdict": "메인",
+   "note": "523팀 중 24팀. mfac.or.kr 쪽은 이미지라 mapoindie 사용"
+  },
+  {
+   "name": "KOCCA 뮤즈온 서류통과",
+   "kind": "지원사업 · 후보",
+   "url": "https://www.kocca.kr/kocca/bbs/list/B0000137.do?menuNo=204802",
+   "per_day": "연 1회, 25팀",
+   "newcomer": "전원 신인 (2021년 이후 데뷔)",
+   "history": "2022~",
+   "method": "게시판 검색 (텍스트 표)",
+   "robots": "허용",
+   "verdict": "메인",
+   "note": "최종 10팀은 정답 쪽 → 같은 프로그램 적중 제외 규칙 필요"
+  },
+  {
+   "name": "KOCCA 우리 음악인 축제",
+   "kind": "지원사업 · 후보",
+   "url": "https://www.kocca.kr/kocca/bbs/list/B0000137.do?menuNo=204802",
+   "per_day": "연 1회, 16~17팀",
+   "newcomer": "높음 (지역 창작소 대표)",
+   "history": "2023~",
+   "method": "게시판 검색",
+   "robots": "허용",
+   "verdict": "보조",
+   "note": "전국 음악창작소별 대표 1팀을 한 번에"
+  },
+  {
+   "name": "강원음악창작소 선정뮤지션",
+   "kind": "지원사업 · 후보",
+   "url": "https://gwmf.co.kr/",
+   "per_day": "연 약 5팀",
+   "newcomer": "높음",
+   "history": "2020~",
+   "method": "게시판 읽기",
+   "robots": "파일 없음",
+   "verdict": "보조",
+   "note": "연도별 게시판, 구조 깔끔"
+  },
+  {
+   "name": "서울 구석구석라이브",
+   "kind": "지원사업 · 후보",
+   "url": "https://www.seoulbusking.com/2026/sub/team.html",
+   "per_day": "연 150팀",
+   "newcomer": "섞임 (장르 다양)",
+   "history": "연도별",
+   "method": "페이지 읽기",
+   "robots": "파일 없음",
+   "verdict": "보조",
+   "note": "장르 필터 필수"
+  },
+  {
+   "name": "지역 밴드 경연 본선 (대구 탑밴드·평택 등)",
+   "kind": "경연 · 후보",
+   "url": "https://grounz.net/announcement",
+   "per_day": "대회별 연 1회, 10~20팀",
+   "newcomer": "높음",
+   "history": "대회별",
+   "method": "기사·PDF (대회 일정은 GROUNZ)",
+   "robots": "대회별",
+   "verdict": "보조",
+   "note": "지역·소형 = 후보 신호"
+  },
+  {
+   "name": "헬로루키 응모작 목록 (EBS)",
+   "kind": "경연 응모 · 후보",
+   "url": "https://www.ebs.co.kr/space/rookie/audition/lastlist",
+   "per_day": "연 약 2,000팀",
+   "newcomer": "매우 높음 (첫 음반 2024년 이후)",
+   "history": "2019~",
+   "method": "페이지 읽기",
+   "robots": "차단 (전체)",
+   "verdict": "결정 필요",
+   "note": "쓰면 헬로루키 결과는 적중에서 제외해야 함"
+  },
+  {
+   "name": "인디스땅스 예선 20팀 (경기)",
+   "kind": "경연 · 정답 쪽",
+   "url": "https://www.gcon.or.kr/",
+   "per_day": "연 1회",
+   "newcomer": "높음",
+   "history": "11회째",
+   "method": "보도자료 기사",
+   "robots": "게시판 차단",
+   "verdict": "보조",
+   "note": "772팀 중 선발 → 결선·수상은 정답"
+  },
+  {
+   "name": "언플러그드 + 고요의 방",
+   "kind": "공연장",
+   "url": "https://unplugged-hongdae.com/concert",
+   "per_day": "거의 매일, 2~3팀",
+   "newcomer": "높음",
+   "history": "월별 달력",
+   "method": "페이지 읽기 (전체 출연팀 텍스트)",
+   "robots": "파일 없음",
+   "verdict": "보조",
+   "note": "공연장 사이트 중 유일하게 출연팀 전체 텍스트"
+  },
+  {
+   "name": "상상마당 공연 목록",
+   "kind": "공연장",
+   "url": "https://www.sangsangmadang.com/show/list",
+   "per_day": "주 1~2회",
+   "newcomer": "중간",
+   "history": "1,508건",
+   "method": "페이지 읽기",
+   "robots": "허용",
+   "verdict": "보조",
+   "note": "과거 데이터 채우기용"
+  },
+  {
+   "name": "클럽FF (@hongdaeff)",
+   "kind": "인스타 · 공연장",
+   "url": "https://www.instagram.com/hongdaeff/",
+   "per_day": "주 2~4회, 하루 6팀",
+   "newcomer": "높음 (미등록 팀 다수)",
+   "history": "비로그인 최근 12개",
+   "method": "aside 비로그인 (캡션 텍스트)",
+   "robots": "차단",
+   "verdict": "메인",
+   "note": "타임테이블이 글로 올라옴"
+  },
+  {
+   "name": "생기스튜디오 '생기 큐레이션' (@senggistudio)",
+   "kind": "인스타 · 큐레이션",
+   "url": "https://www.instagram.com/senggistudio/",
+   "per_day": "주 몇 건, 3팀",
+   "newcomer": "신인 100% (활동 시작 연도 표기)",
+   "history": "2025-12~",
+   "method": "aside 비로그인",
+   "robots": "차단",
+   "verdict": "메인",
+   "note": "소규모 기획자(결 프로젝트·WIC)로 연결됨"
+  },
+  {
+   "name": "롤링홀 CMYK (@rollinghall)",
+   "kind": "인스타 · 신인 발굴",
+   "url": "https://www.instagram.com/rollinghall/",
+   "per_day": "연 1회 본선 10팀",
+   "newcomer": "신인 100%",
+   "history": "2024~",
+   "method": "aside 비로그인",
+   "robots": "차단",
+   "verdict": "메인",
+   "note": "공식 신인 발굴 프로젝트"
+  },
+  {
+   "name": "라이브클럽데이 (@liveclubday)",
+   "kind": "인스타 · 쇼케이스",
+   "url": "https://www.instagram.com/liveclubday/",
+   "per_day": "월 1회, 약 18팀",
+   "newcomer": "섞임",
+   "history": "85회차",
+   "method": "aside 비로그인",
+   "robots": "차단",
+   "verdict": "보조",
+   "note": "공연장별 라인업이 글로 정리"
+  },
+  {
+   "name": "제비다방 (@jebidabang)",
+   "kind": "인스타 · 공연장",
+   "url": "https://www.instagram.com/jebidabang/",
+   "per_day": "거의 매일, 1팀",
+   "newcomer": "섞임 (기성 팀 포함)",
+   "history": "최근 12개",
+   "method": "aside + 포스터 글자 인식(OCR)",
+   "robots": "차단",
+   "verdict": "보조",
+   "note": "팀명이 포스터 이미지에만 → 인디고·인디스트릿에 텍스트로 있음"
+  },
+  {
+   "name": "부기우기 (@boogiewoogieseoul)",
+   "kind": "인스타 · 재즈바",
+   "url": "https://www.instagram.com/boogiewoogieseoul/",
+   "per_day": "매일, 2~3팀",
+   "newcomer": "낮음 (재즈 연주자)",
+   "history": "최근 12개",
+   "method": "aside 비로그인 (캡션 구조 최고)",
+   "robots": "차단",
+   "verdict": "보조",
+   "note": "재즈 장르 확장용"
+  },
+  {
+   "name": "디베이서매거진 (@debasermagazine)",
+   "kind": "인스타 · 매거진",
+   "url": "https://www.instagram.com/debasermagazine/",
+   "per_day": "주 2~3개",
+   "newcomer": "중간",
+   "history": "-",
+   "method": "aside 비로그인",
+   "robots": "차단",
+   "verdict": "보조",
+   "note": "영문 장문 소개 = 평론 신호"
+  },
+  {
+   "name": "텀블벅 음악 (첫 EP·앨범 펀딩)",
+   "kind": "크라우드펀딩",
+   "url": "https://tumblbug.com/discover?category=music",
+   "per_day": "진행 중 음반 4~5건",
+   "newcomer": "높음 (첫 음반)",
+   "history": "누적 2,205건",
+   "method": "페이지 읽기",
+   "robots": "허용 (/api/ 제외)",
+   "verdict": "보조",
+   "note": "발매 전 단계 신호"
+  },
+  {
+   "name": "인사이트인디 뉴스레터",
+   "kind": "뉴스레터",
+   "url": "https://maily.so/insightindie",
+   "per_day": "격주 18팀 (7월 이후 멈춤)",
+   "newcomer": "낮음~중간",
+   "history": "36호",
+   "method": "페이지 읽기",
+   "robots": "허용",
+   "verdict": "확인용",
+   "note": "재개되면 보조"
+  },
+  {
+   "name": "Spotify Indie Korea · 유튜브 플레이리스트 · SoundCloud · 와디즈",
+   "kind": "플레이리스트 등",
+   "url": "https://open.spotify.com/playlist/37i9dQZF1DXdTb8AG95jne",
+   "per_day": "-",
+   "newcomer": "낮음 또는 판별 불가",
+   "history": "-",
+   "method": "-",
+   "robots": "-",
+   "verdict": "부적합",
+   "note": "기성 팀 위주이거나 활동 여부 판별 어려움"
+  },
+  {
+   "name": "예매처 (인터파크·멜론티켓·YES24)",
+   "kind": "예매처",
+   "url": "https://tickets.interpark.com/",
+   "per_day": "-",
+   "newcomer": "매우 낮음",
+   "history": "-",
+   "method": "-",
+   "robots": "-",
+   "verdict": "부적합",
+   "note": "소규모 클럽 공연은 거의 안 올라옴"
+  },
+  {
+   "name": "대전·부산·인천·충주·제주 음악창작소",
+   "kind": "지원사업",
+   "url": "https://www.kocca.kr/kocca/subPage.do?menuNo=205047",
+   "per_day": "-",
+   "newcomer": "-",
+   "history": "-",
+   "method": "-",
+   "robots": "-",
+   "verdict": "부적합",
+   "note": "명단이 HWP·이미지뿐이거나 이름을 가림"
   }
  ],
  "pending_research": [],
  "decisions": [
   {
    "q": "국내 후보 풀",
-   "state": "가능한 곳 전부 (robots 차단 4곳은 하루 1번 aside, 원본 비공개)"
+   "state": "가능한 곳 전부 (robots 차단 소스는 하루 1번 aside, 원본 비공개)"
   },
   {
    "q": "신인 기준",
    "state": "첫 발매 2년 이내 & 발매 5개 이하, 또는 공연만 있는 팀"
   },
   {
-   "q": "관찰 웹 화면 위치",
-   "state": "GitHub Pages (공개) · 원본 수집 파일은 비공개"
+   "q": "앞 단계(헬로루키 응모·뮤즈온 서류통과)를 후보로 쓸 때 같은 프로그램 결과를 적중에서 뺄지",
+   "state": "결정 필요"
   },
   {
-   "q": "추가 공증 소스 등급 (이즘·음악취향Y 올해의 신인, 리드머 어워드, 경기 인디스땅스)",
+   "q": "추가 공증 소스 등급 (인디스땅스 결선, 뮤즈온 최종, 유재하, 이즘·음악취향Y 올해의 신인 등)",
    "state": "결정 필요"
   },
   {
    "q": "YouTube Data API 키 발급 (추적 지표용, 사용자)",
    "state": "결정 필요"
+  },
+  {
+   "q": "관찰 웹 화면 위치",
+   "state": "GitHub Pages (공개) · 원본 수집 파일은 비공개"
   }
  ]
 }
