@@ -13,11 +13,13 @@
 - [ ] 채용공고 대비 타당성 조사 → `records/job_research_2026-11-26.md` (비공개)
 - [ ] **폴더 이동**: `~/Desktop/crate-digger` → `~/Projects/crate-digger`, 데스크탑에 바로가기(`ln -s`) 남기기 → `bash ~/Projects/crate-digger/scripts/install_daily.sh 21 0` (macOS가 데스크탑 백그라운드 접근을 막아 21시 자동 실행이 실패함)
 
-**다음 순서 (내일 완성본)**
-1. 거꾸로 따라가기 재실행 `python3 scripts/backtrace.py` → `docs/backtrace.md`
-2. 점수 v0 (갈래 겹침·선정/실연 단계(`STAGE_RANK`)·중간 정답(`OUTCOME_TIER`)·같은 무대 동료, DMZ는 약한 가점) → 백테스트 + 기준선(무작위 신인)
-3. 결과 페이지(GitHub Pages) + README 정리
-4. 그 뒤: PostgreSQL 검수, 유튜브 매일 지표, 사운드 지도(7.5)
+**다음 순서 (내일 완성본)** — 직무 요건 조사 결과(비공개 `records/job_research_2026-11-26.md`) SQL 결과물이 1순위
+1. **분석 SQL 5~8개** (SQLite로, 쿼리 원문 + 결과 표 공개): 선정 프로그램별 이후 수상 비율, 첫 신호→수상 개월 수, 중간→최종 정답 비율 등
+2. **데이터 검증 SQL 묶음**: 플랫폼 간 발매일 차이, 같은 팀 다른 표기, 수집 건수 급감일 (아티스트 매칭·메타데이터 검수 증거)
+3. 거꾸로 따라가기 재실행 `python3 scripts/backtrace.py` → `docs/backtrace.md`
+4. 점수 v0 (갈래 겹침·선정/실연 단계(`STAGE_RANK`)·중간 정답(`OUTCOME_TIER`)·같은 무대 동료, DMZ는 약한 가점) → 백테스트 + 기준선(무작위 신인)
+5. 결과 페이지(GitHub Pages) + README (업계 용어: 아티스트 매칭·메타데이터 검수) + "AI로 자동화한 방법" 한 쪽
+6. 그 뒤: Tableau 1장, 서비스 적용 기획 문서(재방문율·A/B 테스트 설계), 엑셀 결과물, PostgreSQL, 유튜브 매일 지표, 사운드 지도(7.5)
 
 **최근 결정 (2026-11-26)**: 신인 기준 3년·10개 / 정답 2단계(중간→최종 신호 허용) / 섞인 정답은 첫 발매 5년 이내만 / aside 수집은 쉬는 시간 없이 / Every Noise는 비공개 참고용으로 저장(`data/raw/reference/`)
 
