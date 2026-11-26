@@ -109,7 +109,7 @@ def excluded_outcomes(selection_program):
 COLLECTED_AT = F("collected_at", "datetime_tz", True)
 COLLECTOR = F("collector", "code", True, COLLECTORS)
 
-ARTIST_SOURCES = {"melon", "bugs", "genie", "flo", "manual"}
+ARTIST_SOURCES = {"melon", "bugs", "genie", "flo", "spotify", "manual"}
 
 TABLES = {
     "raw_artist_profile": {      # 플랫폼 아티스트 페이지 1곳 × 1팀 = 1행 (1.5단계 신인 판별 · 2단계 이름 맞추기 기준)

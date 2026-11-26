@@ -34,6 +34,10 @@ KST = timezone(timedelta(hours=9))
 
 MAX_YEARS = 3       # 첫 발매 후 몇 년까지 신인 (2026-11-26 백테스트 근거로 2→3, 사용자 결정)
 MAX_ALBUMS = 10     # 발매(앨범·싱글 포함) 몇 개까지 신인 (5→10: 멜론 앨범 수엔 싱글이 다 들어감)
+# 이미 다 아는 팀(인디로 시작한 혁오·잔나비 등)은 후보에서 뺀다 (2026-11-27 사용자 지시)
+FAME_FANS = 10000   # 멜론 팬 이 수 이상이면 '유명(제외)'
+FAME_YEARS = 5      # 첫 발매 후 이 해 수를 넘고
+FAME_YEARS_MIN_FANS = 1000   # 팬도 이만큼 이상이면 '유명(제외)'. 팬이 적으면 동명의 옛 팀일 수 있어 빼지 않음
 DAYS_PER_YEAR = 365.25
 
 TABLES = {          # 후보 테이블 이름 → 파일 패턴
@@ -94,6 +98,11 @@ def judge(profile_row, as_of, max_years=MAX_YEARS, max_albums=MAX_ALBUMS):
     dates = [d for d in dates if d]
     years = _years(min(dates), as_of) if dates else None
     albums = _int_or_none(profile_row.get("album_count"))
+    fans = _int_or_none(profile_row.get("fan_count"))
+    if fans is not None and fans >= FAME_FANS:
+        return _result("famous", f"멜론 프로필: 팬 {fans:,}명 (유명 팀 기준 {FAME_FANS:,}명 이상)", years, albums)
+    if years is not None and years > FAME_YEARS and fans is not None and fans >= FAME_YEARS_MIN_FANS:
+        return _result("famous", f"멜론 프로필: 첫 발매 후 {years}년·팬 {fans:,}명 (유명 팀 기준 {FAME_YEARS}년 초과 & 팬 {FAME_YEARS_MIN_FANS:,}명 이상)", years, albums)
     status, why = _decide(years, albums, max_years, max_albums)
     return _result(status, f"멜론 프로필: {why}", years, albums)
 

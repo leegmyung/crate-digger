@@ -227,13 +227,15 @@ def collect(limit):
 MATCH_STATE = RAW_DIR / "state" / "outcome_melon_match.json"
 
 
-def collect_from_outcomes(limit):
-    """정답(raw_outcome) 팀 이름 → 멜론 검색으로 번호 찾기 → 프로필. 거꾸로 따라가기(백테스트)용.
+def collect_from_outcomes(limit, names=None):
+    """팀 이름 목록 → 멜론 검색으로 번호 찾기 → 프로필. names가 없으면 정답(raw_outcome) 팀 (백테스트용).
+    후보 팀의 유명도(팬 수·연차) 판별에도 쓴다 (--names-file).
     짝 맞춘 결과(동명 팀 수 포함)는 data/raw/state/outcome_melon_match.json 에 남겨 2단계 검수에서 확인한다."""
-    names = []
-    for f in sorted(glob.glob(str(RAW_DIR / "raw_outcome_*.csv"))):
-        with open(f, encoding="utf-8") as fh:
-            names.extend(r["artist_text"] for r in csv.DictReader(fh))
+    if names is None:
+        names = []
+        for f in sorted(glob.glob(str(RAW_DIR / "raw_outcome_*.csv"))):
+            with open(f, encoding="utf-8") as fh:
+                names.extend(r["artist_text"] for r in csv.DictReader(fh))
     try:
         matches = json.loads(MATCH_STATE.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
@@ -270,9 +272,14 @@ def main(argv):
     ap = argparse.ArgumentParser(description="멜론 아티스트 메타데이터 수집 (aside 브라우저)")
     ap.add_argument("--limit", type=int, default=DEFAULT_LIMIT)
     ap.add_argument("--from-outcomes", action="store_true", help="정답 명단 팀을 멜론에서 찾아 프로필 받기 (백테스트용)")
+    ap.add_argument("--names-file", help="한 줄에 팀 이름 하나 — 멜론에서 찾아 프로필 받기 (후보 팀 유명도 판별용)")
     args = ap.parse_args(argv)
     try:
-        path, n_ids, n_rows = (collect_from_outcomes if args.from_outcomes else collect)(args.limit)
+        if args.names_file:
+            names = [n.strip() for n in Path(args.names_file).read_text(encoding="utf-8").splitlines() if n.strip()]
+            path, n_ids, n_rows = collect_from_outcomes(args.limit, names)
+        else:
+            path, n_ids, n_rows = (collect_from_outcomes if args.from_outcomes else collect)(args.limit)
     except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError) as e:
         print(f"⚠️ 아티스트 프로필 수집 실패: {e}")
         return 1

@@ -27,8 +27,23 @@ class JudgeTest(unittest.TestCase):
         self.assertEqual(r["years_since_first"], 1.5)
         self.assertEqual(r["albums"], 3)
 
-    def test_old_debut_is_established(self):
+    def test_old_debut_without_fans_is_established(self):   # 팬 수를 모르면 연차만으로 유명 판정하지 않음
         r = nc.judge(prof(debut_date="2016-12-21", first_release_date="2016-12-21", album_count="20"), AS_OF)
+        self.assertEqual(r["status"], "established")
+
+    def test_famous_by_fan_count_even_if_recent(self):
+        # 인디로 시작했어도 다 아는 팀(혁오·잔나비)은 후보에서 뺀다 — 멜론 팬 1만 명 이상
+        r = nc.judge(prof(first_release_date="2025-01-10", album_count="3", fan_count="250000"), AS_OF)
+        self.assertEqual(r["status"], "famous")
+        self.assertIn("팬", r["reason"])
+
+    def test_famous_by_long_career(self):
+        r = nc.judge(prof(first_release_date="2019-01-10", album_count="8", fan_count="3000"), AS_OF)
+        self.assertEqual(r["status"], "famous")   # 첫 발매 5년 초과 & 팬 1천 명 이상
+
+    def test_old_first_release_but_tiny_fanbase_is_not_famous(self):
+        # 동명의 옛 팀이 잡혔거나 옛 곡 하나뿐인 신인(데이네버체인지 팬 96명 등) → 빼지 않고 기성(검수 대상)
+        r = nc.judge(prof(first_release_date="2015-01-10", album_count="3", fan_count="96"), AS_OF)
         self.assertEqual(r["status"], "established")
 
     def test_many_albums_is_established_even_if_recent(self):
@@ -39,7 +54,7 @@ class JudgeTest(unittest.TestCase):
     def test_earliest_of_debut_and_first_release(self):
         # 데뷔일은 최근이지만 앨범 목록에 더 오래된 발매가 있으면 그쪽이 첫 발매
         r = nc.judge(prof(debut_date="2025-12-01", first_release_date="2020-03-01", album_count="2"), AS_OF)
-        self.assertEqual(r["status"], "established")
+        self.assertEqual(r["status"], "established")   # 6.7년이지만 팬 수 모름 → 기성
         self.assertEqual(r["years_since_first"], 6.7)
 
     def test_partial_date_reads_start_of_period(self):

@@ -21,6 +21,7 @@ from pathlib import Path
 
 import validate_csv
 from csv_schema import CAREER_FILTER_YEARS, CAREER_FILTERED, OUTCOME_SAME_FAMILY, OUTCOME_TIER, SAME_PROGRAM, STAGE_RANK, TABLES
+from newcomer import FAME_FANS, FAME_YEARS, FAME_YEARS_MIN_FANS, MAX_ALBUMS, MAX_YEARS
 from normalize import artist_key
 from timing import outcome_date, signal_date
 
@@ -110,7 +111,8 @@ def ref_sql():
         "CREATE TABLE ref.same_program (selection_program text, outcome_program text);",
         f"INSERT INTO ref.same_program VALUES {same};",
         "CREATE TABLE ref.settings (name text PRIMARY KEY, value numeric);",
-        f"INSERT INTO ref.settings VALUES ('career_filter_years', {CAREER_FILTER_YEARS});",
+        f"INSERT INTO ref.settings VALUES ('career_filter_years', {CAREER_FILTER_YEARS}), ('fame_fans', {FAME_FANS}), "
+        f"('fame_years', {FAME_YEARS}), ('fame_years_min_fans', {FAME_YEARS_MIN_FANS}), ('newcomer_years', {MAX_YEARS}), ('newcomer_albums', {MAX_ALBUMS});",
     ]
     return "\n".join(p for p in parts if p)
 

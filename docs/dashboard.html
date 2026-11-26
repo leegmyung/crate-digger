@@ -37,8 +37,10 @@
   <div class="grid" id="kpis"></div>
 
   <h2>1. 지금 주목할 후보</h2>
-  <p class="sub">최근 180일(예정 공연 60일 포함) 안에 2개 이상 갈래에 나온 팀. 신인 = 멜론 첫 발매 3년 이내 & 발매 10개 이하, 모름 = 멜론 프로필 아직 없음.</p>
+  <p class="sub">최근 180일(예정 공연 60일 포함) 안에 2개 이상 갈래에 나온 팀. 신인 = 첫 발매 3년 이내 & 발매 10개 이하, 모름 = 프로필 아직 없음.
+  <b>이미 다 아는 팀(멜론 팬 1만 명 이상 또는 첫 발매 5년 초과)은 뺐어요.</b></p>
   <div class="card"><table id="candidates"></table></div>
+  <details><summary class="sub">유명해서 뺀 팀 보기</summary><div class="card"><table id="famous"></table></div></details>
 
   <h2>2. 어떤 신호가 나중의 성공을 알려 주나</h2>
   <p class="sub">2020~2024년에 신호를 받은 팀 중, 2025년 이후 정답(신인상·주요 신인 프로그램)을 받은 비율. '기준선'은 아무 신호든 있던 팀 전체.</p>
@@ -94,6 +96,8 @@ fetch("data/dashboard.json", {cache: "no-store"}).then(r => r.json()).then(d => 
     s.candidates.map(r => `<tr><td>${esc(r.artist)}</td><td>${esc(r.branches)}</td><td>${esc(r.last_seen)}</td>
       <td><span class="tag ${r.status === "신인" ? "new" : ""}">${esc(r.status)}</span></td><td>${esc(r.first_release || "")}</td>
       <td class="n">${r.fan_count == null ? "" : r.fan_count.toLocaleString()}</td><td>${esc(r.already_outcome ? nm(r.already_outcome) : "")}</td></tr>`));
+  table("famous", ["팀", "멜론 팬", "첫 발매 후 (년)", "뺀 이유"], (s.excluded_famous || []).map(r => `<tr><td>${esc(r.artist)}</td>
+    <td class="n">${r.fan_count == null ? "" : r.fan_count.toLocaleString()}</td><td class="n">${r.years_since_first ?? ""}</td><td>${esc(r.reason)}</td></tr>`));
   const maxRate = Math.max(...s.signal_hit_rates.map(r => r.rate || 0));
   table("hit", ["신호", "팀", "정답 받음", "비율", ""], s.signal_hit_rates.map(r => `<tr><td>${esc(nm(r.program))}</td>
     <td class="n">${r.teams}</td><td class="n">${r.hits}</td><td class="n">${pct(r.rate)}</td><td>${bar(r.rate || 0, maxRate)}</td></tr>`));

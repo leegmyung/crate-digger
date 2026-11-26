@@ -38,7 +38,7 @@ QUERIES = {
         FROM core.v_signal
         WHERE branch = '공연' AND signal_date >= DATE '2024-01-01' AND signal_date <= current_date
         GROUP BY 1 ORDER BY 1""",
-    # 3. 지금 주목할 후보: 최근 180일 안에 2개 이상 갈래에 나온 팀 + 신인 여부(멜론 프로필 기준 3년·10개)
+    # 3. 지금 주목할 후보: 최근 180일 안에 2개 이상 갈래에 나온 팀. 유명 팀(팬 1만+ 또는 첫 발매 5년 초과)은 뺀다
     "candidates": """
         WITH recent AS (
             SELECT artist_key, min(artist_text) AS artist, count(DISTINCT branch) AS n_branch,
@@ -47,13 +47,21 @@ QUERIES = {
             WHERE signal_date BETWEEN current_date - 180 AND current_date + 60 AND artist_key IS NOT NULL
             GROUP BY artist_key HAVING count(DISTINCT branch) >= 2)
         SELECT r.artist, r.n_branch, r.branches, r.last_seen,
-               CASE WHEN p.first_release IS NULL THEN '모름'
-                    WHEN p.first_release >= current_date - 3 * 365 AND coalesce(p.album_count, 0) <= 10 THEN '신인'
-                    ELSE '기성' END AS status,
-               p.first_release, p.fan_count,
+               CASE coalesce(st.status, 'unknown') WHEN 'newcomer' THEN '신인' WHEN 'established' THEN '기성'
+                    ELSE '모름' END AS status,
+               st.first_release, st.fan_count,
                (SELECT min(o.program) FROM core.v_outcome o WHERE o.counted AND o.artist_key = r.artist_key) AS already_outcome
-        FROM recent r LEFT JOIN core.v_artist_profile p ON p.artist_key = r.artist_key
-        ORDER BY r.n_branch DESC, r.last_seen DESC LIMIT 60""",
+        FROM recent r LEFT JOIN core.v_artist_status st ON st.artist_key = r.artist_key
+        WHERE coalesce(st.status, 'unknown') <> 'famous'
+        ORDER BY (st.status = 'newcomer') DESC NULLS LAST, r.n_branch DESC, r.last_seen DESC LIMIT 60""",
+    # 3-1. 유명해서 뺀 팀 (투명하게 보여주기)
+    "excluded_famous": """
+        SELECT DISTINCT ON (st.artist_key) s.artist_text AS artist, st.fan_count, st.years_since_first,
+               CASE WHEN st.fan_count >= (SELECT value FROM ref.settings WHERE name = 'fame_fans') THEN '팬 수'
+                    ELSE '활동 연차' END AS reason
+        FROM core.v_artist_status st JOIN core.v_signal s ON s.artist_key = st.artist_key
+        WHERE st.status = 'famous' AND s.signal_date >= current_date - 180
+        ORDER BY st.artist_key, s.signal_date DESC""",
     # 4. 신호 적중률: 직전 5년 안 선정 신호 팀 중 이후 정답(센 것)을 받은 비율 (+ 기준선)
     "signal_hit_rates": f"""
         WITH sig AS (

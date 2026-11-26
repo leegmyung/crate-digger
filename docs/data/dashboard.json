@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-26T23:00:31+09:00",
+ "generated": "2026-11-26T23:14:31+09:00",
  "window": "2025-01-01",
  "sections": {
   "collection": [
@@ -321,24 +321,14 @@
     "already_outcome": "burock_main"
    },
    {
-    "artist": "혁오",
-    "n_branch": 3,
-    "branches": "공연 · 발매 · 큐레이션",
-    "last_seen": "2026-11-25",
-    "status": "모름",
-    "first_release": null,
-    "fan_count": null,
-    "already_outcome": null
-   },
-   {
-    "artist": "포져군단",
+    "artist": "블낫블",
     "n_branch": 2,
-    "branches": "공연 · 선정·지원",
-    "last_seen": "2026-12-31",
-    "status": "모름",
-    "first_release": null,
-    "fan_count": null,
-    "already_outcome": null
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-26",
+    "status": "신인",
+    "first_release": "2025-07-29",
+    "fan_count": 238,
+    "already_outcome": "museon_final"
    },
    {
     "artist": "김푸름",
@@ -361,6 +351,56 @@
     "already_outcome": "museon_final"
    },
    {
+    "artist": "구구",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-24",
+    "status": "기성",
+    "first_release": "2021-04-07",
+    "fan_count": 200,
+    "already_outcome": "indiestance"
+   },
+   {
+    "artist": "혁오",
+    "n_branch": 3,
+    "branches": "공연 · 발매 · 큐레이션",
+    "last_seen": "2026-11-25",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "최춘목밴드",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-12-31",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "천둥오리",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-12-31",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "아사달",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-12-31",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
     "artist": "베이루트택시",
     "n_branch": 2,
     "branches": "공연 · 선정·지원",
@@ -381,27 +421,7 @@
     "already_outcome": null
    },
    {
-    "artist": "아사달",
-    "n_branch": 2,
-    "branches": "공연 · 선정·지원",
-    "last_seen": "2026-12-31",
-    "status": "모름",
-    "first_release": null,
-    "fan_count": null,
-    "already_outcome": null
-   },
-   {
-    "artist": "천둥오리",
-    "n_branch": 2,
-    "branches": "공연 · 선정·지원",
-    "last_seen": "2026-12-31",
-    "status": "모름",
-    "first_release": null,
-    "fan_count": null,
-    "already_outcome": null
-   },
-   {
-    "artist": "최춘목밴드",
+    "artist": "포져군단",
     "n_branch": 2,
     "branches": "공연 · 선정·지원",
     "last_seen": "2026-12-31",
@@ -441,7 +461,7 @@
     "already_outcome": null
    },
    {
-    "artist": "한올",
+    "artist": "다브다",
     "n_branch": 2,
     "branches": "공연 · 발매",
     "last_seen": "2026-11-29",
@@ -461,6 +481,16 @@
     "already_outcome": null
    },
    {
+    "artist": "한올",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-29",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
     "artist": "녹이녹",
     "n_branch": 2,
     "branches": "공연 · 큐레이션",
@@ -469,16 +499,6 @@
     "first_release": null,
     "fan_count": null,
     "already_outcome": "hello_rookie"
-   },
-   {
-    "artist": "다브다",
-    "n_branch": 2,
-    "branches": "공연 · 발매",
-    "last_seen": "2026-11-29",
-    "status": "모름",
-    "first_release": null,
-    "fan_count": null,
-    "already_outcome": null
    },
    {
     "artist": "오이스터즈",
@@ -498,36 +518,6 @@
     "status": "모름",
     "first_release": null,
     "fan_count": null,
-    "already_outcome": null
-   },
-   {
-    "artist": "박영석",
-    "n_branch": 2,
-    "branches": "공연 · 발매",
-    "last_seen": "2026-11-26",
-    "status": "모름",
-    "first_release": null,
-    "fan_count": null,
-    "already_outcome": null
-   },
-   {
-    "artist": "블낫블",
-    "n_branch": 2,
-    "branches": "공연 · 큐레이션",
-    "last_seen": "2026-11-26",
-    "status": "신인",
-    "first_release": "2025-07-29",
-    "fan_count": 238,
-    "already_outcome": "museon_final"
-   },
-   {
-    "artist": "사뮈",
-    "n_branch": 2,
-    "branches": "공연 · 발매",
-    "last_seen": "2026-11-26",
-    "status": "기성",
-    "first_release": "2016-12-21",
-    "fan_count": 2363,
     "already_outcome": null
    },
    {
@@ -551,7 +541,57 @@
     "already_outcome": null
    },
    {
+    "artist": "박영석",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-26",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "히미츠",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-25",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "이을 (E.ul)",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-25",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
     "artist": "유령서점",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-25",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "아륜",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-25",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "shin_in_ryu",
     "n_branch": 2,
     "branches": "공연 · 큐레이션",
     "last_seen": "2026-11-25",
@@ -571,50 +611,10 @@
     "already_outcome": null
    },
    {
-    "artist": "shin_in_ryu",
-    "n_branch": 2,
-    "branches": "공연 · 큐레이션",
-    "last_seen": "2026-11-25",
-    "status": "모름",
-    "first_release": null,
-    "fan_count": null,
-    "already_outcome": null
-   },
-   {
-    "artist": "이을 (E.ul)",
+    "artist": "e.K",
     "n_branch": 2,
     "branches": "공연 · 발매",
-    "last_seen": "2026-11-25",
-    "status": "모름",
-    "first_release": null,
-    "fan_count": null,
-    "already_outcome": null
-   },
-   {
-    "artist": "신인류",
-    "n_branch": 2,
-    "branches": "공연 · 발매",
-    "last_seen": "2026-11-25",
-    "status": "기성",
-    "first_release": "2018-09-26",
-    "fan_count": 10015,
-    "already_outcome": "cj_tuneup"
-   },
-   {
-    "artist": "아륜",
-    "n_branch": 2,
-    "branches": "공연 · 발매",
-    "last_seen": "2026-11-25",
-    "status": "모름",
-    "first_release": null,
-    "fan_count": null,
-    "already_outcome": null
-   },
-   {
-    "artist": "히미츠",
-    "n_branch": 2,
-    "branches": "공연 · 발매",
-    "last_seen": "2026-11-25",
+    "last_seen": "2026-11-24",
     "status": "모름",
     "first_release": null,
     "fan_count": null,
@@ -631,16 +631,6 @@
     "already_outcome": null
    },
    {
-    "artist": "구구",
-    "n_branch": 2,
-    "branches": "공연 · 발매",
-    "last_seen": "2026-11-24",
-    "status": "기성",
-    "first_release": "2021-04-07",
-    "fan_count": 200,
-    "already_outcome": "indiestance"
-   },
-   {
     "artist": "Dante",
     "n_branch": 2,
     "branches": "공연 · 발매",
@@ -651,10 +641,10 @@
     "already_outcome": null
    },
    {
-    "artist": "e.K",
+    "artist": "jayunakha",
     "n_branch": 2,
-    "branches": "공연 · 발매",
-    "last_seen": "2026-11-24",
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-20",
     "status": "모름",
     "first_release": null,
     "fan_count": null,
@@ -672,16 +662,6 @@
    },
    {
     "artist": "ddbb",
-    "n_branch": 2,
-    "branches": "공연 · 큐레이션",
-    "last_seen": "2026-11-20",
-    "status": "모름",
-    "first_release": null,
-    "fan_count": null,
-    "already_outcome": null
-   },
-   {
-    "artist": "jayunakha",
     "n_branch": 2,
     "branches": "공연 · 큐레이션",
     "last_seen": "2026-11-20",
@@ -749,6 +729,152 @@
     "first_release": null,
     "fan_count": null,
     "already_outcome": "cj_tuneup"
+   }
+  ],
+  "excluded_famous": [
+   {
+    "artist": "강산에",
+    "fan_count": 4000,
+    "years_since_first": 33.9,
+    "reason": "활동 연차"
+   },
+   {
+    "artist": "권진아",
+    "fan_count": 77348,
+    "years_since_first": 12.7,
+    "reason": "팬 수"
+   },
+   {
+    "artist": "김승주",
+    "fan_count": 1993,
+    "years_since_first": 6.4,
+    "reason": "활동 연차"
+   },
+   {
+    "artist": "로맨틱펀치",
+    "fan_count": 6782,
+    "years_since_first": 23.0,
+    "reason": "활동 연차"
+   },
+   {
+    "artist": "리도어",
+    "fan_count": 14757,
+    "years_since_first": 5.9,
+    "reason": "팬 수"
+   },
+   {
+    "artist": "브로콜리너마저",
+    "fan_count": 29046,
+    "years_since_first": 19.1,
+    "reason": "팬 수"
+   },
+   {
+    "artist": "브로큰 발렌타인",
+    "fan_count": 3997,
+    "years_since_first": 16.9,
+    "reason": "활동 연차"
+   },
+   {
+    "artist": "사뮈 (Samui)",
+    "fan_count": 2363,
+    "years_since_first": 9.9,
+    "reason": "활동 연차"
+   },
+   {
+    "artist": "세이수미",
+    "fan_count": 2521,
+    "years_since_first": 12.2,
+    "reason": "활동 연차"
+   },
+   {
+    "artist": "송소희",
+    "fan_count": 8819,
+    "years_since_first": 12.3,
+    "reason": "활동 연차"
+   },
+   {
+    "artist": "신인류",
+    "fan_count": 10015,
+    "years_since_first": 8.2,
+    "reason": "팬 수"
+   },
+   {
+    "artist": "알레프",
+    "fan_count": 24411,
+    "years_since_first": 9.3,
+    "reason": "팬 수"
+   },
+   {
+    "artist": "에피톤 프로젝트(Epitone Project)",
+    "fan_count": 33498,
+    "years_since_first": 20.8,
+    "reason": "팬 수"
+   },
+   {
+    "artist": "엔플라잉",
+    "fan_count": 56072,
+    "years_since_first": 11.5,
+    "reason": "팬 수"
+   },
+   {
+    "artist": "오월오일",
+    "fan_count": 9942,
+    "years_since_first": 7.2,
+    "reason": "활동 연차"
+   },
+   {
+    "artist": "이승윤",
+    "fan_count": 50497,
+    "years_since_first": 15.0,
+    "reason": "팬 수"
+   },
+   {
+    "artist": "잔나비",
+    "fan_count": 158677,
+    "years_since_first": 12.6,
+    "reason": "팬 수"
+   },
+   {
+    "artist": "장범준",
+    "fan_count": 94539,
+    "years_since_first": 15.0,
+    "reason": "팬 수"
+   },
+   {
+    "artist": "정우",
+    "fan_count": 10427,
+    "years_since_first": 7.4,
+    "reason": "팬 수"
+   },
+   {
+    "artist": "터치드",
+    "fan_count": 15501,
+    "years_since_first": 6.0,
+    "reason": "팬 수"
+   },
+   {
+    "artist": "테종",
+    "fan_count": 1062,
+    "years_since_first": 5.3,
+    "reason": "활동 연차"
+   },
+   {
+    "artist": "한요한",
+    "fan_count": 60024,
+    "years_since_first": 14.0,
+    "reason": "팬 수"
+   },
+   {
+    "artist": "P. Cassady (피캐시디)",
+    "fan_count": 1118,
+    "years_since_first": 10.5,
+    "reason": "활동 연차"
+   },
+   {
+    "artist": "Xdinary Heroes",
+    "fan_count": 18486,
+    "years_since_first": 5.0,
+    "reason": "팬 수"
    }
   ],
   "signal_hit_rates": [

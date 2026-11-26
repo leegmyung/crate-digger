@@ -59,3 +59,26 @@ SELECT DISTINCT ON (artist_key)
 FROM core.v_outcome
 WHERE counted
 ORDER BY artist_key, announced_start, program;
+
+-- 5) 팀 상태: 유명(제외) / 신인 / 기성 (멜론·스포티파이 프로필 기준, 기준값은 ref.settings)
+--    유명 = 멜론 팬 fame_fans 이상, 또는 첫 발매 fame_years 초과 & 팬 fame_years_min_fans 이상 (혁오·잔나비 같은 팀 제외).
+--           팬이 적은데 첫 발매만 오래된 팀은 동명의 옛 팀일 수 있어 빼지 않는다(기성, 검수 대상)
+--    신인 = 첫 발매 newcomer_years 이내 & 발매 newcomer_albums 이하.  프로필이 없으면 이 뷰에 없음(= 모름)
+CREATE OR REPLACE VIEW core.v_artist_status AS
+WITH cfg AS (
+    SELECT max(CASE WHEN name = 'fame_fans' THEN value END) AS fame_fans,
+           max(CASE WHEN name = 'fame_years' THEN value END) AS fame_years,
+           max(CASE WHEN name = 'fame_years_min_fans' THEN value END) AS fame_years_min_fans,
+           max(CASE WHEN name = 'newcomer_years' THEN value END) AS new_years,
+           max(CASE WHEN name = 'newcomer_albums' THEN value END) AS new_albums
+    FROM ref.settings)
+SELECT p.artist_key, p.first_release, p.album_count, p.fan_count,
+       round(((current_date - p.first_release) / 365.25)::numeric, 1) AS years_since_first,
+       CASE WHEN p.fan_count >= cfg.fame_fans THEN 'famous'
+            WHEN p.first_release < current_date - (cfg.fame_years * 365.25)::int
+                 AND p.fan_count >= cfg.fame_years_min_fans THEN 'famous'
+            WHEN p.first_release >= current_date - (cfg.new_years * 365.25)::int
+                 AND coalesce(p.album_count, 0) <= cfg.new_albums THEN 'newcomer'
+            WHEN p.first_release IS NULL THEN 'unknown'
+            ELSE 'established' END AS status
+FROM core.v_artist_profile p CROSS JOIN cfg;

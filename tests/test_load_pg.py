@@ -78,6 +78,9 @@ class RefTest(unittest.TestCase):
         self.assertIn("('final', 4)", sql)                      # ref.stage_rank
         self.assertIn("('hello_rookie', 'hello_rookie_year')", sql)   # ref.outcome_same_family
         self.assertIn("('burock_rookies', 'burock_main')", sql)       # ref.same_program
+        self.assertIn("('fame_fans', 10000)", sql)                    # 유명 팀 제외 기준
+        self.assertIn("('fame_years', 5)", sql)
+        self.assertIn("('newcomer_years', 3)", sql)
 
 
 if __name__ == "__main__":
