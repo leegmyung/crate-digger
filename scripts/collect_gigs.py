@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parent.parent
 KST = timezone(timedelta(hours=9))
 COLUMNS = [f.name for f in TABLES["raw_kr_gig"]["fields"]]
 BATCH_SIZE = 12
-DETAIL_DELAY_MS = 2000
+DETAIL_DELAY_MS = 0   # 일부러 쉬지 않음 (2026-11-26 사용자 지시). 페이지 로딩 대기는 따로 있음
 REPL_TIMEOUT_SEC = 150
 MAX_GIGS_PER_SITE = 200
 RETRY_WAIT_SEC = 20
@@ -88,9 +88,12 @@ def parse_repl_output(stdout):
         raise RuntimeError(f"aside 출력 해석 실패: {stdout[:200]}") from e
     texts = [c.get("text", "") for c in data.get("run", {}).get("content", []) if isinstance(c, dict)]
     for text in texts:
-        for line in text.splitlines():
+        for line in text.split("\n"):   # splitlines()는 캡션 속 U+2028도 줄바꿈으로 봐서 결과를 자른다
             if line.startswith("RESULT "):
-                return json.loads(line[len("RESULT "):])
+                try:
+                    return json.loads(line[len("RESULT "):])
+                except json.JSONDecodeError as e:
+                    raise RuntimeError(f"aside 결과가 잘렸거나 깨짐: {e}") from e
     raise RuntimeError(f"aside 결과 없음: {data.get('run', {}).get('error')}")
 
 

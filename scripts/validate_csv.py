@@ -65,6 +65,8 @@ def check_value(field, value):
         return "http:// 또는 https:// 로 시작하는 주소여야 해요"
     if kind == "int_pos" and not (value.isdigit() and int(value) > 0):
         return "1 이상의 숫자여야 해요"
+    if kind == "int0" and not value.isdigit():
+        return "0 이상의 숫자여야 해요"
     if kind == "handle" and not re.match(r"^@[A-Za-z0-9._]{1,30}$", value):
         return "인스타 계정은 @abc_123 형식이어야 해요"
     if kind == "flag01" and value not in ("0", "1"):

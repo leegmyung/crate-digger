@@ -43,6 +43,11 @@ class ParseTest(unittest.TestCase):
     def test_own_handle_and_trailing_dot_ignored(self):
         self.assertEqual(ci.mentions("by @pushplay_mag. 그리고 A(@a_b.)", own_handle="pushplay_mag"), [("A", "@a_b")])
 
+    def test_price_or_shared_name_falls_back_to_handle(self):
+        # '33,000원 (@a) (@b)' 처럼 가격이 이름 자리에 오던 문제 (2026-11-26 실제 캡션)
+        m = ci.mentions("티켓 33,000원 (@unplugged_stage) 출연 진(@jin_a) 진(@jin_b)", own_handle="x")
+        self.assertEqual(m, [("unplugged_stage", "@unplugged_stage"), ("jin_a", "@jin_a"), ("jin_b", "@jin_b")])
+
     def test_sponsored(self):
         self.assertTrue(ci.is_sponsored("좋은 곡 #제작지원"))
         self.assertTrue(ci.is_sponsored("유료 광고 포함"))

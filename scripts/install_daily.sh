@@ -6,7 +6,14 @@
 set -eu
 HOUR="${1:-21}"
 MINUTE="${2:-0}"
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+# 바로가기(심볼릭 링크) 경로가 아니라 진짜 경로로 등록한다. macOS는 백그라운드 작업이 데스크탑·문서·다운로드
+# 폴더에 접근하는 걸 막아서, 프로젝트는 그 밖(예: ~/Projects)에 있어야 한다.
+ROOT="$(cd "$(dirname "$0")/.." && pwd -P)"
+case "$ROOT" in
+  "$HOME/Desktop"*|"$HOME/Documents"*|"$HOME/Downloads"*)
+    echo "⚠️ 프로젝트가 $ROOT 에 있어요. macOS 보안 때문에 자동 실행이 'Operation not permitted'로 실패해요. ~/Projects 같은 곳으로 옮긴 뒤 다시 실행하세요." >&2
+    exit 1 ;;
+esac
 PLIST="$HOME/Library/LaunchAgents/com.crate-digger.daily.plist"
 mkdir -p "$HOME/Library/LaunchAgents" "$ROOT/records"
 cat >"$PLIST" <<EOF

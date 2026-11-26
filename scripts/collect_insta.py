@@ -5,7 +5,7 @@
 
 - 계정 목록: config/insta_accounts.json
 - aside 브라우저(aside repl)로 로그인 없이 프로필 → 새 게시물 캡션(og:description)을 읽는다.
-  계정 사이·게시물 사이에 몇 초씩 쉰다. 로그인·팔로우·좋아요는 하지 않는다.
+  페이지가 뜰 때까지만 기다리고 일부러 쉬지는 않는다(사용자 지시). 로그인·팔로우·좋아요는 하지 않는다.
 - 캡션에 태그된 @계정마다 1행. 이름은 '이름(@계정)' 형태일 때만 쓰고 아니면 계정 이름을 쓴다.
 - @태그가 없는 캡션은 data/raw/review/insta_unparsed_<날짜>.json 에 모아 2단계에서 검수한다.
 - 이미 본 게시물과 마지막 확인일은 data/raw/state/insta_state.json (비공개)
@@ -17,6 +17,7 @@ import re
 import subprocess
 import sys
 import time
+from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
@@ -32,7 +33,7 @@ COLUMNS = [f.name for f in TABLES["raw_press"]["fields"]]
 MAX_NEW_POSTS = 6
 MAX_POST_AGE_DAYS = 14
 SEEN_KEEP = 100
-ACCOUNT_PAUSE_SEC = 4
+ACCOUNT_PAUSE_SEC = 0   # 일부러 쉬지 않음 (사용자 지시). 로그인 요구 화면으로 막히면 다시 늘린다
 
 MONTHS = {m: i for i, m in enumerate(
     ["January", "February", "March", "April", "May", "June", "July", "August",
@@ -57,7 +58,6 @@ await (async () => {
     await t.goto('https://www.instagram.com' + h); await sleep(2500);
     const og = await t.evaluate(() => document.querySelector('meta[property="og:description"]')?.content || '');
     posts.push({ url: 'https://www.instagram.com' + h, og });
-    await sleep(1500);
   }
   await closeTab(t);
   console.log('RESULT ' + JSON.stringify({ meta: prof.meta, gone: prof.gone || !prof.meta, posts }));
@@ -73,8 +73,13 @@ def parse_og(og):
     return {"date": day.isoformat(), "caption": m.group(5).strip()}
 
 
+NOT_A_NAME = re.compile(r"^[\d,.:~\-/]+(원|명|시|분|일|월)?$")   # 가격·시간·날짜는 이름이 아님
+
+
 def mentions(caption, own_handle):
-    named = {h.rstrip("."): name for name, h in NAMED_RE.findall(caption or "")}
+    pairs = [(name, h.rstrip(".")) for name, h in NAMED_RE.findall(caption or "") if not NOT_A_NAME.match(name)]
+    uses = Counter(name for name, _ in pairs)
+    named = {h: name for name, h in pairs if uses[name] == 1}   # 한 이름이 여러 계정에 붙으면 계정 이름을 쓴다
     out, seen = [], set()
     for raw in HANDLE_RE.findall(caption or ""):
         handle = raw.rstrip(".")
@@ -170,7 +175,7 @@ def collect(check_all=False):
         seen = state["seen"].get(handle, [])
         try:
             result = _collect_account(handle, seen, now.isoformat(), oldest, a.get("role", "magazine"))
-        except (RuntimeError, subprocess.TimeoutExpired) as e:
+        except (RuntimeError, subprocess.TimeoutExpired, ValueError, KeyError) as e:   # 계정 하나 실패해도 계속
             report.append(f"⚠️ @{handle}: 읽기 실패 ({e})")
             continue
         if result is None:

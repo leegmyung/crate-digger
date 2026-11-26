@@ -131,6 +131,28 @@
 
 프로그램 코드: `burock_main` 부산국제록페스티벌 본무대 출연 · `hello_rookie` 헬로루키 월간 · `hello_rookie_year` 올해의 헬로루키 · `cj_tuneup` CJ 튠업 · `penta_superrookie` 펜타 슈퍼루키 · `kma_rookie` 한국대중음악상 신인 · `opcd` OPCD · `izm_rookie` 이즘 올해의 신인 · `musicy_rookie` 음악취향Y 올해의 신인 · `rhythmer_award` 리드머 어워드 · `gg_indiestance` 경기 인디스땅스 · `bbc_sound_of` · `tiny_desk` · `museon_final` 뮤즈온 최종 · `indiestance` 인디스땅스 결선 · 매체 소개(정답 2등급, 협찬 제외): `media_izm` · `media_bandwagon` · `media_nme` · `media_esquire`
 
+## 6. `raw_artist_profile` — 플랫폼 아티스트 페이지 1곳 × 1팀 = 1행
+
+1.5단계 신인 판별(첫 발매 2년 이내 & 발매 5개 이하)과 2단계 이름 맞추기(같은 이름 다른 팀 구분)의 기준 자료예요. 지금은 멜론 아티스트 페이지에서 받아요 (`scripts/collect_artists.py`). 대상은 발매 수집에서 새로 본 멜론 아티스트 번호예요.
+
+| 칸 | 필수 | 설명 | 예 |
+|---|---|---|---|
+| collected_at, source, collector | ✅ | 공통 (source: melon / bugs / genie / flo / manual) | melon |
+| artist_source_id | ✅ | 플랫폼 아티스트 번호 (발매 행의 artist_source_id와 같은 값) | 181716 |
+| artist_text | ✅ | 플랫폼 표기 이름 | 에피톤 프로젝트 |
+| debut_date | | 데뷔일 (연·월까지만 알아도 됨) | 2006-12-12 |
+| debut_title | | 데뷔곡 | |
+| activity_type | | 솔로 / 그룹 등 | 솔로 |
+| agency_text | | 소속사 | |
+| genre | | 장르, 여러 개면 `\|` | 인디음악\|발라드 |
+| nationality | | 국적 | 대한민국 |
+| fan_count | | 그날의 팬(좋아요) 수, 0 이상. 3단계 반응 지표로도 씀 | 33496 |
+| album_count | | 플랫폼에 올라온 앨범 수 | 46 |
+| url | ✅ | 아티스트 페이지 주소 | |
+| artist_key | | 정규화 이름 (`scripts/normalize.py`) | 에피톤프로젝트 |
+
+키: `(source, artist_source_id)` — 한 파일 안에서 같은 아티스트는 1행.
+
 ## aside에 붙여 넣는 작업 지시문 (예: 벅스)
 
 ```

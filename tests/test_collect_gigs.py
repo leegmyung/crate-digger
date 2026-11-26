@@ -77,6 +77,18 @@ class ReplOutputTest(unittest.TestCase):
                                   "error": None}})
         self.assertEqual(cg.parse_repl_output(out), payload)
 
+    def test_unicode_line_separator_inside_result_kept(self):
+        # 인스타 캡션의 U+2028 문자를 줄바꿈으로 잘못 보고 결과가 잘리던 문제 (2026-11-26)
+        payload = {"og": "첫 줄 둘째 줄 셋째"}
+        text = "RESULT " + json.dumps(payload, ensure_ascii=False)
+        out = json.dumps({"run": {"content": [{"type": "text", "text": text}], "error": None}})
+        self.assertEqual(cg.parse_repl_output(out), payload)
+
+    def test_broken_result_raises_runtime_error(self):
+        out = json.dumps({"run": {"content": [{"type": "text", "text": 'RESULT {"a": "잘림'}], "error": None}})
+        with self.assertRaises(RuntimeError):
+            cg.parse_repl_output(out)
+
     def test_missing_result_raises(self):
         with self.assertRaises(RuntimeError):
             cg.parse_repl_output(json.dumps({"run": {"content": [], "error": "boom"}}))

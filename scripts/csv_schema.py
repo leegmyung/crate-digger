@@ -33,6 +33,7 @@ PROGRAMS = {
     "bbc_sound_of", "tiny_desk", "museon_final", "indiestance",
     # 유재하음악경연대회는 2026-11-26 후보 신호로 옮김 (SELECTION_PROGRAMS의 yoojaeha_finalist)
     "burock_main",          # 부산국제록페스티벌 본무대 출연 (루키즈 후보는 SAME_PROGRAM으로 적중 제외)
+    "mucon",                # 뮤콘(MU:CON) 쇼케이스 공모 선정 (정답 2등급: 다른 경연을 거친 팀이 모임)
     # 메이저 매체 소개 = '주목받기 시작함' (정답 2등급). 협찬 기사는 넣지 않는다.
     "media_izm", "media_bandwagon", "media_nme", "media_esquire",
 }
@@ -87,7 +88,29 @@ def excluded_outcomes(selection_program):
 COLLECTED_AT = F("collected_at", "datetime_tz", True)
 COLLECTOR = F("collector", "code", True, COLLECTORS)
 
+ARTIST_SOURCES = {"melon", "bugs", "genie", "flo", "manual"}
+
 TABLES = {
+    "raw_artist_profile": {      # 플랫폼 아티스트 페이지 1곳 × 1팀 = 1행 (1.5단계 신인 판별 · 2단계 이름 맞추기 기준)
+        "fields": [
+            COLLECTED_AT, F("source", "code", True, ARTIST_SOURCES), COLLECTOR,
+            F("artist_source_id", required=True),
+            F("artist_text", required=True),
+            F("debut_date", "date_partial"),
+            F("debut_title"),
+            F("activity_type"),        # 솔로 / 그룹 ...
+            F("agency_text"),          # 소속사
+            F("genre"),                # 여러 개면 |
+            F("nationality"),
+            F("fan_count", "int0"),    # 그날의 팬(좋아요) 수 — 3단계 반응 지표로도 씀
+            F("album_count", "int0"),  # 플랫폼에 올라온 앨범 수 (신인 기준: 5개 이하)
+            F("first_release_date", "date_partial"),  # 앨범 목록의 가장 오래된 발매일 (데뷔일이 빈 팀 보완)
+            F("youtube_url", "url"),   # 아티스트 페이지에 걸린 유튜브 채널 (3단계 유튜브 지표 대상)
+            F("url", "url", True),
+            F("artist_key"),
+        ],
+        "key": ("source", "artist_source_id"),
+    },
     "raw_kr_release": {
         "fields": [
             COLLECTED_AT, F("source", "code", True, RELEASE_SOURCES), COLLECTOR,

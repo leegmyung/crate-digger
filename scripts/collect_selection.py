@@ -32,7 +32,7 @@ KST = timezone(timedelta(hours=9))
 USER_AGENT = "crate-digger/0.1 (+https://github.com/leegmyung/crate-digger)"
 COLUMNS = [f.name for f in TABLES["raw_kr_selection"]["fields"]]
 KEY = TABLES["raw_kr_selection"]["key"]
-REQUEST_DELAY_SEC = 2.0
+REQUEST_DELAY_SEC = 0.3
 TIMEOUT_SEC = 30
 
 BUSAN_URL = "https://busanrockfestival.com/ROOKIES/"

@@ -111,6 +111,19 @@ class FloTest(unittest.TestCase):
         self.assertEqual(cp.parse_flo_list({"code": "4000000"}), [])
 
 
+class ArtistIdTest(unittest.TestCase):
+    def test_artist_ids_per_platform(self):
+        self.assertEqual(cp.parse_bugs_list([BUGS_ITEM])[0]["artist_ids"], ["20026154"])
+        self.assertEqual(cp.parse_bugs_list([BUGS_COLLAB])[0]["artist_ids"], ["1", "2"])
+        self.assertEqual(cp.parse_genie_list(GENIE_ROWS)[0]["artist_ids"], ["81346317"])
+        self.assertEqual(cp.parse_melon_list([MELON_ITEM])[0]["artist_ids"], ["181716"])
+        self.assertEqual([a["artist_ids"] for a in cp.parse_flo_list(FLO_LIST)], [["80021125"], ["20030585"]])
+
+    def test_rows_carry_artist_source_id(self):
+        rows = cp.to_rows("bugs", cp.parse_bugs_list([BUGS_COLLAB])[0], AT)
+        self.assertEqual([(r["artist_text"], r["artist_source_id"]) for r in rows], [("가람", "1"), ("나래 & 다솜", "2")])
+
+
 class RowsTest(unittest.TestCase):
     def test_one_row_per_artist_with_keys(self):
         album = cp.parse_bugs_list([BUGS_COLLAB])[0]

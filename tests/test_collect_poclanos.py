@@ -88,6 +88,14 @@ class ToRowsTest(unittest.TestCase):
         rows = cp.to_rows(item, cp.parse_detail(""), "2026-11-26T15:00:00+09:00")
         self.assertEqual([(r["artist_text"], r["artist_source_id"]) for r in rows], [("A", "1"), ("B", "2")])
 
+    def test_rows_have_normalized_keys(self):
+        r = cp.to_rows(API_ITEM, cp.parse_detail(DETAIL_HTML), "2026-11-26T15:00:00+09:00")[0]
+        self.assertEqual((r["artist_key"], r["title_key"]), ("새벽정류장", "첫차ep"))
+
+    def test_new_items_skip_seen_ids(self):
+        items = [{"id": 1}, {"id": 2}, {"id": 3}]
+        self.assertEqual([i["id"] for i in cp.new_items(items, {"2"})], [1, 3])
+
     def test_written_file_passes_validator(self):
         rows = cp.to_rows(API_ITEM, cp.parse_detail(DETAIL_HTML), "2026-11-26T15:00:00+09:00")
         with tempfile.TemporaryDirectory() as d:

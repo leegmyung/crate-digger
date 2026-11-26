@@ -4,7 +4,8 @@
     python3 scripts/collect_platforms.py --site melon,flo    # 일부만
     python3 scripts/collect_platforms.py --days 7
 
-- 네 곳 모두 robots.txt가 일반 수집을 막아서, 정한 방식대로 aside 브라우저로 하루 한 번 천천히 읽는다.
+- 네 곳 모두 robots.txt가 일반 수집을 막아서 aside 브라우저로 하루 한 번 읽는다 (일부러 쉬는 시간은 두지 않고,
+  페이지가 뜰 때까지만 기다린다 — 2026-11-26 사용자 지시).
   원본(data/raw/)은 비공개로 둔다.
 - 범위: 각 플랫폼의 '국내 인디 최신 앨범' 목록 (처음엔 노이즈를 줄이려고 인디 목록만).
 - 목록 → 처음 보는 앨범만 상세 페이지(발매일·유통사·기획사·장르) → 팀마다 1행.
@@ -36,8 +37,8 @@ KST = timezone(timedelta(hours=9))
 COLUMNS = [f.name for f in TABLES["raw_kr_release"]["fields"]]
 PLATFORMS = ("melon", "genie", "flo", "bugs")
 REPL_TIMEOUT_SEC = 240
-MAX_DETAILS = 40          # 플랫폼마다 하루 상세 페이지 최대 수
-DETAIL_BATCH = 8          # aside 호출 1번에 여는 상세 페이지 수
+MAX_DETAILS = 200         # 플랫폼마다 하루 상세 페이지 최대 수 (새 앨범은 사실상 다 읽음)
+DETAIL_BATCH = 12         # aside 호출 1번에 여는 상세 페이지 수
 SEEN_KEEP = 3000
 PAGE_WAIT_MS = 3000
 DETAIL_WAIT_MS = 2500
@@ -79,7 +80,10 @@ def dot_date(text):
 
 
 def _album(platform, album_id, title, artists, released_at="", release_type="", genre=""):
-    return {"album_id": str(album_id), "title": clean(title), "artists": [clean(a) for a in artists if clean(a)],
+    """artists: [(이름, 플랫폼 아티스트 번호), ...]. 번호는 아티스트 메타데이터·동명 팀 구분에 쓴다."""
+    pairs = [(clean(n), str(i or "")) for n, i in artists if clean(n)]
+    return {"album_id": str(album_id), "title": clean(title), "artists": [n for n, _ in pairs],
+            "artist_ids": [i for _, i in pairs],
             "released_at": released_at, "release_type": release_type, "genre": genre,
             "distributor": "", "label": "", "url": ALBUM_URL[platform].format(id=album_id)}
 
@@ -92,7 +96,8 @@ def parse_bugs_list(items):
         title = re.search(r'class="albumTitle">\s*<a[^>]*title="([^"]*)"', li)
         if not m or not title:
             continue
-        artists = re.findall(r'class="artistTitle"[^>]*title="([^"]*)"', li)
+        artists = [(n, i) for i, n in re.findall(
+            r'href="[^"]*/artist/(\d+)[^"]*"[^>]*class="artistTitle"[^>]*title="([^"]*)"', li)]
         kind = re.search(r'class="albumType">([^<]*)<', li)
         out.append(_album("bugs", m.group(1), title.group(1), artists, dot_date(li),
                           map_type(kind.group(1)) if kind else ""))
@@ -118,7 +123,7 @@ def parse_genie_list(rows):
         if not m or m.group(1) in seen:
             continue
         seen.add(m.group(1))
-        artists = re.findall(r'class="artist ellipsis"[^>]*>(.*?)</a>', tr, re.S)
+        artists = [(n, i) for i, n in re.findall(r'class="artist ellipsis"[^>]*fnViewArtist\((\d+)\)[^>]*>(.*?)</a>', tr, re.S)]
         out.append(_album("genie", m.group(1), m.group(2), artists))
     return out
 
@@ -138,7 +143,8 @@ def parse_melon_list(items):
         m = re.search(r"goAlbumDetail\('(\d+)'\);\"[^>]*class=\"[^\"]*album_name[^\"]*\"[^>]*>(.*?)</a>", li, re.S)
         if not m:
             continue
-        artists = re.findall(r'class="artist_name[^"]*"[^>]*>(.*?)</a>', li, re.S)
+        artists = [(n, i) for i, n in re.findall(
+            r"goArtistDetail\('(\d+)'\);?\"[^>]*class=\"artist_name[^\"]*\"[^>]*>(.*?)</a>", li, re.S)]
         out.append(_album("melon", m.group(1), m.group(2), artists))
     return out
 
@@ -159,7 +165,8 @@ def parse_flo_list(payload):
         ymd = str(a.get("releaseYmd", ""))
         day = f"{ymd[:4]}-{ymd[4:6]}-{ymd[6:8]}" if re.fullmatch(r"\d{8}", ymd) else ""
         genre = "|".join(g.strip() for g in str(a.get("genreStyle", "")).split(",") if g.strip())
-        out.append(_album("flo", a.get("id"), a.get("title", ""), [x.get("name", "") for x in a.get("artistList") or []],
+        out.append(_album("flo", a.get("id"), a.get("title", ""),
+                          [(x.get("name", ""), x.get("id", "")) for x in a.get("artistList") or []],
                           day, map_type(a.get("albumTypeStr", "")), genre))
     return out
 
@@ -208,7 +215,9 @@ def to_rows(source, album, collected_at):
             "release_type": album.get("release_type", ""), "genre": album.get("genre", ""),
             "label_text": album.get("label", ""), "track_count": "", "release_url": album["url"],
             "distributor_text": album.get("distributor", ""), "title_key": title_key(album["title"])}
-    return [dict(base, artist_text=a, artist_key=artist_key(a)) for a in dict.fromkeys(album["artists"])]
+    ids = dict(zip(album["artists"], album.get("artist_ids") or []))
+    return [dict(base, artist_text=a, artist_key=artist_key(a), artist_source_id=ids.get(a, ""))
+            for a in dict.fromkeys(album["artists"])]
 
 
 def write_csv(rows, out_dir, day, name):
@@ -239,7 +248,7 @@ def _list_js(platform):
     # 탭을 비워 두고 이동(goto)하면 멜론에서 이동 시간 초과가 나서, 페이지마다 탭을 새로 열고 닫는다.
     return f"""await (async () => {{
   const items = [];
-  for (const u of {urls}) {{ const t = await openTab(u); await sleep({PAGE_WAIT_MS}); {grab} await closeTab(t); await sleep(1500); }}
+  for (const u of {urls}) {{ const t = await openTab(u); await sleep({PAGE_WAIT_MS}); {grab} await closeTab(t); }}
   console.log('RESULT ' + JSON.stringify(items));
 }})();"""
 
@@ -249,7 +258,7 @@ def _detail_js(platform, album_ids):
     if platform == "flo":
         return f"""await (async () => {{
   const out = {{}}; const t = await openTab('https://www.music-flo.com/browse/genre/newalbum/detail/9'); await sleep({PAGE_WAIT_MS});
-  for (const id of {ids}) {{ out[id] = await t.evaluate(async i => (await fetch('/api/meta/v1/album/' + i)).json(), id); await sleep(1500); }}
+  for (const id of {ids}) {{ out[id] = await t.evaluate(async i => (await fetch('/api/meta/v1/album/' + i)).json(), id); }}
   await closeTab(t); console.log('RESULT ' + JSON.stringify(out));
 }})();"""
     tmpl, sel = json.dumps(ALBUM_URL[platform]), json.dumps(DETAIL_SELECTOR[platform])
@@ -260,7 +269,6 @@ def _detail_js(platform, album_ids):
       const t = await openTab({tmpl}.replace('{{id}}', id)); await sleep({DETAIL_WAIT_MS});
       out[id] = await t.evaluate(s => document.querySelector(s)?.outerHTML || '', {sel}); await closeTab(t);
     }} catch (e) {{ out[id] = ''; }}
-    await sleep(1500);
   }}
   console.log('RESULT ' + JSON.stringify(out));
 }})();"""
