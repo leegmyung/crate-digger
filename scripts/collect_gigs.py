@@ -121,8 +121,16 @@ def in_window(start_date, first_day, last_day):
     return bool(re.match(r"^\d{4}-\d{2}-\d{2}$", day)) and first_day <= day <= last_day
 
 
+def _to_kst(start):
+    """'2026-11-26T11:00:00.000Z'처럼 UTC로 온 시각을 한국 시간으로. 이미 +09:00이거나 날짜만 있으면 그대로."""
+    m = re.match(r"^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?)(?:\.\d+)?Z$", start or "")
+    if not m:
+        return start or ""
+    return datetime.fromisoformat(m.group(1)).replace(tzinfo=timezone.utc).astimezone(KST).isoformat()
+
+
 def to_rows(site, detail, collected_at):
-    start = detail.get("startDate", "")
+    start = _to_kst(detail.get("startDate", ""))
     m = re.match(r"^(\d{4}-\d{2}-\d{2})(?:T(\d{2}:\d{2}))?", start)
     if not m:
         return []

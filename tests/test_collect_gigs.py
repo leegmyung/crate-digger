@@ -55,6 +55,15 @@ class ToRowsTest(unittest.TestCase):
     def test_no_performers_gives_no_rows(self):
         self.assertEqual(cg.to_rows("indiego", dict(INDIEGO_DETAIL, performers=[]), AT), [])
 
+    def test_utc_start_converted_to_korea_time(self):
+        # 인디스트릿은 시작 시각을 UTC(Z)로 줌 → 오후 8시 공연이 11:00으로 적히던 문제 (2026-11-26)
+        r = cg.to_rows("indiego", dict(INDIEGO_DETAIL, startDate="2026-11-26T11:00:00.000Z"), AT)[0]
+        self.assertEqual((r["gig_date"], r["gig_time"]), ("2026-11-26", "20:00"))
+        r = cg.to_rows("indiego", dict(INDIEGO_DETAIL, startDate="2026-11-26T16:30:00Z"), AT)[0]
+        self.assertEqual((r["gig_date"], r["gig_time"]), ("2026-11-27", "01:30"))   # 자정 넘으면 날짜도
+        r = cg.to_rows("indiego", dict(INDIEGO_DETAIL, startDate="2026-11-26T19:00:00+09:00"), AT)[0]
+        self.assertEqual(r["gig_time"], "19:00")                                     # 이미 한국 시간이면 그대로
+
     def test_bad_start_date_keeps_date_drops_time(self):
         r = cg.to_rows("indiego", dict(INDIEGO_DETAIL, startDate="2026-11-26"), AT)[0]
         self.assertEqual((r["gig_date"], r["gig_time"]), ("2026-11-26", ""))
