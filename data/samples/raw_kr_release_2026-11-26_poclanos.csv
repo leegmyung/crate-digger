@@ -1,0 +1,4 @@
+collected_at,source,collector,source_id,released_at,artist_text,artist_source_id,title,release_type,genre,label_text,track_count,release_url
+2026-11-26T09:30:00+09:00,poclanos,script,90001,2026-11-26,새벽정류장,8801,첫차,EP,shoegaze|alternative,가상레코드,5,https://example.com/poclanos/album/first-bus
+2026-11-26T09:30:00+09:00,poclanos,script,90002,2026-11-25,Lumen Garden (루멘가든),8802,유리온실,single,folk,,1,https://example.com/poclanos/album/glasshouse
+2026-11-26T09:30:00+09:00,poclanos,script,90003,2026-11-25,"오후, 세 시",8803,낮잠,,indie pop|rock,,,https://example.com/poclanos/album/nap

@@ -1,0 +1,4 @@
+collected_at,source,collector,outlet,published_at,title,url,artist_text,release_title,is_pick,pick_label
+2026-11-26T10:00:00+09:00,musicy,aside,음악취향Y,2026-11-24,Single Out #가상,https://example.com/musicy/review/1,새벽정류장,첫차,1,Single Out
+2026-11-26T10:00:00+09:00,liak,aside,킨디라운지,2026-11-25T14:00:00+09:00,11월 넷째 주 신보 소개,https://example.com/liak/pressnews/1,가상밴드 하나,여름 끝,1,주간 신보
+2026-11-26T10:05:00+09:00,manual,manual,가상웹진,2026-11-20,이번 달 들은 것들,https://example.com/webzine/2026-11,Lumen Garden,,0,

@@ -1,0 +1,3 @@
+collected_at,source,collector,source_id,released_at,artist_text,artist_source_id,title,release_type,genre,label_text,track_count,release_url
+2026-11-26T09:40:12+09:00,bugs,aside,7000001,2026-11-26,새벽정류장,500001,첫차,EP,,,,https://example.com/bugs/album/7000001
+2026-11-26T09:40:12+09:00,bugs,aside,7000002,2026-11-26,가상밴드 하나,500002,여름 끝,single,,,,https://example.com/bugs/album/7000002

@@ -1,0 +1,4 @@
+collected_at,source,collector,source_id,gig_date,gig_time,title,venue_text,artist_text,artist_source_id,gig_url,artist_url
+2026-11-26T10:10:00+09:00,indiego,aside,e-1001,2026-11-28,19:30,가상 금요 라이브,가상홀 (서울 마포),새벽정류장,a-301,https://example.com/indiego/events/e-1001,https://example.com/indiego/artists/a-301
+2026-11-26T10:10:00+09:00,indiego,aside,e-1001,2026-11-28,19:30,가상 금요 라이브,가상홀 (서울 마포),가상밴드 둘,a-302,https://example.com/indiego/events/e-1001,
+2026-11-26T10:10:00+09:00,indiego,aside,e-1002,2026-11-29,,"작은 방, 큰 소리",가상클럽 (부산),Lumen Garden,,https://example.com/indiego/events/e-1002,

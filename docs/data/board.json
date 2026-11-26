@@ -13,7 +13,7 @@
    "no": "1",
    "name": "원본 수집 (매일)",
    "status": "now",
-   "detail": "raw_kr_release(발매), raw_kr_gig(공연·새로 추가), raw_press. CSV 형식 정의 → 소스별 수집기",
+   "detail": "CSV 형식 정의서·검사기 완료 (raw_kr_release, raw_kr_gig＋, raw_press, raw_outcome). 다음: 소스별 수집기",
    "added": false
   },
   {
@@ -120,6 +120,16 @@
   {
    "found": "웹진은 신인 비중이 낮거나 양이 적음",
    "fix": "웹진은 후보 풀이 아니라 '평론 신호'(점수 가점)로만 사용",
+   "status": "반영"
+  },
+  {
+   "found": "공연을 후보 풀에 넣었는데 공연을 담을 테이블이 없었음",
+   "fix": "raw_kr_gig 추가 (공연 1건 × 출연 팀 1팀 = 1행)",
+   "status": "반영"
+  },
+  {
+   "found": "aside·스크립트·수동 입력 결과가 형식이 제각각일 위험",
+   "fix": "형식 정의서(docs/csv_spec.md) + 자동 검사기(scripts/validate_csv.py, 테스트 17개)",
    "status": "반영"
   }
  ],

@@ -1,0 +1,5 @@
+collected_at,source,collector,program,round,announced_at,result,artist_text,url,note
+2026-11-26T11:00:00+09:00,manual,manual,hello_rookie,2026-05,2026-05-28,selected,가상밴드 하나,https://example.com/hellorookie/2026-05,월간 선정 (가상 예시)
+2026-11-26T11:00:00+09:00,manual,manual,hello_rookie_year,2026,2026-11-20,winner,가상밴드 하나,https://example.com/hellorookie/2026-final,올해의 헬로루키 대상 (가상 예시)
+2026-11-26T11:00:00+09:00,manual,manual,cj_tuneup,27기,2026-04,selected,가상밴드 둘,https://example.com/tuneup/27,
+2026-11-26T11:00:00+09:00,manual,manual,bbc_sound_of,2026,2026-01-09,longlist,Example Artist,https://example.com/bbc/sound-of-2026,
