@@ -6,6 +6,8 @@ __pycache__/
 # 프로젝트 전용 파이썬 환경 (requirements.txt로 다시 만듦)
 .venv/
 *.pyc
+# 실제 수집 원본 (공개 저장소에 올리지 않음)
+data/raw/
 # 비밀값
 .env
 .env.*
