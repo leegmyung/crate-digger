@@ -36,6 +36,7 @@ ARTIST_URL = "https://www.melon.com/artist/detail.htm?artistId={id}"
 ALBUM_URL = "https://www.melon.com/artist/album.htm?artistId={id}"
 BATCH = 10
 DEFAULT_LIMIT = 200
+MAX_PROFILES_PER_RUN = 100   # 프로필 페이지 읽기 상한 (팀당 2쪽, aside 끊김에도 1시간 안쪽)
 REPL_TIMEOUT_SEC = 300
 PAGE_WAIT_MS = 2500
 
@@ -271,7 +272,7 @@ def collect_from_outcomes(limit, names=None):
     except (OSError, json.JSONDecodeError):
         seen = set()
     ids = [m["id"] for m in matches.values() if m and m["id"] not in seen]
-    ids = list(dict.fromkeys(ids))
+    ids = list(dict.fromkeys(ids))[:MAX_PROFILES_PER_RUN]   # 한 번 실행이 너무 길어지지 않게 (남은 팀은 다음 실행에)
     if not ids:
         return None, len(todo), 0
     now = datetime.now(KST).replace(microsecond=0)
