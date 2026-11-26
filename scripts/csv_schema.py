@@ -34,6 +34,8 @@ PROGRAMS = {
     # 유재하음악경연대회는 2026-11-26 후보 신호로 옮김 (SELECTION_PROGRAMS의 yoojaeha_finalist)
     "burock_main",          # 부산국제록페스티벌 본무대 출연 (루키즈 후보는 SAME_PROGRAM으로 적중 제외)
     "mucon",                # 뮤콘(MU:CON) 쇼케이스 공모 선정 (정답 2등급: 다른 경연을 거친 팀이 모임)
+    "khha_rookie",          # 한국힙합어워즈 올해의 신인 (힙합 장르 최종 정답)
+    "kma_genre",            # 한국대중음악상 장르 부문 후보·수상 (랩&힙합·R&B·일렉트로닉·모던록·포크·팝 등, 기성 섞임)
     # 메이저 매체 소개 = '주목받기 시작함' (정답 2등급). 협찬 기사는 넣지 않는다.
     "media_izm", "media_bandwagon", "media_nme", "media_esquire",
 }
@@ -47,12 +49,13 @@ OUTCOME_TIER = {
     "gg_indiestance": "mid", "mucon": "mid", "burock_main": "mid", "opcd": "mid", "tiny_desk": "mid",
     "media_izm": "mid", "media_bandwagon": "mid", "media_nme": "mid", "media_esquire": "mid",
     "hello_rookie_year": "final", "kma_rookie": "final", "cj_tuneup": "final", "izm_rookie": "final",
-    "musicy_rookie": "final", "rhythmer_award": "final", "bbc_sound_of": "final",
+    "musicy_rookie": "final", "rhythmer_award": "final", "bbc_sound_of": "final", "khha_rookie": "final",
+    "kma_genre": "mid",
 }
 OUTCOME_SAME_FAMILY = {"hello_rookie": frozenset({"hello_rookie_year"}),
                        "indiestance": frozenset(), "gg_indiestance": frozenset()}
 # 기성 팀이 많이 섞인 정답: 정답 받을 때 첫 발매 후 CAREER_FILTER_YEARS 이내인 팀만 '신인 정답'으로 센다
-CAREER_FILTERED = frozenset({"burock_main", "mucon"})
+CAREER_FILTERED = frozenset({"burock_main", "mucon", "kma_genre"})
 CAREER_FILTER_YEARS = 5
 
 # 후보 신호용 선정·지원 프로그램 코드 (작고 이른 단계). 정답 코드(PROGRAMS)와 겹치면 안 된다.

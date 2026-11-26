@@ -7,7 +7,7 @@
 - 네 곳 모두 robots.txt가 일반 수집을 막아서 aside 브라우저로 하루 한 번 읽는다 (일부러 쉬는 시간은 두지 않고,
   페이지가 뜰 때까지만 기다린다 — 2026-11-26 사용자 지시).
   원본(data/raw/)은 비공개로 둔다.
-- 범위: 각 플랫폼의 '국내 인디 최신 앨범' 목록 (처음엔 노이즈를 줄이려고 인디 목록만).
+- 범위: 각 플랫폼의 '국내 인디 최신 앨범' 목록 + 멜론 랩/힙합·R&B 최신 앨범 (장르 확장, 유명 팀은 1.5단계에서 거름).
 - 목록 → 처음 보는 앨범만 상세 페이지(발매일·유통사·기획사·장르) → 팀마다 1행.
   이미 본 앨범 번호는 data/raw/state/music_platforms_seen.json 으로 건너뛴다.
 - 플랫폼 하나가 실패해도 나머지는 계속한다. 실패는 data/raw/state/platform_errors.log 에도 남긴다.
@@ -47,7 +47,10 @@ LIST_URLS = {
     "bugs": ["https://music.bugs.co.kr/newest/album/nindie?page=1"],
     "genie": ["https://www.genie.co.kr/genre/L0109?genreCode=L0109&pg=1",
               "https://www.genie.co.kr/genre/L0109?genreCode=L0109&pg=2"],
-    "melon": ["https://www.melon.com/genre/album_list.htm?gnrCode=GN0500"],
+    # 멜론: 인디(GN0500) + 랩/힙합(GN0300) + R&B/Soul(GN0400) — 인디 목록만 보면 다른 장르 신인을 놓쳐서 (2026-11-27)
+    "melon": ["https://www.melon.com/genre/album_list.htm?gnrCode=GN0500",
+              "https://www.melon.com/genre/album_list.htm?gnrCode=GN0300",
+              "https://www.melon.com/genre/album_list.htm?gnrCode=GN0400"],
     "flo": ["https://www.music-flo.com/browse/genre/newalbum/detail/9"],
 }
 LIST_SELECTOR = {"bugs": "ul.albumList > li", "genie": "tr.list", "melon": "li:has(a.album_name)"}
