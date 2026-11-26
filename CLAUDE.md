@@ -1,8 +1,8 @@
 # CLAUDE.md
 
-Bandcamp 신인 발굴 대시보드 프로젝트. 자세한 내용은 `PROJECT.md`(방향·결정·할 일), `README.md`(실행 방법), `HISTORY.md`(진행 기록)를 먼저 읽는다.
+**Crate Digger** — Bandcamp 신인 발굴 대시보드 프로젝트. 자세한 내용은 `PROJECT.md`(방향·결정·할 일), `README.md`(실행 방법), `HISTORY.md`(진행 기록)를 먼저 읽는다.
 
-- GitHub 저장소: https://github.com/leegmyung/bandcamp-dashboard (공개)
+- GitHub 저장소: https://github.com/leegmyung/crate-digger (공개)
 - 응답과 문서는 한국어로. 사용자는 개발에 익숙하지 않으니 기술 용어는 쉽게 풀어서 설명한다.
 
 ## 커밋 규칙
