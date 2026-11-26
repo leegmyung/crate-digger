@@ -130,6 +130,45 @@ class RuleTest(unittest.TestCase):
         self.assertEqual([i.column for i in issues], ["program"])
 
 
+class SelectionTest(unittest.TestCase):
+    HEADER = "collected_at,source,collector,program,round,stage,announced_at,artist_text,url,note"
+    ROW = "2026-11-26T12:00:00+09:00,mapoindie,aside,indiscovery,2026,challenger,2026-06,가상팀,https://example.com/s,"
+
+    def check(self, row):
+        with tempfile.TemporaryDirectory() as d:
+            p = write_csv(d, "raw_kr_selection_2026-11-26_mapoindie.csv", self.HEADER + "\n" + row)
+            return errors(validate_csv.validate_file(p))
+
+    def test_good_selection_row(self):
+        self.assertEqual(self.check(self.ROW), [])
+
+    def test_selection_program_must_be_candidate_program_not_outcome(self):
+        issues = self.check(self.ROW.replace(",indiscovery,", ",hello_rookie_year,"))
+        self.assertEqual([i.column for i in issues], ["program"])
+
+    def test_stage_code(self):
+        issues = self.check(self.ROW.replace(",challenger,", ",1차,"))
+        self.assertEqual([i.column for i in issues], ["stage"])
+
+
+class SameProgramRuleTest(unittest.TestCase):
+    def test_candidate_and_outcome_codes_do_not_overlap(self):
+        import csv_schema
+        self.assertEqual(csv_schema.SELECTION_PROGRAMS & csv_schema.PROGRAMS, set())
+
+    def test_same_program_map_points_to_known_codes(self):
+        import csv_schema
+        for sel, outs in csv_schema.SAME_PROGRAM.items():
+            self.assertIn(sel, csv_schema.SELECTION_PROGRAMS)
+            self.assertTrue(outs and outs <= csv_schema.PROGRAMS, sel)
+
+    def test_hello_rookie_applicants_exclude_hello_rookie_outcomes(self):
+        import csv_schema
+        self.assertEqual(csv_schema.excluded_outcomes("hello_rookie_applicant"),
+                         {"hello_rookie", "hello_rookie_year"})
+        self.assertEqual(csv_schema.excluded_outcomes("indiscovery"), set())
+
+
 class CliTest(unittest.TestCase):
     def test_exit_code(self):
         good = sorted(SAMPLES.glob("raw_*.csv"))[0]

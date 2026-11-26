@@ -29,9 +29,42 @@ RELEASE_TYPES = {"single", "EP", "LP", "OST", "compilation"}
 PROGRAMS = {
     "hello_rookie", "hello_rookie_year", "cj_tuneup", "penta_superrookie", "kma_rookie",
     "opcd", "izm_rookie", "musicy_rookie", "rhythmer_award", "gg_indiestance",
-    "bbc_sound_of", "tiny_desk",
+    "bbc_sound_of", "tiny_desk", "museon_final", "indiestance", "yoojaeha",
 }
 RESULTS = {"selected", "winner", "finalist", "shortlist", "longlist", "nominee"}
+
+# 후보 신호용 선정·지원 프로그램 코드 (작고 이른 단계). 정답 코드(PROGRAMS)와 겹치면 안 된다.
+SELECTION_SOURCES = {
+    "mapoindie", "kocca", "gwmf", "seoulbusking", "gcon", "ebs", "contest",
+    "rollinghall", "senggi", "liveclubday", "tumblbug", "manual",
+}
+SELECTION_PROGRAMS = {
+    "indiscovery",              # 마포 인디스커버리
+    "museon_document",          # 뮤즈온 서류통과 (최종은 정답 museon_final)
+    "our_musician",             # KOCCA 우리 음악인 축제
+    "gw_creation",              # 강원음악창작소 선정
+    "seoul_busking",            # 서울 구석구석라이브
+    "regional_contest",         # 지역 밴드 경연 본선
+    "hello_rookie_applicant",   # 헬로루키 응모 (수상은 정답 hello_rookie*)
+    "indiestance_prelim",       # 인디스땅스 예선 (결선은 정답 indiestance)
+    "cmyk",                     # 롤링홀 CMYK
+    "senggi_curation",          # 생기스튜디오 생기 큐레이션
+    "liveclubday",              # 라이브클럽데이
+    "tumblbug_debut",           # 텀블벅 첫 음반 펀딩
+}
+STAGES = {"applied", "document", "challenger", "lineup", "showcase", "selected", "final"}
+
+# 같은 프로그램 규칙: 앞 단계를 후보로 쓴 팀은 같은 프로그램의 정답 결과를 적중으로 세지 않는다.
+SAME_PROGRAM = {
+    "hello_rookie_applicant": frozenset({"hello_rookie", "hello_rookie_year"}),
+    "museon_document": frozenset({"museon_final"}),
+    "indiestance_prelim": frozenset({"indiestance"}),
+}
+
+
+def excluded_outcomes(selection_program):
+    """이 후보 프로그램에서 나온 팀에게 적중으로 세면 안 되는 정답 프로그램 코드."""
+    return set(SAME_PROGRAM.get(selection_program, frozenset()))
 
 COLLECTED_AT = F("collected_at", "datetime_tz", True)
 COLLECTOR = F("collector", "code", True, COLLECTORS)
@@ -81,6 +114,19 @@ TABLES = {
             F("pick_label"),
         ],
         "key": ("url", "artist_text"),
+    },
+    "raw_kr_selection": {
+        "fields": [
+            COLLECTED_AT, F("source", "code", True, SELECTION_SOURCES), COLLECTOR,
+            F("program", "code", True, SELECTION_PROGRAMS),
+            F("round", required=True),
+            F("stage", "code", True, STAGES),
+            F("announced_at", "date_partial", True),
+            F("artist_text", required=True),
+            F("url", "url", True),
+            F("note"),
+        ],
+        "key": ("program", "round", "stage", "artist_text"),
     },
     "raw_outcome": {
         "fields": [

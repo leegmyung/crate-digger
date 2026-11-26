@@ -1,0 +1,4 @@
+collected_at,source,collector,program,round,stage,announced_at,artist_text,url,note
+2026-11-26T12:00:00+09:00,mapoindie,aside,indiscovery,2026,challenger,2026-06,가상밴드 하나,https://example.com/mapoindie/2026-challenger,챌린저 24팀 (가상 예시)
+2026-11-26T12:00:00+09:00,mapoindie,aside,indiscovery,2026,final,2026-10-21,가상밴드 하나,https://example.com/mapoindie/2026-final,파이널 3팀 (가상 예시)
+2026-11-26T12:00:00+09:00,kocca,aside,museon_document,2026,document,2026-07,"오후, 세 시",https://example.com/kocca/museon-2026,서류통과 25팀 (가상 예시)

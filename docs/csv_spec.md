@@ -78,7 +78,31 @@
 
 소스 코드: `musicy` 음악취향Y · `rhythmer` 리드머 · `liak` 킨디라운지 · `izm` 이즘 · `weiv` · `youtube` · `rss` · `manual`
 
-## 4. `raw_outcome` — 공증(정답) 발표 1건 × 팀 1팀 = 1행
+## 4. `raw_kr_selection` — 지원사업·경연·큐레이션 선정 1건 × 팀 1팀 = 1행 (후보 신호)
+
+작고 이른 단계의 선정 명단이에요. 큰 프로그램의 수상은 여기가 아니라 5번 `raw_outcome`(정답)에 적어요. 두 테이블은 일부러 나눠 뒀어요.
+
+| 칸 | 필수 | 설명 | 예 |
+|---|---|---|---|
+| collected_at, source, collector | ✅ | 공통 | mapoindie |
+| program | ✅ | 후보 프로그램 코드 (아래) | indiscovery |
+| round | ✅ | 회차 | 2026 |
+| stage | ✅ | applied 응모 / document 서류통과 / challenger / lineup / showcase / selected / final | challenger |
+| announced_at | ✅ | 발표일 (월까지만 알아도 됨) | 2026-06 |
+| artist_text | ✅ | 팀 이름 | |
+| url | ✅ | 근거 주소 | |
+| note | | 메모 | 챌린저 24팀 |
+
+소스 코드: `mapoindie` · `kocca` · `gwmf` 강원음악창작소 · `seoulbusking` · `gcon` 경기콘텐츠진흥원 · `ebs` · `contest` 지역 경연 · `rollinghall` · `senggi` · `liveclubday` · `tumblbug` · `manual`
+
+프로그램 코드: `indiscovery` 마포 인디스커버리 · `museon_document` 뮤즈온 서류통과 · `our_musician` 우리 음악인 축제 · `gw_creation` 강원음악창작소 · `seoul_busking` 구석구석라이브 · `regional_contest` 지역 밴드 경연 · `hello_rookie_applicant` 헬로루키 응모 · `indiestance_prelim` 인디스땅스 예선 · `cmyk` 롤링홀 CMYK · `senggi_curation` 생기 큐레이션 · `liveclubday` 라이브클럽데이 · `tumblbug_debut` 텀블벅 첫 음반 펀딩
+
+**같은 프로그램 규칙:** 앞 단계를 후보로 쓴 팀은 같은 프로그램의 정답 결과를 적중으로 세지 않아요. 연결표는 `scripts/csv_schema.py`의 `SAME_PROGRAM`에 있어요.
+- `hello_rookie_applicant` → `hello_rookie`, `hello_rookie_year` 제외
+- `museon_document` → `museon_final` 제외
+- `indiestance_prelim` → `indiestance` 제외
+
+## 5. `raw_outcome` — 공증(정답) 발표 1건 × 팀 1팀 = 1행
 
 **후보를 고르거나 점수를 매길 때 절대 쓰지 않습니다.** 우리가 먼저 찾았는지 맞춰 보는 정답지예요.
 
@@ -93,7 +117,7 @@
 | url | ✅ | 근거 주소 | |
 | note | | 메모 | 월간 선정 |
 
-프로그램 코드: `hello_rookie` 헬로루키 월간 · `hello_rookie_year` 올해의 헬로루키 · `cj_tuneup` CJ 튠업 · `penta_superrookie` 펜타 슈퍼루키 · `kma_rookie` 한국대중음악상 신인 · `opcd` OPCD · `izm_rookie` 이즘 올해의 신인 · `musicy_rookie` 음악취향Y 올해의 신인 · `rhythmer_award` 리드머 어워드 · `gg_indiestance` 경기 인디스땅스 · `bbc_sound_of` · `tiny_desk`
+프로그램 코드: `hello_rookie` 헬로루키 월간 · `hello_rookie_year` 올해의 헬로루키 · `cj_tuneup` CJ 튠업 · `penta_superrookie` 펜타 슈퍼루키 · `kma_rookie` 한국대중음악상 신인 · `opcd` OPCD · `izm_rookie` 이즘 올해의 신인 · `musicy_rookie` 음악취향Y 올해의 신인 · `rhythmer_award` 리드머 어워드 · `gg_indiestance` 경기 인디스땅스 · `bbc_sound_of` · `tiny_desk` · `museon_final` 뮤즈온 최종 · `indiestance` 인디스땅스 결선 · `yoojaeha` 유재하 음악경연대회
 
 ## aside에 붙여 넣는 작업 지시문 (예: 벅스)
 
