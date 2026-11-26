@@ -51,7 +51,7 @@ TABLES = {
             F("track_count", "int_pos"),
             F("release_url", "url", True),
         ],
-        "key": ("source", "release_url"),
+        "key": ("source", "release_url", "artist_text"),   # 콜라보는 팀마다 1행
     },
     "raw_kr_gig": {
         "fields": [

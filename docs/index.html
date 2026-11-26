@@ -130,11 +130,28 @@
     </table></div>
   </section>
 
+  <section class="section" aria-labelledby="h-runs">
+    <h2 id="h-runs">수집 현황</h2>
+    <p class="sub">날짜별·소스별로 몇 줄을 받았는지, 형식 검사를 통과했는지 보여 줘요. 매일 줄이 하나씩 늘어나야 정상이에요.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>수집일</th><th>소스</th><th>테이블</th><th>줄 수</th><th>형식 검사</th></tr></thead>
+      <tbody id="runs"><tr><td colspan="5" class="pending">아직 수집 기록이 없어요.</td></tr></tbody>
+    </table></div>
+  </section>
+
+  <section class="section" aria-labelledby="h-recent">
+    <h2 id="h-recent">최근 수집한 발매</h2>
+    <p class="sub">아직 신인 판별(1.5단계) 전이라 이미 알려진 팀이나 재발매도 섞여 있어요. <span id="recent-count"></span></p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>발매일</th><th>아티스트</th><th>제목</th><th>형태</th><th>소스</th></tr></thead>
+      <tbody id="recent"><tr><td colspan="5" class="pending">아직 수집한 발매가 없어요.</td></tr></tbody>
+    </table></div>
+  </section>
+
   <section class="section" aria-labelledby="h-slots">
-    <h2 id="h-slots">수집·관찰 현황</h2>
-    <p class="sub">수집이 시작되면 아래 칸이 매일 채워져요.</p>
+    <h2 id="h-slots">관찰 현황</h2>
+    <p class="sub">단계가 진행되면 아래 칸이 채워져요.</p>
     <div class="slots">
-      <div class="slot"><b>수집 현황</b><span>소스별 오늘 수집 건수, 성공·실패 (1단계부터)</span></div>
       <div class="slot"><b>오늘의 후보</b><span>신인 판별을 통과한 새 발매 (1.5단계부터)</span></div>
       <div class="slot"><b>관찰 목록</b><span>선정한 팀과 비교 그룹의 지표 추이 (4~5단계부터)</span></div>
       <div class="slot"><b>검증</b><span>적중률, 몇 달 먼저 찾았나, 성장 배수 (6단계부터)</span></div>
@@ -204,6 +221,30 @@
     document.getElementById('decisions').replaceChildren(...items.map((d) =>
       el('tr', {}, [cell([d.q]), cell([chip(d.state, d.state === '결정 필요' ? 's-warn' : 's-ok')])])));
   }
+
+  const SOURCE_KO = { poclanos: '포크라노스', muzeplatform: '뮤즈플랫폼', vlending: 'OGQ 블렌딩', mirrorball: '미러볼뮤직',
+    bugs: '벅스', flo: 'FLO', genie: '지니', melon: '멜론', bandcamp_kr: 'Bandcamp 한국', indiego: '인디고', indistreet: '인디스트릿' };
+  const TABLE_KO = { raw_kr_release: '발매', raw_kr_gig: '공연', raw_press: '평론 신호', raw_outcome: '공증' };
+
+  function renderCollect(c) {
+    if (c.runs.length) {
+      document.getElementById('runs').replaceChildren(...c.runs.map((r) => el('tr', {}, [
+        cell([r.date], 'nowrap'), cell([SOURCE_KO[r.source] || r.source]), cell([TABLE_KO[r.table] || r.table]),
+        cell([String(r.rows)]), cell([r.file_ok ? chip('통과', 's-ok') : chip('실패', 's-bad')], 'nowrap')])));
+    }
+    if (c.recent_releases.length) {
+      document.getElementById('recent-count').textContent = '최근 ' + c.recent_releases.length + '건 · 갱신 ' + c.generated.slice(0, 16).replace('T', ' ');
+      document.getElementById('recent').replaceChildren(...c.recent_releases.map((r) => el('tr', {}, [
+        cell([r.released_at], 'nowrap'), cell([r.artist]),
+        el('td', {}, [el('a', { href: r.url, rel: 'noopener' }, [r.title])]),
+        cell([r.type || '-']), cell([SOURCE_KO[r.source] || r.source])])));
+    }
+  }
+
+  fetch('data/collect.json', { cache: 'no-store' })
+    .then((r) => (r.ok ? r.json() : null))
+    .then((c) => { if (c) renderCollect(c); })
+    .catch(() => { /* 수집 데이터가 아직 없으면 빈 상태 문구를 그대로 둔다 */ });
 
   fetch('data/board.json', { cache: 'no-store' })
     .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })

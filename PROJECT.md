@@ -154,7 +154,17 @@ claude.ai 대시보드 링크 (본인만 열람 가능):
 - Bandcamp Sales Pulse: https://claude.ai/artifact/MT4ngSezz1ppy6iJn4YHdf
 - Bandcamp Taste Match (보류): https://claude.ai/artifact/JYtChoYG6BGRXQGD6yGexW
 
-## 9. 다시 만들기
+## 9. 매일 수집 (국내)
+```bash
+source .venv/bin/activate
+python3 scripts/collect_poclanos.py            # 포크라노스 최근 3일 → data/raw/ (비공개)
+python3 scripts/validate_csv.py data/raw/*.csv # 형식 검사 (aside로 받은 파일도)
+python3 scripts/build_site_data.py             # 진행판 공개 데이터 docs/data/collect.json
+python3 -m unittest discover -s tests          # 테스트
+```
+형식은 `docs/csv_spec.md`. 진행판: https://leegmyung.github.io/crate-digger/
+
+## 10. 다시 만들기 (예전 판매 대시보드)
 ```bash
 python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt   # 처음 한 번
 python3 scripts/generate_sample.py data/sample_salesfeed.csv   # 가상 판매 샘플 (선택)

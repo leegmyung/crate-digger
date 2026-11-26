@@ -1,0 +1,142 @@
+{
+ "generated": "2026-11-26T17:29:40+09:00",
+ "runs": [
+  {
+   "date": "2026-11-26",
+   "source": "poclanos",
+   "table": "raw_kr_release",
+   "rows": 16,
+   "file_ok": true
+  }
+ ],
+ "recent_releases": [
+  {
+   "released_at": "2026-11-26",
+   "artist": "결 (KYUL)",
+   "title": "세탁",
+   "type": "single",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/%ec%84%b8%ed%83%81/"
+  },
+  {
+   "released_at": "2026-11-26",
+   "artist": "Shamis",
+   "title": "Family Tree/Catch Onto This Feeling",
+   "type": "single",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/family-tree-catch-onto-this-feeling/"
+  },
+  {
+   "released_at": "2026-11-26",
+   "artist": "sunho",
+   "title": "Mirrored",
+   "type": "single",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/mirrored/"
+  },
+  {
+   "released_at": "2026-11-25",
+   "artist": "강유현 (Kang yuhyun)",
+   "title": "Tree Tree Christams Tree (feat. 손모은)",
+   "type": "single",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/tree-tree-christams-tree-feat-%ec%86%90%eb%aa%a8%ec%9d%80/"
+  },
+  {
+   "released_at": "2026-11-25",
+   "artist": "예위 (yewee)",
+   "title": "어쩌지도 못하는 슬픔 (Band Version)",
+   "type": "single",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/%ec%96%b4%ec%a9%8c%ec%a7%80%eb%8f%84-%eb%aa%bb%ed%95%98%eb%8a%94-%ec%8a%ac%ed%94%94-band-version/"
+  },
+  {
+   "released_at": "2026-11-25",
+   "artist": "아륜",
+   "title": "영원하지 않아도",
+   "type": "LP",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/%ec%98%81%ec%9b%90%ed%95%98%ec%a7%80-%ec%95%8a%ec%95%84%eb%8f%84/"
+  },
+  {
+   "released_at": "2026-11-24",
+   "artist": "박다울",
+   "title": "무",
+   "type": "single",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/%eb%ac%b4/"
+  },
+  {
+   "released_at": "2026-11-24",
+   "artist": "다브다 (Dabda)",
+   "title": "But, All The Shining Things Are (Remastered)",
+   "type": "LP",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/but-all-the-shining-things-are-remastered/"
+  },
+  {
+   "released_at": "2026-11-24",
+   "artist": "DREAMLIKE",
+   "title": "Limen",
+   "type": "EP",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/limen/"
+  },
+  {
+   "released_at": "2026-11-24",
+   "artist": "MCXON",
+   "title": "Purpose",
+   "type": "EP",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/purpose/"
+  },
+  {
+   "released_at": "2026-11-23",
+   "artist": "술탄 오브 더 디스코",
+   "title": "風流苦生",
+   "type": "EP",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/%e9%a2%a8%e6%b5%81%e8%8b%a6%e7%94%9f/"
+  },
+  {
+   "released_at": "2026-11-23",
+   "artist": "Kazumi Kaneda",
+   "title": "Between",
+   "type": "single",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/between/"
+  },
+  {
+   "released_at": "2026-11-23",
+   "artist": "Yusuke Saint Laurent",
+   "title": "Between",
+   "type": "single",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/between/"
+  },
+  {
+   "released_at": "2026-11-23",
+   "artist": "Soffee",
+   "title": "메기",
+   "type": "single",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/%eb%a9%94%ea%b8%b0/"
+  },
+  {
+   "released_at": "2026-11-23",
+   "artist": "체감",
+   "title": "West Coast",
+   "type": "single",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/west-coast/"
+  },
+  {
+   "released_at": "2026-11-23",
+   "artist": "장수빈",
+   "title": "Lily",
+   "type": "single",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/lily-2/"
+  }
+ ]
+}
