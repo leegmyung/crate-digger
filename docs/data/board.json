@@ -201,6 +201,26 @@
    "found": "aside가 동시에 쓰일 때 상세 묶음 하나(12건)가 응답 없이 실패",
    "fix": "실패한 묶음은 20초 쉬고 한 번 더 시도",
    "status": "반영"
+  },
+  {
+   "found": "인스타 음악 매거진이 소개 팀의 @계정을 태그함 → 이름보다 정확한 매칭 열쇠인데 담을 칸이 없었음",
+   "fix": "raw_press에 artist_handle 칸 추가 (인스타는 최근 12개만 보여 나중에 못 받으니 지금부터 저장)",
+   "status": "반영"
+  },
+  {
+   "found": "협찬·광고 글(#제작지원, 유료 홍보 업체)이 발굴 신호에 섞임",
+   "fix": "raw_press에 is_sponsored 칸 추가, 협찬은 신호에서 제외. 매체 협찬 기사(BRANDED CONTENT)는 정답에서도 제외",
+   "status": "반영"
+  },
+  {
+   "found": "메이저 매거진은 신인을 다루는 정도가 매체마다 크게 다름 (VISLA는 데뷔 직후, Hypebeast KR은 한국 인디 0건)",
+   "fix": "VISLA·overtone은 후보 신호, IZM·Bandwagon·NME·에스콰이어는 정답 2등급('주목받기 시작함'), Hypebeast KR 등은 제외",
+   "status": "반영"
+  },
+  {
+   "found": "인스타 계정이 사라지거나 이름이 바뀜 (@thefavall)",
+   "fix": "수집할 때 계정이 살아 있는지 같이 확인",
+   "status": "예정"
   }
  ],
  "sources": [
@@ -477,8 +497,8 @@
    "history": "3,762건",
    "method": "RSS",
    "robots": "허용",
-   "verdict": "부적합",
-   "note": "양이 너무 적고 공백 김"
+   "verdict": "보조",
+   "note": "양은 적지만 신인 밀도 높음 (재조사로 부적합 → 보조)"
   },
   {
    "name": "딩고 뮤직",
@@ -767,6 +787,150 @@
    "robots": "-",
    "verdict": "부적합",
    "note": "명단이 HWP·이미지뿐이거나 이름을 가림"
+  },
+  {
+   "name": "VISLA",
+   "kind": "메이저 매거진 · 후보",
+   "url": "https://visla.kr/category/music/",
+   "per_day": "주 3~4건 (한국 약 절반)",
+   "newcomer": "한국 글의 30~40%",
+   "history": "2012~",
+   "method": "RSS /feed/",
+   "robots": "허용",
+   "verdict": "메인",
+   "note": "Labäda Bu 데뷔 11일 만에 소개. '地下의 소리' 연재. 해외 아티스트 거르기 필요"
+  },
+  {
+   "name": "overtone",
+   "kind": "웹진 · 후보",
+   "url": "https://overtone.kr/",
+   "per_day": "주 2~3건",
+   "newcomer": "높음",
+   "history": "-",
+   "method": "sitemap",
+   "robots": "허용",
+   "verdict": "보조",
+   "note": "분기별 '주목할 만한 국내 앨범' = 후보 목록"
+  },
+  {
+   "name": "IZM · Bandwagon · NME · 에스콰이어",
+   "kind": "메이저 매체 · 정답 2등급",
+   "url": "https://bandwagon.asia/",
+   "per_day": "-",
+   "newcomer": "낮음 (주목받기 시작한 팀)",
+   "history": "-",
+   "method": "사이트·sitemap",
+   "robots": "대체로 허용",
+   "verdict": "정답",
+   "note": "우리가 먼저 찾은 팀이 나중에 실리면 '주목받기 시작함'. 협찬 기사(BRANDED CONTENT) 제외"
+  },
+  {
+   "name": "Hypebeast Korea · GQ · Dazed · ARENA",
+   "kind": "메이저 매거진",
+   "url": "https://hypebeast.kr/music",
+   "per_day": "-",
+   "newcomer": "한국 인디 0%",
+   "history": "-",
+   "method": "-",
+   "robots": "-",
+   "verdict": "부적합",
+   "note": "해외·K-pop 번역 뉴스 위주"
+  },
+  {
+   "name": "푸시 플레이 매거진 (@pushplay_mag)",
+   "kind": "인스타 음악 매거진",
+   "url": "https://www.instagram.com/pushplay_mag/",
+   "per_day": "거의 매일, 1팀",
+   "newcomer": "높음 (소개 팀 팔로워 1~2천)",
+   "history": "최근 12개",
+   "method": "aside 비로그인, 캡션·@태그",
+   "robots": "차단",
+   "verdict": "메인",
+   "note": "가장 일찍 찾는 계정 중 하나"
+  },
+  {
+   "name": "bdbd (@bdbd.wav)",
+   "kind": "인스타 음악 매거진",
+   "url": "https://www.instagram.com/bdbd.wav/",
+   "per_day": "월간 국내 앨범 12장 모음",
+   "newcomer": "중간",
+   "history": "최근 12개",
+   "method": "aside 비로그인",
+   "robots": "차단",
+   "verdict": "메인",
+   "note": "전 아티스트 @태그 + 발매일 → 매칭에 최고"
+  },
+  {
+   "name": "킨디매거진 (@kindiemagazine)",
+   "kind": "인스타 음악 매거진",
+   "url": "https://www.instagram.com/kindiemagazine/",
+   "per_day": "주 2~3회",
+   "newcomer": "높음",
+   "history": "최근 12개",
+   "method": "aside 비로그인",
+   "robots": "차단",
+   "verdict": "메인",
+   "note": "Rising Artist 연재"
+  },
+  {
+   "name": "들을 거리 (@muzik.street)",
+   "kind": "인스타 음악 매거진",
+   "url": "https://www.instagram.com/muzik.street/",
+   "per_day": "2일 1회, 1~6팀",
+   "newcomer": "높음",
+   "history": "최근 12개",
+   "method": "aside 비로그인",
+   "robots": "차단",
+   "verdict": "메인",
+   "note": "팔로워 544명인데 루키 정리가 빠름"
+  },
+  {
+   "name": "머스캣 매거진 (@muscat_mag)",
+   "kind": "인스타 음악 매거진",
+   "url": "https://www.instagram.com/muscat_mag/",
+   "per_day": "거의 매일",
+   "newcomer": "높음",
+   "history": "최근 12개",
+   "method": "aside 비로그인",
+   "robots": "차단",
+   "verdict": "메인",
+   "note": "뮤즈온 선정팀 리뷰 연재"
+  },
+  {
+   "name": "오미카이브 (@omichive7)",
+   "kind": "인스타 음악 매거진",
+   "url": "https://www.instagram.com/omichive7/",
+   "per_day": "거의 매일",
+   "newcomer": "중~높음 (해외 비중 큼)",
+   "history": "최근 12개",
+   "method": "aside 비로그인",
+   "robots": "차단",
+   "verdict": "메인",
+   "note": "국내만 거르기"
+  },
+  {
+   "name": "펍맥 (@pub.mag)",
+   "kind": "인스타 음악 매거진",
+   "url": "https://www.instagram.com/pub.mag/",
+   "per_day": "주 1~3회",
+   "newcomer": "높음",
+   "history": "최근 12개",
+   "method": "aside 비로그인",
+   "robots": "차단",
+   "verdict": "보조",
+   "note": "아티스트·멤버까지 태그"
+  },
+  {
+   "name": "스테이지 매거진 · AoB · 메트로 · 넋매거진",
+   "kind": "인스타 음악 매거진",
+   "url": "https://www.instagram.com/stage_magazine/",
+   "per_day": "주 2회~매일",
+   "newcomer": "중간",
+   "history": "최근 12개",
+   "method": "aside 비로그인",
+   "robots": "차단",
+   "verdict": "보조",
+   "note": "공연 일정·주간 소식 글 위주, 2~3일에 한 번"
   }
  ],
  "pending_research": [],

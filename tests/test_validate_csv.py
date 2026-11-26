@@ -116,6 +116,22 @@ class RuleTest(unittest.TestCase):
         issues = errors(self.check(header, row, name="raw_press_2026-11-26_musicy.csv"))
         self.assertEqual([i.column for i in issues], ["is_pick"])
 
+    def test_press_instagram_handle_and_sponsored_flag(self):
+        header = ("collected_at,source,collector,outlet,published_at,title,url,artist_text,release_title,"
+                  "is_pick,pick_label,artist_handle,is_sponsored")
+        good = ("2026-11-26T10:00:00+09:00,instagram,aside,@pushplay_mag,2026-11-25,소개,"
+                "https://www.instagram.com/p/x/,정용찬,,1,,@jeong_yong_chan,0")
+        self.assertEqual(errors(self.check(header, good, name="raw_press_2026-11-26_instagram.csv")), [])
+        bad = good.replace("@jeong_yong_chan,0", "jeong yong chan,협찬")
+        cols = sorted(i.column for i in errors(self.check(header, bad, name="raw_press_2026-11-26_instagram.csv")))
+        self.assertEqual(cols, ["artist_handle", "is_sponsored"])
+
+    def test_outcome_media_feature(self):
+        header = "collected_at,source,collector,program,round,announced_at,result,artist_text,url,note"
+        row = "2026-11-26T11:00:00+09:00,aside,aside,media_bandwagon,2026-11,2026-11-26,featured,팀,https://example.com/o,협찬 아님"
+        issues = errors(self.check(header, row, name="raw_outcome_2026-11-26_aside.csv"))
+        self.assertEqual(issues, [])
+
     def test_gig_time_format(self):
         header = ("collected_at,source,collector,source_id,gig_date,gig_time,title,venue_text,"
                   "artist_text,artist_source_id,gig_url,artist_url")

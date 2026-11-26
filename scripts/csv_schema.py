@@ -20,7 +20,8 @@ RELEASE_SOURCES = {
     "manual",
 }
 GIG_SOURCES = {"indiego", "indistreet", "manual"}
-PRESS_SOURCES = {"musicy", "rhythmer", "liak", "izm", "weiv", "youtube", "rss", "manual"}
+PRESS_SOURCES = {"musicy", "rhythmer", "liak", "izm", "weiv", "youtube", "rss", "manual",
+                 "visla", "overtone", "instagram"}
 OUTCOME_SOURCES = {"manual", "aside"}
 
 RELEASE_TYPES = {"single", "EP", "LP", "OST", "compilation"}
@@ -30,8 +31,10 @@ PROGRAMS = {
     "hello_rookie", "hello_rookie_year", "cj_tuneup", "penta_superrookie", "kma_rookie",
     "opcd", "izm_rookie", "musicy_rookie", "rhythmer_award", "gg_indiestance",
     "bbc_sound_of", "tiny_desk", "museon_final", "indiestance", "yoojaeha",
+    # 메이저 매체 소개 = '주목받기 시작함' (정답 2등급). 협찬 기사는 넣지 않는다.
+    "media_izm", "media_bandwagon", "media_nme", "media_esquire",
 }
-RESULTS = {"selected", "winner", "finalist", "shortlist", "longlist", "nominee"}
+RESULTS = {"selected", "winner", "finalist", "shortlist", "longlist", "nominee", "featured"}
 
 # 후보 신호용 선정·지원 프로그램 코드 (작고 이른 단계). 정답 코드(PROGRAMS)와 겹치면 안 된다.
 SELECTION_SOURCES = {
@@ -112,6 +115,8 @@ TABLES = {
             F("release_title"),
             F("is_pick", "flag01", True),
             F("pick_label"),
+            F("artist_handle", "handle"),      # 태그된 아티스트 인스타 계정 (이름 맞추기의 핵심 열쇠)
+            F("is_sponsored", "flag01"),       # 협찬·광고 글이면 1 → 신호에서 제외
         ],
         "key": ("url", "artist_text"),
     },

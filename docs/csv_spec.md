@@ -75,8 +75,10 @@
 | release_title | | 언급된 앨범·곡 |
 | is_pick | ✅ | 추천·선정이면 1, 단순 언급이면 0 |
 | pick_label | | 추천 코너 이름 (Single Out, 주간 신보 …) |
+| artist_handle | | 태그된 아티스트 인스타 계정 `@abc_123`. 같은 이름의 다른 팀을 구별하는 핵심 열쇠라 보이면 꼭 적기 |
+| is_sponsored | | 협찬·광고 글(#제작지원, 유료 홍보 업체)이면 1. 신호에서 빠져요 |
 
-소스 코드: `musicy` 음악취향Y · `rhythmer` 리드머 · `liak` 킨디라운지 · `izm` 이즘 · `weiv` · `youtube` · `rss` · `manual`
+소스 코드: `musicy` 음악취향Y · `rhythmer` 리드머 · `liak` 킨디라운지 · `izm` 이즘 · `weiv` · `visla` · `overtone` · `instagram` (인스타 음악 매거진, outlet에 @계정) · `youtube` · `rss` · `manual`
 
 ## 4. `raw_kr_selection` — 지원사업·경연·큐레이션 선정 1건 × 팀 1팀 = 1행 (후보 신호)
 
@@ -112,12 +114,12 @@
 | program | ✅ | 프로그램 코드 (아래) | hello_rookie |
 | round | ✅ | 회차 | 2026-05, 27기 |
 | announced_at | ✅ | 발표일 (월까지만 알아도 됨) | 2026-05-28 |
-| result | ✅ | selected / winner / finalist / shortlist / longlist / nominee | selected |
+| result | ✅ | selected / winner / finalist / shortlist / longlist / nominee / featured(매체 소개) | selected |
 | artist_text | ✅ | 팀 이름 | |
 | url | ✅ | 근거 주소 | |
 | note | | 메모 | 월간 선정 |
 
-프로그램 코드: `hello_rookie` 헬로루키 월간 · `hello_rookie_year` 올해의 헬로루키 · `cj_tuneup` CJ 튠업 · `penta_superrookie` 펜타 슈퍼루키 · `kma_rookie` 한국대중음악상 신인 · `opcd` OPCD · `izm_rookie` 이즘 올해의 신인 · `musicy_rookie` 음악취향Y 올해의 신인 · `rhythmer_award` 리드머 어워드 · `gg_indiestance` 경기 인디스땅스 · `bbc_sound_of` · `tiny_desk` · `museon_final` 뮤즈온 최종 · `indiestance` 인디스땅스 결선 · `yoojaeha` 유재하 음악경연대회
+프로그램 코드: `hello_rookie` 헬로루키 월간 · `hello_rookie_year` 올해의 헬로루키 · `cj_tuneup` CJ 튠업 · `penta_superrookie` 펜타 슈퍼루키 · `kma_rookie` 한국대중음악상 신인 · `opcd` OPCD · `izm_rookie` 이즘 올해의 신인 · `musicy_rookie` 음악취향Y 올해의 신인 · `rhythmer_award` 리드머 어워드 · `gg_indiestance` 경기 인디스땅스 · `bbc_sound_of` · `tiny_desk` · `museon_final` 뮤즈온 최종 · `indiestance` 인디스땅스 결선 · `yoojaeha` 유재하 음악경연대회 · 매체 소개(정답 2등급, 협찬 제외): `media_izm` · `media_bandwagon` · `media_nme` · `media_esquire`
 
 ## aside에 붙여 넣는 작업 지시문 (예: 벅스)
 
