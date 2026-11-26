@@ -19,7 +19,7 @@ RELEASE_SOURCES = {
     "bugs", "flo", "genie", "melon", "bandcamp_kr",                # 음원 플랫폼
     "manual",
 }
-GIG_SOURCES = {"indiego", "indistreet", "manual"}
+GIG_SOURCES = {"indiego", "indistreet", "sangsangmadang", "manual"}
 PRESS_SOURCES = {"musicy", "rhythmer", "liak", "izm", "weiv", "youtube", "rss", "manual",
                  "visla", "overtone", "instagram"}
 OUTCOME_SOURCES = {"manual", "aside"}
@@ -43,7 +43,7 @@ RESULTS = {"selected", "winner", "finalist", "shortlist", "longlist", "nominee",
 SELECTION_SOURCES = {
     "mapoindie", "kocca", "gwmf", "seoulbusking", "gcon", "ebs", "contest",
     "rollinghall", "senggi", "liveclubday", "tumblbug", "manual",
-    "busanrock", "sejong", "gbsound", "yjh",
+    "busanrock", "sejong", "gbsound", "yjh", "sangsangmadang", "dmz",
 }
 SELECTION_PROGRAMS = {
     "indiscovery",              # 마포 인디스커버리
@@ -62,6 +62,8 @@ SELECTION_PROGRAMS = {
     "muse_sejong",              # 세종음악창작소 뮤즈세종
     "gb_creation",              # 경북음악창작소(054사운드빌) 음반 제작 지원
     "yoojaeha_finalist",        # 유재하음악경연대회 본선 10팀 (상 등급은 note에, 점수 가중치로만)
+    "band_discovery",           # KT&G 상상마당 밴드 디스커버리 TOP6·우승 (2020년 이후 데뷔 팀 공모)
+    "dmz_lineup",               # DMZ 피스트레인 출연 (기획자 섭외 큐레이션, 루키 공모 없음)
 }
 STAGES = {"applied", "document", "challenger", "lineup", "showcase", "selected", "final"}
 
@@ -77,7 +79,7 @@ SAME_PROGRAM = {
 # SAME_PROGRAM 또는 여기 중 한쪽에 반드시 넣는다 (tests/test_validate_csv.py가 검사).
 NO_LINKED_OUTCOME = frozenset({
     "indiscovery", "our_musician", "gw_creation", "seoul_busking", "regional_contest", "cmyk",
-    "senggi_curation", "liveclubday", "tumblbug_debut", "muse_sejong", "gb_creation", "yoojaeha_finalist",
+    "senggi_curation", "liveclubday", "tumblbug_debut", "muse_sejong", "gb_creation", "yoojaeha_finalist", "band_discovery", "dmz_lineup",
 })
 
 
