@@ -181,21 +181,31 @@ def _search_js(names):
 }})();"""
 
 
+def _run_batch(js):
+    proc = subprocess.run(["aside", "repl", "--json", js], capture_output=True, text=True, timeout=REPL_TIMEOUT_SEC)
+    return parse_repl_output(proc.stdout)
+
+
 def search_artists(names):
-    out = {}
+    """→ (검색 결과, 실패한 이름). 묶음 하나가 실패해도(aside가 바쁠 때 등) 나머지는 계속한다."""
+    out, failed = {}, []
     for i in range(0, len(names), BATCH):
-        proc = subprocess.run(["aside", "repl", "--json", _search_js(names[i:i + BATCH])],
-                              capture_output=True, text=True, timeout=REPL_TIMEOUT_SEC)
-        out.update(parse_repl_output(proc.stdout))
-    return out
+        batch = names[i:i + BATCH]
+        try:
+            out.update(_run_batch(_search_js(batch)))
+        except (RuntimeError, subprocess.TimeoutExpired) as e:
+            failed.extend(batch)
+            print(f"  ⚠️ 검색 묶음 실패 ({len(batch)}팀, 다음 실행 때 다시): {str(e)[:80]}", file=sys.stderr)
+    return out, failed
 
 
 def fetch_profiles(ids):
     out = {}
     for i in range(0, len(ids), BATCH):
-        proc = subprocess.run(["aside", "repl", "--json", _js(ids[i:i + BATCH])],
-                              capture_output=True, text=True, timeout=REPL_TIMEOUT_SEC)
-        out.update(parse_repl_output(proc.stdout))
+        try:
+            out.update(_run_batch(_js(ids[i:i + BATCH])))
+        except (RuntimeError, subprocess.TimeoutExpired) as e:   # 못 받은 팀은 seen에 안 들어가 다음에 다시
+            print(f"  ⚠️ 프로필 묶음 실패: {str(e)[:80]}", file=sys.stderr)
     return out
 
 
@@ -243,13 +253,17 @@ def collect_from_outcomes(limit, names=None):
     todo = [n for n in dict.fromkeys(names) if n and n not in matches][:limit]
     # 1차: 괄호 앞 이름으로, 2차: 못 찾은 팀은 괄호 속 별칭으로 검색 ('피치트럭 하이재커스(Peach Truck Hijackers)')
     first = {n: re.sub(r"\s*[\(\[][^\)\]]*[\)\]]\s*$", "", n) or n for n in todo}
-    found = search_artists(sorted(set(first.values()))) if todo else {}
+    found, failed = search_artists(sorted(set(first.values()))) if todo else ({}, [])
+    failed = set(failed)
     for n in todo:
-        matches[n] = match_candidate(n, found.get(first[n], []))
-    alias = {n: m.group(1) for n in todo if not matches[n] and (m := re.search(r"[\(\[]([^\)\]]+)[\)\]]\s*$", n))}
-    found2 = search_artists(sorted(set(alias.values()))) if alias else {}
+        if first[n] not in failed:               # 검색이 실패한 이름은 '못 찾음'으로 남기지 않음 → 다음에 다시
+            matches[n] = match_candidate(n, found.get(first[n], []))
+    alias = {n: m.group(1) for n in todo if n in matches and not matches[n]
+             and (m := re.search(r"[\(\[]([^\)\]]+)[\)\]]\s*$", n))}
+    found2, failed2 = search_artists(sorted(set(alias.values()))) if alias else ({}, [])
     for n, a in alias.items():
-        matches[n] = match_candidate(n, found2.get(a, []))
+        if a not in failed2:
+            matches[n] = match_candidate(n, found2.get(a, []))
     MATCH_STATE.parent.mkdir(parents=True, exist_ok=True)
     MATCH_STATE.write_text(json.dumps(matches, ensure_ascii=False, indent=1), encoding="utf-8")
     try:

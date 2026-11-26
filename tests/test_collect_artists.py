@@ -95,5 +95,21 @@ class MatchTest(unittest.TestCase):
         self.assertIsNone(ca.match_candidate("없는팀", self.CANDS))
 
 
+class ResilienceTest(unittest.TestCase):
+    def test_failed_batch_is_skipped_and_reported(self):
+        from unittest import mock
+        calls = []
+        def fake(js):
+            calls.append(js)
+            if len(calls) == 2:
+                raise RuntimeError("aside 출력 해석 실패")
+            return {"팀1": [["1", "팀1", ""]]} if len(calls) == 1 else {"팀3": [["3", "팀3", ""]]}
+        names = [f"팀{i}" for i in range(1, 4)]
+        with mock.patch.object(ca, "BATCH", 1), mock.patch.object(ca, "_run_batch", side_effect=fake):
+            found, failed = ca.search_artists(names)
+        self.assertEqual(sorted(found), ["팀1", "팀3"])
+        self.assertEqual(failed, ["팀2"])
+
+
 if __name__ == "__main__":
     unittest.main()
