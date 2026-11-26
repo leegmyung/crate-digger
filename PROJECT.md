@@ -15,7 +15,9 @@
   - 스포티파이 발매 이력 `scripts/collect_spotify.py` → raw_artist_profile(source=spotify)
   - 후보 400팀 멜론 프로필 (`collect_artists.py --names-file`, 남은 481팀은 이어서) → 유명 팀 제외 규칙 적용
   - 대시보드 구성 참고 `docs/research_2026-11-27_dashboard_patterns.md` → dashboard.html 섹션 재구성
-  - 발매 수집을 '인디' 목록 외 힙합·R&B·일렉트로닉 등 장르 목록으로 넓히기 (collect_platforms LIST_URLS)
+  - ~~발매 수집 장르 확장~~ ✅ 멜론 랩/힙합·R&B 추가 (다음: RA 서울 일렉트로닉 공연, 멜론 트랙제로, 힙합엘이 뉴스, 장르 정답 명단 `raw_outcome_*_manual_genre.csv`)
+  - 공연장 인스타 전수 매핑 → `data/raw/review/instagram_venues.json` (공연 데이터의 공연장 238곳 기준) → insta_accounts에 venue_showcase로 추가
+  - 태그된 아티스트 인스타 프로필 자동 조사 `scripts/collect_ig_artists.py` → raw_artist_profile(source=instagram, 팔로워) + 링크 연결표 `data/raw/state/ig_artist_links.json`
 - [x] PostgreSQL 적재·분석 SQL 8개·검증 SQL 8개·결과 문서 `docs/sql/README.md`·데이터 대시보드 `docs/dashboard.html` (매일 자동 갱신) — 2026-11-26 23시
 - [x] 인디스트릿 과거 공연 수집 완료 (2024-01~, 13,646행) (`scripts/collect_gigs_history.py --since 2024-01-01`, 상태 `data/raw/state/gigs_history_seen.json`) — 끝났는지 `data/raw/raw_kr_gig_*_indistreet_history*.csv`로 확인, 안 끝났으면 같은 명령 재실행. 수집기·테스트 파일이 아직 커밋 전이면 테스트 후 커밋
 - [x] 채용공고 대비 타당성 조사 완료 → `records/job_research_2026-11-26.md` (비공개)
