@@ -5,24 +5,24 @@
 
 CREATE SCHEMA IF NOT EXISTS core;
 
--- 1) 신호 이벤트: 팀 × 갈래 × 날짜
+-- 1) 신호 이벤트: 팀 × 갈래 × 날짜 (파일 출처를 빼고 UNION으로 합쳐 재수집 중복 제거)
 CREATE OR REPLACE VIEW core.v_signal AS
 SELECT s.artist_key, s.alias_key, s.artist_text,
        '선정·지원'::text AS branch, s.source, s.program, s.stage, sr.rank AS stage_rank,
        s.announced_end AS signal_date, s.round AS detail
 FROM raw.raw_kr_selection s
 LEFT JOIN ref.stage_rank sr ON sr.stage = s.stage
-UNION ALL
+UNION   -- 같은 날 다시 돌린 파일의 똑같은 줄은 하나로 (UNION = 중복 제거)
 SELECT g.artist_key, g.alias_key, g.artist_text,
        '공연', g.source, NULL, NULL, NULL,
        g.gig_date, split_part(g.venue_text, ' (', 1)
 FROM raw.raw_kr_gig g
-UNION ALL
+UNION   -- 같은 날 다시 돌린 파일의 똑같은 줄은 하나로 (UNION = 중복 제거)
 SELECT r.artist_key, r.alias_key, r.artist_text,
        '발매', r.source, NULL, NULL, NULL,
        r.released_end, r.title
 FROM raw.raw_kr_release r
-UNION ALL
+UNION   -- 같은 날 다시 돌린 파일의 똑같은 줄은 하나로 (UNION = 중복 제거)
 SELECT p.artist_key, p.alias_key, p.artist_text,
        CASE WHEN p.pick_label = 'venue_lineup' THEN '공연' ELSE '큐레이션' END, p.source, p.outlet, NULL, NULL,
        left(p.published_at, 10)::date, p.outlet

@@ -11,6 +11,7 @@
 """
 import csv
 import glob
+import html
 import os
 import re
 import subprocess
@@ -69,14 +70,23 @@ def alias_key(name):
     return (artist_key(m.group(1)) or None) if m else None
 
 
+def _unescape(text):
+    """'&amp;amp;' 처럼 두 번 감싼 HTML 기호까지 원래 글자로 (같은 팀이 둘로 갈라지는 것 방지)."""
+    prev = None
+    while text and text != prev:
+        prev, text = text, html.unescape(text)
+    return text
+
+
 def normalize_row(table, row, source_file):
+    row = {k: _unescape(v) if isinstance(v, str) else v for k, v in row.items()}
     rec = {c: (row.get(c) or "").strip() or None for c in columns(table)}
     for f in TABLES[table]["fields"]:
         if f.kind == "date_partial":
             rec[f"{_base(f.name)}_start"] = outcome_date(rec[f.name] or "") or None
             rec[f"{_base(f.name)}_end"] = signal_date(rec[f.name] or "") or None
     name = row.get("artist_text", "")
-    rec["artist_key"] = rec["artist_key"] or artist_key(name) or None
+    rec["artist_key"] = artist_key(name) or rec["artist_key"] or None   # 기호를 푼 이름으로 다시 계산
     rec["alias_key"] = alias_key(name)
     rec["source_file"] = source_file
     return [rec[c] for c in columns(table)]
@@ -90,7 +100,7 @@ def ref_sql():
     same = ", ".join(f"('{a}', '{b}')" for a, bs in sorted(SAME_PROGRAM.items()) for b in sorted(bs))
     parts = [
         "CREATE SCHEMA IF NOT EXISTS ref;",
-        "DROP TABLE IF EXISTS ref.outcome_tier, ref.stage_rank, ref.outcome_same_family, ref.same_program, ref.settings;",
+        "DROP TABLE IF EXISTS ref.outcome_tier, ref.stage_rank, ref.outcome_same_family, ref.same_program, ref.settings CASCADE;",
         "CREATE TABLE ref.outcome_tier (program text PRIMARY KEY, tier text, career_filtered boolean);",
         f"INSERT INTO ref.outcome_tier VALUES {tiers};",
         "CREATE TABLE ref.stage_rank (stage text PRIMARY KEY, rank integer);",
@@ -136,6 +146,11 @@ def load(raw_dir=RAW_DIR):
             finally:
                 os.unlink(tmp.name)
         counts[table] = len(rows)
+    views = ROOT / "sql" / "kr" / "00_core_views.sql"   # 표를 새로 만들면 뷰가 함께 지워지므로 다시 만든다
+    if views.exists():
+        proc = subprocess.run([PSQL, "-v", "ON_ERROR_STOP=1", "-q", "-d", DB, "-f", str(views)], capture_output=True, text=True)
+        if proc.returncode != 0:
+            raise RuntimeError(proc.stderr.strip()[:500])
     return counts, skipped
 
 

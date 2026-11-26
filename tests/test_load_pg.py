@@ -58,6 +58,17 @@ class RowTest(unittest.TestCase):
         self.assertEqual(rec["artist_key"], "결")        # 파일에 없으면 계산해서 채움
 
 
+class HtmlEntityTest(unittest.TestCase):
+    def test_html_entities_unescaped_before_keys(self):
+        cols = lp.columns("raw_kr_gig")
+        rec = dict(zip(cols, lp.normalize_row("raw_kr_gig", {
+            "collected_at": "2026-11-26T18:00:00+09:00", "source": "indistreet", "collector": "aside", "gig_date": "2026-11-28",
+            "title": "You&amp;apos;re mine", "artist_text": "팻햄스터&amp;amp;캉뉴", "gig_url": "https://x"}, "g.csv")))
+        self.assertEqual(rec["artist_text"], "팻햄스터&캉뉴")
+        self.assertEqual(rec["title"], "You're mine")
+        self.assertEqual(rec["artist_key"], "팻햄스터캉뉴")
+
+
 class RefTest(unittest.TestCase):
     def test_reference_tables_sql_from_schema(self):
         sql = lp.ref_sql()
