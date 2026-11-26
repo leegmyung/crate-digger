@@ -9,9 +9,10 @@
 사용량 한도·인터넷 끊김으로 멈추면 다음 세션은 이 칸부터 본다. 수집기는 `data/raw/state/*.json`에 '이미 받은 것'을 기록하므로 같은 명령을 다시 돌리면 이어서 받는다.
 
 **진행 중이던 것**
-- [ ] 인디스트릿 과거 공연 수집 (`scripts/collect_gigs_history.py --since 2024-01-01`, 상태 `data/raw/state/gigs_history_seen.json`) — 끝났는지 `data/raw/raw_kr_gig_*_indistreet_history*.csv`로 확인, 안 끝났으면 같은 명령 재실행. 수집기·테스트 파일이 아직 커밋 전이면 테스트 후 커밋
-- [ ] 채용공고 대비 타당성 조사 → `records/job_research_2026-11-26.md` (비공개)
-- [ ] **폴더 이동**: `~/Desktop/crate-digger` → `~/Projects/crate-digger`, 데스크탑에 바로가기(`ln -s`) 남기기 → `bash ~/Projects/crate-digger/scripts/install_daily.sh 21 0` (macOS가 데스크탑 백그라운드 접근을 막아 21시 자동 실행이 실패함)
+- [ ] PostgreSQL 적재·분석 SQL (PostgreSQL 17, DB `crate_digger`, `brew services start postgresql@17`로 켬) — `scripts/load_pg.py`, `sql/kr/`
+- [x] 인디스트릿 과거 공연 수집 완료 (2024-01~, 13,646행) (`scripts/collect_gigs_history.py --since 2024-01-01`, 상태 `data/raw/state/gigs_history_seen.json`) — 끝났는지 `data/raw/raw_kr_gig_*_indistreet_history*.csv`로 확인, 안 끝났으면 같은 명령 재실행. 수집기·테스트 파일이 아직 커밋 전이면 테스트 후 커밋
+- [x] 채용공고 대비 타당성 조사 완료 → `records/job_research_2026-11-26.md` (비공개)
+- [x] **폴더 이동 완료** (2026-11-26 22:51): `~/Projects/crate-digger`가 진짜 위치, 데스크탑은 바로가기. launchd 접근 시험 통과, 데스크탑에 바로가기(`ln -s`) 남기기 → `bash ~/Projects/crate-digger/scripts/install_daily.sh 21 0` (macOS가 데스크탑 백그라운드 접근을 막아 21시 자동 실행이 실패함)
 
 **다음 순서 (내일 완성본)** — 직무 요건 조사 결과(비공개 `records/job_research_2026-11-26.md`) SQL 결과물이 1순위
 1. **분석 SQL 5~8개** (SQLite로, 쿼리 원문 + 결과 표 공개): 선정 프로그램별 이후 수상 비율, 첫 신호→수상 개월 수, 중간→최종 정답 비율 등
