@@ -1,3 +1,5 @@
+> **현재 방향과 할 일은 [PROJECT.md](PROJECT.md)를 먼저 보세요.** 이 README는 예전 단계(판매 대시보드, 취향 추천 프로토타입)의 사용법입니다.
+
 # Bandcamp Sales Pulse
 
 Bandcamp 판매 피드 데이터를 SQL로 집계하는 글로벌 인디 음악 판매 대시보드.
