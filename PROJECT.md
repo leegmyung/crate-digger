@@ -147,6 +147,7 @@ claude.ai 대시보드 링크 (본인만 열람 가능):
 
 ## 9. 다시 만들기
 ```bash
+python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt   # 처음 한 번
 python3 scripts/generate_sample.py data/sample_salesfeed.csv   # 가상 판매 샘플 (선택)
 python3 scripts/build_db.py data/sample_salesfeed.csv           # bandcamp.db 생성
 python3 scripts/run_queries.py                                  # out/*.json

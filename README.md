@@ -62,6 +62,16 @@ dim_artist ──┼─ dim_item ── fact_sales (판매 1건 = 1행)
 
 판매 피드 JSON의 실제 키 이름은 크롤링 후 꼭 확인하고, 다르면 CSV 저장 단계에서 위 이름으로 바꿔 주세요.
 
+## 처음 한 번: 파이썬 환경 준비
+
+```bash
+python3 -m venv .venv                 # 프로젝트 전용 파이썬 공간 (커밋 안 됨)
+source .venv/bin/activate             # 터미널을 새로 열 때마다 실행
+pip install -r requirements.txt
+```
+
+이후 `python3` 명령은 `.venv` 안의 파이썬으로 실행됩니다. 확인한 환경: Python 3.9.6, numpy 2.0.2, voyager 2.2.4.
+
 ## 실행
 
 ```bash

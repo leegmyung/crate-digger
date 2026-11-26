@@ -3,6 +3,8 @@ bandcamp.db
 data/cache/
 data/bc_artist.voy
 __pycache__/
+# 프로젝트 전용 파이썬 환경 (requirements.txt로 다시 만듦)
+.venv/
 *.pyc
 # 비밀값
 .env
