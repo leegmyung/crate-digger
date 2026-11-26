@@ -6,3 +6,13 @@ __pycache__/
 *.pyc
 # 비밀값
 .env
+.env.*
+!.env.example
+*.db
+*.pem
+*.key
+credentials*.json
+# 시스템·도구 파일
+.DS_Store
+node_modules/
+.claude/settings.local.json
