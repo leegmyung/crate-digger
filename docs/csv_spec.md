@@ -95,9 +95,9 @@
 | url | ✅ | 근거 주소 | |
 | note | | 메모 | 챌린저 24팀 |
 
-소스 코드: `mapoindie` · `kocca` · `gwmf` 강원음악창작소 · `seoulbusking` · `gcon` 경기콘텐츠진흥원 · `ebs` · `contest` 지역 경연 · `rollinghall` · `senggi` · `liveclubday` · `tumblbug` · `busanrock` 부산국제록페스티벌 · `sejong` 세종음악창작소 · `gbsound` 경북음악창작소 · `manual`
+소스 코드: `mapoindie` · `kocca` · `gwmf` 강원음악창작소 · `seoulbusking` · `gcon` 경기콘텐츠진흥원 · `ebs` · `contest` 지역 경연 · `rollinghall` · `senggi` · `liveclubday` · `tumblbug` · `busanrock` 부산국제록페스티벌 · `sejong` 세종음악창작소 · `gbsound` 경북음악창작소 · `yjh` 유재하음악장학재단 · `manual`
 
-프로그램 코드: `indiscovery` 마포 인디스커버리 · `museon_document` 뮤즈온 서류통과 · `our_musician` 우리 음악인 축제 · `gw_creation` 강원음악창작소 · `seoul_busking` 구석구석라이브 · `regional_contest` 지역 밴드 경연 · `hello_rookie_applicant` 헬로루키 응모 · `indiestance_prelim` 인디스땅스 예선 · `cmyk` 롤링홀 CMYK · `senggi_curation` 생기 큐레이션 · `liveclubday` 라이브클럽데이 · `tumblbug_debut` 텀블벅 첫 음반 펀딩 · `burock_rookies` 부산 루키즈 온 더 부락 (TOP15=document, TOP10=selected, TOP3=final, note에 순위) · `muse_sejong` 세종 뮤즈세종 · `gb_creation` 경북 054사운드빌 음반 제작 지원 (note에 앨범명)
+프로그램 코드: `indiscovery` 마포 인디스커버리 · `museon_document` 뮤즈온 서류통과 · `our_musician` 우리 음악인 축제 · `gw_creation` 강원음악창작소 · `seoul_busking` 구석구석라이브 · `regional_contest` 지역 밴드 경연 · `hello_rookie_applicant` 헬로루키 응모 · `indiestance_prelim` 인디스땅스 예선 · `cmyk` 롤링홀 CMYK · `senggi_curation` 생기 큐레이션 · `liveclubday` 라이브클럽데이 · `tumblbug_debut` 텀블벅 첫 음반 펀딩 · `burock_rookies` 부산 루키즈 온 더 부락 (TOP15=document, TOP10=selected, TOP3=final, note에 순위) · `muse_sejong` 세종 뮤즈세종 · `gb_creation` 경북 054사운드빌 음반 제작 지원 (note에 앨범명) · `yoojaeha_finalist` 유재하음악경연대회 본선 10팀 (stage=selected, note에 상 등급: 대상·금상·은상·동상·장려상)
 
 **같은 프로그램 규칙:** 앞 단계를 후보로 쓴 팀은 같은 프로그램의 정답 결과를 적중으로 세지 않아요. 연결표는 `scripts/csv_schema.py`의 `SAME_PROGRAM`에 있어요.
 - `hello_rookie_applicant` → `hello_rookie`, `hello_rookie_year` 제외
@@ -119,7 +119,7 @@
 | url | ✅ | 근거 주소 | |
 | note | | 메모 | 월간 선정 |
 
-프로그램 코드: `hello_rookie` 헬로루키 월간 · `hello_rookie_year` 올해의 헬로루키 · `cj_tuneup` CJ 튠업 · `penta_superrookie` 펜타 슈퍼루키 · `kma_rookie` 한국대중음악상 신인 · `opcd` OPCD · `izm_rookie` 이즘 올해의 신인 · `musicy_rookie` 음악취향Y 올해의 신인 · `rhythmer_award` 리드머 어워드 · `gg_indiestance` 경기 인디스땅스 · `bbc_sound_of` · `tiny_desk` · `museon_final` 뮤즈온 최종 · `indiestance` 인디스땅스 결선 · `yoojaeha` 유재하 음악경연대회 · 매체 소개(정답 2등급, 협찬 제외): `media_izm` · `media_bandwagon` · `media_nme` · `media_esquire`
+프로그램 코드: `hello_rookie` 헬로루키 월간 · `hello_rookie_year` 올해의 헬로루키 · `cj_tuneup` CJ 튠업 · `penta_superrookie` 펜타 슈퍼루키 · `kma_rookie` 한국대중음악상 신인 · `opcd` OPCD · `izm_rookie` 이즘 올해의 신인 · `musicy_rookie` 음악취향Y 올해의 신인 · `rhythmer_award` 리드머 어워드 · `gg_indiestance` 경기 인디스땅스 · `bbc_sound_of` · `tiny_desk` · `museon_final` 뮤즈온 최종 · `indiestance` 인디스땅스 결선 · 매체 소개(정답 2등급, 협찬 제외): `media_izm` · `media_bandwagon` · `media_nme` · `media_esquire`
 
 ## aside에 붙여 넣는 작업 지시문 (예: 벅스)
 

@@ -1170,6 +1170,66 @@
    "robots": "확인 못 함",
    "verdict": "확인용",
    "note": "새 지원사업·경연 찾기용"
+  },
+  {
+   "name": "유재하음악경연대회 본선 10팀",
+   "kind": "경연 · 후보",
+   "url": "https://yjh.or.kr/History",
+   "per_day": "연 1회 (840팀→본선 10)",
+   "newcomer": "높음",
+   "history": "1989~2026 (2005 중단)",
+   "method": "aside (게시판 클릭형)",
+   "robots": "허용",
+   "verdict": "메인",
+   "note": "EP 1장 이하만 지원. 본선 명단이 시상 3개월 전 공개. CJ문화재단 공동 주관"
+  },
+  {
+   "name": "상상마당 밴드 디스커버리 TOP6",
+   "kind": "경연 · 후보",
+   "url": "https://www.sangsangmadang.com/support/list",
+   "per_day": "연 1회 (약 330팀→TOP6→우승 2)",
+   "newcomer": "높음",
+   "history": "2012~2026 (보도 기준)",
+   "method": "기사 검색 · 인스타",
+   "robots": "허용",
+   "verdict": "메인",
+   "note": "2020년 이후 데뷔 팀만. 결과는 보도자료·@ssmadang_live로만 발표"
+  },
+  {
+   "name": "상상마당 부산 (히든트랙·라이브연습실·인디 온 스포트라이트)",
+   "kind": "지원 · 후보",
+   "url": "https://www.sangsangmadang.com/customer/notice/list",
+   "per_day": "연 수회 (2~6팀)",
+   "newcomer": "높음",
+   "history": "2020~2026",
+   "method": "스크립트 (공지 상세)",
+   "robots": "허용",
+   "verdict": "보조",
+   "note": "부산 지점은 선정팀을 공지사항에 글자로 올림"
+  },
+  {
+   "name": "상상마당 청춘비상 (대학생)",
+   "kind": "경연 · 후보",
+   "url": "https://www.sangsangmadang.com/support/list",
+   "per_day": "연 1회 (50여 팀→5→2)",
+   "newcomer": "높음",
+   "history": "2026~",
+   "method": "기사 검색",
+   "robots": "허용",
+   "verdict": "보조",
+   "note": "2026 신설, 1년치뿐"
+  },
+  {
+   "name": "스포티파이 RADAR Korea",
+   "kind": "플랫폼 큐레이션 · 정답 쪽",
+   "url": "https://open.spotify.com/",
+   "per_day": "수시",
+   "newcomer": "낮음",
+   "history": "-",
+   "method": "-",
+   "robots": "-",
+   "verdict": "보조",
+   "note": "초청형, 인디·아이돌 섞임"
   }
  ],
  "pending_research": [],
@@ -1191,7 +1251,7 @@
    "state": "가점 줌 (시점 이전 결과만, 상한, 해당 프로그램은 적중 제외)"
   },
   {
-   "q": "추가 공증 소스 등급 (인디스땅스 결선, 뮤즈온 최종, 유재하, 이즘·음악취향Y 올해의 신인 등)",
+   "q": "추가 공증 소스 등급 (인디스땅스 결선, 뮤즈온 최종, 이즘·음악취향Y 올해의 신인 등)",
    "state": "결정 필요"
   },
   {
@@ -1205,6 +1265,10 @@
   {
    "q": "장르 카테고리 나누기 (장르별 후보·점수·적중률)",
    "state": "추후 보완 — 지금 단계 다 만든 뒤 (공통 장르 목록부터)"
+  },
+  {
+   "q": "유재하음악경연대회 위치",
+   "state": "후보 신호로 (본선 10팀 전체, 상 등급은 가점으로만). 장려상에서도 크게 된 팀(나상현씨밴드·범진)이 나오고 대상 후 기록 없는 팀도 많아서 (2026-11-26)"
   }
  ]
 }

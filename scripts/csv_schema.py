@@ -30,7 +30,8 @@ RELEASE_TYPES = {"single", "EP", "LP", "OST", "compilation"}
 PROGRAMS = {
     "hello_rookie", "hello_rookie_year", "cj_tuneup", "penta_superrookie", "kma_rookie",
     "opcd", "izm_rookie", "musicy_rookie", "rhythmer_award", "gg_indiestance",
-    "bbc_sound_of", "tiny_desk", "museon_final", "indiestance", "yoojaeha",
+    "bbc_sound_of", "tiny_desk", "museon_final", "indiestance",
+    # 유재하음악경연대회는 2026-11-26 후보 신호로 옮김 (SELECTION_PROGRAMS의 yoojaeha_finalist)
     # 메이저 매체 소개 = '주목받기 시작함' (정답 2등급). 협찬 기사는 넣지 않는다.
     "media_izm", "media_bandwagon", "media_nme", "media_esquire",
 }
@@ -40,7 +41,7 @@ RESULTS = {"selected", "winner", "finalist", "shortlist", "longlist", "nominee",
 SELECTION_SOURCES = {
     "mapoindie", "kocca", "gwmf", "seoulbusking", "gcon", "ebs", "contest",
     "rollinghall", "senggi", "liveclubday", "tumblbug", "manual",
-    "busanrock", "sejong", "gbsound",
+    "busanrock", "sejong", "gbsound", "yjh",
 }
 SELECTION_PROGRAMS = {
     "indiscovery",              # 마포 인디스커버리
@@ -58,6 +59,7 @@ SELECTION_PROGRAMS = {
     "burock_rookies",           # 부산국제록페스티벌 루키즈 온 더 부락 (TOP15/10/3)
     "muse_sejong",              # 세종음악창작소 뮤즈세종
     "gb_creation",              # 경북음악창작소(054사운드빌) 음반 제작 지원
+    "yoojaeha_finalist",        # 유재하음악경연대회 본선 10팀 (상 등급은 note에, 점수 가중치로만)
 }
 STAGES = {"applied", "document", "challenger", "lineup", "showcase", "selected", "final"}
 
