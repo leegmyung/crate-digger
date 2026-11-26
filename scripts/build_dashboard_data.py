@@ -101,6 +101,34 @@ QUERIES = {
                     WHEN years_at_outcome <= 5 THEN '3~5년' ELSE '5년 초과' END AS bucket,
                count(*) AS teams
         FROM t GROUP BY 1 ORDER BY min(years_at_outcome)""",
+    # 6-1. 리드타임: 정답 팀이 첫 정답 몇 개월 전에 우리 신호에 처음 나왔나 (갈래 무관)
+    "lead_time": f"""
+        WITH first_sig AS (
+            SELECT b.artist_key, b.first_outcome_date, min(a.signal_date) AS first_signal
+            FROM core.v_signal a JOIN core.v_outcome_team b ON {SAME}
+            WHERE a.signal_date < b.first_outcome_date
+            GROUP BY b.artist_key, b.first_outcome_date)
+        SELECT CASE WHEN m < 6 THEN '0~6개월' WHEN m < 12 THEN '6~12개월' WHEN m < 24 THEN '12~24개월'
+                    WHEN m < 36 THEN '24~36개월' ELSE '36개월+' END AS bucket,
+               count(*) AS teams, round(avg(m)::numeric, 1) AS avg_months,
+               min(m) AS sort_key
+        FROM (SELECT artist_key, (first_outcome_date - first_signal) / 30.4 AS m FROM first_sig) x
+        GROUP BY 1 ORDER BY sort_key""",
+    # 6-2. 리드타임 요약: 정답 팀 수, 신호가 먼저 있던 팀 수, 중앙값
+    "lead_time_summary": f"""
+        WITH first_sig AS (
+            SELECT b.artist_key, min(a.signal_date) AS first_signal, max(b.first_outcome_date) AS first_outcome
+            FROM core.v_outcome_team b LEFT JOIN core.v_signal a ON {SAME} AND a.signal_date < b.first_outcome_date
+            GROUP BY b.artist_key)
+        SELECT count(*) AS outcome_teams, count(first_signal) AS with_prior_signal,
+               round((percentile_cont(0.5) WITHIN GROUP (ORDER BY (first_outcome - first_signal) / 30.4))::numeric, 1)
+                   AS median_months
+        FROM first_sig""",
+    # 6-3. 월 × 갈래 수집량 (2024년 이후)
+    "volume_by_month_branch": """
+        SELECT to_char(date_trunc('month', signal_date), 'YYYY-MM') AS month, branch, count(*) AS rows
+        FROM core.v_signal WHERE signal_date >= DATE '2024-01-01' AND signal_date <= current_date
+        GROUP BY 1, 2 ORDER BY 1, 2""",
     # 7. 공연 많은 공연장 (2025년 이후)
     "top_venues": """
         SELECT detail AS venue, count(*) AS gigs, count(DISTINCT artist_key) AS teams

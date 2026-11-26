@@ -4,66 +4,123 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Crate Digger 데이터</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  /* 기능 확인용 초안 — 디자인은 나중에 */
-  :root { --bg:#fafafa; --fg:#1d1d1f; --muted:#6b6b70; --line:#e2e2e6; --bar:#3a7d8c; --card:#ffffff; --hit:#2f7d4f; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#141416; --fg:#ececef; --muted:#9a9aa2; --line:#2c2c31; --bar:#63b3c4; --card:#1c1c20; --hit:#6fcf97; } }
+  /* 구성 확인용 초안 — 디자인 다듬기는 나중. 섹션 틀: 질문 제목 → 정의 → 그래프 → 한 줄 결론 → 기준·표본 */
+  :root { --bg:#fafafa; --fg:#1d1d1f; --muted:#6b6b70; --line:#e2e2e6; --bar:#3a7d8c; --base:#c0563b; --card:#ffffff; --hit:#2f7d4f; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#141416; --fg:#ececef; --muted:#9a9aa2; --line:#2c2c31; --bar:#63b3c4; --base:#e08a6e; --card:#1c1c20; --hit:#6fcf97; } }
   body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.55 system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif; }
-  main { max-width:1000px; margin:0 auto; padding:24px 16px 64px; }
-  h1 { font-size:1.5rem; margin:0 0 4px; } h2 { font-size:1.1rem; margin:32px 0 6px; }
-  .sub { color:var(--muted); margin:0 0 8px; font-size:.9rem; }
+  main { max-width:1040px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-size:1.5rem; margin:0 0 4px; }
+  section { margin-top:36px; }
+  h2 { font-size:1.08rem; margin:0 0 4px; }
+  .def { color:var(--muted); margin:0 0 10px; font-size:.88rem; max-width:75ch; }
+  .take { margin:10px 0 2px; font-weight:600; }
+  .src { color:var(--muted); font-size:.78rem; margin:2px 0 0; }
   .card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px 14px; overflow-x:auto; }
-  table { border-collapse:collapse; width:100%; font-size:.88rem; }
+  .chart { position:relative; height:280px; }
+  table { border-collapse:collapse; width:100%; font-size:.86rem; }
   th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); white-space:nowrap; }
-  th { color:var(--muted); font-weight:500; }
+  th { color:var(--muted); font-weight:500; cursor:pointer; user-select:none; }
   td.n { text-align:right; font-variant-numeric:tabular-nums; }
-  .bar { display:inline-block; height:9px; background:var(--bar); border-radius:3px; vertical-align:middle; }
+  tr.small td { opacity:.55; }
   .tag { font-size:.75rem; padding:1px 7px; border-radius:999px; border:1px solid var(--line); }
   .tag.new { color:var(--hit); border-color:var(--hit); }
-  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; margin-top:14px; }
   .kpi { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
-  .kpi b { display:block; font-size:1.4rem; font-variant-numeric:tabular-nums; }
-  .kpi span { color:var(--muted); font-size:.82rem; }
+  .kpi b { display:block; font-size:1.45rem; font-variant-numeric:tabular-nums; }
+  .kpi span { color:var(--muted); font-size:.8rem; }
+  .filters { display:flex; gap:12px; flex-wrap:wrap; margin:0 0 8px; font-size:.86rem; }
   a { color:var(--bar); }
   #err { color:#c0392b; }
+  details summary { cursor:pointer; color:var(--muted); }
 </style>
 </head>
 <body>
 <main>
-  <h1>Crate Digger 데이터 대시보드 (초안)</h1>
-  <p class="sub"><span id="gen">불러오는 중…</span> · PostgreSQL 집계 · <a href="./">진행판</a> · <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/sql/README.md">SQL 원문·결과</a></p>
+  <h1>Crate Digger: 국내 신인을 먼저 찾을 수 있나</h1>
+  <p class="def" id="scope">불러오는 중…</p>
+  <p class="src"><a href="./">진행판</a> · <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/sql/README.md">SQL 원문·결과</a> · <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/glossary.md">용어 정리</a></p>
   <p id="err"></p>
 
-  <div class="grid" id="kpis"></div>
+  <!-- 0. 요약 -->
+  <div class="kpis" id="kpis"></div>
 
-  <h2>1. 지금 주목할 후보</h2>
-  <p class="sub">최근 180일(예정 공연 60일 포함) 안에 2개 이상 갈래에 나온 팀. 신인 = 첫 발매 3년 이내 & 발매 10개 이하, 모름 = 프로필 아직 없음.
-  <b>이미 다 아는 팀(멜론 팬 1만 명 이상 또는 첫 발매 5년 초과)은 뺐어요.</b></p>
-  <div class="card"><table id="candidates"></table></div>
-  <details><summary class="sub">유명해서 뺀 팀 보기</summary><div class="card"><table id="famous"></table></div></details>
+  <!-- 1. 후보 -->
+  <section>
+    <h2>1. 지금 누구를 지켜봐야 하나?</h2>
+    <p class="def">최근 180일(예정 공연 60일 포함) 안에 2개 이상 갈래(발매·공연·선정·큐레이션)에 나온 팀. 이미 다 아는 팀(멜론 팬 1만 명 이상, 또는 첫 발매 5년 초과 & 팬 1천 명 이상)은 뺐어요. 머리글을 누르면 정렬돼요.</p>
+    <div class="filters"><label><input type="checkbox" id="f-new"> 신인만</label><label><input type="checkbox" id="f-noout" checked> 아직 정답 없는 팀만</label></div>
+    <div class="card"><table id="candidates"></table></div>
+    <p class="take" id="t-cand"></p>
+    <details><summary>유명해서 뺀 팀 보기</summary><div class="card"><table id="famous"></table></div></details>
+  </section>
 
-  <h2>2. 어떤 신호가 나중의 성공을 알려 주나</h2>
-  <p class="sub">2020~2024년에 신호를 받은 팀 중, 2025년 이후 정답(신인상·주요 신인 프로그램)을 받은 비율. '기준선'은 아무 신호든 있던 팀 전체.</p>
-  <div class="card"><table id="hit"></table></div>
+  <!-- 2. 신호 적중률 -->
+  <section>
+    <h2>2. 어떤 신호가 나중의 성공을 미리 알려 주나?</h2>
+    <p class="def">2020~2024년에 신호를 받은 팀 중 2025년 이후 정답(신인상·주요 신인 프로그램)을 받은 비율. 빨간 선 = 기준선(아무 신호든 있던 팀 전체). 괄호는 (정답 팀/신호 팀), 범위는 95% 신뢰 범위. 10팀 미만은 흐리게.</p>
+    <div class="card"><div class="chart"><canvas id="c-hit"></canvas></div><table id="hit"></table></div>
+    <p class="take" id="t-hit"></p>
+  </section>
 
-  <h2>3. 중간 정답 → 최종 정답</h2>
-  <p class="sub">연중 일찍 나오는 정답(슈퍼루키·뮤즈온·인디스땅스 등)을 받은 팀 중, 그 뒤 최종 정답(한대음 신인·올해의 헬로루키·튠업 등)까지 받은 비율.</p>
-  <div class="card"><table id="mid"></table></div>
+  <!-- 3. 중간 → 최종 -->
+  <section>
+    <h2>3. 중간 정답을 받은 팀은 최종 정답까지 가나?</h2>
+    <p class="def">연중 일찍 나오는 중간 정답(슈퍼루키·뮤즈온·인디스땅스 등)을 받은 팀 중, 그 뒤 최종 정답(한대음 신인·올해의 헬로루키·튠업 등)까지 받은 비율. 같은 계열(헬로루키 월간→올해의 헬로루키)은 제외.</p>
+    <div class="card"><div class="chart"><canvas id="c-mid"></canvas></div></div>
+    <p class="take" id="t-mid"></p>
+  </section>
 
-  <h2>4. 정답 받을 때 데뷔 몇 년 차였나</h2>
-  <div class="card"><table id="career"></table></div>
+  <!-- 4. 리드타임 -->
+  <section>
+    <h2>4. 정답보다 얼마나 먼저 찾았나?</h2>
+    <p class="def">정답 팀이 첫 정답 몇 개월 전에 우리 신호(어느 갈래든)에 처음 나왔는지. 신호 날짜는 기간의 마지막 날, 정답은 첫날로 비교해 '먼저'를 부풀리지 않았어요.</p>
+    <div class="card"><div class="chart"><canvas id="c-lead"></canvas></div></div>
+    <p class="take" id="t-lead"></p>
+  </section>
 
-  <h2>5. 수집 현황</h2>
-  <div class="card"><table id="collection"></table></div>
+  <!-- 5. 연차 -->
+  <section>
+    <h2>5. 정답 받을 때 데뷔 몇 년 차였나?</h2>
+    <p class="def">팀별 첫 정답 시점의 첫 발매 후 연차 (멜론·스포티파이 프로필 기준). 신인 기준(3년 이내)을 정한 근거예요.</p>
+    <div class="card"><div class="chart"><canvas id="c-career"></canvas></div></div>
+    <p class="take" id="t-career"></p>
+  </section>
 
-  <h2>6. 월별 공연 기록</h2>
-  <div class="card"><table id="months"></table></div>
+  <!-- 6. 수집 현황 -->
+  <section>
+    <h2>6. 무엇을 얼마나 모았나?</h2>
+    <p class="def">월별·갈래별 신호 수(2024년 이후, 같은 날 재수집 중복 제거). 공연은 과거 기록을 채운 것, 발매·큐레이션은 2026-11부터 매일 수집이라 아직 짧아요.</p>
+    <div class="card"><div class="chart"><canvas id="c-volume"></canvas></div></div>
+    <details><summary>소스별 표 보기</summary><div class="card"><table id="collection"></table></div></details>
+  </section>
 
-  <h2>7. 공연 많은 공연장 (2025년 이후)</h2>
-  <div class="card"><table id="venues"></table></div>
+  <!-- 7. 공연장 -->
+  <section>
+    <h2>7. 공연이 가장 많은 곳은?</h2>
+    <p class="def">2025년 이후 공연 행 수 상위 15곳.</p>
+    <div class="card"><div class="chart"><canvas id="c-venue"></canvas></div></div>
+  </section>
 
-  <h2>8. 데이터 품질</h2>
-  <div class="card"><table id="quality"></table></div>
+  <!-- 8. 품질 -->
+  <section>
+    <h2>8. 데이터는 믿을 만한가?</h2>
+    <p class="def">아티스트 매칭·메타데이터 검수 지표. 자세한 문제 행은 SQL 결과 문서의 검증 SQL에서 볼 수 있어요.</p>
+    <div class="card"><table id="quality"></table></div>
+  </section>
+
+  <!-- 9. 방법과 한계 -->
+  <section>
+    <details><summary><b>9. 방법과 한계</b></summary>
+      <div class="def">
+        <p>· 같은 팀 잇기: 띄어쓰기·기호·끝 괄호 별칭을 지운 이름 키. 동명 팀은 아직 완전히 못 가려요.</p>
+        <p>· 정답: 2025~2026년 발표분만 모았어요. 중간 정답(mid)과 최종 정답(final)으로 나누고, 기성 팀이 섞인 정답(부산록페 본무대·뮤콘)은 첫 발매 5년 이내 팀만 셌어요.</p>
+        <p>· 표본이 작아요(정답 팀 수십 팀). 비율 하나보다 기준선과의 차이·신뢰 범위를 함께 보세요.</p>
+        <p>· 원본은 공개하지 않고 집계·이름·링크만 보여줘요. 수집은 하루 1번.</p>
+      </div>
+    </details>
+  </section>
 </main>
 <script>
 const NAMES = {band_discovery:"상상마당 밴드 디스커버리", yoojaeha_finalist:"유재하 본선", muse_sejong:"세종 뮤즈세종",
@@ -71,47 +128,106 @@ const NAMES = {band_discovery:"상상마당 밴드 디스커버리", yoojaeha_fi
   indiestance:"인디스땅스 결선", mucon:"뮤콘", museon_final:"뮤즈온 최종", penta_superrookie:"펜타 슈퍼루키",
   burock_main:"부산록페 본무대", hello_rookie:"헬로루키 월간", hello_rookie_year:"올해의 헬로루키",
   kma_rookie:"한대음 올해의 신인", cj_tuneup:"CJ 튠업", izm_rookie:"이즘 올해의 신인", musicy_rookie:"음악취향Y 올해의 신인"};
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const nm = p => NAMES[p] || p;
 const pct = r => r == null ? "" : (r * 100).toFixed(1) + "%";
-const bar = (v, max, w = 160) => `<span class="bar" style="width:${max ? Math.max(2, v / max * w) : 0}px"></span>`;
+// 95% 윌슨 신뢰 범위 (표본이 작을 때도 0~100% 안에 머무름)
+function wilson(k, n) { if (!n) return [0, 0]; const z = 1.96, p = k / n, d = 1 + z*z/n,
+  c = (p + z*z/(2*n)) / d, h = z * Math.sqrt(p*(1-p)/n + z*z/(4*n*n)) / d; return [Math.max(0, c - h), Math.min(1, c + h)]; }
+function sortable(id) {
+  const t = document.getElementById(id);
+  t.querySelectorAll("th").forEach((th, i) => th.onclick = () => {
+    const rows = [...t.querySelectorAll("tr")].slice(1), dir = th.dataset.dir = th.dataset.dir === "asc" ? "desc" : "asc";
+    rows.sort((a, b) => { const x = a.children[i].dataset.v ?? a.children[i].textContent, y = b.children[i].dataset.v ?? b.children[i].textContent;
+      const nx = parseFloat(x), ny = parseFloat(y), r = (!isNaN(nx) && !isNaN(ny)) ? nx - ny : x.localeCompare(y, "ko");
+      return dir === "asc" ? r : -r; }).forEach(r => t.appendChild(r)); });
+}
 function table(id, head, rows) {
   document.getElementById(id).innerHTML = "<tr>" + head.map(h => `<th>${h}</th>`).join("") + "</tr>" +
     (rows.length ? rows.join("") : `<tr><td colspan="${head.length}">데이터 없음</td></tr>`);
 }
+function bars(id, labels, values, opts = {}) {
+  return new Chart(document.getElementById(id), { type: "bar",
+    data: { labels, datasets: opts.datasets || [{ data: values, backgroundColor: opts.colors || css("--bar") }] },
+    options: { indexAxis: opts.horizontal ? "y" : "x", maintainAspectRatio: false, responsive: true,
+      plugins: { legend: { display: !!opts.legend, labels: { color: css("--fg") } }, tooltip: opts.tooltip || {} },
+      scales: { x: { stacked: !!opts.stacked, ticks: { color: css("--muted"), callback: opts.xfmt }, grid: { color: css("--line") } },
+                y: { stacked: !!opts.stacked, ticks: { color: css("--muted") }, grid: { color: css("--line") } } } },
+    plugins: opts.plugins || [] });
+}
 fetch("data/dashboard.json", {cache: "no-store"}).then(r => r.json()).then(d => {
-  const s = d.sections;
-  document.getElementById("gen").textContent = "갱신 " + d.generated.replace("T", " ").slice(0, 16);
+  const s = d.sections, gen = d.generated.replace("T", " ").slice(0, 16);
   if (d.errors.length) document.getElementById("err").textContent = "일부 계산 실패: " + d.errors.join(" / ");
-  const sum = (arr, k) => arr.reduce((a, r) => a + (r[k] || 0), 0);
+  const sum = (a, k) => a.reduce((x, r) => x + (r[k] || 0), 0);
+  const total = sum(s.collection, "rows"), lt = (s.lead_time_summary || [])[0] || {};
   const base = s.signal_hit_rates.find(r => String(r.program).startsWith("(기준선)"));
+  document.getElementById("scope").textContent =
+    `발매·공연·선정·큐레이션 4갈래 신호 ${total.toLocaleString()}건과 2025~2026 정답(신인상·신인 프로그램)을 맞춰 봤어요 · 갱신 ${gen}`;
   document.getElementById("kpis").innerHTML = [
-    [sum(s.collection, "rows").toLocaleString(), "수집 행 (갈래 합계)"],
-    [s.candidates.length, "지금 주목할 후보 (2갈래+)"],
+    [s.candidates.length, "지금 지켜볼 후보 (유명 팀 제외)"],
+    [lt.median_months != null ? lt.median_months + "개월" : "-", `정답보다 먼저 찾은 기간 중앙값 (${lt.with_prior_signal || 0}/${lt.outcome_teams || 0}팀)`],
     [base ? pct(base.rate) : "-", "기준선: 아무 신호 팀의 정답 비율"],
-    [(s.quality.find(q => q.item.startsWith("센 정답")) || {}).value ?? "-", "검증용 정답 팀"],
+    [(s.quality.find(q => q.item.startsWith("같은 팀")) || {}).value ?? "-", "표기가 흔들리는 이름 (자동으로 묶음)"],
   ].map(([v, l]) => `<div class="kpi"><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join("");
 
-  table("candidates", ["팀", "갈래", "최근", "신인?", "첫 발매", "멜론 팬", "이미 받은 정답"],
-    s.candidates.map(r => `<tr><td>${esc(r.artist)}</td><td>${esc(r.branches)}</td><td>${esc(r.last_seen)}</td>
-      <td><span class="tag ${r.status === "신인" ? "new" : ""}">${esc(r.status)}</span></td><td>${esc(r.first_release || "")}</td>
-      <td class="n">${r.fan_count == null ? "" : r.fan_count.toLocaleString()}</td><td>${esc(r.already_outcome ? nm(r.already_outcome) : "")}</td></tr>`));
+  // 1. 후보 (필터 + 정렬)
+  const drawCand = () => {
+    const onlyNew = document.getElementById("f-new").checked, noOut = document.getElementById("f-noout").checked;
+    const rows = s.candidates.filter(r => (!onlyNew || r.status === "신인") && (!noOut || !r.already_outcome));
+    table("candidates", ["팀", "갈래 수", "갈래", "최근", "신인?", "첫 발매", "멜론 팬", "이미 받은 정답"],
+      rows.map(r => `<tr><td>${esc(r.artist)}</td><td class="n">${r.n_branch}</td><td>${esc(r.branches)}</td><td>${esc(r.last_seen)}</td>
+        <td><span class="tag ${r.status === "신인" ? "new" : ""}">${esc(r.status)}</span></td><td>${esc(r.first_release || "")}</td>
+        <td class="n" data-v="${r.fan_count ?? -1}">${r.fan_count == null ? "" : r.fan_count.toLocaleString()}</td><td>${esc(r.already_outcome ? nm(r.already_outcome) : "")}</td></tr>`));
+    sortable("candidates");
+    const nNew = rows.filter(r => r.status === "신인").length, nUnk = rows.filter(r => r.status === "모름").length;
+    document.getElementById("t-cand").textContent = `${rows.length}팀 중 신인 확인 ${nNew}팀, 프로필이 아직 없어 모르는 팀 ${nUnk}팀.`;
+  };
+  ["f-new", "f-noout"].forEach(id => document.getElementById(id).onchange = drawCand); drawCand();
   table("famous", ["팀", "멜론 팬", "첫 발매 후 (년)", "뺀 이유"], (s.excluded_famous || []).map(r => `<tr><td>${esc(r.artist)}</td>
     <td class="n">${r.fan_count == null ? "" : r.fan_count.toLocaleString()}</td><td class="n">${r.years_since_first ?? ""}</td><td>${esc(r.reason)}</td></tr>`));
-  const maxRate = Math.max(...s.signal_hit_rates.map(r => r.rate || 0));
-  table("hit", ["신호", "팀", "정답 받음", "비율", ""], s.signal_hit_rates.map(r => `<tr><td>${esc(nm(r.program))}</td>
-    <td class="n">${r.teams}</td><td class="n">${r.hits}</td><td class="n">${pct(r.rate)}</td><td>${bar(r.rate || 0, maxRate)}</td></tr>`));
-  const maxMid = Math.max(...s.mid_to_final.map(r => r.rate || 0));
-  table("mid", ["중간 정답", "받은 팀", "그 뒤 최종 정답", "비율", ""], s.mid_to_final.map(r => `<tr><td>${esc(nm(r.program))}</td>
-    <td class="n">${r.teams}</td><td class="n">${r.later_final}</td><td class="n">${pct(r.rate)}</td><td>${bar(r.rate || 0, maxMid)}</td></tr>`));
-  const maxC = Math.max(...s.career_at_outcome.map(r => r.teams));
-  table("career", ["첫 발매 후", "팀", ""], s.career_at_outcome.map(r => `<tr><td>${esc(r.bucket)}</td><td class="n">${r.teams}</td><td>${bar(r.teams, maxC)}</td></tr>`));
+
+  // 2. 신호 적중률: 가로 막대 + 기준선 + 신뢰 범위
+  const hits = s.signal_hit_rates.filter(r => r !== base);
+  const baseLine = { id: "base", afterDatasetsDraw(c) { if (!base) return; const x = c.scales.x.getPixelForValue(base.rate * 100), a = c.chartArea, g = c.ctx;
+    g.save(); g.strokeStyle = css("--base"); g.setLineDash([4, 3]); g.beginPath(); g.moveTo(x, a.top); g.lineTo(x, a.bottom); g.stroke(); g.restore(); } };
+  bars("c-hit", hits.map(r => nm(r.program)), hits.map(r => +(r.rate * 100).toFixed(1)), { horizontal: true, plugins: [baseLine],
+    colors: hits.map(r => r.teams < 10 ? css("--line") : css("--bar")), xfmt: v => v + "%",
+    tooltip: { callbacks: { label: c => { const r = hits[c.dataIndex], [lo, hi] = wilson(r.hits, r.teams); return `${pct(r.rate)} (${r.hits}/${r.teams}) · 범위 ${pct(lo)}~${pct(hi)}`; } } } });
+  table("hit", ["신호", "적중", "범위(95%)", "기준선 대비"], s.signal_hit_rates.map(r => { const [lo, hi] = wilson(r.hits, r.teams);
+    return `<tr class="${r.teams < 10 ? "small" : ""}"><td>${esc(nm(r.program))}</td><td class="n">${pct(r.rate)} (${r.hits}/${r.teams})</td>
+      <td class="n">${pct(lo)}~${pct(hi)}</td><td class="n">${base && base.rate ? (r.rate / base.rate).toFixed(1) + "배" : ""}</td></tr>`; }));
+  const best = hits.filter(r => r.teams >= 10).sort((a, b) => b.rate - a.rate)[0];
+  if (best && base) document.getElementById("t-hit").textContent = `${nm(best.program)} 신호를 받은 팀은 ${pct(best.rate)}가 이후 정답을 받아, 기준선(${pct(base.rate)})의 ${(best.rate / base.rate).toFixed(1)}배예요.`;
+
+  // 3. 중간 → 최종
+  bars("c-mid", s.mid_to_final.map(r => nm(r.program)), s.mid_to_final.map(r => +(r.rate * 100).toFixed(1)), { horizontal: true, xfmt: v => v + "%",
+    colors: s.mid_to_final.map(r => r.teams < 10 ? css("--line") : css("--bar")),
+    tooltip: { callbacks: { label: c => { const r = s.mid_to_final[c.dataIndex]; return `${pct(r.rate)} (${r.later_final}/${r.teams})`; } } } });
+  const m1 = [...s.mid_to_final].filter(r => r.teams >= 10).sort((a, b) => b.rate - a.rate)[0];
+  if (m1) document.getElementById("t-mid").textContent = `${nm(m1.program)}을(를) 받은 팀의 ${pct(m1.rate)}(${m1.later_final}/${m1.teams})가 그 뒤 최종 정답까지 갔어요.`;
+
+  // 4. 리드타임 분포
+  bars("c-lead", s.lead_time.map(r => r.bucket), s.lead_time.map(r => r.teams));
+  if (lt.median_months != null) document.getElementById("t-lead").textContent =
+    `정답 팀 ${lt.outcome_teams}팀 중 ${lt.with_prior_signal}팀이 정답 전에 우리 신호에 있었고, 중앙값 ${lt.median_months}개월 먼저 잡혔어요.`;
+
+  // 5. 연차 분포
+  bars("c-career", s.career_at_outcome.map(r => r.bucket), s.career_at_outcome.map(r => r.teams));
+  const ct = sum(s.career_at_outcome, "teams"), c3 = s.career_at_outcome.filter(r => ["1년 이내", "1~3년"].includes(r.bucket)).reduce((a, r) => a + r.teams, 0);
+  if (ct) document.getElementById("t-career").textContent = `연차를 아는 정답 팀 ${ct}팀 중 ${c3}팀(${pct(c3 / ct)})이 첫 발매 3년 안에 정답을 받았어요.`;
+
+  // 6. 월 × 갈래 쌓은 막대
+  const months = [...new Set(s.volume_by_month_branch.map(r => r.month))], branches = [...new Set(s.volume_by_month_branch.map(r => r.branch))];
+  const pal = [css("--bar"), css("--base"), css("--hit"), css("--muted")];
+  bars("c-volume", months, null, { stacked: true, legend: true, datasets: branches.map((b, i) => ({ label: b, backgroundColor: pal[i % pal.length],
+    data: months.map(m => (s.volume_by_month_branch.find(r => r.month === m && r.branch === b) || {}).rows || 0) })) });
   table("collection", ["갈래", "소스", "행", "팀", "기간"], s.collection.map(r => `<tr><td>${esc(r.branch)}</td><td>${esc(r.source)}</td>
     <td class="n">${r.rows.toLocaleString()}</td><td class="n">${r.teams.toLocaleString()}</td><td>${esc(r.first_date)} ~ ${esc(r.last_date)}</td></tr>`));
-  const maxG = Math.max(...s.gigs_by_month.map(r => r.gigs));
-  table("months", ["월", "공연 행", "팀", ""], s.gigs_by_month.map(r => `<tr><td>${esc(r.month)}</td><td class="n">${r.gigs}</td><td class="n">${r.teams}</td><td>${bar(r.gigs, maxG, 260)}</td></tr>`));
-  const maxV = Math.max(...s.top_venues.map(r => r.gigs));
-  table("venues", ["공연장", "공연 행", "팀", ""], s.top_venues.map(r => `<tr><td>${esc(r.venue)}</td><td class="n">${r.gigs}</td><td class="n">${r.teams}</td><td>${bar(r.gigs, maxV)}</td></tr>`));
+
+  // 7. 공연장
+  bars("c-venue", s.top_venues.map(r => r.venue), s.top_venues.map(r => r.gigs), { horizontal: true });
+  // 8. 품질
   table("quality", ["항목", "값"], s.quality.map(r => `<tr><td>${esc(r.item)}</td><td class="n">${r.value}</td></tr>`));
 }).catch(e => { document.getElementById("err").textContent = "데이터를 불러오지 못했어요: " + e; });
 </script>
