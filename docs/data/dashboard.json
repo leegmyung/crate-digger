@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-26T23:18:58+09:00",
+ "generated": "2026-11-26T23:32:26+09:00",
  "window": "2025-01-01",
  "sections": {
   "collection": [
@@ -53,18 +53,18 @@
    },
    {
     "branch": "발매",
-    "source": "flo",
-    "rows": 39,
-    "teams": 38,
+    "source": "melon",
+    "rows": 42,
+    "teams": 42,
     "first_date": "2026-11-24",
     "last_date": "2026-11-26"
    },
    {
     "branch": "발매",
-    "source": "melon",
-    "rows": 20,
-    "teams": 20,
-    "first_date": "2026-11-25",
+    "source": "flo",
+    "rows": 39,
+    "teams": 38,
+    "first_date": "2026-11-24",
     "last_date": "2026-11-26"
    },
    {
@@ -125,11 +125,35 @@
    },
    {
     "branch": "큐레이션",
+    "source": "visla",
+    "rows": 1196,
+    "teams": 960,
+    "first_date": "2023-01-02",
+    "last_date": "2026-11-26"
+   },
+   {
+    "branch": "큐레이션",
+    "source": "rhythmer",
+    "rows": 111,
+    "teams": 105,
+    "first_date": "2023-02-02",
+    "last_date": "2026-11-20"
+   },
+   {
+    "branch": "큐레이션",
     "source": "instagram",
     "rows": 88,
     "teams": 77,
     "first_date": "2026-11-12",
     "last_date": "2026-11-26"
+   },
+   {
+    "branch": "큐레이션",
+    "source": "weiv",
+    "rows": 16,
+    "teams": 16,
+    "first_date": "2023-11-11",
+    "last_date": "2026-11-16"
    }
   ],
   "gigs_by_month": [
@@ -371,26 +395,6 @@
     "already_outcome": null
    },
    {
-    "artist": "포져군단",
-    "n_branch": 2,
-    "branches": "공연 · 선정·지원",
-    "last_seen": "2026-12-31",
-    "status": "모름",
-    "first_release": null,
-    "fan_count": null,
-    "already_outcome": null
-   },
-   {
-    "artist": "천둥오리",
-    "n_branch": 2,
-    "branches": "공연 · 선정·지원",
-    "last_seen": "2026-12-31",
-    "status": "모름",
-    "first_release": null,
-    "fan_count": null,
-    "already_outcome": null
-   },
-   {
     "artist": "베이루트택시",
     "n_branch": 2,
     "branches": "공연 · 선정·지원",
@@ -401,7 +405,7 @@
     "already_outcome": null
    },
    {
-    "artist": "아사달",
+    "artist": "시인을 위하여",
     "n_branch": 2,
     "branches": "공연 · 선정·지원",
     "last_seen": "2026-12-31",
@@ -421,7 +425,27 @@
     "already_outcome": null
    },
    {
-    "artist": "시인을 위하여",
+    "artist": "포져군단",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-12-31",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "아사달",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-12-31",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "천둥오리",
     "n_branch": 2,
     "branches": "공연 · 선정·지원",
     "last_seen": "2026-12-31",
@@ -481,6 +505,16 @@
     "already_outcome": null
    },
    {
+    "artist": "한올",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-29",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
     "artist": "다브다",
     "n_branch": 2,
     "branches": "공연 · 발매",
@@ -491,9 +525,19 @@
     "already_outcome": null
    },
    {
-    "artist": "한올",
+    "artist": "Riff fool",
     "n_branch": 2,
-    "branches": "공연 · 발매",
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-29",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "세일러허니문",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
     "last_seen": "2026-11-29",
     "status": "모름",
     "first_release": null,
@@ -511,10 +555,40 @@
     "already_outcome": "cj_tuneup"
    },
    {
+    "artist": "에로틱웜즈익스히비션",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-28",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "키라라",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-27",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
     "artist": "대소콜링",
     "n_branch": 2,
     "branches": "공연 · 발매",
     "last_seen": "2026-11-27",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "Colde",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-26",
     "status": "모름",
     "first_release": null,
     "fan_count": null,
@@ -551,9 +625,9 @@
     "already_outcome": null
    },
    {
-    "artist": "아륜",
+    "artist": "유령서점",
     "n_branch": 2,
-    "branches": "공연 · 발매",
+    "branches": "공연 · 큐레이션",
     "last_seen": "2026-11-25",
     "status": "모름",
     "first_release": null,
@@ -561,9 +635,9 @@
     "already_outcome": null
    },
    {
-    "artist": "이을 (E.ul)",
+    "artist": "삼월생",
     "n_branch": 2,
-    "branches": "공연 · 발매",
+    "branches": "공연 · 큐레이션",
     "last_seen": "2026-11-25",
     "status": "모름",
     "first_release": null,
@@ -591,9 +665,9 @@
     "already_outcome": null
    },
    {
-    "artist": "삼월생",
+    "artist": "이을 (E.ul)",
     "n_branch": 2,
-    "branches": "공연 · 큐레이션",
+    "branches": "공연 · 발매",
     "last_seen": "2026-11-25",
     "status": "모름",
     "first_release": null,
@@ -601,9 +675,9 @@
     "already_outcome": null
    },
    {
-    "artist": "유령서점",
+    "artist": "아륜",
     "n_branch": 2,
-    "branches": "공연 · 큐레이션",
+    "branches": "공연 · 발매",
     "last_seen": "2026-11-25",
     "status": "모름",
     "first_release": null,
@@ -611,7 +685,7 @@
     "already_outcome": null
    },
    {
-    "artist": "야자수",
+    "artist": "e.K",
     "n_branch": 2,
     "branches": "공연 · 발매",
     "last_seen": "2026-11-24",
@@ -621,7 +695,7 @@
     "already_outcome": null
    },
    {
-    "artist": "e.K",
+    "artist": "야자수",
     "n_branch": 2,
     "branches": "공연 · 발매",
     "last_seen": "2026-11-24",
@@ -641,10 +715,10 @@
     "already_outcome": null
    },
    {
-    "artist": "강지원",
+    "artist": "wiki",
     "n_branch": 2,
     "branches": "공연 · 큐레이션",
-    "last_seen": "2026-11-20",
+    "last_seen": "2026-11-22",
     "status": "모름",
     "first_release": null,
     "fan_count": null,
@@ -661,7 +735,17 @@
     "already_outcome": null
    },
    {
-    "artist": "jayunakha",
+    "artist": "2MC",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-20",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "강지원",
     "n_branch": 2,
     "branches": "공연 · 큐레이션",
     "last_seen": "2026-11-20",
@@ -672,6 +756,16 @@
    },
    {
     "artist": "ddbb",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-20",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "jayunakha",
     "n_branch": 2,
     "branches": "공연 · 큐레이션",
     "last_seen": "2026-11-20",
@@ -701,6 +795,66 @@
     "already_outcome": null
    },
    {
+    "artist": "I.M.F",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-08",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "이슬림탄탄",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-07",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "원형",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-07",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "비프리",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-06",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "팔로알토",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-01",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "한정인",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-10-30",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
     "artist": "PINE",
     "n_branch": 2,
     "branches": "공연 · 선정·지원",
@@ -721,14 +875,64 @@
     "already_outcome": null
    },
    {
-    "artist": "피치트럭하이재커스",
+    "artist": "상하",
     "n_branch": 2,
-    "branches": "공연 · 선정·지원",
-    "last_seen": "2026-08-30",
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-10-23",
     "status": "모름",
     "first_release": null,
     "fan_count": null,
-    "already_outcome": "cj_tuneup"
+    "already_outcome": null
+   },
+   {
+    "artist": "Tramhaus",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-10-13",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "재림",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-10-02",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "LOBOTOME",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-09-27",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "사이먼 도미닉",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-09-19",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "오티스림",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-09-12",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
    }
   ],
   "excluded_famous": [
@@ -898,9 +1102,9 @@
    },
    {
     "program": "(기준선) 아무 신호",
-    "teams": 1461,
-    "hits": 26,
-    "rate": 0.018
+    "teams": 2075,
+    "hits": 28,
+    "rate": 0.013
    },
    {
     "program": "dmz_lineup",
@@ -916,6 +1120,12 @@
    }
   ],
   "mid_to_final": [
+   {
+    "program": "kma_genre",
+    "teams": 5,
+    "later_final": 3,
+    "rate": 0.6
+   },
    {
     "program": "indiestance",
     "teams": 10,
@@ -974,19 +1184,19 @@
   "lead_time": [
    {
     "bucket": "0~6개월",
-    "teams": 13,
-    "avg_months": 2.3,
+    "teams": 17,
+    "avg_months": 2.6,
     "sort_key": 0.09868421052631579
    },
    {
     "bucket": "6~12개월",
-    "teams": 10,
-    "avg_months": 8.4,
+    "teams": 12,
+    "avg_months": 8.5,
     "sort_key": 6.217105263157895
    },
    {
     "bucket": "12~24개월",
-    "teams": 15,
+    "teams": 16,
     "avg_months": 15.5,
     "sort_key": 12.203947368421053
    },
@@ -1005,9 +1215,9 @@
   ],
   "lead_time_summary": [
    {
-    "outcome_teams": 78,
-    "with_prior_signal": 50,
-    "median_months": 12.7
+    "outcome_teams": 90,
+    "with_prior_signal": 57,
+    "median_months": 11.4
    }
   ],
   "volume_by_month_branch": [
@@ -1017,9 +1227,19 @@
     "rows": 265
    },
    {
+    "month": "2024-01",
+    "branch": "큐레이션",
+    "rows": 40
+   },
+   {
     "month": "2024-02",
     "branch": "공연",
     "rows": 314
+   },
+   {
+    "month": "2024-02",
+    "branch": "큐레이션",
+    "rows": 40
    },
    {
     "month": "2024-03",
@@ -1027,9 +1247,19 @@
     "rows": 367
    },
    {
+    "month": "2024-03",
+    "branch": "큐레이션",
+    "rows": 30
+   },
+   {
     "month": "2024-04",
     "branch": "공연",
     "rows": 271
+   },
+   {
+    "month": "2024-04",
+    "branch": "큐레이션",
+    "rows": 42
    },
    {
     "month": "2024-05",
@@ -1042,6 +1272,11 @@
     "rows": 10
    },
    {
+    "month": "2024-05",
+    "branch": "큐레이션",
+    "rows": 26
+   },
+   {
     "month": "2024-06",
     "branch": "공연",
     "rows": 324
@@ -1050,6 +1285,11 @@
     "month": "2024-06",
     "branch": "선정·지원",
     "rows": 20
+   },
+   {
+    "month": "2024-06",
+    "branch": "큐레이션",
+    "rows": 29
    },
    {
     "month": "2024-07",
@@ -1062,9 +1302,19 @@
     "rows": 2
    },
    {
+    "month": "2024-07",
+    "branch": "큐레이션",
+    "rows": 45
+   },
+   {
     "month": "2024-08",
     "branch": "공연",
     "rows": 354
+   },
+   {
+    "month": "2024-08",
+    "branch": "큐레이션",
+    "rows": 34
    },
    {
     "month": "2024-09",
@@ -1072,14 +1322,29 @@
     "rows": 335
    },
    {
+    "month": "2024-09",
+    "branch": "큐레이션",
+    "rows": 22
+   },
+   {
     "month": "2024-10",
     "branch": "공연",
     "rows": 280
    },
    {
+    "month": "2024-10",
+    "branch": "큐레이션",
+    "rows": 19
+   },
+   {
     "month": "2024-11",
     "branch": "공연",
     "rows": 246
+   },
+   {
+    "month": "2024-11",
+    "branch": "큐레이션",
+    "rows": 16
    },
    {
     "month": "2024-12",
@@ -1092,9 +1357,19 @@
     "rows": 17
    },
    {
+    "month": "2024-12",
+    "branch": "큐레이션",
+    "rows": 8
+   },
+   {
     "month": "2025-01",
     "branch": "공연",
     "rows": 206
+   },
+   {
+    "month": "2025-01",
+    "branch": "큐레이션",
+    "rows": 24
    },
    {
     "month": "2025-02",
@@ -1102,14 +1377,29 @@
     "rows": 252
    },
    {
+    "month": "2025-02",
+    "branch": "큐레이션",
+    "rows": 20
+   },
+   {
     "month": "2025-03",
     "branch": "공연",
     "rows": 283
    },
    {
+    "month": "2025-03",
+    "branch": "큐레이션",
+    "rows": 57
+   },
+   {
     "month": "2025-04",
     "branch": "공연",
     "rows": 154
+   },
+   {
+    "month": "2025-04",
+    "branch": "큐레이션",
+    "rows": 44
    },
    {
     "month": "2025-05",
@@ -1122,6 +1412,11 @@
     "rows": 4
    },
    {
+    "month": "2025-05",
+    "branch": "큐레이션",
+    "rows": 49
+   },
+   {
     "month": "2025-06",
     "branch": "공연",
     "rows": 137
@@ -1130,6 +1425,11 @@
     "month": "2025-06",
     "branch": "선정·지원",
     "rows": 26
+   },
+   {
+    "month": "2025-06",
+    "branch": "큐레이션",
+    "rows": 43
    },
    {
     "month": "2025-07",
@@ -1142,9 +1442,19 @@
     "rows": 8
    },
    {
+    "month": "2025-07",
+    "branch": "큐레이션",
+    "rows": 42
+   },
+   {
     "month": "2025-08",
     "branch": "공연",
     "rows": 189
+   },
+   {
+    "month": "2025-08",
+    "branch": "큐레이션",
+    "rows": 30
    },
    {
     "month": "2025-09",
@@ -1152,9 +1462,19 @@
     "rows": 132
    },
    {
+    "month": "2025-09",
+    "branch": "큐레이션",
+    "rows": 36
+   },
+   {
     "month": "2025-10",
     "branch": "공연",
     "rows": 267
+   },
+   {
+    "month": "2025-10",
+    "branch": "큐레이션",
+    "rows": 31
    },
    {
     "month": "2025-11",
@@ -1167,6 +1487,11 @@
     "rows": 4
    },
    {
+    "month": "2025-11",
+    "branch": "큐레이션",
+    "rows": 16
+   },
+   {
     "month": "2025-12",
     "branch": "공연",
     "rows": 292
@@ -1177,14 +1502,29 @@
     "rows": 10
    },
    {
+    "month": "2025-12",
+    "branch": "큐레이션",
+    "rows": 14
+   },
+   {
     "month": "2026-01",
     "branch": "공연",
     "rows": 242
    },
    {
+    "month": "2026-01",
+    "branch": "큐레이션",
+    "rows": 17
+   },
+   {
     "month": "2026-02",
     "branch": "공연",
     "rows": 301
+   },
+   {
+    "month": "2026-02",
+    "branch": "큐레이션",
+    "rows": 12
    },
    {
     "month": "2026-03",
@@ -1197,6 +1537,11 @@
     "rows": 5
    },
    {
+    "month": "2026-03",
+    "branch": "큐레이션",
+    "rows": 7
+   },
+   {
     "month": "2026-04",
     "branch": "공연",
     "rows": 565
@@ -1205,6 +1550,11 @@
     "month": "2026-04",
     "branch": "선정·지원",
     "rows": 12
+   },
+   {
+    "month": "2026-04",
+    "branch": "큐레이션",
+    "rows": 9
    },
    {
     "month": "2026-05",
@@ -1217,9 +1567,19 @@
     "rows": 6
    },
    {
+    "month": "2026-05",
+    "branch": "큐레이션",
+    "rows": 7
+   },
+   {
     "month": "2026-06",
     "branch": "공연",
     "rows": 430
+   },
+   {
+    "month": "2026-06",
+    "branch": "큐레이션",
+    "rows": 5
    },
    {
     "month": "2026-07",
@@ -1232,14 +1592,29 @@
     "rows": 8
    },
    {
+    "month": "2026-07",
+    "branch": "큐레이션",
+    "rows": 21
+   },
+   {
     "month": "2026-08",
     "branch": "공연",
     "rows": 832
    },
    {
+    "month": "2026-08",
+    "branch": "큐레이션",
+    "rows": 29
+   },
+   {
     "month": "2026-09",
     "branch": "공연",
     "rows": 1100
+   },
+   {
+    "month": "2026-09",
+    "branch": "큐레이션",
+    "rows": 19
    },
    {
     "month": "2026-10",
@@ -1252,6 +1627,11 @@
     "rows": 3
    },
    {
+    "month": "2026-10",
+    "branch": "큐레이션",
+    "rows": 25
+   },
+   {
     "month": "2026-11",
     "branch": "공연",
     "rows": 1014
@@ -1259,7 +1639,7 @@
    {
     "month": "2026-11",
     "branch": "발매",
-    "rows": 192
+    "rows": 214
    },
    {
     "month": "2026-11",
@@ -1269,7 +1649,7 @@
    {
     "month": "2026-11",
     "branch": "큐레이션",
-    "rows": 88
+    "rows": 102
    }
   ],
   "top_venues": [
@@ -1352,7 +1732,7 @@
   "quality": [
    {
     "item": "같은 팀인데 표기가 여러 개인 이름 키",
-    "value": 106
+    "value": 161
    },
    {
     "item": "유통사가 빈 발매 행",
@@ -1364,11 +1744,11 @@
    },
    {
     "item": "멜론 프로필이 있는 팀",
-    "value": 83
+    "value": 88
    },
    {
     "item": "센 정답 팀 (연차 필터 후)",
-    "value": 78
+    "value": 90
    }
   ]
  },
