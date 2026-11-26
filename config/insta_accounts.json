@@ -1,21 +1,21 @@
 {
- "_설명": "인스타 음악 매거진 수집 대상. tier: main=매일, sub=every_days마다. 새 계정은 한 줄 추가. 계정이 사라지면 수집 로그에 표시됨",
+ "_설명": "인스타 음악 매거진 수집 대상. tier: main=매일, sub=every_days마다. 새 계정은 한 줄 추가. 계정이 사라지면 수집 로그에 표시됨. role: magazine=평론·큐레이션 매체, venue_showcase=공연장·기획 계정(라인업 공지 → 공연 갈래로 셈)",
  "accounts": [
-  {"handle": "pushplay_mag", "name": "푸시 플레이 매거진", "tier": "main", "every_days": 1},
-  {"handle": "bdbd.wav", "name": "bdbd", "tier": "main", "every_days": 1},
-  {"handle": "kindiemagazine", "name": "킨디매거진", "tier": "main", "every_days": 1},
-  {"handle": "muzik.street", "name": "들을 거리", "tier": "main", "every_days": 1},
-  {"handle": "muscat_mag", "name": "머스캣 매거진", "tier": "main", "every_days": 1},
-  {"handle": "omichive7", "name": "오미카이브", "tier": "main", "every_days": 1},
-  {"handle": "pub.mag", "name": "펍맥", "tier": "sub", "every_days": 3},
-  {"handle": "stage_magazine", "name": "스테이지 매거진", "tier": "sub", "every_days": 3},
-  {"handle": "ageofband", "name": "AoB 에이오비", "tier": "sub", "every_days": 2},
-  {"handle": "metro_kr", "name": "메트로", "tier": "sub", "every_days": 3},
-  {"handle": "nugsmag", "name": "넋매거진", "tier": "sub", "every_days": 3},
-  {"handle": "debasermagazine", "name": "디베이서매거진", "tier": "sub", "every_days": 3},
-  {"handle": "senggistudio", "name": "생기스튜디오", "tier": "sub", "every_days": 3},
-  {"handle": "hongdaeff", "name": "클럽FF", "tier": "sub", "every_days": 3},
-  {"handle": "rollinghall", "name": "롤링홀", "tier": "sub", "every_days": 3},
-  {"handle": "liveclubday", "name": "라이브클럽데이", "tier": "sub", "every_days": 3}
+  {"handle": "pushplay_mag", "name": "푸시 플레이 매거진", "tier": "main", "every_days": 1, "role": "magazine"},
+  {"handle": "bdbd.wav", "name": "bdbd", "tier": "main", "every_days": 1, "role": "magazine"},
+  {"handle": "kindiemagazine", "name": "킨디매거진", "tier": "main", "every_days": 1, "role": "magazine"},
+  {"handle": "muzik.street", "name": "들을 거리", "tier": "main", "every_days": 1, "role": "magazine"},
+  {"handle": "muscat_mag", "name": "머스캣 매거진", "tier": "main", "every_days": 1, "role": "magazine"},
+  {"handle": "omichive7", "name": "오미카이브", "tier": "main", "every_days": 1, "role": "magazine"},
+  {"handle": "pub.mag", "name": "펍맥", "tier": "sub", "every_days": 3, "role": "magazine"},
+  {"handle": "stage_magazine", "name": "스테이지 매거진", "tier": "sub", "every_days": 3, "role": "magazine"},
+  {"handle": "ageofband", "name": "AoB 에이오비", "tier": "sub", "every_days": 2, "role": "magazine"},
+  {"handle": "metro_kr", "name": "메트로", "tier": "sub", "every_days": 3, "role": "magazine"},
+  {"handle": "nugsmag", "name": "넋매거진", "tier": "sub", "every_days": 3, "role": "magazine"},
+  {"handle": "debasermagazine", "name": "디베이서매거진", "tier": "sub", "every_days": 3, "role": "magazine"},
+  {"handle": "senggistudio", "name": "생기스튜디오", "tier": "sub", "every_days": 3, "role": "venue_showcase"},
+  {"handle": "hongdaeff", "name": "클럽FF", "tier": "sub", "every_days": 3, "role": "venue_showcase"},
+  {"handle": "rollinghall", "name": "롤링홀", "tier": "sub", "every_days": 3, "role": "venue_showcase"},
+  {"handle": "liveclubday", "name": "라이브클럽데이", "tier": "sub", "every_days": 3, "role": "venue_showcase"}
  ]
 }

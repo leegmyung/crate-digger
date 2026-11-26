@@ -32,6 +32,15 @@ def write(dir_path, name, rows):
     return path
 
 
+def write_rows(dir_path, name, cols, rows):
+    path = Path(dir_path) / name
+    with open(path, "w", encoding="utf-8", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=cols)
+        w.writeheader()
+        w.writerows(rows)
+    return path
+
+
 class BuildTest(unittest.TestCase):
     def test_counts_per_day_and_source_and_public_fields_only(self):
         with tempfile.TemporaryDirectory() as d:
@@ -86,6 +95,33 @@ class BuildTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             data = bsd.build(Path(d), recent_limit=10)
         self.assertEqual((data["runs"], data["recent_releases"]), ([], []))
+        self.assertEqual((data["selections"], data["cross_branch"]), ([], []))
+
+    def test_same_day_rerun_files_merged_into_one_run(self):
+        with tempfile.TemporaryDirectory() as d:
+            write(d, "raw_kr_release_2026-11-26_poclanos.csv", [row()])
+            write(d, "raw_kr_release_2026-11-26_poclanos_201156.csv", [row(artist_text="B", release_url="https://example.com/2")])
+            data = bsd.build(Path(d), recent_limit=10)
+        self.assertEqual(data["runs"], [
+            {"date": "2026-11-26", "source": "poclanos", "table": "raw_kr_release", "rows": 2, "file_ok": True}])
+
+    def test_selections_and_cross_branch_summary(self):
+        sel_cols = ["collected_at", "source", "collector", "program", "round", "stage", "announced_at", "artist_text", "url", "note"]
+        gig_cols = ["collected_at", "source", "collector", "source_id", "gig_date", "gig_time", "title", "venue_text",
+                    "artist_text", "artist_source_id", "gig_url", "artist_url"]
+        with tempfile.TemporaryDirectory() as d:
+            write_rows(d, "raw_kr_selection_2026-11-26_busan.csv", sel_cols, [
+                dict(collected_at="2026-11-26T20:00:00+09:00", source="busanrock", collector="script", program="burock_rookies",
+                     round="2026", stage="selected", announced_at="2026-08", artist_text="천둥오리", url="https://example.com/s", note="TOP 10")])
+            write_rows(d, "raw_kr_gig_2026-11-26_indiego.csv", gig_cols, [
+                dict(collected_at="2026-11-26T18:00:00+09:00", source="indiego", collector="aside", source_id="1", gig_date="2026-11-28",
+                     gig_time="19:00", title="밤", venue_text="클럽 빵 (주소)", artist_text="천둥 오리", artist_source_id="",
+                     gig_url="https://example.com/g", artist_url="")])
+            write(d, "raw_kr_release_2026-11-26_poclanos.csv", [row(artist_text="혼자팀")])
+            data = bsd.build(Path(d), recent_limit=10)
+        self.assertEqual(data["selections"], [{"program": "burock_rookies", "round": "2026", "stage": "selected",
+                                               "announced_at": "2026-08", "artist": "천둥오리", "url": "https://example.com/s"}])
+        self.assertEqual(data["cross_branch"], [{"artist": "천둥오리", "branches": ["공연", "선정·지원"]}])
 
 
 if __name__ == "__main__":

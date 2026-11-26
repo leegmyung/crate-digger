@@ -76,7 +76,9 @@ def busan_stage(top_size):
     return "final"          # 최종 순위
 
 
-def parse_busan(page, url, collected_at):
+def parse_busan(page, url, collected_at, seen_on=""):
+    """seen_on: 이 페이지를 본 날짜(보관소 저장일·처음 읽은 날). 발표일을 모르므로 '늦어도 이날 발표됨'으로
+    announced_at에 쓴다. 없으면 연도만 (백테스트에서는 scripts/timing.py가 보수적으로 해석)."""
     lines = html_to_lines(page)
     head = next(((i, m) for i, ln in enumerate(lines) if (m := BUSAN_HEAD.search(ln))), None)
     if not head:
@@ -99,7 +101,8 @@ def parse_busan(page, url, collected_at):
             continue
         if name and name not in seen:
             seen.add(name)
-            rows.append(_row("busanrock", "burock_rookies", year, stage, year, name, url, collected_at, note))
+            announced = seen_on if seen_on.startswith(year) else year
+            rows.append(_row("busanrock", "burock_rookies", year, stage, announced, name, url, collected_at, note))
     return rows
 
 
@@ -163,14 +166,15 @@ def fetch(url):
 
 
 def collect_busan(collected_at, wayback=False):
-    rows = parse_busan(fetch(BUSAN_URL), BUSAN_URL, collected_at)
+    rows = parse_busan(fetch(BUSAN_URL), BUSAN_URL, collected_at, seen_on=collected_at[:10])
     if not wayback:
         return rows
     stamps = [r[0] for r in json.loads(fetch(WAYBACK_CDX))[1:]]
     for ts in stamps:
         time.sleep(REQUEST_DELAY_SEC)
         snap = f"https://web.archive.org/web/{ts}/{BUSAN_URL}"
-        rows.extend(parse_busan(fetch(f"https://web.archive.org/web/{ts}id_/{BUSAN_URL}"), snap, collected_at))
+        seen_on = f"{ts[:4]}-{ts[4:6]}-{ts[6:8]}"
+        rows.extend(parse_busan(fetch(f"https://web.archive.org/web/{ts}id_/{BUSAN_URL}"), snap, collected_at, seen_on))
     return rows
 
 

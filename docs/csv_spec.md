@@ -38,6 +38,11 @@
 | label_text | | 레이블·기획사 | |
 | track_count | | 곡 수 | 5 |
 | release_url | ✅ | 앨범 상세 주소 | https://music.bugs.co.kr/album/… |
+| distributor_text | | 유통사(발매사). 1.5단계 신인·인디 판별용 | 지니뮤직 |
+| artist_key | | 정규화한 팀 이름 (`scripts/normalize.py`). 끝 괄호 별칭·공백·기호 제거, 소문자 | 오존 |
+| title_key | | 정규화한 앨범 제목. feat. 표기만 제거, 버전 표기는 유지 | qualia |
+
+같은 앨범이 몇 개 플랫폼에 올라왔는지(동시 입점)는 `(artist_key, title_key)`로 묶어 셉니다 (`normalize.platforms_seen`). 음원 플랫폼 수집기(`scripts/collect_platforms.py`)는 세 칸을 모두 채우고, 이전 파일은 비어 있어도 됩니다.
 
 소스 코드: `poclanos` 포크라노스 · `muzeplatform` 뮤즈플랫폼 · `vlending` OGQ 블렌딩 · `mirrorball` 미러볼뮤직 · `bugs` 벅스 · `flo` FLO · `genie` 지니 · `melon` 멜론 · `bandcamp_kr` Bandcamp 한국 · `manual` 직접 입력
 
@@ -74,7 +79,7 @@
 | artist_text | ✅ | 언급된 팀 1팀 |
 | release_title | | 언급된 앨범·곡 |
 | is_pick | ✅ | 추천·선정이면 1, 단순 언급이면 0 |
-| pick_label | | 추천 코너 이름 (Single Out, 주간 신보 …) |
+| pick_label | | 추천 코너 이름 (Single Out, 주간 신보 …). 공연장·기획 계정의 라인업 공지는 `venue_lineup` (is_pick=0) → 갈래 겹침에서 '공연'으로 셈 |
 | artist_handle | | 태그된 아티스트 인스타 계정 `@abc_123`. 같은 이름의 다른 팀을 구별하는 핵심 열쇠라 보이면 꼭 적기 |
 | is_sponsored | | 협찬·광고 글(#제작지원, 유료 홍보 업체)이면 1. 신호에서 빠져요 |
 
@@ -103,6 +108,11 @@
 - `hello_rookie_applicant` → `hello_rookie`, `hello_rookie_year` 제외
 - `museon_document` → `museon_final` 제외
 - `indiestance_prelim` → `indiestance` 제외
+- `burock_rookies` → `burock_main` 제외 (루키즈 1~3위는 다음 해 본무대 기회를 받음)
+
+연결된 정답이 없다고 확인한 후보 프로그램은 `NO_LINKED_OUTCOME`에 둡니다. **새 후보 프로그램을 추가하면 둘 중 한쪽에 반드시 넣어야 하고, 빠지면 테스트가 실패합니다.**
+
+**발표일(announced_at)과 시점 누수:** 연도·월까지만 알면 백테스트에서 `scripts/timing.py` 규칙으로 보수적으로 해석해요. 후보 신호는 그 기간의 마지막 날, 정답은 첫날로 보고, 선행 기간이 0일 이하이면 '앞섰다'고 세지 않아요. 그래서 가능하면 날짜까지 적어요. 페이지에 발표일이 없으면 그 페이지를 본 날(보관소 저장일, 처음 읽은 날)을 적어요.
 
 ## 5. `raw_outcome` — 공증(정답) 발표 1건 × 팀 1팀 = 1행
 
@@ -119,7 +129,7 @@
 | url | ✅ | 근거 주소 | |
 | note | | 메모 | 월간 선정 |
 
-프로그램 코드: `hello_rookie` 헬로루키 월간 · `hello_rookie_year` 올해의 헬로루키 · `cj_tuneup` CJ 튠업 · `penta_superrookie` 펜타 슈퍼루키 · `kma_rookie` 한국대중음악상 신인 · `opcd` OPCD · `izm_rookie` 이즘 올해의 신인 · `musicy_rookie` 음악취향Y 올해의 신인 · `rhythmer_award` 리드머 어워드 · `gg_indiestance` 경기 인디스땅스 · `bbc_sound_of` · `tiny_desk` · `museon_final` 뮤즈온 최종 · `indiestance` 인디스땅스 결선 · 매체 소개(정답 2등급, 협찬 제외): `media_izm` · `media_bandwagon` · `media_nme` · `media_esquire`
+프로그램 코드: `burock_main` 부산국제록페스티벌 본무대 출연 · `hello_rookie` 헬로루키 월간 · `hello_rookie_year` 올해의 헬로루키 · `cj_tuneup` CJ 튠업 · `penta_superrookie` 펜타 슈퍼루키 · `kma_rookie` 한국대중음악상 신인 · `opcd` OPCD · `izm_rookie` 이즘 올해의 신인 · `musicy_rookie` 음악취향Y 올해의 신인 · `rhythmer_award` 리드머 어워드 · `gg_indiestance` 경기 인디스땅스 · `bbc_sound_of` · `tiny_desk` · `museon_final` 뮤즈온 최종 · `indiestance` 인디스땅스 결선 · 매체 소개(정답 2등급, 협찬 제외): `media_izm` · `media_bandwagon` · `media_nme` · `media_esquire`
 
 ## aside에 붙여 넣는 작업 지시문 (예: 벅스)
 

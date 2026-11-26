@@ -65,6 +65,10 @@ class BusanTest(unittest.TestCase):
                           ("아사달", "TOP 3 @asadal_official")])
         self.assertEqual(rows[0]["stage"], "final")
 
+    def test_seen_on_date_used_as_announced(self):
+        rows = cs.parse_busan(BUSAN_TOP10, URL, AT, seen_on="2026-08-13")
+        self.assertEqual({r["announced_at"] for r in rows}, {"2026-08-13"})
+
     def test_recruit_page_has_no_rows(self):
         self.assertEqual(cs.parse_busan(BUSAN_RECRUIT, URL, AT), [])
 

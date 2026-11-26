@@ -64,6 +64,19 @@ class RowsTest(unittest.TestCase):
         self.assertEqual(path.name, "raw_press_2026-11-26_instagram.csv")
         self.assertEqual(errs, [])
 
+    def test_venue_account_marked_as_lineup_not_pick(self):
+        post = {"url": "https://www.instagram.com/p/V1/", "og": OG}
+        rows, _ = ci.to_rows("rollinghall", post, AT, role="venue_showcase")
+        self.assertEqual({(r["is_pick"], r["pick_label"]) for r in rows}, {("0", "venue_lineup")})
+        rows, _ = ci.to_rows("pushplay_mag", post, AT)
+        self.assertEqual({(r["is_pick"], r["pick_label"]) for r in rows}, {("1", "")})
+
+    def test_config_roles_are_known(self):
+        accounts = ci._load_json(ci.CONFIG, {})["accounts"]
+        self.assertTrue(all(a.get("role") in ("magazine", "venue_showcase") for a in accounts))
+        venues = {a["handle"] for a in accounts if a["role"] == "venue_showcase"}
+        self.assertTrue({"senggistudio", "hongdaeff", "rollinghall", "liveclubday"} <= venues)
+
     def test_caption_without_mentions_goes_to_review(self):
         post = {"url": "https://www.instagram.com/p/X/", "og": 'a on November 1, 2026: "이번 달 앨범: 삼월생, 강연우"'}
         rows, unparsed = ci.to_rows("bdbd.wav", post, AT)

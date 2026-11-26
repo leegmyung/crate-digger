@@ -32,6 +32,7 @@ PROGRAMS = {
     "opcd", "izm_rookie", "musicy_rookie", "rhythmer_award", "gg_indiestance",
     "bbc_sound_of", "tiny_desk", "museon_final", "indiestance",
     # 유재하음악경연대회는 2026-11-26 후보 신호로 옮김 (SELECTION_PROGRAMS의 yoojaeha_finalist)
+    "burock_main",          # 부산국제록페스티벌 본무대 출연 (루키즈 후보는 SAME_PROGRAM으로 적중 제외)
     # 메이저 매체 소개 = '주목받기 시작함' (정답 2등급). 협찬 기사는 넣지 않는다.
     "media_izm", "media_bandwagon", "media_nme", "media_esquire",
 }
@@ -68,7 +69,15 @@ SAME_PROGRAM = {
     "hello_rookie_applicant": frozenset({"hello_rookie", "hello_rookie_year"}),
     "museon_document": frozenset({"museon_final"}),
     "indiestance_prelim": frozenset({"indiestance"}),
+    "burock_rookies": frozenset({"burock_main"}),     # 루키즈 1~3위는 다음 해 본무대 기회를 받으므로
 }
+
+# 연결된 정답 프로그램이 없다고 확인한 후보 프로그램. 새 후보 프로그램을 추가하면
+# SAME_PROGRAM 또는 여기 중 한쪽에 반드시 넣는다 (tests/test_validate_csv.py가 검사).
+NO_LINKED_OUTCOME = frozenset({
+    "indiscovery", "our_musician", "gw_creation", "seoul_busking", "regional_contest", "cmyk",
+    "senggi_curation", "liveclubday", "tumblbug_debut", "muse_sejong", "gb_creation", "yoojaeha_finalist",
+})
 
 
 def excluded_outcomes(selection_program):
@@ -89,9 +98,12 @@ TABLES = {
             F("title", required=True),
             F("release_type", "code", False, RELEASE_TYPES),
             F("genre"),            # 여러 개면 | 로 구분
-            F("label_text"),
+            F("label_text"),       # 기획사·레이블
             F("track_count", "int_pos"),
             F("release_url", "url", True),
+            F("distributor_text"), # 유통사(발매사). 1.5단계 신인·인디 판별용
+            F("artist_key"),       # scripts/normalize.py artist_key — 플랫폼 간 같은 팀 묶기
+            F("title_key"),        # scripts/normalize.py title_key — 동시 입점(platforms_seen) 집계
         ],
         "key": ("source", "release_url", "artist_text"),   # 콜라보는 팀마다 1행
     },

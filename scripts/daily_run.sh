@@ -19,8 +19,9 @@ echo "===== $DAY $(TZ=Asia/Seoul date +%H:%M:%S) 시작"
 if command -v aside >/dev/null 2>&1; then
   "$PY" scripts/collect_gigs.py --site all --days 7 || echo "⚠️ 공연 수집 일부 실패 (aside 앱이 꺼져 있으면 실패해요)"
   "$PY" scripts/collect_insta.py || echo "⚠️ 인스타 매거진 수집 실패"
+  "$PY" scripts/collect_platforms.py --days 3 || echo "⚠️ 음원 플랫폼 신보 수집 전부 실패 (일부 실패는 위 로그에 ⚠️로 표시)"
 else
-  echo "⚠️ aside 명령이 없어 공연·인스타 수집을 건너뜀"
+  echo "⚠️ aside 명령이 없어 공연·인스타·음원 플랫폼 수집을 건너뜀"
 fi
 "$PY" scripts/validate_csv.py data/raw/*"$DAY"*.csv || echo "⚠️ 형식 검사에서 오류 발견 (진행판에 실패로 표시됨)"
 "$PY" scripts/build_site_data.py || echo "⚠️ 진행판 데이터 갱신 실패"

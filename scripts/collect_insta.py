@@ -89,17 +89,22 @@ def is_sponsored(caption):
     return bool(SPONSORED_RE.search(caption or ""))
 
 
-def to_rows(account, post, collected_at):
-    """게시물 1개 → (행 목록, 검수 대기 항목 또는 None)"""
+def to_rows(account, post, collected_at, role="magazine"):
+    """게시물 1개 → (행 목록, 검수 대기 항목 또는 None)
+
+    role="venue_showcase"(공연장·기획 계정)의 글은 평론 픽이 아니라 라인업 공지라서
+    is_pick=0, pick_label=venue_lineup 으로 남긴다. 갈래 겹침에서 '공연'으로 센다 (이중 가점 방지).
+    """
     parsed = parse_og(post.get("og", ""))
     found = mentions(parsed["caption"], own_handle=account)
     if not parsed["date"] or not found:
         return [], {"account": account, "url": post.get("url", ""), "date": parsed["date"], "caption": parsed["caption"][:1500]}
+    venue = role == "venue_showcase"
     base = {
         "collected_at": collected_at, "source": "instagram", "collector": "aside",
         "outlet": "@" + account, "published_at": parsed["date"],
         "title": re.sub(r"\s+", " ", parsed["caption"])[:80], "url": post["url"],
-        "release_title": "", "is_pick": "1", "pick_label": "",
+        "release_title": "", "is_pick": "0" if venue else "1", "pick_label": "venue_lineup" if venue else "",
         "is_sponsored": "1" if is_sponsored(parsed["caption"]) else "0",
     }
     return [dict(base, artist_text=name, artist_handle=handle) for name, handle in found], None
@@ -137,14 +142,14 @@ def _post_id(url):
     return url.rstrip("/").split("/")[-1]
 
 
-def _collect_account(handle, seen, collected_at, oldest):
+def _collect_account(handle, seen, collected_at, oldest, role="magazine"):
     res = run_repl(PROFILE_JS % {"handle": handle, "seen": json.dumps(seen), "max_new": MAX_NEW_POSTS})
     if res.get("gone"):
         return None
     rows, review, ids = [], [], []
     for post in res.get("posts", []):
         ids.append(_post_id(post["url"]))
-        got, unparsed = to_rows(handle, post, collected_at)
+        got, unparsed = to_rows(handle, post, collected_at, role)
         if got and got[0]["published_at"] >= oldest:   # 오래된 고정 게시물은 건너뜀
             rows.extend(got)
         if unparsed and (not unparsed["date"] or unparsed["date"] >= oldest):
@@ -164,7 +169,7 @@ def collect(check_all=False):
         handle = a["handle"]
         seen = state["seen"].get(handle, [])
         try:
-            result = _collect_account(handle, seen, now.isoformat(), oldest)
+            result = _collect_account(handle, seen, now.isoformat(), oldest, a.get("role", "magazine"))
         except (RuntimeError, subprocess.TimeoutExpired) as e:
             report.append(f"⚠️ @{handle}: 읽기 실패 ({e})")
             continue

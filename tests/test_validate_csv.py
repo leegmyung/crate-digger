@@ -178,6 +178,17 @@ class SameProgramRuleTest(unittest.TestCase):
             self.assertIn(sel, csv_schema.SELECTION_PROGRAMS)
             self.assertTrue(outs and outs <= csv_schema.PROGRAMS, sel)
 
+    def test_every_candidate_program_has_a_same_program_decision(self):
+        """새 후보 프로그램을 추가하면 연결된 정답이 있는지(SAME_PROGRAM) 없는지(NO_LINKED_OUTCOME) 꼭 정해야 한다."""
+        import csv_schema
+        decided = set(csv_schema.SAME_PROGRAM) | csv_schema.NO_LINKED_OUTCOME
+        self.assertEqual(csv_schema.SELECTION_PROGRAMS - decided, set())
+        self.assertEqual(set(csv_schema.SAME_PROGRAM) & csv_schema.NO_LINKED_OUTCOME, set())
+
+    def test_busan_rookies_exclude_busan_main_stage(self):
+        import csv_schema
+        self.assertEqual(csv_schema.excluded_outcomes("burock_rookies"), {"burock_main"})
+
     def test_hello_rookie_applicants_exclude_hello_rookie_outcomes(self):
         import csv_schema
         self.assertEqual(csv_schema.excluded_outcomes("hello_rookie_applicant"),
