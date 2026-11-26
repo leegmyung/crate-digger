@@ -61,6 +61,27 @@ class BuildTest(unittest.TestCase):
         self.assertFalse(data["runs"][0]["file_ok"])
         self.assertEqual(data["recent_releases"], [])
 
+    def test_gigs_grouped_per_gig_with_artists(self):
+        gig_cols = ["collected_at", "source", "collector", "source_id", "gig_date", "gig_time", "title",
+                    "venue_text", "artist_text", "artist_source_id", "gig_url", "artist_url"]
+        base = dict.fromkeys(gig_cols, "")
+        base.update(collected_at="2026-11-26T18:00:00+09:00", source="indiego", collector="aside",
+                    gig_date="2026-11-27", gig_time="19:30", title="밤", venue_text="클럽 빵 (서울 마포구 어딘가)",
+                    gig_url="https://example.com/e/1")
+        rows = [dict(base, artist_text="A"), dict(base, artist_text="B"),
+                dict(base, gig_date="2026-11-26", gig_url="https://example.com/e/2", artist_text="C")]
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "raw_kr_gig_2026-11-26_indiego.csv"
+            with open(path, "w", encoding="utf-8", newline="") as fh:
+                w = csv.DictWriter(fh, fieldnames=gig_cols)
+                w.writeheader()
+                w.writerows(rows)
+            data = bsd.build(Path(d), recent_limit=10)
+        gigs = data["upcoming_gigs"]
+        self.assertEqual([g["artists"] for g in gigs], [["C"], ["A", "B"]])   # 날짜순
+        self.assertEqual(gigs[1]["venue"], "클럽 빵")                          # 주소는 공개하지 않음
+        self.assertEqual(set(gigs[0]), {"date", "time", "venue", "title", "artists", "source", "url"})
+
     def test_empty_folder(self):
         with tempfile.TemporaryDirectory() as d:
             data = bsd.build(Path(d), recent_limit=10)

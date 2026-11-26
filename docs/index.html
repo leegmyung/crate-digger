@@ -148,6 +148,15 @@
     </table></div>
   </section>
 
+  <section class="section" aria-labelledby="h-gigs">
+    <h2 id="h-gigs">다가오는 공연</h2>
+    <p class="sub">인디고·인디스트릿에서 받은 앞으로 7일 공연과 출연 팀이에요. 두 곳에 같은 공연이 있으면 아직 따로 보여요(2단계 이름 맞추기에서 합쳐요). <span id="gig-count"></span></p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>날짜</th><th>시간</th><th>공연장</th><th>출연 팀</th><th>소스</th></tr></thead>
+      <tbody id="gigs"><tr><td colspan="5" class="pending">아직 수집한 공연이 없어요.</td></tr></tbody>
+    </table></div>
+  </section>
+
   <section class="section" aria-labelledby="h-slots">
     <h2 id="h-slots">관찰 현황</h2>
     <p class="sub">단계가 진행되면 아래 칸이 채워져요.</p>
@@ -241,9 +250,19 @@
     }
   }
 
+  function renderGigs(gigs) {
+    if (!gigs || !gigs.length) return;
+    const teams = new Set(gigs.flatMap((g) => g.artists));
+    document.getElementById('gig-count').textContent = '공연 ' + gigs.length + '건 · 출연 팀 ' + teams.size + '팀';
+    document.getElementById('gigs').replaceChildren(...gigs.map((g) => el('tr', {}, [
+      cell([g.date.slice(5)], 'nowrap'), cell([g.time || '-'], 'nowrap'),
+      el('td', {}, [el('a', { href: g.url, rel: 'noopener', title: g.title }, [g.venue || g.title])]),
+      cell([g.artists.join(', ')]), cell([SOURCE_KO[g.source] || g.source], 'nowrap')])));
+  }
+
   fetch('data/collect.json', { cache: 'no-store' })
     .then((r) => (r.ok ? r.json() : null))
-    .then((c) => { if (c) renderCollect(c); })
+    .then((c) => { if (c) { renderCollect(c); renderGigs(c.upcoming_gigs); } })
     .catch(() => { /* 수집 데이터가 아직 없으면 빈 상태 문구를 그대로 둔다 */ });
 
   fetch('data/board.json', { cache: 'no-store' })

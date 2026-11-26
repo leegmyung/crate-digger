@@ -15,6 +15,19 @@
 
 핵심 질문: **"우리가 먼저 찾은 신인이, 나중에 정말 떴는가? 몇 달 먼저 찾았는가?"**
 
+## 1.5 포트폴리오 방향 (음악 플랫폼 데이터 직무 관점)
+음악 스트리밍·팬 플랫폼의 데이터·분석 직무 공고를 조사해 보니 공통 요구가 분명해서, 프로젝트를 그 역량이 드러나게 만든다. (회사별 메모는 비공개 기록에만 둔다)
+
+| 직무에서 요구하는 것 | 이 프로젝트에서 보여줄 것 |
+|---|---|
+| SQL이 기본 (분석 직무 필수), Tableau 우대 | PostgreSQL 저장, 분석은 SQL 뷰로, 쿼리 원문을 그대로 공개. 최종 보드는 Tableau |
+| 생성형 AI로 업무 흐름을 설계·자동화한 경험 | Claude Code + aside로 소스 조사·수집·검증을 자동화한 과정과 판단 기록 (진행판의 빈틈·보완, 작업 기록) |
+| 지표를 새로 만들고 결과를 미리 예측한 뒤 검증 | 성공 기준을 추적 전에 문서로 고정, 비교 그룹 + 적중률·선행 기간·성장 배수로 검증 |
+| 스트리밍 → 팬덤 비즈니스, 청취가 팬 활동·매출로 이어지는 관점 | 추적 지표를 '팬덤 성장 지표'(팔로워, 공연 횟수·공연장 규모, 좋아요, 지원사업 선정)로 묶어 신인이 팬을 모아 가는 과정을 보여주기 |
+| 매일 돌아가는 데이터 배치와 운영 자동화 | 매일 저녁 자동 수집·검사·기록·배포 (`scripts/daily_run.sh`), 진행판의 수집 현황·데이터 품질 |
+| 숫자 정확도, 원인 끝까지 찾기 | CSV 자동 검사기, 중복·누락 점검, 같은 프로그램 적중 제외 같은 검증 함정 차단 |
+| 음악·팬덤 도메인 이해 | 국내 인디 유통·지원사업·공연 생태계 47곳 조사 결과 정리 |
+
 ## 2. 파이프라인 (자세한 그림: `docs/pipeline.html`, 발표: `docs/slides/`)
 ```
 해외  Bandcamp discover 랭킹 (매일) + KEXP API + MusicBrainz + 매체 RSS(평론 신호)  ─┐
@@ -160,11 +173,16 @@ claude.ai 대시보드 링크 (본인만 열람 가능):
 - Bandcamp Taste Match (보류): https://claude.ai/artifact/JYtChoYG6BGRXQGD6yGexW
 
 ## 9. 매일 수집 (국내)
+매일 21:00에 맥이 자동으로 `scripts/daily_run.sh`를 실행한다 (수집 → 진행판 → 일일 기록 `docs/log/` → 커밋·push).
+설치·시간 변경: `bash scripts/install_daily.sh 21 0`. 실행 기록: `records/daily_run.log` (비공개).
+공연 수집은 aside 앱이 켜져 있어야 한다.
 ```bash
 source .venv/bin/activate
 python3 scripts/collect_poclanos.py            # 포크라노스 최근 3일 → data/raw/ (비공개)
 python3 scripts/validate_csv.py data/raw/*.csv # 형식 검사 (aside로 받은 파일도)
+python3 scripts/collect_gigs.py                # 인디고·인디스트릿 공연 7일 (aside 브라우저)
 python3 scripts/build_site_data.py             # 진행판 공개 데이터 docs/data/collect.json
+python3 scripts/daily_note.py                  # 일일 기록 docs/log/ + 엑셀 자동 줄
 python3 -m unittest discover -s tests          # 테스트
 ```
 형식은 `docs/csv_spec.md`. 진행판: https://leegmyung.github.io/crate-digger/

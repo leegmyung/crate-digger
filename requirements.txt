@@ -2,3 +2,5 @@
 numpy>=1.24
 # 선택: scripts/voyager_index.py (근사 최근접 이웃 검색)
 voyager>=2.0
+# 작업 기록 엑셀 (scripts/worklog.py)
+openpyxl>=3.1
