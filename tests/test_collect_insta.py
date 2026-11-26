@@ -1,0 +1,83 @@
+"""인스타 음악 매거진 수집기 변환 로직 테스트 — aside 없이 가상 데이터로."""
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import collect_insta as ci  # noqa: E402
+import validate_csv  # noqa: E402
+
+AT = "2026-11-26T21:00:00+09:00"
+OG = ('1,234 likes, 12 comments - pushplay_mag on November 25, 2026: "오늘 소개할 아티스트는 정용찬(@jeong_yong_chan)입니다. '
+      '첫 더블 싱글 「Project 1」 🎧 함께한 밴드 새벽정류장 (@saebyeok.bus) 도 확인하세요 #인디 #신곡"')
+
+
+class ParseTest(unittest.TestCase):
+    def test_parse_og_description(self):
+        p = ci.parse_og(OG)
+        self.assertEqual(p["date"], "2026-11-25")
+        self.assertTrue(p["caption"].startswith("오늘 소개할 아티스트는"))
+
+    def test_parse_og_without_likes(self):
+        p = ci.parse_og('kindiemagazine on January 5, 2026: "Rising Artist 샐리에브리웨어 @sally_ew"')
+        self.assertEqual(p["date"], "2026-01-05")
+
+    def test_parse_og_dash_format(self):  # 2026-11 실제 인스타 형식
+        p = ci.parse_og('19 likes, 0 comments - pushplay_mag - November 25, 2026: "Sarah Julia - Bigger Picture @sarahjulia"')
+        self.assertEqual(p["date"], "2026-11-25")
+        self.assertEqual(p["caption"], "Sarah Julia - Bigger Picture @sarahjulia")
+
+    def test_parse_og_unknown_format(self):
+        self.assertEqual(ci.parse_og("그냥 문장"), {"date": "", "caption": "그냥 문장"})
+
+    def test_mentions_with_names(self):
+        m = ci.mentions(ci.parse_og(OG)["caption"], own_handle="pushplay_mag")
+        self.assertEqual(m, [("정용찬", "@jeong_yong_chan"), ("새벽정류장", "@saebyeok.bus")])
+
+    def test_mention_without_name_uses_handle(self):
+        self.assertEqual(ci.mentions("이번 주 @lumen.garden 소개", own_handle="x"), [("lumen.garden", "@lumen.garden")])
+
+    def test_own_handle_and_trailing_dot_ignored(self):
+        self.assertEqual(ci.mentions("by @pushplay_mag. 그리고 A(@a_b.)", own_handle="pushplay_mag"), [("A", "@a_b")])
+
+    def test_sponsored(self):
+        self.assertTrue(ci.is_sponsored("좋은 곡 #제작지원"))
+        self.assertTrue(ci.is_sponsored("유료 광고 포함"))
+        self.assertFalse(ci.is_sponsored("광고 없이 소개합니다 #인디"))  # '광고 없이'는 협찬 아님
+
+
+class RowsTest(unittest.TestCase):
+    def test_rows_and_validator(self):
+        post = {"url": "https://www.instagram.com/p/ABC123/", "og": OG}
+        rows, unparsed = ci.to_rows("pushplay_mag", post, AT)
+        self.assertEqual(unparsed, None)
+        self.assertEqual([r["artist_handle"] for r in rows], ["@jeong_yong_chan", "@saebyeok.bus"])
+        r = rows[0]
+        self.assertEqual((r["source"], r["outlet"], r["published_at"], r["is_pick"], r["is_sponsored"]),
+                         ("instagram", "@pushplay_mag", "2026-11-25", "1", "0"))
+        with tempfile.TemporaryDirectory() as d:
+            path = ci.write_csv(rows, Path(d), "2026-11-26")
+            errs = [i for i in validate_csv.validate_file(path) if i.level == "error"]
+        self.assertEqual(path.name, "raw_press_2026-11-26_instagram.csv")
+        self.assertEqual(errs, [])
+
+    def test_caption_without_mentions_goes_to_review(self):
+        post = {"url": "https://www.instagram.com/p/X/", "og": 'a on November 1, 2026: "이번 달 앨범: 삼월생, 강연우"'}
+        rows, unparsed = ci.to_rows("bdbd.wav", post, AT)
+        self.assertEqual(rows, [])
+        self.assertEqual(unparsed["url"], "https://www.instagram.com/p/X/")
+
+
+class DueTest(unittest.TestCase):
+    def test_due_accounts(self):
+        accounts = [{"handle": "a", "every_days": 1}, {"handle": "b", "every_days": 3}]
+        last = {"b": "2026-11-25"}
+        self.assertEqual([a["handle"] for a in ci.due_accounts(accounts, last, "2026-11-26")], ["a"])
+        self.assertEqual([a["handle"] for a in ci.due_accounts(accounts, last, "2026-11-28")], ["a", "b"])
+
+
+if __name__ == "__main__":
+    unittest.main()
