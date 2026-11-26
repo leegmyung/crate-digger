@@ -9,6 +9,13 @@
 사용량 한도·인터넷 끊김으로 멈추면 다음 세션은 이 칸부터 본다. 수집기는 `data/raw/state/*.json`에 '이미 받은 것'을 기록하므로 같은 명령을 다시 돌리면 이어서 받는다.
 
 **진행 중이던 것**
+- [ ] (2026-11-27 시작) **전 장르 확장** — 사용자: "모든 장르에서 구현", "인스타 매거진 500개 이상 리스트업"
+  - 인스타 큐레이터 후보 5갈래 → `data/raw/review/instagram_candidates_*.json` (일반·hiphop_rnb·electronic·band_folk_jazz_pop·snowball). 다 모이면 합쳐 중복 제거 → `config/insta_accounts.json`에 genre·role·tier로 추가
+  - 웹매거진 수집기 `scripts/collect_webzines.py` (VISLA·리드머·weiv·IZM·힙합엘이 등), 장르 소스 조사 `docs/research_2026-11-27_genre_sources.md`
+  - 스포티파이 발매 이력 `scripts/collect_spotify.py` → raw_artist_profile(source=spotify)
+  - 후보 400팀 멜론 프로필 (`collect_artists.py --names-file`, 남은 481팀은 이어서) → 유명 팀 제외 규칙 적용
+  - 대시보드 구성 참고 `docs/research_2026-11-27_dashboard_patterns.md` → dashboard.html 섹션 재구성
+  - 발매 수집을 '인디' 목록 외 힙합·R&B·일렉트로닉 등 장르 목록으로 넓히기 (collect_platforms LIST_URLS)
 - [x] PostgreSQL 적재·분석 SQL 8개·검증 SQL 8개·결과 문서 `docs/sql/README.md`·데이터 대시보드 `docs/dashboard.html` (매일 자동 갱신) — 2026-11-26 23시
 - [x] 인디스트릿 과거 공연 수집 완료 (2024-01~, 13,646행) (`scripts/collect_gigs_history.py --since 2024-01-01`, 상태 `data/raw/state/gigs_history_seen.json`) — 끝났는지 `data/raw/raw_kr_gig_*_indistreet_history*.csv`로 확인, 안 끝났으면 같은 명령 재실행. 수집기·테스트 파일이 아직 커밋 전이면 테스트 후 커밋
 - [x] 채용공고 대비 타당성 조사 완료 → `records/job_research_2026-11-26.md` (비공개)
