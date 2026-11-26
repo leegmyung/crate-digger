@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "note": "플랫폼 장르 태그 → 큰 갈래(bucket). 정확히 같은 태그(tags)를 먼저 보고, 없으면 글자 포함(keywords)으로 찾는다. 여러 갈래가 나오면 priority 앞쪽이 대표 갈래. everynoise 는 Every Noise at Once(2023 동결본) 장르 이름을 참고로만 적은 것.",
+  "scene_tags": ["인디음악", "인디", "indie", "가요", "국내드라마", "국내영화", "애니메이션/웹툰", "ost", "국외드라마", "국외영화", "k-pop", "kpop", "j-pop"],
+  "priority": ["hiphop", "rnb", "electronic", "jazz", "folk", "rock", "pop", "other"],
+  "buckets": {
+    "hiphop": {
+      "label": "힙합",
+      "meaning": "랩이 중심인 음악. 붐뱁·트랩·언더그라운드 랩 포함",
+      "tags": ["랩/힙합", "hip hop", "hip-hop", "힙합", "랩", "rap"],
+      "keywords": ["힙합", "hip hop", "hip-hop", "rap", "트랩", "trap"],
+      "everynoise": ["korean underground rap", "k-rap", "korean old school hip hop"]
+    },
+    "rnb": {
+      "label": "R&B·소울",
+      "meaning": "R&B, 소울, 네오소울. 그루브와 보컬 중심",
+      "tags": ["r&b/soul", "알앤비/소울", "알앤비", "소울", "r&b", "soul", "네오소울"],
+      "keywords": ["알앤비", "r&b", "rnb", "소울", "soul"],
+      "everynoise": ["korean r&b"]
+    },
+    "electronic": {
+      "label": "일렉트로닉",
+      "meaning": "신시사이저·전자음이 중심. 일렉트로팝, 하우스, 앰비언트 포함",
+      "tags": ["일렉트로니카", "일렉트로닉", "인디 일렉트로닉", "electronic", "electronica", "edm"],
+      "keywords": ["일렉", "electro", "edm", "하우스", "house", "테크노", "techno", "앰비언트", "ambient"],
+      "everynoise": ["korean electronic", "korean electropop"]
+    },
+    "jazz": {
+      "label": "재즈",
+      "meaning": "재즈, 퓨전 재즈, 재즈 보컬",
+      "tags": ["재즈", "jazz"],
+      "keywords": ["재즈", "jazz"],
+      "everynoise": ["korean jazz"]
+    },
+    "folk": {
+      "label": "포크·싱어송라이터",
+      "meaning": "어쿠스틱 기타·피아노 중심의 포크, 블루스, 싱어송라이터",
+      "tags": ["포크/블루스", "포크/어쿠스틱", "포크", "인디포크", "folk", "어쿠스틱", "블루스", "acoustic"],
+      "keywords": ["포크", "folk", "어쿠스틱", "acoustic", "블루스", "blues", "singer-songwriter", "싱어송라이터"],
+      "everynoise": ["korean indie folk", "korean singer-songwriter"]
+    },
+    "rock": {
+      "label": "록·밴드",
+      "meaning": "밴드 사운드 전반. 인디록, 모던록, 펑크, 메탈, 슈게이즈, 포스트록",
+      "tags": ["록/메탈", "락/메탈", "록", "락", "인디록", "모던록", "rock", "메탈", "펑크", "슈게이즈", "포스트록"],
+      "keywords": ["록", "락", "rock", "메탈", "metal", "펑크", "punk", "슈게이즈", "shoegaze", "그런지", "grunge"],
+      "everynoise": ["korean indie rock", "korean rock", "korean shoegaze", "korean punk", "korean post-rock", "korean metal"]
+    },
+    "pop": {
+      "label": "인디팝·발라드",
+      "meaning": "노래(멜로디) 중심의 팝. 발라드, 인디팝, 드림팝, 시티팝, 댄스팝. 다른 갈래가 없을 때만 대표가 됨",
+      "tags": ["발라드", "인디팝", "댄스/팝", "pop", "dance", "드림팝", "시티팝", "댄스", "팝"],
+      "keywords": ["발라드", "ballad", "팝", "pop", "댄스", "dance"],
+      "everynoise": ["k-indie", "korean dream pop", "korean city pop", "korean pop"]
+    },
+    "other": {
+      "label": "실험·기타",
+      "meaning": "위에 안 맞는 소리. 실험·노이즈, 국악·크로스오버, 뉴에이지, 클래식, 월드",
+      "tags": ["뉴에이지", "korean traditional", "국악", "크로스오버", "클래식", "월드뮤직", "new age", "experimental", "실험"],
+      "keywords": ["뉴에이지", "new age", "국악", "traditional", "실험", "experimental", "노이즈", "noise", "클래식", "classical", "월드", "world", "크로스오버"],
+      "everynoise": ["korean experimental"]
+    }
+  }
+}
