@@ -1,0 +1,451 @@
+{
+ "updated": "2026-11-26",
+ "focus": "국내",
+ "steps": [
+  {
+   "no": "0",
+   "name": "후보 풀 정하기",
+   "status": "now",
+   "detail": "어디서 신인을 디깅할지. 유통사·셀프 유통·음원 플랫폼·웹진·공연 정보 22곳 조사 완료 → 조합 결정 대기",
+   "added": false
+  },
+  {
+   "no": "1",
+   "name": "원본 수집 (매일)",
+   "status": "todo",
+   "detail": "raw_kr_release, raw_press. CSV 형식 정의서는 후보 풀 확정 후 마무리",
+   "added": false
+  },
+  {
+   "no": "1.5",
+   "name": "신인 판별",
+   "status": "todo",
+   "detail": "목록에 데뷔작 표시가 없음 → 첫 발매일·발매 수로 신인만 남기기",
+   "added": true
+  },
+  {
+   "no": "2",
+   "name": "검수·이름 맞추기",
+   "status": "todo",
+   "detail": "같은 팀이 여러 소스에 반복 등장 → 선정 전에 하나로 합치기",
+   "added": false
+  },
+  {
+   "no": "3",
+   "name": "반응 지표 매일 저장",
+   "status": "todo",
+   "detail": "유튜브 구독자·조회수, 멜론 팬 수·좋아요, 벅스 좋아요, 새 발매 수, 웹진 언급, 공연 횟수·공연장 규모",
+   "added": false
+  },
+  {
+   "no": "4",
+   "name": "선정 + 비교 그룹",
+   "status": "todo",
+   "detail": "점수 규칙으로 선정, 선정 안 된 팀 중 무작위로 비교 그룹 → 관찰 목록, T0 기록",
+   "added": false
+  },
+  {
+   "no": "5",
+   "name": "추적",
+   "status": "todo",
+   "detail": "관찰 목록 전부 하루 1번 숫자 저장. T+14·90·180·365는 저장된 숫자로 계산",
+   "added": false
+  },
+  {
+   "no": "6",
+   "name": "검증",
+   "status": "todo",
+   "detail": "공증 소스(헬로루키·CJ 튠업·펜타 슈퍼루키·한대음): 적중률, 선행 기간, 성장 배수",
+   "added": false
+  },
+  {
+   "no": "7",
+   "name": "관찰 웹 + Tableau",
+   "status": "now",
+   "detail": "이 페이지(GitHub Pages)로 매일 상황 확인, 최종 분석은 Tableau",
+   "added": true
+  }
+ ],
+ "gaps": [
+  {
+   "found": "어느 목록에도 데뷔작·신인 표시가 없음",
+   "fix": "1.5단계 '신인 판별' 추가. 포크라노스는 아티스트별 앨범 수 API가 있어 바로 사용 가능",
+   "status": "반영"
+  },
+  {
+   "found": "같은 팀이 여러 소스에 반복 (결(KYUL), 109, 머무르, 미즈이로 등)",
+   "fix": "이름 맞추기를 선정 전에 하도록 순서 고정",
+   "status": "반영"
+  },
+  {
+   "found": "포크라노스 한 곳만 쓰면 그 유통사 팀만 보임",
+   "fix": "셀프 유통(뮤즈플랫폼·OGQ 블렌딩) 등 2~3곳 조합",
+   "status": "결정 필요"
+  },
+  {
+   "found": "추적 방법이 정해지지 않았음",
+   "fix": "관찰 목록 전부 하루 1번 숫자 저장, 체크포인트는 저장값으로 계산 (GA 같은 방문자 분석은 불필요)",
+   "status": "반영"
+  },
+  {
+   "found": "매일 수집이 실제로 돌았는지 볼 방법이 없음",
+   "fix": "이 페이지에 '수집 현황' 칸 추가 예정",
+   "status": "예정"
+  },
+  {
+   "found": "주요 음원 플랫폼(벅스·FLO·지니·멜론)이 robots.txt로 자동 수집을 막음",
+   "fix": "공개 사이트로 운영하므로 수집 허용 소스를 메인으로. 플랫폼은 방식 결정 필요",
+   "status": "결정 필요"
+  },
+  {
+   "found": "셀프 유통에는 AI 생성곡·기능성(수면·명상) 음원·양산형 연속 발매가 섞임",
+   "fix": "1.5단계에서 걸러내는 규칙 필요 (발매 간격, 소개문 키워드 등)",
+   "status": "예정"
+  },
+  {
+   "found": "바이브는 2026-12-31 서비스 종료",
+   "fix": "후보에서 제외",
+   "status": "반영"
+  },
+  {
+   "found": "후보 풀이 '발매'만 보고 있었음. 음원 내기 전 공연으로 활동하는 팀은 못 찾음",
+   "fix": "공연 정보(인디고·인디스트릿)를 후보 풀에 추가. 공연 횟수·공연장 규모는 추적 지표로도 사용",
+   "status": "반영"
+  },
+  {
+   "found": "공증 소스가 큰 프로그램 위주였음",
+   "fix": "후보: 이즘 올해의 신인, 음악취향Y 올해의 신인, 리드머 어워드, 경기 인디스땅스, 헬로루키 파이널 공연, CJ 튠업 영상 → 등급 정하기",
+   "status": "결정 필요"
+  },
+  {
+   "found": "웹진은 신인 비중이 낮거나 양이 적음",
+   "fix": "웹진은 후보 풀이 아니라 '평론 신호'(점수 가점)로만 사용",
+   "status": "반영"
+  }
+ ],
+ "sources": [
+  {
+   "name": "포크라노스",
+   "kind": "인디 유통사",
+   "url": "https://poclanos.com/album-list/",
+   "per_day": "약 3건",
+   "newcomer": "중간 (앨범 적은 팀 절반)",
+   "history": "2004년~ 8,478건",
+   "method": "공개 API·앨범 RSS",
+   "robots": "허용",
+   "verdict": "메인",
+   "note": "아티스트별 앨범 수 API → 신인 판별에 바로 사용"
+  },
+  {
+   "name": "뮤즈플랫폼",
+   "kind": "셀프 유통",
+   "url": "https://www.muzeplatform.com/albums/released/",
+   "per_day": "약 8~9건",
+   "newcomer": "매우 높음",
+   "history": "약 1,700건",
+   "method": "페이지 읽기",
+   "robots": "허용",
+   "verdict": "메인",
+   "note": "기능성·양산형 음원 거르기 필요"
+  },
+  {
+   "name": "OGQ 블렌딩",
+   "kind": "셀프 유통",
+   "url": "https://vlending.co.kr/music/albums",
+   "per_day": "약 3건",
+   "newcomer": "높음",
+   "history": "2004년~ 1,968건",
+   "method": "공개 데이터 주소",
+   "robots": "허용",
+   "verdict": "보조",
+   "note": "AI 생성곡·OST 섞임"
+  },
+  {
+   "name": "미러볼뮤직",
+   "kind": "인디 유통사",
+   "url": "http://mirrorballmusic.co.kr/albums/",
+   "per_day": "약 4건 (11/06 이후 멈춤)",
+   "newcomer": "매우 높음",
+   "history": "1994년~",
+   "method": "페이지 읽기",
+   "robots": "허용",
+   "verdict": "보조",
+   "note": "업데이트 재개되면 메인 후보"
+  },
+  {
+   "name": "벅스 인디 최신",
+   "kind": "음원 플랫폼",
+   "url": "https://music.bugs.co.kr/newest/album/nindie",
+   "per_day": "약 25건",
+   "newcomer": "매우 높음",
+   "history": "2022-07~ 약 3만 9천 건",
+   "method": "페이지 읽기",
+   "robots": "차단",
+   "verdict": "결정 필요",
+   "note": "양·신인 비중 최고. 수집 방식 결정 필요"
+  },
+  {
+   "name": "FLO 국내 인디",
+   "kind": "음원 플랫폼",
+   "url": "https://www.music-flo.com/browse/genre/newalbum/detail/9",
+   "per_day": "약 10건",
+   "newcomer": "높음",
+   "history": "최근 100건(약 10일)만",
+   "method": "공개 JSON",
+   "robots": "차단 (Crawl-delay 10)",
+   "verdict": "결정 필요",
+   "note": "데이터 가장 깔끔. 매일 안 받으면 놓침"
+  },
+  {
+   "name": "지니 인디",
+   "kind": "음원 플랫폼",
+   "url": "https://www.genie.co.kr/genre/L0109",
+   "per_day": "약 14건",
+   "newcomer": "매우 높음",
+   "history": "약 11일치만",
+   "method": "페이지 읽기 + 상세",
+   "robots": "차단",
+   "verdict": "결정 필요",
+   "note": "발매일은 상세 페이지에만"
+  },
+  {
+   "name": "멜론 인디 최신앨범",
+   "kind": "음원 플랫폼",
+   "url": "https://www.melon.com/genre/album_list.htm?gnrCode=GN0500",
+   "per_day": "약 7건",
+   "newcomer": "높음",
+   "history": "2017년~",
+   "method": "페이지 조각 읽기",
+   "robots": "차단",
+   "verdict": "확인용",
+   "note": "벅스와 많이 겹침. 좋아요 수는 추적 지표로 유용"
+  },
+  {
+   "name": "Bandcamp (한국, 최신)",
+   "kind": "해외 플랫폼",
+   "url": "https://bandcamp.com/discover?loc=1835841&s=new",
+   "per_day": "약 6~8건",
+   "newcomer": "매우 높음 (일렉트로닉 위주)",
+   "history": "사실상 무제한",
+   "method": "aside (봇 확인 화면 있음)",
+   "robots": "API 허용, AI 봇 차단",
+   "verdict": "보조",
+   "note": "국내 플랫폼에 없는 언더그라운드 보완"
+  },
+  {
+   "name": "일렉트릭뮤즈",
+   "kind": "레이블",
+   "url": "https://electricmuse.bandcamp.com/music",
+   "per_day": "연 0~2건",
+   "newcomer": "낮음",
+   "history": "2002년~",
+   "method": "-",
+   "robots": "-",
+   "verdict": "부적합",
+   "note": "레이블 한 곳의 발매뿐"
+  },
+  {
+   "name": "비트볼뮤직",
+   "kind": "레이블",
+   "url": "https://beatballmusic.bandcamp.com/music",
+   "per_day": "연 2~3건",
+   "newcomer": "거의 없음",
+   "history": "2003년~",
+   "method": "-",
+   "robots": "-",
+   "verdict": "부적합",
+   "note": "재발매·라이선스 위주"
+  },
+  {
+   "name": "사운드리퍼블리카",
+   "kind": "유통사",
+   "url": "https://www.soundrepublica.com/articles",
+   "per_day": "공개 목록 없음",
+   "newcomer": "-",
+   "history": "-",
+   "method": "-",
+   "robots": "허용",
+   "verdict": "부적합",
+   "note": "유통 카탈로그는 로그인 필요"
+  },
+  {
+   "name": "바이브",
+   "kind": "음원 플랫폼",
+   "url": "https://vibe.naver.com/new-release-album/domestic",
+   "per_day": "인디 약 7건",
+   "newcomer": "중간",
+   "history": "약 16일",
+   "method": "-",
+   "robots": "차단",
+   "verdict": "부적합",
+   "note": "2026-12-31 서비스 종료"
+  },
+  {
+   "name": "인디고",
+   "kind": "공연 정보",
+   "url": "https://www.indiego.co.kr/events",
+   "per_day": "공연 12~22건",
+   "newcomer": "높음",
+   "history": "2021-03~ 약 2,010건",
+   "method": "사이트맵·페이지 읽기",
+   "robots": "허용 (/api/ 제외)",
+   "verdict": "메인",
+   "note": "음원 내기 전 팀까지 보임. 출연진·공연장·인스타 팔로워"
+  },
+  {
+   "name": "인디스트릿",
+   "kind": "공연 정보",
+   "url": "https://indistreet.com/gigs",
+   "per_day": "공연 약 22건",
+   "newcomer": "높음",
+   "history": "2018-03~ 약 1만 건",
+   "method": "사이트맵·페이지 읽기",
+   "robots": "차단 (AI 봇)",
+   "verdict": "결정 필요",
+   "note": "아티스트별 공연 기록·셋리스트·앨범까지 있음"
+  },
+  {
+   "name": "킨디라운지 보도자료",
+   "kind": "협회 큐레이션",
+   "url": "http://www.liak.or.kr/bbs/list/pressnews",
+   "per_day": "월 약 8건",
+   "newcomer": "높음 (중견 섞임)",
+   "history": "2020-01~",
+   "method": "페이지 읽기",
+   "robots": "허용",
+   "verdict": "보조",
+   "note": "소속사·형태·발매일 붙은 큐레이션"
+  },
+  {
+   "name": "음악취향Y",
+   "kind": "웹진",
+   "url": "http://musicy.kr/?c=review",
+   "per_day": "주 약 5건",
+   "newcomer": "절반 이상 소규모",
+   "history": "2006-07~",
+   "method": "페이지 읽기",
+   "robots": "파일 없음",
+   "verdict": "보조",
+   "note": "상세에 장르·레이블·유통사. 평론 신호"
+  },
+  {
+   "name": "리드머 국내 플레이리스트",
+   "kind": "웹진",
+   "url": "http://board.rhythmer.net/src/go.php?c=19&s=news",
+   "per_day": "주 약 20곡",
+   "newcomer": "중간",
+   "history": "2009~",
+   "method": "페이지 읽기",
+   "robots": "파일 없음",
+   "verdict": "보조",
+   "note": "힙합·알앤비만"
+  },
+  {
+   "name": "The Bridge Onair",
+   "kind": "유튜브 라이브",
+   "url": "https://www.youtube.com/@thebridge_onair",
+   "per_day": "주 1편",
+   "newcomer": "높음",
+   "history": "영상 63개",
+   "method": "YouTube Data API",
+   "robots": "API 사용",
+   "verdict": "보조",
+   "note": "양 적음"
+  },
+  {
+   "name": "아지트라이브 (CJ문화재단)",
+   "kind": "유튜브 라이브",
+   "url": "https://www.youtube.com/@CJculture",
+   "per_day": "월 2~6건",
+   "newcomer": "중간~높음",
+   "history": "확인 못 함",
+   "method": "YouTube Data API",
+   "robots": "API 사용",
+   "verdict": "보조",
+   "note": "튠업 관련 영상은 공증용으로 분리"
+  },
+  {
+   "name": "킨디매거진 New Release",
+   "kind": "웹진",
+   "url": "http://www.xindiemagazine.co.kr/index.php?mid=ssss",
+   "per_day": "2026-06 이후 멈춤",
+   "newcomer": "높음",
+   "history": "2019-09~",
+   "method": "페이지 읽기",
+   "robots": "파일 없음",
+   "verdict": "확인용",
+   "note": "재개되면 보조"
+  },
+  {
+   "name": "이즘(IZM)",
+   "kind": "웹진",
+   "url": "https://www.izm.co.kr/review",
+   "per_day": "국내 리뷰 주 약 5건",
+   "newcomer": "매우 낮음",
+   "history": "2005~",
+   "method": "-",
+   "robots": "파일 없음",
+   "verdict": "부적합",
+   "note": "케이팝 위주. 찾은 팀을 평단이 다뤘는지 확인용"
+  },
+  {
+   "name": "weiv",
+   "kind": "웹진",
+   "url": "https://www.weiv.co.kr/archives/category/review",
+   "per_day": "2주 1건",
+   "newcomer": "높음",
+   "history": "3,762건",
+   "method": "RSS",
+   "robots": "허용",
+   "verdict": "부적합",
+   "note": "양이 너무 적고 공백 김"
+  },
+  {
+   "name": "딩고 뮤직",
+   "kind": "유튜브",
+   "url": "https://www.youtube.com/@DingoMusic",
+   "per_day": "하루 1~3건",
+   "newcomer": "낮음",
+   "history": "-",
+   "method": "-",
+   "robots": "-",
+   "verdict": "부적합",
+   "note": "아이돌 위주"
+  },
+  {
+   "name": "온스테이지 (네이버)",
+   "kind": "라이브 채널",
+   "url": "https://www.youtube.com/@official.onstage",
+   "per_day": "0건 (2023-11 종료)",
+   "newcomer": "-",
+   "history": "아카이브",
+   "method": "-",
+   "robots": "-",
+   "verdict": "부적합",
+   "note": "과거 출연 이력은 공증용"
+  }
+ ],
+ "pending_research": [],
+ "decisions": [
+  {
+   "q": "국내 후보 풀 조합 (추천: 포크라노스 + 뮤즈플랫폼 + 인디고, 보조: OGQ·킨디라운지·음악취향Y)",
+   "state": "결정 필요"
+  },
+  {
+   "q": "robots.txt가 막는 소스(벅스·FLO·지니·인디스트릿)를 쓸지, 쓴다면 어떤 방식으로",
+   "state": "결정 필요"
+  },
+  {
+   "q": "신인 기준 (예: 첫 발매 2년 이내 & 발매 5개 이하, 또는 공연만 있고 발매 없음)",
+   "state": "결정 필요"
+  },
+  {
+   "q": "추가 공증 소스 등급",
+   "state": "결정 필요"
+  },
+  {
+   "q": "관찰 웹 화면 위치",
+   "state": "GitHub Pages (공개)로 결정 · 원본 수집 파일은 비공개"
+  }
+ ]
+}

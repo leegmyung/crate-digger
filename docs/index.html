@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crate Digger 진행판</title>
+<meta name="description" content="국내·해외 인디 신인 발굴 파이프라인의 진행 상황, 후보 소스, 수집·관찰 현황">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #f5f6f8; --panel: #ffffff; --ink: #161a22; --muted: #5d6573; --line: #dde1e8;
+    --kr: #6a4bd8; --kr-soft: #efeafd;
+    --ok: #1f8a3b; --ok-soft: #e3f3e7; --warn: #a86b00; --warn-soft: #fbf0d9;
+    --todo: #6b7280; --todo-soft: #eceef1; --bad: #c0352b; --bad-soft: #fbe6e4;
+    --f-body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+    --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --r: 8px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12151b; --panel: #1a1e26; --ink: #e9ecf2; --muted: #9aa3b2; --line: #2c323d;
+      --kr: #a58cff; --kr-soft: #2a2347;
+      --ok: #5cc777; --ok-soft: #173222; --warn: #e3b04b; --warn-soft: #362a12;
+      --todo: #9aa3b2; --todo-soft: #262b34; --bad: #f07a70; --bad-soft: #3b1d1a;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #12151b; --panel: #1a1e26; --ink: #e9ecf2; --muted: #9aa3b2; --line: #2c323d;
+    --kr: #a58cff; --kr-soft: #2a2347;
+    --ok: #5cc777; --ok-soft: #173222; --warn: #e3b04b; --warn-soft: #362a12;
+    --todo: #9aa3b2; --todo-soft: #262b34; --bad: #f07a70; --bad-soft: #3b1d1a;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.6; }
+  a { color: var(--kr); }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 40px 16px 64px; display: flex; flex-direction: column; gap: 44px; }
+  h1, h2 { margin: 0; text-wrap: balance; }
+  h1 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); font-weight: 900; letter-spacing: -0.02em; }
+  h2 { font-size: 1.25rem; font-weight: 700; }
+  p { margin: 0; }
+  .eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .head { display: flex; flex-direction: column; gap: 12px; }
+  .lede { max-width: 72ch; color: var(--muted); }
+  .links { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; }
+  .section { display: flex; flex-direction: column; gap: 14px; }
+  .sub { color: var(--muted); font-size: 14px; max-width: 75ch; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; padding: 1px 9px; border-radius: 999px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+  .chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .s-ok { color: var(--ok); background: var(--ok-soft); }
+  .s-warn { color: var(--warn); background: var(--warn-soft); }
+  .s-todo { color: var(--todo); background: var(--todo-soft); }
+  .s-bad { color: var(--bad); background: var(--bad-soft); }
+  .s-now { color: var(--kr); background: var(--kr-soft); }
+
+  /* 파이프라인 지도 */
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 10px; }
+  .step { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+  .step.now { border-color: var(--kr); box-shadow: 0 0 0 1px var(--kr) inset; }
+  .step-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .step-no { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+  .step-name { font-weight: 700; }
+  .step-detail { font-size: 13px; color: var(--muted); }
+  .tag-added { font-size: 11px; color: var(--warn); font-weight: 700; }
+
+  /* 표 */
+  .tbl-wrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+  th { font-weight: 700; color: var(--muted); font-size: 12.5px; white-space: nowrap; background: var(--panel); }
+  tr:last-child td { border-bottom: 0; }
+  td.nowrap { white-space: nowrap; }
+  .src-name { font-weight: 700; white-space: nowrap; }
+  .src-kind { display: block; font-size: 12px; color: var(--muted); font-weight: 400; }
+  .filters { display: flex; flex-wrap: wrap; gap: 6px; }
+  .filters button { font: inherit; font-size: 13px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; }
+  .filters button[aria-pressed="true"] { border-color: var(--kr); color: var(--kr); background: var(--kr-soft); }
+
+  /* 데이터 칸 (아직 비어 있음) */
+  .slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 10px; }
+  .slot { background: var(--panel); border: 1px dashed var(--line); border-radius: var(--r); padding: 14px; display: flex; flex-direction: column; gap: 6px; }
+  .slot b { font-size: 14px; }
+  .slot span { font-size: 13px; color: var(--muted); }
+  .pending { font-size: 13px; color: var(--muted); }
+  .err { color: var(--bad); }
+  footer { color: var(--muted); font-size: 12.5px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="head">
+    <p class="eyebrow">Crate Digger · 진행판</p>
+    <h1>국내 신인 발굴 파이프라인</h1>
+    <p class="lede">우리가 먼저 찾은 신인이 나중에 정말 떴는지 데이터로 확인하는 프로젝트예요. 이 페이지에서는 지금 어느 단계인지, 만들면서 채운 빈틈은 무엇인지, 무엇을 수집하고 있는지를 보여 줘요.</p>
+    <p class="links"><span id="updated" class="pending">불러오는 중…</span><a href="pipeline.html">전체 파이프라인 그림</a><a href="slides/slides.html">발표 슬라이드</a><a href="https://github.com/leegmyung/crate-digger">GitHub 저장소</a></p>
+  </header>
+
+  <section class="section" aria-labelledby="h-steps">
+    <h2 id="h-steps">파이프라인 지도</h2>
+    <p class="sub">보라색 테두리가 지금 진행 중인 단계예요. <span class="tag-added">＋추가</span> 표시는 원래 계획에 없었는데, 만들면서 빈틈을 발견해 새로 넣은 단계예요.</p>
+    <ol class="steps" id="steps"></ol>
+  </section>
+
+  <section class="section" aria-labelledby="h-gaps">
+    <h2 id="h-gaps">만들면서 찾은 빈틈과 보완</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>발견한 점</th><th>보완 방법</th><th>상태</th></tr></thead>
+      <tbody id="gaps"></tbody>
+    </table></div>
+  </section>
+
+  <section class="section" aria-labelledby="h-src">
+    <h2 id="h-src">국내 후보 소스 비교</h2>
+    <p class="sub">aside로 각 사이트에 직접 들어가 확인한 결과예요. '하루 건수'는 최근 목록의 날짜로 추정했어요. 'robots'는 사이트가 자동 수집을 허용하는지 나타내요.</p>
+    <div class="filters" id="filters" role="group" aria-label="평가로 거르기"></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>소스</th><th>하루 건수</th><th>신인 비중</th><th>과거 기록</th><th>수집 방법</th><th>robots</th><th>평가</th><th>메모</th></tr></thead>
+      <tbody id="sources"></tbody>
+    </table></div>
+    <p class="pending" id="pending"></p>
+  </section>
+
+  <section class="section" aria-labelledby="h-dec">
+    <h2 id="h-dec">정해야 할 것</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>질문</th><th>상태</th></tr></thead>
+      <tbody id="decisions"></tbody>
+    </table></div>
+  </section>
+
+  <section class="section" aria-labelledby="h-slots">
+    <h2 id="h-slots">수집·관찰 현황</h2>
+    <p class="sub">수집이 시작되면 아래 칸이 매일 채워져요.</p>
+    <div class="slots">
+      <div class="slot"><b>수집 현황</b><span>소스별 오늘 수집 건수, 성공·실패 (1단계부터)</span></div>
+      <div class="slot"><b>오늘의 후보</b><span>신인 판별을 통과한 새 발매 (1.5단계부터)</span></div>
+      <div class="slot"><b>관찰 목록</b><span>선정한 팀과 비교 그룹의 지표 추이 (4~5단계부터)</span></div>
+      <div class="slot"><b>검증</b><span>적중률, 몇 달 먼저 찾았나, 성장 배수 (6단계부터)</span></div>
+    </div>
+  </section>
+
+  <footer>원본 수집 파일은 공개하지 않아요. 이 페이지에는 아티스트명·제목·발매일·링크·공개된 숫자와 계산 결과만 올려요.</footer>
+</main>
+
+<script>
+(function () {
+  const STEP_LABEL = { done: ['완료', 's-ok'], now: ['진행 중', 's-now'], todo: ['예정', 's-todo'] };
+  const VERDICT_CLS = { '메인': 's-ok', '보조': 's-now', '확인용': 's-todo', '결정 필요': 's-warn', '부적합': 's-bad' };
+  const STATE_CLS = { '반영': 's-ok', '예정': 's-todo', '결정 필요': 's-warn' };
+
+  function el(tag, props, children) {
+    const node = document.createElement(tag);
+    Object.entries(props || {}).forEach(([k, v]) => { if (k === 'class') node.className = v; else node.setAttribute(k, v); });
+    (children || []).forEach((c) => node.append(c instanceof Node ? c : document.createTextNode(c)));
+    return node;
+  }
+  const chip = (text, cls) => el('span', { class: 'chip ' + (cls || 's-todo') }, [text]);
+  const cell = (children, cls) => el('td', cls ? { class: cls } : {}, children);
+
+  function renderSteps(steps) {
+    document.getElementById('steps').replaceChildren(...steps.map((s) => {
+      const [label, cls] = STEP_LABEL[s.status] || STEP_LABEL.todo;
+      const top = el('div', { class: 'step-top' }, [el('span', { class: 'step-no' }, ['단계 ' + s.no]), chip(label, cls)]);
+      const kids = [top, el('span', { class: 'step-name' }, [s.name]), el('span', { class: 'step-detail' }, [s.detail])];
+      if (s.added) kids.push(el('span', { class: 'tag-added' }, ['＋추가']));
+      return el('li', { class: 'step' + (s.status === 'now' ? ' now' : '') }, kids);
+    }));
+  }
+
+  function renderGaps(gaps) {
+    document.getElementById('gaps').replaceChildren(...gaps.map((g) =>
+      el('tr', {}, [cell([g.found]), cell([g.fix]), cell([chip(g.status, STATE_CLS[g.status])], 'nowrap')])));
+  }
+
+  function renderSources(sources, filter) {
+    const rows = sources.filter((s) => filter === '전체' || s.verdict === filter);
+    document.getElementById('sources').replaceChildren(...rows.map((s) => {
+      const name = el('td', { class: 'src-name' }, [el('a', { href: s.url, rel: 'noopener' }, [s.name]), el('span', { class: 'src-kind' }, [s.kind])]);
+      const robotsCls = s.robots.startsWith('허용') ? 's-ok' : s.robots.startsWith('차단') ? 's-bad' : 's-todo';
+      return el('tr', {}, [name, cell([s.per_day]), cell([s.newcomer]), cell([s.history]), cell([s.method]),
+        cell([chip(s.robots, robotsCls)], 'nowrap'), cell([chip(s.verdict, VERDICT_CLS[s.verdict])], 'nowrap'), cell([s.note])]);
+    }));
+  }
+
+  function renderFilters(sources) {
+    const order = ['전체', '메인', '보조', '결정 필요', '확인용', '부적합'];
+    const present = order.filter((v) => v === '전체' || sources.some((s) => s.verdict === v));
+    const box = document.getElementById('filters');
+    const select = (v) => {
+      box.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
+      renderSources(sources, v);
+    };
+    box.replaceChildren(...present.map((v) => {
+      const b = el('button', { type: 'button', 'data-v': v, 'aria-pressed': 'false' }, [v]);
+      b.addEventListener('click', () => select(v));
+      return b;
+    }));
+    select('전체');
+  }
+
+  function renderDecisions(items) {
+    document.getElementById('decisions').replaceChildren(...items.map((d) =>
+      el('tr', {}, [cell([d.q]), cell([chip(d.state, d.state === '결정 필요' ? 's-warn' : 's-ok')])])));
+  }
+
+  fetch('data/board.json', { cache: 'no-store' })
+    .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then((b) => {
+      document.getElementById('updated').textContent = '갱신 ' + b.updated + ' · 지금 집중: ' + b.focus;
+      renderSteps(b.steps);
+      renderGaps(b.gaps);
+      renderFilters(b.sources);
+      renderDecisions(b.decisions);
+      document.getElementById('pending').textContent = (b.pending_research || []).map((p) => '조사 중: ' + p).join(' / ');
+    })
+    .catch((e) => {
+      const u = document.getElementById('updated');
+      u.textContent = '진행판 데이터를 불러오지 못했어요 (' + e.message + '). 로컬에서는 docs 폴더에서 python3 -m http.server로 열어 주세요.';
+      u.className = 'err';
+    });
+})();
+</script>
+</body>
+</html>
