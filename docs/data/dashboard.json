@@ -1,0 +1,949 @@
+{
+ "generated": "2026-11-26T23:00:31+09:00",
+ "window": "2025-01-01",
+ "sections": {
+  "collection": [
+   {
+    "branch": "공연",
+    "source": "indistreet",
+    "rows": 13843,
+    "teams": 4536,
+    "first_date": "2024-01-04",
+    "last_date": "2026-12-03"
+   },
+   {
+    "branch": "공연",
+    "source": "sangsangmadang",
+    "rows": 839,
+    "teams": 595,
+    "first_date": "2010-07-08",
+    "last_date": "2027-01-02"
+   },
+   {
+    "branch": "공연",
+    "source": "indiego",
+    "rows": 231,
+    "teams": 219,
+    "first_date": "2026-11-26",
+    "last_date": "2026-12-03"
+   },
+   {
+    "branch": "공연",
+    "source": "instagram",
+    "rows": 20,
+    "teams": 20,
+    "first_date": "2026-11-14",
+    "last_date": "2026-11-25"
+   },
+   {
+    "branch": "발매",
+    "source": "bugs",
+    "rows": 70,
+    "teams": 68,
+    "first_date": "2026-11-24",
+    "last_date": "2026-11-26"
+   },
+   {
+    "branch": "발매",
+    "source": "genie",
+    "rows": 46,
+    "teams": 44,
+    "first_date": "2026-11-24",
+    "last_date": "2026-11-26"
+   },
+   {
+    "branch": "발매",
+    "source": "flo",
+    "rows": 39,
+    "teams": 38,
+    "first_date": "2026-11-24",
+    "last_date": "2026-11-26"
+   },
+   {
+    "branch": "발매",
+    "source": "melon",
+    "rows": 20,
+    "teams": 20,
+    "first_date": "2026-11-25",
+    "last_date": "2026-11-26"
+   },
+   {
+    "branch": "발매",
+    "source": "poclanos",
+    "rows": 17,
+    "teams": 17,
+    "first_date": "2026-11-23",
+    "last_date": "2026-11-26"
+   },
+   {
+    "branch": "선정·지원",
+    "source": "yjh",
+    "rows": 349,
+    "teams": 349,
+    "first_date": "1989-12-31",
+    "last_date": "2025-12-31"
+   },
+   {
+    "branch": "선정·지원",
+    "source": "dmz",
+    "rows": 152,
+    "teams": 130,
+    "first_date": "2018-06-30",
+    "last_date": "2026-05-12"
+   },
+   {
+    "branch": "선정·지원",
+    "source": "sangsangmadang",
+    "rows": 118,
+    "teams": 85,
+    "first_date": "2012-07-16",
+    "last_date": "2026-07-24"
+   },
+   {
+    "branch": "선정·지원",
+    "source": "sejong",
+    "rows": 36,
+    "teams": 31,
+    "first_date": "2020-12-31",
+    "last_date": "2026-04-30"
+   },
+   {
+    "branch": "선정·지원",
+    "source": "gbsound",
+    "rows": 33,
+    "teams": 28,
+    "first_date": "2022-12-23",
+    "last_date": "2026-11-17"
+   },
+   {
+    "branch": "선정·지원",
+    "source": "busanrock",
+    "rows": 13,
+    "teams": 10,
+    "first_date": "2026-12-31",
+    "last_date": "2026-12-31"
+   },
+   {
+    "branch": "큐레이션",
+    "source": "instagram",
+    "rows": 88,
+    "teams": 77,
+    "first_date": "2026-11-12",
+    "last_date": "2026-11-26"
+   }
+  ],
+  "gigs_by_month": [
+   {
+    "month": "2024-01",
+    "gigs": 265,
+    "teams": 219
+   },
+   {
+    "month": "2024-02",
+    "gigs": 314,
+    "teams": 263
+   },
+   {
+    "month": "2024-03",
+    "gigs": 367,
+    "teams": 294
+   },
+   {
+    "month": "2024-04",
+    "gigs": 271,
+    "teams": 237
+   },
+   {
+    "month": "2024-05",
+    "gigs": 362,
+    "teams": 290
+   },
+   {
+    "month": "2024-06",
+    "gigs": 324,
+    "teams": 280
+   },
+   {
+    "month": "2024-07",
+    "gigs": 265,
+    "teams": 240
+   },
+   {
+    "month": "2024-08",
+    "gigs": 354,
+    "teams": 279
+   },
+   {
+    "month": "2024-09",
+    "gigs": 335,
+    "teams": 286
+   },
+   {
+    "month": "2024-10",
+    "gigs": 280,
+    "teams": 242
+   },
+   {
+    "month": "2024-11",
+    "gigs": 246,
+    "teams": 225
+   },
+   {
+    "month": "2024-12",
+    "gigs": 290,
+    "teams": 254
+   },
+   {
+    "month": "2025-01",
+    "gigs": 206,
+    "teams": 184
+   },
+   {
+    "month": "2025-02",
+    "gigs": 252,
+    "teams": 233
+   },
+   {
+    "month": "2025-03",
+    "gigs": 283,
+    "teams": 261
+   },
+   {
+    "month": "2025-04",
+    "gigs": 154,
+    "teams": 143
+   },
+   {
+    "month": "2025-05",
+    "gigs": 273,
+    "teams": 223
+   },
+   {
+    "month": "2025-06",
+    "gigs": 137,
+    "teams": 121
+   },
+   {
+    "month": "2025-07",
+    "gigs": 158,
+    "teams": 134
+   },
+   {
+    "month": "2025-08",
+    "gigs": 189,
+    "teams": 175
+   },
+   {
+    "month": "2025-09",
+    "gigs": 132,
+    "teams": 114
+   },
+   {
+    "month": "2025-10",
+    "gigs": 267,
+    "teams": 230
+   },
+   {
+    "month": "2025-11",
+    "gigs": 469,
+    "teams": 400
+   },
+   {
+    "month": "2025-12",
+    "gigs": 292,
+    "teams": 245
+   },
+   {
+    "month": "2026-01",
+    "gigs": 242,
+    "teams": 211
+   },
+   {
+    "month": "2026-02",
+    "gigs": 301,
+    "teams": 275
+   },
+   {
+    "month": "2026-03",
+    "gigs": 408,
+    "teams": 348
+   },
+   {
+    "month": "2026-04",
+    "gigs": 565,
+    "teams": 497
+   },
+   {
+    "month": "2026-05",
+    "gigs": 596,
+    "teams": 480
+   },
+   {
+    "month": "2026-06",
+    "gigs": 430,
+    "teams": 388
+   },
+   {
+    "month": "2026-07",
+    "gigs": 703,
+    "teams": 610
+   },
+   {
+    "month": "2026-08",
+    "gigs": 832,
+    "teams": 699
+   },
+   {
+    "month": "2026-09",
+    "gigs": 1100,
+    "teams": 919
+   },
+   {
+    "month": "2026-10",
+    "gigs": 1120,
+    "teams": 878
+   },
+   {
+    "month": "2026-11",
+    "gigs": 1014,
+    "teams": 834
+   }
+  ],
+  "candidates": [
+   {
+    "artist": "다다다",
+    "n_branch": 3,
+    "branches": "공연 · 발매 · 선정·지원",
+    "last_seen": "2026-11-28",
+    "status": "신인",
+    "first_release": "2025-08-13",
+    "fan_count": 708,
+    "already_outcome": "burock_main"
+   },
+   {
+    "artist": "혁오",
+    "n_branch": 3,
+    "branches": "공연 · 발매 · 큐레이션",
+    "last_seen": "2026-11-25",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "포져군단",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-12-31",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "김푸름",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-12-31",
+    "status": "기성",
+    "first_release": "2022-02-09",
+    "fan_count": 2600,
+    "already_outcome": "museon_final"
+   },
+   {
+    "artist": "데이네버체인지",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-12-31",
+    "status": "기성",
+    "first_release": "2021-08-01",
+    "fan_count": 96,
+    "already_outcome": "museon_final"
+   },
+   {
+    "artist": "베이루트택시",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-12-31",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "시인을 위하여",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-12-31",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "아사달",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-12-31",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "천둥오리",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-12-31",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "최춘목밴드",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-12-31",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "이르미",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-12-03",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "여백",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-12-02",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "룬",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-30",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "한올",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-29",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "구름",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-29",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "녹이녹",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-29",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": "hello_rookie"
+   },
+   {
+    "artist": "다브다",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-29",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "오이스터즈",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-11-28",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": "cj_tuneup"
+   },
+   {
+    "artist": "대소콜링",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-27",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "박영석",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-26",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "블낫블",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-26",
+    "status": "신인",
+    "first_release": "2025-07-29",
+    "fan_count": 238,
+    "already_outcome": "museon_final"
+   },
+   {
+    "artist": "사뮈",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-26",
+    "status": "기성",
+    "first_release": "2016-12-21",
+    "fan_count": 2363,
+    "already_outcome": null
+   },
+   {
+    "artist": "Sign of Elma",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-26",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "나디야",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-26",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "유령서점",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-25",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "삼월생",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-25",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "shin_in_ryu",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-25",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "이을 (E.ul)",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-25",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "신인류",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-25",
+    "status": "기성",
+    "first_release": "2018-09-26",
+    "fan_count": 10015,
+    "already_outcome": "cj_tuneup"
+   },
+   {
+    "artist": "아륜",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-25",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "히미츠",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-25",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "야자수",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-24",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "구구",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-24",
+    "status": "기성",
+    "first_release": "2021-04-07",
+    "fan_count": 200,
+    "already_outcome": "indiestance"
+   },
+   {
+    "artist": "Dante",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-24",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "e.K",
+    "n_branch": 2,
+    "branches": "공연 · 발매",
+    "last_seen": "2026-11-24",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "강지원",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-20",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "ddbb",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-20",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "jayunakha",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-20",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "모우들",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-20",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "SULTAN OF THE DISCO",
+    "n_branch": 2,
+    "branches": "공연 · 큐레이션",
+    "last_seen": "2026-11-19",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "손을모아",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-11-13",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "PINE",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-10-27",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "GR2N",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-10-26",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": null
+   },
+   {
+    "artist": "피치트럭하이재커스",
+    "n_branch": 2,
+    "branches": "공연 · 선정·지원",
+    "last_seen": "2026-08-30",
+    "status": "모름",
+    "first_release": null,
+    "fan_count": null,
+    "already_outcome": "cj_tuneup"
+   }
+  ],
+  "signal_hit_rates": [
+   {
+    "program": "band_discovery",
+    "teams": 23,
+    "hits": 2,
+    "rate": 0.087
+   },
+   {
+    "program": "yoojaeha_finalist",
+    "teams": 51,
+    "hits": 3,
+    "rate": 0.059
+   },
+   {
+    "program": "muse_sejong",
+    "teams": 24,
+    "hits": 1,
+    "rate": 0.042
+   },
+   {
+    "program": "(기준선) 아무 신호",
+    "teams": 1461,
+    "hits": 26,
+    "rate": 0.018
+   },
+   {
+    "program": "dmz_lineup",
+    "teams": 52,
+    "hits": 0,
+    "rate": 0.0
+   },
+   {
+    "program": "gb_creation",
+    "teams": 21,
+    "hits": 0,
+    "rate": 0.0
+   }
+  ],
+  "mid_to_final": [
+   {
+    "program": "indiestance",
+    "teams": 10,
+    "later_final": 4,
+    "rate": 0.4
+   },
+   {
+    "program": "mucon",
+    "teams": 3,
+    "later_final": 1,
+    "rate": 0.333
+   },
+   {
+    "program": "museon_final",
+    "teams": 25,
+    "later_final": 6,
+    "rate": 0.24
+   },
+   {
+    "program": "penta_superrookie",
+    "teams": 20,
+    "later_final": 3,
+    "rate": 0.15
+   },
+   {
+    "program": "burock_main",
+    "teams": 13,
+    "later_final": 1,
+    "rate": 0.077
+   },
+   {
+    "program": "hello_rookie",
+    "teams": 10,
+    "later_final": 0,
+    "rate": 0.0
+   }
+  ],
+  "career_at_outcome": [
+   {
+    "bucket": "1년 이내",
+    "teams": 8
+   },
+   {
+    "bucket": "1~3년",
+    "teams": 15
+   },
+   {
+    "bucket": "3~5년",
+    "teams": 13
+   },
+   {
+    "bucket": "5년 초과",
+    "teams": 10
+   }
+  ],
+  "top_venues": [
+   {
+    "venue": "Club 빵",
+    "gigs": 1031,
+    "teams": 442
+   },
+   {
+    "venue": "Club FF",
+    "gigs": 1020,
+    "teams": 421
+   },
+   {
+    "venue": "언플러그드 라운지",
+    "gigs": 976,
+    "teams": 507
+   },
+   {
+    "venue": "카페 언플러그드 홍대점",
+    "gigs": 702,
+    "teams": 509
+   },
+   {
+    "venue": "오방가르드",
+    "gigs": 505,
+    "teams": 256
+   },
+   {
+    "venue": "Club Victim",
+    "gigs": 340,
+    "teams": 211
+   },
+   {
+    "venue": "공연장 미정",
+    "gigs": 325,
+    "teams": 276
+   },
+   {
+    "venue": "A.O.R",
+    "gigs": 305,
+    "teams": 171
+   },
+   {
+    "venue": "채널1969",
+    "gigs": 277,
+    "teams": 192
+   },
+   {
+    "venue": "스페이스 한강",
+    "gigs": 233,
+    "teams": 219
+   },
+   {
+    "venue": "우주정거장",
+    "gigs": 210,
+    "teams": 196
+   },
+   {
+    "venue": "생기스튜디오",
+    "gigs": 202,
+    "teams": 171
+   },
+   {
+    "venue": "스트레인지 프룻",
+    "gigs": 199,
+    "teams": 164
+   },
+   {
+    "venue": "언드",
+    "gigs": 197,
+    "teams": 137
+   },
+   {
+    "venue": "아지토 라이브 홀",
+    "gigs": 189,
+    "teams": 159
+   }
+  ],
+  "quality": [
+   {
+    "item": "같은 팀인데 표기가 여러 개인 이름 키",
+    "value": 106
+   },
+   {
+    "item": "유통사가 빈 발매 행",
+    "value": 33
+   },
+   {
+    "item": "연도만 아는 선정 발표일",
+    "value": 375
+   },
+   {
+    "item": "멜론 프로필이 있는 팀",
+    "value": 83
+   },
+   {
+    "item": "센 정답 팀 (연차 필터 후)",
+    "value": 78
+   }
+  ]
+ },
+ "errors": []
+}

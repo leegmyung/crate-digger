@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crate Digger 데이터</title>
+<style>
+  /* 기능 확인용 초안 — 디자인은 나중에 */
+  :root { --bg:#fafafa; --fg:#1d1d1f; --muted:#6b6b70; --line:#e2e2e6; --bar:#3a7d8c; --card:#ffffff; --hit:#2f7d4f; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#141416; --fg:#ececef; --muted:#9a9aa2; --line:#2c2c31; --bar:#63b3c4; --card:#1c1c20; --hit:#6fcf97; } }
+  body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.55 system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif; }
+  main { max-width:1000px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-size:1.5rem; margin:0 0 4px; } h2 { font-size:1.1rem; margin:32px 0 6px; }
+  .sub { color:var(--muted); margin:0 0 8px; font-size:.9rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px 14px; overflow-x:auto; }
+  table { border-collapse:collapse; width:100%; font-size:.88rem; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); white-space:nowrap; }
+  th { color:var(--muted); font-weight:500; }
+  td.n { text-align:right; font-variant-numeric:tabular-nums; }
+  .bar { display:inline-block; height:9px; background:var(--bar); border-radius:3px; vertical-align:middle; }
+  .tag { font-size:.75rem; padding:1px 7px; border-radius:999px; border:1px solid var(--line); }
+  .tag.new { color:var(--hit); border-color:var(--hit); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; }
+  .kpi { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
+  .kpi b { display:block; font-size:1.4rem; font-variant-numeric:tabular-nums; }
+  .kpi span { color:var(--muted); font-size:.82rem; }
+  a { color:var(--bar); }
+  #err { color:#c0392b; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Crate Digger 데이터 대시보드 (초안)</h1>
+  <p class="sub"><span id="gen">불러오는 중…</span> · PostgreSQL 집계 · <a href="./">진행판</a> · <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/sql/README.md">SQL 원문·결과</a></p>
+  <p id="err"></p>
+
+  <div class="grid" id="kpis"></div>
+
+  <h2>1. 지금 주목할 후보</h2>
+  <p class="sub">최근 180일(예정 공연 60일 포함) 안에 2개 이상 갈래에 나온 팀. 신인 = 멜론 첫 발매 3년 이내 & 발매 10개 이하, 모름 = 멜론 프로필 아직 없음.</p>
+  <div class="card"><table id="candidates"></table></div>
+
+  <h2>2. 어떤 신호가 나중의 성공을 알려 주나</h2>
+  <p class="sub">2020~2024년에 신호를 받은 팀 중, 2025년 이후 정답(신인상·주요 신인 프로그램)을 받은 비율. '기준선'은 아무 신호든 있던 팀 전체.</p>
+  <div class="card"><table id="hit"></table></div>
+
+  <h2>3. 중간 정답 → 최종 정답</h2>
+  <p class="sub">연중 일찍 나오는 정답(슈퍼루키·뮤즈온·인디스땅스 등)을 받은 팀 중, 그 뒤 최종 정답(한대음 신인·올해의 헬로루키·튠업 등)까지 받은 비율.</p>
+  <div class="card"><table id="mid"></table></div>
+
+  <h2>4. 정답 받을 때 데뷔 몇 년 차였나</h2>
+  <div class="card"><table id="career"></table></div>
+
+  <h2>5. 수집 현황</h2>
+  <div class="card"><table id="collection"></table></div>
+
+  <h2>6. 월별 공연 기록</h2>
+  <div class="card"><table id="months"></table></div>
+
+  <h2>7. 공연 많은 공연장 (2025년 이후)</h2>
+  <div class="card"><table id="venues"></table></div>
+
+  <h2>8. 데이터 품질</h2>
+  <div class="card"><table id="quality"></table></div>
+</main>
+<script>
+const NAMES = {band_discovery:"상상마당 밴드 디스커버리", yoojaeha_finalist:"유재하 본선", muse_sejong:"세종 뮤즈세종",
+  gb_creation:"경북 음반 지원", dmz_lineup:"DMZ 피스트레인 출연", burock_rookies:"부산록페 루키즈",
+  indiestance:"인디스땅스 결선", mucon:"뮤콘", museon_final:"뮤즈온 최종", penta_superrookie:"펜타 슈퍼루키",
+  burock_main:"부산록페 본무대", hello_rookie:"헬로루키 월간", hello_rookie_year:"올해의 헬로루키",
+  kma_rookie:"한대음 올해의 신인", cj_tuneup:"CJ 튠업", izm_rookie:"이즘 올해의 신인", musicy_rookie:"음악취향Y 올해의 신인"};
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const nm = p => NAMES[p] || p;
+const pct = r => r == null ? "" : (r * 100).toFixed(1) + "%";
+const bar = (v, max, w = 160) => `<span class="bar" style="width:${max ? Math.max(2, v / max * w) : 0}px"></span>`;
+function table(id, head, rows) {
+  document.getElementById(id).innerHTML = "<tr>" + head.map(h => `<th>${h}</th>`).join("") + "</tr>" +
+    (rows.length ? rows.join("") : `<tr><td colspan="${head.length}">데이터 없음</td></tr>`);
+}
+fetch("data/dashboard.json", {cache: "no-store"}).then(r => r.json()).then(d => {
+  const s = d.sections;
+  document.getElementById("gen").textContent = "갱신 " + d.generated.replace("T", " ").slice(0, 16);
+  if (d.errors.length) document.getElementById("err").textContent = "일부 계산 실패: " + d.errors.join(" / ");
+  const sum = (arr, k) => arr.reduce((a, r) => a + (r[k] || 0), 0);
+  const base = s.signal_hit_rates.find(r => String(r.program).startsWith("(기준선)"));
+  document.getElementById("kpis").innerHTML = [
+    [sum(s.collection, "rows").toLocaleString(), "수집 행 (갈래 합계)"],
+    [s.candidates.length, "지금 주목할 후보 (2갈래+)"],
+    [base ? pct(base.rate) : "-", "기준선: 아무 신호 팀의 정답 비율"],
+    [(s.quality.find(q => q.item.startsWith("센 정답")) || {}).value ?? "-", "검증용 정답 팀"],
+  ].map(([v, l]) => `<div class="kpi"><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join("");
+
+  table("candidates", ["팀", "갈래", "최근", "신인?", "첫 발매", "멜론 팬", "이미 받은 정답"],
+    s.candidates.map(r => `<tr><td>${esc(r.artist)}</td><td>${esc(r.branches)}</td><td>${esc(r.last_seen)}</td>
+      <td><span class="tag ${r.status === "신인" ? "new" : ""}">${esc(r.status)}</span></td><td>${esc(r.first_release || "")}</td>
+      <td class="n">${r.fan_count == null ? "" : r.fan_count.toLocaleString()}</td><td>${esc(r.already_outcome ? nm(r.already_outcome) : "")}</td></tr>`));
+  const maxRate = Math.max(...s.signal_hit_rates.map(r => r.rate || 0));
+  table("hit", ["신호", "팀", "정답 받음", "비율", ""], s.signal_hit_rates.map(r => `<tr><td>${esc(nm(r.program))}</td>
+    <td class="n">${r.teams}</td><td class="n">${r.hits}</td><td class="n">${pct(r.rate)}</td><td>${bar(r.rate || 0, maxRate)}</td></tr>`));
+  const maxMid = Math.max(...s.mid_to_final.map(r => r.rate || 0));
+  table("mid", ["중간 정답", "받은 팀", "그 뒤 최종 정답", "비율", ""], s.mid_to_final.map(r => `<tr><td>${esc(nm(r.program))}</td>
+    <td class="n">${r.teams}</td><td class="n">${r.later_final}</td><td class="n">${pct(r.rate)}</td><td>${bar(r.rate || 0, maxMid)}</td></tr>`));
+  const maxC = Math.max(...s.career_at_outcome.map(r => r.teams));
+  table("career", ["첫 발매 후", "팀", ""], s.career_at_outcome.map(r => `<tr><td>${esc(r.bucket)}</td><td class="n">${r.teams}</td><td>${bar(r.teams, maxC)}</td></tr>`));
+  table("collection", ["갈래", "소스", "행", "팀", "기간"], s.collection.map(r => `<tr><td>${esc(r.branch)}</td><td>${esc(r.source)}</td>
+    <td class="n">${r.rows.toLocaleString()}</td><td class="n">${r.teams.toLocaleString()}</td><td>${esc(r.first_date)} ~ ${esc(r.last_date)}</td></tr>`));
+  const maxG = Math.max(...s.gigs_by_month.map(r => r.gigs));
+  table("months", ["월", "공연 행", "팀", ""], s.gigs_by_month.map(r => `<tr><td>${esc(r.month)}</td><td class="n">${r.gigs}</td><td class="n">${r.teams}</td><td>${bar(r.gigs, maxG, 260)}</td></tr>`));
+  const maxV = Math.max(...s.top_venues.map(r => r.gigs));
+  table("venues", ["공연장", "공연 행", "팀", ""], s.top_venues.map(r => `<tr><td>${esc(r.venue)}</td><td class="n">${r.gigs}</td><td class="n">${r.teams}</td><td>${bar(r.gigs, maxV)}</td></tr>`));
+  table("quality", ["항목", "값"], s.quality.map(r => `<tr><td>${esc(r.item)}</td><td class="n">${r.value}</td></tr>`));
+}).catch(e => { document.getElementById("err").textContent = "데이터를 불러오지 못했어요: " + e; });
+</script>
+</body>
+</html>
