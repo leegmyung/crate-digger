@@ -40,6 +40,7 @@ RESULTS = {"selected", "winner", "finalist", "shortlist", "longlist", "nominee",
 SELECTION_SOURCES = {
     "mapoindie", "kocca", "gwmf", "seoulbusking", "gcon", "ebs", "contest",
     "rollinghall", "senggi", "liveclubday", "tumblbug", "manual",
+    "busanrock", "sejong", "gbsound",
 }
 SELECTION_PROGRAMS = {
     "indiscovery",              # 마포 인디스커버리
@@ -54,6 +55,9 @@ SELECTION_PROGRAMS = {
     "senggi_curation",          # 생기스튜디오 생기 큐레이션
     "liveclubday",              # 라이브클럽데이
     "tumblbug_debut",           # 텀블벅 첫 음반 펀딩
+    "burock_rookies",           # 부산국제록페스티벌 루키즈 온 더 부락 (TOP15/10/3)
+    "muse_sejong",              # 세종음악창작소 뮤즈세종
+    "gb_creation",              # 경북음악창작소(054사운드빌) 음반 제작 지원
 }
 STAGES = {"applied", "document", "challenger", "lineup", "showcase", "selected", "final"}
 

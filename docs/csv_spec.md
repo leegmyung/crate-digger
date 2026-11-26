@@ -95,9 +95,9 @@
 | url | ✅ | 근거 주소 | |
 | note | | 메모 | 챌린저 24팀 |
 
-소스 코드: `mapoindie` · `kocca` · `gwmf` 강원음악창작소 · `seoulbusking` · `gcon` 경기콘텐츠진흥원 · `ebs` · `contest` 지역 경연 · `rollinghall` · `senggi` · `liveclubday` · `tumblbug` · `manual`
+소스 코드: `mapoindie` · `kocca` · `gwmf` 강원음악창작소 · `seoulbusking` · `gcon` 경기콘텐츠진흥원 · `ebs` · `contest` 지역 경연 · `rollinghall` · `senggi` · `liveclubday` · `tumblbug` · `busanrock` 부산국제록페스티벌 · `sejong` 세종음악창작소 · `gbsound` 경북음악창작소 · `manual`
 
-프로그램 코드: `indiscovery` 마포 인디스커버리 · `museon_document` 뮤즈온 서류통과 · `our_musician` 우리 음악인 축제 · `gw_creation` 강원음악창작소 · `seoul_busking` 구석구석라이브 · `regional_contest` 지역 밴드 경연 · `hello_rookie_applicant` 헬로루키 응모 · `indiestance_prelim` 인디스땅스 예선 · `cmyk` 롤링홀 CMYK · `senggi_curation` 생기 큐레이션 · `liveclubday` 라이브클럽데이 · `tumblbug_debut` 텀블벅 첫 음반 펀딩
+프로그램 코드: `indiscovery` 마포 인디스커버리 · `museon_document` 뮤즈온 서류통과 · `our_musician` 우리 음악인 축제 · `gw_creation` 강원음악창작소 · `seoul_busking` 구석구석라이브 · `regional_contest` 지역 밴드 경연 · `hello_rookie_applicant` 헬로루키 응모 · `indiestance_prelim` 인디스땅스 예선 · `cmyk` 롤링홀 CMYK · `senggi_curation` 생기 큐레이션 · `liveclubday` 라이브클럽데이 · `tumblbug_debut` 텀블벅 첫 음반 펀딩 · `burock_rookies` 부산 루키즈 온 더 부락 (TOP15=document, TOP10=selected, TOP3=final, note에 순위) · `muse_sejong` 세종 뮤즈세종 · `gb_creation` 경북 054사운드빌 음반 제작 지원 (note에 앨범명)
 
 **같은 프로그램 규칙:** 앞 단계를 후보로 쓴 팀은 같은 프로그램의 정답 결과를 적중으로 세지 않아요. 연결표는 `scripts/csv_schema.py`의 `SAME_PROGRAM`에 있어요.
 - `hello_rookie_applicant` → `hello_rookie`, `hello_rookie_year` 제외
