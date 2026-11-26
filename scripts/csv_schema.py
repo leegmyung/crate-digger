@@ -39,6 +39,22 @@ PROGRAMS = {
 }
 RESULTS = {"selected", "winner", "finalist", "shortlist", "longlist", "nominee", "featured"}
 
+# 정답 2단계 (2026-11-26 사용자 결정)
+# - mid: 연중 일찍 나오는 중간 정답. 최종 정답을 맞히는 신호로도 쓸 수 있다 (같은 계열은 OUTCOME_SAME_FAMILY로 제외).
+# - final: 최종 정답. 신호로 쓰지 않는다.
+OUTCOME_TIER = {
+    "hello_rookie": "mid", "penta_superrookie": "mid", "museon_final": "mid", "indiestance": "mid",
+    "gg_indiestance": "mid", "mucon": "mid", "burock_main": "mid", "opcd": "mid", "tiny_desk": "mid",
+    "media_izm": "mid", "media_bandwagon": "mid", "media_nme": "mid", "media_esquire": "mid",
+    "hello_rookie_year": "final", "kma_rookie": "final", "cj_tuneup": "final", "izm_rookie": "final",
+    "musicy_rookie": "final", "rhythmer_award": "final", "bbc_sound_of": "final",
+}
+OUTCOME_SAME_FAMILY = {"hello_rookie": frozenset({"hello_rookie_year"}),
+                       "indiestance": frozenset(), "gg_indiestance": frozenset()}
+# 기성 팀이 많이 섞인 정답: 정답 받을 때 첫 발매 후 CAREER_FILTER_YEARS 이내인 팀만 '신인 정답'으로 센다
+CAREER_FILTERED = frozenset({"burock_main", "mucon"})
+CAREER_FILTER_YEARS = 5
+
 # 후보 신호용 선정·지원 프로그램 코드 (작고 이른 단계). 정답 코드(PROGRAMS)와 겹치면 안 된다.
 SELECTION_SOURCES = {
     "mapoindie", "kocca", "gwmf", "seoulbusking", "gcon", "ebs", "contest",
@@ -66,6 +82,9 @@ SELECTION_PROGRAMS = {
     "dmz_lineup",               # DMZ 피스트레인 출연 (기획자 섭외 큐레이션, 루키 공모 없음)
 }
 STAGES = {"applied", "document", "challenger", "lineup", "showcase", "selected", "final"}
+# 단계를 '몇 번째 관문'으로 통일 (실연 단계 가점용). 프로그램마다 부르는 이름이 달라도 이 순위로 비교한다.
+# applied 응모 < document 서류 통과 / challenger < lineup·showcase 무대·실연 진출(TOP6 등) < selected 본선·선정 < final 최종·수상
+STAGE_RANK = {"applied": 0, "document": 1, "challenger": 1, "lineup": 2, "showcase": 2, "selected": 3, "final": 4}
 
 # 같은 프로그램 규칙: 앞 단계를 후보로 쓴 팀은 같은 프로그램의 정답 결과를 적중으로 세지 않는다.
 SAME_PROGRAM = {

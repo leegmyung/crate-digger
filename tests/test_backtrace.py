@@ -43,7 +43,7 @@ class CareerTest(unittest.TestCase):
     def test_years_since_first_release_at_outcome(self):
         car = bt.career_at_outcome(PROF, bt.first_outcomes(OUT))
         self.assertEqual(car["산보"]["years"], 1.3)
-        self.assertTrue(car["산보"]["newcomer_rule"])        # 2년 이내 & 앨범 5개 이하(현재 기준)
+        self.assertTrue(car["산보"]["newcomer_rule"])        # 3년 이내 & 앨범 10개 이하(현재 기준)
         self.assertEqual(car["우희준"]["years"], 6.8)
         self.assertFalse(car["우희준"]["newcomer_rule"])
 
@@ -58,6 +58,29 @@ class PrecisionTest(unittest.TestCase):
     def test_lookback_limits_old_signals(self):
         rates = bt.signal_hit_rates(SEL, OUT, window_start="2025-01-01", lookback_years=1)
         self.assertEqual(rates["yoojaeha_finalist"]["teams"], 1)   # 2024년 신호만 (2023년 옛팀 제외)
+
+
+class TierTest(unittest.TestCase):
+    def test_career_filter_drops_established_teams_from_mixed_outcomes(self):
+        outs = [{"program": "burock_main", "round": "2026", "announced_at": "2026-09-04", "result": "selected", "artist_text": "강산에"},
+                {"program": "burock_main", "round": "2026", "announced_at": "2026-09-04", "result": "selected", "artist_text": "새팀"},
+                {"program": "burock_main", "round": "2026", "announced_at": "2026-09-04", "result": "selected", "artist_text": "모름팀"},
+                {"program": "kma_rookie", "round": "23회", "announced_at": "2026-02-05", "result": "nominee", "artist_text": "강산에"}]
+        profs = [{"artist_text": "강산에", "debut_date": "1993-01-01", "first_release_date": "", "album_count": "30"},
+                 {"artist_text": "새팀", "debut_date": "2024-03-01", "first_release_date": "", "album_count": "3"}]
+        kept = bt.filter_career(outs, profs)
+        self.assertEqual([(o["program"], o["artist_text"]) for o in kept], [("burock_main", "새팀"), ("kma_rookie", "강산에")])
+
+    def test_mid_outcomes_become_signals_for_final_outcomes(self):
+        outs = [{"program": "penta_superrookie", "round": "2025", "announced_at": "2025-06-09", "result": "winner", "artist_text": "피치트럭"},
+                {"program": "hello_rookie", "round": "2026-05", "announced_at": "2026-05-22", "result": "selected", "artist_text": "피치트럭"},
+                {"program": "hello_rookie_year", "round": "2026", "announced_at": "2026-11-20", "result": "winner", "artist_text": "피치트럭"},
+                {"program": "kma_rookie", "round": "23회", "announced_at": "2026-02-05", "result": "nominee", "artist_text": "피치트럭"}]
+        sig = bt.mid_signals(outs)
+        self.assertEqual({s["program"] for s in sig}, {"penta_superrookie", "hello_rookie"})
+        finals = bt.first_outcomes([o for o in outs if o["program"] in ("kma_rookie", "hello_rookie_year")])
+        prior = bt.prior_signals(sig, finals)
+        self.assertEqual([p["program"] for p in prior["피치트럭"]], ["penta_superrookie"])   # 첫 최종 정답(한대음 2026-02) 전엔 펜타만
 
 
 if __name__ == "__main__":

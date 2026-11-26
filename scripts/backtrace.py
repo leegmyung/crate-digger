@@ -19,14 +19,15 @@ from datetime import date
 from pathlib import Path
 
 from collect_artists import name_keys
-from csv_schema import excluded_outcomes
+from csv_schema import CAREER_FILTER_YEARS, CAREER_FILTERED, OUTCOME_SAME_FAMILY, OUTCOME_TIER, excluded_outcomes
+from newcomer import MAX_ALBUMS, MAX_YEARS
 from timing import lead_days, outcome_date, signal_date
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"
 REPORT = ROOT / "docs" / "backtrace.md"
-NEWCOMER_YEARS = 2
-NEWCOMER_ALBUMS = 5
+NEWCOMER_YEARS = MAX_YEARS     # 1.5단계 신인 기준과 같은 값 (scripts/newcomer.py)
+NEWCOMER_ALBUMS = MAX_ALBUMS
 
 
 def _rows(pattern, raw_dir=RAW_DIR):
@@ -62,7 +63,8 @@ def prior_signals(selections, teams):
     prior = {n: [] for n in teams}
     for s in selections:
         name = _team_of(name_keys(s["artist_text"]), teams)
-        if not name or teams[name]["program"] in excluded_outcomes(s["program"]):
+        if not name or teams[name]["program"] in excluded_outcomes(s["program"]) \
+                or teams[name]["program"] in OUTCOME_SAME_FAMILY.get(s["program"], ()):
             continue
         days = lead_days(s["announced_at"], teams[name]["date"])
         if days:
@@ -82,6 +84,51 @@ def career_at_outcome(profiles, teams):
         out[name] = {"years": years, "albums_now": albums,
                      "newcomer_rule": years <= NEWCOMER_YEARS and (albums is None or albums <= NEWCOMER_ALBUMS)}
     return out
+
+
+def filter_career(outcomes, profiles):
+    """기성 팀이 섞인 정답(CAREER_FILTERED)은 정답 받을 때 첫 발매 후 CAREER_FILTER_YEARS 이내인 팀만 남긴다.
+    프로필이 없어 연차를 모르면 뺀다 (부풀리지 않는 쪽)."""
+    out = []
+    for o in outcomes:
+        if o["program"] not in CAREER_FILTERED:
+            out.append(o)
+            continue
+        team = {o["artist_text"]: {"date": outcome_date(o["announced_at"]), "keys": name_keys(o["artist_text"])}}
+        car = career_at_outcome(profiles, team).get(o["artist_text"])
+        if car and car["years"] <= CAREER_FILTER_YEARS:
+            out.append(o)
+    return out
+
+
+def mid_signals(outcomes):
+    """중간 정답을 최종 정답 예측용 신호 행으로 바꾼다 (program·round·announced_at·artist_text)."""
+    return [{"program": o["program"], "round": o["round"], "announced_at": o["announced_at"], "artist_text": o["artist_text"]}
+            for o in outcomes if OUTCOME_TIER.get(o["program"]) == "mid"]
+
+
+def mid_to_final_rates(outcomes, window_start):
+    """기간 안에서: 중간 정답을 받은 팀 중, 그보다 뒤에(같은 계열 제외) 최종 정답을 받은 비율."""
+    mids = [o for o in outcomes if OUTCOME_TIER.get(o["program"]) == "mid" and outcome_date(o["announced_at"]) >= window_start]
+    finals = [o for o in outcomes if OUTCOME_TIER.get(o["program"]) == "final" and outcome_date(o["announced_at"]) >= window_start]
+    rates = {}
+    for prog in sorted({m["program"] for m in mids}):
+        rows = [m for m in mids if m["program"] == prog]
+        teams, hits, names = set(), 0, []
+        for m in rows:
+            keys = frozenset(name_keys(m["artist_text"]))
+            if not keys or keys in teams:
+                continue
+            teams.add(keys)
+            later = [f for f in finals if name_keys(f["artist_text"]) & keys
+                     and f["program"] not in OUTCOME_SAME_FAMILY.get(prog, ())
+                     and lead_days(m["announced_at"], f["announced_at"])]
+            if later:
+                hits += 1
+                names.append(m["artist_text"])
+        rates[prog] = {"teams": len(teams), "hits": hits, "rate": round(hits / len(teams), 3) if teams else 0.0,
+                       "hit_names": names}
+    return rates
 
 
 def signal_hit_rates(selections, outcomes, window_start, lookback_years=None):
@@ -110,8 +157,9 @@ def signal_hit_rates(selections, outcomes, window_start, lookback_years=None):
 
 
 def report(raw_dir, window, lookback=5):
-    outcomes, sels, profs = _rows("raw_outcome_*.csv", raw_dir), _rows("raw_kr_selection_*.csv", raw_dir), \
+    raw_outcomes, sels, profs = _rows("raw_outcome_*.csv", raw_dir), _rows("raw_kr_selection_*.csv", raw_dir), \
         _rows("raw_artist_profile_*.csv", raw_dir)
+    outcomes = filter_career(raw_outcomes, profs)   # 기성 팀이 섞인 정답은 연차로 거름
     teams = first_outcomes([o for o in outcomes if outcome_date(o["announced_at"]) >= window])
     prior, career = prior_signals(sels, teams), career_at_outcome(profs, teams)
     rates = signal_hit_rates(sels, outcomes, window, lookback)
@@ -123,13 +171,24 @@ def report(raw_dir, window, lookback=5):
         rule = sum(1 for c in career.values() if c["newcomer_rule"])
         lines += ["## 정답 받을 때 첫 발매 후 연차", "",
                   f"- 중앙값 {years[len(years) // 2]}년 · 2년 이내 {sum(1 for y in years if y <= 2)}팀 / {len(years)}팀 "
-                  f"· 우리 신인 기준(2년 이내 & 앨범 5개 이하) 통과 {rule}팀",
+                  f"· 우리 신인 기준({NEWCOMER_YEARS}년 이내 & 앨범 {NEWCOMER_ALBUMS}개 이하) 통과 {rule}팀",
                   f"- 구간: 1년 이내 {sum(1 for y in years if y <= 1)} · 1~3년 {sum(1 for y in years if 1 < y <= 3)} "
                   f"· 3~5년 {sum(1 for y in years if 3 < y <= 5)} · 5년 초과 {sum(1 for y in years if y > 5)}", ""]
     lines += [f"## 신호 프로그램별 적중률 (정답 기간 직전 {lookback}년 안에 신호를 받은 팀 중 기간 안에 정답을 받은 비율)", "",
               "| 신호 | 팀 | 적중 | 비율 | 적중 팀 |", "|---|---|---|---|---|"]
     for prog, r in sorted(rates.items(), key=lambda x: -x[1]["rate"]):
         lines.append(f"| {prog} | {r['teams']} | {r['hits']} | {r['rate']:.1%} | {', '.join(r['hit_names'][:8])} |")
+    finals = [o for o in outcomes if OUTCOME_TIER.get(o["program"]) == "final" and outcome_date(o["announced_at"]) >= window]
+    final_teams = first_outcomes(finals)
+    mid_prior = prior_signals(mid_signals(outcomes), final_teams)
+    mid_rates = mid_to_final_rates(outcomes, window)
+    lines += ["", f"## 중간 정답 → 최종 정답 (최종 정답 {len(final_teams)}팀 중 그 전에 중간 정답을 받은 팀 "
+              f"{sum(1 for p in mid_prior.values() if p)}팀)", "",
+              "| 중간 정답 | 받은 팀 | 그 뒤 최종 정답 | 비율 | 팀 |", "|---|---|---|---|---|"]
+    for prog, r in sorted(mid_rates.items(), key=lambda x: -x[1]["rate"]):
+        lines.append(f"| {prog} | {r['teams']} | {r['hits']} | {r['rate']:.1%} | {', '.join(r['hit_names'][:6])} |")
+    dropped = len(raw_outcomes) - len(outcomes)
+    lines += ["", f"(기성 팀이 섞인 정답 {', '.join(sorted(CAREER_FILTERED))}에서 첫 발매 {CAREER_FILTER_YEARS}년 넘은 팀·연차 모르는 팀 {dropped}행 제외)"]
     lines += ["", "## 정답 전에 신호가 있던 팀", "", "| 팀 | 첫 정답 | 앞선 신호 (선행 일수) |", "|---|---|---|"]
     for n, p in sorted(with_prior.items(), key=lambda x: -max(s["lead_days"] for s in x[1])):
         t = teams[n]

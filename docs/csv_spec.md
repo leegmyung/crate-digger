@@ -131,6 +131,10 @@
 
 프로그램 코드: `burock_main` 부산국제록페스티벌 본무대 출연 · `hello_rookie` 헬로루키 월간 · `hello_rookie_year` 올해의 헬로루키 · `cj_tuneup` CJ 튠업 · `penta_superrookie` 펜타 슈퍼루키 · `kma_rookie` 한국대중음악상 신인 · `opcd` OPCD · `izm_rookie` 이즘 올해의 신인 · `musicy_rookie` 음악취향Y 올해의 신인 · `rhythmer_award` 리드머 어워드 · `gg_indiestance` 경기 인디스땅스 · `bbc_sound_of` · `tiny_desk` · `museon_final` 뮤즈온 최종 · `indiestance` 인디스땅스 결선 · 매체 소개(정답 2등급, 협찬 제외): `media_izm` · `media_bandwagon` · `media_nme` · `media_esquire`
 
+**정답 2단계와 연차 필터 (2026-11-26):** 정답 코드마다 등급이 있어요(`csv_schema.OUTCOME_TIER`). `mid`(중간 정답)는 최종 정답을 맞히는 신호로도 쓰고, `final`(최종 정답)은 신호로 쓰지 않아요. 같은 계열은 `OUTCOME_SAME_FAMILY`로 제외해요. `burock_main`, `mucon`처럼 기성 팀이 섞인 정답은 정답 받을 때 첫 발매 5년 이내 팀만 세요(`CAREER_FILTERED`).
+
+**단계 순위:** 프로그램마다 단계 이름이 달라도 `csv_schema.STAGE_RANK`로 '몇 번째 관문'을 비교해요. applied 0 < document·challenger 1 < lineup·showcase 2 < selected 3 < final 4.
+
 ## 6. `raw_artist_profile` — 플랫폼 아티스트 페이지 1곳 × 1팀 = 1행
 
 1.5단계 신인 판별(첫 발매 2년 이내 & 발매 5개 이하)과 2단계 이름 맞추기(같은 이름 다른 팀 구분)의 기준 자료예요. 지금은 멜론 아티스트 페이지에서 받아요 (`scripts/collect_artists.py`). 대상은 발매 수집에서 새로 본 멜론 아티스트 번호예요.

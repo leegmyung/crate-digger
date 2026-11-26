@@ -32,8 +32,8 @@ ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"
 KST = timezone(timedelta(hours=9))
 
-MAX_YEARS = 2       # 첫 발매 후 몇 년까지 신인
-MAX_ALBUMS = 5      # 발매(앨범) 몇 개까지 신인
+MAX_YEARS = 3       # 첫 발매 후 몇 년까지 신인 (2026-11-26 백테스트 근거로 2→3, 사용자 결정)
+MAX_ALBUMS = 10     # 발매(앨범·싱글 포함) 몇 개까지 신인 (5→10: 멜론 앨범 수엔 싱글이 다 들어감)
 DAYS_PER_YEAR = 365.25
 
 TABLES = {          # 후보 테이블 이름 → 파일 패턴

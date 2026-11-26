@@ -185,6 +185,22 @@ class SameProgramRuleTest(unittest.TestCase):
         self.assertEqual(csv_schema.SELECTION_PROGRAMS - decided, set())
         self.assertEqual(set(csv_schema.SAME_PROGRAM) & csv_schema.NO_LINKED_OUTCOME, set())
 
+    def test_every_outcome_program_has_a_tier(self):
+        """정답은 2단계: 중간(mid, 최종 정답을 맞히는 신호로도 씀) / 최종(final). 새 정답 코드는 등급을 꼭 정한다."""
+        import csv_schema
+        self.assertEqual(set(csv_schema.OUTCOME_TIER), csv_schema.PROGRAMS)
+        self.assertEqual(set(csv_schema.OUTCOME_TIER.values()), {"mid", "final"})
+        self.assertTrue(csv_schema.CAREER_FILTERED <= csv_schema.PROGRAMS)
+        self.assertEqual(csv_schema.OUTCOME_TIER["kma_rookie"], "final")
+        self.assertEqual(csv_schema.OUTCOME_TIER["penta_superrookie"], "mid")
+        self.assertIn("burock_main", csv_schema.CAREER_FILTERED)
+
+    def test_stage_rank_orders_every_stage(self):
+        import csv_schema
+        self.assertEqual(set(csv_schema.STAGE_RANK), csv_schema.STAGES)
+        r = csv_schema.STAGE_RANK
+        self.assertTrue(r["applied"] < r["document"] < r["showcase"] < r["selected"] < r["final"])
+
     def test_busan_rookies_exclude_busan_main_stage(self):
         import csv_schema
         self.assertEqual(csv_schema.excluded_outcomes("burock_rookies"), {"burock_main"})

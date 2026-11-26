@@ -32,7 +32,7 @@ class JudgeTest(unittest.TestCase):
         self.assertEqual(r["status"], "established")
 
     def test_many_albums_is_established_even_if_recent(self):
-        r = nc.judge(prof(first_release_date="2025-01-10", album_count="8"), AS_OF)
+        r = nc.judge(prof(first_release_date="2025-01-10", album_count="11"), AS_OF)   # 기준 10개 초과
         self.assertEqual(r["status"], "established")
         self.assertIn("앨범", r["reason"])
 
@@ -44,9 +44,9 @@ class JudgeTest(unittest.TestCase):
 
     def test_partial_date_reads_start_of_period(self):
         # '2024' → 2024-01-01 (기간 첫날 = 연차를 길게 보는 쪽)
-        r = nc.judge(prof(debut_date="2024", album_count="1"), AS_OF)
-        self.assertEqual(r["years_since_first"], 2.9)
-        self.assertEqual(r["status"], "established")
+        r = nc.judge(prof(debut_date="2023", album_count="1"), AS_OF)
+        self.assertEqual(r["years_since_first"], 3.9)
+        self.assertEqual(r["status"], "established")   # 기준 3년 초과
 
     def test_boundary_exactly_two_years_is_newcomer(self):
         r = nc.judge(prof(first_release_date="2024-11-26", album_count="5"), AS_OF)
