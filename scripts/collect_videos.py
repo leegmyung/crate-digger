@@ -3,6 +3,7 @@
     python3 scripts/collect_videos.py                 # 무대 채널 훑기 + 팀 공식 채널 + 상위 후보 검색
     python3 scripts/collect_videos.py --search-n 10   # 검색 팀 수 줄이기
     python3 scripts/collect_videos.py --no-search     # 검색(100단위씩 드는 비싼 요청) 빼고
+    python3 scripts/collect_videos.py --backfill --budget 3000   # 무대 채널 과거 업로드를 2021-01-01까지 (이어받기)
 
 - 왜: 신인 팀이 라이브 세션 채널(딩고·it's Live·스페이스 공감 등)에 나왔는지, 최근 무대 영상이 있는지는
   '무대에서 검증되기 시작했다'는 신호가 된다.
@@ -426,6 +427,77 @@ def sweep_channel(client, channel, matcher, state, now):
     return rows
 
 
+# ---------- 1-b) 과거 업로드 백필 (--backfill) ----------
+
+BACKFILL_UNTIL = "2021-01-01"
+
+
+def backfill_channel(client, channel, matcher, state, now, until=BACKFILL_UNTIL):
+    """업로드 목록을 최신→과거로 넘기며 until 날짜까지 무대 영상을 모은다 (50개당 1단위).
+    채널마다 '다음 쪽 위치(page_token)'를 state['backfill'][handle]에 저장해, 예산에 닿으면 다음 실행에 이어받는다.
+    매일 훑기 표시(state['channels'])는 건드리지 않는다. until 보다 오래된 영상을 만나면 그 채널은 끝(done)."""
+    handle = channel["handle"]
+    mark = state.setdefault("backfill", {}).setdefault(handle, {})
+    if mark.get("done"):
+        return []
+    cutoff = f"{until}T00:00:00Z"
+    token = mark.get("page_token") or None
+    rows = []
+    while True:
+        params = {"part": "snippet,contentDetails", "playlistId": channel["uploads"], "maxResults": PAGE_SIZE}
+        if token:
+            params["pageToken"] = token
+        try:
+            body = client.get("playlistItems", params, COST_LIST)
+        except QuotaExceeded as e:
+            raise QuotaExceeded(str(e), rows) from None
+        reached_old = False
+        for item in body.get("items", []):
+            vid, title, published, sn = _item_video(item)
+            if not published or not valid_video_id(vid):
+                continue
+            mark["oldest_seen"] = min(mark.get("oldest_seen") or published, published)
+            if published < cutoff:
+                reached_old = True
+                continue
+            if FANCAM.search(title):
+                continue
+            for key, display in matcher.match(title):
+                rows.append(make_row(now, key, display, vid, title, sn.get("channelTitle") or channel.get("name"),
+                                     sn.get("channelId") or channel.get("channel_id"), published, "stage", handle))
+        token = body.get("nextPageToken")
+        mark["pages"] = mark.get("pages", 0) + 1
+        mark["page_token"] = token or ""
+        mark["backfilled_at"] = now.isoformat(timespec="seconds")
+        if reached_old or not token:
+            mark["done"] = True
+            mark["page_token"] = ""
+            return rows
+
+
+def backfill_order(channels):
+    """업로드가 아주 많은 채널(max_pages 를 크게 잡은 KBS 등, 대부분 아이돌 무대)은 뒤로 — 인디 채널부터 끝낸다."""
+    return sorted(channels, key=lambda c: c.get("max_pages", DEFAULT_MAX_PAGES) > DEFAULT_MAX_PAGES)
+
+
+def backfill(client, matcher, channels, state, now, until, save):
+    """모든 무대 채널을 차례로 백필. 예산에 닿으면 그때까지 저장하고 멈춘다. (행 목록, 멈췄는지)."""
+    rows, stopped = [], False
+    for ch in backfill_order(channels):
+        try:
+            rows += backfill_channel(client, ch, matcher, state, now, until)
+        except QuotaExceeded as e:
+            rows += e.rows
+            stopped = True
+            save()
+            break
+        except YouTubeError as e:   # 오래된 쪽 위치가 만료되면 다음 실행은 처음부터 (비용이 작음)
+            print(f"⚠️ 백필 실패: {ch.get('name')} ({e}) — 다음 실행에서 처음부터 다시")
+            state.setdefault("backfill", {}).setdefault(ch["handle"], {})["page_token"] = ""
+        save()
+    return rows, stopped
+
+
 # ---------- 2) 팀 공식 채널 ----------
 
 def _lookup_uploads(client, params):
@@ -577,12 +649,36 @@ def summarize(rows, used, budget, stopped):
     print(f"영상이 1개 이상 있는 팀: {len(teams)}팀")
 
 
-def main(argv=None):
+def parse_args(argv=None):
     ap = argparse.ArgumentParser(description="유튜브 최근 무대 영상 수집 (YouTube Data API v3)")
     ap.add_argument("--budget", type=int, default=DEFAULT_BUDGET, help="이번 실행에 쓸 최대 단위 (기본 5000)")
     ap.add_argument("--search-n", type=int, default=SEARCH_N, help="검색할 상위 후보 팀 수 (기본 40)")
     ap.add_argument("--no-search", action="store_true", help="검색 단계 건너뛰기")
+    ap.add_argument("--backfill", action="store_true",
+                    help="과거 업로드 백필만: 무대 채널 업로드 목록을 --until 날짜까지 (50개당 1단위, 예산에 닿으면 다음 실행에 이어받기)")
+    ap.add_argument("--until", default=BACKFILL_UNTIL, help=f"백필할 가장 오래된 날짜 (기본 {BACKFILL_UNTIL})")
     args = ap.parse_args(argv)
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", args.until):
+        ap.error("--until 은 YYYY-MM-DD 형식")
+    return args
+
+
+def run_backfill(client, matcher, channels, state, now, until):
+    rows, stopped = backfill(client, matcher, channels, state, now, until, lambda: save_state(STATE_FILE, state))
+    out = RAW_DIR / f"raw_video_{now.date().isoformat()}.csv"
+    written = write_rows(out, rows)
+    marks = state.get("backfill", {})
+    done = sum(1 for c in channels if marks.get(c["handle"], {}).get("done"))
+    print(f"저장: {out.relative_to(ROOT)} (백필 {len(dedupe(rows))}줄, 파일 전체 {len(written)}줄)")
+    print(f"사용한 단위: {client.quota.used} / 예산 {client.quota.budget}" + (" (예산에 닿아 멈춤 → 다음 실행에 이어서)" if stopped else ""))
+    print(f"백필 끝난 채널 {done}/{len(channels)}: " + ", ".join(
+        f"{c.get('name')} {'완료' if marks.get(c['handle'], {}).get('done') else '진행 중'}"
+        f"(가장 오래된 {marks.get(c['handle'], {}).get('oldest_seen', '-')[:10]})" for c in backfill_order(channels)))
+    return 0
+
+
+def main(argv=None):
+    args = parse_args(argv)
 
     env = load_env(ENV_FILE)
     try:
@@ -597,6 +693,8 @@ def main(argv=None):
     links = [(r["team_key"], r["url"]) for r in read_csv(LAB_DATA / "links.csv") if r.get("platform") == "youtube"]
     ranked = load_ranked(LAB_DATA / "snapshots")
     state = load_state(STATE_FILE)
+    if args.backfill:
+        return run_backfill(client, matcher, channels, state, now, args.until)
 
     rows, stopped = collect(client, matcher, channels, links, ranked, state, now,
                             0 if args.no_search else args.search_n, lambda: save_state(STATE_FILE, state))

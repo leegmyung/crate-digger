@@ -39,6 +39,19 @@ EARLY_CUTOFF = "2026-01-01"
 EARLY_HORIZON = 11            # 2026-01-01 → 데이터 끝(2026-11)까지
 
 
+KEYWORDS = (("온스테이지", "video_onstage"), ("onstage", "video_onstage"), ("스페이스 공감", "video_ebs_space"),
+            ("dingo", "video_dingo"), ("딩고", "video_dingo"), ("it's live", "video_its_live"), ("목캔디", "video_mokcandy"),
+            ("난장", "video_nanjang"), ("tiny desk", "video_tinydesk_kr"), ("kbs kpop", "video_kbs_kpop"))
+
+
+def channel_source(title: str) -> Optional[str]:
+    """채널 이름 → 임시 출처 키. 정확히 같은 이름이 없으면 낱말로(백필로 들어올 채널의 API 이름을 미리 모름)."""
+    if title in CHANNELS:
+        return CHANNELS[title]
+    low = (title or "").lower()
+    return next((src for kw, src in KEYWORDS if kw in low), None)
+
+
 def src_key(source: str) -> str:
     return f"큐레이션:{source}"
 
@@ -47,7 +60,7 @@ def video_signal_rows(videos: Iterable[dict], role: str = "discovery") -> List[d
     """무대 영상(kind=stage, 알려진 채널) → 임시 신호 (같은 팀·채널·날짜는 한 줄)."""
     seen, out = set(), []
     for v in videos:
-        src = CHANNELS.get(v.get("channel_title", ""))
+        src = channel_source(v.get("channel_title", ""))
         if v.get("kind") != "stage" or not src or not v.get("published_at"):
             continue
         key = (v["team_key"], src, v["published_at"][:10])
@@ -79,7 +92,7 @@ def same_house_tags(outcomes: Iterable[dict], signals: Sequence[dict]) -> Set[Tu
 def channel_coverage(videos: Iterable[dict]) -> List[dict]:
     agg: Dict[str, dict] = defaultdict(lambda: {"videos": 0, "teams": set(), "dates": []})
     for v in videos:
-        src = CHANNELS.get(v.get("channel_title", ""))
+        src = channel_source(v.get("channel_title", ""))
         if v.get("kind") == "stage" and src:
             a = agg[src]
             a["videos"] += 1

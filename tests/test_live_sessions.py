@@ -24,6 +24,14 @@ class SignalRowsTest(unittest.TestCase):
         self.assertEqual((a["branch"], a["source"], a["signal_date"], a["role"]), ("큐레이션", "video_ebs_space", "2025-11-02", "discovery"))
         self.assertEqual(next(r for r in rows if r["team_key"] == "b")["source"], "video_its_live")
 
+    def test_channel_title_keyword_fallback(self):
+        # 백필로 새로 들어올 채널(온스테이지 등)은 API 채널 이름이 정확히 무엇일지 몰라 낱말로도 찾는다
+        self.assertEqual(ls.channel_source("네이버 ONSTAGE"), "video_onstage")
+        self.assertEqual(ls.channel_source("온스테이지 2.0"), "video_onstage")
+        self.assertEqual(ls.channel_source("EBS 스페이스 공감"), "video_ebs_space")
+        self.assertEqual(ls.channel_source("문화콘서트 난장"), "video_nanjang")
+        self.assertIsNone(ls.channel_source("어떤 팀 공식 채널"))
+
     def test_source_key_matches_scorecard_key(self):
         self.assertEqual(ls.src_key("video_ebs_space"), "큐레이션:video_ebs_space")
 

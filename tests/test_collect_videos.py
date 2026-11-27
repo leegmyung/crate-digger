@@ -222,6 +222,64 @@ class StateResumeTest(unittest.TestCase):
         self.assertEqual([r["team_key"] for r in ctx.exception.rows], ["카디"])
 
 
+class BackfillTest(unittest.TestCase):
+    """과거 업로드 백필: 업로드 목록을 최신→과거로 넘겨 기준 날짜(기본 2021-01-01)까지. 예산에 닿으면 다음 쪽 위치를 저장해 이어받기."""
+
+    CH = {"handle": "@space", "uploads": "UUspace", "name": "스페이스 공감"}
+
+    def pages(self):
+        p1 = {"items": [video_item("AAAAAAAAAAA", "카디 - 노래", "2025-09-01T10:00:00Z")], "nextPageToken": "P2"}
+        p2 = {"items": [video_item("BBBBBBBBBBB", "새소년 - 난춘", "2022-03-01T10:00:00Z")], "nextPageToken": "P3"}
+        p3 = {"items": [video_item("CCCCCCCCCCC", "로맨틱펀치 - 노래", "2021-03-01T10:00:00Z"),
+                        video_item("DDDDDDDDDDD", "세이수미 - 노래", "2020-12-01T10:00:00Z")], "nextPageToken": "P4"}
+        return {"pageToken=P2": p2, "pageToken=P3": p3, "playlistItems": p1}
+
+    def test_walks_back_until_date_and_marks_done(self):
+        yt, http = client(self.pages())
+        state = {}
+        rows = cv.backfill_channel(yt, self.CH, cv.TitleMatcher(TEAMS), state, NOW, until="2021-01-01")
+        self.assertEqual([r["team_key"] for r in rows], ["카디", "새소년", "로맨틱펀치"])   # 2020-12 영상은 기준 날짜 전이라 뺌
+        self.assertEqual({r["kind"] for r in rows}, {"stage"})
+        self.assertEqual(sum("playlistItems" in c for c in http.calls), 3)                # P4 는 안 부름
+        mark = state["backfill"]["@space"]
+        self.assertTrue(mark["done"])
+        self.assertEqual(mark["oldest_seen"], "2020-12-01T10:00:00Z")
+        self.assertNotIn("channels", state)                                              # 매일 훑기 표시는 안 건드림
+
+    def test_quota_stop_saves_next_page_and_resumes(self):
+        yt, _ = client(self.pages(), budget=1)
+        state = {}
+        with self.assertRaises(cv.QuotaExceeded) as ctx:
+            cv.backfill_channel(yt, self.CH, cv.TitleMatcher(TEAMS), state, NOW, until="2021-01-01")
+        self.assertEqual([r["team_key"] for r in ctx.exception.rows], ["카디"])
+        self.assertEqual(state["backfill"]["@space"]["page_token"], "P2")
+        self.assertFalse(state["backfill"]["@space"].get("done"))
+        yt2, http2 = client(self.pages())
+        rows = cv.backfill_channel(yt2, self.CH, cv.TitleMatcher(TEAMS), state, NOW, until="2021-01-01")
+        self.assertEqual([r["team_key"] for r in rows], ["새소년", "로맨틱펀치"])          # 이어받기: 1쪽은 다시 안 부름
+        self.assertIn("pageToken=P2", http2.calls[0])
+        self.assertTrue(state["backfill"]["@space"]["done"])
+
+    def test_backfill_all_skips_done_and_puts_big_channels_last(self):
+        chans = [{"handle": "@kbs", "uploads": "UUkbs", "name": "KBS", "max_pages": 60},
+                 {"handle": "@space", "uploads": "UUspace", "name": "스페이스"},
+                 {"handle": "@old", "uploads": "UUold", "name": "끝남"}]
+        self.assertEqual([c["handle"] for c in cv.backfill_order(chans)], ["@space", "@old", "@kbs"])
+        empty = {"items": []}
+        yt, http = client({"UUspace": empty, "UUkbs": empty, "UUold": empty})
+        state = {"backfill": {"@old": {"done": True}}}
+        rows, stopped = cv.backfill(yt, cv.TitleMatcher(TEAMS), chans, state, NOW, "2021-01-01", save=lambda: None)
+        self.assertEqual((rows, stopped), ([], False))
+        self.assertFalse(any("UUold" in c for c in http.calls))                            # 끝난 채널은 다시 안 훑음
+        self.assertTrue(state["backfill"]["@kbs"]["done"])
+
+    def test_cli_flag(self):
+        args = cv.parse_args(["--backfill", "--until", "2021-06-01", "--budget", "800"])
+        self.assertTrue(args.backfill)
+        self.assertEqual((args.until, args.budget), ("2021-06-01", 800))
+        self.assertEqual(cv.parse_args([]).until, "2021-01-01")
+
+
 class OfficialTest(unittest.TestCase):
     def test_official_kinds_and_resolve_cache(self):
         uploads = {"items": [video_item("AAAAAAAAAAA", "사뮈 - 노래 (LIVE CLIP)", "2026-11-01T00:00:00Z"),
