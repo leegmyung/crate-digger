@@ -14,13 +14,16 @@
   ② 센 정답(counted)을 받은 팀 — 정답 팀의 연차를 알아야 신인 기준을 검증할 수 있음
   ③ 다가오는 공연(오늘 이후)이 있는 팀 — 공연 날짜가 가까운 순
 이미 찾아본 이름(data/raw/state/outcome_melon_match.json)은 뺀다. 못 찾았던 이름(값 null)은 마지막 시도가
-RETRY_DAYS 일 지났을 때만 다시 넣는다(시도 날짜를 모르면 뺀다 — 날짜 기록: melon_match_attempts.json, 있으면 사용).
+재시도 기간 지났을 때만 다시 넣는다 — 검색 결과 0건이면 EMPTY_RETRY_DAYS(7일), 결과는 있는데 이름이 안 맞았으면 RETRY_DAYS(30일)
+(시도 날짜를 모르면 뺀다 — 날짜: melon_match_attempts.json, 못 찾은 이유: melon_search_misses.json).
+한글로 못 찾은 팀은 매체 리뷰의 '한글 (English)' 표기가 있으면 '한글 (English)' 형태로 넣어 수집기가 영문으로 다시 찾게 한다.
 오래된 명단 파일은 최근 KEEP_FILES 개만 남긴다.
 """
 from __future__ import annotations
 
 import csv
 import json
+import re
 import sys
 from datetime import date, timedelta
 from pathlib import Path
@@ -31,19 +34,23 @@ LAB = ROOT / "docs" / "lab" / "data"
 SNAPSHOT_DIR = LAB / "snapshots"
 MATCHES = ROOT / "data" / "raw" / "state" / "outcome_melon_match.json"
 ATTEMPTS = ROOT / "data" / "raw" / "state" / "melon_match_attempts.json"   # {이름: 마지막 시도 날짜} (있을 때만)
+MISSES = ROOT / "data" / "raw" / "state" / "melon_search_misses.json"      # {이름: {kind empty|mismatch, date, candidates}}
+RAW_DIR = ROOT / "data" / "raw"
 PROFILE_SEEN = ROOT / "data" / "raw" / "state" / "artist_profile_seen.json"   # 이미 받은 멜론 프로필 번호 목록
 OUT_DIR = ROOT / "data" / "raw" / "review"
 SNAPSHOT_TOP = 300     # 점수 상위 몇 팀까지 볼지
 LIMIT = 1000           # 명단 최대 줄 수 (하루 한도 없이 한 번에 받음)
-RETRY_DAYS = 30        # 못 찾았던 이름은 30일 뒤 다시 (멜론에 새로 등록됐을 수 있음)
+RETRY_DAYS = 30        # 못 찾았던 이름은 30일 뒤 다시 (멜론에 새로 등록됐을 수 있음) — 결과는 있는데 이름이 안 맞은 경우
+EMPTY_RETRY_DAYS = 7   # 검색 결과가 0건이면 7일 뒤 다시 (페이지 로딩 실패·검색어 문제일 수 있음)
 KEEP_FILES = 7         # 명단 파일은 최근 7개만
 RELEASE_DAYS = 90      # '발매 신호만 있는 팀'은 최근 90일 안 발매만 (갓 데뷔 후보가 될 만한 팀)
 CANDIDATE_TOP = 100    # 0순위 다음: 오늘 후보 상위 몇 팀 중 첫 발매일 없는 팀을 먼저 (R3, docs/top_candidates_review.md)
 NO_RELEASE_CHECKS = ("first_seen", "unverified")   # teams.csv newcomer_check 중 '첫 발매일 없음'
 
 
-def due_for_search(name: str, matches: dict, attempts: dict, today: str) -> bool:
-    """멜론에서 (다시) 찾아볼 이름인가: 처음 보는 이름, 또는 못 찾았고(null) 마지막 시도가 RETRY_DAYS 지난 이름.
+def due_for_search(name: str, matches: dict, attempts: dict, today: str, misses: Optional[dict] = None) -> bool:
+    """멜론에서 (다시) 찾아볼 이름인가: 처음 보는 이름, 또는 못 찾았고(null) 마지막 시도가 재시도 기간 지난 이름.
+    재시도 기간: 검색 결과 0건(misses kind=empty)이면 EMPTY_RETRY_DAYS(7일), 그 밖(이름 불일치·기록 없음)은 RETRY_DAYS(30일).
     collect_artists.py 도 이 함수로 검색할 이름을 고른다 (명단과 수집기가 같은 규칙)."""
     if name not in matches:
         return True
@@ -53,7 +60,8 @@ def due_for_search(name: str, matches: dict, attempts: dict, today: str) -> bool
     if not tried:                          # 못 찾았는데 언제 시도했는지 모름 → 빼기
         return False
     try:
-        return date.fromisoformat(today) - date.fromisoformat(str(tried)[:10]) >= timedelta(days=RETRY_DAYS)
+        days = EMPTY_RETRY_DAYS if ((misses or {}).get(name) or {}).get("kind") == "empty" else RETRY_DAYS
+        return date.fromisoformat(today) - date.fromisoformat(str(tried)[:10]) >= timedelta(days=days)
     except ValueError:
         return False
 
@@ -72,6 +80,20 @@ def release_only_recent(signals: List[dict], teams: List[dict], today: str, days
     since = (date.fromisoformat(today) - timedelta(days=days)).isoformat()
     keys = [k for k, d in last.items() if k not in other and k in no_release_date and since <= d <= today]
     return sorted(keys, key=lambda k: (last[k], k), reverse=True)
+
+
+def english_aliases(rows: List[dict]) -> Dict[str, str]:
+    """매체 리뷰 등의 '한글 이름 (English)' 표기 → {한글 이름: 영문}. 멜론에서 한글로 못 찾은 팀을 영문으로 다시 찾을 때 쓴다.
+    괄호 앞이 한글이고 괄호 속이 영문(라틴 글자)일 때만, 처음 본 표기를 쓴다."""
+    out: Dict[str, str] = {}
+    for r in rows:
+        m = re.match(r"^\s*(.+?)\s*\(([^()]+)\)\s*$", r.get("artist_text") or "")
+        if not m:
+            continue
+        ko, en = m.group(1).strip(), m.group(2).strip()
+        if re.search(r"[가-힣]", ko) and re.search(r"[A-Za-z]", en) and not re.search(r"[가-힣]", en):
+            out.setdefault(ko, en)
+    return out
 
 
 def no_release_top(snapshot: List[dict], teams: List[dict], top: int = CANDIDATE_TOP) -> List[str]:
@@ -93,14 +115,16 @@ def build_names(snapshot: List[dict], teams: List[dict], outcomes: List[dict], s
                 matches: dict, today: str, attempts: Optional[dict] = None,
                 snapshot_top: int = SNAPSHOT_TOP, limit: int = LIMIT,
                 priority: Optional[List[str]] = None, profiled: Optional[set] = None,
-                candidate_top: int = CANDIDATE_TOP) -> List[str]:
+                candidate_top: int = CANDIDATE_TOP, misses: Optional[dict] = None,
+                english: Optional[Dict[str, str]] = None) -> List[str]:
     info = {t["team_key"]: t for t in teams}
     attempts = attempts or {}
+    english = english or {}
     priority = list(priority or [])
     profiled = {str(p) for p in (profiled or ())}
 
     def wanted(key: str, name: str) -> bool:
-        if due_for_search(name, matches, attempts, today):
+        if due_for_search(name, matches, attempts, today, misses):
             return True
         m = matches.get(name)                # 0순위 팀: 번호는 있는데 프로필을 아직 못 받았으면 넣기
         return key in priority and isinstance(m, dict) and str(m.get("id", "")) not in profiled
@@ -129,6 +153,10 @@ def build_names(snapshot: List[dict], teams: List[dict], outcomes: List[dict], s
         seen.add(name)
         if wanted(key, name):
             out.append(name)
+        elif matches.get(name, "") is None and name in english:   # 한글로 못 찾은 팀 → 영문 표기로 한 번 더 (수집기 2차 별칭 검색)
+            variant = f"{name} ({english[name]})"
+            if due_for_search(variant, matches, attempts, today, misses):
+                out.append(variant)
         if len(out) >= limit:
             break
     return out
@@ -187,9 +215,10 @@ def main() -> int:
         profiled = set(json.loads(PROFILE_SEEN.read_text(encoding="utf-8")))
     except (OSError, ValueError):
         profiled = set()
+    press = [r for p in sorted(RAW_DIR.glob("raw_press_*.csv")) for r in _csv(p)]
     names = build_names(_csv(latest_snapshot()), _csv(LAB / "teams.csv"), _csv(LAB / "outcomes.csv"),
                         _csv(LAB / "signals.csv"), _json(MATCHES), today, _json(ATTEMPTS),
-                        priority=priority, profiled=profiled)
+                        priority=priority, profiled=profiled, misses=_json(MISSES), english=english_aliases(press))
     path = write_names(OUT_DIR, today, names)
     removed = prune_old(OUT_DIR)
     print(f"✅ 멜론 보강 명단 {len(names)}팀 → {path.relative_to(ROOT)}"

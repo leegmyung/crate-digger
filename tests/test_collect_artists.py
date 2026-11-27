@@ -10,6 +10,28 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import collect_artists as ca  # noqa: E402
 import validate_csv  # noqa: E402
 
+_MODULE_TMP = None
+_MODULE_PATCHES = []
+
+
+def setUpModule():
+    """수집 흐름 테스트가 실제 상태 파일(못 찾은 이유 기록)을 쓰거나 실제 트랙제로·링크 번호를 읽지 않게 모듈 전체에서 막는다.
+    필요한 테스트는 안에서 다시 덮어쓴다."""
+    from unittest import mock
+    global _MODULE_TMP
+    _MODULE_TMP = tempfile.TemporaryDirectory()
+    _MODULE_PATCHES[:] = [mock.patch.object(ca, "MISSES_STATE", Path(_MODULE_TMP.name) / "misses.json"),
+                          mock.patch.object(ca, "_known_melon_ids", return_value={})]
+    for p in _MODULE_PATCHES:
+        p.start()
+
+
+def tearDownModule():
+    for p in _MODULE_PATCHES:
+        p.stop()
+    _MODULE_TMP.cleanup()
+
+
 AT = "2026-11-26T21:00:00+09:00"
 INFO = """<div class="wrap_atist_info"> <p class="title_atist"><strong class="none">아티스트명</strong>에피톤&nbsp;프로젝트</p>
 <dl class="atist_info clfix"> <dt>데뷔</dt> <dd> <span class="gubun">2006.12.12</span> <a href="#" class="btn_play_song"> <span class="icon_play">곡재생</span>
@@ -140,6 +162,57 @@ class ResilienceTest(unittest.TestCase):
         self.assertEqual(failed, ["팀2"])
 
 
+class KnownIdSeedTest(unittest.TestCase):
+    """대책 1: 이미 가진 멜론 번호(트랙제로 '연관 아티스트' 번호·우리 링크)를 검색 없이 매칭에 넣기 — 이름 키가 같을 때만."""
+    KNOWN = {"칩포스트갱": {"id": "4627173", "name": "칩 포스트 갱", "source": "trackzero"},
+             "이날치": {"id": "2760294", "name": "이날치", "source": "trackzero"}}
+
+    def test_fills_missing_or_not_found_names_with_high_confidence(self):
+        matches = {"칩포스트갱": None}
+        out, seeded = ca.seed_known_ids(matches, ["칩포스트갱", "이날치", "모르는팀"], self.KNOWN)
+        self.assertEqual(out["칩포스트갱"], {"id": "4627173", "name": "칩 포스트 갱", "desc": "trackzero 번호",
+                                         "namesakes": 1, "confidence": "high", "source": "trackzero"})
+        self.assertEqual(out["이날치"]["id"], "2760294")
+        self.assertNotIn("모르는팀", out)
+        self.assertEqual(sorted(seeded), ["이날치", "칩포스트갱"])
+        self.assertIsNone(matches["칩포스트갱"])                     # 입력은 바꾸지 않음
+
+    def test_existing_found_match_is_kept(self):
+        out, seeded = ca.seed_known_ids({"이날치": {"id": "999999", "name": "이날치"}}, ["이날치"], self.KNOWN)
+        self.assertEqual(out["이날치"]["id"], "999999")
+        self.assertEqual(seeded, [])
+
+    def test_null_keys_already_in_matches_are_seeded_even_if_not_listed(self):
+        out, _ = ca.seed_known_ids({"칩포스트갱": None}, [], self.KNOWN)
+        self.assertEqual(out["칩포스트갱"]["source"], "trackzero")
+
+    def test_known_index_by_name_key_drops_ambiguous_keys_and_blocked_ids(self):
+        tz = {"melon_ids": {"칩 포스트 갱": "4627173", "동명": "1111111", "동 명": "2222222", "성현": "4491308"}}
+        links = [{"team_key": "하즈", "platform": "melon", "url": "https://www.melon.com/artist/detail.htm?artistId=3333333"}]
+        teams = [{"team_key": "하즈", "display_name": "하즈"}]
+        known = ca.known_melon_ids(tz, links, teams, blocked={"4491308"})
+        self.assertEqual(known["칩포스트갱"]["id"], "4627173")
+        self.assertNotIn("동명", known)                               # 같은 키에 번호가 둘 → 동명 위험, 안 씀
+        self.assertNotIn("성현", known)                               # 다른 아티스트로 확인된 번호(platform_ids not)
+        self.assertEqual(known["하즈"], {"id": "3333333", "name": "하즈", "source": "links"})
+
+
+class MissKindTest(unittest.TestCase):
+    """대책 2: '못 찾음'을 결과 0건 / 이름 불일치(후보 저장)로 나누고, 불일치는 느슨한 키로 한 번 더 맞춰 본다."""
+
+    def test_classify(self):
+        self.assertEqual(ca.miss_kind([]), "empty")
+        self.assertEqual(ca.miss_kind([["3000001", "다른팀", ""]]), "mismatch")
+
+    def test_loose_match_uses_english_alias_and_slash_parts(self):
+        cands = [["3000001", "CHIP POST GANG", ""], ["3000002", "남", ""]]
+        self.assertIsNone(ca.match_candidate("칩포스트갱", cands))
+        got = ca.loose_match("칩포스트갱", cands, aliases=["Chip Post Gang"])
+        self.assertEqual((got["id"], got["loose"]), ("3000001", True))
+        self.assertEqual(ca.loose_match("하즈", [["3000003", "HASE / 하즈", ""]])["id"], "3000003")
+        self.assertIsNone(ca.loose_match("하즈", [["3000004", "하즈베리", ""]]))   # 앞부분만 같은 이름은 아님
+
+
 class RetryTest(unittest.TestCase):
     """멜론 검색 시도 날짜 기록과 '못 찾음' 이름의 30일 뒤 재검색 (aside 없이 가짜 검색)."""
 
@@ -192,6 +265,29 @@ class RetryTest(unittest.TestCase):
         matches, attempts = self.run_collect(["새팀"], {}, None, "2026-11-28", failed=("새팀",))
         self.assertNotIn("새팀", matches)
         self.assertNotIn("새팀", attempts)
+
+    def test_misses_are_recorded_with_kind_and_candidates(self):
+        import json
+        from unittest import mock
+        with tempfile.TemporaryDirectory() as d:
+            miss = Path(d) / "miss.json"
+            with mock.patch.object(ca, "MISSES_STATE", miss), mock.patch.object(ca, "_known_melon_ids", return_value={}):
+                self.run_collect(["빈팀", "다른팀"], {}, None, "2026-11-28",
+                                 results={"다른팀": [["3000011", "다른 팀 아님", "설명"]]})
+            got = json.loads(miss.read_text(encoding="utf-8"))
+        self.assertEqual(got["빈팀"], {"kind": "empty", "date": "2026-11-28", "candidates": []})
+        self.assertEqual(got["다른팀"]["kind"], "mismatch")
+        self.assertEqual(got["다른팀"]["candidates"], [["3000011", "다른 팀 아님", "설명"]])
+
+    def test_known_ids_are_seeded_before_search(self):
+        from unittest import mock
+        known = {"칩포스트갱": {"id": "4627173", "name": "칩 포스트 갱", "source": "trackzero"}}
+        with tempfile.TemporaryDirectory() as d:
+            with mock.patch.object(ca, "MISSES_STATE", Path(d) / "miss.json"), \
+                    mock.patch.object(ca, "_known_melon_ids", return_value=known):
+                matches, _ = self.run_collect(["칩포스트갱"], {"칩포스트갱": None}, {"칩포스트갱": "2026-11-27"}, "2026-11-28")
+        self.assertEqual(self.searched, [])
+        self.assertEqual((matches["칩포스트갱"]["id"], matches["칩포스트갱"]["source"]), ("4627173", "trackzero"))
 
     def test_alias_search_also_records_attempt(self):
         matches, attempts = self.run_collect(["피치트럭(Peach Truck)"], {}, None, "2026-11-28",

@@ -138,6 +138,34 @@ class NoReleaseTopTest(unittest.TestCase):
         self.assertNotIn("피", got)
 
 
+class MissRetryAndEnglishTest(unittest.TestCase):
+    """대책 2·3: 결과 0건은 7일, 이름 불일치는 30일 뒤 재검색 · 못 찾은 팀은 매체 리뷰의 영문 표기로 다시 찾게 명단에 넣기."""
+
+    def test_empty_result_retried_after_7_days_mismatch_after_30(self):
+        misses = {"빈팀": {"kind": "empty"}, "다른팀": {"kind": "mismatch"}}
+        m = {"빈팀": None, "다른팀": None}
+        a = {"빈팀": "2026-11-18", "다른팀": "2026-11-18"}
+        self.assertTrue(mn.due_for_search("빈팀", m, a, "2026-11-27", misses))     # 9일 지남
+        self.assertFalse(mn.due_for_search("다른팀", m, a, "2026-11-27", misses))
+        self.assertFalse(mn.due_for_search("빈팀", m, {"빈팀": "2026-11-24"}, "2026-11-27", misses))
+        self.assertFalse(mn.due_for_search("빈팀", m, a, "2026-11-27"))             # 기록 없으면 예전처럼 30일
+
+    def test_english_aliases_from_press(self):
+        rows = [{"artist_text": "칩포스트갱 (Chip Post Gang)"}, {"artist_text": "하즈 (HASE)"},
+                {"artist_text": "행간소음"}, {"artist_text": "Sunset (선셋)"}, {"artist_text": "울 (WUL)"}]
+        self.assertEqual(mn.english_aliases(rows), {"칩포스트갱": "Chip Post Gang", "하즈": "HASE", "울": "WUL"})
+
+    def test_not_found_team_comes_back_with_english_name(self):
+        teams = [{"team_key": "c", "display_name": "칩포스트갱", "profile_status": "unknown"},
+                 {"team_key": "d", "display_name": "하즈", "profile_status": "unknown"}]
+        snap = [{"team_key": "c", "score": "9"}, {"team_key": "d", "score": "8"}]
+        m = {"칩포스트갱": None, "하즈": None, "하즈 (HASE)": None}
+        a = {"칩포스트갱": "2026-11-20", "하즈": "2026-11-20", "하즈 (HASE)": "2026-11-20"}
+        got = build(snapshot=snap, teams=teams, outcomes=[], signals=[], matches=m, attempts=a,
+                    english={"칩포스트갱": "Chip Post Gang", "하즈": "HASE"})
+        self.assertEqual(got, ["칩포스트갱 (Chip Post Gang)"])   # 하즈는 영문으로도 이미 찾아봄
+
+
 class FileTest(unittest.TestCase):
     def test_latest_snapshot_file(self):
         with tempfile.TemporaryDirectory() as d:

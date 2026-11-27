@@ -14,6 +14,10 @@
 - --refresh: 관찰 목록(후보 점검 b 팀 + 오늘 후보 상위 300 + 정답 팀) 중 이미 프로필을 받은 팀을, 마지막으로 받은 지
   REFRESH_DAYS(7일) 지난 것만 다시 받는다 → 팬 수가 날짜별로 쌓인다(scripts/fan_history.py, 기준일 시점 유명 판정 준비).
   artist_profile_seen.json 은 건드리지 않고 data/raw/state/profile_refreshed.json 에 {번호: 날짜}.
+- 이름으로 찾기(--names-file·정답 명단): 검색 전에 이미 가진 멜론 번호(트랙제로 글의 연관 아티스트 번호, 링크 표의 멜론 주소)를
+  이름 키가 정확히 같은 팀에 넣는다(확신 high, source 표시, 동명·차단 번호 제외). 못 찾으면 이유를
+  data/raw/state/melon_search_misses.json 에 결과 0건(empty, 7일 뒤 재시도) / 이름 불일치(mismatch, 후보 목록 저장, 30일)로 남기고,
+  불일치는 괄호·'/'로 나뉜 부분과 영문 별칭까지 본 느슨한 키로 한 번 더 맞춘다(loose=True). 영문으로 찾으면 한글 이름 기록도 채운다.
 - 형식: docs/csv_spec.md / scripts/csv_schema.py raw_artist_profile
 """
 import argparse
@@ -30,6 +34,7 @@ from pathlib import Path
 from collect_gigs import parse_repl_output
 from melon_names import ATTEMPTS as ATTEMPTS_STATE  # {이름: 마지막 검색 날짜} — 명단(melon_names.py)과 같은 파일
 from melon_names import MATCHES as MATCH_STATE
+from melon_names import MISSES as MISSES_STATE     # {이름: {kind empty|mismatch, date, candidates}} — 못 찾은 이유
 from melon_names import due_for_search             # 검색할 이름 고르기: 처음 보는 이름 + 못 찾고 RETRY_DAYS 지난 이름
 from csv_schema import TABLES
 from normalize import artist_key
@@ -41,6 +46,8 @@ REFRESH_STATE = RAW_DIR / "state" / "profile_refreshed.json"   # --refresh 로 �
 REFRESH_DAYS = 7
 REFRESH_LIMIT = 300         # 한 번 실행에 다시 받을 최대 팀 수 (7일 규칙이라 매일 돌리면 보통 하루 수십 팀)
 LAB_DIR = ROOT / "docs" / "lab" / "data"
+TRACKZERO_STATE = RAW_DIR / "state" / "trackzero_seen.json"   # 트랙제로 글의 '연관 아티스트' 멜론 번호 {이름: 번호}
+ALIASES_CONFIG = ROOT / "config" / "artist_aliases.json"      # platform_ids not = 다른 아티스트로 확인된 번호
 MELON_ID_IN_URL = re.compile(r"artistId=(\d+)")
 KST = timezone(timedelta(hours=9))
 COLUMNS = [f.name for f in TABLES["raw_artist_profile"]["fields"]]
@@ -186,6 +193,86 @@ def _js(ids):
 }})();"""
 
 
+def miss_kind(candidates) -> str:
+    """못 찾은 이유: 검색 결과 0건(empty — 로딩 실패·검색어 문제일 수 있어 7일 뒤 재시도) / 결과는 있는데 이름 불일치(mismatch)."""
+    return "empty" if not candidates else "mismatch"
+
+
+def _loose_keys(name: str) -> set:
+    """느슨한 이름 키: 이름 키 + 괄호 속 별칭 + '/'·','로 나뉜 부분 각각 (띄어쓰기·대소문자는 artist_key 가 이미 무시)."""
+    parts = [name] + [p for p in re.split(r"\s*[/,]\s*", name or "") if p]
+    return {k for p in parts for k in name_keys(p)}
+
+
+def loose_match(name, candidates, aliases=()):
+    """이름 불일치 때 한 번 더: 우리 이름 + 영문 별칭(매체 표기 등)의 키와 후보 이름의 느슨한 키가 정확히 같은 후보.
+    앞부분만 같은 이름('하즈' ↔ '하즈베리')은 안 맞춘다. 맞으면 loose=True 를 붙여 검수 때 구분한다."""
+    want = name_keys(name) | {artist_key(a) for a in aliases if artist_key(a)}
+    hits = [c for c in candidates if valid_melon_id(c[0]) and _loose_keys(c[1]) & want]
+    if not hits:
+        return None
+    return {"id": hits[0][0], "name": hits[0][1], "desc": hits[0][2] if len(hits[0]) > 2 else "",
+            "namesakes": len(hits), "loose": True}
+
+
+def known_melon_ids(trackzero_state: dict, links: list, teams: list, blocked=()) -> dict:
+    """이미 가진 멜론 번호 → {이름 키: {id, name, source}}. 트랙제로 글의 연관 아티스트 번호(멜론이 직접 붙인 번호)와
+    우리 링크 표의 멜론 주소. 같은 이름 키에 번호가 둘 이상이면(동명 위험) 버리고, 다른 아티스트로 확인된 번호(blocked)는 뺀다."""
+    found: dict = {}
+    clash = set()
+
+    def add(name, mid, source):
+        k = artist_key(name)
+        if not k or not valid_melon_id(mid) or str(mid) in blocked:
+            return
+        if k in found and found[k]["id"] != str(mid):
+            clash.add(k)
+        found.setdefault(k, {"id": str(mid), "name": name, "source": source})
+    for name, mid in (trackzero_state.get("melon_ids") or {}).items():
+        add(name, mid, "trackzero")
+    display = {t["team_key"]: t.get("display_name") or t["team_key"] for t in teams}
+    for r in links:
+        m = MELON_ID_IN_URL.search(r.get("url", "")) if r.get("platform") == "melon" else None
+        if m and r.get("team_key") in display:
+            add(display[r["team_key"]], m.group(1), "links")
+    return {k: v for k, v in found.items() if k not in clash}
+
+
+def seed_known_ids(matches: dict, names, known: dict):
+    """못 찾았거나(null) 아직 안 찾은 이름에 이미 가진 번호를 넣은 새 매칭 dict 와 넣은 이름 목록. 이미 찾은 매칭은 그대로.
+    이름 키가 정확히 같을 때만 (트랙제로 연관 아티스트 이름 = 우리 팀 이름) — 확신 high, 출처 표시."""
+    out = dict(matches)
+    seeded = []
+    for n in dict.fromkeys([*names, *[k for k, v in matches.items() if v is None]]):
+        if out.get(n) is not None:
+            continue
+        hit = known.get(artist_key(n))
+        if hit:
+            out[n] = {"id": hit["id"], "name": hit["name"], "desc": f"{hit['source']} 번호", "namesakes": 1,
+                      "confidence": "high", "source": hit["source"]}
+            seeded.append(n)
+    return out, seeded
+
+
+def _blocked_ids() -> set:
+    try:
+        cfg = json.loads(ALIASES_CONFIG.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return set()
+    return {str(x) for p in cfg.get("platform_ids", []) if p.get("platform") == "melon" for x in p.get("not", [])}
+
+
+def _known_melon_ids() -> dict:
+    def rows(path):
+        try:
+            with open(path, encoding="utf-8") as f:
+                return list(csv.DictReader(f))
+        except OSError:
+            return []
+    return known_melon_ids(_load_json(TRACKZERO_STATE, {}), rows(LAB_DIR / "links.csv"), rows(LAB_DIR / "teams.csv"),
+                           _blocked_ids())
+
+
 SEARCH_URL = "https://www.melon.com/search/artist/index.htm?q="
 
 
@@ -285,27 +372,48 @@ def collect_from_outcomes(limit, names=None, today=None):
     today = today or f"{datetime.now(KST):%Y-%m-%d}"
     matches = _load_json(MATCH_STATE, {})
     attempts = _load_json(ATTEMPTS_STATE, {})
+    misses = _load_json(MISSES_STATE, {})
+    matches, seeded = seed_known_ids(matches, names, _known_melon_ids())   # 이미 가진 번호(트랙제로·링크) → 검색 없이
+    if seeded:
+        print(f"  이미 가진 멜론 번호로 매칭: {len(seeded)}팀 (트랙제로 연관 아티스트·링크)")
     for n, m in matches.items():          # 날짜 기록 전의 '못 찾음'은 오늘로만 적고 30일 뒤부터 재시도 (한꺼번에 몰리지 않게)
         if m is None and n not in attempts:
             attempts[n] = today
-    todo = [n for n in dict.fromkeys(names) if n and due_for_search(n, matches, attempts, today)][:limit]
+    todo = [n for n in dict.fromkeys(names) if n and due_for_search(n, matches, attempts, today, misses)][:limit]
     # 1차: 괄호 앞 이름으로, 2차: 못 찾은 팀은 괄호 속 별칭으로 검색 ('피치트럭 하이재커스(Peach Truck Hijackers)')
     first = {n: re.sub(r"\s*[\(\[][^\)\]]*[\)\]]\s*$", "", n) or n for n in todo}
     found, failed = search_artists(sorted(set(first.values()))) if todo else ({}, [])
     failed = set(failed)
     for n in todo:
         if first[n] not in failed:               # 검색이 실패한 이름은 '못 찾음'으로 남기지 않음 → 다음에 다시
-            matches[n] = match_candidate(n, found.get(first[n], []))
+            cands = found.get(first[n], [])
+            alias_m = re.search(r"[\(\[]([^\)\]]+)[\)\]]\s*$", n)
+            matches[n] = match_candidate(n, cands) or loose_match(n, cands, [alias_m.group(1)] if alias_m else [])
             attempts[n] = today
+            if matches[n] is None:
+                misses[n] = {"kind": miss_kind(cands), "date": today, "candidates": cands[:8]}
+            else:
+                misses.pop(n, None)
     alias = {n: m.group(1) for n in todo if n in matches and not matches[n]
              and (m := re.search(r"[\(\[]([^\)\]]+)[\)\]]\s*$", n))}
     found2, failed2 = search_artists(sorted(set(alias.values()))) if alias else ({}, [])
     for n, a in alias.items():
         if a not in failed2:
-            matches[n] = match_candidate(n, found2.get(a, []))
+            cands2 = found2.get(a, [])
+            matches[n] = match_candidate(n, cands2) or loose_match(n, cands2, [a])
+            if matches[n] is None:
+                prev = misses.get(n, {}).get("candidates", [])
+                misses[n] = {"kind": "mismatch" if (prev or cands2) else "empty", "date": today, "candidates": (prev + cands2)[:8]}
+            else:
+                misses.pop(n, None)
+                bare = re.sub(r"\s*[\(\[][^\)\]]*[\)\]]\s*$", "", n)
+                if bare and bare != n and matches.get(bare, "") is None:   # 영문으로 찾으면 한글 이름 기록도 채움
+                    matches[bare] = matches[n]
+                    misses.pop(bare, None)
     MATCH_STATE.parent.mkdir(parents=True, exist_ok=True)
     MATCH_STATE.write_text(json.dumps(matches, ensure_ascii=False, indent=1), encoding="utf-8")
     ATTEMPTS_STATE.write_text(json.dumps(attempts, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+    MISSES_STATE.write_text(json.dumps(misses, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
     try:
         seen = set(json.loads(STATE.read_text(encoding="utf-8")))
     except (OSError, json.JSONDecodeError):
