@@ -7,8 +7,8 @@ let savedEditorText = '';
 export async function renderSqlView(root) {
   const bannerHtml = renderActionBanner({
     title: 'SQL 직접 실행',
-    lead: '브라우저 안 DuckDB-WASM에 올라온 4개 표(<code>signals</code>, <code>teams</code>, <code>outcomes</code>, <code>programs</code>)를 SQL로 직접 조회할 수 있습니다.',
-    todo: '아래 버튼으로 방금 돌아간 SQL을 불러와 조건을 고친 뒤 실행(Ctrl+Enter)해 보세요.',
+    lead: '브라우저 안 DuckDB-WASM에 올라온 표(<code>signals</code>, <code>teams</code>, <code>outcomes</code>, <code>programs</code>, <code>links</code>, <code>videos</code>)를 SQL로 직접 조회할 수 있습니다.',
+    todo: '아래 선택 창에서 방금 돌아간 SQL을 불러와 조건을 고친 뒤 실행(Ctrl+Enter)해 보세요.',
   });
 
   const initialSql = savedEditorText ||
@@ -22,20 +22,24 @@ export async function renderSqlView(root) {
     <div class="schema-box">
       <strong>사용 가능한 표</strong><br>
       <code class="mono">signals(team_key, branch, source, program, stage_rank, signal_date, venue)</code><br>
-      <code class="mono">teams(team_key, display_name, first_seen, first_release, fan_count, album_count, profile_status, primary_genre)</code><br>
+      <code class="mono">teams(team_key, display_name, first_seen, first_release, fan_count, album_count, profile_status, primary_genre, agency)</code><br>
       <code class="mono">outcomes(team_key, program, program_label, tier, announced_date, counted)</code><br>
-      <code class="mono">programs(program, label, kind)</code><br>
+      <code class="mono">programs(program, label, kind)</code> · <code class="mono">links(team_key, platform, url)</code> · <code class="mono">videos(team_key, video_id, title, channel_title, published_at, kind)</code><br>
       공통 매크로: <code class="mono">lab_scored(cutoff, lookback_years, newcomer_years, exclude_famous, outcome_tier, horizon_months, genre, branches, w_branch, w_stage, w_peer, w_dmz, w_gigs, w_outlets, outlet_cap)</code>
     </div>
 
     <div class="toolbar">
       <div class="toolbar-group">
-        <button type="button" class="btn btn-sm" data-preset="candidates">지금 후보 SQL</button>
-        <button type="button" class="btn btn-sm" data-preset="backtest">백테스트 SQL</button>
-        <button type="button" class="btn btn-sm" data-preset="signals">신호별 적중률 SQL</button>
-        <button type="button" class="btn btn-sm" data-preset="precedents">선례 SQL</button>
-        <button type="button" class="btn btn-sm" data-preset="features">매크로(features.sql)</button>
-        <button type="button" class="btn btn-sm" data-preset="sample">signals 20행 미리보기</button>
+        <select id="sqlPresetSel" class="select" aria-label="SQL 예시 선택">
+          <option value="">예시 SQL 불러오기...</option>
+          <option value="candidates">방금 돌린 지금 후보 SQL</option>
+          <option value="backtest">방금 돌린 백테스트 SQL</option>
+          <option value="signals">방금 돌린 신호별 적중률 SQL</option>
+          <option value="precedents">방금 돌린 선례 SQL</option>
+          <option value="related">방금 돌린 관련 팀 SQL</option>
+          <option value="features">공통 매크로 (features.sql)</option>
+          <option value="sample">signals 20행 미리보기</option>
+        </select>
       </div>
     </div>
 
@@ -100,17 +104,17 @@ export async function renderSqlView(root) {
     }
   }
 
-  root.querySelectorAll('[data-preset]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const k = btn.dataset.preset;
-      if (k === 'candidates') editor.value = appState.lastSql.candidates || appState.sqlTemplates.candidates;
-      else if (k === 'backtest') editor.value = appState.lastSql.backtest || appState.sqlTemplates.backtest;
-      else if (k === 'signals') editor.value = appState.lastSql.signals || appState.sqlTemplates.signal_hits;
-      else if (k === 'precedents') editor.value = appState.lastSql.precedents || appState.sqlTemplates.precedents;
-      else if (k === 'features') editor.value = appState.sqlTemplates.features;
-      else if (k === 'sample') editor.value = 'SELECT * FROM signals ORDER BY signal_date DESC LIMIT 20;';
-      savedEditorText = editor.value;
-    });
+  root.querySelector('#sqlPresetSel')?.addEventListener('change', (e) => {
+    const k = e.target.value;
+    if (!k) return;
+    if (k === 'candidates') editor.value = appState.lastSql.candidates || appState.sqlTemplates.candidates;
+    else if (k === 'backtest') editor.value = appState.lastSql.backtest || appState.sqlTemplates.backtest;
+    else if (k === 'signals') editor.value = appState.lastSql.signals || appState.sqlTemplates.signal_hits;
+    else if (k === 'precedents') editor.value = appState.lastSql.precedents || appState.sqlTemplates.precedents;
+    else if (k === 'related') editor.value = appState.lastSql.related || appState.sqlTemplates.related;
+    else if (k === 'features') editor.value = appState.sqlTemplates.features;
+    else if (k === 'sample') editor.value = 'SELECT * FROM signals ORDER BY signal_date DESC LIMIT 20;';
+    savedEditorText = editor.value;
   });
 
   root.querySelector('#btnRunSql').addEventListener('click', exec);

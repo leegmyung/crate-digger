@@ -74,6 +74,7 @@ export const appState = {
     signals: '',
     precedents: '',
     team: '',
+    related: '',
   },
   sqlTemplates: {
     features: '',
@@ -82,14 +83,18 @@ export const appState = {
     signal_hits: '',
     precedents: '',
     team: '',
+    related: '',
   },
   snapshots: {
     dates: [],
+    reconstructed: [],
     latestDate: null,
     prevDate: null,
     latest: new Map(),
     prev: new Map(),
   },
+  linksByTeam: new Map(),
+  videosByTeam: new Map(),
   teamIndex: [], // [{team_key, display_name, primary_genre}] for autocomplete
   candSort: { col: 'score', dir: 'desc' },
   activeCharts: [],
@@ -340,3 +345,22 @@ export function exportWatchlistCsv(rows) {
   a.remove();
   URL.revokeObjectURL(url);
 }
+
+const PLATFORM_KEY = 'crate_digger_platform_v1';
+const VALID_PLATFORMS = ['melon', 'genie', 'bugs', 'spotify', 'youtube', 'instagram'];
+
+export function getPreferredPlatform() {
+  try {
+    const v = window.localStorage.getItem(PLATFORM_KEY);
+    if (v && VALID_PLATFORMS.includes(v)) return v;
+  } catch (_) {}
+  return 'melon';
+}
+
+export function setPreferredPlatform(platform) {
+  if (!VALID_PLATFORMS.includes(platform)) return;
+  try {
+    window.localStorage.setItem(PLATFORM_KEY, platform);
+  } catch (_) {}
+}
+

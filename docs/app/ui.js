@@ -113,10 +113,28 @@ export function renderScoreBar(r, maxScore) {
   return `<div class="score-bar-track" title="${escapeHtml(title)}">${html}</div>`;
 }
 
-export function watchButtonHtml(teamKey, displayName, small = true) {
+export function josa(word, consonantForm, vowelForm) {
+  const s = String(word || '').trim().replace(/[)\]}>"'`.,!?]+$/g, '');
+  if (!s) return `${word}${vowelForm}`;
+  const last = s[s.length - 1];
+  const code = last.charCodeAt(0);
+  if (code >= 0xac00 && code <= 0xd7a3) {
+    return `${word}${(code - 0xac00) % 28 !== 0 ? consonantForm : vowelForm}`;
+  }
+  if (/[013678]/.test(last)) return `${word}${consonantForm}`;
+  if (/[2459]/.test(last)) return `${word}${vowelForm}`;
+  if (/[lmnrLMNR]/.test(last)) return `${word}${consonantForm}`;
+  return `${word}${vowelForm}`;
+}
+
+export function watchButtonHtml(teamKey, displayName, small = true, reveal = false) {
   const on = isWatched(teamKey);
-  const cls = `btn ${small ? 'btn-sm' : ''} ${on ? 'btn-active' : ''}`.trim();
-  return `<button type="button" class="${cls}" data-watch-key="${escapeHtml(teamKey)}" data-watch-name="${escapeHtml(displayName)}">${on ? '관심 중' : '관심 추가'}</button>`;
+  const cls = `btn ${small ? 'btn-sm' : ''} ${on ? 'btn-active' : ''} ${reveal ? 'watch-reveal' : ''}`.trim();
+  const label = on ? '관심 중' : '관심 추가';
+  if (reveal) {
+    return `<button type="button" class="${cls}" data-watch-key="${escapeHtml(teamKey)}" data-watch-name="${escapeHtml(displayName)}" aria-label="${escapeHtml(displayName)} ${label}"><span class="watch-lbl-full">${label}</span><span class="watch-lbl-short" aria-hidden="true">${on ? '✓' : '+'}</span></button>`;
+  }
+  return `<button type="button" class="${cls}" data-watch-key="${escapeHtml(teamKey)}" data-watch-name="${escapeHtml(displayName)}">${label}</button>`;
 }
 
 export function summarizeWhyTeam({ scored, profile, timeline, precedents }) {
@@ -125,10 +143,10 @@ export function summarizeWhyTeam({ scored, profile, timeline, precedents }) {
 
   if (scored) {
     lines.push(
-      `${name}은(는) 현재 설정 기준 ${fmtNum(scored.score, 2)}점입니다 (${scorePartsLine(scored)}).`
+      `${josa(name, '은', '는')} 현재 설정 기준 ${fmtNum(scored.score, 2)}점입니다 (${scorePartsLine(scored)}).`
     );
   } else {
-    lines.push(`${name}은(는) 현재 필터·신호 기간 기준 점수 산정 대상 밖이지만 기록된 신호 ${timeline.length}건이 있습니다.`);
+    lines.push(`${josa(name, '은', '는')} 현재 필터·신호 기간 기준 점수 산정 대상 밖이지만 기록된 신호 ${timeline.length}건이 있습니다.`);
   }
 
   if (timeline.length) {
@@ -164,7 +182,7 @@ export function friendlySqlError(err) {
     return `SQL 문법 오류입니다. 쉼표·괄호·따옴표를 확인해 주세요. (${raw})`;
   }
   if (raw.includes('does not exist') || raw.includes('Catalog Error')) {
-    return `표나 열 이름을 찾을 수 없습니다. 사용 가능한 표는 signals, teams, outcomes, programs 입니다. (${raw})`;
+    return `표나 열 이름을 찾을 수 없습니다. 사용 가능한 표는 signals, teams, outcomes, programs, links, videos 입니다. (${raw})`;
   }
   if (raw.includes('Binder Error')) {
     return `열 이름이나 자료형이 맞지 않습니다. (${raw})`;

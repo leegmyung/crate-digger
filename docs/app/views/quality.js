@@ -79,8 +79,8 @@ export async function renderQualityView(root) {
     ` : ''}
 
     ${collRows.length ? `
-      <section class="block">
-        <div class="block-head">
+      <section class="block" style="padding:0;overflow:hidden;">
+        <div class="block-head" style="padding:16px 16px 10px 16px;margin:0;">
           <h2>출처별 수집 현황</h2>
           <span class="block-meta">${fmtInt(collRows.length)}개 출처</span>
         </div>
@@ -96,23 +96,40 @@ export async function renderQualityView(root) {
                 <th class="nowrap">마지막 날짜</th>
               </tr>
             </thead>
-            <tbody>
-              ${collRows.map(c => `
-                <tr>
-                  <td>${escapeHtml(c.branch || '-')}</td>
-                  <td><strong>${escapeHtml(SOURCE_LABELS[c.source] || c.source)}</strong></td>
-                  <td class="num">${fmtInt(c.rows)}</td>
-                  <td class="num">${fmtInt(c.teams)}</td>
-                  <td class="nowrap mono muted">${escapeHtml(c.first_date || '-')}</td>
-                  <td class="nowrap mono muted">${escapeHtml(c.last_date || '-')}</td>
-                </tr>
-              `).join('')}
-            </tbody>
+            <tbody id="qualCollTbody"></tbody>
           </table>
         </div>
+        <div class="more-row" id="qualCollMore" hidden></div>
       </section>
     ` : ''}
   `;
+
+  if (collRows.length) {
+    let showAllColl = false;
+    const renderColl = () => {
+      const shown = showAllColl ? collRows : collRows.slice(0, 10);
+      root.querySelector('#qualCollTbody').innerHTML = shown.map(c => `
+        <tr>
+          <td>${escapeHtml(c.branch || '-')}</td>
+          <td><strong>${escapeHtml(SOURCE_LABELS[c.source] || c.source)}</strong></td>
+          <td class="num">${fmtInt(c.rows)}</td>
+          <td class="num">${fmtInt(c.teams)}</td>
+          <td class="nowrap mono muted">${escapeHtml(c.first_date || '-')}</td>
+          <td class="nowrap mono muted">${escapeHtml(c.last_date || '-')}</td>
+        </tr>
+      `).join('');
+      const rem = collRows.length - shown.length;
+      const more = root.querySelector('#qualCollMore');
+      if (rem > 0) {
+        more.hidden = false;
+        more.innerHTML = `<span>${fmtInt(shown.length)} / ${fmtInt(collRows.length)}개 표시</span><button type="button" class="btn btn-sm" id="btnQualCollMore">${fmtInt(rem)}개 더 보기</button>`;
+        more.querySelector('#btnQualCollMore').addEventListener('click', () => { showAllColl = true; renderColl(); });
+      } else {
+        more.hidden = true;
+      }
+    };
+    renderColl();
+  }
 
   if (window.Chart && gigsMonth.length) {
     const cv = root.querySelector('#qualGigsChart');

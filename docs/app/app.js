@@ -306,7 +306,15 @@ function wireGlobalEvents() {
     e.stopPropagation();
     const added = toggleWatch(btn.dataset.watchKey, btn.dataset.watchName);
     btn.classList.toggle('btn-active', added);
-    btn.textContent = added ? '관심 중' : '관심 추가';
+    const fullLbl = btn.querySelector('.watch-lbl-full');
+    const shortLbl = btn.querySelector('.watch-lbl-short');
+    if (fullLbl || shortLbl) {
+      if (fullLbl) fullLbl.textContent = added ? '관심 중' : '관심 추가';
+      if (shortLbl) shortLbl.textContent = added ? '✓' : '+';
+      btn.setAttribute('aria-label', `${btn.dataset.watchName || ''} ${added ? '관심 중' : '관심 추가'}`.trim());
+    } else {
+      btn.textContent = added ? '관심 중' : '관심 추가';
+    }
     updateNavActive();
     // Refresh Today view watchlist block immediately when toggling from Today
     if (appState.route === 'today') renderCurrentView();

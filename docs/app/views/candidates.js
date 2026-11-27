@@ -22,46 +22,42 @@ export async function renderCandidatesView(root) {
   const rows = await queryCandidates();
   const c = appState.cfg;
   const maxScore = Math.max(1, ...rows.map(r => Number(r.score) || 0));
+  let visibleCount = 20;
 
   const topName = rows[0] ? `${rows[0].display_name} (${fmtNum(rows[0].score, 2)}점)` : '없음';
   const bannerHtml = renderActionBanner({
     title: '후보 탐색',
-    lead: `현재 조건에 맞는 상위 <strong>${fmtInt(rows.length)}팀</strong>을 점수순으로 불러왔습니다. 1위는 ${escapeHtml(topName)}입니다.`,
-    todo: '열 머리글을 눌러 정렬하거나, 팀 줄을 눌러 신호 타임라인과 과거 수상 팀 선례를 확인하세요.',
+    lead: `조건에 맞는 상위 <strong>${fmtInt(rows.length)}팀</strong> 중 1위는 ${escapeHtml(topName)}입니다.`,
+    todo: '열 머리를 눌러 정렬하거나, 팀 줄을 눌러 아티스트 정보·선례·타임라인을 확인하세요.',
   });
 
   root.innerHTML = `
     ${bannerHtml}
-    <div class="notice">
-      '신인 추정'은 우리 데이터에 처음 등장한 지 <strong>${c.newcomer_years}년</strong> 이내라는 기준이라 오래 활동한 팀이 섞일 수 있습니다. 프로필(멜론 등)이 채워질수록 정확해집니다.
-    </div>
+
+    <details class="info-fold">
+      <summary>ⓘ 신인 기준·점수 구성 안내</summary>
+      <div class="info-fold-body">
+        '신인 추정'은 우리 데이터에 처음 등장한 지 <strong>${c.newcomer_years}년</strong> 이내라는 기준이라 오래 활동한 팀이 섞일 수 있습니다. 프로필(멜론 등)이 채워질수록 정확해집니다.
+        점수 구성 막대 색상: 갈래 · 선정 단계 · 동료 선정 · DMZ · 최근 1년 공연 · 큐레이션 매체.
+      </div>
+    </details>
 
     <div class="toolbar">
       <div class="toolbar-group">
         <input type="search" id="candFilterInput" class="input" style="width:200px;" placeholder="표 안에서 이름 필터...">
         <label class="f-check small">
           <input type="checkbox" id="candOnlyNoOutcome" ${c.only_no_outcome ? 'checked' : ''}>
-          <span>이미 정답 받은 팀 제외</span>
+          <span>기정답 제외</span>
         </label>
       </div>
       <div class="toolbar-group">
         <span class="small muted" id="candCountText"></span>
-        <label for="candLimitSel" class="small muted">표시 수</label>
-        <select id="candLimitSel" class="select">
-          <option value="50" ${c.limit === 50 ? 'selected' : ''}>상위 50팀</option>
-          <option value="100" ${c.limit === 100 ? 'selected' : ''}>상위 100팀</option>
-          <option value="200" ${c.limit === 200 ? 'selected' : ''}>상위 200팀</option>
+        <select id="candLimitSel" class="select" aria-label="조회 상한">
+          <option value="50" ${c.limit === 50 ? 'selected' : ''}>조회 50팀</option>
+          <option value="100" ${c.limit === 100 ? 'selected' : ''}>조회 100팀</option>
+          <option value="200" ${c.limit === 200 ? 'selected' : ''}>조회 200팀</option>
         </select>
       </div>
-    </div>
-
-    <div class="bar-legend" aria-label="점수 구성 범례">
-      <span class="legend-item"><span class="swatch" style="background:var(--seg-branch)"></span>갈래</span>
-      <span class="legend-item"><span class="swatch" style="background:var(--seg-stage)"></span>선정 단계</span>
-      <span class="legend-item"><span class="swatch" style="background:var(--seg-peer)"></span>동료 선정</span>
-      <span class="legend-item"><span class="swatch" style="background:var(--seg-dmz)"></span>DMZ</span>
-      <span class="legend-item"><span class="swatch" style="background:var(--seg-gigs)"></span>최근 1년 공연</span>
-      <span class="legend-item"><span class="swatch" style="background:var(--seg-outlets)"></span>큐레이션 매체</span>
     </div>
 
     <div class="block" style="padding:0;overflow:hidden;">
@@ -72,7 +68,7 @@ export async function renderCandidatesView(root) {
               <th class="num">#</th>
               <th class="sortable" data-sort="display_name">팀</th>
               <th class="num sortable" data-sort="score">점수</th>
-              <th>점수 구성</th>
+              <th>구성</th>
               <th class="num sortable" data-sort="n_branch">갈래</th>
               <th class="num sortable" data-sort="gigs_1y">1년 공연</th>
               <th class="nowrap sortable" data-sort="first_seen">첫 등장</th>
@@ -83,6 +79,7 @@ export async function renderCandidatesView(root) {
           <tbody id="candTbody"></tbody>
         </table>
       </div>
+      <div class="more-row" id="candMoreRow" hidden></div>
     </div>
   `;
 
@@ -96,8 +93,8 @@ export async function renderCandidatesView(root) {
       : rows;
     list = sortRows(list, appState.candSort.col, appState.candSort.dir);
 
-    root.querySelector('#candCountText').textContent =
-      q ? `${fmtInt(list.length)} / ${fmtInt(rows.length)}팀` : `${fmtInt(rows.length)}팀`;
+    const shown = list.slice(0, visibleCount);
+    root.querySelector('#candCountText').textContent = `${fmtInt(shown.length)} / ${fmtInt(list.length)}팀`;
 
     root.querySelectorAll('th.sortable').forEach(th => {
       const col = th.dataset.sort;
@@ -109,12 +106,13 @@ export async function renderCandidatesView(root) {
     });
 
     const tbody = root.querySelector('#candTbody');
-    if (!list.length) {
+    if (!shown.length) {
       tbody.innerHTML = '<tr><td colspan="9" class="muted">조건에 맞는 후보 팀이 없습니다.</td></tr>';
+      root.querySelector('#candMoreRow').hidden = true;
       return;
     }
 
-    tbody.innerHTML = list.map((r, idx) => {
+    tbody.innerHTML = shown.map((r, idx) => {
       const sub = [];
       if (r.primary_genre) sub.push(r.primary_genre);
       if (r.had_outcome) sub.push('기정답');
@@ -133,11 +131,30 @@ export async function renderCandidatesView(root) {
         </tr>
       `;
     }).join('');
+
+    const moreRow = root.querySelector('#candMoreRow');
+    const rem = list.length - shown.length;
+    if (rem > 0) {
+      moreRow.hidden = false;
+      moreRow.innerHTML = `
+        <span>${fmtInt(shown.length)} / ${fmtInt(list.length)}팀 표시</span>
+        <button type="button" class="btn btn-sm" id="btnCandMore">${fmtInt(Math.min(20, rem))}팀 더 보기</button>
+      `;
+      moreRow.querySelector('#btnCandMore').addEventListener('click', () => {
+        visibleCount += 20;
+        paintTable();
+      });
+    } else {
+      moreRow.hidden = true;
+    }
   }
 
   paintTable();
 
-  root.querySelector('#candFilterInput').addEventListener('input', paintTable);
+  root.querySelector('#candFilterInput').addEventListener('input', () => {
+    visibleCount = 20;
+    paintTable();
+  });
 
   root.querySelector('#candOnlyNoOutcome').addEventListener('change', (e) => {
     appState.cfg.only_no_outcome = e.target.checked;

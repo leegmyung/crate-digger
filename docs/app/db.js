@@ -234,6 +234,40 @@ async function initEngine() {
   connInstance = conn;
 }
 
+const VIDEO_ID_RE = /^[A-Za-z0-9_-]{11}$/;
+const VIDEO_KIND_ORDER = { stage: 0, official_live: 1, official: 2, search: 3 };
+
+function indexLinksRows(rows) {
+  const map = new Map();
+  for (const r of rows) {
+    const k = r.team_key;
+    const plat = r.platform;
+    const url = r.url;
+    if (!k || !plat || typeof url !== 'string' || !url.startsWith('https://')) continue;
+    if (!map.has(k)) map.set(k, new Map());
+    map.get(k).set(plat, url);
+  }
+  return map;
+}
+
+function indexVideosRows(rows) {
+  const map = new Map();
+  for (const r of rows) {
+    const k = r.team_key;
+    const vid = String(r.video_id || '').trim();
+    if (!k || !VIDEO_ID_RE.test(vid)) continue;
+    if (!map.has(k)) map.set(k, []);
+    map.get(k).push({
+      video_id: vid,
+      title: String(r.title || ''),
+      channel_title: String(r.channel_title || ''),
+      published_at: String(r.published_at || ''),
+      kind: String(r.kind || 'search'),
+    });
+  }
+  return map;
+}
+
 export async function bootstrapData(onStatus = () => {}) {
   onStatus('데이터·SQL·DuckDB-WASM 불러오는 중...');
   const [
@@ -248,6 +282,7 @@ export async function bootstrapData(onStatus = () => {}) {
     sigHitSql,
     precSql,
     teamSql,
+    relSql,
     snapIdx,
     dashJson,
   ] = await Promise.all([
@@ -262,6 +297,7 @@ export async function bootstrapData(onStatus = () => {}) {
     fetchText('lab/sql/signal_hits.sql'),
     fetchText('lab/sql/precedents.sql', true),
     fetchText('lab/sql/team.sql', true),
+    fetchText('lab/sql/related.sql', true),
     fetchJson('lab/data/snapshots/index.json', true),
     fetchJson('data/dashboard.json', true),
     initEngine(),
@@ -277,30 +313,45 @@ export async function bootstrapData(onStatus = () => {}) {
     signal_hits: sigHitSql || '',
     precedents: precSql || '',
     team: teamSql || '',
+    related: relSql || '',
   };
 
+  // Optional datasets gated by meta.rows to avoid noisy 404s before files exist
+  const hasLinksMeta = !meta?.rows || meta.rows.links === undefined || meta.rows.links > 0;
+  const hasVideosMeta = Boolean(meta?.rows && Number(meta.rows.videos) > 0);
+  const [linksCsv, videosCsv] = await Promise.all([
+    hasLinksMeta ? fetchText('lab/data/links.csv', true) : Promise.resolve(null),
+    hasVideosMeta ? fetchText('lab/data/videos.csv', true) : Promise.resolve(null),
+  ]);
+
   onStatus('브라우저 DB에 표 적재 중...');
-  await Promise.all([
+  const regTasks = [
     dbInstance.registerFileText('signals.csv', sigCsv),
     dbInstance.registerFileText('teams.csv', teamsCsv),
     dbInstance.registerFileText('outcomes.csv', outCsv),
     dbInstance.registerFileText('programs.csv', progCsv),
-  ]);
+  ];
+  if (linksCsv) regTasks.push(dbInstance.registerFileText('links.csv', linksCsv));
+  if (videosCsv) regTasks.push(dbInstance.registerFileText('videos.csv', videosCsv));
+  await Promise.all(regTasks);
 
-  await connInstance.query(`
+  let createSql = `
     CREATE TABLE signals AS SELECT * FROM read_csv_auto('signals.csv', header=true);
     CREATE TABLE teams AS SELECT * FROM read_csv_auto('teams.csv', header=true);
     CREATE TABLE outcomes AS SELECT * FROM read_csv_auto('outcomes.csv', header=true);
     CREATE TABLE programs AS SELECT * FROM read_csv_auto('programs.csv', header=true);
-  `);
+  `;
+  if (linksCsv) createSql += `CREATE TABLE links AS SELECT * FROM read_csv_auto('links.csv', header=true);`;
+  if (videosCsv) createSql += `CREATE TABLE videos AS SELECT * FROM read_csv_auto('videos.csv', header=true);`;
+  await connInstance.query(createSql);
   await connInstance.query(featSql);
 
-  // Load snapshots (latest 2) + genres + outcome range + team autocomplete index
   const snapDates = Array.isArray(snapIdx?.dates) ? snapIdx.dates : [];
+  const snapReconstructed = Array.isArray(snapIdx?.reconstructed) ? snapIdx.reconstructed : [];
   const latestDate = snapDates[0] || null;
   const prevDate = snapDates[1] || null;
 
-  const [genreRes, rangeRes, teamIdxRes, snapLatestTxt, snapPrevTxt] = await Promise.all([
+  const [genreRes, rangeRes, teamIdxRes, snapLatestTxt, snapPrevTxt, linksRes, videosRes] = await Promise.all([
     runRawSql(`
       SELECT primary_genre, COUNT(*) AS n
       FROM teams
@@ -320,6 +371,8 @@ export async function bootstrapData(onStatus = () => {}) {
     `),
     latestDate ? fetchText(`lab/data/snapshots/${latestDate}.csv`, true) : Promise.resolve(null),
     prevDate ? fetchText(`lab/data/snapshots/${prevDate}.csv`, true) : Promise.resolve(null),
+    linksCsv ? runRawSql(`SELECT team_key, platform, url FROM links`) : Promise.resolve({ rows: [] }),
+    videosCsv ? runRawSql(`SELECT team_key, video_id, title, channel_title, published_at, kind FROM videos`) : Promise.resolve({ rows: [] }),
   ]);
 
   appState.validGenres = genreRes.rows.map(r => r.primary_genre);
@@ -331,8 +384,11 @@ export async function bootstrapData(onStatus = () => {}) {
     };
   }
   appState.teamIndex = teamIdxRes.rows;
+  appState.linksByTeam = indexLinksRows(linksRes.rows);
+  appState.videosByTeam = indexVideosRows(videosRes.rows);
   appState.snapshots = {
     dates: snapDates,
+    reconstructed: snapReconstructed,
     latestDate,
     prevDate,
     latest: parseSnapshotCsv(snapLatestTxt),
@@ -421,12 +477,20 @@ export async function queryTeamDetail(teamKey) {
     precPromise = runRawSql(precSql);
   }
 
-  const [profileRes, scoreRes, timelineRes, outcomeRes, precRes] = await Promise.all([
+  let relPromise = Promise.resolve({ rows: [] });
+  if (appState.sqlTemplates.related) {
+    const relSql = fillTemplate(appState.sqlTemplates.related, { team_key: keyLit });
+    appState.lastSql.related = relSql;
+    relPromise = runRawSql(relSql);
+  }
+
+  const [profileRes, scoreRes, timelineRes, outcomeRes, precRes, relRes] = await Promise.all([
     runRawSql(teamProfileSql),
     runRawSql(scoreSql),
     runRawSql(timelineSql),
     runRawSql(outcomesSql),
     precPromise,
+    relPromise,
   ]);
 
   return {
@@ -435,6 +499,9 @@ export async function queryTeamDetail(teamKey) {
     timeline: timelineRes.rows,
     outcomes: outcomeRes.rows,
     precedents: precRes.rows,
+    related: relRes.rows,
+    links: appState.linksByTeam.get(teamKey) || new Map(),
+    videos: appState.videosByTeam.get(teamKey) || [],
   };
 }
 
