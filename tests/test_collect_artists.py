@@ -55,7 +55,8 @@ class MelonArtistTest(unittest.TestCase):
         self.assertEqual(p, {"artist_text": "에피톤 프로젝트", "debut_date": "2006-12-12", "debut_title": "좋았던 순간은 늘 잔인하다",
                              "activity_type": "솔로", "agency_text": "(주)인터파크", "genre": "인디음악|발라드|록/메탈",
                              "nationality": "대한민국", "fan_count": "33496", "album_count": "46",
-                             "first_release_date": "2007-03-15", "youtube_url": "https://www.youtube.com/@epitone"})
+                             "first_release_date": "2007-03-15", "first_release_own": "",   # 본인 음반 목록이 없는 옛 페이지
+                             "youtube_url": "https://www.youtube.com/@epitone"})
 
     def test_member_list_and_sns_do_not_leak_into_genre_or_nationality(self):
         p = ca.parse_melon_artist(GROUP)
@@ -163,6 +164,48 @@ class ProfileFallbackTest(unittest.TestCase):
                 "album_dates": ["2025.03.21", "2024.06.12"]}
         row = ca.to_row("3810290", ca.parse_melon_artist(page), AT)
         self.assertEqual((row["artist_text"], row["first_release_date"], row["fan_count"]), ("오예본", "2024-06-12", "47"))
+
+
+class OwnReleaseTest(unittest.TestCase):
+    """앨범 목록의 가장 오래된 날짜가 남의 음반(참여·피처링·소속 밴드 음반)이면 첫 발매일이 실제보다 훨씬 이르게 잡힌다
+    (예: 인디 성현 — 본인 EP 2025-10-22, 소속 밴드 검은잎들 음반 2016~). 앨범의 아티스트 링크에 그 팀 번호가 있는 음반만
+    '본인 음반'으로 보고 first_release_own 에 따로 저장한다."""
+
+    def test_own_first_release_ignores_other_artists_albums(self):
+        page = {**NEWBIE, "album_dates": ["2026.09.08", "2025.10.22", "2016.11.16"],
+                "own_dates": ["2026.09.08", "2025.10.22"]}
+        prof = ca.parse_melon_artist(page)
+        self.assertEqual(prof["first_release_date"], "2016-11-16")     # 예전 칸은 그대로 (전체 앨범 기준)
+        self.assertEqual(prof["first_release_own"], "2025-10-22")
+
+    def test_old_pages_without_own_dates_leave_own_blank(self):
+        self.assertEqual(ca.parse_melon_artist(PAGE)["first_release_own"], "")
+
+    def test_album_js_collects_own_dates_by_artist_id(self):
+        js = ca._js(["4633954"])
+        self.assertIn("own_dates", js)
+        self.assertIn("goArtistDetail", js)
+
+    def test_row_with_own_release_validates(self):
+        page = {**PAGE, "own_dates": ["2007.03.15"]}
+        row = ca.to_row("100", ca.parse_melon_artist(page), AT)
+        self.assertEqual(row["first_release_own"], "2007-03-15")
+        with tempfile.TemporaryDirectory() as d:
+            path = ca.write_csv([row], Path(d), "2026-11-28")
+            self.assertEqual([i for i in validate_csv.validate_file(path) if i.level == "error"], [])
+
+
+class IdsFileTest(unittest.TestCase):
+    """--ids-file: 번호 목록의 프로필을 다시 받기 (본인 음반 첫 발매일 의심 사례 재수집 — data/raw/review/own_release_refetch_ids.txt)."""
+
+    def test_ids_file_refetches_listed_ids(self):
+        from unittest import mock
+        with tempfile.TemporaryDirectory() as d:
+            f = Path(d) / "ids.txt"
+            f.write_text("4633954\n\n 1234567 \nabc\n", encoding="utf-8")
+            with mock.patch.object(ca, "refresh_profiles", return_value=2) as rp:
+                self.assertEqual(ca.main(["--ids-file", str(f)]), 0)
+            rp.assert_called_once_with(["4633954", "1234567"])   # 숫자 번호만, 순서 유지
 
 
 class ResilienceTest(unittest.TestCase):

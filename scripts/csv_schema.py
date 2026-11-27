@@ -132,6 +132,7 @@ TABLES = {
             F("fan_count", "int0"),    # 그날의 팬(좋아요) 수 — 3단계 반응 지표로도 씀
             F("album_count", "int0"),  # 플랫폼에 올라온 앨범 수 (신인 기준: 5개 이하)
             F("first_release_date", "date_partial"),  # 앨범 목록의 가장 오래된 발매일 (데뷔일이 빈 팀 보완)
+            F("first_release_own", "date_partial"),   # 본인 음반만(앨범 아티스트에 이 팀 번호가 있는 음반) 가장 오래된 발매일 — 참여·소속 밴드 음반 제외 (2026-11-28, 없으면 빈칸)
             F("youtube_url", "url"),   # 아티스트 페이지에 걸린 유튜브 채널 (3단계 유튜브 지표 대상)
             F("url", "url", True),
             F("artist_key"),
@@ -189,6 +190,7 @@ TABLES = {
             F("pick_label"),
             F("artist_handle", "handle"),      # 태그된 아티스트 인스타 계정 (이름 맞추기의 핵심 열쇠)
             F("is_sponsored", "flag01"),       # 협찬·광고 글이면 1 → 신호에서 제외
+            F("genre"),                        # 매체가 붙인 장르 글자(음악취향Y '장르'·overtone 'Genre'·VISLA 장르 태그, 2026-11-28~)
         ],
         "key": ("url", "artist_text"),
     },

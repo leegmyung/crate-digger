@@ -18,6 +18,8 @@
   이름 키가 정확히 같은 팀에 넣는다(확신 high, source 표시, 동명·차단 번호 제외). 못 찾으면 이유를
   data/raw/state/melon_search_misses.json 에 결과 0건(empty, 7일 뒤 재시도) / 이름 불일치(mismatch, 후보 목록 저장, 30일)로 남기고,
   불일치는 괄호·'/'로 나뉜 부분과 영문 별칭까지 본 느슨한 키로 한 번 더 맞춘다(loose=True). 영문으로 찾으면 한글 이름 기록도 채운다.
+- 앨범 목록에서 앨범 아티스트 링크에 그 팀 번호가 있는 음반만 '본인 음반'으로 보고 first_release_own 에 따로 남긴다
+  (참여·피처링·소속 밴드 음반이 첫 발매일을 앞당기는 문제, 2026-11-28). --ids-file 로 번호 목록을 다시 받을 수 있다.
 - 형식: docs/csv_spec.md / scripts/csv_schema.py raw_artist_profile
 """
 import argparse
@@ -108,6 +110,8 @@ def parse_melon_artist(page):
         "fan_count": re.sub(r"\D", "", page.get("fan", "") or ""),
         "album_count": albums.group(1) if albums else "",
         "first_release_date": min((d for d in map(_date, page.get("album_dates") or []) if d), default=""),
+        # 본인 음반만 — 앨범 아티스트 링크에 이 팀 번호가 있는 음반 (참여·피처링·소속 밴드 음반 제외, 옛 페이지면 빈칸)
+        "first_release_own": min((d for d in map(_date, page.get("own_dates") or []) if d), default=""),
         "youtube_url": next((m.group(0) for t in dl if (m := YOUTUBE.search(t))), ""),
     }
 
@@ -186,10 +190,15 @@ def _js(ids):
       if (!p.info) {{ t = await openTab({json.dumps(ARTIST_FALLBACK_URL)}.replace('{{id}}', id)); await sleep({PAGE_WAIT_MS}); p = await readInfo(t); await closeTab(t); }}
       t = await openTab({json.dumps(ALBUM_URL)}.replace('{{id}}', id)); await sleep({PAGE_WAIT_MS});
       p.albums = (await t.evaluate(() => (document.body.innerText.match(/앨범\\s*\\(\\s*\\d+\\s*\\)/) || [''])[0]));
-      const dates = () => t.evaluate(() => [...document.querySelectorAll('.cnt_view')].map(e => e.innerText.trim()));
-      p.album_dates = await dates();
+      // 앨범마다 [발매일, 이 팀 번호가 앨범 아티스트에 있나] — goArtistDetail('번호') 링크로 판단 (동명이 아니라 번호로)
+      const items = () => t.evaluate((aid) => [...document.querySelectorAll('.cnt_view')].map(e => {{
+        const li = e.closest('li'); const ids = li ? [...li.querySelectorAll('a[href*="goArtistDetail"]')].map(a => ((a.getAttribute('href') || '').match(/goArtistDetail\\(['"]?(\\d+)/) || [])[1]) : [];
+        return [e.innerText.trim(), ids.includes(aid)]; }}), id);
+      let its = await items();
       const more = await t.evaluate(() => {{ const b = document.querySelector('.paginate a.btn_last'); if (b && !b.classList.contains('disabled')) {{ b.click(); return true; }} return false; }});
-      if (more) {{ await sleep({PAGE_WAIT_MS}); p.album_dates = p.album_dates.concat(await dates()); }}
+      if (more) {{ await sleep({PAGE_WAIT_MS}); its = its.concat(await items()); }}
+      p.album_dates = its.map(x => x[0]);
+      p.own_dates = its.filter(x => x[1]).map(x => x[0]);
       await closeTab(t);
       out[id] = p;
     }} catch (e) {{ out[id] = {{}}; }}
@@ -536,7 +545,17 @@ def main(argv):
     ap.add_argument("--limit", type=int, default=DEFAULT_LIMIT)
     ap.add_argument("--from-outcomes", action="store_true", help="정답 명단 팀을 멜론에서 찾아 프로필 받기 (백테스트용)")
     ap.add_argument("--names-file", help="한 줄에 팀 이름 하나 — 멜론에서 찾아 프로필 받기 (후보 팀 유명도 판별용)")
+    ap.add_argument("--ids-file", help="한 줄에 멜론 아티스트 번호 하나 — 그 프로필을 다시 받기 (예: 본인 음반 첫 발매일 재수집)")
     args = ap.parse_args(argv)
+    if args.ids_file:
+        ids = [x.strip() for x in Path(args.ids_file).read_text(encoding="utf-8").splitlines() if x.strip().isdigit()]
+        try:
+            n_rows = refresh_profiles(ids)
+        except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError) as e:
+            print(f"⚠️ 번호 목록 프로필 다시 받기 실패: {e}")
+            return 1
+        print(f"✅ 번호 목록 프로필 다시 받기: {len(ids)}개 → {n_rows}행")
+        return 0
     if args.refresh:
         try:
             n_watch, n_due, n_rows = collect_refresh(min(args.limit, REFRESH_LIMIT) if args.limit != DEFAULT_LIMIT else REFRESH_LIMIT,

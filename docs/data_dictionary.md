@@ -62,7 +62,7 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `primary_genre` | 대표 장르 (사람이 확인한 장르 config/genre_overrides.json 이 있으면 그것, 빈칸은 추정으로 채움 — genre_confidence) | — |
 | `agency` | 소속사 | — |
 | `newcomer_check` | 신인 판정 확인 상태 — verified 첫 발매일 있음(사람 확인 데뷔일 포함) / unverified 첫 발매일 없고 그 팀을 처음 본 출처의 수집 시작 90일 안에 처음 봄(그 전부터 활동했을 수 있어 신인인지 확실치 않음) / first_seen 첫 발매일 없고 그 뒤에 처음 봄. 표시용 — 점수·후보군엔 안 씀 | — |
-| `genre_confidence` | 대표 장르의 확신도 — profile 멜론·발매 장르·사람 확인 / press 확실한 출처 힌트(리드머·밴드 디스커버리) / inferred 같은 무대 다수결·공연장 성향·약한 출처 힌트로 추정(docs/genre_fill.md) / 빈칸 모름 | — |
+| `genre_confidence` | 대표 장르의 확신도 — profile 멜론·발매 장르·사람 확인 / press 매체 리뷰 장르(음악취향Y·overtone·VISLA)·확실한 출처 힌트(리드머·밴드 디스커버리) / inferred 같은 무대 다수결·공연장 성향·약한 출처 힌트로 추정 / inferred_low 같은 무대에 장르 아는 팀이 1팀뿐(확신 낮음) — 추정 두 가지는 앱 필터·표시에만, 비교·분석엔 안 씀(docs/genre_fill.md) / 빈칸 모름 | — |
 
 ### `outcomes`
 
@@ -180,7 +180,8 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `nationality` | 국적 | 글자 |
 | `fan_count` | 플랫폼 팬(좋아요) 수, 명 | 정수(0 이상) |
 | `album_count` | 플랫폼에 올라온 앨범 수(싱글 포함), 개 | 정수(0 이상) |
-| `first_release_date` | 가장 오래된 발매일 | 날짜(연·월만도 가능) |
+| `first_release_date` | 가장 오래된 발매일 (앨범 목록 전체 — 참여·소속 밴드 음반 포함) | 날짜(연·월만도 가능) |
+| `first_release_own` | 본인 음반만의 가장 오래된 발매일 (앨범 아티스트에 이 팀 번호가 있는 음반, 2026-11-28부터, 없으면 빈칸) | 날짜(연·월만도 가능) |
 | `youtube_url` | 아티스트 페이지에 걸린 유튜브 채널 주소 | 주소(URL) |
 | `url` | 원문 주소 | 주소(URL) |
 | `artist_key` | 정규화한 이름 키 (공백·기호 제거, 소문자) | 글자 |
@@ -255,6 +256,7 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `pick_label` | 추천 꼭지 이름 (venue_lineup = 공연장 라인업 공지 → 공연 갈래로 셈) | 글자 |
 | `artist_handle` | 태그된 아티스트 인스타 계정 | 인스타 계정명 |
 | `is_sponsored` | 협찬·광고 글이면 1 (신호에서 뺌) | 0/1 |
+| `genre` | 장르 (여러 개면 |) | 글자 |
 
 ### `raw_kr_selection`
 
@@ -343,7 +345,7 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `collected_at` | 수집한 시각 | — |
 | `partner_spotify_id` | 상대 스포티파이 번호 | — |
 | `partner_name` | 협업 상대 이름 | — |
-| `first_release_date` | 가장 오래된 발매일 | — |
+| `first_release_date` | 가장 오래된 발매일 (앨범 목록 전체 — 참여·소속 밴드 음반 포함) | — |
 | `album_count` | 플랫폼에 올라온 앨범 수(싱글 포함), 개 | — |
 | `edge_count` | 우리 팀들과의 협업 곡 수 | — |
 

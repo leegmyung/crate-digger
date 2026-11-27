@@ -37,7 +37,9 @@ COLUMN_DOC: Dict[str, str] = {
     "debut_date": "데뷔일", "debut_title": "데뷔 곡·앨범", "activity_type": "활동 유형 (솔로·그룹 등)",
     "agency_text": "소속사", "agency": "소속사", "genre": "장르 (여러 개면 |)", "nationality": "국적",
     "fan_count": "플랫폼 팬(좋아요) 수, 명", "album_count": "플랫폼에 올라온 앨범 수(싱글 포함), 개",
-    "first_release_date": "가장 오래된 발매일", "youtube_url": "아티스트 페이지에 걸린 유튜브 채널 주소",
+    "first_release_date": "가장 오래된 발매일 (앨범 목록 전체 — 참여·소속 밴드 음반 포함)",
+    "first_release_own": "본인 음반만의 가장 오래된 발매일 (앨범 아티스트에 이 팀 번호가 있는 음반, 2026-11-28부터, 없으면 빈칸)",
+    "youtube_url": "아티스트 페이지에 걸린 유튜브 채널 주소",
     "released_at": "발매일", "title_key": "정규화한 제목 키 (여러 플랫폼 동시 발매 묶기)",
     "release_type": "발매 형태 (single·EP·LP 등)", "label_text": "기획사·레이블", "track_count": "수록곡 수, 곡",
     "release_url": "발매 페이지 주소", "distributor_text": "유통사",
@@ -62,8 +64,9 @@ COLUMN_DOC: Dict[str, str] = {
                       "그 팀을 처음 본 출처의 수집 시작 90일 안에 처음 봄(그 전부터 활동했을 수 있어 신인인지 확실치 않음) / "
                       "first_seen 첫 발매일 없고 그 뒤에 처음 봄. 표시용 — 점수·후보군엔 안 씀",
     "primary_genre": "대표 장르 (사람이 확인한 장르 config/genre_overrides.json 이 있으면 그것, 빈칸은 추정으로 채움 — genre_confidence)",
-    "genre_confidence": "대표 장르의 확신도 — profile 멜론·발매 장르·사람 확인 / press 확실한 출처 힌트(리드머·밴드 디스커버리) / "
-                        "inferred 같은 무대 다수결·공연장 성향·약한 출처 힌트로 추정(docs/genre_fill.md) / 빈칸 모름", "program_label": "프로그램 한글 이름", "tier": "정답 단계 (final 최종 / mid 중간)",
+    "genre_confidence": "대표 장르의 확신도 — profile 멜론·발매 장르·사람 확인 / press 매체 리뷰 장르(음악취향Y·overtone·VISLA)·확실한 출처 힌트(리드머·밴드 디스커버리) / "
+                        "inferred 같은 무대 다수결·공연장 성향·약한 출처 힌트로 추정 / inferred_low 같은 무대에 장르 아는 팀이 1팀뿐(확신 낮음) — "
+                        "추정 두 가지는 앱 필터·표시에만, 비교·분석엔 안 씀(docs/genre_fill.md) / 빈칸 모름", "program_label": "프로그램 한글 이름", "tier": "정답 단계 (final 최종 / mid 중간)",
     "announced_date": "정답 발표일 (일부만 알면 기간의 첫날 — 보수적)", "counted": "센 정답인지 (기성 팀 연차 규칙 통과) true/false",
     "grade": "정답 등급 S·A·B", "weight": "정답 등급 가중치 (S=3·A=2·B=1)",
     "platform": "플랫폼 (spotify·melon·instagram·youtube 등)", "kind": "영상 종류 (stage 무대·official_live·official·search)",
