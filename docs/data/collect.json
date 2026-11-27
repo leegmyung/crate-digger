@@ -1,75 +1,229 @@
 {
- "generated": "2026-11-26T21:38:46+09:00",
+ "generated": "2026-11-27T13:36:07+09:00",
  "runs": [
+  {
+   "date": "2026-11-27",
+   "source": "visla",
+   "table": "raw_press",
+   "rows": 1063,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-27",
+   "source": "overtone",
+   "table": "raw_press",
+   "rows": 503,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-27",
+   "source": "melon",
+   "table": "raw_artist_profile",
+   "rows": 205,
+   "file_ok": true,
+   "prev_rows": 83
+  },
+  {
+   "date": "2026-11-27",
+   "source": "manual",
+   "table": "raw_outcome",
+   "rows": 505,
+   "file_ok": true,
+   "prev_rows": 240
+  },
+  {
+   "date": "2026-11-27",
+   "source": "instagram",
+   "table": "raw_artist_profile",
+   "rows": 19,
+   "file_ok": true,
+   "prev_rows": 107
+  },
+  {
+   "date": "2026-11-26",
+   "source": "yjh",
+   "table": "raw_kr_selection",
+   "rows": 349,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-26",
+   "source": "weiv",
+   "table": "raw_press",
+   "rows": 19,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-26",
+   "source": "spotify",
+   "table": "raw_artist_profile",
+   "rows": 43,
+   "file_ok": true,
+   "prev_rows": null
+  },
   {
    "date": "2026-11-26",
    "source": "sejong",
    "table": "raw_kr_selection",
    "rows": 36,
-   "file_ok": true
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-26",
+   "source": "sangsangmadang",
+   "table": "raw_kr_gig",
+   "rows": 849,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-26",
+   "source": "sangsangmadang",
+   "table": "raw_kr_selection",
+   "rows": 118,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-26",
+   "source": "rhythmer",
+   "table": "raw_press",
+   "rows": 111,
+   "file_ok": true,
+   "prev_rows": null
   },
   {
    "date": "2026-11-26",
    "source": "poclanos",
    "table": "raw_kr_release",
    "rows": 33,
-   "file_ok": true
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-26",
+   "source": "musicy",
+   "table": "raw_press",
+   "rows": 1053,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-26",
+   "source": "melon",
+   "table": "raw_artist_profile",
+   "rows": 83,
+   "file_ok": true,
+   "prev_rows": null
   },
   {
    "date": "2026-11-26",
    "source": "melon",
    "table": "raw_kr_release",
-   "rows": 20,
-   "file_ok": true
+   "rows": 62,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-26",
+   "source": "manual",
+   "table": "raw_outcome",
+   "rows": 240,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-26",
+   "source": "izm",
+   "table": "raw_press",
+   "rows": 1342,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-26",
+   "source": "instagram",
+   "table": "raw_artist_profile",
+   "rows": 107,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-26",
+   "source": "instagram",
+   "table": "raw_press",
+   "rows": 121,
+   "file_ok": true,
+   "prev_rows": null
   },
   {
    "date": "2026-11-26",
    "source": "indistreet",
    "table": "raw_kr_gig",
-   "rows": 546,
-   "file_ok": true
+   "rows": 14192,
+   "file_ok": true,
+   "prev_rows": null
   },
   {
    "date": "2026-11-26",
    "source": "indiego",
    "table": "raw_kr_gig",
    "rows": 427,
-   "file_ok": true
+   "file_ok": true,
+   "prev_rows": null
   },
   {
    "date": "2026-11-26",
    "source": "genie",
    "table": "raw_kr_release",
    "rows": 46,
-   "file_ok": true
+   "file_ok": true,
+   "prev_rows": null
   },
   {
    "date": "2026-11-26",
    "source": "gb",
    "table": "raw_kr_selection",
    "rows": 33,
-   "file_ok": true
+   "file_ok": true,
+   "prev_rows": null
   },
   {
    "date": "2026-11-26",
    "source": "flo",
    "table": "raw_kr_release",
    "rows": 39,
-   "file_ok": true
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-26",
+   "source": "dmz",
+   "table": "raw_kr_selection",
+   "rows": 152,
+   "file_ok": true,
+   "prev_rows": null
   },
   {
    "date": "2026-11-26",
    "source": "busan",
    "table": "raw_kr_selection",
    "rows": 13,
-   "file_ok": true
+   "file_ok": true,
+   "prev_rows": null
   },
   {
    "date": "2026-11-26",
    "source": "bugs",
    "table": "raw_kr_release",
    "rows": 70,
-   "file_ok": true
+   "file_ok": true,
+   "prev_rows": null
   }
  ],
  "recent_releases": [
@@ -555,322 +709,6 @@
   }
  ],
  "upcoming_gigs": [
-  {
-   "date": "2026-11-26",
-   "time": "09:30",
-   "venue": "프리즘홀",
-   "title": "BOUND RUSH vol.6",
-   "artists": [
-    "asteria",
-    "BE++ER!!",
-    "ふる~Chu",
-    "H7KD",
-    "solanin",
-    "NO LiMIT",
-    "the BOUND"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-26-bound-rush-vol.6-c20fguxbuvhc8nm6qmozcyr3"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "10:00",
-   "venue": "이화여자대학교 삼성홀",
-   "title": "노래하는 시인 박인희 콘서트 [서울] (11/26)",
-   "artists": [
-    "박인희"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-26-%EB%85%B8%EB%9E%98%ED%95%98%EB%8A%94-%EC%8B%9C%EC%9D%B8-%EB%B0%95%EC%9D%B8%ED%9D%AC-%EC%BD%98%EC%84%9C%ED%8A%B8-%EC%84%9C%EC%9A%B8-1126-doyp4fygtwysv13gfd7maeou"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "10:30",
-   "venue": "A.O.R",
-   "title": "A.O.R CRAZY THURSDAY",
-   "artists": [
-    "일루반",
-    "에브리데이먼데이",
-    "FLEET",
-    "블루화",
-    "다다다"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-26-a.o.r-crazy-thursday-ojflagzuq956one43iuq9ftr"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "10:30",
-   "venue": "거암아트홀",
-   "title": "유성은 재즈콘서트",
-   "artists": [
-    "유성은"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-26-%EC%9C%A0%EC%84%B1%EC%9D%80-%EC%9E%AC%EC%A6%88%EC%BD%98%EC%84%9C%ED%8A%B8-l21cldvachpl83auq60v7rly"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "10:30",
-   "venue": "언플러그드 라운지",
-   "title": "항해",
-   "artists": [
-    "기묘말",
-    "정세영"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-26-%ED%95%AD%ED%95%B4-bavjdr2z1avxx3j8vmxehvff"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "10:30",
-   "venue": "엠피엠지",
-   "title": "78LIVE, kwacamolee",
-   "artists": [
-    "kwacamolee"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-26-78live-kwacamolee-iqwr1dz0eity874s3aewq002"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "10:30",
-   "venue": "우주정거장",
-   "title": "홍대우주정거장 OPEN MIC 공연",
-   "artists": [
-    "송규범",
-    "루시엔",
-    "채민",
-    "소년중앙"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-26-%ED%99%8D%EB%8C%80%EC%9A%B0%EC%A3%BC%EC%A0%95%EA%B1%B0%EC%9E%A5-open-mic-%EA%B3%B5%EC%97%B0-eti1b84atjhlxw0lg56nuxji"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "11:00",
-   "venue": "Club FF",
-   "title": "Thursday Vibes",
-   "artists": [
-    "Sern",
-    "만다린 쥬스",
-    "사양",
-    "아더",
-    "레고",
-    "제임스키스"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-26-thursday-vibes-g0iv79466ww2u4k9lk170q52"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "11:00",
-   "venue": "공상온도",
-   "title": "먼데이프로젝트 IN 라이브클럽, Mombrimz 단독콘서트",
-   "artists": [
-    "MOMBRIMZ"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-26-%EB%A8%BC%EB%8D%B0%EC%9D%B4%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-in-%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%81%B4%EB%9F%BD-mombrimz-%EB%8B%A8%EB%8F%85%EC%BD%98%EC%84%9C%ED%8A%B8-rungxk3vk7o4enrytviw61p8"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "11:00",
-   "venue": "무신사개러지",
-   "title": "2026 ASIAN POP STAGE vol.1",
-   "artists": [
-    "문수진",
-    "Mỹ Anh"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-26-2026-asian-pop-stage-vol.1-a5lzu4o76wmpktopq1toaw8m"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "11:00",
-   "venue": "숲세권 라이브 카인드스퀘어점",
-   "title": "숲세권 라이브, 가비엔제이 단독 공연: 해바라기",
-   "artists": [
-    "가비엔제이"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-26-%EC%88%B2%EC%84%B8%EA%B6%8C-%EB%9D%BC%EC%9D%B4%EB%B8%8C-%EA%B0%80%EB%B9%84%EC%97%94%EC%A0%9C%EC%9D%B4-%EB%8B%A8%EB%8F%85-%EA%B3%B5%EC%97%B0-%ED%95%B4%EB%B0%94%EB%9D%BC%EA%B8%B0-tncri1hq0eypuwv89yc7bfyy"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "11:00",
-   "venue": "재즈클럽 그루브",
-   "title": "그루브재즈데이, Groove in November (11/26)",
-   "artists": [
-    "Groover Kim &amp; Jazzup Band"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-26-%EA%B7%B8%EB%A3%A8%EB%B8%8C%EC%9E%AC%EC%A6%88%EB%8D%B0%EC%9D%B4-groove-in-november-1126-mly4qbnlzw9ligj6fmalu16i"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "11:00",
-   "venue": "채널1969",
-   "title": "목요음악생활 (11/26)",
-   "artists": [
-    "그늘춤"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-26-%EB%AA%A9%EC%9A%94%EC%9D%8C%EC%95%85%EC%83%9D%ED%99%9C-1126-q59htblt8vlxpecxqbhr9qvt"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "11:00",
-   "venue": "카페 언플러그드 홍대점",
-   "title": "언플러그드 오픈스테이지",
-   "artists": [
-    "Lemon Radio",
-    "On",
-    "본하"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-26-%EC%96%B8%ED%94%8C%EB%9F%AC%EA%B7%B8%EB%93%9C-%EC%98%A4%ED%94%88%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80-k4iq8tdk564sk9y6s5zeppk9"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "19:00",
-   "venue": "클럽FF",
-   "title": "Thursday Vibes",
-   "artists": [
-    "사양",
-    "레고",
-    "아더",
-    "제임스키스",
-    "서른",
-    "만다린쥬스"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/2001-thursday-vibes"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "19:30",
-   "venue": "AOR",
-   "title": "A.O.R CRAZY THURSDAY",
-   "artists": [
-    "일루반",
-    "에브리데이먼데이",
-    "플릿",
-    "블루화",
-    "다다다"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1741-a-o-r-crazy-thursday"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "19:30",
-   "venue": "언플러그드 라운지",
-   "title": "항해",
-   "artists": [
-    "기묘말",
-    "김준경",
-    "정세영"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1710-%ED%95%AD%ED%95%B4"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "19:30",
-   "venue": "클럽 빵",
-   "title": "먼 바다에서 만남",
-   "artists": [
-    "채소현",
-    "뚜루스",
-    "스틱키레몬슈거",
-    "금넉재",
-    "엘리워드"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1995-%EB%A8%BC-%EB%B0%94%EB%8B%A4%EC%97%90%EC%84%9C-%EB%A7%8C%EB%82%A8"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "20:00",
-   "venue": "CJ아지트",
-   "title": "KKON TANGO",
-   "artists": [
-    "연하늘"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/2049-kkon-tango"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "20:00",
-   "venue": "고요의 방",
-   "title": "싱어송라이터의 밤 #49",
-   "artists": [
-    "김다혜",
-    "민규리",
-    "오현성"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1980-%EC%8B%B1%EC%96%B4%EC%86%A1%EB%9D%BC%EC%9D%B4%ED%84%B0%EC%9D%98-%EB%B0%A4-49"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "20:00",
-   "venue": "공상온도",
-   "title": "먼데이프로젝트 IN 라이브클럽 : WE ARE ALIVE",
-   "artists": [
-    "맘브림즈"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1669-%EB%A8%BC%EB%8D%B0%EC%9D%B4%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-in-%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%81%B4%EB%9F%BD-we-are-alive"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "20:00",
-   "venue": "무신사 개러지",
-   "title": "2026 ASIAN POP STAGE vol.1",
-   "artists": [
-    "문수진"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1572-2026-asian-pop-stage-vol-1"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "20:00",
-   "venue": "언플러그드",
-   "title": "언플러그드 오픈스테이지",
-   "artists": [
-    "On",
-    "본하",
-    "Lemon Radio"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1877-%EC%96%B8%ED%94%8C%EB%9F%AC%EA%B7%B8%EB%93%9C-%EC%98%A4%ED%94%88%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "20:00",
-   "venue": "제비다방",
-   "title": "Nyteh",
-   "artists": [
-    "나이테"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/2027-nyteh"
-  },
-  {
-   "date": "2026-11-26",
-   "time": "20:30",
-   "venue": "록집",
-   "title": "목요.일상.록집 vol.4",
-   "artists": [
-    "서지영"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/2009-%EB%AA%A9%EC%9A%94-%EC%9D%BC%EC%83%81-%EB%A1%9D%EC%A7%91-vol-4"
-  },
   {
    "date": "2026-11-27",
    "time": "09:00",
@@ -3048,749 +2886,2489 @@
    ],
    "source": "indiego",
    "url": "https://www.indiego.co.kr/events/2015-%EC%A1%B0%EA%B8%88%EC%9D%80-%EC%9D%B4%EB%A5%B8-%EC%97%B0%EB%A7%90%ED%8C%8C%ED%8B%B0"
+  },
+  {
+   "date": "2026-12-11",
+   "time": "",
+   "venue": "KT&G 상상마당 홍대 라이브홀",
+   "title": "2026 김마리 연말 단독 콘서트 <MARIE Christmas>",
+   "artists": [
+    "김마리"
+   ],
+   "source": "sangsangmadang",
+   "url": "https://www.sangsangmadang.com/show/detail/3216"
+  },
+  {
+   "date": "2026-12-12",
+   "time": "",
+   "venue": "KT&G 상상마당 홍대 라이브홀",
+   "title": "찬민 EP 발매기념 단독공연 「呼吸法 호흡법」",
+   "artists": [
+    "찬민"
+   ],
+   "source": "sangsangmadang",
+   "url": "https://www.sangsangmadang.com/show/detail/3217"
+  },
+  {
+   "date": "2026-12-12",
+   "time": "18:00",
+   "venue": "KT&G 상상마당 부산 3F 라이브홀",
+   "title": "밴드기린 단독 콘서트 MADE IN BUSAN - 틀림없이 빠짐없이 너! 너! 너!",
+   "artists": [
+    "밴드기린"
+   ],
+   "source": "sangsangmadang",
+   "url": "https://www.sangsangmadang.com/show/detail/3210"
+  },
+  {
+   "date": "2026-12-20",
+   "time": "",
+   "venue": "KT&G 상상마당 홍대 라이브홀",
+   "title": "9와 숫자들 연말공연 〈상상 and the Numbers〉",
+   "artists": [
+    "9와 숫자들"
+   ],
+   "source": "sangsangmadang",
+   "url": "https://www.sangsangmadang.com/show/detail/3218"
+  },
+  {
+   "date": "2026-12-26",
+   "time": "",
+   "venue": "KT&G 상상마당 홍대 라이브홀",
+   "title": "이고도 정규 1집 발매 기념 단독 공연 <외곽의 사람>",
+   "artists": [
+    "이고도"
+   ],
+   "source": "sangsangmadang",
+   "url": "https://www.sangsangmadang.com/show/detail/3219"
+  },
+  {
+   "date": "2026-12-27",
+   "time": "",
+   "venue": "KT&G 상상마당 홍대 라이브홀",
+   "title": "2026 오지은 연말 콘서트 <겨울의 빛>",
+   "artists": [
+    "오지은"
+   ],
+   "source": "sangsangmadang",
+   "url": "https://www.sangsangmadang.com/show/detail/3220"
+  },
+  {
+   "date": "2027-01-02",
+   "time": "18:00",
+   "venue": "KT&G 상상마당 부산 3F 라이브홀",
+   "title": "2027 조규찬 콘서트-Hello, Again 부산",
+   "artists": [
+    "조규찬"
+   ],
+   "source": "sangsangmadang",
+   "url": "https://www.sangsangmadang.com/show/detail/3212"
   }
  ],
  "selections": [
   {
-   "program": "gb_creation",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "9회",
    "stage": "selected",
-   "announced_at": "2026-11-17",
-   "artist": "버닝룸",
-   "url": "https://054soundville.or.kr/project/%eb%b2%84%eb%8b%9d%eb%a3%b8ignition/"
+   "announced_at": "1997",
+   "artist": "김혜능",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "9회",
    "stage": "selected",
-   "announced_at": "2026-11-17",
-   "artist": "방구석아이돌",
-   "url": "https://054soundville.or.kr/project/%eb%b0%a9%ea%b5%ac%ec%84%9d%ec%95%84%ec%9d%b4%eb%8f%8c%ed%87%b4%ec%82%ac%eb%aa%bd/"
+   "announced_at": "1997",
+   "artist": "김세진",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "9회",
    "stage": "selected",
-   "announced_at": "2026-11-17",
-   "artist": "베어로즈",
-   "url": "https://054soundville.or.kr/project/%eb%b2%a0%ec%96%b4%eb%a1%9c%ec%a6%88%ea%b7%b8%eb%a6%bc%ec%9e%90/"
+   "announced_at": "1997",
+   "artist": "조성빈",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "9회",
    "stage": "selected",
-   "announced_at": "2026-10-27",
-   "artist": "Pine.",
-   "url": "https://054soundville.or.kr/project/pine-im-pine-thank-you-and-you/"
+   "announced_at": "1997",
+   "artist": "전영호",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "9회",
    "stage": "selected",
-   "announced_at": "2026-10-27",
-   "artist": "여름밤잔디",
-   "url": "https://054soundville.or.kr/project/%ec%97%ac%eb%a6%84%eb%b0%a4%ec%9e%94%eb%94%94talk/"
+   "announced_at": "1997",
+   "artist": "김성하",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "9회",
    "stage": "selected",
-   "announced_at": "2026-10-26",
-   "artist": "GR2N",
-   "url": "https://054soundville.or.kr/project/10422/"
+   "announced_at": "1997",
+   "artist": "신병준",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "9회",
    "stage": "selected",
-   "announced_at": "2026-04",
-   "artist": "키라라",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=379"
+   "announced_at": "1997",
+   "artist": "이상협",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "9회",
    "stage": "selected",
-   "announced_at": "2026-04",
-   "artist": "올디 벗 구디",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=378"
+   "announced_at": "1997",
+   "artist": "김세운",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "9회",
    "stage": "selected",
-   "announced_at": "2026-04",
-   "artist": "언제(unjae)",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=377"
+   "announced_at": "1997",
+   "artist": "이승한",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "9회",
    "stage": "selected",
-   "announced_at": "2026-04",
-   "artist": "모래",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=376"
+   "announced_at": "1997",
+   "artist": "강민형",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "burock_rookies",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "8회",
    "stage": "selected",
-   "announced_at": "2026",
-   "artist": "김푸름",
-   "url": "https://web.archive.org/web/20260813030423/https://busanrockfestival.com/ROOKIES/"
+   "announced_at": "1996",
+   "artist": "정지찬",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "burock_rookies",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "8회",
    "stage": "selected",
-   "announced_at": "2026",
-   "artist": "데이네버체인지",
-   "url": "https://web.archive.org/web/20260813030423/https://busanrockfestival.com/ROOKIES/"
+   "announced_at": "1996",
+   "artist": "김경식",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "burock_rookies",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "8회",
    "stage": "selected",
-   "announced_at": "2026",
-   "artist": "베이루트택시",
-   "url": "https://web.archive.org/web/20260813030423/https://busanrockfestival.com/ROOKIES/"
+   "announced_at": "1996",
+   "artist": "신경호",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "burock_rookies",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "8회",
    "stage": "selected",
-   "announced_at": "2026",
-   "artist": "시인을 위하여",
-   "url": "https://web.archive.org/web/20260813030423/https://busanrockfestival.com/ROOKIES/"
+   "announced_at": "1996",
+   "artist": "신현주",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "burock_rookies",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "8회",
    "stage": "selected",
-   "announced_at": "2026",
-   "artist": "아사달",
-   "url": "https://web.archive.org/web/20260813030423/https://busanrockfestival.com/ROOKIES/"
+   "announced_at": "1996",
+   "artist": "이원일",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "burock_rookies",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "8회",
    "stage": "selected",
-   "announced_at": "2026",
-   "artist": "Eddie and the Bricks",
-   "url": "https://web.archive.org/web/20260813030423/https://busanrockfestival.com/ROOKIES/"
+   "announced_at": "1996",
+   "artist": "김수지",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "burock_rookies",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "8회",
    "stage": "selected",
-   "announced_at": "2026",
-   "artist": "천둥오리",
-   "url": "https://web.archive.org/web/20260813030423/https://busanrockfestival.com/ROOKIES/"
+   "announced_at": "1996",
+   "artist": "임용순",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "burock_rookies",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "8회",
    "stage": "selected",
-   "announced_at": "2026",
-   "artist": "최춘목밴드",
-   "url": "https://web.archive.org/web/20260813030423/https://busanrockfestival.com/ROOKIES/"
+   "announced_at": "1996",
+   "artist": "지은영",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "burock_rookies",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "7회",
    "stage": "selected",
-   "announced_at": "2026",
-   "artist": "To More Raw",
-   "url": "https://web.archive.org/web/20260813030423/https://busanrockfestival.com/ROOKIES/"
+   "announced_at": "1995",
+   "artist": "나원주",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "burock_rookies",
-   "round": "2026",
+   "program": "yoojaeha_finalist",
+   "round": "7회",
    "stage": "selected",
-   "announced_at": "2026",
-   "artist": "포져군단",
-   "url": "https://web.archive.org/web/20260813030423/https://busanrockfestival.com/ROOKIES/"
+   "announced_at": "1995",
+   "artist": "김학철(김연우)",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "burock_rookies",
-   "round": "2026",
-   "stage": "final",
-   "announced_at": "2026",
-   "artist": "Eddie and the Bricks",
-   "url": "https://busanrockfestival.com/ROOKIES/"
-  },
-  {
-   "program": "burock_rookies",
-   "round": "2026",
-   "stage": "final",
-   "announced_at": "2026",
-   "artist": "데이네버체인지",
-   "url": "https://busanrockfestival.com/ROOKIES/"
-  },
-  {
-   "program": "burock_rookies",
-   "round": "2026",
-   "stage": "final",
-   "announced_at": "2026",
-   "artist": "아사달",
-   "url": "https://busanrockfestival.com/ROOKIES/"
-  },
-  {
-   "program": "gb_creation",
-   "round": "2025",
+   "program": "yoojaeha_finalist",
+   "round": "7회",
    "stage": "selected",
-   "announced_at": "2025-11-05",
-   "artist": "신중용",
-   "url": "https://054soundville.or.kr/project/%ec%8b%a0%ec%a4%91%ec%9a%a9i-wish/"
+   "announced_at": "1995",
+   "artist": "이재진",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2025",
+   "program": "yoojaeha_finalist",
+   "round": "7회",
    "stage": "selected",
-   "announced_at": "2025-11-04",
-   "artist": "베어로즈",
-   "url": "https://054soundville.or.kr/project/%eb%b2%a0%ec%96%b4%eb%a1%9c%ec%a6%88%ec%98%a4%eb%8a%98-%eb%84%88%ec%9d%98-%ed%95%98%eb%a3%a8%eb%8a%94/"
+   "announced_at": "1995",
+   "artist": "강민국",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2025",
+   "program": "yoojaeha_finalist",
+   "round": "7회",
    "stage": "selected",
-   "announced_at": "2025-11-04",
-   "artist": "쏘노로스",
-   "url": "https://054soundville.or.kr/project/%ec%8f%98%eb%85%b8%eb%a1%9c%ec%8a%a4%ec%96%b8%ec%a0%9c%eb%82%98-%ec%84%9c%eb%a1%9c%ec%97%90-%ea%b8%b0%eb%8c%80%ec%96%b4/"
+   "announced_at": "1995",
+   "artist": "황준익",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2025",
+   "program": "yoojaeha_finalist",
+   "round": "7회",
    "stage": "selected",
-   "announced_at": "2025-11-04",
-   "artist": "레트로폴리탄",
-   "url": "https://054soundville.or.kr/project/%eb%a0%88%ed%8a%b8%eb%a1%9c%ed%8f%b4%eb%a6%ac%ed%83%84switch/"
+   "announced_at": "1995",
+   "artist": "이종일",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2025",
+   "program": "yoojaeha_finalist",
+   "round": "7회",
    "stage": "selected",
-   "announced_at": "2025-05",
-   "artist": "Suitz",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=302"
+   "announced_at": "1995",
+   "artist": "김혁",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2025",
+   "program": "yoojaeha_finalist",
+   "round": "7회",
    "stage": "selected",
-   "announced_at": "2025-05",
-   "artist": "송선호",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=301"
+   "announced_at": "1995",
+   "artist": "김혁기",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2025",
+   "program": "yoojaeha_finalist",
+   "round": "6회",
    "stage": "selected",
-   "announced_at": "2025-05",
-   "artist": "서로다른",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=300"
+   "announced_at": "1994",
+   "artist": "곽상엽",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2025",
+   "program": "yoojaeha_finalist",
+   "round": "6회",
    "stage": "selected",
-   "announced_at": "2025-05",
-   "artist": "모꼬지",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=299"
+   "announced_at": "1994",
+   "artist": "이주영",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2024",
+   "program": "yoojaeha_finalist",
+   "round": "6회",
    "stage": "selected",
-   "announced_at": "2024-12-26",
-   "artist": "하늘호",
-   "url": "https://054soundville.or.kr/project/7578/"
+   "announced_at": "1994",
+   "artist": "황종률(블루앤블루)",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2024",
+   "program": "yoojaeha_finalist",
+   "round": "6회",
    "stage": "selected",
-   "announced_at": "2024-12-26",
-   "artist": "박시연트리오",
-   "url": "https://054soundville.or.kr/project/%f0%9f%92%bf%eb%b0%95%ec%8b%9c%ec%97%b0%ed%8a%b8%eb%a6%ac%ec%98%a4seo/"
+   "announced_at": "1994",
+   "artist": "방시혁",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2024",
+   "program": "yoojaeha_finalist",
+   "round": "6회",
    "stage": "selected",
-   "announced_at": "2024-12-26",
-   "artist": "루츠리딤",
-   "url": "https://054soundville.or.kr/project/%f0%9f%92%bf%eb%a3%a8%ec%b8%a0%eb%a6%ac%eb%94%a4%ec%a0%84%ec%9d%98/"
+   "announced_at": "1994",
+   "artist": "이유희",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2024",
+   "program": "yoojaeha_finalist",
+   "round": "6회",
    "stage": "selected",
-   "announced_at": "2024-12-26",
-   "artist": "7번국도",
-   "url": "https://054soundville.or.kr/project/%f0%9f%92%bf7%eb%b2%88%ea%b5%ad%eb%8f%84lovers-rocksteady/"
+   "announced_at": "1994",
+   "artist": "김재선",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2024",
+   "program": "yoojaeha_finalist",
+   "round": "6회",
    "stage": "selected",
-   "announced_at": "2024-12-26",
-   "artist": "여름밤잔디",
-   "url": "https://054soundville.or.kr/project/%f0%9f%92%bf%ec%97%ac%eb%a6%84%eb%b0%a4%ec%9e%94%eb%94%94%ec%97%ac%eb%a6%84%eb%b0%a4%ec%82%b0%ec%b1%85/"
+   "announced_at": "1994",
+   "artist": "오소영",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2024",
+   "program": "yoojaeha_finalist",
+   "round": "5회",
    "stage": "selected",
-   "announced_at": "2024-12-18",
-   "artist": "재우",
-   "url": "https://054soundville.or.kr/project/%f0%9f%92%bf%ec%9e%ac%ec%9a%b0%eb%8f%84%ec%99%80%ec%a3%bc%ec%84%b8%ec%9a%94/"
+   "announced_at": "1993",
+   "artist": "허성안, 지영수",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2024",
+   "program": "yoojaeha_finalist",
+   "round": "5회",
    "stage": "selected",
-   "announced_at": "2024-05",
-   "artist": "해와여름과밤",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=250"
+   "announced_at": "1993",
+   "artist": "김석준",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2024",
+   "program": "yoojaeha_finalist",
+   "round": "5회",
    "stage": "selected",
-   "announced_at": "2024-05",
-   "artist": "원조뫼를",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=249"
+   "announced_at": "1993",
+   "artist": "이승환, 이건호",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2024",
+   "program": "yoojaeha_finalist",
+   "round": "5회",
    "stage": "selected",
-   "announced_at": "2024-05",
-   "artist": "양치기소년단",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=248"
+   "announced_at": "1993",
+   "artist": "정수월",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2024",
+   "program": "yoojaeha_finalist",
+   "round": "5회",
    "stage": "selected",
-   "announced_at": "2024-05",
-   "artist": "안은선",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=245"
+   "announced_at": "1993",
+   "artist": "이규호",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2023",
+   "program": "yoojaeha_finalist",
+   "round": "5회",
    "stage": "selected",
-   "announced_at": "2023-11-30",
-   "artist": "밴드 7번국도",
-   "url": "https://054soundville.or.kr/project/6086/"
+   "announced_at": "1993",
+   "artist": "임두혁",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2023",
+   "program": "yoojaeha_finalist",
+   "round": "5회",
    "stage": "selected",
-   "announced_at": "2023-11-30",
-   "artist": "수안",
-   "url": "https://054soundville.or.kr/project/%f0%9f%92%bf-%ec%88%98-its-%e7%be%8e/"
+   "announced_at": "1993",
+   "artist": "이한철, 윤영배",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2023",
+   "program": "yoojaeha_finalist",
+   "round": "5회",
    "stage": "selected",
-   "announced_at": "2023-11-30",
-   "artist": "채왕록",
-   "url": "https://054soundville.or.kr/project/%f0%9f%92%bf-%ec%b1%84%ec%99%95%eb%a1%9d-%ec%8b%9c%ec%a0%90/"
+   "announced_at": "1993",
+   "artist": "조윤석(루시드폴)",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2023",
+   "program": "yoojaeha_finalist",
+   "round": "4회",
    "stage": "selected",
-   "announced_at": "2023-11-29",
-   "artist": "인컴플릿",
-   "url": "https://054soundville.or.kr/project/%f0%9f%92%bf-%ec%9d%b8%ec%bb%b4%ed%94%8c%eb%a6%bf-%eb%96%a0%eb%82%98%ec%9e%90/"
+   "announced_at": "1992",
+   "artist": "유희열",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2023",
+   "program": "yoojaeha_finalist",
+   "round": "4회",
    "stage": "selected",
-   "announced_at": "2023-11-24",
-   "artist": "밴드 다미",
-   "url": "https://054soundville.or.kr/project/%f0%9f%92%bf-%eb%b0%b4%eb%93%9c-%eb%8b%a4%eb%af%b8-%ea%b7%b8%eb%8c%80-%ec%95%88%ec%97%90-%ea%b7%b8%eb%a6%b0/"
+   "announced_at": "1992",
+   "artist": "정승현",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2023",
+   "program": "yoojaeha_finalist",
+   "round": "4회",
    "stage": "selected",
-   "announced_at": "2023-11-22",
-   "artist": "동영",
-   "url": "https://054soundville.or.kr/project/%f0%9f%92%bf-%eb%8f%99%ec%98%81-%ec%9d%bc%ea%b8%b0%ec%98%88%eb%b3%b4/"
+   "announced_at": "1992",
+   "artist": "심현보",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2023",
+   "program": "yoojaeha_finalist",
+   "round": "4회",
    "stage": "selected",
-   "announced_at": "2023-11-22",
-   "artist": "루츠리딤",
-   "url": "https://054soundville.or.kr/project/%f0%9f%92%bf-%eb%a3%a8%ec%b8%a0%eb%a6%ac%eb%94%a4-%ed%92%8d%ec%96%b4%e8%b1%8a%e9%ad%9a/"
+   "announced_at": "1992",
+   "artist": "이베안",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2023",
+   "program": "yoojaeha_finalist",
+   "round": "4회",
    "stage": "selected",
-   "announced_at": "2023-11-22",
-   "artist": "레트로폴리탄",
-   "url": "https://054soundville.or.kr/project/%f0%9f%92%bf-%eb%a0%88%ed%8a%b8%eb%a1%9c%ed%8f%b4%eb%a6%ac%ed%83%84-dorothy/"
+   "announced_at": "1992",
+   "artist": "차경찬",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2023",
+   "program": "yoojaeha_finalist",
+   "round": "4회",
    "stage": "selected",
-   "announced_at": "2023-11-22",
-   "artist": "나노말",
-   "url": "https://054soundville.or.kr/project/%f0%9f%92%bf-%eb%82%98%eb%85%b8%eb%a7%90-%eb%82%98%eb%85%b8%eb%a7%90-%eb%94%94%ec%a0%80%ed%8a%b8/"
+   "announced_at": "1992",
+   "artist": "박성민",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2023",
+   "program": "yoojaeha_finalist",
+   "round": "4회",
    "stage": "selected",
-   "announced_at": "2023-08-14",
-   "artist": "널디나(nerdina)",
-   "url": "https://054soundville.or.kr/project/%eb%84%90%eb%94%94%eb%82%98nerdina-%f0%9f%92%bf-in-my-dreams/"
+   "announced_at": "1992",
+   "artist": "박영민",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2023",
+   "program": "yoojaeha_finalist",
+   "round": "4회",
    "stage": "selected",
-   "announced_at": "2023-06",
-   "artist": "재즈베리",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=199"
+   "announced_at": "1992",
+   "artist": "이상재",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2023",
+   "program": "yoojaeha_finalist",
+   "round": "3회",
    "stage": "selected",
-   "announced_at": "2023-06",
-   "artist": "윤슬로",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=198"
+   "announced_at": "1991",
+   "artist": "안성수",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2023",
+   "program": "yoojaeha_finalist",
+   "round": "3회",
    "stage": "selected",
-   "announced_at": "2023-06",
-   "artist": "송선호",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=197"
+   "announced_at": "1991",
+   "artist": "강석범",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2023",
+   "program": "yoojaeha_finalist",
+   "round": "3회",
    "stage": "selected",
-   "announced_at": "2023-06",
-   "artist": "OLO",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=196"
+   "announced_at": "1991",
+   "artist": "강현민",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2022",
+   "program": "yoojaeha_finalist",
+   "round": "3회",
    "stage": "selected",
-   "announced_at": "2022-12-23",
-   "artist": "종코",
-   "url": "https://054soundville.or.kr/project/%ec%a2%85%ec%bd%94-2/"
+   "announced_at": "1991",
+   "artist": "김윤식",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2022",
+   "program": "yoojaeha_finalist",
+   "round": "3회",
    "stage": "selected",
-   "announced_at": "2022-12-23",
-   "artist": "원더러스트에이앤씨주식회사",
-   "url": "https://054soundville.or.kr/project/%ec%9b%90%eb%8d%94%eb%9f%ac%ec%8a%a4%ed%8a%b8%ec%97%90%ec%9d%b4%ec%95%a4%ec%94%a8%ec%a3%bc%ec%8b%9d%ed%9a%8c%ec%82%ac/"
+   "announced_at": "1991",
+   "artist": "한윤호",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2022",
+   "program": "yoojaeha_finalist",
+   "round": "3회",
    "stage": "selected",
-   "announced_at": "2022-12-23",
-   "artist": "밴드기린",
-   "url": "https://054soundville.or.kr/project/%eb%b0%b4%eb%93%9c%ea%b8%b0%eb%a6%b0/"
+   "announced_at": "1991",
+   "artist": "곽호일",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2022",
+   "program": "yoojaeha_finalist",
+   "round": "3회",
    "stage": "selected",
-   "announced_at": "2022-12-23",
-   "artist": "로스오브인펙션",
-   "url": "https://054soundville.or.kr/project/%eb%a1%9c%ec%8a%a4%ec%98%a4%eb%b8%8c%ec%9d%b8%ed%8e%99%ec%85%98/"
+   "announced_at": "1991",
+   "artist": "김동현",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2022",
+   "program": "yoojaeha_finalist",
+   "round": "3회",
    "stage": "selected",
-   "announced_at": "2022-12-23",
-   "artist": "롱아일랜드재즈밴드",
-   "url": "https://054soundville.or.kr/project/%eb%a1%b1%ec%95%84%ec%9d%bc%eb%9e%9c%eb%93%9c%ec%9e%ac%ec%a6%88%eb%b0%b4%eb%93%9c/"
+   "announced_at": "1991",
+   "artist": "정장철",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2022",
+   "program": "yoojaeha_finalist",
+   "round": "36회",
    "stage": "selected",
-   "announced_at": "2022-12-23",
-   "artist": "동영",
-   "url": "https://054soundville.or.kr/project/%eb%8f%99%ec%98%81/"
+   "announced_at": "2025",
+   "artist": "OU:RE(아우리)",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "gb_creation",
-   "round": "2022",
+   "program": "yoojaeha_finalist",
+   "round": "36회",
    "stage": "selected",
-   "announced_at": "2022-12-23",
-   "artist": "경주피터",
-   "url": "https://054soundville.or.kr/project/%ea%b2%bd%ec%a3%bc%ed%94%bc%ed%84%b0/"
+   "announced_at": "2025",
+   "artist": "전유동",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2022",
+   "program": "yoojaeha_finalist",
+   "round": "36회",
    "stage": "selected",
-   "announced_at": "2022-07",
-   "artist": "해와여름과밤",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=122"
+   "announced_at": "2025",
+   "artist": "PR1SM",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2022",
+   "program": "yoojaeha_finalist",
+   "round": "36회",
+   "stage": "selected",
+   "announced_at": "2025",
+   "artist": "누에",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "36회",
+   "stage": "selected",
+   "announced_at": "2025",
+   "artist": "박레안",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "36회",
+   "stage": "selected",
+   "announced_at": "2025",
+   "artist": "손다연",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "36회",
+   "stage": "selected",
+   "announced_at": "2025",
+   "artist": "이예신",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "36회",
+   "stage": "selected",
+   "announced_at": "2025",
+   "artist": "전호권",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "36회",
+   "stage": "selected",
+   "announced_at": "2025",
+   "artist": "Night of Lifetime(나이트 오브 라이프타임)",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "36회",
+   "stage": "selected",
+   "announced_at": "2025",
+   "artist": "UNXL(언오피셜)",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "35회",
+   "stage": "selected",
+   "announced_at": "2024",
+   "artist": "woshi",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "35회",
+   "stage": "selected",
+   "announced_at": "2024",
+   "artist": "NIBUY",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "35회",
+   "stage": "selected",
+   "announced_at": "2024",
+   "artist": "이토마토",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "35회",
+   "stage": "selected",
+   "announced_at": "2024",
+   "artist": "산하",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "35회",
+   "stage": "selected",
+   "announced_at": "2024",
+   "artist": "예람",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "35회",
+   "stage": "selected",
+   "announced_at": "2024",
+   "artist": "오예본",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "35회",
+   "stage": "selected",
+   "announced_at": "2024",
+   "artist": "권다함",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "35회",
+   "stage": "selected",
+   "announced_at": "2024",
+   "artist": "백종근",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "35회",
+   "stage": "selected",
+   "announced_at": "2024",
+   "artist": "윤형준",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "35회",
+   "stage": "selected",
+   "announced_at": "2024",
+   "artist": "직사광선",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "35회",
+   "stage": "selected",
+   "announced_at": "2024",
+   "artist": "이지안",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "34회",
+   "stage": "selected",
+   "announced_at": "2023",
+   "artist": "나르디스",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "34회",
+   "stage": "selected",
+   "announced_at": "2023",
+   "artist": "김의엽",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "34회",
+   "stage": "selected",
+   "announced_at": "2023",
+   "artist": "앤리",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "34회",
+   "stage": "selected",
+   "announced_at": "2023",
+   "artist": "대동",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "34회",
+   "stage": "selected",
+   "announced_at": "2023",
+   "artist": "이봄",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "34회",
+   "stage": "selected",
+   "announced_at": "2023",
+   "artist": "한이",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "34회",
+   "stage": "selected",
+   "announced_at": "2023",
+   "artist": "온",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "34회",
+   "stage": "selected",
+   "announced_at": "2023",
+   "artist": "이스트워터",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "34회",
+   "stage": "selected",
+   "announced_at": "2023",
+   "artist": "일렁",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "34회",
+   "stage": "selected",
+   "announced_at": "2023",
+   "artist": "진서",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "33회",
    "stage": "selected",
    "announced_at": "2022",
-   "artist": "고니아",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=129"
+   "artist": "황다정",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2022",
+   "program": "yoojaeha_finalist",
+   "round": "33회",
    "stage": "selected",
    "announced_at": "2022",
-   "artist": "더어쿠스틱",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=128"
+   "artist": "김규리",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2022",
+   "program": "yoojaeha_finalist",
+   "round": "33회",
    "stage": "selected",
    "announced_at": "2022",
-   "artist": "이루나(YILUNA)",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=127"
+   "artist": "유재인",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2022",
+   "program": "yoojaeha_finalist",
+   "round": "33회",
    "stage": "selected",
    "announced_at": "2022",
-   "artist": "안은선",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=126"
+   "artist": "이형주",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2022",
+   "program": "yoojaeha_finalist",
+   "round": "33회",
    "stage": "selected",
    "announced_at": "2022",
-   "artist": "양말서랍",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=125"
+   "artist": "주태중",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2022",
+   "program": "yoojaeha_finalist",
+   "round": "33회",
    "stage": "selected",
    "announced_at": "2022",
-   "artist": "엠관앤리엘",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=124"
+   "artist": "장은정",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2022",
+   "program": "yoojaeha_finalist",
+   "round": "33회",
    "stage": "selected",
    "announced_at": "2022",
-   "artist": "ㅈ(지읒)",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=123"
+   "artist": "연정",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2021",
+   "program": "yoojaeha_finalist",
+   "round": "33회",
    "stage": "selected",
-   "announced_at": "2021-09",
-   "artist": "유치찬란",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=78"
+   "announced_at": "2022",
+   "artist": "범진",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2021",
+   "program": "yoojaeha_finalist",
+   "round": "33회",
    "stage": "selected",
-   "announced_at": "2021-08",
-   "artist": "낙낙(Knock Knock)",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=77"
+   "announced_at": "2022",
+   "artist": "별17",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2021",
+   "program": "yoojaeha_finalist",
+   "round": "33회",
    "stage": "selected",
-   "announced_at": "2021-08",
-   "artist": "두명인간",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=76"
+   "announced_at": "2022",
+   "artist": "김하루",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2021",
+   "program": "yoojaeha_finalist",
+   "round": "32회",
    "stage": "selected",
    "announced_at": "2021",
-   "artist": "그린스무드",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=75"
+   "artist": "김승주",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2021",
+   "program": "yoojaeha_finalist",
+   "round": "32회",
    "stage": "selected",
    "announced_at": "2021",
-   "artist": "더 어쿠스틱",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=39"
+   "artist": "Red C",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2021",
+   "program": "yoojaeha_finalist",
+   "round": "32회",
    "stage": "selected",
    "announced_at": "2021",
-   "artist": "고니아",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=38"
+   "artist": "김효린",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2021",
+   "program": "yoojaeha_finalist",
+   "round": "32회",
    "stage": "selected",
    "announced_at": "2021",
-   "artist": "이타(耳打)",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=37"
+   "artist": "나지현",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2021",
+   "program": "yoojaeha_finalist",
+   "round": "32회",
    "stage": "selected",
    "announced_at": "2021",
-   "artist": "앙상블 봄",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=36"
+   "artist": "이찬희",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2020",
+   "program": "yoojaeha_finalist",
+   "round": "32회",
    "stage": "selected",
-   "announced_at": "2020-12",
-   "artist": "어쿠스틱머신",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=35"
+   "announced_at": "2021",
+   "artist": "FRankly",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2020",
+   "program": "yoojaeha_finalist",
+   "round": "32회",
    "stage": "selected",
-   "announced_at": "2020-12",
-   "artist": "연(淵)",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=34"
+   "announced_at": "2021",
+   "artist": "노아윤",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2020",
+   "program": "yoojaeha_finalist",
+   "round": "32회",
    "stage": "selected",
-   "announced_at": "2020-12",
-   "artist": "마일스톤(The Milestone)",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=24"
+   "announced_at": "2021",
+   "artist": "조영남",
+   "url": "https://www.yjh.or.kr/History"
   },
   {
-   "program": "muse_sejong",
-   "round": "2020",
+   "program": "yoojaeha_finalist",
+   "round": "32회",
+   "stage": "selected",
+   "announced_at": "2021",
+   "artist": "담담구구",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "32회",
+   "stage": "selected",
+   "announced_at": "2021",
+   "artist": "강민",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "31회",
    "stage": "selected",
    "announced_at": "2020",
-   "artist": "세방울(Se bang wl)",
-   "url": "https://nurirock.or.kr/base/board/read?boardManagementNo=7&boardNo=33"
+   "artist": "터치드(Touched)",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "31회",
+   "stage": "selected",
+   "announced_at": "2020",
+   "artist": "지환",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "31회",
+   "stage": "selected",
+   "announced_at": "2020",
+   "artist": "evenif",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "31회",
+   "stage": "selected",
+   "announced_at": "2020",
+   "artist": "mong_gle(몽글)",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "31회",
+   "stage": "selected",
+   "announced_at": "2020",
+   "artist": "토르토르",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "31회",
+   "stage": "selected",
+   "announced_at": "2020",
+   "artist": "노동자3071",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "31회",
+   "stage": "selected",
+   "announced_at": "2020",
+   "artist": "숨비",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "31회",
+   "stage": "selected",
+   "announced_at": "2020",
+   "artist": "Lacuna(라쿠나)",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "31회",
+   "stage": "selected",
+   "announced_at": "2020",
+   "artist": "나상현씨밴드",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "31회",
+   "stage": "selected",
+   "announced_at": "2020",
+   "artist": "권월",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "30회",
+   "stage": "selected",
+   "announced_at": "2019",
+   "artist": "김효진",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "30회",
+   "stage": "selected",
+   "announced_at": "2019",
+   "artist": "송예린",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "30회",
+   "stage": "selected",
+   "announced_at": "2019",
+   "artist": "이찬주",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "30회",
+   "stage": "selected",
+   "announced_at": "2019",
+   "artist": "방랑자메리",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "30회",
+   "stage": "selected",
+   "announced_at": "2019",
+   "artist": "제이유나",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "30회",
+   "stage": "selected",
+   "announced_at": "2019",
+   "artist": "황세영",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "30회",
+   "stage": "selected",
+   "announced_at": "2019",
+   "artist": "홍하",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "30회",
+   "stage": "selected",
+   "announced_at": "2019",
+   "artist": "신지훈",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "30회",
+   "stage": "selected",
+   "announced_at": "2019",
+   "artist": "니쥬",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "30회",
+   "stage": "selected",
+   "announced_at": "2019",
+   "artist": "kohyo",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "2회",
+   "stage": "selected",
+   "announced_at": "1990",
+   "artist": "고찬용",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "2회",
+   "stage": "selected",
+   "announced_at": "1990",
+   "artist": "박인영",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "2회",
+   "stage": "selected",
+   "announced_at": "1990",
+   "artist": "이필수",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "2회",
+   "stage": "selected",
+   "announced_at": "1990",
+   "artist": "박은혜",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "2회",
+   "stage": "selected",
+   "announced_at": "1990",
+   "artist": "이유화",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "2회",
+   "stage": "selected",
+   "announced_at": "1990",
+   "artist": "김수용",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "2회",
+   "stage": "selected",
+   "announced_at": "1990",
+   "artist": "박영렬(나들)",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "2회",
+   "stage": "selected",
+   "announced_at": "1990",
+   "artist": "유태임",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "2회",
+   "stage": "selected",
+   "announced_at": "1990",
+   "artist": "안태영",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "2회",
+   "stage": "selected",
+   "announced_at": "1990",
+   "artist": "김지나",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "29회",
+   "stage": "selected",
+   "announced_at": "2018",
+   "artist": "최유리",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "29회",
+   "stage": "selected",
+   "announced_at": "2018",
+   "artist": "더치트랩",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "29회",
+   "stage": "selected",
+   "announced_at": "2018",
+   "artist": "김민주(김훨)",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "29회",
+   "stage": "selected",
+   "announced_at": "2018",
+   "artist": "공예빈",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "29회",
+   "stage": "selected",
+   "announced_at": "2018",
+   "artist": "문근영(해파, 시옷과 바람)",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "29회",
+   "stage": "selected",
+   "announced_at": "2018",
+   "artist": "신한태",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "29회",
+   "stage": "selected",
+   "announced_at": "2018",
+   "artist": "김종진",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "29회",
+   "stage": "selected",
+   "announced_at": "2018",
+   "artist": "송예림",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "29회",
+   "stage": "selected",
+   "announced_at": "2018",
+   "artist": "쟁반땅콩",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "29회",
+   "stage": "selected",
+   "announced_at": "2018",
+   "artist": "킨츠크로이",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "29회",
+   "stage": "selected",
+   "announced_at": "2018",
+   "artist": "메룬즈",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "28회",
+   "stage": "selected",
+   "announced_at": "2017",
+   "artist": "이호재 팀",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "28회",
+   "stage": "selected",
+   "announced_at": "2017",
+   "artist": "김지범",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "28회",
+   "stage": "selected",
+   "announced_at": "2017",
+   "artist": "박수정, 김민지",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "28회",
+   "stage": "selected",
+   "announced_at": "2017",
+   "artist": "김수현, 임상현",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "28회",
+   "stage": "selected",
+   "announced_at": "2017",
+   "artist": "손휘준",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "28회",
+   "stage": "selected",
+   "announced_at": "2017",
+   "artist": "허정혁(시옷과 바람)",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "28회",
+   "stage": "selected",
+   "announced_at": "2017",
+   "artist": "강단비",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "28회",
+   "stage": "selected",
+   "announced_at": "2017",
+   "artist": "권지윤",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "28회",
+   "stage": "selected",
+   "announced_at": "2017",
+   "artist": "김제호",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "28회",
+   "stage": "selected",
+   "announced_at": "2017",
+   "artist": "한나비",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "27회",
+   "stage": "selected",
+   "announced_at": "2016",
+   "artist": "장희원,윤덕호",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "27회",
+   "stage": "selected",
+   "announced_at": "2016",
+   "artist": "백두인",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "27회",
+   "stage": "selected",
+   "announced_at": "2016",
+   "artist": "박희수",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "27회",
+   "stage": "selected",
+   "announced_at": "2016",
+   "artist": "조애란",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "27회",
+   "stage": "selected",
+   "announced_at": "2016",
+   "artist": "박한 세상",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "27회",
+   "stage": "selected",
+   "announced_at": "2016",
+   "artist": "김민수",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "27회",
+   "stage": "selected",
+   "announced_at": "2016",
+   "artist": "주예빈",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "27회",
+   "stage": "selected",
+   "announced_at": "2016",
+   "artist": "장유경",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "27회",
+   "stage": "selected",
+   "announced_at": "2016",
+   "artist": "박소은",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "27회",
+   "stage": "selected",
+   "announced_at": "2016",
+   "artist": "영진이네",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "26회",
+   "stage": "selected",
+   "announced_at": "2015",
+   "artist": "공세영",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "26회",
+   "stage": "selected",
+   "announced_at": "2015",
+   "artist": "최윤희",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "26회",
+   "stage": "selected",
+   "announced_at": "2015",
+   "artist": "일진 좋은 날",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "26회",
+   "stage": "selected",
+   "announced_at": "2015",
+   "artist": "임주은",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "26회",
+   "stage": "selected",
+   "announced_at": "2015",
+   "artist": "황민재,박채현",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "26회",
+   "stage": "selected",
+   "announced_at": "2015",
+   "artist": "뱃사공(수림, 백찬영)",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "26회",
+   "stage": "selected",
+   "announced_at": "2015",
+   "artist": "김정은",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "26회",
+   "stage": "selected",
+   "announced_at": "2015",
+   "artist": "한정훈",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "26회",
+   "stage": "selected",
+   "announced_at": "2015",
+   "artist": "박지원, 강철",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "26회",
+   "stage": "selected",
+   "announced_at": "2015",
+   "artist": "구정현",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "25회",
+   "stage": "selected",
+   "announced_at": "2014",
+   "artist": "이신영",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "25회",
+   "stage": "selected",
+   "announced_at": "2014",
+   "artist": "조소정",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "25회",
+   "stage": "selected",
+   "announced_at": "2014",
+   "artist": "안시온",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "25회",
+   "stage": "selected",
+   "announced_at": "2014",
+   "artist": "백승환",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "25회",
+   "stage": "selected",
+   "announced_at": "2014",
+   "artist": "정신혜",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "25회",
+   "stage": "selected",
+   "announced_at": "2014",
+   "artist": "익명의 시인들",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "25회",
+   "stage": "selected",
+   "announced_at": "2014",
+   "artist": "유후",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "25회",
+   "stage": "selected",
+   "announced_at": "2014",
+   "artist": "Sweet & light",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "25회",
+   "stage": "selected",
+   "announced_at": "2014",
+   "artist": "조여진, 이나래",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "25회",
+   "stage": "selected",
+   "announced_at": "2014",
+   "artist": "퍼플커튼",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "24회",
+   "stage": "selected",
+   "announced_at": "2013",
+   "artist": "민주",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "24회",
+   "stage": "selected",
+   "announced_at": "2013",
+   "artist": "이설아",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "24회",
+   "stage": "selected",
+   "announced_at": "2013",
+   "artist": "일상다반사",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "24회",
+   "stage": "selected",
+   "announced_at": "2013",
+   "artist": "홍이삭",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "24회",
+   "stage": "selected",
+   "announced_at": "2013",
+   "artist": "다방(D'AVANT)",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "24회",
+   "stage": "selected",
+   "announced_at": "2013",
+   "artist": "김다수",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "24회",
+   "stage": "selected",
+   "announced_at": "2013",
+   "artist": "유보영(유하)",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "24회",
+   "stage": "selected",
+   "announced_at": "2013",
+   "artist": "영원",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "24회",
+   "stage": "selected",
+   "announced_at": "2013",
+   "artist": "아몬드",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "24회",
+   "stage": "selected",
+   "announced_at": "2013",
+   "artist": "이예린",
+   "url": "https://www.yjh.or.kr/History"
+  },
+  {
+   "program": "yoojaeha_finalist",
+   "round": "23회",
+   "stage": "selected",
+   "announced_at": "2012",
+   "artist": "조강지처",
+   "url": "https://www.yjh.or.kr/History"
   }
  ],
  "cross_branch": [
   {
-   "artist": "다다다 (DADADA)",
+   "artist": "다브다",
    "branches": [
     "공연",
-    "발매"
+    "발매",
+    "선정·지원",
+    "큐레이션"
    ]
   },
   {
-   "artist": "다브다(Dabda)",
+   "artist": "사뮈",
    "branches": [
     "공연",
-    "발매"
+    "발매",
+    "선정·지원",
+    "큐레이션"
    ]
   },
   {
-   "artist": "대소콜링",
+   "artist": "술탄 오브 더 디스코",
    "branches": [
     "공연",
-    "발매"
+    "발매",
+    "선정·지원",
+    "큐레이션"
    ]
   },
   {
-   "artist": "룬",
+   "artist": "신인류",
    "branches": [
     "공연",
-    "발매"
+    "발매",
+    "선정·지원",
+    "큐레이션"
    ]
   },
   {
-   "artist": "시인을 위하여",
+   "artist": "혁오",
    "branches": [
     "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "9와 숫자들",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "EK",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "게이트플라워즈",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "고고학 (Gogohawk)",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "공원(gongwon)",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "구남과여라이딩스텔라",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "극동아시아타이거즈",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김뜻돌",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김사월",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김새녘",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김석준",
+   "branches": [
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김수철",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김승민",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김승주",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김오키",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김푸름",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "까데호",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "나노말",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "나르디스",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "나상현씨밴드",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "너드커넥션",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "놀이도감",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "다다다",
+   "branches": [
+    "공연",
+    "발매",
     "선정·지원"
    ]
   },
   {
-   "artist": "양치기소년단",
+   "artist": "단편선 순간들",
    "branches": [
     "공연",
-    "선정·지원"
+    "선정·지원",
+    "큐레이션"
    ]
   },
   {
-   "artist": "여백",
+   "artist": "더 폴스(The Poles)",
    "branches": [
     "공연",
-    "발매"
+    "선정·지원",
+    "큐레이션"
    ]
   },
   {
-   "artist": "이르미",
+   "artist": "라이엇 키즈(RIOT KIDZ)",
    "branches": [
     "공연",
-    "발매"
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "루츠리딤",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "마이앤트메리",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "맥거핀(Macguffin)",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "메리헤이데이",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "모스크바 서핑클럽",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "모허",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "미역수염",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "바밍타이거",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "바보",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "박소은",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "백현진",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "버둥",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "베리코이버니",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "베이루트택시",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "봉제인간",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "불고기디스코",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "새소년",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "세이수미",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "세일러허니문",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "소음발광",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "스네이크치킨수프",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "스윗소로우",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "스텔라장",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "신지훈",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "실리카겔",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "심현보",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "쏜애플",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "아도이",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "안다영",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "애니멀다이버스",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "얼스바운드",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "오마르와 동방전력",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "오존 (O3ohn)",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "오티스림",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "와와와",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "윤마치(MRCH)",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "이디오테잎",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "이랑",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "이민휘",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "잔나비",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "전기뱀장어",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "전유동",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "전자양",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "전호권",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "정밀아",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "조규찬",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "죠지",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "지소쿠리클럽",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
    ]
   },
   {
    "artist": "천둥오리",
    "branches": [
     "공연",
-    "선정·지원"
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "청요일",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "초록불꽃소년단",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "최유리",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
    ]
   },
   {
    "artist": "최춘목밴드",
    "branches": [
     "공연",
-    "선정·지원"
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "카더가든",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "컨트리공방",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "코토바",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "크라잉넛",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
    ]
   },
   {
    "artist": "키라라",
    "branches": [
     "공연",
-    "선정·지원"
+    "선정·지원",
+    "큐레이션"
    ]
   },
   {
-   "artist": "한올",
+   "artist": "터치드(Touched)",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "토카이(Tokai)",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "품바21",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "피치트럭하이재커스",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "한로로",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "해파",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "홍이삭",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "히미츠 (HeMeets)",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "힙노시스테라피",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "109",
    "branches": [
     "공연",
     "발매"
+   ]
+  },
+  {
+   "artist": "12BH",
+   "branches": [
+    "공연",
+    "선정·지원"
    ]
   }
  ]

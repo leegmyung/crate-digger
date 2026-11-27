@@ -170,6 +170,16 @@ class ExportTest(unittest.TestCase):
             saved = json.loads((Path(d) / "meta.json").read_text(encoding="utf-8"))
             self.assertEqual(saved["rows"]["teams"], 2)
 
+    def test_meta_keeps_previous_run_counts(self):
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "meta.json").write_text(json.dumps({"rows": {"signals": 2, "videos": 5}}), encoding="utf-8")
+            meta = ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=None,
+                             image_cache=None)
+            self.assertEqual(meta["prev_rows"], {"signals": 2, "videos": 5})
+            again = ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=None,
+                              image_cache=None)
+            self.assertEqual(again["prev_rows"], {"signals": 2, "videos": 5})   # 같은 날 재실행 → 어제 값 유지
+
     def test_programs_list_marks_outcome_and_signal_kinds(self):
         with tempfile.TemporaryDirectory() as d:
             ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=None, image_cache=None)

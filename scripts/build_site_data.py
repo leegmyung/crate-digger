@@ -91,6 +91,11 @@ def _merge_runs(runs):
         m = merged.setdefault(key, dict(r, rows=0, file_ok=True))
         m["rows"] += r["rows"]
         m["file_ok"] = m["file_ok"] and r["file_ok"]
+    last = {}                                    # (표, 소스) → 직전 실행 행 수 (수집량 급감 감지용)
+    for key in sorted(merged):
+        run = merged[key]
+        run["prev_rows"] = last.get((run["table"], run["source"]))
+        last[(run["table"], run["source"])] = run["rows"]
     return sorted(merged.values(), key=lambda x: (x["date"], x["source"]), reverse=True)
 
 

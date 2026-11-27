@@ -308,9 +308,17 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
     _write_csv(out_dir / "videos.csv", VIDEO_FIELDS, videos)
     images = image_rows(image_cache()) if image_cache else []
     _write_csv(out_dir / "images.csv", IMAGE_FIELDS, images)
+    day = today or date.today().isoformat()
+    try:   # 직전 '날짜'의 행 수 → 앱이 '어젯밤 새로 붙은 신호·영상 수'를 보여 줄 수 있게
+        old = json.loads((out_dir / "meta.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        old = {}
+    # 같은 날 다시 돌리면 어제 값을 그대로 둔다 (몇 시간 전 실행과 비교하지 않게)
+    prev_rows = old.get("prev_rows", {}) if old.get("data_end") == day else (old.get("rows") or {})
     meta = {
+        "prev_rows": prev_rows,
         "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
-        "data_end": today or date.today().isoformat(),
+        "data_end": day,
         "uses_artist_xref": use_xref,
         "rows": {"signals": len(signals), "teams": len(teams), "outcomes": len(outcomes),
                  "programs": len(programs), "links": len(links), "videos": len(videos), "images": len(images)},

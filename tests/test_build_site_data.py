@@ -49,8 +49,10 @@ class BuildTest(unittest.TestCase):
                   [row(), row(artist_text="B", release_url="https://example.com/2", released_at="2026-11-25")])
             data = bsd.build(Path(d), recent_limit=10)
         self.assertEqual(data["runs"], [
-            {"date": "2026-11-26", "source": "poclanos", "table": "raw_kr_release", "rows": 2, "file_ok": True},
-            {"date": "2026-11-25", "source": "poclanos", "table": "raw_kr_release", "rows": 1, "file_ok": True},
+            {"date": "2026-11-26", "source": "poclanos", "table": "raw_kr_release", "rows": 2, "file_ok": True,
+             "prev_rows": 1},
+            {"date": "2026-11-25", "source": "poclanos", "table": "raw_kr_release", "rows": 1, "file_ok": True,
+             "prev_rows": None},
         ])
         recent = data["recent_releases"]
         self.assertEqual([r["artist"] for r in recent], ["A", "B"])          # 발매일 최신순
@@ -103,7 +105,8 @@ class BuildTest(unittest.TestCase):
             write(d, "raw_kr_release_2026-11-26_poclanos_201156.csv", [row(artist_text="B", release_url="https://example.com/2")])
             data = bsd.build(Path(d), recent_limit=10)
         self.assertEqual(data["runs"], [
-            {"date": "2026-11-26", "source": "poclanos", "table": "raw_kr_release", "rows": 2, "file_ok": True}])
+            {"date": "2026-11-26", "source": "poclanos", "table": "raw_kr_release", "rows": 2, "file_ok": True,
+             "prev_rows": None}])
 
     def test_selections_and_cross_branch_summary(self):
         sel_cols = ["collected_at", "source", "collector", "program", "round", "stage", "announced_at", "artist_text", "url", "note"]
@@ -122,6 +125,19 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(data["selections"], [{"program": "burock_rookies", "round": "2026", "stage": "selected",
                                                "announced_at": "2026-08", "artist": "천둥오리", "url": "https://example.com/s"}])
         self.assertEqual(data["cross_branch"], [{"artist": "천둥오리", "branches": ["공연", "선정·지원"]}])
+
+
+class PrevRowsTest(unittest.TestCase):
+    def test_each_run_gets_previous_run_rows_of_same_source(self):
+        runs = bsd._merge_runs([
+            {"date": "2026-11-25", "table": "raw_kr_gig", "source": "x", "rows": 100, "file_ok": True},
+            {"date": "2026-11-26", "table": "raw_kr_gig", "source": "x", "rows": 10, "file_ok": True},
+            {"date": "2026-11-26", "table": "raw_press", "source": "y", "rows": 5, "file_ok": True},
+        ])
+        by = {(r["date"], r["source"]): r for r in runs}
+        self.assertEqual(by[("2026-11-26", "x")]["prev_rows"], 100)
+        self.assertIsNone(by[("2026-11-25", "x")]["prev_rows"])
+        self.assertIsNone(by[("2026-11-26", "y")]["prev_rows"])
 
 
 if __name__ == "__main__":
