@@ -194,10 +194,13 @@ export async function renderTeamView(root, teamKey) {
       const scoreItems = scored ? [
         ['갈래 수 (' + fmtInt(scored.n_branch) + '개)', scored.pts_branch],
         ['선정 최고 단계 (' + fmtInt(scored.best_stage) + ')', scored.pts_stage],
+        ['서로 다른 공연장 (' + fmtInt(scored.venues) + '곳)', scored.pts_venues],
+        ['최근 6개월 활동 (' + fmtInt(scored.recent180) + '건)', scored.pts_recent],
+        ['이미 상 받은 팀과 같은 무대', scored.pts_winner],
+        ['큐레이션 매체 (' + fmtInt(scored.outlets) + '곳)', scored.pts_outlets],
         ['선정 팀과 같은 무대', scored.pts_peer],
         ['DMZ 출연', scored.pts_dmz],
         ['최근 1년 공연 (' + fmtInt(scored.gigs_1y) + '일)', scored.pts_gigs],
-        ['큐레이션 매체 (' + fmtInt(scored.outlets) + '곳)', scored.pts_outlets],
       ].filter(([, v]) => Number(v) > 0) : [];
 
       const visiblePrec = showAllPrec ? precedents : precedents.slice(0, 3);

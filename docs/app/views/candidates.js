@@ -38,7 +38,7 @@ export async function renderCandidatesView(root) {
       <summary>ⓘ 신인 기준·점수 구성 안내</summary>
       <div class="info-fold-body">
         '신인 추정'은 우리 데이터에 처음 등장한 지 <strong>${c.newcomer_years}년</strong> 이내라는 기준이라 오래 활동한 팀이 섞일 수 있습니다. 프로필(멜론 등)이 채워질수록 정확해집니다.
-        점수 구성 막대 색상: 갈래 · 선정 단계 · 동료 선정 · DMZ · 최근 1년 공연 · 큐레이션 매체.
+        점수 구성 막대는 0점보다 큰 항목만 표시합니다 (갈래 · 선정 단계 · 공연장 수 · 최근 6개월 활동 · 수상 팀과 같은 무대 · 큐레이션 매체 등).
       </div>
     </details>
 

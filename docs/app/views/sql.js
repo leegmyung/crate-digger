@@ -25,7 +25,7 @@ export async function renderSqlView(root) {
       <code class="mono">teams(team_key, display_name, first_seen, first_release, fan_count, album_count, profile_status, primary_genre, agency)</code><br>
       <code class="mono">outcomes(team_key, program, program_label, tier, announced_date, counted)</code><br>
       <code class="mono">programs(program, label, kind)</code> · <code class="mono">links(team_key, platform, url)</code> · <code class="mono">videos(team_key, video_id, title, channel_title, published_at, kind)</code><br>
-      공통 매크로: <code class="mono">lab_scored(cutoff, lookback_years, newcomer_years, exclude_famous, outcome_tier, horizon_months, genre, branches, w_branch, w_stage, w_peer, w_dmz, w_gigs, w_outlets, outlet_cap)</code>
+      공통 매크로: <code class="mono">lab_scored(cutoff, lookback_years, newcomer_years, exclude_famous, outcome_tier, horizon_months, genre, branches, w_branch, w_stage, w_peer, w_dmz, w_gigs, w_outlets, outlet_cap, w_recent, w_venues, w_winner)</code>
     </div>
 
     <div class="toolbar">

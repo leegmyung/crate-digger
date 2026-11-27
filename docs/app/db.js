@@ -1,5 +1,5 @@
 import * as duckdb from 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.32.0/+esm';
-import { ALL_BRANCHES, appState } from './state.js';
+import { ALL_BRANCHES, appState, DEFAULT_WEIGHTS } from './state.js';
 
 const DUCKDB_CDN = 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.32.0/dist';
 const MANUAL_BUNDLES = {
@@ -149,16 +149,16 @@ export function buildParams(overrides = {}) {
     horizon_months: sqlInt(c.horizon_months, 1, 60, 24),
     genre: sqlGenre(c.genre),
     branches: sqlBranches(c.branches),
-    w_branch: sqlNum(c.w_branch, 0, 10, 2),
-    w_stage: sqlNum(c.w_stage, 0, 10, 1),
-    w_peer: sqlNum(c.w_peer, 0, 10, 1),
-    w_dmz: sqlNum(c.w_dmz, 0, 10, 0.5),
-    w_gigs: sqlNum(c.w_gigs, 0, 10, 0.5),
-    w_outlets: sqlNum(c.w_outlets, 0, 10, 1),
-    outlet_cap: sqlInt(c.outlet_cap, 1, 10, 3),
-    w_recent: sqlNum(c.w_recent, 0, 10, 0),
-    w_venues: sqlNum(c.w_venues, 0, 10, 0),
-    w_winner: sqlNum(c.w_winner, 0, 10, 0),
+    w_branch: sqlNum(c.w_branch, 0, 10, DEFAULT_WEIGHTS.w_branch),
+    w_stage: sqlNum(c.w_stage, 0, 10, DEFAULT_WEIGHTS.w_stage),
+    w_peer: sqlNum(c.w_peer, 0, 10, DEFAULT_WEIGHTS.w_peer),
+    w_dmz: sqlNum(c.w_dmz, 0, 10, DEFAULT_WEIGHTS.w_dmz),
+    w_gigs: sqlNum(c.w_gigs, 0, 10, DEFAULT_WEIGHTS.w_gigs),
+    w_outlets: sqlNum(c.w_outlets, 0, 10, DEFAULT_WEIGHTS.w_outlets),
+    outlet_cap: sqlInt(c.outlet_cap, 1, 10, DEFAULT_WEIGHTS.outlet_cap),
+    w_recent: sqlNum(c.w_recent, 0, 10, DEFAULT_WEIGHTS.w_recent),
+    w_venues: sqlNum(c.w_venues, 0, 10, DEFAULT_WEIGHTS.w_venues),
+    w_winner: sqlNum(c.w_winner, 0, 10, DEFAULT_WEIGHTS.w_winner),
     k_list: sqlKList(c.k_list),
     only_no_outcome: sqlBool(overrides.only_no_outcome !== undefined ? overrides.only_no_outcome : c.only_no_outcome),
     limit: sqlInt(overrides.limit !== undefined ? overrides.limit : c.limit, 10, 1000, 100),
@@ -448,14 +448,17 @@ export async function queryTeamDetail(teamKey) {
 
   const scoreSql = `
     SELECT team_key, display_name, ROUND(score, 2) AS score, n_branch, best_stage,
-           peer_selected, dmz, gigs_1y, outlets, first_seen, last_seen,
-           primary_genre, profile_status, had_outcome,
+           peer_selected, dmz, gigs_1y, outlets, recent180, venues, peer_winner,
+           first_seen, last_seen, primary_genre, profile_status, had_outcome,
            ROUND(pts_branch, 2) AS pts_branch, ROUND(pts_stage, 2) AS pts_stage,
            ROUND(pts_peer, 2) AS pts_peer, ROUND(pts_dmz, 2) AS pts_dmz,
-           ROUND(pts_gigs, 2) AS pts_gigs, ROUND(pts_outlets, 2) AS pts_outlets
+           ROUND(pts_gigs, 2) AS pts_gigs, ROUND(pts_outlets, 2) AS pts_outlets,
+           ROUND(pts_recent, 2) AS pts_recent, ROUND(pts_venues, 2) AS pts_venues,
+           ROUND(pts_winner, 2) AS pts_winner
     FROM lab_scored(DATE ${p.as_of}, ${p.lookback_years}, 50, false,
                     'any', 1, '', ${p.branches},
-                    ${p.w_branch}, ${p.w_stage}, ${p.w_peer}, ${p.w_dmz}, ${p.w_gigs}, ${p.w_outlets}, ${p.outlet_cap})
+                    ${p.w_branch}, ${p.w_stage}, ${p.w_peer}, ${p.w_dmz}, ${p.w_gigs}, ${p.w_outlets}, ${p.outlet_cap},
+                    ${p.w_recent}, ${p.w_venues}, ${p.w_winner})
     WHERE team_key = ${keyLit}
     LIMIT 1
   `;
@@ -519,7 +522,8 @@ export async function queryWatchlistEnriched(watchItems) {
       SELECT team_key, display_name, ROUND(score, 2) AS score, n_branch, gigs_1y, last_seen, primary_genre
       FROM lab_scored(DATE ${p.as_of}, ${p.lookback_years}, 50, false,
                       'any', 1, '', ${p.branches},
-                      ${p.w_branch}, ${p.w_stage}, ${p.w_peer}, ${p.w_dmz}, ${p.w_gigs}, ${p.w_outlets}, ${p.outlet_cap})
+                      ${p.w_branch}, ${p.w_stage}, ${p.w_peer}, ${p.w_dmz}, ${p.w_gigs}, ${p.w_outlets}, ${p.outlet_cap},
+                      ${p.w_recent}, ${p.w_venues}, ${p.w_winner})
       WHERE team_key IN (${keys})
     `),
     runRawSql(`

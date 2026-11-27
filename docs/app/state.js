@@ -15,28 +15,57 @@ export const ROUTES = [
   'sql',
 ];
 
-// Single source of truth for scoring weights (matches docs/lab/sql/features.sql)
-export const DEFAULT_WEIGHTS = {
-  w_branch: 2,
-  w_stage: 1,
-  w_peer: 1,
-  w_dmz: 0.5,
-  w_gigs: 0.5,
-  w_outlets: 1,
-  outlet_cap: 3,
+// Scoring weight presets (matches docs/lab/sql/features.sql & docs/score_tuning.md)
+export const WEIGHT_PRESETS = {
+  v1: {
+    w_branch: 2,
+    w_stage: 2,
+    w_peer: 0,
+    w_dmz: 0,
+    w_gigs: 0,
+    w_outlets: 0.5,
+    outlet_cap: 3,
+    w_recent: 1,
+    w_venues: 2,
+    w_winner: 1,
+  },
+  v0: {
+    w_branch: 2,
+    w_stage: 1,
+    w_peer: 1,
+    w_dmz: 0.5,
+    w_gigs: 0.5,
+    w_outlets: 1,
+    outlet_cap: 3,
+    w_recent: 0,
+    w_venues: 0,
+    w_winner: 0,
+  },
 };
+
+export const DEFAULT_WEIGHTS = { ...WEIGHT_PRESETS.v1 };
 
 export const WEIGHT_FIELDS = [
   { key: 'w_branch', label: '갈래 수 (갈래−1)', min: 0, max: 5, step: 0.5, isInt: false },
   { key: 'w_stage', label: '선정 최고 단계 (0~4)', min: 0, max: 3, step: 0.5, isInt: false },
+  { key: 'w_venues', label: '서로 다른 공연장 수', min: 0, max: 3, step: 0.5, isInt: false },
+  { key: 'w_recent', label: '최근 6개월 활동', min: 0, max: 3, step: 0.5, isInt: false },
+  { key: 'w_winner', label: '이미 상 받은 팀과 같은 무대', min: 0, max: 3, step: 0.5, isInt: false },
+  { key: 'w_outlets', label: '큐레이션 매체 수', min: 0, max: 3, step: 0.5, isInt: false },
+  { key: 'outlet_cap', label: '큐레이션 매체 상한', min: 1, max: 6, step: 1, isInt: true },
   { key: 'w_peer', label: '선정 팀과 같은 무대', min: 0, max: 3, step: 0.5, isInt: false },
   { key: 'w_dmz', label: 'DMZ 출연', min: 0, max: 3, step: 0.5, isInt: false },
   { key: 'w_gigs', label: '최근 1년 공연 ln(1+n)', min: 0, max: 3, step: 0.5, isInt: false },
-  { key: 'w_outlets', label: '큐레이션 매체 수', min: 0, max: 3, step: 0.5, isInt: false },
-  { key: 'outlet_cap', label: '큐레이션 매체 상한', min: 1, max: 6, step: 1, isInt: true },
 ];
 
 export const WEIGHT_KEYS = Object.keys(DEFAULT_WEIGHTS);
+
+export function getMatchingWeightPreset(cfg = appState.cfg) {
+  for (const [name, preset] of Object.entries(WEIGHT_PRESETS)) {
+    if (WEIGHT_KEYS.every(k => Number(cfg[k]) === Number(preset[k]))) return name;
+  }
+  return null;
+}
 
 export const DEFAULTS = {
   // Global filters
@@ -203,7 +232,7 @@ export function parseHash() {
   const p = new URLSearchParams(queryPart);
   const c = appState.cfg;
 
-  for (const key of ['w_branch', 'w_stage', 'w_peer', 'w_dmz', 'w_gigs', 'w_outlets']) {
+  for (const key of ['w_branch', 'w_stage', 'w_peer', 'w_dmz', 'w_gigs', 'w_outlets', 'w_recent', 'w_venues', 'w_winner']) {
     if (p.has(key)) {
       const n = Number(p.get(key));
       if (Number.isFinite(n) && n >= 0 && n <= 10) c[key] = n;
@@ -278,6 +307,9 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
   setIf('w_gigs', c.w_gigs, DEFAULTS.w_gigs);
   setIf('w_outlets', c.w_outlets, DEFAULTS.w_outlets);
   setIf('outlet_cap', c.outlet_cap, DEFAULTS.outlet_cap);
+  setIf('w_recent', c.w_recent, DEFAULTS.w_recent);
+  setIf('w_venues', c.w_venues, DEFAULTS.w_venues);
+  setIf('w_winner', c.w_winner, DEFAULTS.w_winner);
   setIf('cutoffs', c.cutoffs, DEFAULTS.cutoffs);
   setIf('horizon_months', c.horizon_months, DEFAULTS.horizon_months);
   setIf('outcome_tier', c.outcome_tier, DEFAULTS.outcome_tier);

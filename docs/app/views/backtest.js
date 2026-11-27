@@ -1,6 +1,6 @@
 import {
-  appState, DEFAULTS, PRESET_KS, registerChart, syncHash,
-  WEIGHT_FIELDS, WEIGHT_KEYS,
+  appState, DEFAULTS, getMatchingWeightPreset, PRESET_KS, registerChart, syncHash,
+  WEIGHT_FIELDS, WEIGHT_KEYS, WEIGHT_PRESETS,
 } from '../state.js';
 import { queryBacktestAll } from '../db.js';
 import {
@@ -224,6 +224,14 @@ export async function renderBacktestView(root) {
       <div class="bt-controls">
         <div>
           <div class="small muted" style="font-weight:700;margin-bottom:6px;">점수 가중치 (전체 화면 공통 적용)</div>
+          <div class="preset-bar" role="group" aria-label="점수 가중치 프리셋">
+            <button type="button" class="btn btn-sm ${getMatchingWeightPreset(c) === 'v1' ? 'btn-active' : ''}" data-weight-preset="v1">v1 (교차 검증으로 고름)</button>
+            <button type="button" class="btn btn-sm ${getMatchingWeightPreset(c) === 'v0' ? 'btn-active' : ''}" data-weight-preset="v0">v0 (처음 손으로 정함)</button>
+          </div>
+          <p class="preset-note">
+            기본값 v1은 기준일 빼기 교차 검증으로 고른 가중치입니다 (평균 AUC 0.651 → 0.701).
+            <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/score_tuning.md" target="_blank" rel="noopener noreferrer">선정 과정 보기 ↗</a>
+          </p>
           <div class="slider-grid">${slidersHtml}</div>
         </div>
         <div>
@@ -353,6 +361,17 @@ export async function renderBacktestView(root) {
     window.dispatchEvent(new CustomEvent('app:recompute'));
   };
 
+  root.querySelectorAll('button[data-weight-preset]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const preset = WEIGHT_PRESETS[btn.dataset.weightPreset];
+      if (!preset) return;
+      for (const k of WEIGHT_KEYS) {
+        appState.cfg[k] = preset[k];
+      }
+      trigger();
+    });
+  });
+
   root.querySelectorAll('input[data-weight-key]').forEach(inp => {
     inp.addEventListener('input', () => {
       const k = inp.dataset.weightKey;
@@ -360,6 +379,10 @@ export async function renderBacktestView(root) {
       appState.cfg[k] = v;
       const lbl = root.querySelector(`#btval_${k}`);
       if (lbl) lbl.textContent = k === 'outlet_cap' ? String(v) : v.toFixed(1);
+      const matched = getMatchingWeightPreset(appState.cfg);
+      root.querySelectorAll('button[data-weight-preset]').forEach(b => {
+        b.classList.toggle('btn-active', b.dataset.weightPreset === matched);
+      });
     });
     inp.addEventListener('change', trigger);
   });
