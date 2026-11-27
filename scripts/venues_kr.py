@@ -38,6 +38,9 @@ TYPE_UNKNOWN = "미정"           # type 이 빈칸 = 공개 근거로 종류를
 STATUSES = {"open": "운영", "paused": "휴업", "closed": "폐업", "unknown": "확인 필요"}
 SEOUL = "서울"
 UNKNOWN_CITY = "(도시 모름)"
+NON_VENUE_CITY = "(공연장 미상: 기획·레이블·행사 계정)"   # 공연장이 아닌 인스타 계정의 라인업 글 — 어느 공연장인지 모름
+NON_VENUE_ROLES = ("promoter_showcase", "label_showcase", "event_showcase")
+INSTA_ACCOUNTS = ROOT / "config" / "insta_accounts.json"
 GAP_MIN_DAYS = 3            # 우리 공연 날짜가 이보다 적으면 '거의 없음'
 RECENT_DAYS = 365           # 우리 데이터 마지막 공연이 1년 안이면 '운영'으로 봄
 NOT_VENUE = {"", "공연장 미정"}
@@ -160,12 +163,22 @@ def match_our_venues(master: Sequence[dict], our_names: Iterable[str]) -> Dict[s
     return out
 
 
+def city_kind(city: str) -> str:
+    """도시 → 서울 / 지방 / 모름 (공연장 미상 계정도 '모름')."""
+    if city == SEOUL:
+        return SEOUL
+    return UNKNOWN_CITY if city in (UNKNOWN_CITY, NON_VENUE_CITY, "") else "지방"
+
+
 def venue_city(stats: Dict[str, dict], match: Dict[str, int], master: Sequence[dict],
-               addresses: Dict[str, str]) -> Dict[str, str]:
-    """우리 공연장 → 도시 (마스터 목록 → 공연 원본 주소 → 모름)."""
+               addresses: Dict[str, str], non_venue_handles: Iterable[str] = ()) -> Dict[str, str]:
+    """우리 공연장 → 도시 (마스터 목록 → 공연 원본 주소 → 모름). 공연장이 아닌 인스타 계정('@계정')은 NON_VENUE_CITY."""
+    skip = {h.lower() for h in non_venue_handles}
     out = {}
     for v in stats:
-        if v in match and master[match[v]].get("city"):
+        if v.startswith("@") and v[1:].lower() in skip and v not in match:
+            out[v] = NON_VENUE_CITY
+        elif v in match and master[match[v]].get("city"):
             out[v] = master[match[v]]["city"]
         else:
             out[v] = parse_region(addresses.get(v, ""))["city"] or UNKNOWN_CITY
@@ -290,13 +303,17 @@ def validate(cfg: dict) -> List[str]:
 
 
 def update_in_data(cfg: dict, stats: Dict[str, dict]) -> dict:
-    """마스터 목록에 our_venue(우리 대표 이름, 공연 날짜 많은 것)·in_our_data 를 채운 새 설정을 돌려준다."""
+    """마스터 목록에 our_venue(우리 대표 이름, 공연 날짜 많은 것)·in_our_data 를 채운 새 설정을 돌려준다.
+    '@계정'(인스타 라인업 글)은 대표 이름으로 쓰지 않는다 — venue_xref 가 our_venue 를 그 계정의 공연장 이름으로 쓰므로,
+    '@계정'만 있으면 마스터 이름을 쓴다(연결표가 '@계정' → 마스터 이름으로 묶음)."""
     master = cfg["venues"]
     by_entry = _matched_by_entry(match_our_venues(master, stats))
     venues = []
     for i, e in enumerate(master):
         names = sorted(by_entry.get(i, []), key=lambda n: -stats[n]["gig_days"])
-        venues.append({**e, "our_venue": names[0] if names else None, "in_our_data": bool(names)})
+        plain = [n for n in names if not n.startswith("@")]
+        our = plain[0] if plain else (e["name"] if names else None)
+        venues.append({**e, "our_venue": our, "in_our_data": bool(names)})
     return {**cfg, "venues": venues}
 
 
@@ -307,6 +324,12 @@ def load_json(path: Path, default=None):
         return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return default
+
+
+def non_venue_handles(path: Path = INSTA_ACCOUNTS) -> set:
+    """공연장이 아닌 라인업 계정(기획·레이블·행사, config/insta_accounts.json role)."""
+    accounts = (load_json(path, {}) or {}).get("accounts", [])
+    return {a["handle"].lower() for a in accounts if a.get("role") in NON_VENUE_ROLES and a.get("handle")}
 
 
 def not_venue_names(path: Path = CAPACITY) -> set:
@@ -353,6 +376,9 @@ def _summary(master: Sequence[dict], match: Dict[str, int], stats: Dict[str, dic
     local_in = sum(1 for i in alive_idx if master[i].get("city") not in ("", SEOUL) and i in in_data)
     total_days = sum(d["gig_days"] for d in dist)
     seoul_days = sum(d["gig_days"] for d in dist if d["city"] == SEOUL)
+    unknown_days = sum(d["gig_days"] for d in dist if city_kind(d["city"]) == UNKNOWN_CITY)
+    nonvenue_days = sum(d["gig_days"] for d in dist if d["city"] == NON_VENUE_CITY)
+    known_days = total_days - unknown_days
     status = Counter(e.get("status") for e in master)
     ext = external_coverage(master, match, stats)
     ext_local, ext_local_in = ext["external"] - ext["seoul"], ext["in_data"] - ext["seoul_in_data"]
@@ -365,7 +391,9 @@ def _summary(master: Sequence[dict], match: Dict[str, int], stats: Dict[str, dic
         f"- 다만 목록 일부를 우리 데이터에서 만들었으므로 위 비율은 부풀려져 있습니다. **바깥 근거(기사·인스타·인디고·위키)가 있는 "
         f"{ext['external']}곳만 보면** 서울 {ext['seoul_in_data']}/{ext['seoul']} ({_pct(ext['seoul_in_data'], ext['seoul'])}) · "
         f"지방 {ext_local_in}/{ext_local} ({_pct(ext_local_in, ext_local)}).",
-        f"- 우리 공연 날짜 {total_days:,}건 중 **서울 {seoul_days:,}건 ({_pct(seoul_days, total_days)})**.",
+        f"- 우리 공연 날짜 {total_days:,}건 중 **서울 {seoul_days:,}건 ({_pct(seoul_days, total_days)})**. "
+        f"도시를 아는 {known_days:,}건만 보면 서울 {_pct(seoul_days, known_days)} "
+        f"(도시 모름 {unknown_days:,}건 — 그중 공연장이 아닌 기획·레이블·행사 계정 라인업 {nonvenue_days:,}건).",
     ]
 
 
@@ -391,7 +419,7 @@ def _distribution_section(dist: List[dict], stats: Dict[str, dict], city_of: Dic
     by_src: Dict[str, Counter] = defaultdict(Counter)
     for v, s in stats.items():
         c = city_of.get(v, UNKNOWN_CITY)
-        kind = SEOUL if c == SEOUL else (UNKNOWN_CITY if c == UNKNOWN_CITY else "지방")
+        kind = city_kind(c)
         for src, n in s["sources"].items():
             by_src[src][kind] += n
     for src, c in sorted(by_src.items(), key=lambda kv: -sum(kv[1].values())):
@@ -410,7 +438,7 @@ def _year_section(rows: Sequence[dict], city_of: Dict[str, str]) -> List[str]:
             continue
         seen.add((v, r["signal_date"]))
         c = city_of.get(v, UNKNOWN_CITY)
-        per[r["signal_date"][:4]][SEOUL if c == SEOUL else ("지방" if c != UNKNOWN_CITY else UNKNOWN_CITY)] += 1
+        per[r["signal_date"][:4]][city_kind(c)] += 1
     lines = ["| 연도 | 공연 날짜 | 서울 비율 | 지방 | 도시 모름 |", "|---|---|---|---|---|"]
     for y in sorted(per):
         c = per[y]
@@ -463,9 +491,9 @@ def _candidates_section(gaps: List[dict]) -> List[str]:
 
 
 def render(cfg: dict, stats: Dict[str, dict], match: Dict[str, int], addresses: Dict[str, str],
-           rows: Optional[Sequence[dict]] = None) -> str:
+           rows: Optional[Sequence[dict]] = None, non_venue_handles: Iterable[str] = ()) -> str:
     master = cfg["venues"]
-    city_of = venue_city(stats, match, master, addresses)
+    city_of = venue_city(stats, match, master, addresses, non_venue_handles)
     dist = city_distribution(stats, city_of)
     all_teams = len(set().union(*(s["teams"] for s in stats.values()))) if stats else 0
     gaps = source_gaps(master, match, stats)
@@ -728,7 +756,7 @@ def main() -> None:
     for p in validate(cfg):
         print("형식 문제:", p)
     match = match_our_venues(cfg["venues"], stats)
-    OUT.write_text(render(cfg, stats, match, our_addresses(), rows), encoding="utf-8")
+    OUT.write_text(render(cfg, stats, match, our_addresses(), rows, non_venue_handles()), encoding="utf-8")
     print(f"공연장 {len(cfg['venues'])}곳 · 우리 공연장 {len(stats)}곳 중 짝 {len(match)}곳 → {OUT.relative_to(ROOT)}")
 
 

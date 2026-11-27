@@ -111,8 +111,8 @@
    "indiego_url": "https://www.indiego.co.kr/venues/118-astra-live",
    "indiego_past": 1,
    "checked": "2026-11-27",
-   "our_venue": null,
-   "in_our_data": false,
+   "our_venue": "ASTRA Live",
+   "in_our_data": true,
    "status_note": "인디고 최근 공연 2026-10-09 (2026-11-27 확인)",
    "type_basis": "",
    "geo_checked": "2026-11-27",
@@ -120,6 +120,31 @@
    "lon": 126.91904,
    "geo_confidence": "medium",
    "geo_method": "address"
+  },
+  {
+   "name": "BOLERO",
+   "aliases": [
+    "볼레로"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "용산구",
+   "address": "서울 용산구 이태원로 220 B1",
+   "type": "live_club",
+   "type_basis": "수동: 소개글·후보 조사 메모 — 이태원 힙합·DJ 클럽",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-23 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/boleroseoul/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "boleroseoul",
+   "checked": "2026-11-28",
+   "our_venue": "BOLERO",
+   "in_our_data": true
   },
   {
    "name": "Bender",
@@ -153,6 +178,31 @@
    "lon": 126.923372,
    "geo_confidence": "high",
    "geo_method": "address"
+  },
+  {
+   "name": "Blank Site Seoul",
+   "aliases": [
+    "블랭크 사이트"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "용산구",
+   "address": "서울 용산구 보광로60길 22 B2",
+   "type": "hall",
+   "type_basis": "수동: 소개글 — 대관형 공연장, 스탠딩 450",
+   "capacity": 450,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-18 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/blanksite_seoul/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "blanksite_seoul",
+   "checked": "2026-11-28",
+   "our_venue": "Blank Site Seoul",
+   "in_our_data": true
   },
   {
    "name": "CJ아지트 광흥창",
@@ -225,6 +275,31 @@
    "lon": 126.998288,
    "geo_confidence": "high",
    "geo_method": "address"
+  },
+  {
+   "name": "Cakeshop",
+   "aliases": [
+    "케이크샵"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "용산구",
+   "address": "",
+   "type": "live_club",
+   "type_basis": "수동: 후보 조사 메모 — 이태원 대표 DJ 클럽",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-26 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/cakeshopseoul/",
+     "note": "공연장 인스타 소개·후보 조사 기록(이태원 클럽)"
+    }
+   ],
+   "instagram": "cakeshopseoul",
+   "checked": "2026-11-28",
+   "our_venue": "Cakeshop",
+   "in_our_data": true
   },
   {
    "name": "Club FF",
@@ -316,7 +391,7 @@
    "indiego_url": "https://www.indiego.co.kr/venues/28-%ED%81%B4%EB%9F%BD%EC%83%A4%ED%94%84",
    "indiego_past": 39,
    "checked": "2026-11-27",
-   "our_venue": "Club Sharp",
+   "our_venue": "클럽샤프",
    "in_our_data": true,
    "type_basis": "이름 'Club Sharp'에 'Club' → 라이브클럽",
    "geo_checked": "2026-11-27",
@@ -456,6 +531,31 @@
    "geo_method": "address"
   },
   {
+   "name": "Dive Records",
+   "aliases": [
+    "다이브 레코즈"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "중구",
+   "address": "서울 중구 을지로3가 295-9 2층",
+   "type": "cafe",
+   "type_basis": "수동: 소개글 — 을지로 레코드 가게(매장 공연)",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-26 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/diverecords_seoul/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "diverecords_seoul",
+   "checked": "2026-11-28",
+   "our_venue": "Dive Records",
+   "in_our_data": true
+  },
+  {
    "name": "GB가빈아트홀",
    "aliases": [],
    "province": "서울",
@@ -487,6 +587,31 @@
    "lon": 127.055536,
    "geo_confidence": "high",
    "geo_method": "address"
+  },
+  {
+   "name": "H.O.Ë",
+   "aliases": [
+    "HOE"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 와우산로17길 12 5층",
+   "type": "live_club",
+   "type_basis": "수동: 소개글 — 마포 소형 DJ 클럽",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-24 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/h.o.e.seoul/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "h.o.e.seoul",
+   "checked": "2026-11-28",
+   "our_venue": "H.O.Ë",
+   "in_our_data": true
   },
   {
    "name": "Hukez",
@@ -568,8 +693,8 @@
    "indiego_url": "https://www.indiego.co.kr/venues/121-kspo-dome",
    "indiego_past": 1,
    "checked": "2026-11-27",
-   "our_venue": null,
-   "in_our_data": false,
+   "our_venue": "KSPO DOME",
+   "in_our_data": true,
    "mainstream": true,
    "status_note": "인디고 최근 공연 2026-09-26 (2026-11-27 확인)",
    "type_basis": "이름 'KSPO DOME'에 'DOME' → 홀·공연장",
@@ -669,6 +794,56 @@
    "geo_method": "address"
   },
   {
+   "name": "Lit Lounge Itaewon",
+   "aliases": [
+    "릿라운지 이태원"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "용산구",
+   "address": "",
+   "type": "cafe",
+   "type_basis": "수동: 소개글 — 이태원 힙합·아프로비츠 라운지",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-18 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/litlounge_itw/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "litlounge_itw",
+   "checked": "2026-11-28",
+   "our_venue": "Lit Lounge Itaewon",
+   "in_our_data": true
+  },
+  {
+   "name": "LoveHaus",
+   "aliases": [
+    "러브하우스"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "용산구",
+   "address": "",
+   "type": "cafe",
+   "type_basis": "수동: 후보 조사 메모 — 이태원 DJ 바",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-22 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/lvhs.kr/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "lvhs.kr",
+   "checked": "2026-11-28",
+   "our_venue": "LoveHaus",
+   "in_our_data": true
+  },
+  {
    "name": "NOL 씨어터 합정",
    "aliases": [
     "NOL 씨어터 합정 동양생명홀"
@@ -708,6 +883,31 @@
    "lon": 126.913962,
    "geo_confidence": "high",
    "geo_method": "address"
+  },
+  {
+   "name": "Paper Seoul",
+   "aliases": [
+    "페이퍼 서울"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "용산구",
+   "address": "서울 용산구 이태원로27가길 37 루프탑",
+   "type": "live_club",
+   "type_basis": "수동: 소개글 — 이태원 루프탑 DJ 클럽",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-24 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/paper.seoul/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "paper.seoul",
+   "checked": "2026-11-28",
+   "our_venue": "Paper Seoul",
+   "in_our_data": true
   },
   {
    "name": "SMALL FRY",
@@ -761,7 +961,7 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-11-28",
    "instagram": "space_soda2002",
    "checked": "2026-11-27",
-   "our_venue": "@space_soda2002",
+   "our_venue": "SPACE SODA2002",
    "in_our_data": true,
    "type_basis": "",
    "geo_checked": "2026-11-27",
@@ -790,11 +990,13 @@
      "note": "공연장 공식 인스타그램"
     }
    ],
-   "our_names": [],
+   "our_names": [
+    "신촌 SPIN & GRIND"
+   ],
    "status_note": "우리 공연 데이터 마지막 공연 2026-11-20",
    "instagram": "spinandgrind",
    "checked": "2026-11-27",
-   "our_venue": "SPIN AND GRIND",
+   "our_venue": "신촌 SPIN & GRIND",
    "in_our_data": true,
    "type_basis": "",
    "geo_checked": "2026-11-27",
@@ -863,6 +1065,56 @@
    "lon": 126.925518,
    "geo_confidence": "medium",
    "geo_method": "address"
+  },
+  {
+   "name": "TOOL Records & Bar",
+   "aliases": [
+    "툴 레코즈"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "",
+   "address": "",
+   "type": "cafe",
+   "type_basis": "수동: 소개글 — 레코드 가게·카페·바",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-26 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/tool.seoul/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "tool.seoul",
+   "checked": "2026-11-28",
+   "our_venue": "TOOL Records & Bar",
+   "in_our_data": true
+  },
+  {
+   "name": "Teller",
+   "aliases": [
+    "텔러"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "용산구",
+   "address": "서울 용산구 우사단로 39 B1",
+   "type": "live_club",
+   "type_basis": "수동: 소개글 — 우사단로 DJ 클럽",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-24 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/teller.seoul/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "teller.seoul",
+   "checked": "2026-11-28",
+   "our_venue": "Teller",
+   "in_our_data": true
   },
   {
    "name": "XSCALA(엑스칼라)",
@@ -1003,8 +1255,8 @@
    "indiego_url": "https://www.indiego.co.kr/venues/19-%EA%B3%A0%EB%9D%BC%EB%8B%88%ED%8A%B9%EA%B3%B5%EB%8C%80",
    "indiego_past": 3,
    "checked": "2026-11-27",
-   "our_venue": null,
-   "in_our_data": false,
+   "our_venue": "고라니특공대",
+   "in_our_data": true,
    "status_note": "인디고 최근 공연 2026-10-05 (2026-11-27 확인)",
    "type_basis": "",
    "geo_checked": "2026-11-27",
@@ -1092,7 +1344,7 @@
    "status_note": "우리 공연 데이터 마지막 공연 2025-12-13",
    "instagram": "001_club",
    "checked": "2026-11-27",
-   "our_venue": "공공일클럽",
+   "our_venue": "001 라이브홀",
    "in_our_data": true,
    "indiego_url": "https://www.indiego.co.kr/venues/179-001-%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%99%80",
    "indiego_past": 1,
@@ -1212,6 +1464,31 @@
    "lon": 126.928602,
    "geo_confidence": "high",
    "geo_method": "address"
+  },
+  {
+   "name": "그래픽 한강",
+   "aliases": [
+    "Graphic Hangang"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "",
+   "address": "",
+   "type": "cafe",
+   "type_basis": "수동: 후보 조사 메모 — 만화·책 바, 리스닝 이벤트",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-24 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/graphic.hangang/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "graphic.hangang",
+   "checked": "2026-11-28",
+   "our_venue": "그래픽 한강",
+   "in_our_data": true
   },
   {
    "name": "그림라이브하우스",
@@ -1346,6 +1623,32 @@
    "geo_method": "address"
   },
   {
+   "name": "누에 nué",
+   "aliases": [
+    "누에",
+    "nué"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "",
+   "address": "",
+   "type": "cafe",
+   "type_basis": "수동: 후보 조사 메모 — 서울 DJ 바",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-20 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/nue.seoul/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "nue.seoul",
+   "checked": "2026-11-28",
+   "our_venue": "누에 nué",
+   "in_our_data": true
+  },
+  {
    "name": "더 마스카니",
    "aliases": [
     "The Mascani"
@@ -1371,8 +1674,8 @@
    "indiego_url": "https://www.indiego.co.kr/venues/143-%EB%8D%94-%EB%A7%88%EC%8A%A4%EC%B9%B4%EB%8B%88",
    "indiego_past": 1,
    "checked": "2026-11-27",
-   "our_venue": null,
-   "in_our_data": false,
+   "our_venue": "더 마스카니",
+   "in_our_data": true,
    "type_basis": "",
    "geo_checked": "2026-11-27"
   },
@@ -1432,8 +1735,8 @@
    "indiego_url": "https://www.indiego.co.kr/venues/176-%EB%91%98-%EC%8A%A4%ED%8A%9C%EB%94%94%EC%98%A4",
    "indiego_past": 1,
    "checked": "2026-11-27",
-   "our_venue": null,
-   "in_our_data": false,
+   "our_venue": "둘 스튜디오",
+   "in_our_data": true,
    "merge_note": "인디고 '둘 스튜디오'(마포구 잔다리로 20)에 2026-11-01 '2026 LALALAON' 공연 — 라랄라온 보도의 Tool Studio(11-01, 바비핀즈 등)와 같은 날·같은 행사",
    "instagram": "dule_studio",
    "status_note": "인디고 최근 공연 2026-11-01 (2026-11-27 확인)",
@@ -1675,6 +1978,31 @@
    "in_our_data": false,
    "type_basis": "이름 '레진코믹스 브이홀'에 '홀' → 홀·공연장",
    "geo_checked": "2026-11-27"
+  },
+  {
+   "name": "록집",
+   "aliases": [
+    "rock.zip"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 양화로6길 103 2층",
+   "type": "cafe",
+   "type_basis": "수동: 소개글 — 카페 & 펍, 공연·대관",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-27 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/rock._.zip/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "rock._.zip",
+   "checked": "2026-11-28",
+   "our_venue": "록집",
+   "in_our_data": true
   },
   {
    "name": "롤러코스터",
@@ -2051,6 +2379,32 @@
    "geo_method": "name+address"
   },
   {
+   "name": "무대륙B",
+   "aliases": [
+    "MUB",
+    "무대륙 B"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 토정로5길 12 (무대륙 지하)",
+   "type": "live_club",
+   "type_basis": "수동: 소개글 — 'Indie Music Venue & CAFE / BAR'(무대륙 지하)",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-19 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/mudaeruk_b/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "mudaeruk_b",
+   "checked": "2026-11-28",
+   "our_venue": "무대륙B",
+   "in_our_data": true
+  },
+  {
    "name": "무신사 개러지",
    "aliases": [
     "무신사개러지"
@@ -2356,8 +2710,8 @@
    "indiego_url": "https://www.indiego.co.kr/venues/123-%EB%B8%94%EB%A3%A8%EC%8A%A4%ED%80%98%EC%96%B4",
    "indiego_past": 2,
    "checked": "2026-11-27",
-   "our_venue": null,
-   "in_our_data": false,
+   "our_venue": "블루스퀘어",
+   "in_our_data": true,
    "mainstream": true,
    "status_note": "인디고 최근 공연 2026-11-20 (2026-11-27 확인)",
    "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
@@ -2632,7 +2986,7 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-02-22",
    "instagram": "subriot_hbc",
    "checked": "2026-11-27",
-   "our_venue": "@subriot_hbc",
+   "our_venue": "서브라이엇 해방촌",
    "in_our_data": true,
    "merge_note": "같은 공간: 더 스튜디오 HBC(2024년 말 폐업) → 새 운영자가 서브라이엇(Subriot)으로 2025-02 재개장 (Korea Times 2025-02)",
    "type_basis": "수동: Korea Times 2025-02-11 — 해방촌 지하 라이브 공연장, 최대 80명 (https://www.koreatimes.co.kr/amp/southkorea/globalcommunity/20250211/live-music-returns-to-haebangchon) (2026-11-27 확인)",
@@ -2747,6 +3101,32 @@
    "lon": 127.098225,
    "geo_confidence": "high",
    "geo_method": "address"
+  },
+  {
+   "name": "성수율 뮤직 3F",
+   "aliases": [
+    "성수율 뮤직",
+    "성수율"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "성동구",
+   "address": "",
+   "type": "hall",
+   "type_basis": "수동: 소개글 — 'Immersive Audiovisual Space'(구는 이름의 '성수'로 정함)",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-26 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/seongsuyulmusic/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "seongsuyulmusic",
+   "checked": "2026-11-28",
+   "our_venue": "성수율 뮤직 3F",
+   "in_our_data": true
   },
   {
    "name": "성우레더스테이지",
@@ -2865,8 +3245,8 @@
    "indiego_url": "https://www.indiego.co.kr/venues/74-%EC%88%B2%EC%84%B8%EA%B6%8C",
    "indiego_past": 4,
    "checked": "2026-11-27",
-   "our_venue": null,
-   "in_our_data": false,
+   "our_venue": "숲세권",
+   "in_our_data": true,
    "status_note": "인디고 최근 공연 2026-09-20 (2026-11-27 확인)",
    "type_basis": "",
    "geo_checked": "2026-11-27"
@@ -3991,7 +4371,7 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-11-20",
    "instagram": "hai_info",
    "checked": "2026-11-27",
-   "our_venue": "@hai_info",
+   "our_venue": "을지로 H.ai",
    "in_our_data": true,
    "type_basis": "",
    "geo_checked": "2026-11-27"
@@ -4190,6 +4570,31 @@
    "geo_method": "address"
   },
   {
+   "name": "잼라운지 홍대",
+   "aliases": [
+    "Jam Lounge Hongdae"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "",
+   "type": "cafe",
+   "type_basis": "수동: 소개글 — 'Live Music Bar'",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-21 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/_jam_lounge_hongdae/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "_jam_lounge_hongdae",
+   "checked": "2026-11-28",
+   "our_venue": "잼라운지 홍대",
+   "in_our_data": true
+  },
+  {
    "name": "제비다방",
    "aliases": [
     "Jebidabang"
@@ -4320,6 +4725,32 @@
    "lon": 126.927035,
    "geo_confidence": "high",
    "geo_method": "address"
+  },
+  {
+   "name": "축제 (을지로)",
+   "aliases": [
+    "祝祭",
+    "festivalfestival"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "중구",
+   "address": "서울 중구 수표로6길 10 지하",
+   "type": "live_club",
+   "type_basis": "수동: 소개글 — 공연·파티 공간",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-24 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/festivalfestivalseoul/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "festivalfestivalseoul",
+   "checked": "2026-11-28",
+   "our_venue": "축제 (을지로)",
+   "in_our_data": true
   },
   {
    "name": "카페 아이다호",
@@ -4964,6 +5395,31 @@
    "geo_method": "address"
   },
   {
+   "name": "플랫나인",
+   "aliases": [
+    "FLATNINE"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "",
+   "address": "",
+   "type": "cafe",
+   "type_basis": "수동: 소개글 — 'Seoul Jazz bar'",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-24 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/flatnine_jazzbar/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "flatnine_jazzbar",
+   "checked": "2026-11-28",
+   "our_venue": "플랫나인",
+   "in_our_data": true
+  },
+  {
    "name": "허밋",
    "aliases": [
     "Hermit"
@@ -4989,8 +5445,8 @@
    "indiego_url": "https://www.indiego.co.kr/venues/37-%ED%97%88%EB%B0%8B",
    "indiego_past": 21,
    "checked": "2026-11-27",
-   "our_venue": null,
-   "in_our_data": false,
+   "our_venue": "허밋",
+   "in_our_data": true,
    "type_basis": "",
    "geo_checked": "2026-11-27"
   },
@@ -5045,8 +5501,8 @@
    "indiego_url": "https://www.indiego.co.kr/venues/64-%ED%99%8D%EB%8C%80-%EC%8A%A4%EC%9C%99%ED%99%80",
    "indiego_past": 1,
    "checked": "2026-11-27",
-   "our_venue": null,
-   "in_our_data": false,
+   "our_venue": "홍대 스윙홀",
+   "in_our_data": true,
    "status_note": "인디고 최근 공연 2026-03-22 (2026-11-27 확인)",
    "type_basis": "이름 '홍대 스윙홀'에 '홀' → 홀·공연장",
    "geo_checked": "2026-11-27",
@@ -5290,6 +5746,31 @@
    "lon": 126.748326,
    "geo_confidence": "high",
    "geo_method": "name+address"
+  },
+  {
+   "name": "VINTA",
+   "aliases": [
+    "빈타"
+   ],
+   "province": "경기",
+   "city": "수원",
+   "district": "",
+   "address": "경기도 수원시 팔달로 239 지하",
+   "type": "live_club",
+   "type_basis": "수동: 소개글 — 'Indie LiveClub & Pub, Suwon'",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-24 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/vinta_suwon/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "vinta_suwon",
+   "checked": "2026-11-28",
+   "our_venue": "VINTA",
+   "in_our_data": true
   },
   {
    "name": "딩깅프렌즈",
@@ -5668,7 +6149,7 @@
    "our_names": [],
    "instagram": "gj__peakmusic",
    "checked": "2026-11-27",
-   "our_venue": "@gj__peakmusic",
+   "our_venue": "광주음악창작소",
    "in_our_data": true,
    "merge_note": "광주음악창작소 인스타 계정이 @gj__peakmusic — 피크뮤직(광주음악산업진흥센터)이 운영",
    "type_basis": "이름 '광주음악창작소'에 '창작소' → 창작소·지원 시설",
@@ -6589,6 +7070,32 @@
    "geo_checked": "2026-11-27"
   },
   {
+   "name": "CLUB NASUB",
+   "aliases": [
+    "클럽 나수브",
+    "나수브"
+   ],
+   "province": "부산",
+   "city": "부산",
+   "district": "부산진구",
+   "address": "부산 부산진구 (소개글: Busanjin-gu 702, 27-3, 1-4F)",
+   "type": "live_club",
+   "type_basis": "수동: 소개글 — 부산진구 DJ 클럽",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-22 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/clubnasub/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "clubnasub",
+   "checked": "2026-11-28",
+   "our_venue": "CLUB NASUB",
+   "in_our_data": true
+  },
+  {
    "name": "HQ광안",
    "aliases": [
     "HQ Bar",
@@ -7023,13 +7530,18 @@
     {
      "url": "https://www.mcst.go.kr/site/s_culture/culture/cultureView.jsp?pSeq=70188",
      "note": "지역 창작소·인디 온 스포트라이트 (지방 출처 조사 문서)"
+    },
+    {
+     "url": "https://www.instagram.com/musiclab_busan/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
     }
    ],
    "checked": "2026-11-27",
-   "our_venue": null,
-   "in_our_data": false,
+   "our_venue": "부산음악창작소",
+   "in_our_data": true,
    "type_basis": "이름 '부산음악창작소'에 '창작소' → 창작소·지원 시설",
-   "geo_checked": "2026-11-27"
+   "geo_checked": "2026-11-27",
+   "instagram": "musiclab_busan"
   },
   {
    "name": "북두칠성도서관 아트훌",
@@ -7607,6 +8119,32 @@
    "in_our_data": true,
    "type_basis": "이름 '인천여관X루비살롱'에 '살롱' → 카페·바",
    "geo_checked": "2026-11-27"
+  },
+  {
+   "name": "인천음악창작소 Portrock",
+   "aliases": [
+    "포트락",
+    "인천음악창작소"
+   ],
+   "province": "인천",
+   "city": "인천",
+   "district": "",
+   "address": "",
+   "type": "creation_center",
+   "type_basis": "수동: 소개글 — 인천 지역 뮤지션 제작지원·기획",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-22 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/portrock_incheon/",
+     "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    }
+   ],
+   "instagram": "portrock_incheon",
+   "checked": "2026-11-28",
+   "our_venue": "인천음악창작소 Portrock",
+   "in_our_data": true
   },
   {
    "name": "클럽 낙",

@@ -1,5 +1,5 @@
 {
- "_설명": "인스타 음악 매거진·큐레이터·공연장 수집 대상. tier: main=매일, sub=every_days(7)마다, venue=공연장(2일마다). 새 계정은 처음 확인일을 주기 안에서 나눠 배정(collect_insta.stagger), 한 번에 최대 260계정. role: magazine=평론·큐레이션 매체, venue_showcase=공연장·기획 계정(라인업 공지 → 공연 갈래로 셈), artist=팀 본인 계정(수집하지 않음 — 그 글을 큐레이션으로 세면 다른 팀에 가짜 신호. '팀 아닌 계정'으로도 보지 않음). 후보 원본·선정 근거는 data/raw/review/instagram_*.json(비공개).",
+ "_설명": "인스타 음악 매거진·큐레이터·공연장 수집 대상. tier: main=매일, sub=every_days(7)마다, venue=공연장(2일마다). 새 계정은 처음 확인일을 주기 안에서 나눠 배정(collect_insta.stagger), 한 번에 최대 260계정. role: magazine=평론·큐레이션 매체, venue_showcase=공연장·기획 계정(라인업 공지 → 공연 갈래로 셈), artist=팀 본인 계정(수집하지 않음 — 그 글을 큐레이션으로 세면 다른 팀에 가짜 신호. '팀 아닌 계정'으로도 보지 않음). 후보 원본·선정 근거는 data/raw/review/instagram_*.json(비공개). role 추가(2026-11-28): promoter_showcase=기획·파티 크루·에이전시, label_showcase=레이블·배급사, event_showcase=페스티벌·행사 — 모두 라인업 공지라 '공연'으로 세지만 어느 공연장인지는 모름(공연장 미상). 이들은 sub 등급 7일마다.",
  "accounts": [
   {
    "handle": "pushplay_mag",
@@ -110,8 +110,8 @@
    "handle": "liveclubday",
    "name": "라이브클럽데이",
    "tier": "sub",
-   "every_days": 3,
-   "role": "venue_showcase"
+   "every_days": 7,
+   "role": "event_showcase"
   },
   {
    "handle": "banding.mag",
@@ -516,9 +516,9 @@
   {
    "handle": "afternoon_records",
    "name": "애프터눈",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "label_showcase",
    "genre": "indie_rock"
   },
   {
@@ -660,9 +660,9 @@
   {
    "handle": "seoul_recordfair",
    "name": "서울레코드페어",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "event_showcase",
    "genre": "mixed"
   },
   {
@@ -972,9 +972,9 @@
   {
    "handle": "delay_relay",
    "name": "Delay Relay Festival",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "event_showcase",
    "genre": "mixed"
   },
   {
@@ -988,9 +988,9 @@
   {
    "handle": "mirrorballmusic_official",
    "name": "미러볼뮤직 Mirrorball Music",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "label_showcase",
    "genre": "mixed"
   },
   {
@@ -1004,9 +1004,9 @@
   {
    "handle": "gyeonggimusic",
    "name": "경기뮤직 GYEONGGI MUSIC",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "mixed"
   },
   {
@@ -1036,9 +1036,9 @@
   {
    "handle": "younggiftedwack",
    "name": "영기획YOUNG,GIFTED&WACK",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "label_showcase",
    "genre": "mixed"
   },
   {
@@ -1204,9 +1204,9 @@
   {
    "handle": "slowbyslowly",
    "name": "S, LO, W",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "indie_rock"
   },
   {
@@ -1332,9 +1332,9 @@
   {
    "handle": "dnb.seoul",
    "name": "DNB SEOUL",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -1420,9 +1420,9 @@
   {
    "handle": "galactique_seoul",
    "name": "GALACTIQUE SEOUL",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -1436,9 +1436,9 @@
   {
    "handle": "beatology_seoul",
    "name": "Beatology",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "beat"
   },
   {
@@ -1468,9 +1468,9 @@
   {
    "handle": "foreignbody.life",
    "name": "foreign body",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -1492,9 +1492,9 @@
   {
    "handle": "basscamp_crew",
    "name": "BASSCAMP",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -1508,9 +1508,9 @@
   {
    "handle": "ceilingservice",
    "name": "ceiling service",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "experimental"
   },
   {
@@ -1780,9 +1780,9 @@
   {
    "handle": "__2ndfloor",
    "name": "2ndfloor",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -1796,9 +1796,9 @@
   {
    "handle": "darklight_seoul",
    "name": "Darklight Drum and Bass",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -1812,9 +1812,9 @@
   {
    "handle": "beyondthebridgemusic",
    "name": "Beyond the Bridge",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "label_showcase",
    "genre": "club"
   },
   {
@@ -1828,9 +1828,9 @@
   {
    "handle": "more_breaks_kr",
    "name": "More Breaks",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -1908,9 +1908,9 @@
   {
    "handle": "mushroomhouse_kr",
    "name": "MUSHROOM HOUSE",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -1924,9 +1924,9 @@
   {
    "handle": "soar.wav",
    "name": "SOAR",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -1940,9 +1940,9 @@
   {
    "handle": "dhj.global",
    "name": "DHJ (do-hwa-ji)",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -1996,9 +1996,9 @@
   {
    "handle": "venn.seoul",
    "name": "venn",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -2012,9 +2012,9 @@
   {
    "handle": "fromrgb",
    "name": "RGB",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -2044,9 +2044,9 @@
   {
    "handle": "gestalt_club__",
    "name": "GESTALT",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -2076,9 +2076,9 @@
   {
    "handle": "basscore.kr",
    "name": "BASSCORE",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -2092,9 +2092,9 @@
   {
    "handle": "seoul_electronic_records",
    "name": "서울전자레코즈",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "label_showcase",
    "genre": "experimental"
   },
   {
@@ -2140,9 +2140,9 @@
   {
    "handle": "net_taskforce",
    "name": "NET_TASKFORCE",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -2748,9 +2748,9 @@
   {
    "handle": "newwaveseoul",
    "name": "New Wave Seoul",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "hiphop"
   },
   {
@@ -2796,9 +2796,9 @@
   {
    "handle": "daytona.ent",
    "name": "Daytona Entertainment",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "label_showcase",
    "genre": "hiphop"
   },
   {
@@ -2812,9 +2812,9 @@
   {
    "handle": "kcthecompany",
    "name": "KC",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "label_showcase",
    "genre": "hiphop"
   },
   {
@@ -2860,9 +2860,9 @@
   {
    "handle": "260asia_official",
    "name": "260Asia",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "label_showcase",
    "genre": "both"
   },
   {
@@ -2892,9 +2892,9 @@
   {
    "handle": "yngandrichrecords",
    "name": "Yng & Rich Records®",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "label_showcase",
    "genre": "hiphop"
   },
   {
@@ -3052,9 +3052,9 @@
   {
    "handle": "unbornsounds",
    "name": "UNBORN SOUNDS™️",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "rnb"
   },
   {
@@ -3084,9 +3084,9 @@
   {
    "handle": "daeguhiphopfestival",
    "name": "대구힙합페스티벌 DAEGU HIPHOP FESTIVAL (대힙페)",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "event_showcase",
    "genre": "hiphop"
   },
   {

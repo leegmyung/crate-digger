@@ -77,11 +77,21 @@ class RowsTest(unittest.TestCase):
         rows, _ = ci.to_rows("pushplay_mag", post, AT)
         self.assertEqual({(r["is_pick"], r["pick_label"]) for r in rows}, {("1", "")})
 
+    def test_promoter_label_event_accounts_are_lineup_too(self):
+        # 기획·크루, 레이블, 행사 계정도 라인업 공지라 '공연'으로 센다 (평론 픽 아님)
+        post = {"url": "https://www.instagram.com/p/V2/", "og": OG}
+        for role in ("promoter_showcase", "label_showcase", "event_showcase"):
+            rows, _ = ci.to_rows("somecrew", post, AT, role=role)
+            self.assertEqual({(r["is_pick"], r["pick_label"]) for r in rows}, {("0", "venue_lineup")}, role)
+
     def test_config_roles_are_known(self):
         accounts = ci._load_json(ci.CONFIG, {})["accounts"]
-        self.assertTrue(all(a.get("role") in ("magazine", "venue_showcase", "artist") for a in accounts))   # artist = 팀 본인 계정(수집 안 함)
+        known = ("magazine", "venue_showcase", "promoter_showcase", "label_showcase", "event_showcase", "artist")
+        self.assertTrue(all(a.get("role") in known for a in accounts))   # artist = 팀 본인 계정(수집 안 함)
         venues = {a["handle"] for a in accounts if a["role"] == "venue_showcase"}
-        self.assertTrue({"senggistudio", "hongdaeff", "rollinghall", "liveclubday"} <= venues)
+        self.assertTrue({"senggistudio", "hongdaeff", "rollinghall"} <= venues)
+        events = {a["handle"] for a in accounts if a["role"] == "event_showcase"}
+        self.assertIn("liveclubday", events)
 
     def test_caption_without_mentions_goes_to_review(self):
         post = {"url": "https://www.instagram.com/p/X/", "og": 'a on November 1, 2026: "이번 달 앨범: 삼월생, 강연우"'}

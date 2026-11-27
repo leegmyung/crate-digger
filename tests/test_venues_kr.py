@@ -117,6 +117,17 @@ class DistributionTest(unittest.TestCase):
         city_of = vk.venue_city(self.stats, self.match, self.master, {"모르는곳": "대전 중구 중교로 40"})
         self.assertEqual(city_of["모르는곳"], "대전")
 
+    def test_non_venue_account_handles_get_their_own_label_not_regional(self):
+        rows = [_sig("t1", "2025-01-01", "A"), _sig("t5", "2025-01-03", "@somecrew"), _sig("t6", "2025-01-04", "@realclub")]
+        stats = vk.gig_stats(rows)
+        match = vk.match_our_venues(self.master, list(stats))
+        city_of = vk.venue_city(stats, match, self.master, {}, non_venue_handles={"somecrew"})
+        self.assertEqual(city_of["@somecrew"], vk.NON_VENUE_CITY)
+        self.assertEqual(city_of["@realclub"], vk.UNKNOWN_CITY)
+        self.assertEqual(vk.city_kind(vk.NON_VENUE_CITY), vk.UNKNOWN_CITY)   # 지방으로 세지 않음
+        self.assertEqual(vk.city_kind("부산"), "지방")
+        self.assertEqual(vk.city_kind(vk.SEOUL), vk.SEOUL)
+
     def test_coverage_by_city_counts_open_and_in_data(self):
         cov = {c["city"]: c for c in vk.coverage_by_city(self.master, self.match, self.stats)}
         self.assertEqual((cov["서울"]["venues"], cov["서울"]["in_data"]), (1, 1))
@@ -143,6 +154,17 @@ class ExternalCoverageTest(unittest.TestCase):
         stats = vk.gig_stats([_sig("t", "2025-01-01", "A"), _sig("t", "2025-01-01", "B")])
         got = vk.external_coverage(master, vk.match_our_venues(master, stats), stats)
         self.assertEqual(got, {"external": 2, "in_data": 1, "seoul": 1, "seoul_in_data": 1})
+
+
+class UpdateInDataTest(unittest.TestCase):
+    def test_our_venue_is_never_an_instagram_handle(self):
+        # venue_xref 가 our_venue 를 '@계정'의 대표 이름으로 쓰므로, '@계정'이면 공연장 이름으로 안 바뀜
+        cfg = {"venues": [_v("BOLERO", instagram="boleroseoul"), _v("록집", instagram="rock._.zip"), _v("없음")]}
+        stats = vk.gig_stats([_sig("a", "2025-01-01", "@boleroseoul"), _sig("a", "2025-01-02", "@boleroseoul"),
+                              _sig("b", "2025-01-01", "@rock._.zip"), _sig("b", "2025-01-01", "록집"),
+                              _sig("b", "2025-01-02", "@rock._.zip")])
+        got = {e["name"]: (e["our_venue"], e["in_our_data"]) for e in vk.update_in_data(cfg, stats)["venues"]}
+        self.assertEqual(got, {"BOLERO": ("BOLERO", True), "록집": ("록집", True), "없음": (None, False)})
 
 
 class SameAddressTest(unittest.TestCase):

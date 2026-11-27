@@ -98,17 +98,23 @@ def is_sponsored(caption):
     return bool(SPONSORED_RE.search(caption or ""))
 
 
+# 라인업 공지 계정 — 글이 평론 픽이 아니라 '누가 어디서 공연한다'는 공지라 '공연'으로 센다 (is_pick=0, venue_lineup).
+# venue = 공연장, promoter = 기획·파티 크루·에이전시, label = 레이블·배급사, event = 페스티벌·행사.
+# 공연장이 아닌 계정은 공연장 칸('@계정')이 어느 공연장인지 알려 주지 않는다 (scripts/venues_kr.py 가 '공연장 미상'으로 따로 셈).
+LINEUP_ROLES = ("venue_showcase", "promoter_showcase", "label_showcase", "event_showcase")
+
+
 def to_rows(account, post, collected_at, role="magazine"):
     """게시물 1개 → (행 목록, 검수 대기 항목 또는 None)
 
-    role="venue_showcase"(공연장·기획 계정)의 글은 평론 픽이 아니라 라인업 공지라서
+    role 이 LINEUP_ROLES(공연장·기획·레이블·행사 계정)면 글이 평론 픽이 아니라 라인업 공지라서
     is_pick=0, pick_label=venue_lineup 으로 남긴다. 갈래 겹침에서 '공연'으로 센다 (이중 가점 방지).
     """
     parsed = parse_og(post.get("og", ""))
     found = mentions(parsed["caption"], own_handle=account)
     if not parsed["date"] or not found:
         return [], {"account": account, "url": post.get("url", ""), "date": parsed["date"], "caption": parsed["caption"][:1500]}
-    venue = role == "venue_showcase"
+    venue = role in LINEUP_ROLES
     base = {
         "collected_at": collected_at, "source": "instagram", "collector": "aside",
         "outlet": "@" + account, "published_at": parsed["date"],
