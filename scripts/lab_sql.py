@@ -32,6 +32,7 @@ DEFAULTS: Dict[str, str] = {
     # 점수 v2 기본 가중치 (2026-11-27): 발굴 신호만 + 맥락 매체 약하게, 정답 등급 가중 교차 검증(docs/score_tuning.md)
     "w_branch": "1", "w_stage": "1", "w_peer": "0", "w_dmz": "0", "w_gigs": "0", "w_outlets": "1",
     "outlet_cap": "3", "w_recent": "0", "w_venues": "1", "w_winner": "2", "w_context": "0.5", "w_collab": "0",
+    "venue_years": "2",   # 공연장 수를 세는 기간(년) — features.sql lab_scored 기본값과 같게 (2026-11-28 사용자 결정, docs/dormant_check.md)
     "k_list": "[20,50,100,200]", "only_no_outcome": "true", "limit": "100",
     # 이웃 비교·떠오르는 팀 (docs/peer_rising.md)
     "team": "''", "min_peers": "30", "window_days": "30", "min_recent": "2", "max_tier": "'M'", "max_fans": "10000",

@@ -9,7 +9,7 @@
 --   → 기준일 시점의 후보 팀 1팀 = 1행: 특징·점수 구성·점수, is_hit(기준일 뒤 관찰 기간 안에 정답), had_outcome(기준일 전 정답)
 -- 점수 = w_branch×(갈래 수−1) + w_stage×선정 최고 단계(DMZ 제외, 0~4) + w_peer×이미 선정된 팀과 같은 날·같은 공연장
 --      + w_dmz×DMZ 출연 + w_gigs×ln(1+직전 1년 공연 일수) + w_outlets×min(큐레이션 매체 수, 상한)
---      + w_recent×ln(1+직전 180일 신호 수) + w_venues×ln(1+서로 다른 공연장 수)
+--      + w_recent×ln(1+직전 180일 신호 수) + w_venues×ln(1+최근 venue_years년(기본 2년, 신호 보는 기간보다 길 수 없음) 서로 다른 공연장 수)
 --      + w_winner×(공연 당시 이미 정답을 받은 팀과 같은 날·같은 공연장)   ← 2021~ 정답이 있어 쓸 수 있음
 --      + w_collab×ln(1+기준일 전 신호 기간 안에 '기성 파트너'와 협업한 서로 다른 파트너 수)   ← 스포티파이 협업, 기본 0
 -- 신호 역할: signals.role = discovery 만 점수에 쓴다 (맥락·제외·검증 대기 출처 분류는 config/source_roles.json).
@@ -24,7 +24,9 @@ CREATE OR REPLACE MACRO lab_scored(cutoff, lookback_years, newcomer_years, exclu
                                    horizon_months, genre, branches,
                                    w_branch, w_stage, w_peer, w_dmz, w_gigs, w_outlets, outlet_cap,
                                    w_recent := 0, w_venues := 0, w_winner := 0, w_context := 0,
-                                   w_collab := 0) AS TABLE   -- 안 넘기면 0
+                                   w_collab := 0,            -- 안 넘기면 0
+                                   venue_years := 2) AS TABLE  -- 공연장 수를 세는 기간(년). 2026-11-28 사용자 결정: 최근 2년만
+                                                                --   (3년 그대로면 2024년에 돌고 멈춘 팀이 남음, docs/dormant_check.md)
 WITH sig_all AS (                               -- 발굴 + 맥락 신호 (제외·검증 대기 출처는 빼고, config/source_roles.json)
     SELECT * FROM signals
     WHERE role IN ('discovery', 'context')
@@ -80,6 +82,7 @@ feat AS (
            COUNT(DISTINCT CASE WHEN branch = '큐레이션' THEN program END)                  AS outlets,
            COUNT(CASE WHEN signal_date >= cutoff - INTERVAL 180 DAY THEN 1 END)          AS recent180,
            COUNT(DISTINCT CASE WHEN branch = '공연' AND COALESCE(venue, '') NOT IN ('', '공연장 미정')
+                                    AND signal_date >= cutoff - to_years(CAST(venue_years AS INTEGER))
                                THEN venue END)                                            AS venues,
            MAX(signal_date)                                                               AS last_seen
     FROM sig GROUP BY team_key

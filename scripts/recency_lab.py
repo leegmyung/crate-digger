@@ -7,7 +7,8 @@
 기간을 줄인 값을 바꿔 끼워(feature_lab 방식) 같은 기준일 6개·같은 지표로 비교한다.
 - 공연: 발굴(discovery) 신호, 공연장 이름 있는 것만, 기준일 N년 전 ~ 기준일 전 (features.sql gig 와 같은 규칙).
 - 수상 팀 같은 무대: 같은 날·같은 공연장에 '그날 이미 정답을 받은' 다른 팀이 있었나 (정답은 기준일 전 발표만).
-- 3년 판은 SQL 값과 똑같아야 한다(맞춤 검사 — 결과 머리에 적음).
+- SQL 기본값과 같은 판(공연장 수 venue_years=2년·수상 무대 3년, 2026-11-28 적용)은 SQL 값과 똑같아야 한다(맞춤 검사 — 결과 머리에 적음).
+  비교 기준 첫 줄은 바꾸기 전 정의(둘 다 3년).
 - 가중치: ① v2 그대로(venues 1·winner 2) ② 두 가중치만 기준일 하나 빼고 다시 고르기(score_tune 과 같은 교차 검증).
 - 휴면 팀: 마지막 신호(모든 역할) 1년 이상 전 + 최근 1년 공연 0 (dormant_check 과 같은 규칙), 앱 순서 상위 100 안.
 """
@@ -31,16 +32,16 @@ UNKNOWN_VENUES = ("", "공연장 미정")
 TOP_K = 100
 W_VENUES_GRID = (0.0, 0.5, 1.0, 1.5, 2.0)
 W_WINNER_GRID = (0.0, 1.0, 2.0, 3.0)
-FEATS = ("venues", "peer_winner")
-# (이름, 바꿀 특징, 기간 년) — 첫 줄 = 지금 그대로
-VARIANTS: Tuple[Tuple[str, Tuple[str, ...], int], ...] = (
-    ("지금 (둘 다 3년)", (), 3),
-    ("공연장 수만 2년", ("venues",), 2),
-    ("공연장 수만 1년", ("venues",), 1),
-    ("수상 팀 무대만 2년", ("peer_winner",), 2),
-    ("수상 팀 무대만 1년", ("peer_winner",), 1),
-    ("둘 다 2년", FEATS, 2),
-    ("둘 다 1년", FEATS, 1),
+SQL_VENUE_YEARS = int(lab_sql.DEFAULTS["venue_years"])   # features.sql 기본값 (2026-11-28부터 2년)
+# (이름, 공연장 수 기간, 수상 팀 무대 기간) — 첫 줄 = 비교 기준(바꾸기 전 정의)
+VARIANTS: Tuple[Tuple[str, int, int], ...] = (
+    ("바꾸기 전 (둘 다 3년)", 3, 3),
+    ("공연장 수만 2년 ← 2026-11-28 적용", 2, 3),
+    ("공연장 수만 1년", 1, 3),
+    ("수상 팀 무대만 2년", 3, 2),
+    ("수상 팀 무대만 1년", 3, 1),
+    ("둘 다 2년", 2, 2),
+    ("둘 다 1년", 1, 1),
 )
 
 
@@ -143,31 +144,36 @@ def run() -> dict:
     days = list(st.CUTOFFS) + [today.isoformat()]
     feats = {(c, y): short_feats(sigs, outs, date.fromisoformat(c), y) for c in days for y in (1, 2, 3)}
     acts = {c: dc.activity(sigs, date.fromisoformat(c)) for c in days}
-    check = _sanity(data, feats)
+    check = _sanity(data, feats, SQL_VENUE_YEARS)
     results, now = {}, {}
-    for name, which, years in VARIANTS:
-        vdata = {c: with_feats(data[c], feats[(c, years)], which) for c in st.CUTOFFS}
+    for name, vy, wy in VARIANTS:
+        vdata = {c: variant_rows(data[c], feats, c, vy, wy) for c in st.CUTOFFS}
         results[name] = evaluate_variant(vdata, acts)
-        vnow = with_feats(now_rows, feats[(today.isoformat(), years)], which)
+        vnow = variant_rows(now_rows, feats, today.isoformat(), vy, wy)
         now[name] = {k: today_dormant(vnow, acts[today.isoformat()], today, k) for k in (TOP_K, 300)}
     base = results[VARIANTS[0][0]]
     for name in results:
         if name != VARIANTS[0][0]:
             res = results[name]
             res["boot"] = fl.bootstrap_diff(data, {"cv_scores": res["v2_scores"], "base_scores": base["v2_scores"]})
-    changed = {(c, y): changed_rows(data[c], feats[(c, y)]) for c in st.CUTOFFS for y in (1, 2)}
+    changed = {(c, y): changed_rows(variant_rows(data[c], feats, c, 3, 3), feats[(c, y)])
+               for c in st.CUTOFFS for y in (1, 2)}
     return {"today": today, "check": check, "results": results, "now": now, "changed": changed,
             "n": {c: (len(r), sum(int(x["is_hit"]) for x in r)) for c, r in data.items()}}
 
 
-def _sanity(data: Dict[str, List[dict]], feats) -> Tuple[int, int]:
-    """3년 판이 SQL(lab_scored) 값과 같은 행 수 / 전체 행 수."""
+def variant_rows(rows: Sequence[dict], feats, cutoff: str, venue_years: int, winner_years: int) -> List[dict]:
+    """공연장 수는 venue_years 년, 수상 팀 무대는 winner_years 년으로 센 값으로 바꾼 새 행."""
+    return with_feats(with_feats(rows, feats[(cutoff, venue_years)], ("venues",)),
+                      feats[(cutoff, winner_years)], ("peer_winner",))
+
+
+def _sanity(data: Dict[str, List[dict]], feats, venue_years: int) -> Tuple[int, int]:
+    """SQL 기본값과 같은 판(공연장 venue_years 년·수상 무대 3년)이 SQL(lab_scored) 값과 같은 행 수 / 전체 행 수."""
     same = total = 0
     for c, rows in data.items():
-        f3 = feats[(c, 3)]
-        for r in rows:
+        for r, got in zip(rows, variant_rows(rows, feats, c, venue_years, 3)):
             total += 1
-            got = f3.get(r["team_key"]) or {"venues": 0, "peer_winner": 0}
             same += int(got["venues"] == int(r["venues"]) and got["peer_winner"] == int(r["peer_winner"]))
     return same, total
 
@@ -183,11 +189,11 @@ def render(res: dict) -> str:
     base_name = VARIANTS[0][0]
     pos = sum(p for _, p in res["n"].values())
     lines = [f"기준일 6개({st.CUTOFFS[0]}~{st.CUTOFFS[-1]}, 관찰 {st.HORIZON_MONTHS}개월) · 후보 {sum(n for n, _ in res['n'].values()):,}행 · "
-             f"정답 {pos}행 · 맞춤 검사: 3년 판이 SQL 값과 같은 행 {same:,}/{total:,}", "",
+             f"정답 {pos}행 · 맞춤 검사: 공연장 {SQL_VENUE_YEARS}년·수상 무대 3년 판이 SQL(lab_scored 기본값) 값과 같은 행 {same:,}/{total:,}", "",
              "| 판 | AUC (v2 가중치 그대로) | 차이 [95% 구간] | 상위 50 적중 | 상위 100 적중 | AUC (두 가중치 다시 고름, 교차 검증) | 상위 50 적중 | "
              "과거 기준일 상위 100 휴면 팀 (평균) | 지금 상위 100 휴면 팀 | 지금 상위 300 휴면 팀 |",
              "|---|---|---|---|---|---|---|---|---|---|"]
-    for name, _, _ in VARIANTS:
+    for name, _vy, _wy in VARIANTS:
         r, now = res["results"][name], res["now"][name]
         boot = r.get("boot")
         diff = "—" if not boot else f"{boot[0]:+.3f} [{boot[1]:+.3f}, {boot[2]:+.3f}]"
@@ -195,7 +201,7 @@ def render(res: dict) -> str:
         lines.append(f"| {name} | {_f(r['v2_mean'])} | {diff} | {r['v2_hits']['hits50']} | {r['v2_hits']['hits100']} | "
                      f"{_f(r['cv_mean'])} | {r['cv_hits']['hits50']} | {past:.1f} | {len(now[TOP_K])} | {len(now[300])} |")
     picks = {name: sorted({f"공연장 {p[0]:g}·수상 무대 {p[1]:g}" for p in res["results"][name]["picks"].values()})
-             for name, _, _ in VARIANTS}
+             for name, _vy, _wy in VARIANTS}
     lines += ["", "다시 고른 가중치(기준일마다 하나 빼고 고름): "
               + " / ".join(f"{n}: {', '.join(p)}" for n, p in picks.items())]
     lines += ["", f"'차이'는 v2 가중치 그대로 쓴 판과 '{base_name}'의 평균 AUC 차이(정답·비정답을 다시 뽑아 200번, 95% 구간).",

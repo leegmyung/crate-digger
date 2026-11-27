@@ -1,6 +1,7 @@
 """docs/lab/sql/*.sql을 로컬 DuckDB로 돌려 본다 (브라우저의 DuckDB-WASM과 같은 문법).
 duckdb가 없으면 건너뛴다: .venv/bin/pip install duckdb 후 .venv/bin/python -m unittest tests.test_lab_sql
 """
+import math
 import sys
 import unittest
 from pathlib import Path
@@ -136,6 +137,42 @@ class LabSqlTest(unittest.TestCase):
         h = self.scored()["h"]
         self.assertEqual((h["peer_winner"], h["venues"], h["recent180"]), (1, 2, 2))
         self.assertEqual(self.scored()["a"]["recent180"], 0)   # a의 마지막 신호 2024-07-01은 180일 밖
+
+    def venue_scored(self, extra="", lookback=3, cutoff="2025-01-01"):
+        """lab_scored 를 이름 붙은 선택 인자(extra, 예: 'venue_years := 1')와 함께 부른다 (v0 가중치 + 공연장 가중치 1)."""
+        q = ("SELECT * FROM lab_scored(DATE '{c}', {lb}, 3, true, 'any', 24, '', "
+             "['공연','선정·지원','발매','큐레이션'], 2, 1, 1, 0.5, 0.5, 1, 3, w_venues := 1, w_winner := 2{x}) "
+             "ORDER BY team_key")
+        cur = self.con.execute(q.format(c=cutoff, lb=lookback, x=(", " + extra) if extra else ""))
+        cols = [d[0] for d in cur.description]
+        return {r[0]: dict(zip(cols, r)) for r in cur.fetchall()}
+
+    def add_venue_team(self):
+        # v: 2년 전 클럽A, 반년 전 클럽B (기준일 2025-01-01)
+        self.con.execute("""INSERT INTO signals VALUES ('v','공연','x','',NULL,'2022-12-01','클럽A','discovery'),
+                                                       ('v','공연','x','',NULL,'2024-07-01','클럽B','discovery')""")
+        self.con.execute("INSERT INTO teams VALUES ('v','브이','2022-12-01',NULL,NULL,NULL,'unknown','','first_seen')")
+
+    def test_venue_years_defaults_to_two(self):
+        """공연장 수는 기본 최근 2년만 센다 (2026-11-28 사용자 결정). 안 넘기면 venue_years := 2 와 같다."""
+        self.add_venue_team()
+        self.assertEqual(self.venue_scored(), self.venue_scored("venue_years := 2"))
+        self.assertEqual(self.venue_scored()["v"]["venues"], 1)                  # 2022-12 클럽A는 2년 밖
+
+    def test_venue_years_equal_to_lookback_is_old_definition(self):
+        """venue_years := 신호 보는 기간(3) 이면 바꾸기 전 정의(기간 전체)와 같다 — 되돌릴 때 이 한 줄."""
+        self.add_venue_team()
+        old = self.venue_scored("venue_years := 3")["v"]
+        new = self.venue_scored()["v"]
+        self.assertEqual((old["venues"], new["venues"]), (2, 1))
+        self.assertAlmostEqual(old["score"] - new["score"], math.log(3) - math.log(2))   # 공연장 점수만 달라짐
+        for k in ("gigs_1y", "recent180", "n_branch", "peer_winner", "last_seen"):
+            self.assertEqual(old[k], new[k])
+
+    def test_venue_years_longer_than_lookback_is_capped(self):
+        self.add_venue_team()
+        self.assertEqual(self.venue_scored("venue_years := 10"), self.venue_scored("venue_years := 3"))
+        self.assertEqual(self.venue_scored(lookback=1), self.venue_scored("venue_years := 1", lookback=1))
 
     def collab_scored(self, cutoff="2025-01-01", w_collab=1):
         q = ("SELECT * FROM lab_scored(DATE '{c}', 3, 3, true, 'any', 24, '', "

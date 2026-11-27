@@ -77,5 +77,31 @@ class DormantTopTest(unittest.TestCase):
         self.assertEqual(rl.dormant_in_top(rows, scores, act, CUT, 3), ["old", "mid"])
 
 
+
+try:
+    import duckdb  # noqa: F401
+except ImportError:
+    duckdb = None
+
+
+@unittest.skipIf(duckdb is None, "duckdb 없음")
+class SqlMatchTest(unittest.TestCase):
+    """실제 랩 데이터: features.sql 기본값(공연장 수 2년)이 이 스크립트의 2년 판과 같다."""
+
+    def test_sql_default_venues_equal_two_year_python_count(self):
+        import feature_lab as fl
+        import lab_sql
+        import score_tune as st
+        con = lab_sql.connect()
+        sigs, outs = fl.load_events(con)
+        cut = "2025-07-01"
+        rows = st.features(con, cut)
+        mine = rl.variant_rows(rows, {(cut, y): rl.short_feats(sigs, outs, date.fromisoformat(cut), y) for y in (2, 3)},
+                               cut, 2, 3)
+        self.assertEqual(rl.SQL_VENUE_YEARS, 2)
+        self.assertEqual([(r["venues"], r["peer_winner"]) for r in mine],
+                         [(int(r["venues"]), int(r["peer_winner"])) for r in rows])
+
+
 if __name__ == "__main__":
     unittest.main()
