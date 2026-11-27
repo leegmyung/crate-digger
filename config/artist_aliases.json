@@ -110,6 +110,104 @@
         "https://www.koreanhiphopawards.com/2022/nominees.html"
       ],
       "checked": "2026-11-27"
+    },
+    {
+      "main": "데이네버체인지",
+      "aliases": ["밴드 데일", "BAND DALE"],
+      "reason": "이름 변경 — 인디스땅스 2021 TOP20 명단의 '밴드 데일(BAND DALE)'에 '현) 데이네버체인지(TheyNeverChange)' 각주",
+      "evidence": ["https://namu.wiki/w/%EC%9D%B8%EB%94%94%EC%8A%A4%EB%95%85%EC%8A%A4", "docs/outcome_freshness.md 5절"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "THAMA",
+      "aliases": ["타마"],
+      "reason": "같은 사람 — R&B 가수 THAMA(타마). 한대음 19회 원문(영문 위키) 'Thama'를 한글로 옮긴 행이 영문 팀 키(thama)와 갈라져 있었음",
+      "evidence": ["https://en.wikipedia.org/wiki/19th_Korean_Music_Awards", "docs/lab/data/teams.csv 'THAMA'(트랙제로 2022·2024)"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "다운",
+      "aliases": ["Dvwn", "DVWN"],
+      "reason": "같은 사람 — R&B 가수 DVWN(다운). 한대음 19회 최우수 알앤비&소울 음반 후보 'Dvwn'; 우리 팀 '다운'은 힙합엘이(R&B·힙합 매체) 소개로 잡힌 팀",
+      "evidence": ["https://en.wikipedia.org/wiki/19th_Korean_Music_Awards", "docs/lab/data/signals.csv '다운'(힙합엘이 2023-02)"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "업체eobchae",
+      "aliases": ["Eobchae", "업체"],
+      "reason": "같은 팀 — 일렉트로닉 그룹 업체eobchae. 한대음 19회 최우수 일렉트로닉 노래 후보 원문 'Eobchae'",
+      "evidence": ["https://en.wikipedia.org/wiki/19th_Korean_Music_Awards", "docs/lab/data/teams.csv '업체eobchae'(트랙제로 2022)"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "이수호",
+      "aliases": ["Leesuho"],
+      "reason": "같은 사람 — 일렉트로닉 프로듀서 Leesuho(이수호), 한대음 19회 최우수 일렉트로닉 음반 후보 원문 'Leesuho'(음반 Monika). 우리 팀 '이수호'는 힙합엘이(2021·2022)·VISLA 소개 — 동명이인 가능성이 있어 번호로 다시 확인 권장",
+      "evidence": ["https://en.wikipedia.org/wiki/19th_Korean_Music_Awards", "docs/lab/data/signals.csv '이수호'"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "LUCKLIFE",
+      "aliases": ["럭 라이프", "럭라이프"],
+      "reason": "같은 팀 — 일렉트로닉 듀오 LUCKLIFE(럭 라이프). 2025 부산록페 시간표 표기 '럭 라이프', 같은 문서 후기는 'LUCKLIFE'",
+      "evidence": ["https://namu.wiki/w/2025%20%EB%B6%80%EC%82%B0%20%EA%B5%AD%EC%A0%9C%20%EB%A1%9D%20%ED%8E%98%EC%8A%A4%ED%8B%B0%EB%B2%8C"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "하이프하이프",
+      "aliases": ["Haifhaif"],
+      "reason": "같은 사람 — 래퍼 하이프하이프(Haifhaif). 한대음 19회 최우수 랩&힙합 음반 'Unofficialboyy & Haifhaif' 공동명의",
+      "evidence": ["https://en.wikipedia.org/wiki/19th_Korean_Music_Awards", "docs/lab/data/signals.csv '하이프하이프'(힙합엘이 2021-07)"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "크럭스",
+      "aliases": ["Crux"],
+      "reason": "같은 팀으로 봄 — 메탈 밴드 Crux(크럭스), 한대음 19회 최우수 메탈&하드코어 음반 후보 원문 'Crux'. 우리 팀 '크럭스'는 Club FF·프리즘홀 공연(2026) — 확인 권장",
+      "evidence": ["https://en.wikipedia.org/wiki/19th_Korean_Music_Awards", "docs/lab/data/signals.csv '크럭스'"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "페이스투웨이즈",
+      "aliases": ["FACE 2 WAYS", "FACE2WAYS"],
+      "reason": "같은 팀 — 2023 부산록페 시간표 영문 표기 'FACE 2 WAYS', 인디스트릿 공연(Club FF 2024) 한글 표기 '페이스투웨이즈'",
+      "evidence": ["https://namu.wiki/w/2023%20%EB%B6%80%EC%82%B0%20%EA%B5%AD%EC%A0%9C%20%EB%A1%9D%20%ED%8E%98%EC%8A%A4%ED%8B%B0%EB%B2%8C", "docs/lab/data/signals.csv '페이스투웨이즈'"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "양창근",
+      "aliases": ["Yang Chang-keun"],
+      "reason": "같은 사람 — 싱어송라이터 양창근, 한대음 19회 최우수 모던록 음반 후보 원문 'Yang Chang-keun'",
+      "evidence": ["https://en.wikipedia.org/wiki/19th_Korean_Music_Awards"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "전호권",
+      "aliases": ["Jeon Ho-kwon"],
+      "reason": "같은 사람 — 포크 싱어송라이터 전호권, 한대음 19회 최우수 포크 음반 후보 원문 'Jeon Ho-kwon'. 우리 팀 '전호권'은 음악취향Y·트랙제로 소개(2023)·Club 빵 공연",
+      "evidence": ["https://en.wikipedia.org/wiki/19th_Korean_Music_Awards", "docs/lab/data/signals.csv '전호권'"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "원디비",
+      "aliases": ["1DB"],
+      "reason": "같은 팀 — 인디스땅스 2023 결선 원문 영문 '1DB', 인디스트릿 공연(2024) 한글 '원디비'",
+      "evidence": ["https://namu.wiki/w/%EC%9D%B8%EB%94%94%EC%8A%A4%EB%95%85%EC%8A%A4", "docs/lab/data/signals.csv '원디비'"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "세마",
+      "aliases": ["SEMA"],
+      "reason": "같은 팀 — 인디스땅스 2023 결선 원문 영문 'SEMA', 인디스트릿 공연(2024-03 프리즘홀) 한글 '세마'",
+      "evidence": ["https://namu.wiki/w/%EC%9D%B8%EB%94%94%EC%8A%A4%EB%95%85%EC%8A%A4", "docs/lab/data/signals.csv '세마'"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "SoundSupply_Service",
+      "aliases": ["사운드서플라이서비스", "사운드 서플라이 서비스"],
+      "reason": "같은 팀 — 한대음 22회 원문 한글 '사운드서플라이서비스', VISLA 소개(2024) 영문 'SoundSupply_Service'",
+      "evidence": ["https://namu.wiki/w/%EC%A0%9C22%ED%9A%8C%20%ED%95%9C%EA%B5%AD%EB%8C%80%EC%A4%91%EC%9D%8C%EC%95%85%EC%83%81", "docs/lab/data/signals.csv 'soundsupplyservice'"],
+      "checked": "2026-11-27"
     }
   ],
   "distinct": [
