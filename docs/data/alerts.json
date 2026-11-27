@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-28T01:47:41+09:00",
+ "generated_at": "2026-11-28T02:19:41+09:00",
  "as_of": "2026-11-28",
  "baseline": {
   "kind": "state",
@@ -41,7 +41,7 @@
   "peer_winner": 327,
   "spike": 3,
   "new_gig": 364,
-  "rank_jump": 36
+  "rank_jump": 34
  },
  "counts_shown": {
   "new_outcome": 11,
@@ -383,7 +383,7 @@
    ],
    "importance": 85,
    "stage": 2,
-   "rank": 43,
+   "rank": 44,
    "also": [
     "peer_winner",
     "rank_jump"
@@ -413,7 +413,7 @@
    ],
    "importance": 85,
    "stage": 2,
-   "rank": 46,
+   "rank": 47,
    "also": [
     "peer_winner",
     "rank_jump"
@@ -633,7 +633,7 @@
    ],
    "importance": 75,
    "stage": 2,
-   "rank": 196,
+   "rank": 197,
    "also": [
     "peer_winner"
    ],
@@ -668,7 +668,7 @@
    ],
    "importance": 75,
    "stage": 2,
-   "rank": 223,
+   "rank": 224,
    "also": [
     "new_gig"
    ],
@@ -857,7 +857,7 @@
    "team_key": "라이프라디오",
    "name": "라이프라디오",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (43위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (44위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -866,8 +866,8 @@
    ],
    "importance": 75,
    "rank_before": null,
-   "rank_now": 43,
-   "rank": 43,
+   "rank_now": 44,
+   "rank": 44,
    "also": [
     "stage_up",
     "peer_winner"
@@ -880,7 +880,7 @@
    "team_key": "성하진",
    "name": "성하진",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (46위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (47위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -889,8 +889,8 @@
    ],
    "importance": 75,
    "rank_before": null,
-   "rank_now": 46,
-   "rank": 46,
+   "rank_now": 47,
+   "rank": 47,
    "also": [
     "stage_up",
     "peer_winner"
@@ -961,7 +961,7 @@
     }
    ],
    "importance": 70,
-   "rank": 178,
+   "rank": 179,
    "also": [
     "new_gig"
    ],
@@ -1021,7 +1021,7 @@
     "리프",
     "기나이직"
    ],
-   "rank": 248,
+   "rank": 249,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -1043,7 +1043,7 @@
    "winners": [
     "오이스터즈"
    ],
-   "rank": 43,
+   "rank": 44,
    "also": [
     "stage_up",
     "rank_jump"
@@ -1068,7 +1068,7 @@
    "winners": [
     "몽돌"
    ],
-   "rank": 46,
+   "rank": 47,
    "also": [
     "stage_up",
     "rank_jump"
@@ -1178,7 +1178,7 @@
    "team_key": "murdermartyr",
    "name": "Murdermartyr",
    "date": "2026-11-28",
-   "text": "203위 → 76위 (+127)",
+   "text": "203위 → 77위 (+126)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1187,8 +1187,8 @@
    ],
    "importance": 67,
    "rank_before": 203,
-   "rank_now": 76,
-   "rank": 76,
+   "rank_now": 77,
+   "rank": 77,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -1238,7 +1238,7 @@
     "우륵과풍각쟁이들",
     "기나이직"
    ],
-   "rank": 75,
+   "rank": 76,
    "also": [
     "new_gig",
     "rank_jump"
@@ -1269,7 +1269,7 @@
     "우륵과풍각쟁이들",
     "기나이직"
    ],
-   "rank": 140,
+   "rank": 141,
    "also": [
     "new_gig"
    ],
@@ -1299,10 +1299,9 @@
     "나타샤",
     "구구"
    ],
-   "rank": 100,
+   "rank": 101,
    "also": [
-    "new_gig",
-    "rank_jump"
+    "new_gig"
    ],
    "found_on": "2026-11-28"
   },
@@ -1330,7 +1329,7 @@
     "우륵과풍각쟁이들",
     "기나이직"
    ],
-   "rank": 77,
+   "rank": 78,
    "also": [
     "new_gig",
     "rank_jump"
@@ -1361,7 +1360,7 @@
     "나타샤",
     "구구"
    ],
-   "rank": 154,
+   "rank": 155,
    "also": [
     "new_gig"
    ],
@@ -1396,7 +1395,7 @@
     "나타샤",
     "구구"
    ],
-   "rank": 112,
+   "rank": 113,
    "also": [
     "new_gig"
    ],
@@ -1426,7 +1425,7 @@
     "핍핍",
     "mombrimz"
    ],
-   "rank": 186,
+   "rank": 187,
    "also": [
     "new_gig"
    ],
@@ -1438,7 +1437,7 @@
    "team_key": "노백",
    "name": "노백",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (58위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (59위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1447,8 +1446,8 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 58,
-   "rank": 58,
+   "rank_now": 59,
+   "rank": 59,
    "also": [
     "peer_winner",
     "new_gig"
@@ -1461,7 +1460,7 @@
    "team_key": "소여",
    "name": "소여",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (67위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (68위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1470,8 +1469,8 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 67,
-   "rank": 67,
+   "rank_now": 68,
+   "rank": 68,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -1481,7 +1480,7 @@
    "team_key": "플릿",
    "name": "플릿",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (74위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (75위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1490,8 +1489,8 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 74,
-   "rank": 74,
+   "rank_now": 75,
+   "rank": 75,
    "also": [
     "peer_winner",
     "new_gig"
@@ -1504,7 +1503,7 @@
    "team_key": "rifffool",
    "name": "Riff Fool",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (77위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (78위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1513,8 +1512,8 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 77,
-   "rank": 77,
+   "rank_now": 78,
+   "rank": 78,
    "also": [
     "peer_winner",
     "new_gig"
@@ -1527,7 +1526,7 @@
    "team_key": "공",
    "name": "공",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (79위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (80위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1536,8 +1535,8 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 79,
-   "rank": 79,
+   "rank_now": 80,
+   "rank": 80,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -1547,7 +1546,7 @@
    "team_key": "루즌도어즈",
    "name": "루즌도어즈",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (82위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (83위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1556,8 +1555,8 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 82,
-   "rank": 82,
+   "rank_now": 83,
+   "rank": 83,
    "also": [
     "peer_winner"
    ],
@@ -1569,7 +1568,7 @@
    "team_key": "신서울",
    "name": "신서울",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (86위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (87위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1578,8 +1577,8 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 86,
-   "rank": 86,
+   "rank_now": 87,
+   "rank": 87,
    "also": [
     "peer_winner"
    ],
@@ -1591,7 +1590,7 @@
    "team_key": "exhibita",
    "name": "exhibit a",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (98위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (99위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1600,8 +1599,8 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 98,
-   "rank": 98,
+   "rank_now": 99,
+   "rank": 99,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -1611,7 +1610,7 @@
    "team_key": "로프리스",
    "name": "로프리스",
    "date": "2026-11-28",
-   "text": "147위 → 55위 (+92)",
+   "text": "147위 → 56위 (+91)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1620,8 +1619,8 @@
    ],
    "importance": 64,
    "rank_before": 147,
-   "rank_now": 55,
-   "rank": 55,
+   "rank_now": 56,
+   "rank": 56,
    "also": [
     "new_gig"
    ],
@@ -2784,7 +2783,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 32,
+   "rank": 33,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -2978,7 +2977,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 97,
+   "rank": 98,
    "also": [
     "rank_jump"
    ],
@@ -3001,7 +3000,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 138,
+   "rank": 139,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3022,7 +3021,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 75,
+   "rank": 76,
    "also": [
     "peer_winner",
     "rank_jump"
@@ -3046,7 +3045,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 140,
+   "rank": 141,
    "also": [
     "peer_winner"
    ],
@@ -3069,10 +3068,9 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 100,
+   "rank": 101,
    "also": [
-    "peer_winner",
-    "rank_jump"
+    "peer_winner"
    ],
    "found_on": "2026-11-28"
   },
@@ -3099,7 +3097,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 77,
+   "rank": 78,
    "also": [
     "peer_winner",
     "rank_jump"
@@ -3123,7 +3121,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 77,
+   "rank": 78,
    "also": [
     "peer_winner",
     "rank_jump"
@@ -3147,7 +3145,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 223,
+   "rank": 224,
    "also": [
     "stage_up"
    ],
@@ -3176,7 +3174,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 104,
+   "rank": 105,
    "also": [
     "peer_winner"
    ],
@@ -3199,7 +3197,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 80,
+   "rank": 81,
    "also": [
     "peer_winner"
    ],
@@ -3228,7 +3226,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 80,
+   "rank": 81,
    "also": [
     "peer_winner"
    ],
@@ -3257,7 +3255,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 232,
+   "rank": 233,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3284,7 +3282,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 58,
+   "rank": 59,
    "also": [
     "peer_winner",
     "rank_jump"
@@ -3314,7 +3312,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 235,
+   "rank": 236,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3341,7 +3339,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 154,
+   "rank": 155,
    "also": [
     "peer_winner"
    ],
@@ -3370,7 +3368,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 55,
+   "rank": 56,
    "also": [
     "rank_jump"
    ],
@@ -3399,7 +3397,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 108,
+   "rank": 109,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3426,7 +3424,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 255,
+   "rank": 256,
    "also": [
     "peer_winner"
    ],
@@ -3449,7 +3447,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 112,
+   "rank": 113,
    "also": [
     "peer_winner"
    ],
@@ -3472,7 +3470,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 270,
+   "rank": 271,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3499,7 +3497,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 52,
+   "rank": 53,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3526,7 +3524,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 115,
+   "rank": 116,
    "also": [
     "peer_winner"
    ],
@@ -3549,7 +3547,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 71,
+   "rank": 72,
    "also": [
     "peer_winner"
    ],
@@ -3572,7 +3570,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 178,
+   "rank": 179,
    "also": [
     "big_venue_first"
    ],
@@ -3595,7 +3593,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 282,
+   "rank": 283,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3622,7 +3620,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 91,
+   "rank": 92,
    "also": [
     "rank_jump"
    ],
@@ -3651,7 +3649,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 286,
+   "rank": 287,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3678,7 +3676,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 94,
+   "rank": 95,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3699,7 +3697,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 184,
+   "rank": 185,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3720,7 +3718,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 186,
+   "rank": 187,
    "also": [
     "peer_winner"
    ],
@@ -3749,7 +3747,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 189,
+   "rank": 190,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3776,7 +3774,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 190,
+   "rank": 191,
    "also": [
     "peer_winner"
    ],
@@ -3805,7 +3803,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 74,
+   "rank": 75,
    "also": [
     "peer_winner",
     "rank_jump"

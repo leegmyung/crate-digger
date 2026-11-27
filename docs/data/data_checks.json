@@ -1,13 +1,13 @@
 {
  "today": "2026-11-28",
- "generated": "2026-11-28T01:47+09:00",
+ "generated": "2026-11-28T02:19+09:00",
  "summary": "통과 18 · 경고 3 · 실패 0",
  "checks": [
   {
    "key": "meta_fresh",
    "name": "랩 데이터 갱신 시각",
    "rule": "1일 넘게 안 바뀌면 실패",
-   "value": "2026-11-28 01:47 (0일 전)",
+   "value": "2026-11-28 02:19 (0일 전)",
    "status": "pass",
    "fix": "daily_run.sh의 export_lab_data.py 줄이 실패했는지 records/daily_run.log 확인",
    "details": []
@@ -257,7 +257,7 @@
    "key": "genre",
    "name": "장르 미분류",
    "rule": "프로필 있는 팀 중 장르 빈칸이 20% 넘으면 경고, 60% 넘으면 실패",
-   "value": "프로필 팀 70/770 (9.1%) · 전체 팀 52.3%",
+   "value": "프로필 팀 69/770 (9.0%) · 전체 팀 49.4%",
    "status": "pass",
    "fix": "build_dashboard_data._infer_genres의 장르 이름표에 새 표기(멜론·스포티파이 장르)를 추가한다",
    "details": []

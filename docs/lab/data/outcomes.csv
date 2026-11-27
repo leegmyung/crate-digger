@@ -790,8 +790,8 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 재키,mucon,뮤콘(MU:CON),mid,selected,2025-06-16,true,B,1,,false
 잭킹콩,museon_final,뮤즈온 최종,mid,selected,2022-06-07,true,A,2,,false
 잭킹콩,mucon,뮤콘(MU:CON),mid,selected,2022-08-16,true,B,1,,false
-저드,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
-저드,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,false
+저드,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,true,B,1,,false
+저드,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,true,B,1,,false
 저드,kma_genre,한대음 장르 부문,mid,winner,2024-02-29,false,B,1,,false
 저드,museon_final,뮤즈온 최종,mid,selected,2024-06-03,true,A,2,,false
 저스트비,mucon,뮤콘(MU:CON),mid,selected,2022-08-16,false,B,1,,false
