@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-28T01:07:00+09:00",
+ "generated_at": "2026-11-28T01:14:00+09:00",
  "as_of": "2026-11-28",
  "baseline": {
   "kind": "state",
@@ -38,7 +38,7 @@
   "blank_first_mention": 1,
   "stage_up": 88,
   "big_venue_first": 18,
-  "peer_winner": 293,
+  "peer_winner": 303,
   "spike": 3,
   "new_gig": 365,
   "rank_jump": 31
@@ -963,6 +963,40 @@
   {
    "type": "peer_winner",
    "type_label": "같은 무대 수상 팀",
+   "team_key": "복숭아를던져라",
+   "name": "복숭아를 던져라",
+   "date": "2026-11-22",
+   "text": "같은 무대에 선 수상 팀: 피치트럭하이재커스, 리프, 기나이직",
+   "evidence": [
+    {
+     "branch": "공연",
+     "date": "2026-11-22",
+     "venue": "축제 (을지로)"
+    },
+    {
+     "branch": "공연",
+     "date": "2026-11-22",
+     "venue": "축제 (을지로)"
+    },
+    {
+     "branch": "공연",
+     "date": "2026-11-22",
+     "venue": "축제 (을지로)"
+    }
+   ],
+   "importance": 70,
+   "winners": [
+    "피치트럭하이재커스",
+    "리프",
+    "기나이직"
+   ],
+   "rank": 250,
+   "also": [],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "peer_winner",
+   "type_label": "같은 무대 수상 팀",
    "team_key": "라이프라디오",
    "name": "라이프라디오",
    "date": "2026-11-21",
@@ -1135,12 +1169,12 @@
     {
      "branch": "공연",
      "date": "2026-12-04",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     },
     {
      "branch": "공연",
      "date": "2026-12-04",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 65,
@@ -1166,12 +1200,12 @@
     {
      "branch": "공연",
      "date": "2026-12-04",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     },
     {
      "branch": "공연",
      "date": "2026-12-04",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 65,
@@ -1226,12 +1260,12 @@
     {
      "branch": "공연",
      "date": "2026-12-04",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     },
     {
      "branch": "공연",
      "date": "2026-12-04",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 65,
@@ -1525,34 +1559,6 @@
    "found_on": "2026-11-28"
   },
   {
-   "type": "peer_winner",
-   "type_label": "같은 무대 수상 팀",
-   "team_key": "원형",
-   "name": "원형",
-   "date": "2026-11-01",
-   "text": "같은 무대에 선 수상 팀: 향우회, 다양성",
-   "evidence": [
-    {
-     "branch": "공연",
-     "date": "2026-11-01",
-     "venue": "몽향 라이브홀"
-    },
-    {
-     "branch": "공연",
-     "date": "2026-11-01",
-     "venue": "몽향 라이브홀"
-    }
-   ],
-   "importance": 65,
-   "winners": [
-    "향우회",
-    "다양성"
-   ],
-   "rank": 210,
-   "also": [],
-   "found_on": "2026-11-28"
-  },
-  {
    "type": "rank_jump",
    "type_label": "순위 급상승",
    "team_key": "로프리스",
@@ -1615,7 +1621,7 @@
      "source": "instagram",
      "program": "@tool.seoul",
      "date": "2026-11-26",
-     "venue": "@tool.seoul"
+     "venue": "TOOL Records & Bar"
     },
     {
      "branch": "공연",
@@ -1787,7 +1793,7 @@
      "source": "instagram",
      "program": "@festivalfestivalseoul",
      "date": "2026-11-22",
-     "venue": "@festivalfestivalseoul"
+     "venue": "축제 (을지로)"
     },
     {
      "branch": "큐레이션",
@@ -1900,7 +1906,7 @@
      "source": "instagram",
      "program": "@festivalfestivalseoul",
      "date": "2026-11-22",
-     "venue": "@festivalfestivalseoul"
+     "venue": "축제 (을지로)"
     },
     {
      "branch": "큐레이션",
@@ -1930,7 +1936,7 @@
      "source": "instagram",
      "program": "@cakeshopseoul",
      "date": "2026-11-25",
-     "venue": "@cakeshopseoul"
+     "venue": "Cakeshop"
     },
     {
      "branch": "공연",
@@ -1971,7 +1977,7 @@
      "source": "instagram",
      "program": "@festivalfestivalseoul",
      "date": "2026-11-22",
-     "venue": "@festivalfestivalseoul"
+     "venue": "축제 (을지로)"
     },
     {
      "branch": "큐레이션",
@@ -2874,19 +2880,19 @@
    "team_key": "폴리아모리",
    "name": "폴리아모리",
    "date": "2026-11-29",
-   "text": "예정 공연 2026-11-29 축제",
+   "text": "예정 공연 2026-11-29 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indiego",
      "date": "2026-11-29",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     },
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-29",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 40,
@@ -2945,13 +2951,13 @@
    "team_key": "hirikari",
    "name": "Hirikari",
    "date": "2026-12-04",
-   "text": "예정 공연 2026-12-04 축제",
+   "text": "예정 공연 2026-12-04 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-12-04",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 30,
@@ -2969,13 +2975,13 @@
    "team_key": "k특급모텔",
    "name": "K특급모텔",
    "date": "2026-12-04",
-   "text": "예정 공연 2026-12-04 축제",
+   "text": "예정 공연 2026-12-04 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-12-04",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 30,
@@ -3015,19 +3021,19 @@
    "team_key": "rifffool",
    "name": "Riff Fool",
    "date": "2026-11-29",
-   "text": "예정 공연 2026-11-29 축제",
+   "text": "예정 공연 2026-11-29 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indiego",
      "date": "2026-11-29",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     },
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-29",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 30,
@@ -3045,13 +3051,13 @@
    "team_key": "rifffool",
    "name": "Riff Fool",
    "date": "2026-12-04",
-   "text": "예정 공연 2026-12-04 축제",
+   "text": "예정 공연 2026-12-04 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-12-04",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 30,
@@ -3384,19 +3390,19 @@
    "team_key": "셔츠안자켓",
    "name": "셔츠안자켓",
    "date": "2026-11-28",
-   "text": "예정 공연 2026-11-28 축제",
+   "text": "예정 공연 2026-11-28 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indiego",
      "date": "2026-11-28",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     },
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-28",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 30,
@@ -3578,19 +3584,19 @@
    "team_key": "종이유람선",
    "name": "종이유람선",
    "date": "2026-11-28",
-   "text": "예정 공연 2026-11-28 축제",
+   "text": "예정 공연 2026-11-28 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indiego",
      "date": "2026-11-28",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     },
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-28",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 30,
@@ -5276,13 +5282,13 @@
    "team_key": "uncivilizedgirlsmemory",
    "name": "Uncivilized Girls Memory",
    "date": "2026-12-04",
-   "text": "예정 공연 2026-12-04 축제",
+   "text": "예정 공연 2026-12-04 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-12-04",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 15,
@@ -5391,19 +5397,19 @@
    "team_key": "갓오브유니버스",
    "name": "갓오브유니버스",
    "date": "2026-11-28",
-   "text": "예정 공연 2026-11-28 축제",
+   "text": "예정 공연 2026-11-28 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indiego",
      "date": "2026-11-28",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     },
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-28",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 15,
@@ -5706,13 +5712,13 @@
    "team_key": "기나이직",
    "name": "기나이직",
    "date": "2026-12-04",
-   "text": "예정 공연 2026-12-04 축제",
+   "text": "예정 공연 2026-12-04 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-12-04",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 15,
@@ -6878,19 +6884,19 @@
    "team_key": "레토",
    "name": "레토",
    "date": "2026-11-29",
-   "text": "예정 공연 2026-11-29 축제",
+   "text": "예정 공연 2026-11-29 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indiego",
      "date": "2026-11-29",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     },
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-29",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 15,
@@ -7725,19 +7731,19 @@
    "team_key": "브리커즈",
    "name": "브리커즈",
    "date": "2026-11-28",
-   "text": "예정 공연 2026-11-28 축제",
+   "text": "예정 공연 2026-11-28 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indiego",
      "date": "2026-11-28",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     },
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-28",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 15,
@@ -8942,13 +8948,13 @@
    "team_key": "예람",
    "name": "예람",
    "date": "2026-11-28",
-   "text": "예정 공연 2026-11-28 @space_soda2002",
+   "text": "예정 공연 2026-11-28 SPACE SODA2002",
    "evidence": [
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-28",
-     "venue": "@space_soda2002"
+     "venue": "SPACE SODA2002"
     }
    ],
    "importance": 15,
@@ -9257,13 +9263,13 @@
    "team_key": "우륵과풍각쟁이들",
    "name": "우륵과 풍각쟁이들",
    "date": "2026-12-04",
-   "text": "예정 공연 2026-12-04 축제",
+   "text": "예정 공연 2026-12-04 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-12-04",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 15,
@@ -9349,19 +9355,19 @@
    "team_key": "원퍼센트",
    "name": "원퍼센트",
    "date": "2026-11-28",
-   "text": "예정 공연 2026-11-28 축제",
+   "text": "예정 공연 2026-11-28 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indiego",
      "date": "2026-11-28",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     },
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-28",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 15,
@@ -9457,13 +9463,13 @@
    "team_key": "유령빛",
    "name": "유령빛",
    "date": "2026-12-04",
-   "text": "예정 공연 2026-12-04 축제",
+   "text": "예정 공연 2026-12-04 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-12-04",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 15,
@@ -9591,19 +9597,19 @@
    "team_key": "음질병",
    "name": "음질병",
    "date": "2026-11-28",
-   "text": "예정 공연 2026-11-28 축제",
+   "text": "예정 공연 2026-11-28 축제 (을지로)",
    "evidence": [
     {
      "branch": "공연",
      "source": "indiego",
      "date": "2026-11-28",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     },
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-28",
-     "venue": "축제"
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 15,

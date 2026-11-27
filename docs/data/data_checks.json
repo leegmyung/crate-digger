@@ -1,13 +1,13 @@
 {
  "today": "2026-11-28",
- "generated": "2026-11-28T01:07+09:00",
+ "generated": "2026-11-28T01:14+09:00",
  "summary": "통과 18 · 경고 3 · 실패 0",
  "checks": [
   {
    "key": "meta_fresh",
    "name": "랩 데이터 갱신 시각",
    "rule": "1일 넘게 안 바뀌면 실패",
-   "value": "2026-11-28 01:06 (0일 전)",
+   "value": "2026-11-28 01:13 (0일 전)",
    "status": "pass",
    "fix": "daily_run.sh의 export_lab_data.py 줄이 실패했는지 records/daily_run.log 확인",
    "details": []
@@ -61,7 +61,7 @@
    "key": "orphan_signals",
    "name": "신호의 팀이 팀 표에 있나",
    "rule": "제외 목록 팀 말고 팀 표에 없는 신호가 있으면 실패",
-   "value": "없는 팀 신호 0건 / 32,842건 (제외 목록 팀 신호 239건은 정상)",
+   "value": "없는 팀 신호 0건 / 32,841건 (제외 목록 팀 신호 239건은 정상)",
    "status": "pass",
    "fix": "export_lab_data.py의 signals·teams 쿼리가 같은 sig 조건을 쓰는지 확인 (한쪽만 거르면 생김)",
    "details": []
@@ -258,7 +258,7 @@
    "key": "genre",
    "name": "장르 미분류",
    "rule": "프로필 있는 팀 중 장르 빈칸이 20% 넘으면 경고, 60% 넘으면 실패",
-   "value": "프로필 팀 33/642 (5.1%) · 전체 팀 54.0%",
+   "value": "프로필 팀 33/642 (5.1%) · 전체 팀 53.7%",
    "status": "pass",
    "fix": "build_dashboard_data._infer_genres의 장르 이름표에 새 표기(멜론·스포티파이 장르)를 추가한다",
    "details": []
@@ -303,7 +303,7 @@
    "key": "pg_sync",
    "name": "DB 신호 수 = 랩 신호 수",
    "rule": "차이가 1% 넘으면 경고",
-   "value": "DB 32,842행 · 랩 32,842행",
+   "value": "DB 32,841행 · 랩 32,841행",
    "status": "pass",
    "fix": "적재(load_pg.py) 뒤 export_lab_data.py가 안 돌았거나 실패한 것 — 다시 돌린다",
    "details": []
