@@ -268,8 +268,9 @@ export function fillTemplate(tpl, map) {
   return out;
 }
 
-export function buildParams(overrides = {}) {
-  const c = appState.cfg;
+/** @param {object} [cfg] 기본은 지금 화면 설정 — 저장 필터는 저장해 둔 설정을 넘긴다 */
+export function buildParams(overrides = {}, cfg = appState.cfg) {
+  const c = cfg;
   const fallbackAsOf = appState.dataEnd || '2026-11-27';
   return {
     cutoff: sqlDate(overrides.cutoff || c.cutoffs[0] || '2025-01-01', '2025-01-01'),
@@ -1987,7 +1988,8 @@ export async function loadAlertsJson() {
   if (alertsPromise) return alertsPromise;
   alertsPromise = (async () => {
     const raw = await fetchJson('data/alerts.json', true);
-    if (!raw || typeof raw !== 'object' || !Array.isArray(raw.alerts) || !raw.alerts.length) {
+    // 알림이 0건이어도 파일이 바르면 빈 목록으로 둔다(브리핑에 '이번 주 새 알림 없음')
+    if (!raw || typeof raw !== 'object' || !Array.isArray(raw.alerts)) {
       alertsCache = null;
       appState.alertsJson = null;
       return null;
@@ -2008,12 +2010,6 @@ export async function loadAlertsJson() {
       }))
       .sort((a, b) => (b.importance - a.importance) || b.date.localeCompare(a.date) || a.team_key.localeCompare(b.team_key, 'ko'));
 
-    if (!alerts.length) {
-      alertsCache = null;
-      appState.alertsJson = null;
-      return null;
-    }
-
     const byTeam = new Map();
     for (const a of alerts) {
       if (!byTeam.has(a.team_key)) byTeam.set(a.team_key, []);
@@ -2026,6 +2022,9 @@ export async function loadAlertsJson() {
       baseline: raw.baseline && typeof raw.baseline === 'object' ? raw.baseline : null,
       types: raw.types && typeof raw.types === 'object' ? raw.types : {},
       counts_found: raw.counts_found && typeof raw.counts_found === 'object' ? raw.counts_found : {},
+      counts_shown: raw.counts_shown && typeof raw.counts_shown === 'object' ? raw.counts_shown : {},
+      caps: raw.caps && typeof raw.caps === 'object' ? raw.caps : {},
+      snapshots: raw.snapshots && typeof raw.snapshots === 'object' ? raw.snapshots : null,
       alerts,
       byTeam,
     };

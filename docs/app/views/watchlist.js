@@ -2,7 +2,9 @@ import {
   appState, getWatchlist, getWatchlistViewMode, setExportContext,
   setWatchlistViewMode, setWatchStatus, syncHash, toggleWatch, WATCH_STATUSES,
 } from '../state.js';
-import { queryWatchlistEnriched } from '../db.js';
+import { loadAlertsJson, queryWatchlistEnriched } from '../db.js';
+import { loadEventStars } from '../db_team_extras.js';
+import { renderWatchWeeklySummaryHtml } from './today_alerts.js';
 import {
   avatarHtml, clampDateDisplay, escapeHtml, fmtInt, fmtNum,
   renderActionBanner, renderTableCsvBtn, spotifyButtonHtml,
@@ -48,7 +50,15 @@ function renderListenQuick(r, mode, slotId) {
 
 export async function renderWatchlistView(root) {
   const raw = getWatchlist();
-  const rows = await queryWatchlistEnriched(raw);
+  const [rows, alertsData, eventStarsMap] = await Promise.all([
+    queryWatchlistEnriched(raw),
+    loadAlertsJson().catch(() => null),
+    loadEventStars(),
+  ]);
+  // 5-4 관심 팀 주간 요약 (alerts.json 재사용)
+  const weeklySummaryHtml = rows.length
+    ? renderWatchWeeklySummaryHtml(alertsData, new Set(rows.map(r => r.team_key)), eventStarsMap)
+    : '';
   const recentActive = rows.filter(r => r.recent_7d > 0).length;
   const statusMap = Object.fromEntries(WATCH_STATUSES.map(s => [s.id, s.label]));
 
@@ -225,6 +235,7 @@ export async function renderWatchlistView(root) {
 
     root.innerHTML = `
       ${headHtml}
+      ${weeklySummaryHtml}
       ${contentHtml}
       ${hasAnyImg ? '<p class="photo-credit">아티스트 사진 출처: Spotify</p>' : ''}
     `;

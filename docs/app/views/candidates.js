@@ -23,6 +23,7 @@ import {
 } from '../components/cand_filters.js';
 import { buildHeatRows, nextHeatSort, renderHeatmapHtml } from './candidates_heatmap.js';
 import { queryPeerCompare } from '../db_peer.js';
+import { wireSavedRow } from './cand_saved.js';
 
 const DEBUT_MIN_SAMPLE = 5;
 const HEAT_MIN_ROWS = 25; // 색 지도는 촘촘해서 한 화면 25줄부터
@@ -879,6 +880,7 @@ export async function renderCandidatesView(root) {
   root.innerHTML = `
     ${bannerHtml}
     ${renderCandTabsHtml('all')}
+    <div id="candSavedHost"></div>
     <div id="candFilterBarHost"></div>
 
     <div class="block" style="padding:0;overflow:hidden;">
@@ -1498,6 +1500,7 @@ export async function renderCandidatesView(root) {
   });
 
   renderFilterBar();
+  wireSavedRow(root.querySelector('#candSavedHost'));
 
   const heatHostEl = root.querySelector('#candHeatHost');
   const onHeatActivate = (target) => {

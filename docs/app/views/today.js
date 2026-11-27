@@ -7,13 +7,16 @@ import {
   queryWatchlistEnriched, queryWeeklyDigestExtras,
 } from '../db.js';
 import {
-  alertDedupKey, alertKindChipHtml, avatarHtml, buildWeeklySummaryText,
-  escapeHtml, fmtInt, fmtNum, formatAlertBaselineNote, formatAlertEvidenceText,
-  formatKoreanShortDate, formatNextGigText, getGeneralTodayAlerts,
+  avatarHtml, buildWeeklySummaryText,
+  escapeHtml, fmtInt, fmtNum,
+  formatKoreanShortDate, formatNextGigText,
   getWatchlistAlerts, INFO_TIPS, infoTip, plainWhyLine, renderEmptyState,
   spotifyButtonHtml, watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
   youtubeQuickInfo,
 } from '../ui.js';
+import { renderAlertsCardHtml, renderSpikeSentencesHtml } from './today_alerts.js';
+import { fillSavedCard, renderSavedCardShellHtml } from './today_saved.js';
+import { loadEventStars } from '../db_team_extras.js';
 
 function renderCardListenAction(r) {
   const sp = spotifyButtonHtml(r.team_key, true, {
@@ -34,12 +37,13 @@ function renderCardListenAction(r) {
 
 export async function renderTodayView(root) {
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
-  const [candRows, watchEnriched, upcomingRaw, debutData, alertsData] = await Promise.all([
+  const [candRows, watchEnriched, upcomingRaw, debutData, alertsData, eventStarsMap] = await Promise.all([
     queryCandidates({ limit: 300 }),
     queryWatchlistEnriched(getWatchlist()),
     queryUpcomingGigs({ asOf, days: 14 }),
     queryDebutCandidates({ as_of: asOf }).catch(() => null),
     loadAlertsJson().catch(() => null),
+    loadEventStars(),
   ]);
   const extras = await queryWeeklyDigestExtras(candRows);
 
@@ -104,6 +108,7 @@ export async function renderTodayView(root) {
   let showAllNew = false;
   let showAllRisers = false;
   let showAllWatchAlerts = false;
+  const expandedAlertTypes = new Set();
 
   // Build plain-Korean weekly briefing narrative
   const topRiser = diff.risers[0];
@@ -435,63 +440,25 @@ export async function renderTodayView(root) {
       </section>
     `;
 
-    function renderAlertRowHtml(a, isWatch = false) {
-      const evTxt = formatAlertEvidenceText(a);
-      const tipParts = [];
-      if (evTxt) tipParts.push(`근거: ${evTxt}`);
-      if (a.found_on) tipParts.push(`발견일: ${a.found_on}`);
-      const tipAttr = tipParts.length ? ` title="${escapeHtml(tipParts.join(' · '))}"` : '';
-      const metaParts = [];
-      if (a.date) metaParts.push(a.date);
-      if (evTxt) metaParts.push(evTxt);
-      return `
-        <li class="today-alert-item${isWatch ? ' is-watch' : ''}"${tipAttr}>
-          <div class="today-alert-main">
-            ${alertKindChipHtml(a, alertsData?.types)}
-            <a class="today-alert-team" href="#/team/${encodeURIComponent(a.team_key)}"><strong>${escapeHtml(a.name || a.team_key)}</strong></a>
-            <span class="today-alert-text">${escapeHtml(a.text)}</span>
-          </div>
-          ${metaParts.length ? `<span class="today-alert-meta mono">${escapeHtml(metaParts.join(' · '))}</span>` : ''}
-        </li>
-      `;
-    }
-
+    // 5-3 알림 카드(종류별 묶음·별점/중요도 순·근거 펼침·보인/찾은 수) · 5-4 이상치 문장(spike)
+    const watchAlertsAll = getWatchlistAlerts(alertsData, getWatchlist());
     function buildAlertsBlockHtml() {
-      if (!alertsData || !Array.isArray(alertsData.alerts) || !alertsData.alerts.length) return '';
-      const watchAlerts = getWatchlistAlerts(alertsData, getWatchlist());
-      const watchDedup = new Set(watchAlerts.map(alertDedupKey));
-      const generalAlerts = getGeneralTodayAlerts(alertsData, { limit: 8, excludeKeys: watchDedup });
-      if (!watchAlerts.length && !generalAlerts.length) return '';
-
-      const visWatch = showAllWatchAlerts ? watchAlerts.slice(0, 20) : watchAlerts.slice(0, 6);
-      const metaParts = [];
-      if (watchAlerts.length) metaParts.push(`관심 ${fmtInt(watchAlerts.length)}건`);
-      if (generalAlerts.length) metaParts.push(`주요 ${fmtInt(generalAlerts.length)}건`);
-      const baselineNote = formatAlertBaselineNote(alertsData);
-
-      return `
-        <section class="block today-alerts-block" id="todayAlertsBlock" aria-label="오늘 알림">
-          <div class="block-head">
-            <h2>오늘 알림</h2>
-            <span class="block-meta">${escapeHtml(metaParts.join(' · '))}</span>
-          </div>
-          ${watchAlerts.length ? `
-            <div class="today-alerts-watch" aria-label="관심 목록 팀 알림">
-              <div class="today-alerts-watch-head">
-                <strong>관심 팀 알림</strong>
-                <span class="small muted">새 공연 포함 ${fmtInt(watchAlerts.length)}건</span>
-              </div>
-              <ul class="today-alerts-list">${visWatch.map(a => renderAlertRowHtml(a, true)).join('')}</ul>
-              ${!showAllWatchAlerts && watchAlerts.length > 6 ? `<div style="margin-top:8px;"><button type="button" class="btn btn-sm" id="btnMoreWatchAlerts">${fmtInt(Math.min(20, watchAlerts.length) - 6)}건 더 보기</button></div>` : ''}
-            </div>
-          ` : ''}
-          ${generalAlerts.length ? `
-            <ul class="today-alerts-list">${generalAlerts.map(a => renderAlertRowHtml(a, false)).join('')}</ul>
-          ` : ''}
-          ${baselineNote ? `<p class="today-alerts-foot muted small">${escapeHtml(baselineNote)} · 일반 알림은 새 공연 제외 중요도 상위 ${fmtInt(generalAlerts.length)}건</p>` : ''}
-        </section>
-      `;
+      return renderAlertsCardHtml(alertsData, {
+        watchAlerts: watchAlertsAll,
+        showAllWatch: showAllWatchAlerts,
+        eventStarsMap,
+        expandedTypes: expandedAlertTypes,
+      });
     }
+    const spikeAlerts = (alertsData?.alerts || []).filter(a => a.type === 'spike');
+    const spikeBlockHtml = spikeAlerts.length ? `
+      <section class="block today-spike-block" aria-label="평소와 다른 움직임">
+        <div class="block-head">
+          <h2>평소와 다른 움직임</h2>
+          <span class="block-meta">최근 1주 언급 vs 지난 12주 · ${fmtInt(spikeAlerts.length)}팀</span>
+        </div>
+        ${renderSpikeSentencesHtml(spikeAlerts)}
+      </section>` : '';
 
     const alertsBlockHtml = buildAlertsBlockHtml();
 
@@ -499,6 +466,10 @@ export async function renderTodayView(root) {
       ${heroHtml}
 
       <div id="todayAlertsHost">${alertsBlockHtml}</div>
+
+      ${spikeBlockHtml}
+
+      ${renderSavedCardShellHtml()}
 
       <section class="today-section">
         <div class="block-head" style="border:none;margin-bottom:10px;padding:0;">
@@ -552,6 +523,10 @@ export async function renderTodayView(root) {
     });
 
     root.querySelector('#btnMoreWatchAlerts')?.addEventListener('click', () => { showAllWatchAlerts = true; paint(); });
+    root.querySelectorAll('[data-alert-more]').forEach(btn => {
+      btn.addEventListener('click', () => { expandedAlertTypes.add(btn.dataset.alertMore); paint(); });
+    });
+    fillSavedCard(root);
     root.querySelector('#btnMoreUpcoming')?.addEventListener('click', () => { upcomingLimit += 10; paint(); });
     root.querySelector('#btnLessUpcoming')?.addEventListener('click', () => { upcomingLimit = 5; paint(); });
     root.querySelector('#btnMoreNew')?.addEventListener('click', () => { showAllNew = true; paint(); });

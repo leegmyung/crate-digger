@@ -43,25 +43,8 @@ export const CAND_PRESETS = [
   },
 ];
 
-const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
-
-/** 기준일(asOf)에서 N개월 전 ISO 날짜(YYYY-MM-DD)를 계산한다. */
-export function subtractMonthsIso(asOf, months) {
-  const base = DATE_RE.test(String(asOf || '')) ? String(asOf) : '2026-11-27';
-  const [y, m, d] = base.split('-').map(Number);
-  const dt = new Date(Date.UTC(y, m - 1 - Number(months || 0), d));
-  return dt.toISOString().slice(0, 10);
-}
-
-/** 첫 발매일이 기준일 전 N개월 이내인지 판정한다. */
-export function matchesReleaseMonths(firstRelease, months, asOf) {
-  const m = Number(months) || 0;
-  if (m <= 0) return true;
-  const fr = String(firstRelease || '').trim().slice(0, 10);
-  if (!DATE_RE.test(fr)) return false;
-  const cut = subtractMonthsIso(asOf, m);
-  return fr >= cut && fr <= String(asOf || '9999-12-31');
-}
+// 첫 발매 N개월 규칙은 저장 필터와 같은 규칙을 쓰려고 saved_match.js 한 곳에 둔다
+export { matchesReleaseMonths, subtractMonthsIso } from './saved_match.js';
 
 /** 현재 적용된 필터들을 제거 가능한 꼬리표 목록으로 만든다(숨은 조건 없음). */
 export function buildActiveFilterChips(appState) {
