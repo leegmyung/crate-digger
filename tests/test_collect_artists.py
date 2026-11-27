@@ -94,6 +94,10 @@ class MatchTest(unittest.TestCase):
     def test_no_match(self):
         self.assertIsNone(ca.match_candidate("없는팀", self.CANDS))
 
+    def test_placeholder_ids_are_never_matched(self):   # 멜론 '여러 아티스트' 같은 공용 번호(0, 1)
+        self.assertIsNone(ca.match_candidate("Various Artists", [["1", "Various Artists", ""], ["0", "Various Artists", ""]]))
+        self.assertEqual(ca.match_candidate("산보", [["0", "산보", ""]] + self.CANDS)["id"], "3940959")
+
 
 class ResilienceTest(unittest.TestCase):
     def test_failed_batch_is_skipped_and_reported(self):

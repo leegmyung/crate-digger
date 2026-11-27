@@ -98,10 +98,13 @@ def name_keys(name):
     return {k for k in keys if k}
 
 
+INVALID_IDS = {"0", "1"}   # 멜론 공용 번호('여러 아티스트' 등) — 실제 팀이 아님
+
+
 def match_candidate(name, candidates):
     """멜론 검색 결과 [[번호, 이름, 설명], ...] 중 이름 키가 같은 후보. 같은 키가 여럿이면 namesakes>1 (검수 대상)."""
     want = name_keys(name)
-    hits = [c for c in candidates if name_keys(c[1]) & want]
+    hits = [c for c in candidates if str(c[0]) not in INVALID_IDS and name_keys(c[1]) & want]
     if not hits:
         return None
     return {"id": hits[0][0], "name": hits[0][1], "desc": hits[0][2] if len(hits[0]) > 2 else "", "namesakes": len(hits)}
@@ -271,7 +274,7 @@ def collect_from_outcomes(limit, names=None):
         seen = set(json.loads(STATE.read_text(encoding="utf-8")))
     except (OSError, json.JSONDecodeError):
         seen = set()
-    ids = [m["id"] for m in matches.values() if m and m["id"] not in seen]
+    ids = [m["id"] for m in matches.values() if m and m["id"] not in seen and m["id"] not in INVALID_IDS]
     ids = list(dict.fromkeys(ids))[:MAX_PROFILES_PER_RUN]   # 한 번 실행이 너무 길어지지 않게 (남은 팀은 다음 실행에)
     if not ids:
         return None, len(todo), 0
