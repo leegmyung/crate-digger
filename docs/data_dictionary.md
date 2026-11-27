@@ -59,9 +59,10 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `fan_count` | 플랫폼 팬(좋아요) 수, 명 | — |
 | `album_count` | 플랫폼에 올라온 앨범 수(싱글 포함), 개 | — |
 | `profile_status` | 팀 상태 (newcomer 신인 / established 기성 / famous 유명 / unknown 프로필 없음) | — |
-| `primary_genre` | 대표 장르 (사람이 확인한 장르 config/genre_overrides.json 이 있으면 그것) | — |
+| `primary_genre` | 대표 장르 (사람이 확인한 장르 config/genre_overrides.json 이 있으면 그것, 빈칸은 추정으로 채움 — genre_confidence) | — |
 | `agency` | 소속사 | — |
 | `newcomer_check` | 신인 판정 확인 상태 — verified 첫 발매일 있음(사람 확인 데뷔일 포함) / unverified 첫 발매일 없고 그 팀을 처음 본 출처의 수집 시작 90일 안에 처음 봄(그 전부터 활동했을 수 있어 신인인지 확실치 않음) / first_seen 첫 발매일 없고 그 뒤에 처음 봄. 표시용 — 점수·후보군엔 안 씀 | — |
+| `genre_confidence` | 대표 장르의 확신도 — profile 멜론·발매 장르·사람 확인 / press 확실한 출처 힌트(리드머·밴드 디스커버리) / inferred 같은 무대 다수결·공연장 성향·약한 출처 힌트로 추정(docs/genre_fill.md) / 빈칸 모름 | — |
 
 ### `outcomes`
 

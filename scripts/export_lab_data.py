@@ -21,9 +21,10 @@ from typing import Callable, Dict, List
 from urllib.parse import urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from build_dashboard_data import PROGRAM_NAMES, _has_xref_table, _infer_genres, psql_csv  # noqa: E402
+from build_dashboard_data import PROGRAM_NAMES, _has_xref_table, psql_csv  # noqa: E402
 from csv_schema import OUTCOME_TIER  # noqa: E402
 import genre as genre_mod  # noqa: E402
+import genre_fill  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "docs" / "lab" / "data"
@@ -34,7 +35,7 @@ IMAGE_CACHE = ROOT / "data" / "raw" / "state" / "artist_images.json"
 
 SIGNAL_FIELDS = ["team_key", "branch", "source", "program", "stage_rank", "signal_date", "venue", "role"]
 TEAM_FIELDS = ["team_key", "display_name", "first_seen", "first_release", "fan_count", "album_count",
-               "profile_status", "primary_genre", "agency", "newcomer_check"]
+               "profile_status", "primary_genre", "agency", "newcomer_check", "genre_confidence"]
 # 신인 판정 확인 상태 (2026-11-27 사용자 결정: 후보에서 빼지 않고 표시만, 점수·검증엔 안 씀)
 NEWCOMER_CHECK_DAYS = 90   # 출처 수집 시작 뒤 이 기간 안에 처음 본 팀은 그 전부터 활동했을 수 있다 (데이터 시작점에 잘림)
 LINK_FIELDS = ["team_key", "platform", "url"]
@@ -211,14 +212,15 @@ def team_rows(rows: List[dict], roles: dict | None = None, debut_overrides: Dict
         key = r.get("team_key")
         if key in excluded:
             continue
-        genres = _infer_genres(r.get("raw_genres"), r.get("press_sources"), r.get("sel_programs"))
         row = {k: r.get(k) or "" for k in TEAM_FIELDS}
         row["profile_status"] = row["profile_status"] or "unknown"
-        row["primary_genre"] = genres[0] if genres else ""
+        # 대표 장르 + 확신도(profile 플랫폼 장르 / press 확실한 출처 힌트) — 빈칸 추정(inferred)은 export()의 genre_fill
+        row["primary_genre"], row["genre_confidence"] = genre_fill.base_genre(
+            r.get("raw_genres"), r.get("press_sources"), r.get("sel_programs"))
         if key in debut_overrides:
             row["first_release"] = min(d for d in (row["first_release"], debut_overrides[key]["debut"]) if d)
         if key in genre_overrides:
-            row["primary_genre"] = labels[genre_overrides[key]["genre"]]
+            row["primary_genre"], row["genre_confidence"] = labels[genre_overrides[key]["genre"]], genre_fill.PROFILE
         out.append(row)
     return out
 
@@ -548,10 +550,13 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
     q = queries(use_xref)
     roles = load_roles()
     signals = [{**r, "role": signal_role(r, roles)} for r in _records(run(q["signals"]))]
-    teams = team_rows(_records(run(q["teams"])), roles,
+    team_raw = _records(run(q["teams"]))
+    teams = team_rows(team_raw, roles,
                       debut_overrides=load_team_overrides(DEBUT_OVERRIDES_FILE, "debut"),
                       genre_overrides=load_team_overrides(GENRE_OVERRIDES_FILE, "genre"))
     teams = with_newcomer_check(teams, signals)
+    # 장르 빈칸 추정(같은 무대 다수결 → 공연장 성향 → 약한 출처 힌트, 확신도 inferred) — 정답 정보 안 씀 (docs/genre_fill.md)
+    teams = genre_fill.fill_genres(teams, signals, genre_fill.weak_hints(team_raw))
     outcomes = same_house_flags(outcome_rows(_records(run(q["outcomes"])), roles), signals, roles)
     programs = program_rows(signals, outcomes)
     links = link_rows(_records(run(q["links"])) + (extra_refs() if extra_refs else []))
