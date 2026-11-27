@@ -85,6 +85,31 @@ class AuditPriorityTest(unittest.TestCase):
             self.assertIsNone(mn.latest_audit(Path(d) / "없음"))
 
 
+class ReleaseOnlyTest(unittest.TestCase):
+    """발매 신호만 있고 첫 발매일이 없는 최근 팀 → 상위 후보 다음 순서 (프로필이 쌓이면 '갓 데뷔 > 아직 언급 없음'을 채움)."""
+    TEAMS = TEAMS + [{"team_key": k, "display_name": n, "profile_status": "unknown", "first_release": fr} for k, n, fr in [
+        ("r1", "알원", ""), ("r2", "알투", ""), ("r3", "알쓰리", ""), ("r4", "알포", "2026-10-01")]]
+    SIGNALS = SIGNALS + [
+        {"team_key": "r1", "branch": "발매", "signal_date": "2026-11-20"},
+        {"team_key": "r2", "branch": "발매", "signal_date": "2026-11-25"},
+        {"team_key": "r2", "branch": "발매", "signal_date": "2026-10-01"},
+        {"team_key": "r3", "branch": "발매", "signal_date": "2026-05-01"},     # 90일 넘음
+        {"team_key": "r4", "branch": "발매", "signal_date": "2026-11-26"},     # 첫 발매일 이미 있음
+        {"team_key": "f", "branch": "발매", "signal_date": "2026-11-26"}]      # 공연 신호도 있음 → 발매만 팀 아님
+
+    def test_release_only_recent_teams(self):
+        self.assertEqual(mn.release_only_recent(self.SIGNALS, self.TEAMS, "2026-11-27"), ["r2", "r1"])   # 최근 발매 순
+        self.assertEqual(mn.release_only_recent(self.SIGNALS, self.TEAMS, "2026-11-27", days=365), ["r2", "r1", "r3"])
+
+    def test_order_after_snapshot_before_outcomes(self):
+        got = build(teams=self.TEAMS, signals=self.SIGNALS)
+        self.assertEqual(got, ["씨", "에이", "알투", "알원", "디", "에이치", "에프"])
+
+    def test_not_found_recently_is_still_skipped(self):
+        got = build(teams=self.TEAMS, signals=self.SIGNALS, matches={"알투": None}, attempts={"알투": "2026-11-20"})
+        self.assertNotIn("알투", got)
+
+
 class FileTest(unittest.TestCase):
     def test_latest_snapshot_file(self):
         with tempfile.TemporaryDirectory() as d:

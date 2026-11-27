@@ -1,4 +1,4 @@
-"""멜론 프로필 보강 명단 만들기 → data/raw/review/melon_names_<오늘>.txt (한 줄에 팀 이름 하나, 최대 300줄)
+"""멜론 프로필 보강 명단 만들기 → data/raw/review/melon_names_<오늘>.txt (한 줄에 팀 이름 하나, 최대 1,000줄)
 
     python3 scripts/melon_names.py
 
@@ -7,6 +7,8 @@
   ⓪ 최신 후보 점검(data/raw/review/candidate_audit_<날짜>.csv)의 (b) '기성인데 프로필이 없어 신인으로 잡힘' 팀 — 순위 순.
      멜론 번호는 찾았지만 프로필을 아직 못 받은 팀도 넣는다 (수집기가 명단 순서대로 프로필을 먼저 받음)
   ① 최신 점수 스냅샷(docs/lab/data/snapshots/<날짜>.csv) 상위 300팀 — 점수 순
+  ①' 발매 신호만 있고 첫 발매일이 없는 팀 중 최근 RELEASE_DAYS일 안에 발매한 팀 — 최근 발매 순
+     (프로필로 첫 발매일이 생기면 '갓 데뷔 > 아직 언급 없음' 팀이 보이기 시작함, docs/debut_cohort.md)
   ② 센 정답(counted)을 받은 팀 — 정답 팀의 연차를 알아야 신인 기준을 검증할 수 있음
   ③ 다가오는 공연(오늘 이후)이 있는 팀 — 공연 날짜가 가까운 순
 이미 찾아본 이름(data/raw/state/outcome_melon_match.json)은 뺀다. 못 찾았던 이름(값 null)은 마지막 시도가
@@ -33,6 +35,7 @@ SNAPSHOT_TOP = 300     # 점수 상위 몇 팀까지 볼지
 LIMIT = 1000           # 명단 최대 줄 수 (하루 한도 없이 한 번에 받음)
 RETRY_DAYS = 30        # 못 찾았던 이름은 30일 뒤 다시 (멜론에 새로 등록됐을 수 있음)
 KEEP_FILES = 7         # 명단 파일은 최근 7개만
+RELEASE_DAYS = 90      # '발매 신호만 있는 팀'은 최근 90일 안 발매만 (갓 데뷔 후보가 될 만한 팀)
 
 
 def due_for_search(name: str, matches: dict, attempts: dict, today: str) -> bool:
@@ -49,6 +52,22 @@ def due_for_search(name: str, matches: dict, attempts: dict, today: str) -> bool
         return date.fromisoformat(today) - date.fromisoformat(str(tried)[:10]) >= timedelta(days=RETRY_DAYS)
     except ValueError:
         return False
+
+
+def release_only_recent(signals: List[dict], teams: List[dict], today: str, days: int = RELEASE_DAYS) -> List[str]:
+    """발매 갈래 신호만 있고(남의 언급 없음) 첫 발매일이 없는 팀 중, 마지막 발매가 최근 days일 안인 팀 — 최근 발매 순."""
+    no_release_date = {t["team_key"] for t in teams if not (t.get("first_release") or "").strip()}
+    last: Dict[str, str] = {}
+    other = set()
+    for s in signals:
+        k = s["team_key"]
+        if s.get("branch") != "발매":
+            other.add(k)
+            continue
+        last[k] = max(last.get(k, ""), s.get("signal_date") or "")
+    since = (date.fromisoformat(today) - timedelta(days=days)).isoformat()
+    keys = [k for k, d in last.items() if k not in other and k in no_release_date and since <= d <= today]
+    return sorted(keys, key=lambda k: (last[k], k), reverse=True)
 
 
 def build_names(snapshot: List[dict], teams: List[dict], outcomes: List[dict], signals: List[dict],
@@ -80,7 +99,7 @@ def build_names(snapshot: List[dict], teams: List[dict], outcomes: List[dict], s
 
     out: List[str] = []
     seen = set()
-    for key in [*priority, *ranked_snapshot(), *winners, *gigs]:
+    for key in [*priority, *ranked_snapshot(), *release_only_recent(signals, teams, today), *winners, *gigs]:
         t = info.get(key)
         name = (t or {}).get("display_name", "").strip()
         if not t or t.get("profile_status") != "unknown" or not name or name in seen:
