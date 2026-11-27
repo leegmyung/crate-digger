@@ -11,8 +11,8 @@
 **코디네이션 상태 (2026-11-27 밤, 대화가 요약돼도 이걸 보고 이어간다)**
 - 운영 방식: 사용자는 "관여 없이 끝까지". 작업자마다 할 일 3~6개를 미리 쌓아 두고, 결과 보고가 오면 코디네이터(Claude 메인 세션)가 검토(테스트·브라우저 확인) → 커밋·push → 다음 일 추가. 작업자는 커밋 금지. 같은 단계 안은 묻지 않고 진행·보고, 방향·틀 변경만 사용자에게 묻기.
 - Orca 실행: `/Applications/Orca.app/Contents/Resources/bin/orca orchestration send --to dispatch:<id> --subject … --body …` (run run_bb3533879a4f). 작업자 목록: `orca orchestration worker-list --environment local --json`. 같은 작업자에게 보낸 후속 메시지는 새 dispatch id로 이어짐.
-  - 안티그래비티(앱 docs/app/**·dashboard.html): 최근 dispatch ctx_a3ff893a08ea — 팀 상세 관계망 그래프(옵시디언처럼, D3, graph.js + ego_network.sql). '갓 데뷔'는 커밋됨.
-  - Claude 작업자 A: dispatch ctx_70cee6a8e929 — 별칭 목록(config/artist_aliases.json) 커밋됨. 멜론 프로필 수집 끝나면 트랙제로 수집 시작 알림 보내기(1초 간격) → 성적표 → research 6-2절.
+  - 안티그래비티(앱 docs/app/**·dashboard.html): 새 작업자 dispatch ctx_ef2962e3cd6d (옛 ctx_2bc3bdc97d65는 턴 오류로 멈춤·'계속 열어 두기'라 못 끔) — 브리핑 진입 카드·'참고' 배지·갓 데뷔가 debut_candidates.sql 공유. 큰 파일 통째로 열지 말 것(오류 원인).
+  - Claude 작업자 A: dispatch ctx_f942ce662696 — 대기. 21시 실행 끝나면(약 21:40) 협업 신호(w_collab) 검증 알림 보내기. 오늘 연결표 정리(확인 필요 112→66)·정답 뷰 팀 단위 프로필(센 정답 354→363)·잘못된 번호 차단 커밋됨.
   - Claude 작업자 B: 최근 dispatch ctx_45a30a103e9f — 유명 판정 시점 반영 후 데뷔 성적표 같은 수정·분석 스크립트 재실행·README/methods 숫자(0.787/0.779) 정리.
   - 정답 정리(2026-11-27 사용자 결정, 커밋 5054911): config/source_roles.json outcome_rules — 후보(nominee·shortlist) 한 등급 아래, 기획사 아이돌 10팀 제외. 교차 검증 0.711/0.712 → 0.752/0.740, 추천 가중치가 v2와 일치.
 - 21시 자동 실행 끝나면(대기 작업이 깨움, 없으면 records/daily_run.log 확인): 협업 수집 건수 확인 → score_tune(w_collab 포함) 돌려 협업 신호 효과 확인 → 효과 있으면 점수 반영 여부 사용자에게 물음. 인스타 499계정·멜론 100팀·연결표 갱신·출처 재분류 제안이 잘 돌았는지 확인.
