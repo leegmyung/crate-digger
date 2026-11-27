@@ -87,8 +87,11 @@ class TeamGenreTest(unittest.TestCase):
         import duckdb
         con = duckdb.connect()
         con.execute("CREATE TABLE teams(team_key VARCHAR, primary_genre VARCHAR, genre_confidence VARCHAR)")
-        con.execute("INSERT INTO teams VALUES ('a','힙합','inferred'), ('b','힙합','profile'), ('c','',NULL), ('d','록·밴드',NULL)")
-        self.assertEqual(sm.team_genres(con), {"a": "미분류", "b": "힙합", "c": "미분류", "d": "록·밴드"})
+        con.execute("INSERT INTO teams VALUES ('a','힙합','inferred'), ('b','힙합','profile'), ('c','',NULL), ('d','록·밴드',NULL), "
+                    "('e','록·밴드','review'), ('f','포크·싱어송라이터','inferred_low'), ('g','록·밴드','press')")
+        # 비교·분석은 profile·press(·확신도 없는 옛 CSV)만 — 추정·리뷰·확신 낮음은 미분류 (docs/genre_fill.md 6-1)
+        self.assertEqual(sm.team_genres(con), {"a": "미분류", "b": "힙합", "c": "미분류", "d": "록·밴드",
+                                               "e": "미분류", "f": "미분류", "g": "록·밴드"})
 
 
 class GridTest(unittest.TestCase):

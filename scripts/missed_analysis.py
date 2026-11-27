@@ -21,7 +21,7 @@ from typing import Dict, List, Optional, Sequence, Tuple
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import lab_sql  # noqa: E402
 import score_tune as st  # noqa: E402
-from score_model import ANALYSIS_GENRE_SQL  # noqa: E402  (추정 장르는 미분류 — genre_bias.analysis_genre 와 같은 규칙)
+from score_model import ANALYSIS_GENRE_SQL  # noqa: E402  (추정·리뷰·확신 낮음 장르는 미분류 — genre_bias.analysis_genre 와 같은 규칙)
 
 OUT = lab_sql.ROOT / "docs" / "missed_analysis.md"
 SINCE = date(2025, 1, 1)

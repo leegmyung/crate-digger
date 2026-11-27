@@ -580,13 +580,14 @@ def _group(leads: Sequence[dict], key) -> Dict[str, List[float]]:
     return out
 
 
-# 분석용 장르: 추정(inferred) 장르는 '미분류' — genre_bias.analysis_genre 와 같은 규칙 (2026-11-27 결정, docs/genre_fill.md)
-ANALYSIS_GENRE_SQL = ("CASE WHEN COALESCE(t.genre_confidence, '') = 'inferred' THEN '미분류' "
+# 분석용 장르: profile·press(·확신도 없는 옛 CSV)만 — 추정·리뷰·확신 낮음(inferred·review·inferred_low)은 '미분류'.
+# genre_bias.analysis_genre·peer_compare.sql 과 같은 규칙 (2026-11-27·28 결정, docs/genre_fill.md 6-1)
+ANALYSIS_GENRE_SQL = ("CASE WHEN COALESCE(t.genre_confidence, '') NOT IN ('', 'profile', 'press') THEN '미분류' "
                       "ELSE COALESCE(NULLIF(TRIM(t.primary_genre), ''), '미분류') END")
 
 
 def team_genres(con) -> Dict[str, str]:
-    """팀 → 분석용 장르 (추정 장르는 미분류)."""
+    """팀 → 분석용 장르 (추정·리뷰·확신 낮음은 미분류)."""
     return dict(con.execute(f"SELECT t.team_key, {ANALYSIS_GENRE_SQL} FROM teams t").fetchall())
 
 

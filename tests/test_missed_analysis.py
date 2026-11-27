@@ -33,9 +33,13 @@ class TeamInfoGenreTest(unittest.TestCase):
         con.execute("CREATE TABLE teams(team_key VARCHAR, profile_status VARCHAR, first_release DATE, first_seen DATE, "
                     "primary_genre VARCHAR, genre_confidence VARCHAR, display_name VARCHAR)")
         con.execute("INSERT INTO teams VALUES ('a','unknown',NULL,'2024-01-01','힙합','inferred','A'), "
-                    "('b','unknown',NULL,'2024-01-01','힙합','profile','B')")
+                    "('b','unknown',NULL,'2024-01-01','힙합','profile','B'), "
+                    "('c','unknown',NULL,'2024-01-01','록·밴드','review','C'), "
+                    "('d','unknown',NULL,'2024-01-01','록·밴드','inferred_low','D')")
         self.assertEqual(ma.team_info(con, "a", date(2025, 1, 1))["genre"], "미분류")
         self.assertEqual(ma.team_info(con, "b", date(2025, 1, 1))["genre"], "힙합")
+        self.assertEqual(ma.team_info(con, "c", date(2025, 1, 1))["genre"], "미분류")   # 리뷰 장르
+        self.assertEqual(ma.team_info(con, "d", date(2025, 1, 1))["genre"], "미분류")   # 같은 무대 1표
 
 
 class ClassifyTest(unittest.TestCase):
