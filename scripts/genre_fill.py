@@ -7,7 +7,8 @@
   inferred = 빈칸에만, 아래 순서로 처음 결정되는 것
              ① 같은 무대 다수결: 같은 날·같은 공연장에 선 팀들의 장르 — 2표 이상, 60% 이상
              ② 공연장 성향: 그 팀이 선 공연장들의 장르 분포(투표자 5팀 이상인 공연장만, 공연장마다 같은 무게) — 70% 이상
-             ③ 약한 출처 힌트: 힙합엘 기사 → 힙합, 유재하 경연 본선 → 포크·싱어송라이터 (맞는 비율 50~65%라 inferred)
+             ③ 약한 출처 힌트: 힙합엘 기사 → '힙합·R&B'(넓은 묶음 — 힙합만 47%, 힙합·R&B 합치면 78%),
+                유재하 경연 본선 → 포크·싱어송라이터 (65%)
 투표는 profile·press 팀만 한다 — 추정한 장르로 다시 추정하지 않는다(순환 방지, 한 번만 계산).
 정답(검증용) 정보는 쓰지 않는다: 공연 신호와 신호 출처만 보고, 정답 프로그램(csv_schema.OUTCOME_TIER)은 힌트에서 뺀다.
 """
@@ -27,9 +28,11 @@ MIN_SHARE = 0.6          # 같은 무대 다수결: 1등 장르 비율 하한
 VENUE_MIN_SHARE = 0.7    # 공연장 성향: 1등 장르 비율 하한 (60%면 맞는 비율 51% — '모두 록' 기준선 46%와 비슷해서 올림)
 VENUE_MIN_VOTERS = 5     # 공연장 성향을 믿을 최소 투표자(장르 아는 팀) 수
 NO_VENUE = ("", "공연장 미정")
-# 약한 출처 힌트 (신호 출처만, 순서 = 우선순위). 멜론 장르가 있는 팀으로 잰 맞는 비율: 힙합엘 47%(힙합·R&B 합치면 78%),
-# 유재하 본선 65% — docs/genre_fill.md
-WEAK_PRESS = {"hiphople": "hiphop"}
+# 약한 출처 힌트 (신호 출처만, 순서 = 우선순위). 값 = 장르 지도 갈래 키 또는 넓은 묶음 이름.
+# 멜론 장르가 있는 팀으로 잰 맞는 비율: 힙합엘 힙합 47%·힙합/R&B 78% → 넓은 묶음, 유재하 본선 포크 65% — docs/genre_fill.md
+HIPHOP_RNB = "힙합·R&B"                               # 넓은 묶음: 힙합 또는 R&B·소울 (어느 쪽인지 모름)
+BROAD_MEMBERS = {HIPHOP_RNB: ("hiphop", "rnb")}      # 넓은 묶음 → 들어 있는 갈래 키 (맞는 비율 셀 때)
+WEAK_PRESS = {"hiphople": HIPHOP_RNB}
 WEAK_PROGRAMS = {"yoojaeha_finalist": "folk"}
 
 Gig = Tuple[str, str]   # (날짜, 공연장)
@@ -59,8 +62,8 @@ def weak_hints(rows: Iterable[Mapping]) -> Dict[str, str]:
         progs = [p for p in _split_lower(r.get("sel_programs")) if p not in csv_schema.OUTCOME_TIER]
         found = [WEAK_PRESS[s] for s in press if s in WEAK_PRESS] + [WEAK_PROGRAMS[p] for p in progs if p in WEAK_PROGRAMS]
         best = min(found, key=order.index) if found else ""
-        if best in labels:
-            out[str(r.get("team_key"))] = labels[best]
+        if best in labels or best in BROAD_MEMBERS:
+            out[str(r.get("team_key"))] = labels.get(best, best)
     return out
 
 
@@ -117,6 +120,12 @@ class _Votes:
         return "", ""
 
 
+def _members(guess: str) -> Set[str]:
+    """추정 장르가 뜻하는 대표 장르 이름들 (넓은 묶음이면 여러 개)."""
+    labels = _labels()
+    return {labels[k] for k in BROAD_MEMBERS[guess] if k in labels} if guess in BROAD_MEMBERS else {guess}
+
+
 def fill_genres(teams: Sequence[Mapping], signals: Iterable[Mapping], hints: Mapping[str, str]) -> List[dict]:
     """빈칸 팀에 추정 장르(inferred)를 채운 새 목록. 장르가 있는 팀·입력 목록은 바꾸지 않는다."""
     votes = _Votes(teams, signals)
@@ -140,7 +149,7 @@ def evaluate(teams: Sequence[Mapping], signals: Iterable[Mapping], hints: Mappin
         guess, method = votes.infer(str(t["team_key"]), hints)
         if not guess:
             continue
-        hit = int(guess == t["primary_genre"])
+        hit = int(t["primary_genre"] in _members(guess))
         for m in (method, "all"):
             rep[m]["n"] += 1
             rep[m]["correct"] += hit

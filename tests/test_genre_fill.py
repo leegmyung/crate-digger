@@ -49,7 +49,8 @@ class WeakHintsTest(unittest.TestCase):
         rows = [{"team_key": "h", "press_sources": "izm|hiphople"}, {"team_key": "y", "sel_programs": "yoojaeha_finalist"},
                 {"team_key": "o", "sel_programs": "khha_rookie"},       # 정답 프로그램 → 힌트 아님
                 {"team_key": "n", "press_sources": "musicy"}]
-        self.assertEqual(gf.weak_hints(rows), {"h": HIPHOP, "y": FOLK})
+        self.assertEqual(gf.weak_hints(rows), {"h": gf.HIPHOP_RNB, "y": FOLK})
+        self.assertEqual(gf.HIPHOP_RNB, "힙합·R&B")          # 힙합 전문 매체지만 R&B 가수도 많이 다룸 → 넓은 묶음
 
 
 class FillGenresTest(unittest.TestCase):
@@ -107,6 +108,11 @@ class FillGenresTest(unittest.TestCase):
 
 
 class EvaluateTest(unittest.TestCase):
+    def test_broad_hint_counts_either_member_as_correct(self):
+        teams = [t("a", "R&B·소울"), t("b", HIPHOP), t("c", ROCK)]
+        rep = gf.evaluate(teams, [], {"a": gf.HIPHOP_RNB, "b": gf.HIPHOP_RNB, "c": gf.HIPHOP_RNB})
+        self.assertEqual(rep["hint"], {"n": 3, "correct": 2})
+
     def test_leave_one_out_on_profile_teams(self):
         teams = [t("a", ROCK), t("b", ROCK), t("c", ROCK), t("d", FOLK)]
         sig = [g(k, "2024-01-01", "클럽A") for k in "abcd"]

@@ -4,6 +4,8 @@
 -- 이웃(비교군):
 --   장르를 아는 팀   = 같은 발굴 단계 + 같은 장르(teams.primary_genre)            → peer_scope '단계+장르'
 --   장르 빈칸·미분류 = 같은 발굴 단계 전체(장르를 아는 팀 포함)                    → peer_scope '단계'
+--   추정 장르(teams.genre_confidence = inferred: 같은 무대 다수결·공연장 성향·약한 힌트) = 빈칸처럼 단계로만
+--   (2026-11-27 결정: 비교·분석은 profile·press 장르만, 앱 필터·표시는 추정까지 '추정' 꼬리표 — docs/genre_fill.md)
 --   (장르 오분류 위험: 장르를 모르는 팀을 억지로 한 장르에 넣지 않는다. 외부 장르 표기는 쓰지 않는다.)
 -- 발굴 단계: discovery_stage.sql 과 같은 정의(0 백지 · 1 첫 신호 · 2 여러 갈래 · 3 선정·중간 정답 · 4 졸업),
 --   tests/test_peer_rising.py 가 두 파일의 단계가 같은지 확인한다.
@@ -52,7 +54,8 @@ base AS (
                WHEN COALESCE(m.n_mention_branches, 0) = 1 THEN 1
                ELSE 0
            END AS stage,
-           CASE WHEN TRIM(COALESCE(sc.primary_genre, '')) IN ('', '미분류') THEN NULL
+           CASE WHEN TRIM(COALESCE(sc.primary_genre, '')) IN ('', '미분류')
+                  OR COALESCE(t.genre_confidence, '') = 'inferred' THEN NULL     -- 추정 장르는 비교에 안 씀
                 ELSE TRIM(sc.primary_genre) END AS genre_key
     FROM scored sc
     JOIN teams t USING (team_key)

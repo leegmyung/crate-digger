@@ -23,7 +23,8 @@ import lab_sql  # noqa: E402
 from lab_sql import COLLABS_DDL, SNAPSHOTS_DDL, TEAM_CITIES_DDL, VENUE_TIERS_DDL, fill, read_sql  # noqa: E402
 
 TEAM_COLS = ("team_key VARCHAR, display_name VARCHAR, first_seen DATE, first_release DATE, fan_count INTEGER, "
-             "album_count INTEGER, profile_status VARCHAR, primary_genre VARCHAR, newcomer_check VARCHAR")
+             "album_count INTEGER, profile_status VARCHAR, primary_genre VARCHAR, newcomer_check VARCHAR, "
+             "genre_confidence VARCHAR")
 SIGNAL_COLS = ("team_key VARCHAR, branch VARCHAR, source VARCHAR, program VARCHAR, stage_rank INTEGER, "
                "signal_date DATE, venue VARCHAR, role VARCHAR")
 OUTCOME_COLS = ("team_key VARCHAR, program VARCHAR, program_label VARCHAR, tier VARCHAR, announced_date DATE, "
@@ -40,7 +41,7 @@ def base_db(teams, signals, outcomes=()):
     for ddl in (COLLABS_DDL, SNAPSHOTS_DDL, TEAM_CITIES_DDL, VENUE_TIERS_DDL):
         con.execute(ddl)
     if teams:
-        con.executemany("INSERT INTO teams VALUES (?,?,?,?,?,?,?,?,?)", list(teams))
+        con.executemany("INSERT INTO teams VALUES (?,?,?,?,?,?,?,?,?,?)", list(teams))
     if signals:
         con.executemany("INSERT INTO signals VALUES (?,?,?,?,?,?,?,?)", list(signals))
     if outcomes:
@@ -55,8 +56,9 @@ def run(con, name, **params):
     return [dict(zip(cols, r)) for r in cur.fetchall()]
 
 
-def team(key, first_seen="2024-06-01", genre="", status="unknown", fans=None, first_release=None):
-    return (key, key.upper(), first_seen, first_release, fans, None, status, genre, None)
+def team(key, first_seen="2024-06-01", genre="", status="unknown", fans=None, first_release=None, conf=None):
+    conf = conf if conf is not None else ("profile" if genre else "")
+    return (key, key.upper(), first_seen, first_release, fans, None, status, genre, None, conf)
 
 
 def gig(key, day, venue, role="discovery"):
@@ -77,6 +79,8 @@ class PeerCompareTest(unittest.TestCase):
         signals += [gig("g1", "2024-05-01", "클럽0"), gig("g1", "2024-05-02", "클럽1"), gig("g2", "2024-05-03", "클럽0")]
         teams.append(team("s1", genre="미분류"))                               # '미분류'는 빈칸처럼 단계만
         signals.append(gig("s1", "2024-04-01", "클럽0"))
+        teams.append(team("inf", genre="록·밴드", conf="inferred"))              # 추정 장르 → 단계로만 비교
+        signals.append(gig("inf", "2024-04-02", "클럽0"))
         teams.append(team("two"))                                             # 2단계(공연+큐레이션) → 다른 단계
         signals += [gig("two", "2024-05-01", "클럽0"),
                     ("two", "큐레이션", "musicy", "musicy", None, "2024-06-01", "", "discovery")]
@@ -89,10 +93,16 @@ class PeerCompareTest(unittest.TestCase):
     def test_blank_genre_compares_within_stage_including_known_genres(self):
         r = self.rows(min_peers="3")
         self.assertEqual(r["p05"]["peer_scope"], "단계")
-        self.assertEqual(r["p05"]["peer_n"], 13)          # p01~p10 + g1·g2 + s1 (1단계 전체), 2단계 팀은 빠짐
+        self.assertEqual(r["p05"]["peer_n"], 14)          # p01~p10 + g1·g2 + s1 + inf (1단계 전체), 2단계 팀은 빠짐
         self.assertEqual(r["s1"]["peer_scope"], "단계")
         self.assertEqual(r["two"]["stage"], 2)
         self.assertEqual(r["two"]["peer_n"], 1)
+
+    def test_inferred_genre_compares_within_stage_only(self):
+        r = self.rows(min_peers="3")
+        self.assertEqual(r["inf"]["peer_scope"], "단계")
+        self.assertEqual(r["inf"]["peer_n"], 14)
+        self.assertEqual(r["g1"]["peer_n"], 2)             # 추정 팀은 장르 무리(록·밴드)에 안 들어감
 
     def test_known_genre_compares_within_stage_and_genre(self):
         r = self.rows(min_peers="3")
@@ -102,10 +112,10 @@ class PeerCompareTest(unittest.TestCase):
 
     def test_grades_by_rank_share(self):
         r = self.rows(min_peers="3")
-        self.assertEqual(r["p10"]["grade"], "탁월")       # 13팀 중 1등 → 상위 8%
-        self.assertEqual(r["p08"]["grade"], "훌륭")       # 3등 → 23%
-        self.assertEqual(r["p05"]["grade"], "평균")       # 6등 → 46%
-        self.assertEqual(r["p01"]["grade"], "평균 이하")  # 공동 11등 → 85%
+        self.assertEqual(r["p10"]["grade"], "탁월")       # 14팀 중 1등 → 상위 7%
+        self.assertEqual(r["p08"]["grade"], "훌륭")       # 3등 → 21%
+        self.assertEqual(r["p05"]["grade"], "평균")       # 6등 → 43%
+        self.assertEqual(r["p01"]["grade"], "평균 이하")  # 공동 11등 → 89%
         self.assertEqual(r["p10"]["score_pct"], 1.0)
         self.assertGreater(r["p10"]["score_pct"], r["p01"]["score_pct"])
         self.assertEqual(r["p10"]["peer_rank"], 1)
@@ -138,7 +148,7 @@ class PeerCompareTest(unittest.TestCase):
     def test_team_filter_keeps_full_peer_group(self):
         out = run(self.con, "peer_compare.sql", as_of=self.AS_OF, team="'p03'")
         self.assertEqual([x["team_key"] for x in out], ["p03"])
-        self.assertEqual(out[0]["peer_n"], 13)
+        self.assertEqual(out[0]["peer_n"], 14)
 
     def test_stage_matches_discovery_stage_sql(self):
         mine = {k: v["stage"] for k, v in self.rows().items()}
