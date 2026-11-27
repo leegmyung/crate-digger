@@ -315,27 +315,23 @@ const VIDEO_KIND_ORDER = { stage: 0, official_live: 1, official: 2, search: 3 };
 
 /**
  * images.csv(team_key,url,source) → { urlMap, metaMap }.
- * 우선순위: 스포티파이(i.scdn.co) → 유튜브 채널 썸네일(yt3.ggpht.com / yt3.googleusercontent.com).
+ * 스포티파이 아티스트 사진(i.scdn.co)만 허용하며, 없으면 화면에서 모노그램으로 표시한다.
  */
 function parseImagesCsv(text) {
   const urlMap = new Map();
   const metaMap = new Map();
   if (!text) return { urlMap, metaMap };
   const lines = text.trim().split(/\r?\n/).slice(1);
-  const row = /^(.*),(https:\/\/(?:i\.scdn\.co|yt3\.ggpht\.com|yt3\.googleusercontent\.com)\/[^\s,]+),([^,]*)$/;
-  const priority = src => (src === 'spotify' ? 0 : src === 'youtube' ? 1 : 2);
+  const row = /^(.*),(https:\/\/i\.scdn\.co\/[^\s,]+),([^,]*)$/;
   for (const line of lines) {
     const m = line.match(row);
     if (!m) continue;
     const teamKey = m[1].replace(/^"(.*)"$/, '$1').replace(/""/g, '"');
     const url = m[2];
-    const source = (m[3] || '').trim().toLowerCase() || (url.includes('i.scdn.co') ? 'spotify' : 'youtube');
-    if (!teamKey) continue;
-    const prev = metaMap.get(teamKey);
-    if (!prev || priority(source) < priority(prev.source)) {
-      urlMap.set(teamKey, url);
-      metaMap.set(teamKey, { url, source });
-    }
+    const source = (m[3] || '').trim().toLowerCase() || 'spotify';
+    if (!teamKey || urlMap.has(teamKey)) continue;
+    urlMap.set(teamKey, url);
+    metaMap.set(teamKey, { url, source });
   }
   return { urlMap, metaMap };
 }

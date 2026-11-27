@@ -271,7 +271,7 @@ function genreAvatarTone(genre) {
   return 'av-default';
 }
 
-/** 팀 사진: 스포티파이 → 유튜브 채널 썸네일 → 이름 첫 글자(+장르색 모노그램). size = px. */
+/** 팀 사진: 스포티파이 사진 → 없으면 이름 첫 글자(+장르색 모노그램). size = px. */
 export function avatarHtml(teamKey, displayName, size = 40, opts = {}) {
   const name = displayName || teamKey || '';
   const url = appState.imagesByTeam.get(teamKey);

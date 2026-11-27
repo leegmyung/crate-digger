@@ -396,9 +396,7 @@ export async function renderTeamView(root, teamKey) {
     ? (spUrl
         ? `<a class="avatar-credit" href="${escapeHtml(spUrl)}" target="_blank" rel="noopener noreferrer">사진 · Spotify ↗</a>`
         : '<span class="avatar-credit">사진 · Spotify</span>')
-    : imgSrc === 'youtube'
-      ? '<span class="avatar-credit">사진 · YouTube</span>'
-      : '';
+    : '';
 
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
   const upcomingDedup = new Map();
