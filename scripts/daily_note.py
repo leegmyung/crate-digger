@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 ROLES_FILE = ROOT / "config" / "source_roles.json"
 LAB_SIGNALS = ROOT / "docs" / "lab" / "data" / "signals.csv"
 SOURCE_REVIEW = ROOT / "docs" / "data" / "source_review.json"
+SCORE_REVIEW = ROOT / "docs" / "data" / "score_review.json"   # scripts/score_review.py (월요일)
 MONDAY = 0
 KST = timezone(timedelta(hours=9))
 TABLE_KO = {"raw_kr_release": "발매", "raw_kr_gig": "공연", "raw_press": "평론 신호",
@@ -64,7 +65,20 @@ def review_section(day, review):
     return lines
 
 
-def render_note(day, commits, runs, board, new_sources=None, review=None):
+def score_review_section(day, report):
+    """점수 재검토(월요일) 결과에 제안이 있으면, 그 실행일·제안이 바뀐 날에 섹션 줄들."""
+    if not report or not report.get("proposals"):
+        return []
+    if day not in (report.get("run_date"), report.get("proposals_changed_on")):
+        return []
+    items = report["proposals"]
+    lines = ["", f"## 점수 재검토 제안 {len(items)}건"]
+    lines += [f"- {p['text']} — {p.get('reason', '')}" for p in items]
+    lines.append("- 제안만 있음. 기본 가중치(scripts/lab_sql.py DEFAULTS)는 사람이 바꿈 · 근거: docs/score_tuning.md")
+    return lines
+
+
+def render_note(day, commits, runs, board, new_sources=None, review=None, score_review=None):
     now_steps = [s for s in board.get("steps", []) if s.get("status") == "now"]
     todays = [r for r in runs if r["date"] == day]
     open_q = [d["q"] for d in board.get("decisions", []) if d.get("state") == "결정 필요"]
@@ -79,6 +93,7 @@ def render_note(day, commits, runs, board, new_sources=None, review=None):
         lines += ["", f"⚠️ 분류표에 없는 새 출처 {len(new_sources)}개: {', '.join(new_sources)} "
                       "— config/source_roles.json 에 역할(발굴·맥락·제외·검증 대기)을 정해 주세요"]
     lines += review_section(day, review)
+    lines += score_review_section(day, score_review)
     lines += ["", "## 아직 정할 것"]
     lines += [f"- {q}" for q in open_q] or ["- 없음"]
     lines += ["", "진행판: https://leegmyung.github.io/crate-digger/", ""]
@@ -120,7 +135,7 @@ def main(argv):
     out = ROOT / "docs" / "log" / f"{day}.md"
     out.parent.mkdir(parents=True, exist_ok=True)
     review = _load(SOURCE_REVIEW, None)
-    out.write_text(render_note(day, commits, runs, board, new_sources(), review), encoding="utf-8")
+    out.write_text(render_note(day, commits, runs, board, new_sources(), review, _load(SCORE_REVIEW, None)), encoding="utf-8")
     try:
         import worklog   # 엑셀 도구(openpyxl)는 기록할 때만 — 없으면 아래에서 안내
         worklog.append_entry(worklog.DEFAULT_XLSX, auto_entry(day, commits, runs))

@@ -1,0 +1,165 @@
+{
+ "generated_at": "2026-11-27T16:38:49+09:00",
+ "run_date": "2026-11-27",
+ "rules": {
+  "change": "교차 검증 평균 가중 AUC가 기본값보다 0.01 이상 높고 기준일 4개 이상에서 앞서면 점수 변경 제안",
+  "new_signal": "기준일 전체로 고른 추천 가중치에서 기본값 0인 특징이 0보다 크게 골라지면 새 신호 반영 제안",
+  "note": "제안만 한다 — 기본값(scripts/lab_sql.py DEFAULTS) 변경은 사람이 결정"
+ },
+ "proposals_changed_on": "2026-11-27",
+ "per_cutoff": [
+  {
+   "cutoff": "2023-01-01",
+   "n": 121,
+   "pos": 5,
+   "picked": {
+    "w_branch": 0,
+    "w_stage": 2,
+    "w_peer": 1,
+    "w_dmz": 0,
+    "w_gigs": 0,
+    "w_outlets": 1,
+    "w_recent": 1,
+    "w_venues": 1,
+    "w_winner": 0,
+    "w_context": 1,
+    "w_collab": 0
+   },
+   "auc_picked": 0.5926724137931033,
+   "auc_default": 0.6670258620689656
+  },
+  {
+   "cutoff": "2023-07-01",
+   "n": 510,
+   "pos": 7,
+   "picked": {
+    "w_branch": 3,
+    "w_stage": 2,
+    "w_peer": 1,
+    "w_dmz": 0,
+    "w_gigs": 0,
+    "w_outlets": 2,
+    "w_recent": 1,
+    "w_venues": 1,
+    "w_winner": 0,
+    "w_context": 1,
+    "w_collab": 0
+   },
+   "auc_picked": 0.6513585155732272,
+   "auc_default": 0.7033134526176276
+  },
+  {
+   "cutoff": "2024-01-01",
+   "n": 789,
+   "pos": 6,
+   "picked": {
+    "w_branch": 1,
+    "w_stage": 1,
+    "w_peer": 0,
+    "w_dmz": 0,
+    "w_gigs": 0,
+    "w_outlets": 1,
+    "w_recent": 0,
+    "w_venues": 1,
+    "w_winner": 2,
+    "w_context": 0.5,
+    "w_collab": 0
+   },
+   "auc_picked": 0.7316730523627074,
+   "auc_default": 0.7316730523627074
+  },
+  {
+   "cutoff": "2024-07-01",
+   "n": 1736,
+   "pos": 16,
+   "picked": {
+    "w_branch": 3,
+    "w_stage": 1,
+    "w_peer": 1,
+    "w_dmz": 0,
+    "w_gigs": 0,
+    "w_outlets": 0.5,
+    "w_recent": 2,
+    "w_venues": 0,
+    "w_winner": 1,
+    "w_context": 1,
+    "w_collab": 0
+   },
+   "auc_picked": 0.7311327831957989,
+   "auc_default": 0.8340116279069767
+  },
+  {
+   "cutoff": "2025-01-01",
+   "n": 2440,
+   "pos": 23,
+   "picked": {
+    "w_branch": 3,
+    "w_stage": 2,
+    "w_peer": 1,
+    "w_dmz": 0,
+    "w_gigs": 0,
+    "w_outlets": 1,
+    "w_recent": 1,
+    "w_venues": 1,
+    "w_winner": 0,
+    "w_context": 1,
+    "w_collab": 0
+   },
+   "auc_picked": 0.8189904840711625,
+   "auc_default": 0.8028915551877903
+  },
+  {
+   "cutoff": "2025-07-01",
+   "n": 3102,
+   "pos": 23,
+   "picked": {
+    "w_branch": 3,
+    "w_stage": 2,
+    "w_peer": 1,
+    "w_dmz": 0,
+    "w_gigs": 0,
+    "w_outlets": 2,
+    "w_recent": 1,
+    "w_venues": 1,
+    "w_winner": 0,
+    "w_context": 0.5,
+    "w_collab": 0
+   },
+   "auc_picked": 0.737447223124391,
+   "auc_default": 0.745241961675869
+  }
+ ],
+ "mean_pick": 0.7105457453533984,
+ "mean_default": 0.7473595853033227,
+ "wins": 1,
+ "compared": 6,
+ "recommended": {
+  "w_branch": 3,
+  "w_stage": 2,
+  "w_peer": 1,
+  "w_dmz": 0,
+  "w_gigs": 0,
+  "w_outlets": 1,
+  "w_recent": 1,
+  "w_venues": 1,
+  "w_winner": 0,
+  "w_context": 1,
+  "w_collab": 0
+ },
+ "recommended_mean": 0.7512747088726118,
+ "default_mean_all": 0.7473595853033227,
+ "defaults": {
+  "w_branch": 1.0,
+  "w_stage": 1.0,
+  "w_peer": 0.0,
+  "w_dmz": 0.0,
+  "w_gigs": 0.0,
+  "w_outlets": 1.0,
+  "w_recent": 0.0,
+  "w_venues": 1.0,
+  "w_winner": 2.0,
+  "w_context": 0.5,
+  "w_collab": 0.0
+ },
+ "proposals": []
+}

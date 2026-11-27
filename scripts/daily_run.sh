@@ -40,6 +40,7 @@ fi
 "$PY" scripts/collect_artist_images.py || echo "⚠️ 아티스트 사진 수집 일부 실패"
 "$PY" scripts/export_lab_data.py || echo "⚠️ 랩(설정형 분석 도구) 데이터 갱신 실패"
 "$PY" scripts/source_review.py || echo "⚠️ 출처 재분류 제안 실패"
+if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then "$PY" scripts/score_review.py || echo "⚠️ 점수 재검토 실패"; fi   # 월요일만 (약 3분)
 "$PY" scripts/collect_video_stats.py || echo "⚠️ 유튜브 지표 수집 실패"
 "$PY" scripts/export_video_momentum.py || echo "⚠️ 유튜브 7일 증가량 실패"
 if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then "$PY" scripts/export_excel.py || echo "⚠️ 주간 엑셀 실패"; fi   # 월요일만
@@ -48,7 +49,7 @@ if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then "$PY" scripts/export_excel.py || ec
 "$PY" scripts/daily_note.py "$DAY" || echo "⚠️ 일일 기록 실패"
 "$PY" scripts/build_status_report.py || echo "⚠️ 진행 점검표 실패"   # 일일 기록까지 끝난 뒤 (최근 기록 링크 포함)
 
-git add docs/data/collect.json "docs/log/$DAY.md" docs/data/dashboard.json docs/sql/README.md docs/lab/data docs/data/source_review.json docs/report docs/status_report.html
+git add docs/data/collect.json "docs/log/$DAY.md" docs/data/dashboard.json docs/sql/README.md docs/lab/data docs/data/source_review.json docs/report docs/status_report.html docs/data/score_review.json docs/score_tuning.md
 if git diff --cached --quiet; then
   echo "바뀐 내용 없음 → 커밋 안 함"
 else

@@ -3285,10 +3285,40 @@ tr.player-expand-row td {
 }
 
 @media (max-width: 640px) {
-  .cand-table tr.cand-preview-row > td.cand-preview-cell,
-  .cand-table tr.player-expand-row > td {
-    display: table-cell;
+  .cand-table,
+  .cand-table thead,
+  .cand-table tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .cand-table thead tr,
+  .cand-table tbody tr.clickable {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 54px 56px;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cand-table thead th,
+  .cand-table tbody tr.clickable > td {
     width: auto;
+    min-width: 0;
+    border-bottom: none;
+  }
+
+  .cand-table tr.cand-preview-row,
+  .cand-table tr.player-expand-row,
+  .cand-table tbody tr:not(.clickable) {
+    display: block;
+    width: 100%;
+  }
+
+  .cand-table tr.cand-preview-row > td.cand-preview-cell,
+  .cand-table tr.player-expand-row > td,
+  .cand-table tbody tr:not(.clickable) > td {
+    display: block;
+    width: 100%;
     padding: 10px 12px;
   }
 

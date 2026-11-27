@@ -68,6 +68,17 @@ def parse_link_rate(text: str) -> Optional[dict]:
     return {"linked": int(m.group(1).replace(",", "")), "total": int(m.group(2).replace(",", "")), "pct": m.group(3)}
 
 
+def score_review_line(report: Optional[dict]) -> str:
+    """점검표 ③ 검증의 한 줄: 매주 점수 재검토(scripts/score_review.py) 결과."""
+    if not report:
+        return "점수 재검토: 아직 실행 안 함 (월요일마다 scripts/score_review.py)"
+    mp, md = report.get("mean_pick"), report.get("mean_default")
+    nums = f"교차 검증 {mp:.3f} vs 기본값 {md:.3f}, 우세 {report.get('wins')}/{report.get('compared')}" if mp is not None and md is not None else "숫자 없음"
+    props = report.get("proposals") or []
+    tail = " · ".join(p.get("text", "") for p in props) if props else "기본값 유지"
+    return f"점수 재검토 {report.get('run_date', '')}: {nums} — 제안 {len(props)}건 ({tail})"
+
+
 def _days_since(day: str, today: str) -> Optional[int]:
     try:
         return (date.fromisoformat(today) - date.fromisoformat(day[:10])).days
@@ -158,7 +169,8 @@ def collect_report(root: Path = ROOT, today: Optional[str] = None) -> dict:
                   "auc": parse_auc(_text(root / "docs" / "score_tuning.md")),
                   "link_rate": parse_link_rate(_text(root / "docs" / "artist_xref.md")),
                   "suggestions": review.get("suggestions") or [], "sources": review.get("sources") or [],
-                  "review_cutoffs": review.get("cutoffs") or []}
+                  "review_cutoffs": review.get("cutoffs") or [],
+                  "score_review": score_review_line(_json(root / "docs" / "data" / "score_review.json"))}
 
     first_seen: Dict[str, str] = {}
     for s in signals:
@@ -230,7 +242,7 @@ def render_html(rep: dict) -> str:
     v = rep["validation"]
     ok, tot = v["file_ok"]
     auc = v["auc"]
-    auc_txt = (f"교차 검증 평균 AUC: 점수 v2 {auc['v2']} · v0 {auc['v0']} · 공연 수만 {auc['gigs']}" if auc
+    auc_txt = (f"교차 검증 평균 AUC(고를 때 안 본 기준일): 교차 검증으로 고른 가중치 {auc['v2']} · v0 {auc['v0']} · 공연 수만 {auc['gigs']}" if auc
                else '<span class="chip check">확인 필요</span> docs/score_tuning.md 형식을 못 읽음')
     lr = v["link_rate"]
     lr_txt = (f"정답 팀 중 신호와 이어진 팀: {lr['linked']:,} / {lr['total']:,}팀 ({lr['pct']}%)" if lr
@@ -264,6 +276,7 @@ def render_html(rep: dict) -> str:
 <p class="muted">센 정답 등급: {_e(grade_txt)} · 팀 상태(프로필): {_e(prof_txt)}</p></section>
 <section><h2>③ 검증</h2>
 <ul><li>형식 검사: 수집 파일 {ok}/{tot} 통과</li><li>{auc_txt}</li><li>{lr_txt}</li>
+<li>{_e(v.get('score_review', ''))}</li>
 <li>출처 재분류 제안 {len(v['suggestions'])}건 (성적표 기준일 {_e(', '.join(v['review_cutoffs']) or '—')})</li></ul>
 {_table(["출처", "지금 역할", "제안", "근거"], sug_rows)}
 {_table(["출처", "역할", "후보 팀", "적중률(%)", "배수", "유일 기여"], src_rows)}</section>

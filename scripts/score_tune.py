@@ -146,8 +146,9 @@ def _fmt_w(w: dict) -> str:
     return " · ".join(f"{k[2:]} {v:g}" for k, v in w.items())
 
 
-def main() -> int:
-    con = lab_sql.connect()
+def tune(con=None) -> dict:
+    """교차 검증 계산만 (문서는 안 씀). scripts/score_review.py 가 같은 결과를 받아 기본값과 비교한다."""
+    con = con or lab_sql.connect()
     data = {c: features(con, c) for c in CUTOFFS}
     space = active_grid(data)
     grid = [dict(zip(space, combo)) for combo in itertools.product(*space.values())]
@@ -156,10 +157,17 @@ def main() -> int:
     evals = {i: evaluate(data, w) for i, w in names.items()}
     table = {str(i): {c: e[c]["auc"] for c in CUTOFFS} for i, e in evals.items()}
     picks = loco_pick(table)
-
-    v0 = dict(V0_WEIGHTS)
-    refs = {"점수 v0": v0, "공연 수만": _single("w_gigs"), "갈래 수만": _single("w_branch")}
+    refs = {"점수 v0": dict(V0_WEIGHTS), "공연 수만": _single("w_gigs"), "갈래 수만": _single("w_branch")}
     ref_evals = {k: evaluate(data, w) for k, w in refs.items()}
+    return {"data": data, "grid": grid, "names": names, "evals": evals, "table": table, "picks": picks,
+            "ref_evals": ref_evals}
+
+
+def main(res: Optional[dict] = None) -> int:
+    """docs/score_tuning.md 를 쓴다. res 를 주면(score_review.py) 다시 계산하지 않는다."""
+    res = res or tune()
+    data, grid, names, evals, table, picks, ref_evals = (
+        res[k] for k in ("data", "grid", "names", "evals", "table", "picks", "ref_evals"))
 
     lines = ["# 점수 가중치 고르기 (교차 검증)", "",
              "_자동 생성: `.venv/bin/python scripts/score_tune.py`_", "",

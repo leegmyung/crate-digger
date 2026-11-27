@@ -274,7 +274,7 @@ export async function renderTeamView(root, teamKey) {
           const ym = `${y}-${String(mo).padStart(2, '0')}`;
           const item = {
             ym,
-            shortLabel: (mo === 1 || offset === 11) ? `${String(y).slice(2)}.${String(mo).padStart(2, '0')}` : `${mo}월`,
+            shortLabel: `${mo}월`,
             gig: 0,
             sel: 0,
             other: 0,
@@ -297,6 +297,12 @@ export async function renderTeamView(root, teamKey) {
       }
       const total12m = monthBuckets.reduce((acc, m) => acc + m.total, 0);
       const max12m = Math.max(1, ...monthBuckets.map(m => m.total));
+
+      const lastNonExclDate = timeline
+        .filter(s => s.role !== 'excluded' && s.signal_date && String(s.signal_date).slice(0, 10) <= endDateStr)
+        .map(s => String(s.signal_date).slice(0, 7))
+        .sort()
+        .pop() || '';
 
       const monthlyBarsHtml = `
         <section class="block monthly-bars-block">
@@ -340,7 +346,7 @@ export async function renderTeamView(root, teamKey) {
                 `;
               }).join('')}
             </div>
-          ` : '<p class="muted small" style="margin:0;">최근 12개월 내 기록된 활동이 없습니다.</p>'}
+          ` : `<p class="muted small" style="margin:0;">최근 12개월 내 기록된 활동이 없습니다.${lastNonExclDate ? ` (마지막 활동 ${escapeHtml(lastNonExclDate)})` : ''}</p>`}
         </section>
       `;
 
