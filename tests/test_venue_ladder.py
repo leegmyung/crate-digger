@@ -127,6 +127,18 @@ class ExportTest(unittest.TestCase):
         self.assertEqual(vl.export(lad, {}, VT, C)["teams"], {})
 
 
+class ArgsTest(unittest.TestCase):
+    def test_json_default_location_is_lab_data(self):
+        args = vl.parse_args(["--json"])
+        self.assertEqual(args.json, ROOT / "docs" / "lab" / "data" / "venue_ladder.json")
+        self.assertIsNone(vl.parse_args([]).json)
+
+    def test_json_only_implies_default_json(self):
+        args = vl.parse_args(["--json-only"])
+        self.assertTrue(args.json_only)
+        self.assertEqual(args.json, vl.JSON_OUT)
+
+
 class JourneyTest(unittest.TestCase):
     def test_before_and_after_venues_within_window(self):
         gigs = [("a", date(2024, 1, 1), "작은클럽"), ("a", date(2024, 3, 1), "중간홀"), ("a", date(2024, 6, 1), "큰홀"),

@@ -10,7 +10,8 @@ Chartmetric 'Venue Journey'(이 공연장 전·후에 선 공연장)의 국내 �
 누수 금지: 사다리는 기준일 '전' 공연만. 수용 인원은 '지금' 값(공연장 이전·확장은 반영 못 함 — 문서에 적음).
 페스티벌: 한 공연(같은 날·같은 공연장)에 12팀 넘게 서면 빼서, 큰 무대 한 번이 '체급 상승'으로 잡히지 않게 한다.
 
-실행: .venv/bin/python scripts/venue_ladder.py [--data-dir 폴더] [--no-eval]   → docs/venue_ladder.md
+실행: .venv/bin/python scripts/venue_ladder.py [--data-dir 폴더] [--no-eval] [--json [경로]]   → docs/venue_ladder.md
+      .venv/bin/python scripts/venue_ladder.py --json-only   → docs/lab/data/venue_ladder.json 만 (매일 실행용)
 읽기만 한다(랩 CSV·config). PostgreSQL·랩 데이터는 쓰지 않는다.
 """
 from __future__ import annotations
@@ -29,6 +30,7 @@ import lab_sql  # noqa: E402
 
 CONFIG = lab_sql.ROOT / "config" / "venue_capacity.json"
 OUT = lab_sql.ROOT / "docs" / "venue_ladder.md"
+JSON_OUT = lab_sql.DATA_DIR / "venue_ladder.json"   # 앱 화면용 (팀 상세 '공연장 사다리', 공연장 상세 '전후 흐름')
 LOOKBACK_YEARS = 3          # 점수 v2 신호 창과 같게
 MAX_EVENT_TEAMS = 12        # 이보다 많은 팀이 선 공연은 페스티벌로 보고 뺀다 (docs/scene_map.md 와 같은 기준)
 RECENT_DAYS = 365           # '최근 체급 상승' = 기준일 전 1년 안에 처음으로 더 큰 체급에 섬
@@ -454,8 +456,9 @@ LIMITS = ["", "## 5. 화면에 쓰는 법 (제안)", "",
           "- **팀 상세 → 공연장 사다리:** 처음 체급 → 최고 체급 → 최근 체급과 첫 상승 날짜(예: 'M 상상마당 홍대 → L 롤링홀, 2025-03 상승'). "
           "점수 구성과 따로, '참고' 표시로.",
           "- **공연장 상세 → 전후 흐름:** 위 4절 표처럼 '여기 처음 선 팀들이 그 전에 선 곳 / 그 뒤 처음 선 곳' 상위 5곳과 체급.",
-          "- 데이터: `.venv/bin/python scripts/venue_ladder.py --json docs/lab/data/venue_ladder.json` (팀별 사다리 + 공연장별 전후 흐름, "
-          "체급 아는 팀만). 매일 실행에 넣을지는 코디네이터가 정함.", "",
+          "- 데이터: `docs/lab/data/venue_ladder.json` — `.venv/bin/python scripts/venue_ladder.py --json-only`(문서·교차 검증 없이 JSON만, "
+          "매일 실행용). 팀별 사다리(`teams`: first·last·max·steps·rise_date·days_to_rise, 체급 아는 팀만)와 공연장별 전후 흐름"
+          "(`venues`: tier·teams·before·after 상위 5).", "",
           "## 6. 한계", "",
           "- 체급을 아는 공연장이 적고 작은 클럽이 거의 다 비어 있어 '작은 클럽 → 라이브홀' 상승을 대부분 놓칩니다. "
           "'모르는 공연장 = S' 가정으로 민감도를 함께 쟀습니다.",
@@ -477,15 +480,24 @@ def render(cfg: dict, cov: dict, ladders_now: Dict[str, Ladder], journey: Dict[s
     return "\n".join(head + body + _journey_section(journey, cfg) + LIMITS) + "\n"
 
 
-def main(argv: Optional[Sequence[str]] = None) -> int:
-    ap = argparse.ArgumentParser(description="공연장 사다리 → docs/venue_ladder.md")
+def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
+    ap = argparse.ArgumentParser(description="공연장 사다리 → docs/venue_ladder.md (+ 앱용 docs/lab/data/venue_ladder.json)")
     ap.add_argument("--data-dir", type=Path, default=lab_sql.DATA_DIR)
     ap.add_argument("--config", type=Path, default=CONFIG)
     ap.add_argument("--out", type=Path, default=OUT)
     ap.add_argument("--no-eval", action="store_true", help="교차 검증은 건너뛰고 설명 숫자만")
-    ap.add_argument("--json", type=Path, default=None,
-                    help="앱 화면용 JSON도 쓴다 (예: docs/lab/data/venue_ladder.json — 21~23시엔 쓰지 말 것)")
+    ap.add_argument("--json", type=Path, nargs="?", const=JSON_OUT, default=None,
+                    help=f"앱 화면용 JSON도 쓴다 (경로를 안 주면 {JSON_OUT.relative_to(lab_sql.ROOT)})")
+    ap.add_argument("--json-only", action="store_true",
+                    help="앱용 JSON만 쓴다 — 문서·교차 검증 없이 (매일 실행용)")
     args = ap.parse_args(argv)
+    if args.json_only and args.json is None:
+        args.json = JSON_OUT
+    return args
+
+
+def main(argv: Optional[Sequence[str]] = None) -> int:
+    args = parse_args(argv)
     cfg = load_config(args.config)
     problems = validate(cfg)
     if problems:
@@ -496,9 +508,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ladders_now = team_ladders(gigs, venue_tiers(cfg), end + timedelta(days=1), lookback_years=None,
                                order=tier_order(cfg), skip_venues=skip)
     journey = venue_journey(gigs, skip_venues=skip)
-    ev = None if args.no_eval else evaluate(args.data_dir, cfg)
-    args.out.write_text(render(cfg, coverage(gigs, cfg), ladders_now, journey, ev, end), encoding="utf-8")
-    print(f"✅ → {args.out}")
+    if not args.json_only:
+        ev = None if args.no_eval else evaluate(args.data_dir, cfg)
+        args.out.write_text(render(cfg, coverage(gigs, cfg), ladders_now, journey, ev, end), encoding="utf-8")
+        print(f"✅ → {args.out}")
     if args.json:
         payload = export(ladders_now, journey, venue_tiers(cfg), end)
         args.json.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")

@@ -69,6 +69,22 @@ class HtmlEntityTest(unittest.TestCase):
         self.assertEqual(rec["artist_key"], "팻햄스터캉뉴")
 
 
+class VenueBranchTest(unittest.TestCase):
+    def _venue(self, text):
+        cols = lp.columns("raw_kr_gig")
+        rec = dict(zip(cols, lp.normalize_row("raw_kr_gig", {
+            "collected_at": "2026-11-26T18:00:00+09:00", "source": "sangsangmadang", "collector": "script",
+            "gig_date": "2026-11-28", "artist_text": "몽니", "gig_url": "https://x", "venue_text": text}, "g.csv")))
+        return rec["venue_text"]
+
+    def test_branch_in_paren_moves_to_front_on_load(self):
+        # SQL 이 split_part(venue_text, ' (', 1) 로 공연장을 자르므로, 지점 괄호는 적재 때 앞으로 옮긴다 (원본 CSV는 그대로)
+        self.assertEqual(self._venue("라이브홀 (KT&amp;G 상상마당 홍대)"), "KT&G 상상마당 홍대 라이브홀")
+
+    def test_address_paren_kept(self):
+        self.assertEqual(self._venue("Club FF (서울 마포구 와우산로 1)"), "Club FF (서울 마포구 와우산로 1)")
+
+
 class RefTest(unittest.TestCase):
     def test_reference_tables_sql_from_schema(self):
         sql = lp.ref_sql()

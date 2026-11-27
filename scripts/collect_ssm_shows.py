@@ -227,13 +227,18 @@ def is_music(item):
     return False
 
 
+CHAIN_PREFIX = re.compile(r"^\s*(?:KT\s*&\s*G\s*)?상상마당\s*")
+
+
 def venue_text(item):
+    """공연장 칸. 지점이 빠진 이름('라이브홀')은 '건물 + 홀'로 ('KT&G 상상마당 홍대 라이브홀').
+    지점을 괄호에 두면 괄호 앞만 공연장으로 쓰는 규칙(SQL split_part) 때문에 지점이 사라진다 (2026-11-27 수정)."""
     loc = clean_text(item.get("performanceLocation"))
     branch = BRANCHES.get(item.get("spaceCd") or "", "")
     if not branch or BRANCH_WORDS.search(loc):
         return loc
-    label = f"KT&G 상상마당 {branch}"
-    return f"{loc} ({label})" if loc else label
+    hall = CHAIN_PREFIX.sub("", loc).strip()
+    return " ".join(p for p in (f"KT&G 상상마당 {branch}", hall) if p)
 
 
 def gig_date(item):

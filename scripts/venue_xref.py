@@ -62,9 +62,27 @@ def _unescape(text: str) -> str:
     return t
 
 
+CHAIN_WORDS = re.compile(r"^\s*(?:KT\s*&\s*G\s*)?상상마당\s*")
+BRANCH_PAREN = re.compile(r"^(?P<hall>.*?)\s*\((?P<building>\s*(?:KT\s*&\s*G\s*)?상상마당\s+(?P<branch>[^)]+?))\s*\)\s*$")
+
+
+def canonical_venue_text(venue_text: str) -> str:
+    """괄호에 지점·건물명이 있는 표기를 '건물 + 홀'로 ('라이브홀 (KT&G 상상마당 홍대)' → 'KT&G 상상마당 홍대 라이브홀').
+    괄호 앞만 공연장으로 쓰는 규칙(SQL split_part) 때문에 지점이 사라져 서로 다른 건물의 '라이브홀'이 한 이름이 되던 문제를 막는다.
+    주소 괄호('Club FF (서울 마포구 …)')나 이미 고친 표기는 그대로 둔다."""
+    t = _unescape(venue_text or "")
+    m = BRANCH_PAREN.match(t)
+    if not m:
+        return t
+    hall = CHAIN_WORDS.sub("", m.group("hall")).strip()
+    return " ".join(p for p in ("KT&G 상상마당", m.group("branch").strip(), hall) if p)
+
+
 def gig_detail(venue_text: str) -> str:
-    """공연 원본 venue_text → SQL 의 TRIM(split_part(venue_text, ' (', 1)) 과 같은 값 (load_pg 처럼 특수문자 풂)."""
-    return _unescape(venue_text).split(" (")[0].strip()
+    """공연 원본 venue_text → SQL 의 TRIM(split_part(venue_text, ' (', 1)) 과 같은 값.
+    특수문자를 풀고 지점 괄호를 앞으로 옮긴 뒤(canonical_venue_text) 자른다 — PostgreSQL 쪽도 같은 표기를 보도록
+    load_pg 가 적재할 때 같은 변환을 해야 한다(그 전까지 SQL 은 옛 표기 '라이브홀'을 봄)."""
+    return canonical_venue_text(venue_text).split(" (")[0].strip()
 
 
 def gig_address(venue_text: str) -> str:

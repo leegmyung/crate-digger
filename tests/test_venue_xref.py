@@ -147,6 +147,58 @@ class PgTest(unittest.TestCase):
         self.assertIn("건너뜀", vx.load_pg({}, psql_path="/nonexistent/psql"))
 
 
+class BranchInParenTest(unittest.TestCase):
+    """'라이브홀 (KT&G 상상마당 홍대)'처럼 지점이 괄호에 있으면 괄호 앞만 남길 때 지점이 사라진다 → '건물 + 홀'로."""
+
+    def test_branch_in_paren_moves_to_front(self):
+        cases = {
+            "라이브홀 (KT&G 상상마당 홍대)": "KT&G 상상마당 홍대 라이브홀",
+            "3층 라이브홀 (KT&G 상상마당 부산)": "KT&G 상상마당 부산 3층 라이브홀",
+            "3F 라이브홀 (KT&G 상상마당 부산)": "KT&G 상상마당 부산 3F 라이브홀",
+            "사운드홀 (KT&G 상상마당 춘천)": "KT&G 상상마당 춘천 사운드홀",
+            "아트홀 (KT&G 상상마당 대치)": "KT&G 상상마당 대치 아트홀",
+            "KT&G 상상마당 라이브홀 (KT&G 상상마당 홍대)": "KT&G 상상마당 홍대 라이브홀",
+            "라이브 스튜디오 (KT&G 상상마당 춘천아트센터)": "KT&G 상상마당 춘천아트센터 라이브 스튜디오",
+            "라이브홀 (KT&amp;G 상상마당 부산)": "KT&G 상상마당 부산 라이브홀",
+        }
+        for raw, want in cases.items():
+            self.assertEqual(vx.canonical_venue_text(raw), want, raw)
+            self.assertEqual(vx.gig_detail(raw), want, raw)
+
+    def test_address_parens_and_new_format_unchanged(self):
+        for raw in ("Club FF (서울 마포구 와우산로 1)", "KT&G 상상마당 홍대 라이브홀", "롤링홀", "",
+                    "라이브홀 (부산 부산진구 서면로 39)"):
+            self.assertEqual(vx.canonical_venue_text(raw), raw)
+        self.assertEqual(vx.gig_detail("Club FF (서울 마포구 와우산로 1)"), "Club FF")
+
+    def test_idempotent(self):
+        once = vx.canonical_venue_text("라이브홀 (KT&G 상상마당 홍대)")
+        self.assertEqual(vx.canonical_venue_text(once), once)
+
+    def test_same_hall_different_buildings_stay_apart(self):
+        names = {vx.gig_detail("라이브홀 (KT&G 상상마당 홍대)"): 544, vx.gig_detail("라이브홀 (KT&G 상상마당 부산)"): 1,
+                 "웨스트브릿지 라이브홀": 10, "라이브홀": 3}
+        mapping, _ = vx.build_venue_xref(names, [])
+        self.assertNotEqual(mapping["KT&G 상상마당 홍대 라이브홀"], mapping["KT&G 상상마당 부산 라이브홀"])
+        self.assertNotEqual(mapping["KT&G 상상마당 홍대 라이브홀"], mapping["웨스트브릿지 라이브홀"])
+        self.assertEqual(mapping["라이브홀"], "라이브홀")   # 지점 없는 단독 이름은 어디에도 붙이지 않음
+
+    def test_merges_with_existing_spellings(self):
+        names = {vx.gig_detail("라이브홀 (KT&G 상상마당 홍대)"): 544, "KT&G 상상마당 홍대 라이브홀": 41,
+                 "상상마당 홍대 라이브홀": 18}
+        mapping, _ = vx.build_venue_xref(names, [])
+        self.assertEqual(len(set(mapping.values())), 1)
+
+    def test_repo_aliases_join_busan_and_chuncheon_halls(self):
+        names = {"KT&G 상상마당 부산 라이브홀": 22, "KT&G 상상마당 부산 3층 라이브홀": 51, "상상마당 부산 3층 라이브홀": 9,
+                 "KT&G 상상마당 춘천 사운드홀": 51, "KT&G 상상마당 춘천 아트센터 사운드홀": 5,
+                 "KT&G 상상마당 춘천 사운드홀 로비": 37}
+        mapping, _ = vx.build_venue_xref(names, vx.load_aliases())
+        self.assertEqual(mapping["KT&G 상상마당 부산 3층 라이브홀"], mapping["KT&G 상상마당 부산 라이브홀"])
+        self.assertEqual(mapping["KT&G 상상마당 춘천 아트센터 사운드홀"], mapping["KT&G 상상마당 춘천 사운드홀"])
+        self.assertNotEqual(mapping["KT&G 상상마당 춘천 사운드홀 로비"], mapping["KT&G 상상마당 춘천 사운드홀"])
+
+
 class DetailTest(unittest.TestCase):
     def test_detail_like_sql(self):
         # SQL: TRIM(split_part(venue_text, ' (', 1)) 과 같은 값

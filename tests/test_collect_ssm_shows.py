@@ -146,11 +146,21 @@ class DetailAndRowTest(unittest.TestCase):
         rows = ssm.to_rows(item(), {"time": "", "lines": []}, AT)
         self.assertEqual([r["artist_text"] for r in rows], ["신해경"])
 
-    def test_short_venue_gets_branch_name(self):
+    def test_short_venue_gets_branch_name_in_front(self):
+        # 지점을 괄호에 두면 공연장 칸(괄호 앞)에서 지점이 사라진다 → '건물 + 홀' 한 이름으로
         self.assertEqual(ssm.venue_text(item(performanceLocation="라이브홀", spaceCd="HD")),
-                         "라이브홀 (KT&G 상상마당 홍대)")
+                         "KT&G 상상마당 홍대 라이브홀")
         self.assertEqual(ssm.venue_text(item(performanceLocation="사운드홀 ", spaceCd="CC")),
-                         "사운드홀 (KT&G 상상마당 춘천)")
+                         "KT&G 상상마당 춘천 사운드홀")
+        self.assertEqual(ssm.venue_text(item(performanceLocation="3층 라이브홀", spaceCd="BS")),
+                         "KT&G 상상마당 부산 3층 라이브홀")
+
+    def test_chain_name_without_branch_gets_branch(self):
+        self.assertEqual(ssm.venue_text(item(performanceLocation="KT&G 상상마당 라이브홀", spaceCd="HD")),
+                         "KT&G 상상마당 홍대 라이브홀")
+
+    def test_empty_location_is_branch_label(self):
+        self.assertEqual(ssm.venue_text(item(performanceLocation="", spaceCd="DC")), "KT&G 상상마당 대치")
 
     def test_non_music_shows_skipped(self):
         self.assertTrue(ssm.is_music(item()))

@@ -24,6 +24,7 @@ from csv_schema import CAREER_FILTER_YEARS, CAREER_FILTERED, OUTCOME_SAME_FAMILY
 from newcomer import FAME_FANS, FAME_YEARS, FAME_YEARS_MIN_FANS, MAX_ALBUMS, MAX_YEARS
 from normalize import artist_key
 from timing import outcome_date, signal_date
+from venue_xref import canonical_venue_text
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"
@@ -81,6 +82,9 @@ def _unescape(text):
 
 def normalize_row(table, row, source_file):
     row = {k: _unescape(v) if isinstance(v, str) else v for k, v in row.items()}
+    if table == "raw_kr_gig" and row.get("venue_text"):
+        # '라이브홀 (KT&G 상상마당 홍대)' → 'KT&G 상상마당 홍대 라이브홀': SQL 이 괄호 앞만 공연장으로 자르므로 (venue_xref 와 같은 규칙)
+        row["venue_text"] = canonical_venue_text(row["venue_text"])
     rec = {c: (row.get(c) or "").strip() or None for c in columns(table)}
     for f in TABLES[table]["fields"]:
         if f.kind == "date_partial":
