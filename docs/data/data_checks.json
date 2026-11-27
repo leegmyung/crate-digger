@@ -1,13 +1,13 @@
 {
  "today": "2026-11-28",
- "generated": "2026-11-28T02:36+09:00",
+ "generated": "2026-11-28T02:44+09:00",
  "summary": "통과 23 · 경고 4 · 실패 0",
  "checks": [
   {
    "key": "meta_fresh",
    "name": "랩 데이터 갱신 시각",
    "rule": "1일 넘게 안 바뀌면 실패",
-   "value": "2026-11-28 02:36 (0일 전)",
+   "value": "2026-11-28 02:44 (0일 전)",
    "status": "pass",
    "fix": "daily_run.sh의 export_lab_data.py 줄이 실패했는지 records/daily_run.log 확인",
    "details": []
@@ -257,7 +257,7 @@
    "key": "genre",
    "name": "장르 미분류",
    "rule": "프로필 있는 팀 중 장르 빈칸이 20% 넘으면 경고, 60% 넘으면 실패",
-   "value": "프로필 팀 67/770 (8.7%) · 전체 팀 46.9%",
+   "value": "프로필 팀 66/770 (8.6%) · 전체 팀 45.3%",
    "status": "pass",
    "fix": "build_dashboard_data._infer_genres의 장르 이름표에 새 표기(멜론·스포티파이 장르)를 추가한다",
    "details": []
@@ -302,7 +302,7 @@
    "key": "extras",
    "name": "앱 보조 데이터 8개",
    "rule": "meta.json extras 목록에 다 있고, 파일이 있고 비어 있지 않아야 함 — 하나라도 빠지면 실패",
-   "value": "모두 있음 (갱신 2026-11-28 02:36)",
+   "value": "모두 있음 (갱신 2026-11-28 02:44)",
    "status": "pass",
    "fix": "daily_run.sh의 앱 보조 데이터 묶음(build_app_extras.sh)이 실패했는지 records/daily_run.log 확인 후 다시 돌린다",
    "details": []
@@ -311,7 +311,7 @@
    "key": "team_labels",
    "name": "팀 표 신인 확인·장르 확신도 분포",
    "rule": "newcomer_check·genre_confidence 칸에 정해진 값만 — 모르는 값이 있으면 경고 (분포는 참고)",
-   "value": "newcomer_check: first_seen 7,833 · unverified 1,906 · verified 758 / genre_confidence: (빈칸) 4,923 · inferred 2,743 · press 1,285 · inferred_low 911 · profile 635",
+   "value": "newcomer_check: first_seen 7,833 · unverified 1,906 · verified 758 / genre_confidence: (빈칸) 4,755 · inferred 2,724 · press 1,478 · inferred_low 905 · profile 635",
    "status": "pass",
    "fix": "export_lab_data.py의 newcomer_check·genre_confidence 값 목록과 data_checks.py NEWCOMER_CHECKS·GENRE_CONFIDENCES를 맞춘다",
    "details": []
@@ -329,7 +329,7 @@
    "key": "venue_coverage",
    "name": "공연장 좌표·체급 보유율 (공연 밤 기준)",
    "rule": "좌표 85% 밑 경고·60% 밑 실패, 체급 70% 밑 경고·40% 밑 실패 ('공연장 미정' 제외)",
-   "value": "좌표 4,852/5,209 (93.1%) · 체급 4,094/5,209 (78.6%) — 체급 빠진 곳(밤 많은 순): 우무지 83, 모래내 극락 64, Cafe PPnF 57, KT&G 상상마당 춘천 49, 클럽샤프 47, 벨르 42, 공상온도 36, 인피니티클럽 35 외 212",
+   "value": "좌표 4,865/5,209 (93.4%) · 체급 4,281/5,209 (82.2%) — 체급 빠진 곳(밤 많은 순): 모래내 극락 64, KT&G 상상마당 춘천 49, 벨르 42, 공상온도 36, 인피니티클럽 35, Hukez 34, 꼬뮨 31, 퍼플홀 31 외 209",
    "status": "pass",
    "fix": "공연 많은 공연장부터 config/venue_capacity.json(체급)·좌표 캐시를 채운다 — 아래 값의 '빠진 곳'부터",
    "details": []
@@ -338,7 +338,7 @@
    "key": "venue_master",
    "name": "공연장 목록(venues_kr) 짝 못 찾은 곳",
    "rule": "짝 없는 공연장의 공연 밤이 10% 넘으면 경고 ('공연장 미정' 제외)",
-   "value": "48곳 · 공연 밤 97/5,209 (1.9%) — 축제 (을지로) 10, @unbornsounds 5, @yngandrichrecords 5, 더뮤지션 5, @daeguhiphopfestival 3, @daytona.ent 3, @galactique_seoul 3, @gestalt_club__ 3 외 40",
+   "value": "40곳 · 공연 밤 82/5,209 (1.6%) — 축제 (을지로) 10, @unbornsounds 5, @yngandrichrecords 5, @daeguhiphopfestival 3, @daytona.ent 3, @galactique_seoul 3, @gestalt_club__ 3, @mushroomhouse_kr 3 외 32",
    "status": "pass",
    "fix": "config/venues_kr.json에 공연장(aliases 포함)을 추가하거나, 인스타 계정명(@…)이면 공연장 연결표에 대표 이름으로 묶는다",
    "details": []

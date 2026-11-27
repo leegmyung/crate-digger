@@ -1,6 +1,6 @@
 # 데이터 검사 (매일 자동)
 
-_자동 생성: `.venv/bin/python scripts/data_checks.py` · 검사일 2026-11-28 · 랩 데이터 2026-11-28 02:36 기준 (데이터 끝 2026-11-28)_
+_자동 생성: `.venv/bin/python scripts/data_checks.py` · 검사일 2026-11-28 · 랩 데이터 2026-11-28 02:44 기준 (데이터 끝 2026-11-28)_
 
 **결과: 통과 23 · 경고 4 · 실패 0**
 
@@ -19,7 +19,7 @@ _자동 생성: `.venv/bin/python scripts/data_checks.py` · 검사일 2026-11-2
 
 | 상태 | 검사 | 기준 | 오늘 값 | 고치는 법 |
 |---|---|---|---|---|
-| ✅ 통과 | 랩 데이터 갱신 시각 | 1일 넘게 안 바뀌면 실패 | 2026-11-28 02:36 (0일 전) | daily_run.sh의 export_lab_data.py 줄이 실패했는지 records/daily_run.log 확인 |
+| ✅ 통과 | 랩 데이터 갱신 시각 | 1일 넘게 안 바뀌면 실패 | 2026-11-28 02:44 (0일 전) | daily_run.sh의 export_lab_data.py 줄이 실패했는지 records/daily_run.log 확인 |
 | ✅ 통과 | meta.json 행 수 = 실제 CSV 행 수 | 다르면 실패 (내보내기가 중간에 끊긴 것) | 표 8개 모두 일치 | .venv/bin/python scripts/export_lab_data.py 를 다시 돌린다 |
 | ⚠️ 경고 | 전날 대비 행 수 | 어제 20행 이상인 표가 30% 넘게 줄면 실패, 50% 넘게 늘면 경고 | 급증: outcomes 723→1,272, videos 1,736→4,555 | 줄었으면 그날 수집·적재 로그 확인(수집 실패·연결표 오류), 늘었으면 같은 행이 두 번 들어갔는지 확인 |
 | ✅ 통과 | 출처별 마지막 수집 | 성공 수집이 2일 넘으면 경고, 7일 넘으면 실패 | 출처 28개 중 오래된 것 0개 | records/daily_run.log에서 그 출처 줄의 ⚠️를 찾아 수집기를 직접 다시 돌려 본다 |
@@ -31,16 +31,16 @@ _자동 생성: `.venv/bin/python scripts/data_checks.py` · 검사일 2026-11-2
 | ✅ 통과 | 정답 '셈' 판정 일관성 | 기성 팀이 섞인 정답(burock_main, hello_rookie, kma_genre, mucon)은 첫 발매 5년 이내만 셈, 나머지는 모두 셈 — 다르면 실패 | 불일치 0건 · 확인 못 함 130건(팀 표에 없음) / 정답 1272행 | sql/kr/00_core_views.sql의 v_outcome·v_team_profile과 export_lab_data.py의 팀 표 첫 발매 규칙이 같은지 확인 |
 | ✅ 통과 | B등급 정답의 5년 규칙 | source_roles.json에서 B등급('첫 발매 5년 이내 팀만 셈')인 정답이 실제 5년 규칙 목록에 없으면 경고 | B등급 4개 중 규칙 밖 0개 | 그 정답을 csv_schema.CAREER_FILTERED·ref.outcome_tier에 넣거나, 설명에서 5년 규칙 예외라고 적는다 |
 | ✅ 통과 | '같은 집안' 표시 | 점수 출처 표시(same_house_scored)는 집안 출처가 있을 때만 — 어긋나면 실패, 규칙이 켜졌는데 표시 0건이면 경고 | 표시 29건 (점수 출처 포함 3건) · 켜진 짝 3개 | export_lab_data.same_house_flags와 config same_house(apply=true) 짝을 확인 |
-| ✅ 통과 | 장르 미분류 | 프로필 있는 팀 중 장르 빈칸이 20% 넘으면 경고, 60% 넘으면 실패 | 프로필 팀 67/770 (8.7%) · 전체 팀 46.9% | build_dashboard_data._infer_genres의 장르 이름표에 새 표기(멜론·스포티파이 장르)를 추가한다 |
+| ✅ 통과 | 장르 미분류 | 프로필 있는 팀 중 장르 빈칸이 20% 넘으면 경고, 60% 넘으면 실패 | 프로필 팀 66/770 (8.6%) · 전체 팀 45.3% | build_dashboard_data._infer_genres의 장르 이름표에 새 표기(멜론·스포티파이 장르)를 추가한다 |
 | ✅ 통과 | 첫 발매일 보유율 | 프로필 있는 팀 중 첫 발매일이 있는 비율이 90% 밑이면 경고, 70% 밑이면 실패 | 프로필 팀 754/770 (97.9%) · 전체 팀 7.2% | 멜론·스포티파이 프로필 수집기가 발매일을 못 읽는지(페이지 구조 변경) 확인한다 |
 | ✅ 통과 | 링크·사진 주소 모양 | https가 아니거나 플랫폼 주소가 아니면 이상 — 하나라도 있으면 경고, 2% 넘으면 실패 (주소를 실제로 열어 보지는 않음) | 이상 0건 / 1,719건 (0.0%) | export_lab_data._link_url·image_rows의 주소 규칙(URL_TEMPLATES·IMAGE_CACHE_HOSTS)을 확인 |
 | ⚠️ 경고 | 점수 상위 100팀 중 프로필 없음 | 프로필(멜론·스포티파이)이 없는 팀 비율이 30% 넘으면 경고, 80% 넘으면 실패 — 프로필이 없으면 신인인지 기성인지 모름 | 44/100팀 (44.0%) — 상위부터: 포져군단, 선셋온더브릿지, 몽키갱워, 천둥오리, 최춘목밴드 외 39 | scripts/melon_names.py 보강 명단에 점수 상위 팀을 먼저 넣는다 (멜론 상세 페이지 차단이면 스포티파이로) |
 | ✅ 통과 | 점수 스냅샷 | 오늘 스냅샷이 있어야 하고, 제외 목록 팀이나 팀 표에 없는 팀이 들어 있으면 경고 | 2026-11-28 · 300팀 | export_lab_data.py → lab_snapshot.py 순서로 다시 돌린다 (스냅샷이 옛 팀 표로 계산된 것) |
-| ✅ 통과 | 앱 보조 데이터 8개 | meta.json extras 목록에 다 있고, 파일이 있고 비어 있지 않아야 함 — 하나라도 빠지면 실패 | 모두 있음 (갱신 2026-11-28 02:36) | daily_run.sh의 앱 보조 데이터 묶음(build_app_extras.sh)이 실패했는지 records/daily_run.log 확인 후 다시 돌린다 |
-| ✅ 통과 | 팀 표 신인 확인·장르 확신도 분포 | newcomer_check·genre_confidence 칸에 정해진 값만 — 모르는 값이 있으면 경고 (분포는 참고) | newcomer_check: first_seen 7,833 · unverified 1,906 · verified 758 / genre_confidence: (빈칸) 4,923 · inferred 2,743 · press 1,285 · inferred_low 911 · profile 635 | export_lab_data.py의 newcomer_check·genre_confidence 값 목록과 data_checks.py NEWCOMER_CHECKS·GENRE_CONFIDENCES를 맞춘다 |
+| ✅ 통과 | 앱 보조 데이터 8개 | meta.json extras 목록에 다 있고, 파일이 있고 비어 있지 않아야 함 — 하나라도 빠지면 실패 | 모두 있음 (갱신 2026-11-28 02:44) | daily_run.sh의 앱 보조 데이터 묶음(build_app_extras.sh)이 실패했는지 records/daily_run.log 확인 후 다시 돌린다 |
+| ✅ 통과 | 팀 표 신인 확인·장르 확신도 분포 | newcomer_check·genre_confidence 칸에 정해진 값만 — 모르는 값이 있으면 경고 (분포는 참고) | newcomer_check: first_seen 7,833 · unverified 1,906 · verified 758 / genre_confidence: (빈칸) 4,755 · inferred 2,724 · press 1,478 · inferred_low 905 · profile 635 | export_lab_data.py의 newcomer_check·genre_confidence 값 목록과 data_checks.py NEWCOMER_CHECKS·GENRE_CONFIDENCES를 맞춘다 |
 | ✅ 통과 | 알림 날짜·중복 | 공연·선정 기반 알림 말고는 미래 날짜면 경고, 어떤 알림도 365일 넘게 뒤면 경고, 같은 종류·팀·날짜가 두 번이면 경고 | 알림 405건 · 이상한 미래 날짜 0건 · 중복 0건 | 미래 날짜는 build_alerts.py의 날짜 고르기, 중복은 공연장 표기 차이('대구 제임스레코드'/'제임스레코드' 등)를 config/venue_aliases.json에 묶는다 |
-| ✅ 통과 | 공연장 좌표·체급 보유율 (공연 밤 기준) | 좌표 85% 밑 경고·60% 밑 실패, 체급 70% 밑 경고·40% 밑 실패 ('공연장 미정' 제외) | 좌표 4,852/5,209 (93.1%) · 체급 4,094/5,209 (78.6%) — 체급 빠진 곳(밤 많은 순): 우무지 83, 모래내 극락 64, Cafe PPnF 57, KT&G 상상마당 춘천 49, 클럽샤프 47, 벨르 42, 공상온도 36, 인피니티클럽 35 외 212 | 공연 많은 공연장부터 config/venue_capacity.json(체급)·좌표 캐시를 채운다 — 아래 값의 '빠진 곳'부터 |
-| ✅ 통과 | 공연장 목록(venues_kr) 짝 못 찾은 곳 | 짝 없는 공연장의 공연 밤이 10% 넘으면 경고 ('공연장 미정' 제외) | 48곳 · 공연 밤 97/5,209 (1.9%) — 축제 (을지로) 10, @unbornsounds 5, @yngandrichrecords 5, 더뮤지션 5, @daeguhiphopfestival 3, @daytona.ent 3, @galactique_seoul 3, @gestalt_club__ 3 외 40 | config/venues_kr.json에 공연장(aliases 포함)을 추가하거나, 인스타 계정명(@…)이면 공연장 연결표에 대표 이름으로 묶는다 |
+| ✅ 통과 | 공연장 좌표·체급 보유율 (공연 밤 기준) | 좌표 85% 밑 경고·60% 밑 실패, 체급 70% 밑 경고·40% 밑 실패 ('공연장 미정' 제외) | 좌표 4,865/5,209 (93.4%) · 체급 4,281/5,209 (82.2%) — 체급 빠진 곳(밤 많은 순): 모래내 극락 64, KT&G 상상마당 춘천 49, 벨르 42, 공상온도 36, 인피니티클럽 35, Hukez 34, 꼬뮨 31, 퍼플홀 31 외 209 | 공연 많은 공연장부터 config/venue_capacity.json(체급)·좌표 캐시를 채운다 — 아래 값의 '빠진 곳'부터 |
+| ✅ 통과 | 공연장 목록(venues_kr) 짝 못 찾은 곳 | 짝 없는 공연장의 공연 밤이 10% 넘으면 경고 ('공연장 미정' 제외) | 40곳 · 공연 밤 82/5,209 (1.6%) — 축제 (을지로) 10, @unbornsounds 5, @yngandrichrecords 5, @daeguhiphopfestival 3, @daytona.ent 3, @galactique_seoul 3, @gestalt_club__ 3, @mushroomhouse_kr 3 외 32 | config/venues_kr.json에 공연장(aliases 포함)을 추가하거나, 인스타 계정명(@…)이면 공연장 연결표에 대표 이름으로 묶는다 |
 | ✅ 통과 | DB 신호 수 = 랩 신호 수 | 차이가 1% 넘으면 경고 | DB 32,841행 · 랩 32,841행 | 적재(load_pg.py) 뒤 export_lab_data.py가 안 돌았거나 실패한 것 — 다시 돌린다 |
 | ✅ 통과 | 등록 안 된 정답 프로그램 | ref.outcome_tier에 없는 정답 프로그램이 있으면 실패 (조용히 빠짐) | 0개 | csv_schema.OUTCOME_TIER에 등급(mid·final)을 추가하고 다시 적재 |
 | ✅ 통과 | 팀 이름·날짜 없는 신호 | 합쳐서 1% 넘으면 경고 (랩에서 빠짐) | 팀 없음 15건 · 날짜 없음 0건 / 32,865건 (0.0%) | 그 출처 수집기의 이름·날짜 읽기를 확인 |
