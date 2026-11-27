@@ -840,6 +840,7 @@ export async function bootstrapData(onStatus = () => {}) {
       CREATE TABLE programs AS SELECT * FROM read_csv_auto('programs.csv', header=true);
       CREATE TABLE collabs(team_key VARCHAR, partner_key VARCHAR, partner_name VARCHAR, release_date DATE, role VARCHAR, partner_established BOOLEAN);
       ALTER TABLE teams ADD COLUMN IF NOT EXISTS newcomer_check VARCHAR;
+      ALTER TABLE teams ADD COLUMN IF NOT EXISTS genre_confidence VARCHAR;
       ALTER TABLE outcomes ADD COLUMN IF NOT EXISTS same_house_sources VARCHAR DEFAULT '';
       ALTER TABLE outcomes ADD COLUMN IF NOT EXISTS same_house_scored BOOLEAN DEFAULT false;
     `;
