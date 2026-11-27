@@ -6,6 +6,8 @@
 프로필(첫 발매일·팬 수)이 없는 팀(profile_status='unknown')을 '중요한 순서'로 줄 세운다:
   ⓪ 최신 후보 점검(data/raw/review/candidate_audit_<날짜>.csv)의 (b) '기성인데 프로필이 없어 신인으로 잡힘' 팀 — 순위 순.
      멜론 번호는 찾았지만 프로필을 아직 못 받은 팀도 넣는다 (수집기가 명단 순서대로 프로필을 먼저 받음)
+  ⓪' 오늘 후보(점수 스냅샷) 상위 CANDIDATE_TOP팀 중 첫 발매일 없는 팀(newcomer_check first_seen·unverified,
+     열이 없으면 first_release 빈칸) — 점수 순. 신인 판정이 첫 등장에 기대는 팀부터 프로필을 채운다 (R3, 2026-11-27)
   ① 최신 점수 스냅샷(docs/lab/data/snapshots/<날짜>.csv) 상위 300팀 — 점수 순
   ①' 발매 신호만 있고 첫 발매일이 없는 팀 중 최근 RELEASE_DAYS일 안에 발매한 팀 — 최근 발매 순
      (프로필로 첫 발매일이 생기면 '갓 데뷔 > 아직 언급 없음' 팀이 보이기 시작함, docs/debut_cohort.md)
@@ -36,6 +38,8 @@ LIMIT = 1000           # 명단 최대 줄 수 (하루 한도 없이 한 번에 
 RETRY_DAYS = 30        # 못 찾았던 이름은 30일 뒤 다시 (멜론에 새로 등록됐을 수 있음)
 KEEP_FILES = 7         # 명단 파일은 최근 7개만
 RELEASE_DAYS = 90      # '발매 신호만 있는 팀'은 최근 90일 안 발매만 (갓 데뷔 후보가 될 만한 팀)
+CANDIDATE_TOP = 100    # 0순위 다음: 오늘 후보 상위 몇 팀 중 첫 발매일 없는 팀을 먼저 (R3, docs/top_candidates_review.md)
+NO_RELEASE_CHECKS = ("first_seen", "unverified")   # teams.csv newcomer_check 중 '첫 발매일 없음'
 
 
 def due_for_search(name: str, matches: dict, attempts: dict, today: str) -> bool:
@@ -70,10 +74,26 @@ def release_only_recent(signals: List[dict], teams: List[dict], today: str, days
     return sorted(keys, key=lambda k: (last[k], k), reverse=True)
 
 
+def no_release_top(snapshot: List[dict], teams: List[dict], top: int = CANDIDATE_TOP) -> List[str]:
+    """오늘 후보(점수 스냅샷) 상위 top팀 중 첫 발매일이 없는 팀 — 점수 순. 신인 판정이 우리 데이터 첫 등장에 기대는 팀이라
+    프로필(첫 발매일)을 먼저 채워야 '사실은 기성 팀'이 후보 위쪽에 남지 않는다.
+    teams 에 newcomer_check 열이 있으면 first_seen·unverified, 없으면(옛 CSV) first_release 빈칸으로 판단."""
+    info = {t["team_key"]: t for t in teams}
+
+    def no_release(t: dict) -> bool:
+        if "newcomer_check" in t:
+            return t.get("newcomer_check") in NO_RELEASE_CHECKS
+        return not (t.get("first_release") or "").strip()
+
+    rows = sorted(snapshot, key=lambda r: -float(r.get("score") or 0))[:top]
+    return [r["team_key"] for r in rows if r["team_key"] in info and no_release(info[r["team_key"]])]
+
+
 def build_names(snapshot: List[dict], teams: List[dict], outcomes: List[dict], signals: List[dict],
                 matches: dict, today: str, attempts: Optional[dict] = None,
                 snapshot_top: int = SNAPSHOT_TOP, limit: int = LIMIT,
-                priority: Optional[List[str]] = None, profiled: Optional[set] = None) -> List[str]:
+                priority: Optional[List[str]] = None, profiled: Optional[set] = None,
+                candidate_top: int = CANDIDATE_TOP) -> List[str]:
     info = {t["team_key"]: t for t in teams}
     attempts = attempts or {}
     priority = list(priority or [])
@@ -99,7 +119,9 @@ def build_names(snapshot: List[dict], teams: List[dict], outcomes: List[dict], s
 
     out: List[str] = []
     seen = set()
-    for key in [*priority, *ranked_snapshot(), *release_only_recent(signals, teams, today), *winners, *gigs]:
+    order = [*priority, *no_release_top(snapshot, teams, candidate_top), *ranked_snapshot(),
+             *release_only_recent(signals, teams, today), *winners, *gigs]
+    for key in order:
         t = info.get(key)
         name = (t or {}).get("display_name", "").strip()
         if not t or t.get("profile_status") != "unknown" or not name or name in seen:

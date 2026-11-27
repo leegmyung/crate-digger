@@ -36,7 +36,7 @@ class OrderTest(unittest.TestCase):
 
     def test_limit_and_top_n_of_snapshot(self):
         self.assertEqual(build(limit=2), ["씨", "에이"])
-        self.assertEqual(build(snapshot_top=1)[:2], ["씨", "디"])     # 스냅샷은 상위 1팀만 봄
+        self.assertEqual(build(snapshot_top=1, candidate_top=0)[:2], ["씨", "디"])     # 스냅샷은 상위 1팀만 봄 (새 단계는 끔)
 
     def test_already_tried_names_are_skipped(self):
         got = build(matches={"씨": {"id": "1"}, "디": None})
@@ -108,6 +108,34 @@ class ReleaseOnlyTest(unittest.TestCase):
     def test_not_found_recently_is_still_skipped(self):
         got = build(teams=self.TEAMS, signals=self.SIGNALS, matches={"알투": None}, attempts={"알투": "2026-11-20"})
         self.assertNotIn("알투", got)
+
+
+class NoReleaseTopTest(unittest.TestCase):
+    """R3 (2026-11-27 표본 검증): 0순위 다음은 '오늘 후보 상위 100 중 첫 발매일 없는 팀' — 신인 판정이 첫 등장(first_seen)에
+    기대는 팀부터 프로필(첫 발매일)을 채운다. newcomer_check 열이 있으면 first_seen·unverified, 없으면 first_release 빈칸."""
+    TEAMS = [{"team_key": k, "display_name": n, "profile_status": "unknown", "first_release": fr, **extra}
+             for k, n, fr, extra in [
+                 ("v", "브이", "2016-01-01", {}),                     # 사람이 확인한 데뷔일로 첫 발매일 있음
+                 ("p", "피", "", {}), ("q", "큐", "", {}), ("w", "더블유", "", {}),
+                 ("o", "오", "", {})]]
+    SNAP = [{"team_key": "v", "score": "10"}, {"team_key": "w", "score": "9"}, {"team_key": "p", "score": "5"},
+            {"team_key": "q", "score": "4"}, {"team_key": "o", "score": "1"}]
+
+    def test_no_release_top_uses_first_release_when_no_check_column(self):
+        self.assertEqual(mn.no_release_top(self.SNAP, self.TEAMS, top=4), ["w", "p", "q"])   # v는 첫 발매일 있음, o는 상위 4 밖
+
+    def test_no_release_top_uses_newcomer_check_when_present(self):
+        teams = [{**t, "newcomer_check": c} for t, c in zip(self.TEAMS, ["verified", "first_seen", "unverified", "verified", "first_seen"])]
+        self.assertEqual(mn.no_release_top(self.SNAP, teams, top=4), ["p", "q"])   # 더블유는 verified → 뺌
+
+    def test_no_release_top_comes_right_after_priority(self):
+        got = build(snapshot=self.SNAP, teams=self.TEAMS, outcomes=[], signals=[], priority=["o"], candidate_top=4)
+        self.assertEqual(got, ["오", "더블유", "피", "큐", "브이"])   # 0순위 → 상위 4 중 첫 발매 없음 → 나머지(점수 순)
+
+    def test_not_found_rule_still_applies_to_new_tier(self):
+        got = build(snapshot=self.SNAP, teams=self.TEAMS, outcomes=[], signals=[], candidate_top=4,
+                    matches={"피": None}, attempts={"피": "2026-11-20"})
+        self.assertNotIn("피", got)
 
 
 class FileTest(unittest.TestCase):
