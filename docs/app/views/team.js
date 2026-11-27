@@ -1,7 +1,7 @@
 import { appState, navigateTo, setExportContext } from '../state.js';
-import { getTeamExternalLinks, loadSceneMap, loadSourceRoles, queryTeamDetail } from '../db.js';
+import { getTeamExternalLinks, loadDashboardJson, loadSceneMap, loadSourceRoles, queryTeamDetail } from '../db.js';
 import {
-  avatarHtml, avatarSourceOf, escapeHtml, fmtInt, fmtNum, formatNextGigText,
+  avatarHtml, avatarSourceOf, ensureD3, escapeHtml, fmtInt, fmtNum, formatNextGigText,
   formatSignalDate, gradeBadgeHtml, isLoweredOutcomeResult, lookupSourceRoleMeta,
   PROFILE_LABELS, renderActionBanner, renderCompactGradeSummary, renderScoreBar,
   roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml, spotifyUrlOf, summarizeWhyTeam,
@@ -172,6 +172,8 @@ export async function renderTeamView(root, teamKey) {
     queryTeamDetail(teamKey),
     loadSceneMap(),
     loadSourceRoles(),
+    loadDashboardJson().catch(() => null),
+    ensureD3().catch(() => null),
   ]);
   const { profile, scored, timeline, outcomes, precedents, related, links, videos } = data;
   const sceneComm = sceneMap?.teamToCommunity?.get(teamKey) || null;

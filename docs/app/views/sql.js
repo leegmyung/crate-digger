@@ -1,10 +1,11 @@
 import { appState } from '../state.js';
-import { runRawSql } from '../db.js';
+import { ensureAuxDuckDbTables, getSqlTemplate, runRawSql } from '../db.js';
 import { escapeHtml, fmtInt, friendlySqlError, renderActionBanner } from '../ui.js';
 
 let savedEditorText = '';
 
 export async function renderSqlView(root) {
+  await ensureAuxDuckDbTables();
   const bannerHtml = renderActionBanner({
     title: 'SQL 직접 실행',
     lead: '브라우저 안 DuckDB-WASM에 올라온 표(<code>signals</code>, <code>teams</code>, <code>outcomes</code>, <code>programs</code>, <code>links</code>, <code>videos</code>, <code>images</code>)를 SQL로 직접 조회할 수 있습니다.',
@@ -106,18 +107,27 @@ export async function renderSqlView(root) {
     }
   }
 
-  root.querySelector('#sqlPresetSel')?.addEventListener('change', (e) => {
+  const PRESET_TPL_KEY = {
+    candidates: 'candidates',
+    debut_candidates: 'debut_candidates',
+    backtest: 'backtest',
+    signals: 'signal_hits',
+    scorecard: 'source_scorecard',
+    precedents: 'precedents',
+    related: 'related',
+    features: 'features',
+  };
+
+  root.querySelector('#sqlPresetSel')?.addEventListener('change', async (e) => {
     const k = e.target.value;
     if (!k) return;
-    if (k === 'candidates') editor.value = appState.lastSql.candidates || appState.sqlTemplates.candidates;
-    else if (k === 'debut_candidates') editor.value = appState.lastSql.debut_candidates || appState.sqlTemplates.debut_candidates;
-    else if (k === 'backtest') editor.value = appState.lastSql.backtest || appState.sqlTemplates.backtest;
-    else if (k === 'signals') editor.value = appState.lastSql.signals || appState.sqlTemplates.signal_hits;
-    else if (k === 'scorecard') editor.value = appState.lastSql.scorecard || appState.sqlTemplates.source_scorecard;
-    else if (k === 'precedents') editor.value = appState.lastSql.precedents || appState.sqlTemplates.precedents;
-    else if (k === 'related') editor.value = appState.lastSql.related || appState.sqlTemplates.related;
-    else if (k === 'features') editor.value = appState.sqlTemplates.features;
-    else if (k === 'sample') editor.value = 'SELECT * FROM signals ORDER BY signal_date DESC LIMIT 20;';
+    if (k === 'sample') {
+      editor.value = 'SELECT * FROM signals ORDER BY signal_date DESC LIMIT 20;';
+    } else if (k === 'features') {
+      editor.value = (await getSqlTemplate('features')) || '';
+    } else if (PRESET_TPL_KEY[k]) {
+      editor.value = appState.lastSql[k] || (await getSqlTemplate(PRESET_TPL_KEY[k])) || '';
+    }
     savedEditorText = editor.value;
   });
 

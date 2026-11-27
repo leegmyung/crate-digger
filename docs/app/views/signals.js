@@ -1,7 +1,7 @@
 import { appState, registerChart, syncHash } from '../state.js';
 import { querySignalHits } from '../db.js';
 import {
-  cssVar, escapeHtml, fmtInt, fmtNum,
+  cssVar, ensureChartJs, escapeHtml, fmtInt, fmtNum,
   renderActionBanner, renderEmptyState, signalWhiskerPlugin,
 } from '../ui.js';
 
@@ -11,7 +11,10 @@ export async function renderSignalsView(root) {
     appState.cfg.signal_cutoff = appState.cfg.cutoffs[appState.cfg.cutoffs.length - 1] || '2025-01-01';
   }
 
-  const { cutoff, rows } = await querySignalHits(appState.cfg.signal_cutoff);
+  const [{ cutoff, rows }] = await Promise.all([
+    querySignalHits(appState.cfg.signal_cutoff),
+    ensureChartJs().catch(() => null),
+  ]);
   const baselineRow = rows.find(r => String(r.program || '').startsWith('(기준선)'));
   const baseRate = baselineRow ? Number(baselineRow.rate) : null;
   const bestProg = rows.find(r => !String(r.program || '').startsWith('(기준선)') && Number(r.teams) >= 10);

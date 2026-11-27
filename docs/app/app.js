@@ -5,22 +5,39 @@ import {
 } from './state.js';
 import {
   bootstrapData, computeDataHealth, getSnapshotDiff,
-  queryCandidates, queryWeeklyDigestExtras,
+  loadSourceReview, queryCandidates, queryWeeklyDigestExtras,
 } from './db.js';
 import {
   avatarHtml, buildWeeklySummaryText, cssVar, escapeHtml,
   fmtInt, friendlySqlError, renderViewSkeleton, wireAvatarFallbacks,
 } from './ui.js';
-import { renderTodayView } from './views/today.js';
-import { renderCandidatesView } from './views/candidates.js';
-import { renderTeamView } from './views/team.js';
-import { renderWatchlistView } from './views/watchlist.js';
-import { renderVerifyView } from './views/verify.js';
-import { renderVenuesView } from './views/venues.js';
-import { renderQualityView } from './views/quality.js';
-import { renderSqlView } from './views/sql.js';
 
 const ADVANCED_ROUTES = new Set(['verify', 'backtest', 'signals', 'evidence', 'scorecard', 'quality', 'sql']);
+
+const VIEW_LOADERS = {
+  today: () => import('./views/today.js').then(m => m.renderTodayView),
+  candidates: () => import('./views/candidates.js').then(m => m.renderCandidatesView),
+  team: () => import('./views/team.js').then(m => m.renderTeamView),
+  watchlist: () => import('./views/watchlist.js').then(m => m.renderWatchlistView),
+  verify: () => import('./views/verify.js').then(m => m.renderVerifyView),
+  venues: () => import('./views/venues.js').then(m => m.renderVenuesView),
+  quality: () => import('./views/quality.js').then(m => m.renderQualityView),
+  sql: () => import('./views/sql.js').then(m => m.renderSqlView),
+};
+const loadedViews = new Map();
+
+function resolveRouteKey(r) {
+  if (r === 'backtest' || r === 'signals' || r === 'evidence' || r === 'scorecard') return 'verify';
+  return VIEW_LOADERS[r] ? r : 'today';
+}
+
+async function loadViewRenderer(route) {
+  const key = resolveRouteKey(route);
+  if (loadedViews.has(key)) return loadedViews.get(key);
+  const fn = await VIEW_LOADERS[key]();
+  loadedViews.set(key, fn);
+  return fn;
+}
 
 let renderSeq = 0;
 let toastTimer = null;
@@ -422,15 +439,10 @@ async function renderCurrentView() {
 
   try {
     const r = appState.route;
-    if (r === 'today') await renderTodayView(root);
-    else if (r === 'candidates') await renderCandidatesView(root);
-    else if (r === 'team') await renderTeamView(root, appState.routeParam);
-    else if (r === 'watchlist') await renderWatchlistView(root);
-    else if (r === 'verify' || r === 'backtest' || r === 'signals' || r === 'evidence' || r === 'scorecard') await renderVerifyView(root);
-    else if (r === 'venues') await renderVenuesView(root);
-    else if (r === 'quality') await renderQualityView(root);
-    else if (r === 'sql') await renderSqlView(root);
-    else await renderTodayView(root);
+    const renderFn = await loadViewRenderer(r);
+    if (seq !== renderSeq) return;
+    if (r === 'team') await renderFn(root, appState.routeParam);
+    else await renderFn(root);
 
     clearTimeout(skelTimer);
     delete root.dataset.skelPending;
@@ -471,7 +483,11 @@ function wireGlobalEvents() {
   const advList = document.getElementById('navAdvList');
   advToggle?.addEventListener('click', () => {
     if (!advList) return;
-    setAdvancedNavOpen(advList.hidden);
+    const willOpen = advList.hidden;
+    setAdvancedNavOpen(willOpen);
+    if (willOpen) {
+      loadSourceReview().then(() => updateNavActive()).catch(() => {});
+    }
   });
 
   // Left nav links keep current query params
@@ -544,7 +560,12 @@ async function boot() {
   updateNavActive();
 
   try {
-    await bootstrapData(msg => setStatus(msg, true));
+    // Preload the initial route JS module concurrently with DuckDB + CSV bootstrap
+    const initialViewPromise = loadViewRenderer(appState.route).catch(() => null);
+    await Promise.all([
+      bootstrapData(msg => setStatus(msg, true)),
+      initialViewPromise,
+    ]);
 
     if (!window.location.hash.includes('as_of=')) {
       appState.cfg.as_of = appState.dataEnd;

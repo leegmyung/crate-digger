@@ -2,7 +2,7 @@ import {
   appState, getWatchlist, hasCustomWeights, navigateTo, setExportContext,
 } from '../state.js';
 import {
-  buildNextGigByTeam, getSnapshotDiff, groupUpcomingEvents, loadSceneMap,
+  buildNextGigByTeam, getSnapshotDiff, groupUpcomingEvents,
   queryCandidates, queryDebutCandidates, queryUpcomingGigs,
   queryWatchlistEnriched, queryWeeklyDigestExtras,
 } from '../db.js';
@@ -32,12 +32,11 @@ function renderCardListenAction(r) {
 
 export async function renderTodayView(root) {
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
-  const [candRows, watchEnriched, upcomingRaw, debutData, sceneMap] = await Promise.all([
+  const [candRows, watchEnriched, upcomingRaw, debutData] = await Promise.all([
     queryCandidates({ limit: 300 }),
     queryWatchlistEnriched(getWatchlist()),
     queryUpcomingGigs({ asOf, days: 14 }),
     queryDebutCandidates({ as_of: asOf }).catch(() => null),
-    loadSceneMap().catch(() => null),
   ]);
   const extras = await queryWeeklyDigestExtras(candRows);
 
@@ -405,7 +404,7 @@ export async function renderTodayView(root) {
     const debutTotal = debutData?.total || 0;
     const debutMent = debutData?.mentioned?.length || 0;
     const debutUnm = debutData?.unmentioned?.length || 0;
-    const sceneCommCount = sceneMap?.communities?.length || 0;
+    const sceneCommCount = appState.sceneMap?.communities?.length || Number(appState.meta?.scene_communities) || 0;
 
     const exploreStripHtml = `
       <section class="today-explore-strip" aria-label="신인 · 씬 탐색 바로가기">

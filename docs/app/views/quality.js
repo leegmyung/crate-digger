@@ -1,6 +1,6 @@
 import { appState, registerChart, setExportContext } from '../state.js';
-import { COLLECT_TABLE_LABELS, DROP_CHECK_TABLES, isRunDropped } from '../db.js';
-import { cssVar, escapeHtml, fmtInt, renderActionBanner, SOURCE_LABELS } from '../ui.js';
+import { COLLECT_TABLE_LABELS, DROP_CHECK_TABLES, isRunDropped, loadDashboardJson } from '../db.js';
+import { cssVar, ensureChartJs, escapeHtml, fmtInt, renderActionBanner, SOURCE_LABELS } from '../ui.js';
 
 function formatDeltaText(cur, prev) {
   if (prev === null || prev === undefined || prev === '') return '';
@@ -13,6 +13,10 @@ function formatDeltaText(cur, prev) {
 }
 
 export async function renderQualityView(root) {
+  await Promise.all([
+    loadDashboardJson().catch(() => null),
+    ensureChartJs().catch(() => null),
+  ]);
   const meta = appState.meta || {};
   const rowsMeta = meta.rows || {};
   const prevMeta = (meta.prev_rows && typeof meta.prev_rows === 'object') ? meta.prev_rows : {};

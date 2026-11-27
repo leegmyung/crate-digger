@@ -1,7 +1,7 @@
 import { appState, navigateTo, registerChart, syncHash } from '../state.js';
 import { queryEgoNetwork, queryNodeExpansion, querySceneNetwork } from '../db.js';
 import {
-  avatarHtml, cssVar, escapeHtml, fmtInt, fmtNum,
+  avatarHtml, cssVar, ensureD3, escapeHtml, fmtInt, fmtNum,
   formatNextGigText, formatSourceKey, ROLE_META, roleBadgeHtml, TERMS, wireAvatarFallbacks,
 } from '../ui.js';
 
@@ -1279,22 +1279,13 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
   const handle = { destroy };
   registerChart(handle);
 
-  // Start loading (wait a tick if D3 defer script is still settling)
+  // Load D3 on demand, then fetch and render the ego network
   if (window.d3) {
     loadInitialGraph();
   } else {
-    let tries = 0;
-    const waitTimer = setInterval(() => {
-      tries += 1;
-      if (destroyed) {
-        clearInterval(waitTimer);
-        return;
-      }
-      if (window.d3 || tries >= 25) {
-        clearInterval(waitTimer);
-        loadInitialGraph();
-      }
-    }, 80);
+    ensureD3()
+      .then(() => { if (!destroyed) loadInitialGraph(); })
+      .catch(() => { if (!destroyed) loadInitialGraph(); });
   }
 
   return handle;
@@ -2549,18 +2540,9 @@ export function mountSceneNetworkBlock(hostEl, {
   if (window.d3) {
     loadNetwork();
   } else {
-    let tries = 0;
-    const waitTimer = setInterval(() => {
-      tries += 1;
-      if (destroyed) {
-        clearInterval(waitTimer);
-        return;
-      }
-      if (window.d3 || tries >= 25) {
-        clearInterval(waitTimer);
-        loadNetwork();
-      }
-    }, 80);
+    ensureD3()
+      .then(() => { if (!destroyed) loadNetwork(); })
+      .catch(() => { if (!destroyed) loadNetwork(); });
   }
 
   return handle;

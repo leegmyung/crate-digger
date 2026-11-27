@@ -1,10 +1,6 @@
 import { appState, hasCustomWeights, syncHash } from '../state.js';
 import { loadSourceRoles, queryOutcomeGradeSummary } from '../db.js';
 import { renderOutcomeGradeGuideHtml, TERMS } from '../ui.js';
-import { renderBacktestView } from './backtest.js';
-import { renderSignalsView } from './signals.js';
-import { renderEvidenceView } from './evidence.js';
-import { renderScorecardView } from './scorecard.js';
 
 const TABS = [
   { id: 'backtest', label: '과거 검증 · 가중치' },
@@ -13,14 +9,22 @@ const TABS = [
   { id: 'scorecard', label: '출처 성적표' },
 ];
 
+const TAB_LOADERS = {
+  backtest: () => import('./backtest.js').then(m => m.renderBacktestView),
+  signals: () => import('./signals.js').then(m => m.renderSignalsView),
+  evidence: () => import('./evidence.js').then(m => m.renderEvidenceView),
+  scorecard: () => import('./scorecard.js').then(m => m.renderScorecardView),
+};
+
 export async function renderVerifyView(root) {
   const activeTab = TABS.some(t => t.id === appState.verifyTab) ? appState.verifyTab : 'backtest';
   appState.verifyTab = activeTab;
   const customW = hasCustomWeights();
 
-  const [sourceRoles, gradeRows] = await Promise.all([
+  const [sourceRoles, gradeRows, renderSub] = await Promise.all([
     loadSourceRoles(),
     queryOutcomeGradeSummary(),
+    (TAB_LOADERS[activeTab] || TAB_LOADERS.backtest)(),
   ]);
   const gradeGuideHtml = renderOutcomeGradeGuideHtml({ sourceRoles, gradeRows });
 
@@ -61,13 +65,5 @@ export async function renderVerifyView(root) {
   });
 
   const subRoot = root.querySelector('#verifySubRoot');
-  if (activeTab === 'signals') {
-    await renderSignalsView(subRoot);
-  } else if (activeTab === 'evidence') {
-    await renderEvidenceView(subRoot);
-  } else if (activeTab === 'scorecard') {
-    await renderScorecardView(subRoot);
-  } else {
-    await renderBacktestView(subRoot);
-  }
+  await renderSub(subRoot);
 }

@@ -1,5 +1,5 @@
 import { appState, setExportContext } from '../state.js';
-import { loadSourceRoles, querySourceScorecard } from '../db.js';
+import { loadSourceReview, loadSourceRoles, querySourceScorecard } from '../db.js';
 import {
   escapeHtml, fmtInt, fmtNum, formatSourceKey, josa,
   renderActionBanner, roleBadgeHtml,
@@ -85,6 +85,7 @@ export async function renderScorecardView(root) {
       horizonMonths,
     }),
     loadSourceRoles(),
+    loadSourceReview().catch(() => null),
   ]);
 
   const reviewJson = appState.sourceReviewJson;

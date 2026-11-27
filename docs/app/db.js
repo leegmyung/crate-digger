@@ -22,6 +22,63 @@ let assetVersion = '';
 let macroReloadAttempted = false;
 let macroReloadPromise = null;
 
+// Raw optional CSV texts kept for lazy DuckDB table creation when #/sql opens
+let rawAuxCsv = { links: null, videos: null, images: null };
+let auxTablesCreated = false;
+let auxTablesPromise = null;
+
+// Bounded LRU query caches (cleared on bootstrap / macro reload)
+const QUERY_CACHE_MAX = 20;
+const candidatesCache = new Map();       // keyWithoutLimit -> { limit, rows }
+const debutCandidatesCache = new Map();  // sql -> result
+const upcomingGigsCache = new Map();     // asOf::days -> rows
+const weeklySignalsCache = new Map();    // start::end -> { total, byBranch }
+const teamDetailCache = new Map();       // teamKey::scoreParams -> detail
+const egoNetCache = new Map();           // teamKey::period::limit -> rows
+const sceneNetCache = new Map();         // sql -> result
+const backtestCache = new Map();         // sqlKey -> blocks
+const signalHitsCache = new Map();       // sql -> { cutoff, rows }
+const scorecardCache = new Map();        // sql -> result
+const sqlTemplatePromises = new Map();   // name -> Promise<string>
+
+function lruGet(map, key) {
+  if (!map.has(key)) return undefined;
+  const val = map.get(key);
+  map.delete(key);
+  map.set(key, val);
+  return val;
+}
+
+function lruSet(map, key, val, max = QUERY_CACHE_MAX) {
+  if (map.has(key)) map.delete(key);
+  map.set(key, val);
+  if (map.size > max) {
+    const oldest = map.keys().next().value;
+    map.delete(oldest);
+  }
+}
+
+function clearQueryCaches() {
+  candidatesCache.clear();
+  debutCandidatesCache.clear();
+  upcomingGigsCache.clear();
+  weeklySignalsCache.clear();
+  teamDetailCache.clear();
+  egoNetCache.clear();
+  sceneNetCache.clear();
+  backtestCache.clear();
+  signalHitsCache.clear();
+  scorecardCache.clear();
+}
+
+function localTodayIso() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
 // ---------- Arrow JS value normalization ----------
 
 function decodeArrowDecimal(raw, scale) {
@@ -88,34 +145,18 @@ async function reloadLabMacrosOnce() {
   macroReloadPromise = (async () => {
     try {
       const reloadOpts = { cache: 'reload', bust: true };
-      const [featSql, btSql, candSql, debutCandSql, sigHitSql, scorecardSql, debutScorecardSql, precSql, teamSql, relSql, egoSql, sceneNetSql] = await Promise.all([
+      const loadedNames = Object.keys(appState.sqlTemplates).filter(k => k !== 'features' && appState.sqlTemplates[k]);
+      const [featSql, ...others] = await Promise.all([
         fetchText('lab/sql/features.sql', false, reloadOpts),
-        fetchText('lab/sql/backtest.sql', true, reloadOpts),
-        fetchText('lab/sql/candidates.sql', true, reloadOpts),
-        fetchText('lab/sql/debut_candidates.sql', true, reloadOpts),
-        fetchText('lab/sql/signal_hits.sql', true, reloadOpts),
-        fetchText('lab/sql/source_scorecard.sql', true, reloadOpts),
-        fetchText('lab/sql/source_scorecard_debut.sql', true, reloadOpts),
-        fetchText('lab/sql/precedents.sql', true, reloadOpts),
-        fetchText('lab/sql/team.sql', true, reloadOpts),
-        fetchText('lab/sql/related.sql', true, reloadOpts),
-        fetchText('lab/sql/ego_network.sql', true, reloadOpts),
-        fetchText('lab/sql/scene_network.sql', true, reloadOpts),
+        ...loadedNames.map(k => fetchText(`lab/sql/${k}.sql`, true, reloadOpts)),
       ]);
       if (!featSql) return false;
       await connInstance.query(featSql);
       appState.sqlTemplates.features = featSql;
-      if (btSql) appState.sqlTemplates.backtest = btSql;
-      if (candSql) appState.sqlTemplates.candidates = candSql;
-      if (debutCandSql) appState.sqlTemplates.debut_candidates = debutCandSql;
-      if (sigHitSql) appState.sqlTemplates.signal_hits = sigHitSql;
-      if (scorecardSql) appState.sqlTemplates.source_scorecard = scorecardSql;
-      if (debutScorecardSql) appState.sqlTemplates.source_scorecard_debut = debutScorecardSql;
-      if (precSql) appState.sqlTemplates.precedents = precSql;
-      if (teamSql) appState.sqlTemplates.team = teamSql;
-      if (relSql) appState.sqlTemplates.related = relSql;
-      if (egoSql) appState.sqlTemplates.ego_network = egoSql;
-      if (sceneNetSql) appState.sqlTemplates.scene_network = sceneNetSql;
+      loadedNames.forEach((k, i) => {
+        if (others[i]) appState.sqlTemplates[k] = others[i];
+      });
+      clearQueryCaches();
       return true;
     } catch (_) {
       return false;
@@ -124,6 +165,23 @@ async function reloadLabMacrosOnce() {
     }
   })();
   return macroReloadPromise;
+}
+
+export async function getSqlTemplate(name) {
+  if (!name) return '';
+  if (appState.sqlTemplates[name]) return appState.sqlTemplates[name];
+  if (sqlTemplatePromises.has(name)) return sqlTemplatePromises.get(name);
+  const p = (async () => {
+    const txt = await fetchText(`lab/sql/${name}.sql`, true);
+    if (txt) appState.sqlTemplates[name] = txt;
+    return txt || '';
+  })();
+  sqlTemplatePromises.set(name, p);
+  try {
+    return await p;
+  } finally {
+    sqlTemplatePromises.delete(name);
+  }
 }
 
 export async function runRawSql(sql) {
@@ -362,6 +420,94 @@ function parseImagesCsv(text) {
   return { urlMap, metaMap };
 }
 
+function parseCsvObjects(text) {
+  if (!text) return [];
+  const rows = [];
+  let row = [];
+  let field = '';
+  let inQuotes = false;
+  const n = text.length;
+  for (let i = 0; i < n; i++) {
+    const ch = text[i];
+    if (inQuotes) {
+      if (ch === '"') {
+        if (i + 1 < n && text[i + 1] === '"') {
+          field += '"';
+          i += 1;
+        } else {
+          inQuotes = false;
+        }
+      } else {
+        field += ch;
+      }
+    } else if (ch === '"') {
+      inQuotes = true;
+    } else if (ch === ',') {
+      row.push(field);
+      field = '';
+    } else if (ch === '\r') {
+      if (i + 1 < n && text[i + 1] === '\n') i += 1;
+      row.push(field);
+      field = '';
+      if (row.length > 1 || row[0] !== '') rows.push(row);
+      row = [];
+    } else if (ch === '\n') {
+      row.push(field);
+      field = '';
+      if (row.length > 1 || row[0] !== '') rows.push(row);
+      row = [];
+    } else {
+      field += ch;
+    }
+  }
+  if (field !== '' || row.length > 0) {
+    row.push(field);
+    if (row.length > 1 || row[0] !== '') rows.push(row);
+  }
+  if (rows.length < 2) return [];
+  const headers = rows[0].map(h => h.replace(/^\uFEFF/, '').trim());
+  const out = new Array(rows.length - 1);
+  for (let r = 1; r < rows.length; r++) {
+    const vals = rows[r];
+    const obj = {};
+    for (let c = 0; c < headers.length; c++) {
+      obj[headers[c]] = vals[c] !== undefined ? vals[c] : '';
+    }
+    out[r - 1] = obj;
+  }
+  return out;
+}
+
+function parseTeamsCsvIndex(text) {
+  const rows = parseCsvObjects(text);
+  const genreCounts = new Map();
+  const teamIndex = [];
+  for (const r of rows) {
+    const team_key = r.team_key || '';
+    if (!team_key) continue;
+    const display_name = r.display_name || team_key;
+    const primary_genre = r.primary_genre || '';
+    teamIndex.push({ team_key, display_name, primary_genre });
+    if (primary_genre) {
+      genreCounts.set(primary_genre, (genreCounts.get(primary_genre) || 0) + 1);
+    }
+  }
+  teamIndex.sort((a, b) => (a.display_name < b.display_name ? -1 : a.display_name > b.display_name ? 1 : 0));
+  const validGenres = [...genreCounts.entries()]
+    .sort((a, b) => (b[1] - a[1]) || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
+    .map(e => e[0]);
+  return { teamIndex, validGenres };
+}
+
+function parseProgramsCsvMap(text) {
+  const rows = parseCsvObjects(text);
+  const map = new Map();
+  for (const r of rows) {
+    if (r.program && r.label) map.set(r.program, r.label);
+  }
+  return map;
+}
+
 function indexLinksRows(rows) {
   const map = new Map();
   for (const r of rows) {
@@ -561,6 +707,37 @@ export function computeDataHealth(meta = appState.meta, collect = appState.colle
   };
 }
 
+export async function ensureAuxDuckDbTables() {
+  if (auxTablesCreated || !dbInstance || !connInstance) return;
+  if (auxTablesPromise) return auxTablesPromise;
+  auxTablesPromise = (async () => {
+    const reg = [];
+    let sql = '';
+    if (rawAuxCsv.links) {
+      reg.push(dbInstance.registerFileText('links.csv', rawAuxCsv.links));
+      sql += `CREATE TABLE IF NOT EXISTS links AS SELECT * FROM read_csv_auto('links.csv', header=true);`;
+    }
+    if (rawAuxCsv.videos) {
+      reg.push(dbInstance.registerFileText('videos.csv', rawAuxCsv.videos));
+      sql += `CREATE TABLE IF NOT EXISTS videos AS SELECT * FROM read_csv_auto('videos.csv', header=true);`;
+    }
+    if (rawAuxCsv.images) {
+      reg.push(dbInstance.registerFileText('images.csv', rawAuxCsv.images));
+      sql += `CREATE TABLE IF NOT EXISTS images AS SELECT * FROM read_csv_auto('images.csv', header=true);`;
+    }
+    if (reg.length) {
+      await Promise.all(reg);
+      await connInstance.query(sql);
+    }
+    auxTablesCreated = true;
+  })();
+  try {
+    await auxTablesPromise;
+  } finally {
+    auxTablesPromise = null;
+  }
+}
+
 export async function bootstrapData(onStatus = () => {}) {
   onStatus('데이터·SQL·DuckDB-WASM 불러오는 중...');
   const enginePromise = initEngine();
@@ -568,6 +745,25 @@ export async function bootstrapData(onStatus = () => {}) {
   assetVersion = meta?.generated_at ? String(meta.generated_at) : String(Date.now());
   macroReloadAttempted = false;
   macroReloadPromise = null;
+  auxTablesCreated = false;
+  auxTablesPromise = null;
+  clearQueryCaches();
+
+  const hasLinksMeta = !meta?.rows || meta.rows.links === undefined || meta.rows.links > 0;
+  const hasVideosMeta = Boolean(meta?.rows && Number(meta.rows.videos) > 0);
+  const hasImagesMeta = Boolean(meta?.rows && Number(meta.rows.images) > 0);
+
+  // Chain snapshot CSV fetches right after snapshots/index.json so there is no post-DB waterfall
+  const snapBundlePromise = fetchJson('lab/data/snapshots/index.json', true).then(async (snapIdx) => {
+    const snapDates = Array.isArray(snapIdx?.dates) ? snapIdx.dates : [];
+    const snapReconstructed = Array.isArray(snapIdx?.reconstructed) ? snapIdx.reconstructed : [];
+    const { latestDate, prevDate } = pickWeeklyPrevSnapshot(snapDates);
+    const [latestTxt, prevTxt] = await Promise.all([
+      latestDate ? fetchText(`lab/data/snapshots/${latestDate}.csv`, true) : Promise.resolve(null),
+      prevDate ? fetchText(`lab/data/snapshots/${prevDate}.csv`, true) : Promise.resolve(null),
+    ]);
+    return { snapDates, snapReconstructed, latestDate, prevDate, latestTxt, prevTxt };
+  });
 
   const [
     sigCsv,
@@ -575,132 +771,94 @@ export async function bootstrapData(onStatus = () => {}) {
     outCsv,
     progCsv,
     featSql,
-    btSql,
     candSql,
     debutCandSql,
-    sigHitSql,
-    scorecardSql,
-    debutScorecardSql,
-    precSql,
-    teamSql,
-    relSql,
-    egoSql,
-    sceneNetSql,
-    snapIdx,
-    dashJson,
+    snapBundle,
     collectJson,
-    sourceReviewJson,
+    linksCsv,
+    videosCsv,
+    imagesCsv,
   ] = await Promise.all([
     fetchText('lab/data/signals.csv'),
     fetchText('lab/data/teams.csv'),
     fetchText('lab/data/outcomes.csv'),
     fetchText('lab/data/programs.csv'),
     fetchText('lab/sql/features.sql'),
-    fetchText('lab/sql/backtest.sql'),
     fetchText('lab/sql/candidates.sql'),
     fetchText('lab/sql/debut_candidates.sql', true),
-    fetchText('lab/sql/signal_hits.sql'),
-    fetchText('lab/sql/source_scorecard.sql', true),
-    fetchText('lab/sql/source_scorecard_debut.sql', true),
-    fetchText('lab/sql/precedents.sql', true),
-    fetchText('lab/sql/team.sql', true),
-    fetchText('lab/sql/related.sql', true),
-    fetchText('lab/sql/ego_network.sql', true),
-    fetchText('lab/sql/scene_network.sql', true),
-    fetchJson('lab/data/snapshots/index.json', true),
-    fetchJson('data/dashboard.json', true),
+    snapBundlePromise,
     fetchJson('data/collect.json', true),
-    fetchJson('data/source_review.json', true),
-    enginePromise,
-  ]);
-
-  appState.meta = meta;
-  appState.dataEnd = meta?.data_end || '2026-11-27';
-  appState.dashboardJson = dashJson;
-  appState.collectJson = collectJson;
-  appState.sourceReviewJson = sourceReviewJson;
-  appState.dataHealth = computeDataHealth(meta, collectJson, dashJson);
-  appState.sqlTemplates = {
-    features: featSql || '',
-    backtest: btSql || '',
-    candidates: candSql || '',
-    debut_candidates: debutCandSql || '',
-    signal_hits: sigHitSql || '',
-    source_scorecard: scorecardSql || '',
-    source_scorecard_debut: debutScorecardSql || '',
-    precedents: precSql || '',
-    team: teamSql || '',
-    related: relSql || '',
-    ego_network: egoSql || '',
-    scene_network: sceneNetSql || '',
-  };
-
-  // Optional datasets gated by meta.rows to avoid noisy 404s before files exist
-  const hasLinksMeta = !meta?.rows || meta.rows.links === undefined || meta.rows.links > 0;
-  const hasVideosMeta = Boolean(meta?.rows && Number(meta.rows.videos) > 0);
-  const hasImagesMeta = Boolean(meta?.rows && Number(meta.rows.images) > 0);
-  const [linksCsv, videosCsv, imagesCsv] = await Promise.all([
     hasLinksMeta ? fetchText('lab/data/links.csv', true) : Promise.resolve(null),
     hasVideosMeta ? fetchText('lab/data/videos.csv', true) : Promise.resolve(null),
     hasImagesMeta ? fetchText('lab/data/images.csv', true) : Promise.resolve(null),
+    enginePromise,
   ]);
 
+  rawAuxCsv = { links: linksCsv, videos: videosCsv, images: imagesCsv };
+  appState.meta = meta;
+  appState.dataEnd = meta?.data_end || '2026-11-27';
+  appState.collectJson = collectJson;
+  appState.dataHealth = computeDataHealth(meta, collectJson, appState.dashboardJson);
+  appState.sqlTemplates = {
+    features: featSql || '',
+    backtest: '',
+    candidates: candSql || '',
+    debut_candidates: debutCandSql || '',
+    signal_hits: '',
+    source_scorecard: '',
+    source_scorecard_debut: '',
+    precedents: '',
+    team: '',
+    related: '',
+    ego_network: '',
+    scene_network: '',
+  };
+
   onStatus('브라우저 DB에 표 적재 중...');
-  const regTasks = [
+  await Promise.all([
     dbInstance.registerFileText('signals.csv', sigCsv),
     dbInstance.registerFileText('teams.csv', teamsCsv),
     dbInstance.registerFileText('outcomes.csv', outCsv),
     dbInstance.registerFileText('programs.csv', progCsv),
-  ];
-  if (linksCsv) regTasks.push(dbInstance.registerFileText('links.csv', linksCsv));
-  if (videosCsv) regTasks.push(dbInstance.registerFileText('videos.csv', videosCsv));
-  if (imagesCsv) regTasks.push(dbInstance.registerFileText('images.csv', imagesCsv));
-  await Promise.all(regTasks);
+  ]);
 
-  let createSql = `
-    CREATE TABLE signals AS SELECT * FROM read_csv_auto('signals.csv', header=true);
-    CREATE TABLE teams AS SELECT * FROM read_csv_auto('teams.csv', header=true);
-    CREATE TABLE outcomes AS SELECT * FROM read_csv_auto('outcomes.csv', header=true);
-    CREATE TABLE programs AS SELECT * FROM read_csv_auto('programs.csv', header=true);
-  `;
-  if (linksCsv) createSql += `CREATE TABLE links AS SELECT * FROM read_csv_auto('links.csv', header=true);`;
-  if (videosCsv) createSql += `CREATE TABLE videos AS SELECT * FROM read_csv_auto('videos.csv', header=true);`;
-  if (imagesCsv) createSql += `CREATE TABLE images AS SELECT * FROM read_csv_auto('images.csv', header=true);`;
-  // 협업(피처링) 표: 앱은 collabs.csv를 올리지 않으므로 빈 표만 (features.sql이 읽음, w_collab 기본 0 — scripts/lab_sql.py COLLABS_DDL과 같은 정의)
-  createSql += `CREATE TABLE collabs(team_key VARCHAR, partner_key VARCHAR, partner_name VARCHAR, release_date DATE, role VARCHAR, partner_established BOOLEAN);`;
-  await connInstance.query(createSql);
-  await connInstance.query(featSql);
-
-  const snapDates = Array.isArray(snapIdx?.dates) ? snapIdx.dates : [];
-  const snapReconstructed = Array.isArray(snapIdx?.reconstructed) ? snapIdx.reconstructed : [];
-  const { latestDate, prevDate } = pickWeeklyPrevSnapshot(snapDates);
-
-  const [genreRes, rangeRes, teamIdxRes, progRes, snapLatestTxt, snapPrevTxt, linksRes, videosRes] = await Promise.all([
-    runRawSql(`
-      SELECT primary_genre, COUNT(*) AS n
-      FROM teams
-      WHERE COALESCE(primary_genre, '') <> ''
-      GROUP BY primary_genre
-      ORDER BY n DESC, primary_genre
-    `),
-    runRawSql(`
+  // Run DuckDB core table load + macro setup in the Worker while parsing JS lookup indexes on main thread
+  const dbLoadPromise = (async () => {
+    const createSql = `
+      CREATE TABLE signals AS SELECT * FROM read_csv_auto('signals.csv', header=true);
+      CREATE TABLE teams AS SELECT * FROM read_csv_auto('teams.csv', header=true);
+      CREATE TABLE outcomes AS SELECT * FROM read_csv_auto('outcomes.csv', header=true);
+      CREATE TABLE programs AS SELECT * FROM read_csv_auto('programs.csv', header=true);
+      CREATE TABLE collabs(team_key VARCHAR, partner_key VARCHAR, partner_name VARCHAR, release_date DATE, role VARCHAR, partner_established BOOLEAN);
+    `;
+    await connInstance.query(createSql);
+    await connInstance.query(featSql);
+    return runRawSql(`
       SELECT MIN(announced_date) AS min_d, MAX(announced_date) AS max_d, COUNT(*) AS n
       FROM outcomes
       WHERE counted
-    `),
-    runRawSql(`
-      SELECT team_key, display_name, primary_genre
-      FROM teams
-      ORDER BY display_name
-    `),
-    runRawSql(`SELECT program, label FROM programs`),
-    latestDate ? fetchText(`lab/data/snapshots/${latestDate}.csv`, true) : Promise.resolve(null),
-    prevDate ? fetchText(`lab/data/snapshots/${prevDate}.csv`, true) : Promise.resolve(null),
-    linksCsv ? runRawSql(`SELECT team_key, platform, url FROM links`) : Promise.resolve({ rows: [] }),
-    videosCsv ? runRawSql(`SELECT team_key, video_id, title, channel_title, published_at, kind FROM videos`) : Promise.resolve({ rows: [] }),
-  ]);
+    `);
+  })();
 
-  appState.validGenres = genreRes.rows.map(r => r.primary_genre);
+  const { teamIndex, validGenres } = parseTeamsCsvIndex(teamsCsv);
+  appState.validGenres = validGenres;
+  appState.teamIndex = teamIndex;
+  appState.programLabels = parseProgramsCsvMap(progCsv);
+  appState.linksByTeam = indexLinksRows(parseCsvObjects(linksCsv));
+  appState.videosByTeam = indexVideosRows(parseCsvObjects(videosCsv));
+  const parsedImgs = parseImagesCsv(imagesCsv);
+  appState.imagesByTeam = parsedImgs.urlMap;
+  appState.imageMetaByTeam = parsedImgs.metaMap;
+  appState.snapshots = {
+    dates: snapBundle.snapDates,
+    reconstructed: snapBundle.snapReconstructed,
+    latestDate: snapBundle.latestDate,
+    prevDate: snapBundle.prevDate,
+    latest: parseSnapshotCsv(snapBundle.latestTxt),
+    prev: parseSnapshotCsv(snapBundle.prevTxt),
+  };
+
+  const rangeRes = await dbLoadPromise;
   if (rangeRes.rows.length) {
     appState.outcomeRange = {
       min: rangeRes.rows[0].min_d,
@@ -708,21 +866,6 @@ export async function bootstrapData(onStatus = () => {}) {
       counted: Number(rangeRes.rows[0].n) || 0,
     };
   }
-  appState.teamIndex = teamIdxRes.rows;
-  appState.programLabels = new Map(progRes.rows.filter(r => r.program && r.label).map(r => [r.program, r.label]));
-  appState.linksByTeam = indexLinksRows(linksRes.rows);
-  appState.videosByTeam = indexVideosRows(videosRes.rows);
-  const parsedImgs = parseImagesCsv(imagesCsv);
-  appState.imagesByTeam = parsedImgs.urlMap;
-  appState.imageMetaByTeam = parsedImgs.metaMap;
-  appState.snapshots = {
-    dates: snapDates,
-    reconstructed: snapReconstructed,
-    latestDate,
-    prevDate,
-    latest: parseSnapshotCsv(snapLatestTxt),
-    prev: parseSnapshotCsv(snapPrevTxt),
-  };
   appState.ready = true;
 }
 
@@ -731,9 +874,23 @@ export async function bootstrapData(onStatus = () => {}) {
 export async function queryCandidates(overrides = {}) {
   const c = appState.cfg;
   const limit = overrides.limit !== undefined ? overrides.limit : c.limit;
-  const sql = fillTemplate(appState.sqlTemplates.candidates, buildParams({ ...overrides, limit }));
+  const tpl = await getSqlTemplate('candidates');
+  if (!tpl) return [];
+  const params = buildParams({ ...overrides, limit });
+  const limNum = Number(params.limit) || 100;
+  const sql = fillTemplate(tpl, params);
   appState.lastSql.candidates = sql;
-  const { rows } = await runRawSql(sql);
+
+  const baseKey = fillTemplate(tpl, { ...params, limit: '__LIM__' });
+  const cached = lruGet(candidatesCache, baseKey);
+  let rows;
+  if (cached && cached.limit >= limNum) {
+    rows = cached.rows.slice(0, limNum);
+  } else {
+    const res = await runRawSql(sql);
+    rows = res.rows;
+    lruSet(candidatesCache, baseKey, { limit: limNum, rows });
+  }
 
   // Apply global recent activity period filter if set (> 0 days)
   const days = Number(c.period_days) || 0;
@@ -748,24 +905,38 @@ export async function queryCandidates(overrides = {}) {
 export async function queryBacktestAll() {
   const cutoffs = appState.cfg.cutoffs;
   if (!cutoffs.length) return [];
-  const sqlList = [];
+  const tpl = await getSqlTemplate('backtest');
+  if (!tpl) return [];
+  const sqls = cutoffs.map(d => fillTemplate(tpl, buildParams({ cutoff: d })));
+  const combinedSql = cutoffs.map((d, i) => `-- 기준일 ${d}\n${sqls[i].trim()}`).join('\n\n');
+  appState.lastSql.backtest = combinedSql;
+
+  const cached = lruGet(backtestCache, combinedSql);
+  if (cached) return cached;
+
   const blocks = [];
-  for (const d of cutoffs) {
-    const sql = fillTemplate(appState.sqlTemplates.backtest, buildParams({ cutoff: d }));
-    sqlList.push(`-- 기준일 ${d}\n${sql.trim()}`);
-    const { rows } = await runRawSql(sql);
-    blocks.push({ cutoff: d, rows });
+  for (let i = 0; i < cutoffs.length; i += 1) {
+    const { rows } = await runRawSql(sqls[i]);
+    blocks.push({ cutoff: cutoffs[i], rows });
   }
-  appState.lastSql.backtest = sqlList.join('\n\n');
+  lruSet(backtestCache, combinedSql, blocks);
   return blocks;
 }
 
 export async function querySignalHits(cutoff) {
   const useCutoff = cutoff || appState.cfg.signal_cutoff || appState.cfg.cutoffs[0] || '2025-01-01';
-  const sql = fillTemplate(appState.sqlTemplates.signal_hits, buildParams({ cutoff: useCutoff }));
+  const tpl = await getSqlTemplate('signal_hits');
+  if (!tpl) return { cutoff: useCutoff, rows: [] };
+  const sql = fillTemplate(tpl, buildParams({ cutoff: useCutoff }));
   appState.lastSql.signals = sql;
+
+  const cached = lruGet(signalHitsCache, sql);
+  if (cached) return cached;
+
   const { rows } = await runRawSql(sql);
-  return { cutoff: useCutoff, rows };
+  const result = { cutoff: useCutoff, rows };
+  lruSet(signalHitsCache, sql, result);
+  return result;
 }
 
 export async function querySourceScorecard({
@@ -779,7 +950,7 @@ export async function querySourceScorecard({
   const sinceLit = sqlDate(since, '2024-01-01');
   const horizonSql = sqlInt(horizonMonths, 1, 60, 24);
 
-  const tpl = appState.sqlTemplates.source_scorecard;
+  const tpl = await getSqlTemplate('source_scorecard');
   if (!tpl) {
     return { cutoffs: useCutoffs, since: sinceLit.slice(1, -1), horizonMonths: Number(horizonSql), totalWinners: 0, rows: [] };
   }
@@ -789,6 +960,9 @@ export async function querySourceScorecard({
     horizon_months: horizonSql,
   });
   appState.lastSql.scorecard = sql;
+
+  const cached = lruGet(scorecardCache, sql);
+  if (cached) return cached;
 
   const [scRes, winRes] = await Promise.all([
     runRawSql(sql),
@@ -803,18 +977,21 @@ export async function querySourceScorecard({
     `),
   ]);
 
-  return {
+  const result = {
     cutoffs: useCutoffs,
     since: sinceLit.slice(1, -1),
     horizonMonths: Number(horizonSql),
     totalWinners: Number(winRes.rows[0]?.n) || 0,
     rows: scRes.rows,
   };
+  lruSet(scorecardCache, sql, result);
+  return result;
 }
 
 export async function queryTeamDetail(teamKey) {
   const keyLit = sqlStringLiteral(teamKey);
   const p = buildParams({ team_key: teamKey });
+  const todayIso = localTodayIso();
 
   const scoreSql = `
     SELECT team_key, display_name, ROUND(score, 2) AS score, n_branch, best_stage,
@@ -834,6 +1011,24 @@ export async function queryTeamDetail(teamKey) {
     LIMIT 1
   `;
 
+  // Use JS local date literal instead of CURRENT_DATE so DuckDB-WASM does not auto-download the icu extension (~1.4s cold stall)
+  const timelineSql = `
+    SELECT s.signal_date, s.branch, s.source, s.program,
+           COALESCE(pr.label, NULLIF(s.program, '')) AS program_label,
+           NULLIF(s.venue, '') AS venue,
+           COALESCE(s.role, 'pending') AS role,
+           s.signal_date > DATE '${todayIso}' AS is_upcoming
+    FROM signals s
+    LEFT JOIN programs pr ON pr.program = s.program
+    WHERE s.team_key = ${keyLit}
+    ORDER BY s.signal_date DESC, s.branch
+  `;
+  appState.lastSql.team = timelineSql;
+
+  const cacheKey = `${todayIso}::${scoreSql}`;
+  const cached = lruGet(teamDetailCache, cacheKey);
+  if (cached) return cached;
+
   const teamProfileSql = `SELECT * FROM teams WHERE team_key = ${keyLit} LIMIT 1`;
   const outcomesSql = `
     SELECT announced_date, program, program_label, tier, result, counted, grade, weight
@@ -842,30 +1037,21 @@ export async function queryTeamDetail(teamKey) {
     ORDER BY announced_date DESC, weight DESC
   `;
 
-  // Include s.role directly so team timeline displays role badges & mutes excluded/pending rows
-  const timelineSql = `
-    SELECT s.signal_date, s.branch, s.source, s.program,
-           COALESCE(pr.label, NULLIF(s.program, '')) AS program_label,
-           NULLIF(s.venue, '') AS venue,
-           COALESCE(s.role, 'pending') AS role,
-           s.signal_date > CURRENT_DATE AS is_upcoming
-    FROM signals s
-    LEFT JOIN programs pr ON pr.program = s.program
-    WHERE s.team_key = ${keyLit}
-    ORDER BY s.signal_date DESC, s.branch
-  `;
-  appState.lastSql.team = timelineSql;
+  const [precTpl, relTpl] = await Promise.all([
+    getSqlTemplate('precedents'),
+    getSqlTemplate('related'),
+  ]);
 
   let precPromise = Promise.resolve({ rows: [] });
-  if (appState.sqlTemplates.precedents) {
-    const precSql = fillTemplate(appState.sqlTemplates.precedents, { team_key: keyLit });
+  if (precTpl) {
+    const precSql = fillTemplate(precTpl, { team_key: keyLit });
     appState.lastSql.precedents = precSql;
     precPromise = runRawSql(precSql);
   }
 
   let relPromise = Promise.resolve({ rows: [] });
-  if (appState.sqlTemplates.related) {
-    const relSql = fillTemplate(appState.sqlTemplates.related, { team_key: keyLit });
+  if (relTpl) {
+    const relSql = fillTemplate(relTpl, { team_key: keyLit });
     appState.lastSql.related = relSql;
     relPromise = runRawSql(relSql);
   }
@@ -913,7 +1099,7 @@ export async function queryTeamDetail(teamKey) {
     }
   }
 
-  return {
+  const result = {
     profile: profileRes.rows[0] || null,
     scored: scoreRes.rows[0] || null,
     timeline: timelineRes.rows,
@@ -923,6 +1109,8 @@ export async function queryTeamDetail(teamKey) {
     links: appState.linksByTeam.get(teamKey) || new Map(),
     videos: appState.videosByTeam.get(teamKey) || [],
   };
+  lruSet(teamDetailCache, cacheKey, result);
+  return result;
 }
 
 const topPrecedentCache = new Map();
@@ -930,9 +1118,10 @@ const topPrecedentCache = new Map();
 export async function queryTopPrecedent(teamKey) {
   if (!teamKey) return null;
   if (topPrecedentCache.has(teamKey)) return topPrecedentCache.get(teamKey);
-  if (!appState.sqlTemplates.precedents) return null;
+  const tpl = await getSqlTemplate('precedents');
+  if (!tpl) return null;
   try {
-    const sql = fillTemplate(appState.sqlTemplates.precedents, { team_key: sqlStringLiteral(teamKey) });
+    const sql = fillTemplate(tpl, { team_key: sqlStringLiteral(teamKey) });
     const { rows } = await runRawSql(sql);
     const top = rows[0] || null;
     topPrecedentCache.set(teamKey, top);
@@ -1015,21 +1204,29 @@ export async function queryWeeklyDigestExtras(candRows = []) {
   const startDate = prevDate || new Date(Date.parse(`${endDate}T00:00:00Z`) - 7 * 86400000).toISOString().slice(0, 10);
 
   let totalSignals = 0;
-  const byBranch = {};
-  try {
-    const { rows } = await runRawSql(`
-      SELECT branch, COUNT(*) AS n
-      FROM signals
-      WHERE signal_date >= DATE '${startDate}' AND signal_date <= DATE '${endDate}'
-      GROUP BY branch
-      ORDER BY n DESC
-    `);
-    for (const r of rows) {
-      const cnt = Number(r.n) || 0;
-      byBranch[r.branch] = cnt;
-      totalSignals += cnt;
-    }
-  } catch (_) {}
+  let byBranch = {};
+  const sigCacheKey = `${startDate}::${endDate}`;
+  const cachedSig = lruGet(weeklySignalsCache, sigCacheKey);
+  if (cachedSig) {
+    totalSignals = cachedSig.totalSignals;
+    byBranch = cachedSig.byBranch;
+  } else {
+    try {
+      const { rows } = await runRawSql(`
+        SELECT branch, COUNT(*) AS n
+        FROM signals
+        WHERE signal_date >= DATE '${startDate}' AND signal_date <= DATE '${endDate}'
+        GROUP BY branch
+        ORDER BY n DESC
+      `);
+      for (const r of rows) {
+        const cnt = Number(r.n) || 0;
+        byBranch[r.branch] = cnt;
+        totalSignals += cnt;
+      }
+      lruSet(weeklySignalsCache, sigCacheKey, { totalSignals, byBranch });
+    } catch (_) {}
+  }
 
   // Count videos published in the 7-day window across all teams
   let newVideos7d = 0;
@@ -1161,10 +1358,22 @@ function safeIsoDate(v, fallback = '2026-11-27') {
  */
 export async function queryUpcomingGigs({ asOf, days = 0 } = {}) {
   const baseDate = safeIsoDate(asOf || appState.cfg.as_of || appState.dataEnd, '2026-11-27');
+  const daysNum = Math.max(0, Number(days) || 0);
+  const cacheKey = `${baseDate}::${daysNum}`;
+  const cached = lruGet(upcomingGigsCache, cacheKey);
+  if (cached) return cached;
+
+  let endDate = '';
   let endClause = '';
-  if (Number(days) > 0) {
-    const endMs = Date.parse(`${baseDate}T00:00:00Z`) + Number(days) * 86400000;
-    const endDate = new Date(endMs).toISOString().slice(0, 10);
+  if (daysNum > 0) {
+    const endMs = Date.parse(`${baseDate}T00:00:00Z`) + daysNum * 86400000;
+    endDate = new Date(endMs).toISOString().slice(0, 10);
+    const fullCached = lruGet(upcomingGigsCache, `${baseDate}::0`);
+    if (fullCached) {
+      const sliced = fullCached.filter(r => r.signal_date <= endDate);
+      lruSet(upcomingGigsCache, cacheKey, sliced);
+      return sliced;
+    }
     endClause = `AND s.signal_date <= DATE '${endDate}'`;
   }
   const { rows } = await runRawSql(`
@@ -1181,6 +1390,7 @@ export async function queryUpcomingGigs({ asOf, days = 0 } = {}) {
       ${endClause}
     ORDER BY signal_date ASC, venue ASC, display_name ASC
   `);
+  lruSet(upcomingGigsCache, cacheKey, rows);
   return rows;
 }
 
@@ -1423,12 +1633,62 @@ export async function loadSceneMap() {
       }
     }
     sceneMapCache = { raw, communities, communityById, teamToCommunity };
+    appState.sceneMap = sceneMapCache;
     return sceneMapCache;
   })();
   try {
     return await sceneMapPromise;
   } finally {
     sceneMapPromise = null;
+  }
+}
+
+let dashboardJsonPromise = null;
+
+/**
+ * docs/data/dashboard.json(397KB)을 필요할 때만 1회 지연 로드한다.
+ * 팀 상세·공연장·검증(evidence)·데이터 품질 화면에서 사용.
+ */
+export async function loadDashboardJson() {
+  if (appState.dashboardJson) return appState.dashboardJson;
+  if (dashboardJsonPromise) return dashboardJsonPromise;
+  dashboardJsonPromise = (async () => {
+    const dj = await fetchJson('data/dashboard.json', true);
+    if (dj) {
+      appState.dashboardJson = dj;
+      const prevLevel = appState.dataHealth?.level;
+      appState.dataHealth = computeDataHealth(appState.meta, appState.collectJson, dj);
+      if (prevLevel !== appState.dataHealth.level && typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('app:refresh-health'));
+      }
+    }
+    return appState.dashboardJson || null;
+  })();
+  try {
+    return await dashboardJsonPromise;
+  } finally {
+    dashboardJsonPromise = null;
+  }
+}
+
+let sourceReviewPromise = null;
+
+/**
+ * docs/data/source_review.json을 필요할 때만 1회 지연 로드한다.
+ * 출처 성적표·설정(고급) 메뉴에서 사용.
+ */
+export async function loadSourceReview() {
+  if (appState.sourceReviewJson) return appState.sourceReviewJson;
+  if (sourceReviewPromise) return sourceReviewPromise;
+  sourceReviewPromise = (async () => {
+    const sr = await fetchJson('data/source_review.json', true);
+    if (sr) appState.sourceReviewJson = sr;
+    return appState.sourceReviewJson || null;
+  })();
+  try {
+    return await sourceReviewPromise;
+  } finally {
+    sourceReviewPromise = null;
   }
 }
 
@@ -1520,11 +1780,7 @@ export async function queryDebutScorecard({
   const cacheKey = `${useCutoffs.join(',')}|${mSql}|${hSql}`;
   if (debutScorecardCache.has(cacheKey)) return debutScorecardCache.get(cacheKey);
 
-  let tpl = appState.sqlTemplates.source_scorecard_debut;
-  if (!tpl) {
-    tpl = await fetchText('lab/sql/source_scorecard_debut.sql', true);
-    if (tpl) appState.sqlTemplates.source_scorecard_debut = tpl;
-  }
+  const tpl = await getSqlTemplate('source_scorecard_debut');
   const empty = {
     cutoffs: useCutoffs,
     mentionMonths: Number(mSql),
@@ -1592,17 +1848,16 @@ export async function queryDebutCandidates(overrides = {}) {
   const p = buildParams(overrides);
   const asOfStr = p.as_of.slice(1, -1);
 
-  let tpl = appState.sqlTemplates.debut_candidates;
-  if (!tpl) {
-    tpl = await fetchText('lab/sql/debut_candidates.sql', true);
-    if (tpl) appState.sqlTemplates.debut_candidates = tpl;
-  }
+  const tpl = await getSqlTemplate('debut_candidates');
   if (!tpl) {
     return { asOf: asOfStr, total: 0, mentioned: [], unmentioned: [] };
   }
 
   const sql = fillTemplate(tpl, p);
   appState.lastSql.debut_candidates = sql;
+
+  const cached = lruGet(debutCandidatesCache, sql);
+  if (cached) return cached;
 
   const { rows } = await runRawSql(sql);
   const byTeam = new Map();
@@ -1639,12 +1894,14 @@ export async function queryDebutCandidates(overrides = {}) {
     .filter(t => t.mentions.length === 0)
     .sort((a, b) => String(b.first_release).localeCompare(String(a.first_release)));
 
-  return {
+  const result = {
     asOf: asOfStr,
     total: all.length,
     mentioned,
     unmentioned,
   };
+  lruSet(debutCandidatesCache, sql, result);
+  return result;
 }
 
 // ---------- Interactive Team Ego Network Graph ----------
@@ -1687,34 +1944,34 @@ function buildSceneNeighbor(teamKey, sceneMap) {
  */
 export async function queryEgoNetwork(teamKey, { period = 'all', limitPerKind = 12 } = {}) {
   if (!teamKey) return [];
-  let tpl = appState.sqlTemplates.ego_network;
-  if (!tpl) {
-    tpl = await fetchText('lab/sql/ego_network.sql', true);
-    if (tpl) appState.sqlTemplates.ego_network = tpl;
-  }
   const { sinceDate, untilDate } = resolveGraphWindow(period);
   const lim = sqlInt(limitPerKind, 1, 40, 12);
+  const cacheKey = `${teamKey}::${sinceDate}::${untilDate}::${lim}`;
+  const cached = lruGet(egoNetCache, cacheKey);
+  if (cached) return cached.map(r => ({ ...r }));
 
-  const [sqlRes, sceneMap] = await Promise.all([
-    tpl
-      ? (async () => {
-          const sql = fillTemplate(tpl, {
-            team_key: sqlStringLiteral(teamKey),
-            since_date: sqlDate(sinceDate, '1900-01-01'),
-            until_date: sqlDate(untilDate, '2099-12-31'),
-            limit_per_kind: lim,
-          });
-          appState.lastSql.ego_network = sql;
-          return runRawSql(sql);
-        })()
-      : Promise.resolve({ rows: [] }),
+  const [tpl, sceneMap] = await Promise.all([
+    getSqlTemplate('ego_network'),
     loadSceneMap(),
   ]);
+
+  let sqlRes = { rows: [] };
+  if (tpl) {
+    const sql = fillTemplate(tpl, {
+      team_key: sqlStringLiteral(teamKey),
+      since_date: sqlDate(sinceDate, '1900-01-01'),
+      until_date: sqlDate(untilDate, '2099-12-31'),
+      limit_per_kind: lim,
+    });
+    appState.lastSql.ego_network = sql;
+    sqlRes = await runRawSql(sql);
+  }
 
   const rows = [...(sqlRes.rows || [])];
   const sceneNode = buildSceneNeighbor(teamKey, sceneMap);
   if (sceneNode) rows.push(sceneNode);
-  return rows;
+  lruSet(egoNetCache, cacheKey, rows);
+  return rows.map(r => ({ ...r }));
 }
 
 /**
@@ -1930,11 +2187,7 @@ export async function queryNodeExpansion(node, { period = 'all', limit = 10 } = 
  * scene_map.json의 씬 묶음 정보와 결합한다.
  */
 export async function querySceneNetwork({ limit = 150, genre } = {}) {
-  let tpl = appState.sqlTemplates.scene_network;
-  if (!tpl) {
-    tpl = await fetchText('lab/sql/scene_network.sql', true);
-    if (tpl) appState.sqlTemplates.scene_network = tpl;
-  }
+  const tpl = await getSqlTemplate('scene_network');
   if (!tpl) {
     return {
       nodes: [],
@@ -1956,6 +2209,16 @@ export async function querySceneNetwork({ limit = 150, genre } = {}) {
     until_date: sqlDate(untilDate, '2099-12-31'),
   });
   appState.lastSql.scene_network = sql;
+
+  const cached = lruGet(sceneNetCache, sql);
+  if (cached) {
+    return {
+      ...cached,
+      nodes: cached.nodes.map(n => ({ ...n })),
+      edges: cached.edges.map(e => ({ ...e })),
+      communities: cached.communities.map(c => ({ ...c })),
+    };
+  }
 
   const [sqlRes, sceneMap] = await Promise.all([
     runRawSql(sql),
@@ -2057,7 +2320,7 @@ export async function querySceneNetwork({ limit = 150, genre } = {}) {
     });
   }
 
-  return {
+  const result = {
     nodes,
     edges,
     communities,
@@ -2065,6 +2328,13 @@ export async function querySceneNetwork({ limit = 150, genre } = {}) {
     candidateCount,
     genre: useGenre,
     limit: useLimit,
+  };
+  lruSet(sceneNetCache, sql, result);
+  return {
+    ...result,
+    nodes: result.nodes.map(n => ({ ...n })),
+    edges: result.edges.map(e => ({ ...e })),
+    communities: result.communities.map(c => ({ ...c })),
   };
 }
 

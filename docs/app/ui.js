@@ -877,3 +877,61 @@ export function renderCompactGradeSummary({ sourceRoles = null, gradeRows = [] }
   return `등급: ${parts.join(' / ')}${lowerNote}.`;
 }
 
+// ---------- Lazy External Library Loaders (Chart.js / D3) ----------
+
+const scriptLoadPromises = new Map();
+
+function loadExternalScript(url) {
+  if (scriptLoadPromises.has(url)) return scriptLoadPromises.get(url);
+  const p = new Promise((resolve) => {
+    const existing = document.querySelector(`script[src="${url}"]`);
+    if (existing) {
+      if (existing.dataset.loaded === '1') { resolve(true); return; }
+      existing.addEventListener('load', () => resolve(true), { once: true });
+      existing.addEventListener('error', () => resolve(false), { once: true });
+      return;
+    }
+    const s = document.createElement('script');
+    s.src = url;
+    s.async = true;
+    s.addEventListener('load', () => {
+      s.dataset.loaded = '1';
+      resolve(true);
+    }, { once: true });
+    s.addEventListener('error', () => resolve(false), { once: true });
+    document.head.appendChild(s);
+  });
+  scriptLoadPromises.set(url, p);
+  return p;
+}
+
+const CHART_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js';
+const D3_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js';
+
+export async function ensureChartJs() {
+  if (window.Chart) return window.Chart;
+  await loadExternalScript(CHART_JS_URL);
+  if (window.Chart) {
+    const ink = cssVar('--ink') || '#18181b';
+    const inkMuted = cssVar('--ink-muted') || '#6b7280';
+    const line = cssVar('--line') || '#e4e4e7';
+    const surface = cssVar('--surface') || '#ffffff';
+    window.Chart.defaults.color = inkMuted || ink;
+    window.Chart.defaults.borderColor = line;
+    if (window.Chart.defaults.plugins?.tooltip) {
+      window.Chart.defaults.plugins.tooltip.backgroundColor = surface;
+      window.Chart.defaults.plugins.tooltip.titleColor = ink;
+      window.Chart.defaults.plugins.tooltip.bodyColor = ink;
+      window.Chart.defaults.plugins.tooltip.borderColor = line;
+      window.Chart.defaults.plugins.tooltip.borderWidth = 1;
+    }
+  }
+  return window.Chart || null;
+}
+
+export async function ensureD3() {
+  if (window.d3) return window.d3;
+  await loadExternalScript(D3_JS_URL);
+  return window.d3 || null;
+}
+

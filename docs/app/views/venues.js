@@ -1,10 +1,10 @@
 import { appState, registerChart, setExportContext, syncHash } from '../state.js';
 import {
-  buildNextGigByTeam, groupUpcomingEvents, loadSceneMap, queryCandidates,
+  buildNextGigByTeam, groupUpcomingEvents, loadDashboardJson, loadSceneMap, queryCandidates,
   queryMonthlyNewcomerVenues, queryUpcomingGigs,
 } from '../db.js';
 import {
-  avatarHtml, cssVar, escapeHtml, fmtInt, fmtNum, formatKoreanShortDate,
+  avatarHtml, cssVar, ensureChartJs, ensureD3, escapeHtml, fmtInt, fmtNum, formatKoreanShortDate,
   formatNextGigText, plainWhyLine, renderActionBanner, spotifyButtonHtml,
   wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
@@ -12,10 +12,12 @@ import { mountSceneNetworkBlock } from './graph.js';
 
 export async function renderVenuesView(root) {
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
+  const isNetworkInit = appState.venuesTab === 'network';
   const [candRows, upcomingRaw, sceneMap] = await Promise.all([
     queryCandidates({ limit: 300 }),
     queryUpcomingGigs({ asOf }),
     loadSceneMap(),
+    isNetworkInit ? ensureD3().catch(() => null) : loadDashboardJson().catch(() => null),
   ]);
   const monthly = await queryMonthlyNewcomerVenues(candRows, asOf);
   const sceneCommunities = sceneMap?.communities || [];
@@ -33,8 +35,7 @@ export async function renderVenuesView(root) {
   const allUpcomingEvents = groupUpcomingEvents(upcomingRaw, candRankMap);
   const candUpcomingEvents = allUpcomingEvents.filter(ev => ev.hasCandidate);
 
-  const dj = appState.dashboardJson;
-  const allTimeVenues = dj?.sections?.top_venues || [];
+  let allTimeVenues = appState.dashboardJson?.sections?.top_venues || [];
   const topMonthV = monthly.venues[0];
 
   setExportContext({
@@ -236,14 +237,19 @@ export async function renderVenuesView(root) {
     `;
   }
 
-  function renderCumulativeChart() {
-    if (chartRendered || !window.Chart || !allTimeVenues.length) return;
+  async function renderCumulativeChart() {
+    if (chartRendered || !allTimeVenues.length) return;
     const cv = root.querySelector('#venuesChart');
     if (!cv) return;
     chartRendered = true;
+    const ChartCtor = await ensureChartJs().catch(() => null);
+    if (!ChartCtor || !cv.isConnected) {
+      chartRendered = false;
+      return;
+    }
     const inkMuted = cssVar('--ink-muted');
     const lineColor = cssVar('--line');
-    registerChart(new window.Chart(cv.getContext('2d'), {
+    registerChart(new ChartCtor(cv.getContext('2d'), {
       type: 'bar',
       data: {
         labels: allTimeVenues.map(v => v.venue),
@@ -480,6 +486,13 @@ export async function renderVenuesView(root) {
         appState.venuesTab = next;
         syncHash(true);
         paint();
+        if (next === 'overview' && !appState.dashboardJson) {
+          loadDashboardJson().then(dj => {
+            if (!dj || appState.venuesTab !== 'overview' || !root.isConnected) return;
+            allTimeVenues = dj.sections?.top_venues || [];
+            if (allTimeVenues.length) paint();
+          }).catch(() => {});
+        }
       });
     });
 

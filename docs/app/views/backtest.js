@@ -4,7 +4,7 @@ import {
 } from '../state.js';
 import { loadScoreTuningSummary, queryBacktestAll } from '../db.js';
 import {
-  cssVar, escapeHtml, fmtInt, fmtNum,
+  cssVar, ensureChartJs, escapeHtml, fmtInt, fmtNum,
   horizontalBaselinePlugin, renderActionBanner,
 } from '../ui.js';
 
@@ -15,6 +15,7 @@ export async function renderBacktestView(root) {
   const [blocks, tuningSummary] = await Promise.all([
     queryBacktestAll(),
     loadScoreTuningSummary(),
+    ensureChartJs().catch(() => null),
   ]);
 
   // Compute summary at compare_k (fallback to first k_list item)

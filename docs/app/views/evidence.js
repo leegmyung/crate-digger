@@ -1,7 +1,12 @@
 import { appState, registerChart } from '../state.js';
-import { cssVar, escapeHtml, fmtInt, fmtNum, renderActionBanner } from '../ui.js';
+import { loadDashboardJson } from '../db.js';
+import { cssVar, ensureChartJs, escapeHtml, fmtInt, fmtNum, renderActionBanner } from '../ui.js';
 
 export async function renderEvidenceView(root) {
+  await Promise.all([
+    loadDashboardJson().catch(() => null),
+    ensureChartJs().catch(() => null),
+  ]);
   const dj = appState.dashboardJson;
   const sec = dj?.sections || {};
   const leadSummary = (sec.lead_time_summary || [])[0] || {};
