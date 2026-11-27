@@ -87,5 +87,39 @@ class CompositionTest(unittest.TestCase):
         self.assertEqual(ranks, {"a": (1, 1), "b": (2, 1), "c": (3, 2), "d": (4, 2)})   # (전체 순위, 장르 내 순위)
 
 
+class GenreScorecardTest(unittest.TestCase):
+    def setUp(self):
+        self.signals = [
+            {"team_key": "h1", "source": "큐레이션:rhythmer", "signal_date": "2024-01-01"},
+            {"team_key": "h1", "source": "공연:indistreet", "signal_date": "2024-03-01"},
+            {"team_key": "h2", "source": "큐레이션:musicy", "signal_date": "2024-05-01"},
+            {"team_key": "h2", "source": "큐레이션:rhythmer", "signal_date": "2024-05-01"},   # 같은 날 = 둘 다 '가장 먼저'
+            {"team_key": "h3", "source": "큐레이션:izm", "signal_date": "2025-06-01"},        # 정답 뒤 → 안 셈
+            {"team_key": "r1", "source": "공연:indistreet", "signal_date": "2024-01-01"},
+        ]
+        self.outcomes = [{"team_key": k, "announced_date": "2025-01-01", "grade": "A"} for k in ("h1", "h2", "h3", "r1")]
+        self.genre = {"h1": "힙합", "h2": "힙합", "h3": "힙합", "r1": "R&B·소울"}
+
+    def test_winner_sources_first_only_and_unseen(self):
+        res = gb.winner_sources(self.signals, self.outcomes, self.genre, "힙합")
+        self.assertEqual(res["winners"], 3)
+        self.assertEqual(res["unseen"], 1)                                   # h3: 정답 전 신호 없음
+        rows = {r["source"]: r for r in res["sources"]}
+        self.assertEqual((rows["큐레이션:rhythmer"]["seen"], rows["큐레이션:rhythmer"]["first"]), (2, 2))
+        self.assertEqual((rows["공연:indistreet"]["seen"], rows["공연:indistreet"]["first"]), (1, 0))
+        self.assertEqual(rows["큐레이션:musicy"]["only"], 0)
+        self.assertEqual(res["teams"][0]["team_key"], "h1")
+        self.assertEqual(res["teams"][2]["sources"], [])
+
+    def test_genre_source_hits(self):
+        by_cutoff = {"A": [{"team_key": "h1", "is_hit": 1}, {"team_key": "h2", "is_hit": 0}, {"team_key": "x", "is_hit": 0}]}
+        team_src = {"A": {"h1": {"큐레이션:rhythmer"}, "h2": {"큐레이션:rhythmer", "공연:indistreet"}}}
+        genre = {"h1": "힙합", "h2": "힙합", "x": "록·밴드"}
+        hits = gb.genre_source_hits(by_cutoff, team_src, genre)
+        self.assertEqual(hits[("힙합", "큐레이션:rhythmer")], (2, 1))
+        self.assertEqual(hits[("힙합", "공연:indistreet")], (1, 0))
+        self.assertNotIn(("록·밴드", "공연:indistreet"), hits)
+
+
 if __name__ == "__main__":
     unittest.main()

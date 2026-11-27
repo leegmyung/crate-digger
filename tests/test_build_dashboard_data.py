@@ -27,6 +27,27 @@ class ProgramLabelTest(unittest.TestCase):
         self.assertEqual(bd.program_label("custom_prog"), "custom_prog")
 
 
+class InferGenresNoOutcomeLeakTest(unittest.TestCase):
+    """장르 보완 규칙은 '신호' 정보(선정·지원 신호 프로그램, 발굴·맥락 출처)만 쓰고 정답(검증용) 정보는 쓰지 않는다."""
+
+    def test_outcome_program_never_sets_genre(self):
+        self.assertEqual(bd._infer_genres("", "", "khha_rookie"), [])
+        self.assertEqual(bd._infer_genres("", "", "khha_rookie|rhythmer_award|kma_rookie"), [])
+
+    def test_signal_sources_still_fill_genre(self):
+        self.assertEqual(bd._infer_genres("", "rhythmer", ""), ["힙합"])            # 리드머 = 맥락 출처
+        self.assertEqual(bd._infer_genres("", "", "band_discovery"), ["록·밴드"])   # 선정·지원 신호 프로그램
+        self.assertEqual(bd._infer_genres("", "rhythmer", "khha_rookie|band_discovery"), ["힙합", "록·밴드"])
+
+    def test_platform_genre_tags_win_over_hints(self):
+        self.assertEqual(bd._infer_genres("인디음악|록/메탈", "rhythmer", ""), ["록·밴드"])
+
+    def test_hint_tables_contain_no_outcome_programs(self):
+        outcome_programs = set(bd.csv_schema.OUTCOME_TIER)
+        self.assertFalse(set(bd.GENRE_HINT_PROGRAMS) & outcome_programs)
+        self.assertFalse(set(bd.GENRE_HINT_PRESS) & outcome_programs)
+
+
 class TeamKeyTest(unittest.TestCase):
     def test_uses_xref_index_when_provided(self):
         fake_index = {"by_key": {"peachtruckhijackers": "피치트럭하이재커스"}}

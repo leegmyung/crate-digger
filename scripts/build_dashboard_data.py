@@ -320,21 +320,34 @@ def rookie_status_info(profile_status, first_seen_all, today=None):
     }
 
 
+# 장르 보완 규칙: 멜론·발매 장르가 없을 때만, '신호' 정보로만 붙인다 (2026-11-27).
+# 정답(검증용) 프로그램(예: khha_rookie 한국힙합어워즈 신인)으로 장르를 붙이면 장르 분석에 정답이 새어 들어간다
+# (docs/genre_bias.md). 그래서 출처 = 큐레이션 발굴·맥락 출처, 프로그램 = 선정·지원 신호 프로그램만 둔다.
+# 순서 = 보완 장르가 둘 이상일 때의 우선순위.
+GENRE_HINT_PRESS = {"rhythmer": "hiphop"}            # 리드머(맥락 출처) 소개 → 힙합
+GENRE_HINT_PROGRAMS = {"band_discovery": "rock"}     # 상상마당 밴드 디스커버리(선정·지원 신호) → 록·밴드
+
+
+def _split_lower(field) -> list:
+    return [s.strip().lower() for s in str(field or "").split("|") if s.strip()]
+
+
 def _infer_genres(raw_genres, press_sources="", sel_programs=""):
-    """멜론·발매 장르를 우선 쓰고, 비었을 때만 오탐 없는 확실한 출처(리드머→힙합, 밴드디스커버리→록·밴드)로 보완."""
+    """멜론·발매 장르를 우선 쓰고, 비었을 때만 오탐 없는 확실한 신호 출처(리드머→힙합, 밴드디스커버리→록·밴드)로 보완.
+    정답 프로그램(csv_schema.OUTCOME_TIER)은 보완 근거로 쓰지 않는다."""
     cfg = genre_mod.load_config()["buckets"]
     labels = []
     if raw_genres:
         for b in genre_mod.buckets_of(str(raw_genres)):
             if b in cfg and cfg[b]["label"] not in labels:
                 labels.append(cfg[b]["label"])
-    if not labels:
-        ps = {s.strip().lower() for s in str(press_sources or "").split("|") if s.strip()}
-        sp = {s.strip().lower() for s in str(sel_programs or "").split("|") if s.strip()}
-        if ("rhythmer" in ps or "khha_rookie" in sp) and "hiphop" in cfg:
-            labels.append(cfg["hiphop"]["label"])
-        if "band_discovery" in sp and "rock" in cfg and cfg["rock"]["label"] not in labels:
-            labels.append(cfg["rock"]["label"])
+    if labels:
+        return labels
+    hints = [GENRE_HINT_PRESS.get(s) for s in _split_lower(press_sources)]
+    hints += [GENRE_HINT_PROGRAMS.get(p) for p in _split_lower(sel_programs) if p not in csv_schema.OUTCOME_TIER]
+    for b in [*GENRE_HINT_PRESS.values(), *GENRE_HINT_PROGRAMS.values()]:   # 정해진 우선순위대로
+        if b in hints and b in cfg and cfg[b]["label"] not in labels:
+            labels.append(cfg[b]["label"])
     return labels
 
 
