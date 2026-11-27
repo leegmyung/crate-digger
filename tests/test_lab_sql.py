@@ -140,6 +140,16 @@ class TeamSqlTest(unittest.TestCase):
         self.assertNotIn("a", keys)
         self.assertNotIn("g", keys)                                     # g는 정답 없음
 
+    def test_related_teams_by_shared_stage_and_agency(self):
+        self.con.execute("ALTER TABLE teams ADD COLUMN agency VARCHAR")
+        self.con.execute("UPDATE teams SET agency = '레이블X' WHERE team_key IN ('a', 'e')")
+        out = rows(self.con, "related.sql", team_key="'a'")
+        by = {(r["related_team"], r["relation"]): r for r in out}
+        self.assertEqual(by[("b", "같은 무대")]["shared_count"], 1)
+        self.assertIn("클럽1", by[("b", "같은 무대")]["detail"])
+        self.assertIn(("e", "같은 소속사"), by)
+        self.assertNotIn("a", [r["related_team"] for r in out])
+
     def test_team_timeline_newest_first_with_labels(self):
         out = rows(self.con, "team.sql", team_key="'a'")
         self.assertEqual([str(r["signal_date"]) for r in out], ["2024-07-01", "2024-06-01", "2024-03-01"])

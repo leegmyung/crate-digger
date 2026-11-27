@@ -47,6 +47,8 @@ def fake_run(sql):
         return _csv(SIGNALS)
     if "-- lab:teams" in sql:
         return _csv(TEAMS)
+    if "-- lab:links" in sql:
+        return _csv([{"team_key": "abc", "platform": "melon", "ref": "1273629"}])
     if "-- lab:outcomes" in sql:
         return _csv(OUTCOMES)
     raise AssertionError(sql[:80])
@@ -75,13 +77,56 @@ class OutcomeRowsTest(unittest.TestCase):
         self.assertEqual(row["counted"], "true")
 
 
+class LinkRowsTest(unittest.TestCase):
+    def test_platform_ids_become_artist_page_urls(self):
+        rows = ex.link_rows([
+            {"team_key": "a", "platform": "melon", "ref": "1273629"},
+            {"team_key": "a", "platform": "genie", "ref": "80123"},
+            {"team_key": "a", "platform": "bugs", "ref": "20198207"},
+            {"team_key": "a", "platform": "spotify", "ref": "40Gp1pozXyDoTKNkxTbZKQ"},
+            {"team_key": "a", "platform": "instagram", "ref": "@samui_band"},
+            {"team_key": "a", "platform": "youtube", "ref": "https://www.youtube.com/@3amui"},
+        ])
+        urls = {r["platform"]: r["url"] for r in rows}
+        self.assertEqual(urls["melon"], "https://www.melon.com/artist/detail.htm?artistId=1273629")
+        self.assertEqual(urls["genie"], "https://www.genie.co.kr/detail/artistInfo?xxnm=80123")
+        self.assertEqual(urls["bugs"], "https://music.bugs.co.kr/artist/20198207")
+        self.assertEqual(urls["spotify"], "https://open.spotify.com/artist/40Gp1pozXyDoTKNkxTbZKQ")
+        self.assertEqual(urls["instagram"], "https://www.instagram.com/samui_band/")
+        self.assertEqual(urls["youtube"], "https://www.youtube.com/@3amui")
+
+    def test_full_urls_kept_and_duplicates_removed(self):
+        rows = ex.link_rows([
+            {"team_key": "a", "platform": "melon", "ref": "https://www.melon.com/artist/detail.htm?artistId=1"},
+            {"team_key": "a", "platform": "melon", "ref": "1"},
+            {"team_key": "a", "platform": "instagram", "ref": "https://www.instagram.com/x_y/"},
+            {"team_key": "a", "platform": "instagram", "ref": "x_y"},
+        ])
+        self.assertEqual(len(rows), 2)
+
+    def test_unsafe_or_empty_refs_are_dropped(self):
+        rows = ex.link_rows([
+            {"team_key": "a", "platform": "melon", "ref": ""},
+            {"team_key": "a", "platform": "youtube", "ref": "javascript:alert(1)"},
+            {"team_key": "a", "platform": "instagram", "ref": "bad handle!"},
+            {"team_key": "a", "platform": "unknown", "ref": "123"},
+        ])
+        self.assertEqual(rows, [])
+
+    def test_spotify_matches_only_unambiguous_names(self):
+        refs = ex.spotify_refs({"공원": {"id": "AAA", "namesakes": 2}, "김승주": {"id": "BBB", "namesakes": 1},
+                                "없음": None}, key_of=lambda n: {"공원": "공원", "김승주": "김승주"}.get(n, n))
+        self.assertEqual(refs, [{"team_key": "김승주", "platform": "spotify", "ref": "BBB"}])
+
+
 class ExportTest(unittest.TestCase):
     def test_writes_all_files_with_meta(self):
         with tempfile.TemporaryDirectory() as d:
-            meta = ex.export(Path(d), run=fake_run, today="2026-11-27")
-            for name in ("signals.csv", "teams.csv", "outcomes.csv", "programs.csv", "meta.json"):
+            meta = ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None)
+            for name in ("signals.csv", "teams.csv", "outcomes.csv", "programs.csv", "links.csv", "meta.json"):
                 self.assertTrue((Path(d) / name).exists(), name)
             self.assertEqual(meta["rows"]["signals"], 3)
+            self.assertEqual(meta["rows"]["links"], 1)
             self.assertEqual(meta["data_end"], "2026-11-27")
             self.assertTrue(meta["uses_artist_xref"])
             saved = json.loads((Path(d) / "meta.json").read_text(encoding="utf-8"))
@@ -89,7 +134,7 @@ class ExportTest(unittest.TestCase):
 
     def test_programs_list_marks_outcome_and_signal_kinds(self):
         with tempfile.TemporaryDirectory() as d:
-            ex.export(Path(d), run=fake_run, today="2026-11-27")
+            ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None)
             with open(Path(d) / "programs.csv", encoding="utf-8") as f:
                 kinds = {r["program"]: r["kind"] for r in csv.DictReader(f)}
             self.assertEqual(kinds["band_discovery"], "signal")
