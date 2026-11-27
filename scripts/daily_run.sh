@@ -56,7 +56,7 @@ if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then "$PY" scripts/export_excel.py || ec
 "$PY" scripts/daily_note.py "$DAY" || echo "⚠️ 일일 기록 실패"
 "$PY" scripts/build_status_report.py || echo "⚠️ 진행 점검표 실패"   # 일일 기록까지 끝난 뒤 (최근 기록 링크 포함)
 
-git add docs/data/collect.json "docs/log/$DAY.md" docs/data/dashboard.json docs/sql/README.md docs/lab/data docs/data/source_review.json docs/report docs/status_report.html docs/data/score_review.json docs/score_tuning.md docs/source_roles.md docs/fan_history.md docs/debut_cohort.md docs/missed_analysis.md docs/rule_leakage.md docs/same_house.md docs/genre_bias.md docs/score_model.md docs/candidate_audit.md
+git add docs/data/collect.json "docs/log/$DAY.md" docs/data/dashboard.json docs/sql/README.md docs/lab/data docs/data/source_review.json docs/report docs/status_report.html docs/data/score_review.json docs/score_tuning.md docs/source_roles.md docs/fan_history.md docs/debut_cohort.md docs/missed_analysis.md docs/rule_leakage.md docs/same_house.md docs/genre_bias.md docs/score_model.md docs/candidate_audit.md docs/discovery_stage.md
 if git diff --cached --quiet; then
   echo "바뀐 내용 없음 → 커밋 안 함"
 else

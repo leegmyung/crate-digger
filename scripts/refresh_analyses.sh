@@ -8,7 +8,7 @@ set -u
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT" || exit 1
 PY="$ROOT/.venv/bin/python"
-STEPS=(debut_cohort missed_analysis rule_leakage same_house genre_bias score_model candidate_audit)
+STEPS=(debut_cohort missed_analysis rule_leakage same_house genre_bias score_model candidate_audit discovery_stage)
 FAILED=()
 START_ALL=$(date +%s)
 echo "===== 분석 다시 만들기 $(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M:%S')"
