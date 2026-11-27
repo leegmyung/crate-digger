@@ -1,10 +1,12 @@
 import {
   ALL_BRANCHES, appState, cloneDefaults, destroyActiveCharts,
-  getWatchlist, hasCustomWeights, navigateTo, parseHash,
-  syncHash, toggleWatch,
+  getActiveFilterSummary, getWatchlist, hasCustomWeights,
+  navigateTo, parseHash, syncHash, toggleWatch,
 } from './state.js';
 import { bootstrapData } from './db.js';
-import { escapeHtml, fmtInt, friendlySqlError } from './ui.js';
+import {
+  cssVar, escapeHtml, fmtInt, friendlySqlError, renderViewSkeleton,
+} from './ui.js';
 import { renderTodayView } from './views/today.js';
 import { renderCandidatesView } from './views/candidates.js';
 import { renderTeamView } from './views/team.js';
@@ -42,6 +44,8 @@ function updateNavActive() {
   document.querySelectorAll('.nav-link[data-route]').forEach(a => {
     const active = a.dataset.route === route || (route === 'team' && a.dataset.route === 'team');
     a.classList.toggle('active', active);
+    if (active) a.setAttribute('aria-current', 'page');
+    else a.removeAttribute('aria-current');
   });
   const wc = document.getElementById('navWatchCount');
   if (wc) {
@@ -57,9 +61,10 @@ function updateNavActive() {
 function closeMobileNav() {
   document.getElementById('navRail')?.classList.remove('open');
   document.getElementById('navBackdrop')?.classList.remove('open');
+  document.getElementById('mobileMenuBtn')?.setAttribute('aria-expanded', 'false');
 }
 
-// ---------- Global Filter Bar Sync ----------
+// ---------- Global Filter Bar Sync & Collapsible Summary ----------
 
 function buildBranchCheckboxes() {
   const wrap = document.getElementById('gfBranches');
@@ -83,6 +88,35 @@ function populateGenreOptions() {
   sel.value = appState.cfg.genre;
 }
 
+function updateFilterSummaryUI() {
+  const summary = getActiveFilterSummary(appState.cfg);
+  const toggleBtn = document.getElementById('btnToggleFilters');
+  const toggleLbl = document.getElementById('filterToggleLabel');
+  const chipsEl = document.getElementById('filterSummaryChips');
+
+  if (toggleLbl) {
+    toggleLbl.textContent = summary.count > 0 ? `필터 · ${summary.count}개 적용됨` : '필터';
+  }
+  if (toggleBtn) {
+    toggleBtn.classList.toggle('btn-active', summary.count > 0);
+  }
+  if (chipsEl) {
+    if (summary.count > 0) {
+      chipsEl.innerHTML = summary.items
+        .map(it => `<span class="filter-chip">${escapeHtml(it.label)}</span>`)
+        .join('') +
+        ' <button type="button" class="filter-clear-link" data-action="reset-filters">초기화</button>';
+    } else {
+      chipsEl.innerHTML = '<span class="muted">기본 조건 (전체 장르 · 3년 · 유명 팀 제외)</span>';
+    }
+  }
+
+  document.querySelectorAll('[data-filter-field]').forEach(el => {
+    const key = el.dataset.filterField;
+    el.classList.toggle('is-changed', summary.changedKeys.has(key));
+  });
+}
+
 function syncGlobalControlsFromState() {
   const c = appState.cfg;
   const gSel = document.getElementById('gfGenre');
@@ -96,6 +130,7 @@ function syncGlobalControlsFromState() {
   document.querySelectorAll('input[name="gf_branch"]').forEach(cb => {
     cb.checked = c.branches.includes(cb.value);
   });
+  updateFilterSummaryUI();
 }
 
 function readGlobalControlsToState() {
@@ -107,6 +142,15 @@ function readGlobalControlsToState() {
   const checked = [...document.querySelectorAll('input[name="gf_branch"]:checked')].map(el => el.value);
   c.branches = checked;
   syncHash(true);
+  updateFilterSummaryUI();
+}
+
+function resetAllFiltersAndWeights() {
+  appState.cfg = cloneDefaults();
+  appState.cfg.as_of = appState.dataEnd;
+  syncGlobalControlsFromState();
+  syncHash(true);
+  renderCurrentView();
 }
 
 // ---------- Autocomplete Team Search ----------
@@ -135,7 +179,7 @@ function initTeamSearch() {
     matches.sort((a, b) => a.exact - b.exact);
     const top = matches.slice(0, 10);
     if (!top.length) {
-      drop.innerHTML = '<div class="small muted" style="padding:8px 10px;">일치하는 팀이 없습니다.</div>';
+      drop.innerHTML = '<div class="small muted" style="padding:10px 12px;">일치하는 팀이 없습니다.</div>';
       drop.hidden = false;
       return;
     }
@@ -179,26 +223,76 @@ function initTeamSearch() {
   });
 }
 
-// ---------- Theme ----------
+// ---------- Theme (White / Black / System) ----------
 
-function applyTheme(mode) {
-  document.documentElement.dataset.theme = mode;
-  const btn = document.getElementById('themeToggle');
-  if (btn) btn.textContent = mode === 'dark' ? '라이트 모드' : '다크 모드';
+const THEME_STORAGE_KEY = 'crate_digger_theme';
+const VALID_THEME_PREFS = ['light', 'dark', 'system'];
+
+function syncChartThemeDefaults() {
+  if (!window.Chart) return;
+  const ink = cssVar('--ink');
+  const inkMuted = cssVar('--ink-muted');
+  const line = cssVar('--line');
+  const surface = cssVar('--surface');
+  window.Chart.defaults.color = inkMuted || ink;
+  window.Chart.defaults.borderColor = line;
+  if (window.Chart.defaults.plugins?.tooltip) {
+    window.Chart.defaults.plugins.tooltip.backgroundColor = surface;
+    window.Chart.defaults.plugins.tooltip.titleColor = ink;
+    window.Chart.defaults.plugins.tooltip.bodyColor = ink;
+    window.Chart.defaults.plugins.tooltip.borderColor = line;
+    window.Chart.defaults.plugins.tooltip.borderWidth = 1;
+  }
+}
+
+function resolveTheme(pref) {
+  if (pref === 'light' || pref === 'dark') return pref;
+  const preferDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  return preferDark ? 'dark' : 'light';
+}
+
+function applyThemePreference(pref, rerender = false) {
+  const cleanPref = VALID_THEME_PREFS.includes(pref) ? pref : 'system';
+  const resolved = resolveTheme(cleanPref);
+  document.documentElement.dataset.themePref = cleanPref;
+  document.documentElement.dataset.theme = resolved;
+
+  document.querySelectorAll('#themeSwitch .theme-seg[data-theme-pref]').forEach(btn => {
+    const on = btn.dataset.themePref === cleanPref;
+    btn.classList.toggle('active', on);
+    btn.setAttribute('aria-checked', on ? 'true' : 'false');
+  });
+
+  syncChartThemeDefaults();
+  if (rerender && appState.ready) renderCurrentView();
 }
 
 function initTheme() {
-  let saved = null;
-  try { saved = window.localStorage.getItem('crate_digger_theme'); } catch (_) {}
-  const preferDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  applyTheme(saved || (preferDark ? 'dark' : 'light'));
+  let saved = 'system';
+  try {
+    const raw = window.localStorage.getItem(THEME_STORAGE_KEY);
+    if (VALID_THEME_PREFS.includes(raw)) saved = raw;
+  } catch (_) {}
+  applyThemePreference(saved, false);
 
-  document.getElementById('themeToggle')?.addEventListener('click', () => {
-    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-    try { window.localStorage.setItem('crate_digger_theme', next); } catch (_) {}
-    applyTheme(next);
-    if (appState.ready) renderCurrentView();
+  document.getElementById('themeSwitch')?.addEventListener('click', e => {
+    const btn = e.target.closest('.theme-seg[data-theme-pref]');
+    if (!btn) return;
+    const nextPref = btn.dataset.themePref;
+    try { window.localStorage.setItem(THEME_STORAGE_KEY, nextPref); } catch (_) {}
+    applyThemePreference(nextPref, true);
   });
+
+  if (window.matchMedia) {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const onSystemChange = () => {
+      if (document.documentElement.dataset.themePref === 'system') {
+        applyThemePreference('system', true);
+      }
+    };
+    if (mq.addEventListener) mq.addEventListener('change', onSystemChange);
+    else if (mq.addListener) mq.addListener(onSystemChange);
+  }
 }
 
 // ---------- View Dispatcher ----------
@@ -218,8 +312,16 @@ async function renderCurrentView() {
   }
 
   destroyActiveCharts();
+  syncChartThemeDefaults();
   const t0 = performance.now();
   setStatus('계산 중...', true);
+
+  // Show minimal skeleton if query takes >90ms (avoids flicker on instant views)
+  const skelTimer = setTimeout(() => {
+    if (seq === renderSeq && root) {
+      root.innerHTML = renderViewSkeleton();
+    }
+  }, 90);
 
   try {
     const r = appState.route;
@@ -235,10 +337,12 @@ async function renderCurrentView() {
     else if (r === 'sql') await renderSqlView(root);
     else await renderTodayView(root);
 
+    clearTimeout(skelTimer);
     if (seq !== renderSeq) return;
     const sec = ((performance.now() - t0) / 1000).toFixed(2);
     setStatus(`기준 ${appState.dataEnd} · 계산 완료 (${sec}초)`, false);
   } catch (err) {
+    clearTimeout(skelTimer);
     if (seq !== renderSeq) return;
     console.error(err);
     setGlobalError(`화면을 불러오는 중 오류가 발생했습니다: ${friendlySqlError(err)}`);
@@ -250,11 +354,30 @@ async function renderCurrentView() {
 
 function wireGlobalEvents() {
   // Mobile menu drawer
-  document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
-    document.getElementById('navRail')?.classList.toggle('open');
-    document.getElementById('navBackdrop')?.classList.toggle('open');
+  const mobileBtn = document.getElementById('mobileMenuBtn');
+  mobileBtn?.addEventListener('click', () => {
+    const rail = document.getElementById('navRail');
+    const open = !rail?.classList.contains('open');
+    rail?.classList.toggle('open', open);
+    document.getElementById('navBackdrop')?.classList.toggle('open', open);
+    mobileBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
   document.getElementById('navBackdrop')?.addEventListener('click', closeMobileNav);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMobileNav();
+  });
+
+  // Collapsible filter drawer toggle
+  const filterToggle = document.getElementById('btnToggleFilters');
+  const filterDrawer = document.getElementById('globalFilterDrawer');
+  filterToggle?.addEventListener('click', () => {
+    if (!filterDrawer) return;
+    const nextOpen = filterDrawer.hidden;
+    filterDrawer.hidden = !nextOpen;
+    filterToggle.setAttribute('aria-expanded', nextOpen ? 'true' : 'false');
+    filterToggle.classList.toggle('is-open', nextOpen);
+  });
 
   // Left nav links keep current query params
   document.querySelectorAll('.nav-link[data-route]').forEach(a => {
@@ -277,13 +400,12 @@ function wireGlobalEvents() {
     renderCurrentView();
   });
 
-  // Reset all global filters + weights
-  document.getElementById('btnGlobalReset')?.addEventListener('click', () => {
-    appState.cfg = cloneDefaults();
-    appState.cfg.as_of = appState.dataEnd;
-    syncGlobalControlsFromState();
-    syncHash(true);
-    renderCurrentView();
+  // Reset all global filters + weights (top button + any inline empty-state reset button)
+  document.getElementById('btnGlobalReset')?.addEventListener('click', resetAllFiltersAndWeights);
+  document.addEventListener('click', e => {
+    if (e.target.closest('[data-action="reset-filters"]')) {
+      resetAllFiltersAndWeights();
+    }
   });
 
   // Share link copy

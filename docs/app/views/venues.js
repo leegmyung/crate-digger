@@ -44,7 +44,7 @@ export async function renderVenuesView(root) {
             ${venues.map(v => {
               const ratio = v.teams ? ((100 * v.candidate_teams) / v.teams).toFixed(1) : '0.0';
               return `
-                <tr class="clickable" data-venue="${escapeHtml(v.venue)}">
+                <tr class="clickable" tabindex="0" data-venue="${escapeHtml(v.venue)}">
                   <td><strong>${escapeHtml(v.venue)}</strong></td>
                   <td class="num">${fmtInt(v.gigs)}</td>
                   <td class="num">${fmtInt(v.teams)}</td>
@@ -97,8 +97,8 @@ export async function renderVenuesView(root) {
     }));
   }
 
-  root.querySelector('#venuesTbody').addEventListener('click', async (e) => {
-    const tr = e.target.closest('tr.clickable');
+  const venuesTbody = root.querySelector('#venuesTbody');
+  const openVenueRow = async (tr) => {
     if (!tr) return;
     const venue = tr.dataset.venue;
     const box = root.querySelector('#venueDetailBox');
@@ -139,6 +139,18 @@ export async function renderVenuesView(root) {
     } catch (err) {
       meta.textContent = '오류';
       body.innerHTML = `<p class="muted small">${escapeHtml(err.message)}</p>`;
+    }
+  };
+
+  venuesTbody.addEventListener('click', (e) => {
+    openVenueRow(e.target.closest('tr.clickable'));
+  });
+  venuesTbody.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const tr = e.target.closest('tr.clickable');
+    if (tr) {
+      e.preventDefault();
+      openVenueRow(tr);
     }
   });
 }

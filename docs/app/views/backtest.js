@@ -1,5 +1,6 @@
 import {
   appState, DEFAULTS, PRESET_KS, registerChart, syncHash,
+  WEIGHT_FIELDS, WEIGHT_KEYS,
 } from '../state.js';
 import { queryBacktestAll } from '../db.js';
 import {
@@ -71,23 +72,13 @@ export async function renderBacktestView(root) {
     warnings.push('표본 적음 — 기준일별 맞힌 팀이 5팀 미만인 구간이 있어 단일 기준일 결과는 우연일 수 있습니다. 합계 줄과 다른 K 구간을 함께 보세요.');
   }
 
-  const sliderDefs = [
-    ['w_branch', '갈래 수 (갈래−1)', 0, 5, 0.5],
-    ['w_stage', '선정 최고 단계 (0~4)', 0, 3, 0.5],
-    ['w_peer', '선정 팀과 같은 무대', 0, 3, 0.5],
-    ['w_dmz', 'DMZ 출연', 0, 3, 0.5],
-    ['w_gigs', '최근 1년 공연 ln(1+n)', 0, 3, 0.5],
-    ['w_outlets', '큐레이션 매체 수', 0, 3, 0.5],
-    ['outlet_cap', '큐레이션 매체 상한', 1, 6, 1],
-  ];
-
-  const slidersHtml = sliderDefs.map(([id, label, min, max, step]) => `
+  const slidersHtml = WEIGHT_FIELDS.map(f => `
     <div class="slider-row">
       <div class="slider-label">
-        <label for="bt_${id}">${label}</label>
-        <span class="mono" id="btval_${id}">${id === 'outlet_cap' ? c[id] : Number(c[id]).toFixed(1)}</span>
+        <label for="bt_${f.key}">${f.label}</label>
+        <span class="mono" id="btval_${f.key}">${f.isInt ? c[f.key] : Number(c[f.key]).toFixed(1)}</span>
       </div>
-      <input type="range" id="bt_${id}" data-weight-key="${id}" min="${min}" max="${max}" step="${step}" value="${c[id]}">
+      <input type="range" id="bt_${f.key}" data-weight-key="${f.key}" min="${f.min}" max="${f.max}" step="${f.step}" value="${c[f.key]}">
     </div>
   `).join('');
 
@@ -420,7 +411,7 @@ export async function renderBacktestView(root) {
   });
 
   root.querySelector('#btResetWeights')?.addEventListener('click', () => {
-    for (const k of ['w_branch', 'w_stage', 'w_peer', 'w_dmz', 'w_gigs', 'w_outlets', 'outlet_cap', 'horizon_months', 'outcome_tier', 'lookback_years', 'compare_k']) {
+    for (const k of [...WEIGHT_KEYS, 'horizon_months', 'outcome_tier', 'lookback_years', 'compare_k']) {
       appState.cfg[k] = DEFAULTS[k];
     }
     appState.cfg.cutoffs = [...DEFAULTS.cutoffs];

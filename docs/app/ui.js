@@ -190,6 +190,39 @@ export function friendlySqlError(err) {
   return raw;
 }
 
+export function renderEmptyState({
+  title = '조건에 맞는 결과가 없습니다',
+  message = '필터 조건을 줄여 보거나 초기화해 전체 목록을 확인해 보세요.',
+  showReset = true,
+} = {}) {
+  return `
+    <div class="empty-state" role="status">
+      <p class="empty-state-title">${escapeHtml(title)}</p>
+      <p class="empty-state-msg">${escapeHtml(message)}</p>
+      ${showReset ? '<button type="button" class="btn btn-primary" data-action="reset-filters">필터 초기화</button>' : ''}
+    </div>
+  `;
+}
+
+export function renderViewSkeleton() {
+  return `
+    <div class="skeleton-wrap" aria-busy="true" aria-label="화면 불러오는 중">
+      <div class="skel-banner">
+        <div class="skel-line skel-w-30" style="height:22px;"></div>
+        <div class="skel-line skel-w-70"></div>
+        <div class="skel-line skel-w-50"></div>
+      </div>
+      <div class="skel-card">
+        <div class="skel-line skel-w-40" style="height:18px;"></div>
+        <div class="skel-line skel-w-90"></div>
+        <div class="skel-line skel-w-80"></div>
+        <div class="skel-line skel-w-90"></div>
+        <div class="skel-line skel-w-70"></div>
+      </div>
+    </div>
+  `;
+}
+
 // ---------- Shared Chart.js Plugins ----------
 
 export const horizontalBaselinePlugin = {
@@ -210,13 +243,13 @@ export const horizontalBaselinePlugin = {
     ctx.setLineDash([]);
     const lbl = opts.label || '';
     if (lbl) {
-      ctx.font = '11px -apple-system, BlinkMacSystemFont, sans-serif';
-      const padX = 4;
+      ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
+      const padX = 5;
       const tw = ctx.measureText(lbl).width;
       const tx = chartArea.right - 4;
-      const ty = Math.max(chartArea.top + 14, y - 6);
+      const ty = Math.max(chartArea.top + 15, y - 6);
       ctx.fillStyle = opts.bgColor || '#ffffff';
-      ctx.fillRect(tx - tw - padX, ty - 11, tw + padX * 2, 14);
+      ctx.fillRect(tx - tw - padX, ty - 12, tw + padX * 2, 16);
       ctx.fillStyle = opts.color || '#111827';
       ctx.textAlign = 'right';
       ctx.fillText(lbl, tx, ty);
@@ -242,16 +275,22 @@ export const signalWhiskerPlugin = {
         ctx.lineTo(bx, chartArea.bottom);
         ctx.stroke();
         ctx.setLineDash([]);
+        const lbl = `기준선 ${opts.baseline.toFixed(1)}%`;
+        ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
+        const tw = ctx.measureText(lbl).width;
+        const tx = Math.min(chartArea.right - tw - 6, bx + 5);
+        const ty = chartArea.top + 14;
+        ctx.fillStyle = opts.bgColor || '#ffffff';
+        ctx.fillRect(tx - 3, ty - 12, tw + 6, 15);
         ctx.fillStyle = opts.baselineColor || '#111827';
-        ctx.font = '11px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.textAlign = 'left';
-        ctx.fillText(`기준선 ${opts.baseline.toFixed(1)}%`, Math.min(chartArea.right - 85, bx + 4), chartArea.top + 12);
+        ctx.fillText(lbl, tx, ty);
       }
     }
     const meta = chart.getDatasetMeta(0);
     const rows = opts.rows || [];
     ctx.strokeStyle = opts.whiskerColor || '#525866';
-    ctx.lineWidth = 1.4;
+    ctx.lineWidth = 1.5;
     for (let i = 0; i < rows.length; i++) {
       const el = meta.data[i];
       if (!el) continue;

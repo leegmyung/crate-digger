@@ -2,7 +2,7 @@ import { appState, navigateTo, syncHash } from '../state.js';
 import { queryCandidates } from '../db.js';
 import {
   clampDateDisplay, escapeHtml, fmtInt, fmtNum,
-  renderActionBanner, renderScoreBar, watchButtonHtml,
+  renderActionBanner, renderEmptyState, renderScoreBar, watchButtonHtml,
 } from '../ui.js';
 
 function sortRows(rows, col, dir) {
@@ -107,7 +107,11 @@ export async function renderCandidatesView(root) {
 
     const tbody = root.querySelector('#candTbody');
     if (!shown.length) {
-      tbody.innerHTML = '<tr><td colspan="9" class="muted">조건에 맞는 후보 팀이 없습니다.</td></tr>';
+      tbody.innerHTML = `<tr><td colspan="9" style="padding:0;border:none;">${renderEmptyState({
+        title: '조건에 맞는 후보 팀이 없습니다',
+        message: '검색어 또는 필터 조건을 줄여 보거나 초기화해 보세요.',
+        showReset: true,
+      })}</td></tr>`;
       root.querySelector('#candMoreRow').hidden = true;
       return;
     }
@@ -116,9 +120,9 @@ export async function renderCandidatesView(root) {
       const sub = [];
       if (r.primary_genre) sub.push(r.primary_genre);
       if (r.had_outcome) sub.push('기정답');
-      const subHtml = sub.length ? `<div class="muted" style="font-size:11px;">${escapeHtml(sub.join(' · '))}</div>` : '';
+      const subHtml = sub.length ? `<div class="muted small">${escapeHtml(sub.join(' · '))}</div>` : '';
       return `
-        <tr class="clickable" data-team-key="${escapeHtml(r.team_key)}">
+        <tr class="clickable" tabindex="0" data-team-key="${escapeHtml(r.team_key)}">
           <td class="num muted">${idx + 1}</td>
           <td><strong>${escapeHtml(r.display_name || r.team_key)}</strong>${subHtml}</td>
           <td class="num"><strong>${fmtNum(r.score, 2)}</strong></td>
@@ -169,7 +173,8 @@ export async function renderCandidatesView(root) {
   });
 
   root.querySelectorAll('th.sortable').forEach(th => {
-    th.addEventListener('click', () => {
+    th.setAttribute('tabindex', '0');
+    const onSort = () => {
       const col = th.dataset.sort;
       if (appState.candSort.col === col) {
         appState.candSort.dir = appState.candSort.dir === 'desc' ? 'asc' : 'desc';
@@ -178,13 +183,30 @@ export async function renderCandidatesView(root) {
         appState.candSort.dir = (col === 'display_name') ? 'asc' : 'desc';
       }
       paintTable();
+    };
+    th.addEventListener('click', onSort);
+    th.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        onSort();
+      }
     });
   });
 
-  root.querySelector('#candTbody').addEventListener('click', (e) => {
-    if (e.target.closest('button[data-watch-key]')) return;
+  const tbodyEl = root.querySelector('#candTbody');
+  tbodyEl.addEventListener('click', (e) => {
+    if (e.target.closest('button[data-watch-key]') || e.target.closest('button[data-action]')) return;
     const tr = e.target.closest('tr.clickable');
     if (tr && tr.dataset.teamKey) {
+      navigateTo('team', tr.dataset.teamKey);
+    }
+  });
+  tbodyEl.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    if (e.target.closest('button')) return;
+    const tr = e.target.closest('tr.clickable');
+    if (tr && tr.dataset.teamKey) {
+      e.preventDefault();
       navigateTo('team', tr.dataset.teamKey);
     }
   });

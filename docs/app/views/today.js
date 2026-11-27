@@ -2,7 +2,7 @@ import { appState, getWatchlist, hasCustomWeights, navigateTo } from '../state.j
 import { getSnapshotDiff, queryCandidates, queryWatchlistEnriched } from '../db.js';
 import {
   escapeHtml, fmtInt, fmtNum, renderActionBanner,
-  scorePartsLine, watchButtonHtml,
+  renderEmptyState, scorePartsLine, watchButtonHtml,
 } from '../ui.js';
 
 export async function renderTodayView(root) {
@@ -39,7 +39,7 @@ export async function renderTodayView(root) {
 
   const todo = top5.length
     ? '상위 5팀 카드를 눌러 근거·선례를 보고, 추적할 팀은 관심 목록에 담으세요.'
-    : '위쪽 선택 창에서 장르·기간·갈래 조건을 넓혀 보세요.';
+    : '위쪽 필터에서 조건을 줄여 보거나 초기화해 전체 후보를 확인하세요.';
 
   const bannerHtml = renderActionBanner({
     title: '오늘 볼 것',
@@ -69,7 +69,11 @@ export async function renderTodayView(root) {
           </article>
         `;
       }).join('')}</div>`
-    : '<div class="notice">조건에 맞는 상위 후보가 없습니다.</div>';
+    : renderEmptyState({
+        title: '조건에 맞는 상위 후보가 없습니다',
+        message: '장르·갈래·기간 조건을 줄여 보거나 필터를 초기화해 보세요.',
+        showReset: true,
+      });
 
   const snapNoteParts = [];
   if (diff.latestDate && diff.prevDate) {

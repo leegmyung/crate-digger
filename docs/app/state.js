@@ -15,6 +15,29 @@ export const ROUTES = [
   'sql',
 ];
 
+// Single source of truth for scoring weights (matches docs/lab/sql/features.sql)
+export const DEFAULT_WEIGHTS = {
+  w_branch: 2,
+  w_stage: 1,
+  w_peer: 1,
+  w_dmz: 0.5,
+  w_gigs: 0.5,
+  w_outlets: 1,
+  outlet_cap: 3,
+};
+
+export const WEIGHT_FIELDS = [
+  { key: 'w_branch', label: '갈래 수 (갈래−1)', min: 0, max: 5, step: 0.5, isInt: false },
+  { key: 'w_stage', label: '선정 최고 단계 (0~4)', min: 0, max: 3, step: 0.5, isInt: false },
+  { key: 'w_peer', label: '선정 팀과 같은 무대', min: 0, max: 3, step: 0.5, isInt: false },
+  { key: 'w_dmz', label: 'DMZ 출연', min: 0, max: 3, step: 0.5, isInt: false },
+  { key: 'w_gigs', label: '최근 1년 공연 ln(1+n)', min: 0, max: 3, step: 0.5, isInt: false },
+  { key: 'w_outlets', label: '큐레이션 매체 수', min: 0, max: 3, step: 0.5, isInt: false },
+  { key: 'outlet_cap', label: '큐레이션 매체 상한', min: 1, max: 6, step: 1, isInt: true },
+];
+
+export const WEIGHT_KEYS = Object.keys(DEFAULT_WEIGHTS);
+
 export const DEFAULTS = {
   // Global filters
   genre: '',
@@ -28,13 +51,7 @@ export const DEFAULTS = {
   limit: 100,
 
   // Global scoring weights (shared across Today, Candidates, Team, Watchlist, Backtest)
-  w_branch: 2,
-  w_stage: 1,
-  w_peer: 1,
-  w_dmz: 0.5,
-  w_gigs: 0.5,
-  w_outlets: 1,
-  outlet_cap: 3,
+  ...DEFAULT_WEIGHTS,
 
   // Backtest & Signals
   cutoffs: ['2023-01-01', '2024-01-01', '2025-01-01'],
@@ -101,8 +118,33 @@ export const appState = {
 };
 
 export function hasCustomWeights(cfg = appState.cfg) {
-  return ['w_branch', 'w_stage', 'w_peer', 'w_dmz', 'w_gigs', 'w_outlets', 'outlet_cap']
-    .some(k => Number(cfg[k]) !== Number(DEFAULTS[k]));
+  return WEIGHT_KEYS.some(k => Number(cfg[k]) !== Number(DEFAULT_WEIGHTS[k]));
+}
+
+export function getActiveFilterSummary(cfg = appState.cfg) {
+  const items = [];
+  const changedKeys = new Set();
+  if (cfg.genre) {
+    items.push({ key: 'genre', label: `장르: ${cfg.genre}` });
+    changedKeys.add('genre');
+  }
+  if (cfg.branches.length !== ALL_BRANCHES.length) {
+    items.push({ key: 'branches', label: `갈래: ${cfg.branches.join(', ') || '없음'}` });
+    changedKeys.add('branches');
+  }
+  if (Number(cfg.period_days) > 0) {
+    items.push({ key: 'period_days', label: `최근 ${cfg.period_days}일` });
+    changedKeys.add('period_days');
+  }
+  if (Number(cfg.newcomer_years) !== DEFAULTS.newcomer_years) {
+    items.push({ key: 'newcomer_years', label: `신인 ${cfg.newcomer_years}년` });
+    changedKeys.add('newcomer_years');
+  }
+  if (Boolean(cfg.exclude_famous) !== DEFAULTS.exclude_famous) {
+    items.push({ key: 'exclude_famous', label: '유명 팀 포함' });
+    changedKeys.add('exclude_famous');
+  }
+  return { count: items.length, items, changedKeys };
 }
 
 export function destroyActiveCharts() {

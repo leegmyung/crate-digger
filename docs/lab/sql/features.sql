@@ -15,7 +15,7 @@
 CREATE OR REPLACE MACRO lab_scored(cutoff, lookback_years, newcomer_years, exclude_famous, outcome_tier,
                                    horizon_months, genre, branches,
                                    w_branch, w_stage, w_peer, w_dmz, w_gigs, w_outlets, outlet_cap,
-                                   w_recent, w_venues, w_winner) AS TABLE
+                                   w_recent := 0, w_venues := 0, w_winner := 0) AS TABLE   -- v1 신호, 안 넘기면 0
 WITH sig AS (
     SELECT * FROM signals
     WHERE signal_date < cutoff

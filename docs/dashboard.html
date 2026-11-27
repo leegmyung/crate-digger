@@ -5,10 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crate Digger — 국내 신인 발굴 분석 앱</title>
   <link rel="icon" href="data:,">
+  <script>
+    (function () {
+      var pref = 'system';
+      try {
+        var saved = window.localStorage.getItem('crate_digger_theme');
+        if (saved === 'light' || saved === 'dark' || saved === 'system') pref = saved;
+      } catch (_) {}
+      var isDark = pref === 'dark' || (pref === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.themePref = pref;
+      document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+    })();
+  </script>
   <link rel="stylesheet" href="app/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#viewRoot">본문으로 건너뛰기</a>
   <div class="nav-backdrop" id="navBackdrop"></div>
 
   <div class="app-shell">
@@ -20,7 +33,7 @@
 
       <nav class="nav-list">
         <div class="nav-group-label">발굴 · 추적</div>
-        <a class="nav-link active" href="#/today" data-route="today"><span>오늘 볼 것</span></a>
+        <a class="nav-link active" href="#/today" data-route="today" aria-current="page"><span>오늘 볼 것</span></a>
         <a class="nav-link" href="#/candidates" data-route="candidates"><span>후보 탐색</span></a>
         <a class="nav-link" href="#/team" data-route="team"><span>팀 상세</span></a>
         <a class="nav-link" href="#/watchlist" data-route="watchlist">
@@ -56,62 +69,91 @@
       <header class="top-header">
         <div class="top-row">
           <div class="top-row-left">
-            <button type="button" class="btn mobile-menu-btn" id="mobileMenuBtn" aria-label="메뉴 열기">메뉴</button>
-            <span class="top-status" id="topStatus">DuckDB-WASM 초기화 중...</span>
+            <button type="button" class="btn mobile-menu-btn" id="mobileMenuBtn" aria-label="메뉴 열기" aria-expanded="false" aria-controls="navRail">메뉴</button>
+            <span class="top-status" id="topStatus" aria-live="polite">DuckDB-WASM 초기화 중...</span>
           </div>
           <div class="top-row-right">
             <button type="button" class="btn" id="btnGlobalReset">초기화</button>
             <button type="button" class="btn" id="btnCopyLink">링크 복사</button>
-            <button type="button" class="btn" id="themeToggle">다크 모드</button>
+            <div class="theme-switch" id="themeSwitch" role="radiogroup" aria-label="화면 테마">
+              <button type="button" class="theme-seg" role="radio" data-theme-pref="light" aria-checked="false">화이트</button>
+              <button type="button" class="theme-seg" role="radio" data-theme-pref="dark" aria-checked="false">블랙</button>
+              <button type="button" class="theme-seg" role="radio" data-theme-pref="system" aria-checked="true">자동</button>
+            </div>
           </div>
         </div>
 
-        <div class="filter-bar" id="globalFilterBar" aria-label="전역 필터">
-          <div class="f-item">
-            <label for="gfGenre">장르</label>
-            <select id="gfGenre" class="select">
-              <option value="">전체 장르</option>
-            </select>
-          </div>
-
-          <div class="f-item">
-            <label>갈래</label>
-            <div class="f-branches" id="gfBranches"></div>
-          </div>
-
-          <div class="f-item">
-            <label for="gfPeriod">기간</label>
-            <select id="gfPeriod" class="select">
-              <option value="0">전체 (3년)</option>
-              <option value="30">최근 30일</option>
-              <option value="90">최근 90일</option>
-              <option value="180">최근 180일</option>
-              <option value="365">최근 365일</option>
-            </select>
-          </div>
-
-          <div class="f-item">
-            <label for="gfNewcomer">신인(년)</label>
-            <input type="number" id="gfNewcomer" class="input input-num" min="1" max="15" value="3">
-          </div>
-
-          <label class="f-check">
-            <input type="checkbox" id="gfExcludeFamous" checked>
-            <span>유명 팀 제외</span>
-          </label>
-
+        <div class="filter-bar-compact" aria-label="필터 요약 및 팀 검색">
+          <button type="button" class="btn filter-toggle-btn" id="btnToggleFilters" aria-expanded="false" aria-controls="globalFilterDrawer">
+            <span id="filterToggleLabel">필터</span>
+            <span class="filter-toggle-caret" aria-hidden="true">▾</span>
+          </button>
+          <div class="filter-summary-text" id="filterSummaryChips"></div>
           <div class="f-search-wrap">
-            <input type="search" id="gfTeamSearch" class="f-search-input" placeholder="팀 검색 후 상세로 이동..." autocomplete="off">
+            <input type="search" id="gfTeamSearch" class="f-search-input" placeholder="팀 검색 후 상세로 이동..." autocomplete="off" aria-label="팀 이름 검색">
             <div class="f-search-drop" id="gfTeamDrop" hidden></div>
+          </div>
+        </div>
+
+        <div class="filter-drawer" id="globalFilterDrawer" aria-label="전역 필터 설정" hidden>
+          <div class="filter-bar" id="globalFilterBar">
+            <div class="f-item" data-filter-field="genre">
+              <label for="gfGenre">장르</label>
+              <select id="gfGenre" class="select">
+                <option value="">전체 장르</option>
+              </select>
+            </div>
+
+            <div class="f-item" data-filter-field="branches">
+              <label>갈래</label>
+              <div class="f-branches" id="gfBranches"></div>
+            </div>
+
+            <div class="f-item" data-filter-field="period_days">
+              <label for="gfPeriod">기간</label>
+              <select id="gfPeriod" class="select">
+                <option value="0">전체 (3년)</option>
+                <option value="30">최근 30일</option>
+                <option value="90">최근 90일</option>
+                <option value="180">최근 180일</option>
+                <option value="365">최근 365일</option>
+              </select>
+            </div>
+
+            <div class="f-item" data-filter-field="newcomer_years">
+              <label for="gfNewcomer">신인(년)</label>
+              <input type="number" id="gfNewcomer" class="input input-num" min="1" max="15" value="3">
+            </div>
+
+            <label class="f-check f-item-inline" data-filter-field="exclude_famous">
+              <input type="checkbox" id="gfExcludeFamous" checked>
+              <span>유명 팀 제외</span>
+            </label>
           </div>
         </div>
       </header>
 
       <main class="view-main">
-        <div id="globalError" class="notice notice-err" hidden></div>
-        <div id="viewRoot">
-          <div class="block">
-            <p class="muted" style="margin:0;">데이터와 브라우저 SQL 엔진(DuckDB-WASM)을 불러오는 중입니다...</p>
+        <div id="globalError" class="notice notice-err" role="alert" hidden></div>
+        <div id="viewRoot" tabindex="-1">
+          <div class="skeleton-wrap" aria-busy="true" aria-label="데이터 불러오는 중">
+            <div class="skel-banner">
+              <div class="skel-line skel-w-30" style="height:22px;"></div>
+              <div class="skel-line skel-w-70"></div>
+              <div class="skel-line skel-w-50"></div>
+            </div>
+            <div class="grid-5">
+              <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:18px;"></div><div class="skel-line skel-w-90"></div></div>
+              <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:18px;"></div><div class="skel-line skel-w-90"></div></div>
+              <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:18px;"></div><div class="skel-line skel-w-90"></div></div>
+              <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:18px;"></div><div class="skel-line skel-w-90"></div></div>
+              <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:18px;"></div><div class="skel-line skel-w-90"></div></div>
+            </div>
+            <div class="grid-3">
+              <div class="skel-card"><div class="skel-line skel-w-50"></div><div class="skel-line skel-w-90"></div><div class="skel-line skel-w-80"></div><div class="skel-line skel-w-70"></div></div>
+              <div class="skel-card"><div class="skel-line skel-w-50"></div><div class="skel-line skel-w-90"></div><div class="skel-line skel-w-80"></div><div class="skel-line skel-w-70"></div></div>
+              <div class="skel-card"><div class="skel-line skel-w-50"></div><div class="skel-line skel-w-90"></div><div class="skel-line skel-w-80"></div><div class="skel-line skel-w-70"></div></div>
+            </div>
           </div>
         </div>
       </main>

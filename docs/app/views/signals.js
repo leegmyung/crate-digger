@@ -2,7 +2,7 @@ import { appState, registerChart, syncHash } from '../state.js';
 import { querySignalHits } from '../db.js';
 import {
   cssVar, escapeHtml, fmtInt, fmtNum,
-  renderActionBanner, signalWhiskerPlugin,
+  renderActionBanner, renderEmptyState, signalWhiskerPlugin,
 } from '../ui.js';
 
 export async function renderSignalsView(root) {
@@ -82,7 +82,11 @@ export async function renderSignalsView(root) {
             </tbody>
           </table>
         </div>
-      ` : '<p class="muted small" style="margin:0;">표시할 프로그램 데이터가 없습니다.</p>'}
+      ` : renderEmptyState({
+          title: '표시할 프로그램 데이터가 없습니다',
+          message: '필터 조건을 줄여 보거나 초기화해 보세요.',
+          showReset: true,
+        })}
     </section>
   `;
 
@@ -129,6 +133,7 @@ export async function renderSignalsView(root) {
             baseline: baseRate,
             baselineColor: cssVar('--bar-ref'),
             whiskerColor: cssVar('--ink'),
+            bgColor: cssVar('--bg'),
           },
         },
         scales: {
