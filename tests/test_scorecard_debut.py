@@ -71,6 +71,24 @@ class DebutScorecardTest(unittest.TestCase):
         self.assertEqual(next(iter(out.values()))["cohort_teams"], 4)
         self.assertEqual(out["큐레이션:musicy"]["teams"], 3)
 
+    def test_own_release_is_not_a_mention_nor_breaks_blank_slate(self):
+        # '언급' = 남(공연·선정·큐레이션 등)이 다룬 것. 자기 발매(발매 갈래)는 언급도 아니고, 첫 발매 전에 있어도 백지를 깨지 않음
+        self.con.execute("""
+            INSERT INTO teams VALUES
+              ('rel1','릴1','2024-03-01','2024-03-01',NULL,NULL,'newcomer',''),   -- 자기 발매만 → 언급 없음
+              ('rel0','릴0','2024-02-15','2024-03-01',NULL,NULL,'newcomer','');   -- 첫 발매 전 발매 신호뿐 → 그래도 백지
+            INSERT INTO signals VALUES
+              ('rel1','발매','melon','',NULL,'2024-03-01','','pending'),
+              ('rel0','발매','bugs','',NULL,'2024-02-15','','pending'),
+              ('rel0','공연','indistreet','',NULL,'2024-04-01','클럽','discovery');
+        """)
+        out = run(self.con)
+        self.assertEqual(next(iter(out.values()))["cohort_teams"], 5)    # new1·new2·new3 + rel1·rel0
+        self.assertNotIn("발매:melon", out)
+        self.assertNotIn("발매:bugs", out)
+        self.assertEqual(out["(언급 없음)"]["teams"], 2)                 # new3·rel1
+        self.assertEqual(out["공연:indistreet"]["teams"], 2)             # new2·rel0
+
     def test_cohort_is_blank_slate_debuts_with_window_before_cutoff(self):
         # 6개월 창: 코호트 = 첫 발매가 기준일 12~6개월 전 (2024-01-01 ~ 2024-07-01) → 언급 창이 기준일 전에 끝남
         out = run(self.con)

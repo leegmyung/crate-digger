@@ -9,6 +9,9 @@
 -- 출처별: 언급한 코호트 팀 수(teams)·그중 정답(hits)·적중률·배수(코호트 전체 기준율 대비)·
 --   첫 발매에서 첫 언급까지 일수 중앙값(median_days)·그 팀을 가장 먼저 언급한 출처였던 횟수(first_mention, 같은 날이면 모두).
 -- '(언급 없음)' 줄 = 창 안에서 어느 출처에도 안 나온 코호트 팀. 신호 역할과 상관없이 모든 출처를 센다. 정답은 센 정답(counted)만.
+-- '언급' = 남이 다룬 것(공연·선정·지원·큐레이션·협업 등). 발매 갈래(멜론·포크라노스 등에 그 팀의 자기 발매가 잡힌 신호)는
+--   언급으로 세지 않고, 첫 발매 전에 있어도 백지를 깨지 않는다(첫 발매일 무렵 자기 발매가 곧바로 '언급'이 되는 것을 막음).
+--   갓 데뷔 후보 목록(debut_candidates.sql)과 같은 정의.
 -- 한계: first_release 는 멜론·스포티파이 프로필이 있는 팀에만 있다(프로필은 정답 팀 위주로 모았음 → 기준율이 높게 나옴).
 WITH cuts AS (SELECT * FROM (VALUES {{cutoffs}}) t(c)),
 cohort AS (
@@ -20,7 +23,8 @@ cohort AS (
                 AND t.first_release <  c.c - to_months({{mention_months}})
     LEFT JOIN outcomes o ON o.team_key = t.team_key AND o.counted
     WHERE (c.c < fame_known_from() OR COALESCE(t.profile_status, '') <> 'famous')   -- 유명 판정은 지금 팬 수라 과거 기준일엔 안 씀
-      AND NOT EXISTS (SELECT 1 FROM signals s WHERE s.team_key = t.team_key AND s.signal_date < t.first_release)
+      AND NOT EXISTS (SELECT 1 FROM signals s WHERE s.team_key = t.team_key AND s.signal_date < t.first_release
+                                                AND s.branch <> '발매')
       AND NOT EXISTS (SELECT 1 FROM outcomes b WHERE b.team_key = t.team_key AND b.counted AND b.announced_date < c.c)
     GROUP BY c.c, t.team_key, t.first_release
 ),
@@ -28,6 +32,7 @@ keyed AS (
     SELECT team_key, signal_date, role,
            branch || ':' || CASE WHEN branch = '선정·지원' THEN program ELSE source END AS src
     FROM signals
+    WHERE branch <> '발매'                      -- 자기 발매는 언급이 아님
 ),
 mention AS (                                    -- 코호트 팀 × 출처: 언급 창 안의 첫 언급일
     SELECT co.c, co.team_key, k.src, MIN(k.signal_date) AS d,

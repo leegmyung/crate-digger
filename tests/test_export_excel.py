@@ -33,6 +33,9 @@ c,공연,indistreet,,,2026-12-03,클럽2,discovery
 c,공연,indistreet,,,2027-01-20,클럽2,discovery
 d,큐레이션,trackzero,멜론 트랙제로,,2026-04-01,,pending
 d,공연,indistreet,,,2026-05-01,클럽2,discovery
+f,발매,melon,,,2026-02-01,,pending
+g,발매,bugs,,,2025-12-20,,pending
+g,공연,indistreet,,,2026-02-10,클럽2,discovery
 """,
     "teams.csv": """team_key,display_name,first_seen,first_release,fan_count,album_count,profile_status,primary_genre,agency
 a,에이,2026-06-01,2025-05-01,100,2,newcomer,록·밴드,
@@ -41,6 +44,8 @@ c,씨,2026-08-01,,,,unknown,,
 x,엑스,2026-12-01,,,,unknown,,
 d,디,2026-04-01,2026-03-01,10,1,newcomer,포크,
 e,이,2026-06-01,2026-06-01,5,1,newcomer,,
+f,에프,2026-02-01,2026-02-01,5,1,newcomer,,
+g,지,2025-12-20,2026-01-10,5,1,newcomer,,
 """,
     "outcomes.csv": ("team_key,program,program_label,tier,announced_date,counted,grade,weight\n"
                      "zz,kma_rookie,한대음 신인,final,2025-03-01,true,S,3\n"),   # 후보와 무관한 한 줄 (칸 형식 추론용)
@@ -198,6 +203,13 @@ class WorkbookTest(unittest.TestCase):
         self.assertTrue(any("언급 없음" in v for v in cells))
         names = [ws.cell(row=i, column=1).value for i in range(1, ws.max_row + 1)]
         self.assertLess(names.index("디"), names.index("이"))              # 언급 없음 팀은 아래 따로
+
+    def test_own_release_is_not_a_mention(self):
+        mentioned = {t["team_key"]: t for t in self.ctx["debut"]}
+        unmentioned = {t["team_key"] for t in self.ctx["debut_unmentioned"]}
+        self.assertIn("f", unmentioned)                    # 자기 발매(멜론)만 있음 → 언급 없음
+        self.assertIn("g", mentioned)                      # 첫 발매 전 발매 신호는 백지를 깨지 않음, 공연 언급 있음
+        self.assertEqual([m["src"] for m in mentioned["g"]["mentions"]], ["공연:indistreet"])
 
     def test_summary_doc_lines_and_title(self):
         ws = self.wb["요약"]
