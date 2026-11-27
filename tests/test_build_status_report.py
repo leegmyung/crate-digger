@@ -164,3 +164,59 @@ class AnalysisLinesTest(unittest.TestCase):
         self.assertIn("점수 검증에서 뺀 1행", text)
         self.assertNotIn("놓친 정답", text)                          # missed_analysis.md 없음 → 줄 생략
         self.assertNotIn("팬 수 기록", text)                         # fan_history.md 없음 → 줄 생략
+
+
+class OpsLinesTest(unittest.TestCase):
+    """③ 검증에 붙는 운영 줄: 데이터 검사 요약·앱 보조 데이터·알림 수·정답 행 수. 파일이 없으면 그 줄은 뺀다."""
+
+    def _root(self, d: Path, with_files: bool = True) -> Path:
+        make_root(d)
+        if with_files:
+            (d / "docs" / "data" / "data_checks.json").write_text(json.dumps(
+                {"today": "2026-11-28", "summary": "통과 16 · 경고 4 · 실패 1", "checks": []}), encoding="utf-8")
+            meta = json.loads((d / "docs" / "lab" / "data" / "meta.json").read_text(encoding="utf-8"))
+            meta.update({"extras": ["city_profiles", "lineup_roles", "venue_tiers"],
+                         "extras_updated_at": "2026-11-28T00:21:28+09:00"})
+            (d / "docs" / "lab" / "data" / "meta.json").write_text(json.dumps(meta), encoding="utf-8")
+            (d / "docs" / "data" / "alerts.json").write_text(json.dumps({
+                "as_of": "2026-11-28", "types": {"stage_up": "단계 상승", "new_gig": "새 공연"},
+                "counts_found": {"stage_up": 678, "new_gig": 365}, "counts_shown": {"stage_up": 20, "new_gig": 300},
+                "alerts": []}), encoding="utf-8")
+        return d
+
+    def test_lines_with_files(self):
+        with tempfile.TemporaryDirectory() as t:
+            rep = sr.collect_report(self._root(Path(t)), today="2026-11-28")
+        ops = rep["validation"]["ops"]
+        text = "\n".join(o["text"] for o in ops)
+        self.assertIn("데이터 검사 2026-11-28: 통과 16 · 경고 4 · 실패 1", text)
+        self.assertTrue(any((o.get("href") or "").endswith("docs/data_checks.md") for o in ops))
+        self.assertIn("앱 보조 데이터 3개", text)
+        self.assertIn("2026-11-28 00:21", text)
+        self.assertIn("알림 2026-11-28: 320건", text)                    # 보여 주는 수 합계
+        self.assertIn("단계 상승 20(찾은 678)", text)
+        self.assertIn("새 공연 300(찾은 365)", text)
+        self.assertIn("정답 3행 · 셈 정답 2행", text)                    # outcomes.csv 에서 셈 (하드코딩 아님)
+
+    def test_missing_files_omit_lines(self):
+        with tempfile.TemporaryDirectory() as t:
+            rep = sr.collect_report(self._root(Path(t), with_files=False), today="2026-11-28")
+        text = "\n".join(o["text"] for o in rep["validation"]["ops"])
+        self.assertNotIn("데이터 검사", text)
+        self.assertNotIn("앱 보조 데이터", text)
+        self.assertNotIn("알림", text)
+        self.assertIn("정답 3행", text)
+
+    def test_empty_root_has_no_ops(self):
+        with tempfile.TemporaryDirectory() as t:
+            rep = sr.collect_report(Path(t), today="2026-11-28")
+        self.assertEqual(rep["validation"]["ops"], [])
+
+    def test_html_shows_link_and_escapes(self):
+        with tempfile.TemporaryDirectory() as t:
+            rep = sr.collect_report(self._root(Path(t)), today="2026-11-28")
+        rep["validation"]["ops"][0]["text"] = "<b>x</b>"
+        html = sr.render_html(rep)
+        self.assertIn('href="https://github.com/leegmyung/crate-digger/blob/main/docs/data_checks.md"', html)
+        self.assertIn("&lt;b&gt;x&lt;/b&gt;", html)
+        self.assertIn("앱 보조 데이터 3개", html)

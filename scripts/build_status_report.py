@@ -115,6 +115,38 @@ def analysis_lines(root: Path) -> List[str]:
     return lines
 
 
+def _hm(ts) -> str:
+    """'2026-11-28T00:21:28+09:00' → '2026-11-28 00:21'."""
+    return str(ts or "")[:16].replace("T", " ")
+
+
+def ops_lines(root: Path, outcomes: Optional[dict] = None) -> List[dict]:
+    """③ 검증에 붙는 운영 줄 [{text, href}]: 데이터 검사 요약·앱 보조 데이터·알림 수·정답 행 수.
+    모두 오늘 만들어진 공개 파일에서 읽고, 파일이 없거나 칸이 없으면 그 줄은 뺀다."""
+    lines: List[dict] = []
+    checks = _json(root / "docs" / "data" / "data_checks.json") or {}
+    if checks.get("summary"):
+        lines.append({"text": f"데이터 검사 {checks.get('today', '')}: {checks['summary']}".replace("  ", " "),
+                      "href": f"{REPO_BLOB}docs/data_checks.md"})
+    meta = _json(root / "docs" / "lab" / "data" / "meta.json") or {}
+    extras = meta.get("extras")
+    if extras:
+        when = _hm(meta.get("extras_updated_at"))
+        lines.append({"text": f"앱 보조 데이터 {len(extras)}개" + (f" (갱신 {when})" if when else "")
+                              + f": {', '.join(map(str, extras))}", "href": None})
+    alerts = _json(root / "docs" / "data" / "alerts.json") or {}
+    shown = alerts.get("counts_shown") or dict(Counter(a.get("type") for a in alerts.get("alerts") or []))
+    if alerts and shown:
+        labels, found = alerts.get("types") or {}, alerts.get("counts_found") or {}
+        parts = [f"{labels.get(k, k)} {n}" + (f"(찾은 {found[k]})" if found.get(k, n) != n else "")
+                 for k, n in sorted(shown.items(), key=lambda kv: -kv[1])]
+        lines.append({"text": f"알림 {alerts.get('as_of', '')}: {sum(shown.values())}건 — {' · '.join(parts)}", "href": None})
+    if outcomes and outcomes.get("rows"):
+        lines.append({"text": f"정답 {outcomes['rows']:,}행 · 셈 정답 {outcomes['counted']:,}행 (docs/lab/data/outcomes.csv)",
+                      "href": None})
+    return lines
+
+
 def score_review_line(report: Optional[dict]) -> str:
     """점검표 ③ 검증의 한 줄: 매주 점수 재검토(scripts/score_review.py) 결과."""
     if not report:
@@ -218,7 +250,8 @@ def collect_report(root: Path = ROOT, today: Optional[str] = None) -> dict:
                   "suggestions": review.get("suggestions") or [], "sources": review.get("sources") or [],
                   "review_cutoffs": review.get("cutoffs") or [],
                   "score_review": score_review_line(_json(root / "docs" / "data" / "score_review.json")),
-                  "analysis": analysis_lines(root)}
+                  "analysis": analysis_lines(root),
+                  "ops": ops_lines(root, scale["outcomes"])}
 
     first_seen: Dict[str, str] = {}
     for s in signals:
@@ -277,6 +310,11 @@ ul{margin:0;padding-left:20px}footer{font-size:12.5px;color:var(--muted)}
 """
 
 
+def _ops_li(o: dict) -> str:
+    link = f' (<a href="{_e(o["href"])}">자세히</a>)' if o.get("href") else ""
+    return f'<li class="muted">{_e(o["text"])}{link}</li>'
+
+
 def render_html(rep: dict) -> str:
     st_rows = [[_e(s["name"]), f'<span class="chip {s["state"]}">{STATE_KO[s["state"]]}</span>', _e(s["last"] or "—"), _e(s["detail"])]
                for s in rep["stages"]]
@@ -325,6 +363,7 @@ def render_html(rep: dict) -> str:
 <section><h2>③ 검증</h2>
 <ul><li>형식 검사: 수집 파일 {ok}/{tot} 통과</li><li>{auc_txt}</li><li>{lr_txt}</li>
 <li>{_e(v.get('score_review', ''))}</li>{"".join(f"<li>{_e(x)}</li>" for x in v.get("analysis", []))}
+{"".join(_ops_li(o) for o in v.get("ops", []))}
 <li>출처 재분류 제안 {len(v['suggestions'])}건 (성적표 기준일 {_e(', '.join(v['review_cutoffs']) or '—')})</li></ul>
 {_table(["출처", "지금 역할", "제안", "근거"], sug_rows)}
 {_table(["출처", "역할", "후보 팀", "적중률(%)", "배수", "유일 기여"], src_rows)}</section>
