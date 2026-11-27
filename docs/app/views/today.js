@@ -18,6 +18,7 @@ import { renderAlertsCardHtml, renderSpikeSentencesHtml } from './today_alerts.j
 import { fillSavedCard, renderSavedCardShellHtml } from './today_saved.js';
 import { renderVenueSubsHtml } from './venue_subs_view.js';
 import { loadEventStars } from '../db_team_extras.js';
+import { renderOnboardingStripHtml } from '../components/onboarding_cards.js';
 
 function renderCardListenAction(r) {
   const sp = spotifyButtonHtml(r.team_key, true, {
@@ -464,6 +465,7 @@ export async function renderTodayView(root) {
     const alertsBlockHtml = buildAlertsBlockHtml();
 
     root.innerHTML = `
+      ${renderOnboardingStripHtml()}
       ${heroHtml}
 
       <div id="todayAlertsHost">${alertsBlockHtml}</div>
@@ -541,14 +543,16 @@ export async function renderTodayView(root) {
 
   paint();
 
-  // Live-update alerts highlight if user stars/unstars a team directly on #/today
+  // Live-update alerts highlight & onboarding strip if user stars/subscribes directly on #/today
   const onWatchChange = () => {
     const host = root.querySelector('#todayAlertsHost');
     if (!host || !host.isConnected) {
       window.removeEventListener('app:watchlist', onWatchChange);
+      window.removeEventListener('app:venue-subs', onWatchChange);
       return;
     }
     paint();
   };
   window.addEventListener('app:watchlist', onWatchChange);
+  window.addEventListener('app:venue-subs', onWatchChange);
 }

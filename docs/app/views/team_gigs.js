@@ -4,7 +4,7 @@
  */
 import { gigSummary, lineupSplit } from '../components/team_metrics.js';
 import {
-  escapeHtml, fmtInt, formatNextGigText, INFO_TIPS, infoTip, naCell,
+  escapeHtml, fmtInt, formatNextGigText, INFO_TIPS, infoTip, naCell, renderNoRecordLine,
 } from '../ui.js';
 
 const UPCOMING_MAX = 5;
@@ -33,7 +33,7 @@ function countCell(s) {
 
 function tierCell(s) {
   if (!s.tierCounts) return cellHtml('공연장 체급', naCell('공연장 체급 자료(venue_tiers.csv)가 아직 없습니다', { block: true }));
-  if (!s.total12) return cellHtml('공연장 체급', '<p class="small muted">최근 12개월 공연이 없습니다.</p>');
+  if (!s.total12) return cellHtml('공연장 체급', renderNoRecordLine('최근 12개월 공연 없음'));
   const parts = TIER_ORDER.map(([k, label], i) => ({
     label, n: s.tierCounts[k], cls: k === 'unknown' ? 'is-unknown' : `lv${i + 1}`,
   }));
@@ -42,7 +42,7 @@ function tierCell(s) {
 }
 
 function venuesCell(s) {
-  if (!s.topVenues.length) return cellHtml('자주 선 공연장', '<p class="small muted">공연장 기록이 없습니다.</p>');
+  if (!s.topVenues.length) return cellHtml('자주 선 공연장', renderNoRecordLine('공연장 기록 없음'));
   const items = s.topVenues.map(v => `<li><a class="inline-venue-link" href="#/venue/${encodeURIComponent(v.venue)}">${escapeHtml(v.venue)}</a> <span class="muted">${fmtInt(v.n)}회</span></li>`).join('');
   return cellHtml('자주 선 공연장', `<ol class="gig-venue-list">${items}</ol>`);
 }
@@ -67,7 +67,7 @@ function cityCell(s, teamCity) {
 function lineupCell(lineupMap, teamKey) {
   if (!lineupMap) return cellHtml('라인업 역할', naCell('라인업 역할 자료(lineup_roles.csv)가 아직 없습니다', { block: true }));
   const sp = lineupSplit(lineupMap.get(teamKey));
-  if (!sp) return cellHtml('라인업 역할', '<p class="small muted">역할을 가릴 공연 기록이 없습니다.</p>');
+  if (!sp) return cellHtml('라인업 역할', renderNoRecordLine('역할을 가릴 공연 기록 없음'));
   const parts = [
     { label: '단독', n: sp.solo, cls: 'lv5' },
     { label: '헤드라이너', n: sp.headline, cls: 'lv4' },
@@ -80,7 +80,7 @@ function lineupCell(lineupMap, teamKey) {
 }
 
 function upcomingCell(upcomingList) {
-  if (!upcomingList.length) return cellHtml('다가오는 공연', '<p class="small muted">예정된 공연 기록이 없습니다.</p>');
+  if (!upcomingList.length) return cellHtml('다가오는 공연', renderNoRecordLine('예정된 공연 기록 없음'));
   const items = upcomingList.slice(0, UPCOMING_MAX).map(g => {
     const venueOk = g.venue && g.venue !== '공연장 미정';
     const txt = escapeHtml(formatNextGigText(g));

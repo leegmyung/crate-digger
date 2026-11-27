@@ -1,0 +1,11 @@
+/* 정보 구조 v2 묶음 A 틀·주소 — 메뉴 묶음·자리 표시 화면 (docs/app_structure_v2.md 4절)
+   이 묶음의 스타일은 이 파일에만 — style.css 는 건드리지 않는다. 색은 var(--토큰)만. */
+
+/* 아직 화면이 없는 새 주소의 자리 (views/placeholder.js) */
+.placeholder-view { max-width: 720px; padding: var(--space-4, 16px) 0; }
+.placeholder-view .view-title { margin: 0 0 var(--space-2, 8px); }
+.placeholder-links { display: flex; flex-wrap: wrap; gap: var(--space-2, 8px); margin: var(--space-3, 12px) 0; }
+.placeholder-links a[aria-current="page"] { border-color: var(--accent); color: var(--accent); }
+
+/* 메뉴 묶음 사이 간격 (홈 / 찾기 / 내 것 / 검증) */
+.nav-list > .nav-group-label { margin-top: var(--space-3, 12px); }

@@ -9,7 +9,8 @@ import {
   formatSignalDate, gradeBadgeHtml, INFO_TIPS, infoTip,
   isDormantTeam, isLoweredOutcomeResult, lookupSourceRoleMeta,
   newcomerUnverifiedBadgeHtml, PROFILE_LABELS,
-  renderActionBanner, renderCompactGradeSummary, renderScoreBar,
+  renderActionBanner, renderCompactGradeSummary, renderEmptyState,
+  renderNoRecordLine, renderScoreBar,
   renderTableCsvBtn, roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml,
   spotifyUrlOf, summarizeWhyTeam, TERMS, triggerTableCsvExport,
   watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
@@ -170,18 +171,18 @@ function renderMonthlyBarsHtml(timeline, endDateStr) {
             `;
           }).join('')}
         </div>
-      ` : `<p class="muted small" style="margin:6px 0 0 0;">최근 12개월 내 기록된 활동이 없습니다.${lastNonExclDate ? ` (마지막 활동 ${escapeHtml(lastNonExclDate)})` : ''}</p>`}
+      ` : renderNoRecordLine(lastNonExclDate ? `최근 12개월 활동 없음 · 마지막 활동 ${lastNonExclDate}` : '최근 12개월 내 기록된 활동 없음')}
     </div>
   `;
 }
 
 export async function renderTeamView(root, teamKey) {
   if (!teamKey) {
-    root.innerHTML = renderActionBanner({
-      title: '팀 상세',
-      lead: '선택된 팀이 없습니다.',
-      todo: '위쪽 팀 검색 창에서 팀 이름을 입력하거나 후보 목록에서 팀을 선택하세요.',
-      buttonsHtml: '<a class="btn" href="#/candidates">후보 목록으로</a>',
+    root.innerHTML = renderEmptyState({
+      message: '선택된 팀이 없습니다. 위 검색창에서 찾거나 후보 목록에서 팀을 골라 주세요.',
+      showReset: false,
+      actionLabel: '후보 목록에서 고르기',
+      actionHref: '#/candidates',
     });
     return;
   }
@@ -209,11 +210,11 @@ export async function renderTeamView(root, teamKey) {
   const sceneComm = sceneMap?.teamToCommunity?.get(teamKey) || null;
 
   if (!profile && !scored && !timeline.length) {
-    root.innerHTML = renderActionBanner({
-      title: `팀을 찾을 수 없음: ${teamKey}`,
-      lead: '현재 데이터에 해당 팀 키가 없습니다.',
-      todo: '위쪽 팀 검색 창에서 정확한 팀 이름을 선택해 주세요.',
-      buttonsHtml: '<a class="btn" href="#/candidates">후보 목록으로</a>',
+    root.innerHTML = renderEmptyState({
+      message: `'${teamKey}' 팀의 기록을 찾지 못했습니다. 위 검색창에서 다른 이름으로 찾거나 후보 목록을 확인해 주세요.`,
+      showReset: false,
+      actionLabel: '후보 목록에서 고르기',
+      actionHref: '#/candidates',
     });
     return;
   }
@@ -401,14 +402,19 @@ export async function renderTeamView(root, teamKey) {
     : '';
 
   let isDormant = isDormantTeam(scored);
-  if (!scored && timeline.length > 0 && asOf) {
+  if (timeline.length > 0 && asOf) {
     const asOfMs = Date.parse(`${asOf}T00:00:00Z`);
     if (Number.isFinite(asOfMs)) {
       const cut180 = new Date(asOfMs - 180 * 86400000).toISOString().slice(0, 10);
       const cut365 = new Date(asOfMs - 365 * 86400000).toISOString().slice(0, 10);
-      const hasRec180 = timeline.some(s => s.signal_date && s.signal_date >= cut180 && s.signal_date <= asOf);
-      const hasGig1y = timeline.some(s => s.branch === '공연' && s.signal_date && s.signal_date >= cut365 && s.signal_date <= asOf);
-      isDormant = !hasRec180 && !hasGig1y;
+      const nonExcl = timeline.filter(s => s.role !== 'excluded');
+      const hasGig1y = nonExcl.some(s => s.branch === '공연' && (s.is_upcoming || (s.signal_date && s.signal_date >= cut365 && s.signal_date <= asOf)));
+      if (scored) {
+        if (hasGig1y) isDormant = false;
+      } else {
+        const hasRec180 = nonExcl.some(s => s.signal_date && s.signal_date >= cut180 && s.signal_date <= asOf);
+        isDormant = !hasRec180 && !hasGig1y;
+      }
     }
   }
 
@@ -456,7 +462,7 @@ export async function renderTeamView(root, teamKey) {
       ${scored ? `
         <div style="margin-bottom:10px;">${renderScoreBar(scored, Math.max(10, Number(scored.score) || 1))}</div>
         <div id="teamScoreBody">${renderScoreBodyHtml(scoreCtx)}</div>
-      ` : '<p class="muted small" style="margin:0;">현재 필터·기간 조건 안의 점수가 없습니다.</p>'}
+      ` : renderNoRecordLine('현재 필터·기간 조건 안의 점수가 없습니다')}
       <p class="score-role-note">
         점수에는 발굴 출처만, 맥락 매체는 약하게 반영합니다. 검증 대기·제외 출처는 아래 활동 기록에서 참고용으로만 보여 줍니다.
         <a href="#/scorecard">출처 성적표 보기 ↗</a>
@@ -575,7 +581,7 @@ export async function renderTeamView(root, teamKey) {
           `).join('')}
         </ul>
         ${moreTl > 0 ? `<div class="more-row" style="margin-top:8px;"><span>최근 ${fmtInt(visibleTl.length)} / ${fmtInt(mergedTimeline.length)}건</span><button type="button" class="btn btn-sm" id="btnMoreTimeline">${fmtInt(moreTl)}건 더 보기</button></div>` : ''}
-      ` : '<p class="muted small" style="margin:0;">기록된 활동 신호가 없습니다.</p>'}
+      ` : renderNoRecordLine('기록된 활동 신호가 없습니다')}
       ${extLinks.length ? `
         <details class="info-fold" style="margin:12px 0 0 0;">
           <summary>관련 기사 · 출처 링크 (${fmtInt(extLinks.length)}건)</summary>
@@ -635,7 +641,7 @@ export async function renderTeamView(root, teamKey) {
           <summary>ⓘ 선례 · 등급 해석</summary>
           <div class="info-fold-body">선례는 수상·선정 전에 같은 선정·공연장·매체를 거쳤다는 참고 경로일 뿐이며, 수상을 예측하지 않습니다.${(() => { const s = renderCompactGradeSummary({ sourceRoles }); return s ? ` ${s}` : ''; })()}</div>
         </details>
-      ` : '<p class="muted small" style="margin:0;">겹치는 경로를 가진 과거 수상 팀 선례가 아직 없습니다.</p>'}
+      ` : renderNoRecordLine('겹치는 경로를 가진 과거 수상 팀 선례 없음')}
     `;
   }
 

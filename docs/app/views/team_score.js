@@ -6,7 +6,8 @@
 import { queryPeerCompare } from '../db_peer.js';
 import { isoMinusDays, peerGradeWord, topSharePct } from '../components/team_metrics.js';
 import {
-  escapeHtml, fmtInt, fmtNum, INFO_TIPS, infoTip, itemBar, peerBar, STAGE_META,
+  escapeHtml, fmtInt, fmtNum, INFO_TIPS, infoTip, itemBar, peerBar,
+  renderNoRecordLine, STAGE_META,
 } from '../ui.js';
 
 const EVIDENCE_MAX = 8;
@@ -129,7 +130,7 @@ function renderItems(items, peer, ctx) {
  * @param {'stage'|'genre'} [scope]
  */
 export function renderScoreBodyHtml(ctx, scope = 'stage') {
-  if (!ctx.scored) return '<p class="muted small" style="margin:0;">현재 필터·기간 조건 안의 점수가 없습니다.</p>';
+  if (!ctx.scored) return renderNoRecordLine('현재 필터·기간 조건 안의 점수가 없습니다');
   const items = scoreItemDefs(ctx.scored);
   const genreBtnAttr = ctx.genreOk ? '' : ' disabled title="장르가 비었거나 추정 장르라 같은 장르 이웃과 비교하지 않습니다"';
   return `
@@ -146,7 +147,7 @@ export function renderScoreBodyHtml(ctx, scope = 'stage') {
     ${items.length
     ? `<div class="score-items" aria-label="점수 항목 (누르면 근거)">${renderItems(items, ctx.peer, ctx)}</div>
     <p class="small muted score-items-hint">막대를 누르면 그 항목의 근거 신호가 펼쳐집니다.</p>`
-    : '<p class="small muted score-items-hint">점수에 더해진 항목이 없습니다.</p>'}`;
+    : renderNoRecordLine('점수에 더해진 항목이 없습니다')}`;
 }
 
 /** 비교 기준 전환 + 관계망 이동. ctx.peer 는 '같은 발굴 단계' 결과로 시작 */

@@ -7,9 +7,9 @@ import { loadEventStars } from '../db_team_extras.js';
 import { renderWatchWeeklySummaryHtml } from './today_alerts.js';
 import { renderVenueSubsHtml, wireVenueSubs } from './venue_subs_view.js';
 import {
-  avatarHtml, clampDateDisplay, escapeHtml, fmtInt, fmtNum,
-  renderActionBanner, renderTableCsvBtn, spotifyButtonHtml,
-  triggerTableCsvExport, wireAvatarFallbacks,
+  avatarHtml, clampDateDisplay, escapeHtml, fmtInt, fmtNum, naCell,
+  renderActionBanner, renderEmptyState, renderNoRecordLine, renderTableCsvBtn,
+  spotifyButtonHtml, triggerTableCsvExport, wireAvatarFallbacks,
   wireSpotifyButtons, youtubeQuickInfo,
 } from '../ui.js';
 
@@ -111,9 +111,12 @@ export async function renderWatchlistView(root) {
   if (!rows.length) {
     root.innerHTML = `
       ${bannerHtml}
-      <div class="block">
-        <p class="muted" style="margin:0;">별도 로그인 없이 이 브라우저에 저장됩니다. 브리핑·후보 목록·팀 상세에서 <strong>☆ 관심 추가</strong>를 누르면 최근 7일 새 신호와 순위 변동을 여기서 모아 볼 수 있습니다.</p>
-      </div>
+      ${renderEmptyState({
+        message: '관심 목록이 비어 있습니다. 브리핑·후보 목록·팀 상세에서 ☆ 관심 추가를 누르면 최근 7일 새 신호와 순위 변동을 한곳에 모아 봅니다.',
+        showReset: false,
+        actionLabel: '후보 목록에서 고르기',
+        actionHref: '#/candidates',
+      })}
       ${renderVenueSubsHtml(alertsData, { editable: true })}
     `;
     wireVenueSubs(root, () => renderWatchlistView(root));
@@ -159,14 +162,14 @@ export async function renderWatchlistView(root) {
                           ${avatarHtml(r.team_key, r.display_name, 36, { shape: 'rounded', genre: r.primary_genre })}
                           <div class="row-team-text">
                             <strong>${escapeHtml(r.display_name)}</strong>
-                            <div class="small muted">${r.score !== null ? `${fmtNum(r.score, 2)}점` : '-'}${r.primary_genre ? ` · ${escapeHtml(r.primary_genre)}` : ''}</div>
+                            <div class="small muted">${r.score !== null && r.score !== undefined ? `${fmtNum(r.score, 2)}점` : naCell('현재 점수 후보군에 포함되지 않았습니다')}${r.primary_genre ? ` · ${escapeHtml(r.primary_genre)}` : ''}</div>
                           </div>
                         </a>
                         ${renderListenQuick(r, '', 'watchBoardPlayerSlot')}
                       </div>
                       <div class="watch-card-meta">
-                        ${r.recent_7d > 0 ? `<span class="badge-new">7일 +${fmtInt(r.recent_7d)}건</span>` : '<span class="small muted">7일 변동 없음</span>'}
-                        <span class="small muted mono">${escapeHtml(renderDeltaStr(r))}</span>
+                        ${r.recent_7d > 0 ? `<span class="badge-new">7일 +${fmtInt(r.recent_7d)}건</span>` : '<span class="small muted">7일 0건</span>'}
+                        <span class="small muted mono">${r.rank_now !== null ? escapeHtml(renderDeltaStr(r)) : naCell('상위 300 스냅샷 밖입니다')}</span>
                       </div>
                       <div class="watch-card-foot">
                         <div class="watch-move-btns">
@@ -175,7 +178,7 @@ export async function renderWatchlistView(root) {
                         <button type="button" class="btn btn-sm" data-remove-watch="${escapeHtml(r.team_key)}">제거</button>
                       </div>
                     </article>
-                  `).join('') : '<p class="small muted" style="margin:6px 0;">비어 있음</p>'}
+                  `).join('') : renderNoRecordLine(`${col.label} 상태의 관심 팀이 아직 없습니다`)}
                 </div>
               </section>
             `;
@@ -221,10 +224,10 @@ export async function renderWatchlistView(root) {
                     </td>
                     <td class="nowrap">${renderListenQuick(r, 'table-row', '')}</td>
                     <td class="nowrap">${statusSelectHtml(r.team_key, r.status || 'watching')}</td>
-                    <td class="num"><strong>${r.score !== null && r.score !== undefined ? fmtNum(r.score, 2) : '—'}</strong></td>
-                    <td class="num nowrap">${escapeHtml(renderDeltaStr(r))}</td>
+                    <td class="num">${r.score !== null && r.score !== undefined ? `<strong>${fmtNum(r.score, 2)}</strong>` : naCell('현재 점수 후보군에 포함되지 않았습니다')}</td>
+                    <td class="num nowrap">${r.rank_now !== null ? escapeHtml(renderDeltaStr(r)) : naCell('상위 300 스냅샷 밖입니다')}</td>
                     <td class="num">${r.recent_7d > 0 ? `<span class="badge-new">${fmtInt(r.recent_7d)}건</span>` : '<span class="muted">0건</span>'}</td>
-                    <td class="nowrap mono muted">${escapeHtml(clampDateDisplay(r.last_seen))}</td>
+                    <td class="nowrap mono muted">${r.last_seen ? escapeHtml(clampDateDisplay(r.last_seen)) : naCell('수집된 신호 기록이 없습니다')}</td>
                     <td class="nowrap">
                       <button type="button" class="btn btn-sm" data-remove-watch="${escapeHtml(r.team_key)}">제거</button>
                     </td>

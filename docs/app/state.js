@@ -16,7 +16,28 @@ export const ROUTES = [
   'venue',
   'quality',
   'sql',
+  'charts',
+  'alerts',
+  'search',
 ];
+
+// ---------- 정보 구조 v2 (docs/app_structure_v2.md) ----------
+// 안쪽 경로 이름(today·candidates·venues·watchlist …)은 그대로 두고, 주소(해시)만 새 이름으로 내보낸다.
+export const TEAM_TABS = ['overview', 'score', 'events', 'gigs', 'network', 'videos', 'precedents'];
+export const VENUE_TABS = ['overview', 'teams', 'gigs', 'flow'];
+export const CHART_KINDS = ['all', 'genre', 'city', 'rising', 'debut'];
+export const MINE_TABS = ['watch', 'venues', 'filters'];
+// 옛 주소 첫 칸 → 새 주소 (쿼리는 그대로 붙여 넘김). candidates·venues·verify는 쿼리를 봐야 해서 legacyToNew 안에서 따로.
+export const LEGACY_ROUTES = {
+  today: 'home',
+  watchlist: 'mine',
+  quality: 'verify/quality',
+  sql: 'verify/sql',
+  backtest: 'verify/backtest',
+  signals: 'verify/signals',
+  evidence: 'verify/evidence',
+  scorecard: 'verify/scorecard',
+};
 
 export const VERIFY_TABS = ['backtest', 'signals', 'evidence', 'scorecard'];
 
@@ -142,6 +163,13 @@ export const appState = {
   candTab: 'all', // 'all' | 'debut'
   venuesTab: 'overview', // 'overview' | 'list' | 'city' | 'festival' | 'network'
   venuesCity: '', // 도시 탭에서 고른 도시
+  teamTab: 'overview', // TEAM_TABS — #/team/<키>/<탭>
+  venueTab: 'overview', // VENUE_TABS — #/venue/<이름>/<탭>
+  chartKind: 'all', // CHART_KINDS — #/charts/<종류>[/<장르·도시>]
+  chartParam: '',
+  mineTab: 'watch', // MINE_TABS — #/mine?tab=
+  searchQuery: '', // #/search?q=
+  festivalName: '', // #/festival/<이름>
   prevRoute: null,
   prevParam: '',
   cfg: cloneDefaults(),
@@ -312,8 +340,51 @@ const VALID_CAND_VIEWS = new Set(['heat']);
 const VENUES_TABS = new Set(['overview', 'list', 'city', 'festival', 'network']);
 const VALID_SN_LIMITS = new Set([100, 150, 250, 300]);
 
+function _dec(seg) {
+  try { return decodeURIComponent(seg); } catch (_) { return seg; }
+}
+
+/** 옛 주소 → 새 주소 해시('#/…') 또는 null(이미 새 주소). 쿼리는 그대로 두고, 경로로 옮긴 vtab·ctab·vmode·city 만 뺀다. */
+export function legacyToNew(pathPart, queryPart) {
+  const p = new URLSearchParams(queryPart || '');
+  const segs = (pathPart || '').split('/').filter(Boolean);
+  const head = segs[0] || '';
+  let next = null;
+  if (!pathPart && queryPart) {
+    next = 'verify/backtest';                       // 옛 실험실 해시 #w_branch=…&tab=… (예전처럼 검증으로)
+  } else if (LEGACY_ROUTES[head]) {
+    next = LEGACY_ROUTES[head];
+  } else if (head === 'candidates') {
+    next = (segs[1] === 'debut' || p.get('ctab') === 'debut') ? 'charts/debut' : 'discover';
+    p.delete('ctab');
+  } else if (head === 'venues' && (p.has('vmode') || segs[1] === 'city' || segs[1] === 'festival')) {
+    const mode = segs[1] === 'city' || segs[1] === 'festival' ? segs[1] : p.get('vmode');
+    p.delete('vmode');
+    if (mode === 'city') {
+      const city = (p.get('city') || '').trim();
+      p.delete('city');
+      next = city ? `city/${encodeURIComponent(city)}` : 'cities';
+    } else if (mode === 'festival') {
+      next = 'festivals';
+    } else {
+      next = VENUES_TABS.has(mode) ? `venues/${mode}` : 'venues';
+    }
+  } else if (head === 'verify' && (!segs[1] || p.has('vtab'))) {
+    const vt = p.get('vtab');
+    p.delete('vtab');
+    next = `verify/${segs[1] || (VERIFY_TABS.includes(vt) ? vt : 'backtest')}`;
+  }
+  if (next === null) return null;
+  const qs = p.toString();
+  return `#/${next}${qs ? `?${qs}` : ''}`;
+}
+
 export function parseHash() {
-  const raw = window.location.hash.replace(/^#/, '');
+  parseHashString(window.location.hash);
+}
+
+function parseHashString(hash) {
+  const raw = String(hash || '').replace(/^#/, '');
   if (!raw) {
     appState.route = 'today';
     appState.routeParam = '';
@@ -331,58 +402,75 @@ export function parseHash() {
     queryPart = raw;
   }
 
+  // 옛 주소는 새 주소로 넘김 — 뒤로 가기 기록을 더럽히지 않게 replaceState (docs/app_structure_v2.md 3절)
+  const legacy = legacyToNew(pathPart, queryPart);
+  if (legacy) {
+    try {
+      window.history.replaceState(null, '', legacy);
+    } catch (_) { /* file:// 등에서 막히면 주소는 그대로, 해석만 새 주소로 */ }
+    parseHashString(legacy);
+    return;
+  }
+
   const p = new URLSearchParams(queryPart);
   const segs = pathPart.split('/').filter(Boolean);
-  if (segs[0] === 'team' && segs[1]) {
-    appState.route = 'team';
-    try {
-      appState.routeParam = decodeURIComponent(segs.slice(1).join('/'));
-    } catch (_) {
-      appState.routeParam = segs[1];
+  const head = segs[0] || '';
+  let cityFromPath = '';
+  appState.routeParam = '';
+  appState.festivalName = '';
+  if ((head === 'team' || head === 'venue') && segs[1]) {
+    const tabs = head === 'team' ? TEAM_TABS : VENUE_TABS;
+    const last = segs[segs.length - 1];
+    const hasTab = segs.length >= 3 && tabs.includes(last);
+    appState.route = head;
+    appState.routeParam = _dec((hasTab ? segs.slice(1, -1) : segs.slice(1)).join('/'));
+    if (head === 'team') appState.teamTab = hasTab ? last : 'overview';
+    else appState.venueTab = hasTab ? last : 'overview';
+  } else if (head === 'home') {
+    appState.route = 'today';
+  } else if (head === 'discover') {
+    appState.route = 'candidates';
+    appState.candTab = 'all';
+  } else if (head === 'charts') {
+    const kind = CHART_KINDS.includes(segs[1]) ? segs[1] : 'all';
+    if (kind === 'debut') {
+      appState.route = 'candidates';           // 갓 데뷔 차트 = 지금의 후보 목록 '갓 데뷔' 탭 (묶음 F에서 차트 화면으로)
+      appState.candTab = 'debut';
+    } else {
+      appState.route = 'charts';
+      appState.chartKind = kind;
+      appState.chartParam = segs[2] ? _dec(segs.slice(2).join('/')).slice(0, 40) : '';
     }
-  } else if (segs[0] === 'venue' && segs[1]) {
-    appState.route = 'venue';
-    try {
-      appState.routeParam = decodeURIComponent(segs.slice(1).join('/'));
-    } catch (_) {
-      appState.routeParam = segs[1];
+  } else if (head === 'venues') {
+    appState.route = 'venues';
+    if (['overview', 'list', 'network'].includes(segs[1])) appState.venuesTab = segs[1];
+    else appState.venuesTab = (p.has('genre') && p.get('genre')) ? 'network' : 'overview';
+  } else if (head === 'cities' || head === 'city') {
+    appState.route = 'venues';
+    appState.venuesTab = 'city';
+    cityFromPath = head === 'city' && segs[1] ? _dec(segs.slice(1).join('/')).slice(0, 30) : '';
+  } else if (head === 'festivals' || head === 'festival') {
+    appState.route = 'venues';
+    appState.venuesTab = 'festival';
+    appState.festivalName = head === 'festival' && segs[1] ? _dec(segs.slice(1).join('/')).slice(0, 60) : '';
+  } else if (head === 'alerts') {
+    appState.route = 'alerts';
+  } else if (head === 'mine') {
+    appState.route = 'watchlist';
+    appState.mineTab = MINE_TABS.includes(p.get('tab')) ? p.get('tab') : 'watch';
+  } else if (head === 'search') {
+    appState.route = 'search';
+    appState.searchQuery = String(p.get('q') || '').slice(0, 100);
+  } else if (head === 'verify') {
+    const sub = segs[1] || 'backtest';
+    if (sub === 'quality' || sub === 'sql') {
+      appState.route = sub;
+    } else {
+      appState.route = 'verify';
+      appState.verifyTab = VERIFY_TABS.includes(sub) ? sub : 'backtest';
     }
-  } else if (segs[0] === 'verify') {
-    appState.route = 'verify';
-    appState.routeParam = '';
-    if (segs[1] && VERIFY_TABS.includes(segs[1])) {
-      appState.verifyTab = segs[1];
-    } else if (!p.has('vtab')) {
-      appState.verifyTab = 'backtest';
-    }
-  } else if (segs[0] && VERIFY_TABS.includes(segs[0])) {
-    // Backward-compatible aliases: #/backtest, #/signals, #/evidence -> unified verify view
-    appState.route = 'verify';
-    appState.routeParam = '';
-    appState.verifyTab = segs[0];
-  } else if (segs[0] && ROUTES.includes(segs[0])) {
-    appState.route = segs[0];
-    appState.routeParam = '';
-    if (segs[0] === 'candidates') {
-      if (segs[1] === 'debut' || segs[1] === 'all') {
-        appState.candTab = segs[1];
-      } else if (!p.has('ctab')) {
-        appState.candTab = 'all';
-      }
-    } else if (segs[0] === 'venues') {
-      if (VENUES_TABS.has(segs[1])) {
-        appState.venuesTab = segs[1];
-      } else if (!p.has('vmode')) {
-        appState.venuesTab = 'overview';
-      }
-    }
-  } else if (!pathPart && queryPart) {
-    appState.route = 'verify';
-    appState.verifyTab = 'backtest';
-    appState.routeParam = '';
   } else {
     appState.route = 'today';
-    appState.routeParam = '';
   }
 
   if (p.has('vtab') && VERIFY_TABS.includes(p.get('vtab'))) {
@@ -391,12 +479,7 @@ export function parseHash() {
   if (p.has('ctab') && (p.get('ctab') === 'debut' || p.get('ctab') === 'all')) {
     appState.candTab = p.get('ctab');
   }
-  if (appState.route === 'venues') appState.venuesCity = (p.get('city') || '').slice(0, 30);
-  if (p.has('vmode') && VENUES_TABS.has(p.get('vmode'))) {
-    appState.venuesTab = p.get('vmode');
-  } else if (appState.route === 'venues' && segs[1] !== 'overview' && p.has('genre') && p.get('genre')) {
-    appState.venuesTab = 'network';
-  }
+  if (appState.route === 'venues') appState.venuesCity = cityFromPath || (p.get('city') || '').slice(0, 30);
 
   // Restore per-view UI filters from URL (reset to default when absent for that view)
   if (appState.route === 'candidates') {
@@ -498,6 +581,49 @@ export function parseHash() {
   }
 }
 
+/** 안쪽 경로 → 새 주소 경로(정보 구조 v2). 탭·도시·검색어처럼 경로에 들어가는 상태도 여기서. p 에는 쿼리로 남는 것만 넣는다. */
+function publicPath(normRoute, param, verifyTab, p) {
+  const enc = encodeURIComponent;
+  const withTab = (base, tab, tabs) => (tab && tab !== 'overview' && tabs.includes(tab) ? `${base}/${tab}` : base);
+  switch (normRoute) {
+    case 'team':
+      return param ? withTab(`#/team/${enc(param)}`, appState.teamTab, TEAM_TABS) : '#/discover';
+    case 'venue':
+      return param ? withTab(`#/venue/${enc(param)}`, appState.venueTab, VENUE_TABS) : '#/venues';
+    case 'today':
+      return '#/home';
+    case 'candidates':
+      return appState.candTab === 'debut' ? '#/charts/debut' : '#/discover';
+    case 'charts': {
+      const kind = CHART_KINDS.includes(appState.chartKind) ? appState.chartKind : 'all';
+      if (kind === 'all') return '#/charts';
+      return `#/charts/${kind}${appState.chartParam ? `/${enc(appState.chartParam)}` : ''}`;
+    }
+    case 'venues': {
+      const vt = appState.venuesTab;
+      if (vt === 'city') return appState.venuesCity ? `#/city/${enc(appState.venuesCity)}` : '#/cities';
+      if (vt === 'festival') return appState.festivalName ? `#/festival/${enc(appState.festivalName)}` : '#/festivals';
+      if (vt === 'list' || vt === 'network') return `#/venues/${vt}`;
+      return appState.cfg.genre ? '#/venues/overview' : '#/venues';   // 장르가 있으면 '씬 네트워크'로 해석되지 않게 탭을 적음
+    }
+    case 'watchlist':
+      if (appState.mineTab && appState.mineTab !== 'watch' && MINE_TABS.includes(appState.mineTab)) p.set('tab', appState.mineTab);
+      return '#/mine';
+    case 'alerts':
+      return '#/alerts';
+    case 'search':
+      if (appState.searchQuery) p.set('q', appState.searchQuery);
+      return '#/search';
+    case 'verify':
+      return `#/verify/${verifyTab}`;
+    case 'quality':
+    case 'sql':
+      return `#/verify/${normRoute}`;
+    default:
+      return `#/${normRoute}`;
+  }
+}
+
 export function buildHashUrl(route = appState.route, param = appState.routeParam, forceAll = false) {
   const c = appState.cfg;
   const p = new URLSearchParams();
@@ -533,19 +659,8 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
   if (VERIFY_TABS.includes(route)) {
     normRoute = 'verify';
     normVerifyTab = route;
-    if (route !== 'backtest') p.set('vtab', route);
-  } else if (route === 'verify' && normVerifyTab !== 'backtest') {
-    p.set('vtab', normVerifyTab);
-  } else if (route === 'candidates' && appState.candTab === 'debut') {
-    p.set('ctab', 'debut');
-  } else if (route === 'venues') {
-    if (appState.venuesTab !== 'overview' && VENUES_TABS.has(appState.venuesTab)) {
-      p.set('vmode', appState.venuesTab);
-    } else if (c.genre) {
-      p.set('vmode', 'overview');
-    }
-    if (appState.venuesTab === 'city' && appState.venuesCity) p.set('city', appState.venuesCity);
   }
+  const basePath = publicPath(normRoute, param, normVerifyTab, p);
 
   // Serialize active view-specific filter & sort state so refresh/share preserves exact view
   if (normRoute === 'candidates') {
@@ -593,9 +708,6 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
     if (wm === 'board') p.set('wmode', 'board');
   }
 
-  const basePath = (normRoute === 'team' || normRoute === 'venue') && param
-    ? `#/${normRoute}/${encodeURIComponent(param)}`
-    : `#/${normRoute}`;
   const qs = p.toString();
   return qs ? `${basePath}?${qs}` : basePath;
 }
@@ -620,6 +732,10 @@ export function navigateTo(route, param = '') {
     appState.route = 'verify';
     appState.routeParam = '';
   } else {
+    if (route !== appState.route || param !== appState.routeParam) {
+      if (route === 'team') appState.teamTab = 'overview';        // 다른 팀·공연장으로 가면 첫 탭부터
+      if (route === 'venue') appState.venueTab = 'overview';
+    }
     appState.route = route;
     appState.routeParam = param;
   }

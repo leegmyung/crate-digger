@@ -3,7 +3,7 @@
  * 자료: docs/lab/data/event_stars.csv (scripts/event_stars.py). 파일이 없으면 이 부분은 그리지 않는다.
  */
 import { appState } from '../state.js';
-import { escapeHtml, fmtInt, INFO_TIPS, infoTip } from '../ui.js';
+import { escapeHtml, fmtInt, INFO_TIPS, infoTip, renderNoRecordLine } from '../ui.js';
 
 const FIRST_SHOWN = 6;
 const WINDOW_DAYS = 28;
@@ -67,7 +67,7 @@ export function renderEventLogHtml(events, asOf, showAll = false) {
   if (!events) return '';
   const past = events.filter(e => e.date <= asOf).sort((a, b) => b.date.localeCompare(a.date));
   if (!past.length) {
-    return '<div class="event-log"><p class="small muted">별점을 매길 사건이 아직 없습니다.</p></div>';
+    return `<div class="event-log">${renderNoRecordLine('별점을 매길 사건이 아직 없습니다')}</div>`;
   }
   const shown = showAll ? past : past.slice(0, FIRST_SHOWN);
   const more = past.length - shown.length;

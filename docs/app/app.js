@@ -8,10 +8,11 @@ import {
   loadAlertsJson, loadSourceReview, queryCandidates, queryWeeklyDigestExtras,
 } from './db.js';
 import {
-  avatarHtml, buildWeeklySummaryText, cssVar, escapeHtml,
+  buildWeeklySummaryText, cssVar, escapeHtml,
   fmtInt, friendlySqlError, getWatchlistAlerts, hideRowHoverPreview,
-  renderViewSkeleton, wireAvatarFallbacks,
+  renderViewSkeleton,
 } from './ui.js';
+import { initGlobalSearch } from './components/global_search.js';
 
 const ADVANCED_ROUTES = new Set(['verify', 'backtest', 'signals', 'evidence', 'scorecard', 'quality', 'sql']);
 
@@ -25,7 +26,45 @@ const VIEW_LOADERS = {
   venue: () => import('./views/venue.js').then(m => m.renderVenueView),
   quality: () => import('./views/quality.js').then(m => m.renderQualityView),
   sql: () => import('./views/sql.js').then(m => m.renderSqlView),
+  // 정보 구조 v2: 아직 화면이 없는 새 주소 (묶음 F·G·B에서 진짜 화면으로 교체)
+  charts: () => import('./views/placeholder.js').then(m => m.renderPlaceholderView),
+  alerts: () => import('./views/placeholder.js').then(m => m.renderPlaceholderView),
+  search: () => import('./views/placeholder.js').then(m => m.renderPlaceholderView),
 };
+
+// 왼쪽 메뉴 키(data-route) — 안쪽 경로 이름과 다를 수 있음 (docs/app_structure_v2.md 2-1)
+const NAV_TARGETS = {
+  home: () => ({ route: 'today' }),
+  discover: () => { appState.candTab = 'all'; return { route: 'candidates' }; },
+  charts: () => { appState.chartKind = 'all'; appState.chartParam = ''; return { route: 'charts' }; },
+  venues: () => { appState.venuesTab = 'overview'; return { route: 'venues' }; },
+  cities: () => { appState.venuesTab = 'city'; return { route: 'venues' }; },
+  festivals: () => { appState.venuesTab = 'festival'; appState.festivalName = ''; return { route: 'venues' }; },
+  alerts: () => ({ route: 'alerts' }),
+  mine: () => { appState.mineTab = 'watch'; return { route: 'watchlist' }; },
+  verify: () => ({ route: 'verify' }),
+  quality: () => ({ route: 'quality' }),
+  sql: () => ({ route: 'sql' }),
+};
+
+/** 지금 화면이 왼쪽 메뉴의 어느 칸인가. 팀 상세는 메뉴에 없음. */
+function currentNavKey() {
+  const r = appState.route;
+  if (r === 'today') return 'home';
+  if (r === 'candidates') return appState.candTab === 'debut' ? 'charts' : 'discover';
+  if (r === 'charts') return 'charts';
+  if (r === 'venues') {
+    if (appState.venuesTab === 'city') return 'cities';
+    if (appState.venuesTab === 'festival') return 'festivals';
+    return 'venues';
+  }
+  if (r === 'venue') return 'venues';
+  if (r === 'watchlist') return 'mine';
+  if (r === 'alerts') return 'alerts';
+  if (r === 'quality' || r === 'sql') return r;
+  if (ADVANCED_ROUTES.has(r)) return 'verify';
+  return '';
+}
 const loadedViews = new Map();
 
 function resolveRouteKey(r) {
@@ -60,16 +99,33 @@ function setStatus(text, busy = false) {
   el.classList.toggle('busy', busy);
 }
 
-function setGlobalError(msg) {
+function setGlobalError(msg, rawErr = null) {
   const el = document.getElementById('globalError');
   if (!el) return;
   if (!msg) {
     el.hidden = true;
-    el.textContent = '';
-  } else {
-    el.hidden = false;
-    el.textContent = msg;
+    el.innerHTML = '';
+    return;
   }
+  const rawText = rawErr
+    ? String(rawErr?.stack || rawErr?.message || rawErr).trim()
+    : '';
+  el.hidden = false;
+  el.innerHTML = `
+    <div class="global-err-body">
+      <p class="global-err-msg">${escapeHtml(msg)}</p>
+      <div class="global-err-actions">
+        <button type="button" class="btn btn-sm btn-primary" data-action="retry-view">다시 불러오기</button>
+        <a class="btn btn-sm" href="#/quality">데이터 수집·품질 보기</a>
+      </div>
+      ${rawText ? `
+        <details class="global-err-details">
+          <summary>기술 오류 원문 보기</summary>
+          <pre>${escapeHtml(rawText)}</pre>
+        </details>
+      ` : ''}
+    </div>
+  `;
 }
 
 function renderAnomalyBanner() {
@@ -105,7 +161,7 @@ function setAdvancedNavOpen(open) {
 
 function updateNavActive() {
   const route = appState.route;
-  const navRoute = route === 'venue' ? 'venues' : route;
+  const navRoute = currentNavKey();
   document.querySelectorAll('.nav-link[data-route]').forEach(a => {
     const active = a.dataset.route === navRoute;
     a.classList.toggle('active', active);
@@ -185,80 +241,6 @@ function resetAllFiltersAndWeights() {
   resetViewFilters();
   syncHash(true);
   renderCurrentView();
-}
-
-// ---------- Autocomplete Team Search (with 24px Avatars) ----------
-
-function initTeamSearch() {
-  const inp = document.getElementById('gfTeamSearch');
-  const drop = document.getElementById('gfTeamDrop');
-  if (!inp || !drop) return;
-
-  function renderDrop() {
-    const q = inp.value.trim().toLowerCase();
-    if (!q || !appState.teamIndex.length) {
-      drop.hidden = true;
-      drop.innerHTML = '';
-      return;
-    }
-    const matches = [];
-    for (const t of appState.teamIndex) {
-      const dn = String(t.display_name || '').toLowerCase();
-      const tk = String(t.team_key || '').toLowerCase();
-      if (dn.includes(q) || tk.includes(q)) {
-        matches.push({ t, exact: dn.startsWith(q) || tk.startsWith(q) ? 0 : 1 });
-        if (matches.length >= 40) break;
-      }
-    }
-    matches.sort((a, b) => a.exact - b.exact);
-    const top = matches.slice(0, 10);
-    if (!top.length) {
-      drop.innerHTML = '<div class="small muted" style="padding:10px 12px;">일치하는 팀이 없습니다.</div>';
-      drop.hidden = false;
-      return;
-    }
-    drop.innerHTML = top.map(({ t }) => `
-      <button type="button" class="f-search-opt" data-pick-team="${escapeHtml(t.team_key)}">
-        <span class="f-search-opt-left">
-          ${avatarHtml(t.team_key, t.display_name || t.team_key, 24, { shape: 'circle', genre: t.primary_genre })}
-          <strong>${escapeHtml(t.display_name || t.team_key)}</strong>
-        </span>
-        <span class="small muted">${escapeHtml(t.primary_genre || '')}</span>
-      </button>
-    `).join('');
-    wireAvatarFallbacks(drop);
-    drop.hidden = false;
-  }
-
-  inp.addEventListener('input', renderDrop);
-  inp.addEventListener('focus', renderDrop);
-  inp.addEventListener('keydown', e => {
-    if (e.key === 'Enter') {
-      const first = drop.querySelector('[data-pick-team]');
-      if (first) {
-        e.preventDefault();
-        const key = first.dataset.pickTeam;
-        drop.hidden = true;
-        inp.value = '';
-        navigateTo('team', key);
-      }
-    } else if (e.key === 'Escape') {
-      drop.hidden = true;
-    }
-  });
-
-  drop.addEventListener('click', e => {
-    const btn = e.target.closest('[data-pick-team]');
-    if (!btn) return;
-    const key = btn.dataset.pickTeam;
-    drop.hidden = true;
-    inp.value = '';
-    navigateTo('team', key);
-  });
-
-  document.addEventListener('click', e => {
-    if (!e.target.closest('.f-search-wrap')) drop.hidden = true;
-  });
 }
 
 // ---------- Unified Export Menu ----------
@@ -476,7 +458,7 @@ async function renderCurrentView() {
     delete root.dataset.skelPending;
     if (seq !== renderSeq) return;
     console.error(err);
-    setGlobalError(`화면을 불러오는 중 오류가 발생했습니다: ${friendlySqlError(err)}`);
+    setGlobalError(`화면을 불러오는 중 오류가 발생했습니다. ${friendlySqlError(err)}`, err);
     setStatus('오류 발생', false);
   }
 }
@@ -514,14 +496,18 @@ function wireGlobalEvents() {
   document.querySelectorAll('.nav-link[data-route]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
-      navigateTo(a.dataset.route, '');
+      const target = NAV_TARGETS[a.dataset.route];
+      navigateTo(target ? target().route : a.dataset.route, '');
     });
   });
 
-  // Any reset-filters button
+  // Any reset-filters or retry-view button
   document.addEventListener('click', e => {
     if (e.target.closest('[data-action="reset-filters"]')) {
       resetAllFiltersAndWeights();
+    } else if (e.target.closest('[data-action="retry-view"]')) {
+      if (appState.ready) renderCurrentView();
+      else window.location.reload();
     }
   });
 
@@ -593,7 +579,7 @@ function wireGlobalEvents() {
 
 async function boot() {
   initTheme();
-  initTeamSearch();
+  initGlobalSearch();
   initExportMenu();
   wireGlobalEvents();
   parseHash();
@@ -625,7 +611,7 @@ async function boot() {
   } catch (err) {
     console.error(err);
     setStatus('초기화 실패', false);
-    setGlobalError(`앱을 초기화하지 못했습니다: ${friendlySqlError(err)}. 로컬 서버(http://) 또는 GitHub Pages에서 열어 주세요.`);
+    setGlobalError(`앱을 초기화하지 못했습니다. ${friendlySqlError(err)}`, err);
   }
 }
 

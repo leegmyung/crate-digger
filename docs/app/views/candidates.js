@@ -675,7 +675,7 @@ export async function renderCandidatesView(root) {
       momentum_pct: st ? st.momentum_pct : null,
       recent_n: st ? st.recent_n : 0,
       prev_n: st ? st.prev_n : 0,
-      is_dormant: isDormantTeam(r),
+      is_dormant: isDormantTeam({ ...r, next_gig: ng }),
     };
   });
 

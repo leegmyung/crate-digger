@@ -18,6 +18,15 @@
     })();
   </script>
   <link rel="stylesheet" href="app/style.css">
+  <!-- 묶음별 CSS (정보 구조 v2 — 묶음끼리 style.css 충돌을 막으려고 파일을 나눔, docs/app_structure_v2.md 4절) -->
+  <link rel="stylesheet" href="app/css/shell.css">
+  <link rel="stylesheet" href="app/css/search.css">
+  <link rel="stylesheet" href="app/css/team.css">
+  <link rel="stylesheet" href="app/css/venues.css">
+  <link rel="stylesheet" href="app/css/places.css">
+  <link rel="stylesheet" href="app/css/discover.css">
+  <link rel="stylesheet" href="app/css/home.css">
+  <link rel="stylesheet" href="app/css/verify.css">
 </head>
 <body>
   <a class="skip-link" href="#viewRoot">본문으로 건너뛰기</a>
@@ -31,33 +40,41 @@
       </div>
 
       <nav class="nav-list">
-        <div class="nav-group-label">매일 보는 화면</div>
-        <a class="nav-link active" href="#/today" data-route="today" aria-current="page"><span>이번 주 브리핑</span></a>
-        <a class="nav-link" href="#/candidates" data-route="candidates"><span>후보 목록</span></a>
-        <a class="nav-link" href="#/venues" data-route="venues"><span>공연장·씬</span></a>
-        <a class="nav-link" href="#/watchlist" data-route="watchlist">
-          <span>관심 목록</span>
+        <!-- 정보 구조 v2 (docs/app_structure_v2.md 2-1): 홈 / 찾기 / 내 것 / 검증 -->
+        <a class="nav-link active" href="#/home" data-route="home" aria-current="page"><span>홈</span></a>
+
+        <div class="nav-group-label">찾기</div>
+        <a class="nav-link" href="#/discover" data-route="discover"><span>발굴</span></a>
+        <a class="nav-link" href="#/charts" data-route="charts"><span>차트</span></a>
+        <a class="nav-link" href="#/venues" data-route="venues"><span>공연장</span></a>
+        <a class="nav-link" href="#/cities" data-route="cities"><span>도시</span></a>
+        <a class="nav-link" href="#/festivals" data-route="festivals"><span>페스티벌</span></a>
+
+        <div class="nav-group-label">내 것</div>
+        <a class="nav-link" href="#/alerts" data-route="alerts"><span>알림</span></a>
+        <a class="nav-link" href="#/mine" data-route="mine">
+          <span>내 목록</span>
           <span class="nav-count" id="navWatchCount"></span>
         </a>
 
         <div class="nav-advanced">
           <button type="button" class="nav-adv-toggle" id="navAdvToggle" aria-expanded="false" aria-controls="navAdvList">
-            <span class="nav-adv-label">고급 · 검증<span class="nav-review-dot" id="navReviewDot" hidden></span></span>
+            <span class="nav-adv-label">검증 (고급)<span class="nav-review-dot" id="navReviewDot" hidden></span></span>
             <span class="nav-adv-right">
               <span class="nav-count" id="navAdvBadge"></span>
               <span class="nav-adv-caret" aria-hidden="true">▸</span>
             </span>
           </button>
           <div class="nav-adv-list" id="navAdvList" hidden>
-            <a class="nav-link nav-link-sub" href="#/verify" data-route="verify">
+            <a class="nav-link nav-link-sub" href="#/verify/backtest" data-route="verify">
               <span>점수 신뢰도·검증</span>
               <span class="nav-count" id="navWeightBadge"></span>
             </a>
-            <a class="nav-link nav-link-sub" href="#/quality" data-route="quality">
+            <a class="nav-link nav-link-sub" href="#/verify/quality" data-route="quality">
               <span>데이터 수집·품질</span>
               <span class="nav-count" id="navHealthBadge"></span>
             </a>
-            <a class="nav-link nav-link-sub" href="#/sql" data-route="sql"><span>SQL 직접 실행</span></a>
+            <a class="nav-link nav-link-sub" href="#/verify/sql" data-route="sql"><span>SQL 직접 실행</span></a>
           </div>
         </div>
       </nav>
@@ -80,13 +97,21 @@
             <span class="top-status" id="topStatus" aria-live="polite">데이터 불러오는 중...</span>
           </div>
 
-          <div class="top-row-right">
+          <div class="top-row-center" id="globalSearchSlot"><!-- 전역 검색 자리 (팀·공연장·도시·페스티벌, #/search) -->
             <div class="f-search-wrap">
-              <input type="search" id="gfTeamSearch" class="f-search-input" placeholder="팀 검색..." autocomplete="off" aria-label="팀 이름 검색">
-              <div class="f-search-drop" id="gfTeamDrop" hidden></div>
+              <input type="search" id="gfTeamSearch" class="f-search-input" placeholder="팀·공연장 이름으로 찾기 ( / )" autocomplete="off" aria-label="팀·공연장 이름 검색" role="combobox" aria-expanded="false" aria-controls="gfTeamDrop" aria-autocomplete="list">
+              <kbd class="f-search-kbd" aria-hidden="true">/</kbd>
+              <button type="button" class="btn btn-sm f-search-close" id="mobileSearchClose" aria-label="검색 닫기">닫기</button>
+              <div class="f-search-drop" id="gfTeamDrop" role="listbox" aria-label="검색 결과" hidden></div>
             </div>
+          </div>
 
-            <a class="top-alert-badge" id="topWatchAlertsBadge" href="#/today" hidden aria-label="관심 팀 알림"></a>
+          <div class="top-row-right">
+            <button type="button" class="btn btn-icon mobile-search-btn" id="mobileSearchBtn" aria-label="검색 열기" aria-expanded="false" aria-controls="gfTeamSearch" title="검색 ( / )">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </button>
+
+            <a class="top-alert-badge" id="topWatchAlertsBadge" href="#/home" hidden aria-label="관심 팀 알림"></a>
 
             <div class="export-menu-wrap" id="exportMenuWrap">
               <button type="button" class="btn" id="btnExportMenu" aria-haspopup="menu" aria-expanded="false" aria-controls="exportDrop">
@@ -122,21 +147,26 @@
         <div id="globalError" class="notice notice-err" role="alert" hidden></div>
         <div id="viewRoot" tabindex="-1">
           <div class="skeleton-wrap" aria-busy="true" aria-label="데이터 불러오는 중">
-            <div class="skel-banner">
-              <div class="skel-line skel-w-30" style="height:22px;"></div>
-              <div class="skel-line skel-w-70"></div>
-              <div class="skel-line skel-w-50"></div>
+            <div class="skel-head">
+              <div class="skel-avatar"></div>
+              <div class="skel-head-lines">
+                <div class="skel-line skel-w-30" style="height:22px;"></div>
+                <div class="skel-line skel-w-70"></div>
+              </div>
             </div>
-            <div class="grid-5">
-              <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:18px;"></div><div class="skel-line skel-w-90"></div></div>
-              <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:18px;"></div><div class="skel-line skel-w-90"></div></div>
-              <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:18px;"></div><div class="skel-line skel-w-90"></div></div>
-              <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:18px;"></div><div class="skel-line skel-w-90"></div></div>
-              <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:18px;"></div><div class="skel-line skel-w-90"></div></div>
+            <div class="skel-quad">
+              <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:20px;"></div><div class="skel-line skel-w-50"></div></div>
+              <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:20px;"></div><div class="skel-line skel-w-50"></div></div>
+              <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:20px;"></div><div class="skel-line skel-w-50"></div></div>
+              <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:20px;"></div><div class="skel-line skel-w-50"></div></div>
             </div>
-            <div class="grid-2">
-              <div class="skel-card"><div class="skel-line skel-w-50"></div><div class="skel-line skel-w-90"></div><div class="skel-line skel-w-80"></div><div class="skel-line skel-w-70"></div></div>
-              <div class="skel-card"><div class="skel-line skel-w-50"></div><div class="skel-line skel-w-90"></div><div class="skel-line skel-w-80"></div><div class="skel-line skel-w-70"></div></div>
+            <div class="skel-table">
+              <div class="skel-table-head"><div class="skel-line skel-w-30" style="height:16px;"></div></div>
+              <div class="skel-row"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-30"></div><div class="skel-line skel-w-20"></div></div>
+              <div class="skel-row"><div class="skel-line skel-w-50"></div><div class="skel-line skel-w-30"></div><div class="skel-line skel-w-20"></div></div>
+              <div class="skel-row"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-30"></div><div class="skel-line skel-w-20"></div></div>
+              <div class="skel-row"><div class="skel-line skel-w-50"></div><div class="skel-line skel-w-30"></div><div class="skel-line skel-w-20"></div></div>
+              <div class="skel-row"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-30"></div><div class="skel-line skel-w-20"></div></div>
             </div>
           </div>
         </div>

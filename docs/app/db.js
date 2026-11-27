@@ -43,6 +43,8 @@ const discoveryStageCache = new Map();   // sql -> { rows, byTeam }
 const rankChangeCache = new Map();       // sql -> { rows, byTeam, nowDate, weekDate, monthDate }
 const risingPresetCache = new Map();     // sql -> rows
 const venueShowsCache = new Map();       // venue::limit -> rows
+const pendingGigs1yCache = new Map();    // asOf -> Map<team_key, count>
+let teamLastSeenCache = null;            // Map<team_key, isoDate>
 const sqlTemplatePromises = new Map();   // name -> Promise<string>
 
 function lruGet(map, key) {
@@ -77,6 +79,8 @@ function clearQueryCaches() {
   rankChangeCache.clear();
   risingPresetCache.clear();
   venueShowsCache.clear();
+  pendingGigs1yCache.clear();
+  teamLastSeenCache = null;
 }
 
 function localTodayIso() {
@@ -939,6 +943,58 @@ export async function bootstrapData(onStatus = () => {}) {
 
 // ---------- High-level query helpers ----------
 
+/**
+ * 검증 대기(pending) 출처의 최근 1년 공연 일수(팀별).
+ * 휴면 판정 시 점수 출처 외 검증 대기 공연도 활동으로 인정하기 위해 사용.
+ */
+export async function queryPendingGigs1y(asOf) {
+  const baseDate = safeIsoDate(asOf || appState.cfg.as_of || appState.dataEnd, '2026-11-27');
+  const cached = lruGet(pendingGigs1yCache, baseDate);
+  if (cached) return cached;
+  try {
+    const { rows } = await runRawSql(`
+      SELECT team_key, COUNT(DISTINCT signal_date) AS pending_gigs_1y
+      FROM signals
+      WHERE branch = '공연'
+        AND COALESCE(role, 'pending') = 'pending'
+        AND signal_date >= DATE '${baseDate}' - INTERVAL 1 YEAR
+        AND signal_date <= DATE '${baseDate}'
+      GROUP BY team_key
+    `);
+    const map = new Map();
+    for (const r of rows) {
+      if (r.team_key) map.set(r.team_key, Number(r.pending_gigs_1y) || 0);
+    }
+    lruSet(pendingGigs1yCache, baseDate, map);
+    return map;
+  } catch (_) {
+    return new Map();
+  }
+}
+
+/**
+ * 팀별 최근 신호 날짜 맵 (검색 드롭다운용, 1회 캐시).
+ */
+export async function queryTeamLastSeenMap() {
+  if (teamLastSeenCache) return teamLastSeenCache;
+  try {
+    const { rows } = await runRawSql(`
+      SELECT team_key, CAST(MAX(signal_date) AS VARCHAR) AS last_seen
+      FROM signals
+      WHERE signal_date IS NOT NULL
+      GROUP BY team_key
+    `);
+    const map = new Map();
+    for (const r of rows) {
+      if (r.team_key && r.last_seen) map.set(r.team_key, String(r.last_seen).slice(0, 10));
+    }
+    teamLastSeenCache = map;
+    return map;
+  } catch (_) {
+    return new Map();
+  }
+}
+
 export async function queryCandidates(overrides = {}) {
   const c = appState.cfg;
   const limit = overrides.limit !== undefined ? overrides.limit : c.limit;
@@ -951,12 +1007,19 @@ export async function queryCandidates(overrides = {}) {
 
   const baseKey = fillTemplate(tpl, { ...params, limit: '__LIM__' });
   const cached = lruGet(candidatesCache, baseKey);
+  const asOfIso = safeIsoDate(overrides.as_of || c.as_of || appState.dataEnd, '2026-11-27');
   let rows;
   if (cached && cached.limit >= limNum) {
     rows = cached.rows.slice(0, limNum);
   } else {
-    const res = await runRawSql(sql);
-    rows = res.rows;
+    const [res, pendingMap] = await Promise.all([
+      runRawSql(sql),
+      queryPendingGigs1y(asOfIso),
+    ]);
+    rows = res.rows.map(r => ({
+      ...r,
+      pending_gigs_1y: pendingMap.get(r.team_key) || 0,
+    }));
     lruSet(candidatesCache, baseKey, { limit: limNum, rows });
   }
 

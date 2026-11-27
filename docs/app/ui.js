@@ -605,16 +605,54 @@ export function friendlySqlError(err) {
   return raw;
 }
 
+export function formatLastCheckedShort() {
+  const raw = String(
+    appState.meta?.generated_at
+    || appState.meta?.data_end
+    || appState.dataEnd
+    || ''
+  ).trim();
+  const m = raw.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if (m) return `${Number(m[2])}/${Number(m[3])}`;
+  return '';
+}
+
+/**
+ * 6-2: 블록 안 '자료 없음' 문구 통일 ('— 아직 기록 없음 (마지막 확인 날짜)').
+ * 수집 안 함('모름')은 naCell(), 측정된 0은 숫자 0으로 구분하고,
+ * 기록을 확인했으나 해당 항목이 비어 있을 때 이 형식을 쓴다.
+ */
+export function renderNoRecordLine(detail = '', { lastChecked } = {}) {
+  const dt = lastChecked !== undefined ? String(lastChecked || '') : formatLastCheckedShort();
+  const tail = dt ? ` (마지막 확인 ${dt})` : '';
+  const tip = String(detail || '').trim();
+  const titleAttr = tip ? ` title="${escapeHtml(tip)}"` : '';
+  return `<p class="no-record-line"${titleAttr}>— 아직 기록 없음${escapeHtml(tail)}</p>`;
+}
+
 export function renderEmptyState({
-  title = '조건에 맞는 결과가 없습니다',
-  message = '필터 조건을 줄여 보거나 초기화해 전체 목록을 확인해 보세요.',
+  title = '',
+  message = '조건에 맞는 결과가 없습니다. 필터 조건을 줄여 보거나 초기화해 확인해 보세요.',
   showReset = true,
+  actionLabel = '',
+  actionHref = '',
+  actionAttrs = '',
 } = {}) {
+  const bodyText = title && message && title !== message
+    ? `${title}. ${message}`
+    : (message || title || '표시할 항목이 없습니다.');
+  let actionHtml = '';
+  if (actionLabel && actionHref) {
+    actionHtml = `<a class="btn btn-primary" href="${escapeHtml(actionHref)}"${actionAttrs ? ` ${actionAttrs}` : ''}>${escapeHtml(actionLabel)}</a>`;
+  } else if (actionLabel) {
+    actionHtml = `<button type="button" class="btn btn-primary"${actionAttrs ? ` ${actionAttrs}` : ''}>${escapeHtml(actionLabel)}</button>`;
+  } else if (showReset) {
+    actionHtml = '<button type="button" class="btn btn-primary" data-action="reset-filters">필터 초기화</button>';
+  }
   return `
     <div class="empty-state" role="status">
-      <p class="empty-state-title">${escapeHtml(title)}</p>
-      <p class="empty-state-msg">${escapeHtml(message)}</p>
-      ${showReset ? '<button type="button" class="btn btn-primary" data-action="reset-filters">필터 초기화</button>' : ''}
+      <p class="empty-state-msg">${escapeHtml(bodyText)}</p>
+      ${actionHtml}
     </div>
   `;
 }
@@ -622,17 +660,26 @@ export function renderEmptyState({
 export function renderViewSkeleton() {
   return `
     <div class="skeleton-wrap" aria-busy="true" aria-label="화면 불러오는 중">
-      <div class="skel-banner">
-        <div class="skel-line skel-w-30" style="height:22px;"></div>
-        <div class="skel-line skel-w-70"></div>
-        <div class="skel-line skel-w-50"></div>
+      <div class="skel-head">
+        <div class="skel-avatar"></div>
+        <div class="skel-head-lines">
+          <div class="skel-line skel-w-30" style="height:22px;"></div>
+          <div class="skel-line skel-w-70"></div>
+        </div>
       </div>
-      <div class="skel-card">
-        <div class="skel-line skel-w-40" style="height:18px;"></div>
-        <div class="skel-line skel-w-90"></div>
-        <div class="skel-line skel-w-80"></div>
-        <div class="skel-line skel-w-90"></div>
-        <div class="skel-line skel-w-70"></div>
+      <div class="skel-quad">
+        <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:20px;"></div><div class="skel-line skel-w-50"></div></div>
+        <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:20px;"></div><div class="skel-line skel-w-50"></div></div>
+        <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:20px;"></div><div class="skel-line skel-w-50"></div></div>
+        <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:20px;"></div><div class="skel-line skel-w-50"></div></div>
+      </div>
+      <div class="skel-table">
+        <div class="skel-table-head"><div class="skel-line skel-w-30" style="height:16px;"></div></div>
+        <div class="skel-row"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-30"></div><div class="skel-line skel-w-20"></div></div>
+        <div class="skel-row"><div class="skel-line skel-w-50"></div><div class="skel-line skel-w-30"></div><div class="skel-line skel-w-20"></div></div>
+        <div class="skel-row"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-30"></div><div class="skel-line skel-w-20"></div></div>
+        <div class="skel-row"><div class="skel-line skel-w-50"></div><div class="skel-line skel-w-30"></div><div class="skel-line skel-w-20"></div></div>
+        <div class="skel-row"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-30"></div><div class="skel-line skel-w-20"></div></div>
       </div>
     </div>
   `;
@@ -1246,13 +1293,15 @@ export function isDormantTeam(row) {
   if (!row || typeof row !== 'object') return false;
   if (row.recent180 === undefined || row.recent180 === null) return false;
   if (row.gigs_1y === undefined || row.gigs_1y === null) return false;
+  if (Number(row.pending_gigs_1y) > 0) return false;
+  if (row.next_gig) return false;
   return Number(row.recent180) === 0 && Number(row.gigs_1y) === 0;
 }
 
 export function dormantBadgeHtml(rowOrFlag) {
   const dormant = typeof rowOrFlag === 'boolean' ? rowOrFlag : isDormantTeam(rowOrFlag);
   if (!dormant) return '';
-  return '<span class="tag-pill tag-dormant" title="최근 180일 신호 0건 · 최근 1년 공연 0건">휴면</span>';
+  return '<span class="tag-pill tag-dormant" title="최근 180일 신호 0건 · 최근 1년 공연 0건 (검증 대기 출처 포함)">휴면</span>';
 }
 
 export function isNewcomerUnverified(teamKey, profile = null) {
