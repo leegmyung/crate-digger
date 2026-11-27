@@ -1,0 +1,40 @@
+{
+  "_설명": "사람이 확인한 별칭 (2026-11-27 시작). 자동 규칙(한영 병기·인스타 이름)으로 못 묶는 같은 팀의 다른 표기를 적는다. scripts/artist_xref.py 가 신뢰도 high 간선으로 넣고, 자동 간선과 함께 충돌 검사(같은 별칭이 다른 대표에 붙으면 버리고 '확인 필요'로 보고)를 받는다. 항목마다 main(대표 이름), aliases(별칭 목록), reason(이유), evidence(근거 — 링크 또는 우리 데이터 설명), checked(확인 날짜 YYYY-MM-DD)가 모두 있어야 한다. 확신이 중간 이하인 쌍(예: nib ↔ nib.archive)은 넣지 말고 docs/candidate_audit.md 의 '확인 필요'에 둔다.",
+  "aliases": [
+    {
+      "main": "포스트이너서클",
+      "aliases": ["포스트이너써클"],
+      "reason": "같은 밴드 Post Inner Circle — 인디스트릿에 철자만 다른 아티스트 페이지가 둘이라 한 공연(2026-11-21 공상온도)에 두 번 올라감. EP 〈Artificial Sun〉(2025-11) 쇼케이스는 '써클', 2026년 공연은 '서클'로 적힘",
+      "evidence": ["https://www.koreanindie.com/2025/11/10/post-inner-circle-artificial-sun/", "docs/candidate_audit.md '확인 결과'"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "밴디츠",
+      "aliases": ["bandits"],
+      "reason": "같은 팀 — 부산 2인조 Bandits. 2025-08-15 오방가르드 공연 제목은 '밴디츠', 출연자 칸은 'bandits'. 두 표기 모두 부산·경남 공연장(오방가르드·유기체·언드)에 나옴",
+      "evidence": ["https://www.koreatimes.co.kr/amp/southkorea/globalcommunity/20240914/bandits-rules-southeastern-koreas-underground-music-scene", "https://banditssk.bandcamp.com/", "docs/candidate_audit.md '확인 결과'"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "데킬라올드패션드",
+      "aliases": ["데낄라올드패션드"],
+      "reason": "외래어 표기 차이(데킬라/데낄라, Tequila Old Fashioned)이고 같은 공연장(Club FF)에 나옴",
+      "evidence": ["docs/candidate_audit.md '301~600위 점검' — 우리 공연 기록"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "올드카컬렉션",
+      "aliases": ["올드카콜렉션"],
+      "reason": "외래어 표기 차이(컬렉션/콜렉션)이고 두 표기의 공연장(거제 언드·부산 오방가르드)이 모두 같음",
+      "evidence": ["docs/candidate_audit.md '301~600위 점검' — 우리 공연 기록"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "7번국도",
+      "aliases": ["칠번국도"],
+      "reason": "숫자 읽기 차이(7/칠)이고 같은 공연장(부산 오방가르드)에 나옴",
+      "evidence": ["docs/candidate_audit.md '301~600위 점검' — 우리 공연 기록"],
+      "checked": "2026-11-27"
+    }
+  ]
+}

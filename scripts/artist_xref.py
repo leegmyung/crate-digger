@@ -45,6 +45,7 @@ STATE_DIR = RAW_DIR / "state"
 DEFAULT_XREF = STATE_DIR / "artist_xref.json"
 REVIEW_PATH = STATE_DIR / "artist_xref_review.json"
 SUMMARY_MD = ROOT / "docs" / "artist_xref.md"
+MANUAL_ALIASES = ROOT / "config" / "artist_aliases.json"   # 사람이 확인한 별칭 (대표 이름 ↔ 별칭, 이유·근거·확인 날짜)
 PSQL = os.environ.get("PSQL", "/opt/homebrew/opt/postgresql@17/bin/psql")
 DB = os.environ.get("PGDATABASE", "crate_digger")
 
@@ -372,15 +373,51 @@ def _ig_edges(cands: dict, occ: list[dict], base: set[str], spell: dict) -> list
     return edges
 
 
+def load_manual_aliases(path: Path = MANUAL_ALIASES) -> list[dict]:
+    """config/artist_aliases.json → 항목 목록. 파일이 없으면 빈 목록, 형식이 틀리면 어느 항목이 왜 틀렸는지 알리고 멈춘다."""
+    try:
+        data = json.loads(Path(path).read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return []
+    entries = data.get("aliases", []) if isinstance(data, dict) else None
+    if not isinstance(entries, list):
+        raise ValueError(f"{path}: 'aliases' 목록이 없어요")
+    for i, e in enumerate(entries):
+        problems = [why for ok, why in (
+            (isinstance(e.get("main"), str) and e["main"].strip(), "main(대표 이름)이 비어 있음"),
+            (isinstance(e.get("aliases"), list) and e["aliases"] and all(isinstance(a, str) and a.strip() for a in e["aliases"]),
+             "aliases(별칭 목록)가 비어 있음"),
+            (isinstance(e.get("reason"), str) and e["reason"].strip(), "reason(이유)이 비어 있음"),
+            (isinstance(e.get("evidence"), list) and e["evidence"], "evidence(근거)가 비어 있음"),
+            (isinstance(e.get("checked"), str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", e["checked"]), "checked(확인 날짜)가 YYYY-MM-DD가 아님"),
+        ) if not ok]
+        if problems:
+            raise ValueError(f"{path} 항목 {i + 1} ({e.get('main', '?')}): {', '.join(problems)}")
+    return entries
+
+
+def _manual_edges(entries: list[dict]) -> list[tuple]:
+    """사람이 확인한 별칭 → (대표 키, 별칭 키, 'high', 근거) 간선. 충돌 검사는 자동 간선과 함께 받는다."""
+    edges = []
+    for e in entries:
+        mk = artist_key(e["main"])
+        for a in e["aliases"]:
+            ak = artist_key(a)
+            if mk and ak and ak != mk:
+                edges.append((mk, ak, "high", f"사람 확인({e['checked']}): {e['reason']}"))
+    return edges
+
+
 def build_xref(names: list[dict], ig_profiles: list[dict], ig_posts: list[dict],
-               platform_ids: list[dict]) -> tuple[list[dict], list[dict]]:
-    """원본 이름·인스타·플랫폼 번호 → (연결표 artists, 사람 확인 목록 review)."""
+               platform_ids: list[dict], manual_aliases: list[dict] | None = None) -> tuple[list[dict], list[dict]]:
+    """원본 이름·인스타·플랫폼 번호 (+ 사람이 확인한 별칭) → (연결표 artists, 사람 확인 목록 review)."""
     review: list[dict] = []
     occ = _expand_names(names, review)
     spell, tables, count = _collect_occurrences(occ)
     base = set(count)
     cands = _ig_candidates(ig_profiles, ig_posts)
-    edges = _drop_conflicts(_alias_edges(occ) + _ig_edges(cands, occ, base, spell), review)
+    edges = _drop_conflicts(_alias_edges(occ) + _ig_edges(cands, occ, base, spell)
+                            + _manual_edges(manual_aliases or []), review)
 
     g = _Groups()
     for k in list(spell) + list(base):
@@ -705,7 +742,8 @@ def collect_inputs(raw_dir: Path = RAW_DIR) -> tuple[list, list, list, list]:
 
 # ---------- 요약 문서·실행 ----------
 
-def _stats_lines(artists: list[dict], review: list[dict], names: list[dict], ig_handles: set[str]) -> list[str]:
+def _stats_lines(artists: list[dict], review: list[dict], names: list[dict], ig_handles: set[str],
+                 manual: list[dict] | None = None) -> list[str]:
     multi_spell = [a for a in artists if len(a["aliases"]) >= 2]
     multi_key = [a for a in artists if len(a["keys"]) >= 2]
     conf_n = Counter(ig["confidence"] for a in artists for ig in a["instagram"])
@@ -726,11 +764,13 @@ def _stats_lines(artists: list[dict], review: list[dict], names: list[dict], ig_
         f"| 멜론 번호 / 스포티파이 번호 붙은 팀 | {sum('melon_id' in a for a in artists):,} / {sum('spotify_id' in a for a in artists):,} |",
         f"| **정답 팀 중 신호(공연·선정·발매·기사)와 이어진 팀** | {oc['linked_teams']:,} / {oc['outcome_teams']:,}팀 ({pct(oc['linked_teams'], oc['outcome_teams'])}) |",
         f"| └ 그중 연결표로 다른 표기를 묶어서 새로 이어진 팀 | {oc['linked_only_by_xref']:,}팀 |",
+        f"| 사람이 확인한 별칭 (`config/artist_aliases.json`) | {len(manual or [])}팀 · 별칭 {sum(len(e['aliases']) for e in manual or [])}개 |",
         f"| 사람 확인 필요 | {len(review):,}건 ({', '.join(f'{k} {v}' for k, v in kinds.most_common())}) |",
     ]
 
 
-def summarize(artists: list[dict], review: list[dict], names: list[dict], ig_handles: set[str]) -> str:
+def summarize(artists: list[dict], review: list[dict], names: list[dict], ig_handles: set[str],
+              manual: list[dict] | None = None) -> str:
     """공개용 요약 (숫자·예시만, 개인 경로 없음)."""
     lines = [
         "# 아티스트 연결표 요약 (artist_xref)", "",
@@ -739,10 +779,12 @@ def summarize(artists: list[dict], review: list[dict], names: list[dict], ig_han
         "(업계 말로 '아티스트 매칭·메타데이터 검수'). 문제 찾기는 검증 SQL(`docs/sql/README.md` c02·c06·c08), 고친 표 만들기는 이 스크립트, "
         "결과는 다시 PostgreSQL `ref.artist_xref`(표기 키 → 대표 키)로 넣어 SQL에서 씁니다.",
         "원본 연결표는 실제 수집 데이터라 저장소에 올리지 않고 여기엔 숫자와 예시만 둡니다.", "",
-        "## 숫자", "", *_stats_lines(artists, review, names, ig_handles), "",
+        "## 숫자", "", *_stats_lines(artists, review, names, ig_handles, manual), "",
         "정답↔신호 연결률은 날짜를 따지지 않은 '이름이 이어지는가'만 본 숫자예요. 점수 백테스트의 정답 수는 여기에 "
         "'신호가 정답보다 먼저'·'정답 기간 2025년 이후'·'같은 프로그램 계열 제외' 조건이 더해져 줄어듭니다.", "",
         "확신도: **high** = 다른 소스의 팀 이름과 맞고 계정명도 닮았거나 근거가 2가지 이상 · **mid** = 근거 1가지 · **low** = 인스타에만 있음.", "",
+        "자동 규칙으로 못 묶는 같은 팀의 다른 표기(철자·외래어 표기·숫자 읽기 차이)는 사람이 근거를 확인한 뒤 `config/artist_aliases.json`에 적는다. "
+        "이유·근거 링크·확인 날짜가 있어야 하고, high 연결로 들어가되 자동 연결과 같이 충돌 검사(같은 별칭이 다른 팀에 붙으면 버림)를 받는다.", "",
         "## 묶인 예시 (표기가 많은 순 10개)", "",
         "| 대표 이름 | 표기 | 인스타 | 소스 |", "|---|---|---|---|",
     ]
@@ -763,13 +805,14 @@ def main() -> None:
     ap.add_argument("--load-pg", action="store_true", help="PostgreSQL ref.artist_xref 로도 넣기")
     args = ap.parse_args()
     names, ig_profiles, ig_posts, platform_ids = collect_inputs()
-    artists, review = build_xref(names, ig_profiles, ig_posts, platform_ids)
+    manual = load_manual_aliases()
+    artists, review = build_xref(names, ig_profiles, ig_posts, platform_ids, manual_aliases=manual)
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     DEFAULT_XREF.write_text(json.dumps(artists, ensure_ascii=False, indent=1), encoding="utf-8")
     REVIEW_PATH.write_text(json.dumps(review, ensure_ascii=False, indent=1), encoding="utf-8")
     handles = {h for h in ({p["handle"].lstrip("@").lower() for p in ig_profiles} | {p["handle"].lower() for p in ig_posts})
                if not NOT_A_HANDLE.search(h)}
-    SUMMARY_MD.write_text(summarize(artists, review, names, handles), encoding="utf-8")
+    SUMMARY_MD.write_text(summarize(artists, review, names, handles, manual), encoding="utf-8")
     print(f"대표 팀 {len(artists):,} · 확인 필요 {len(review):,} → {DEFAULT_XREF.relative_to(ROOT)}, {SUMMARY_MD.relative_to(ROOT)}")
     if args.load_pg:
         print(load_pg(artists))

@@ -242,6 +242,51 @@ class BuildXrefTest(unittest.TestCase):
         self.assertTrue(any(r["kind"] == "multiple_platform_ids" for r in review))
 
 
+class ManualAliasTest(unittest.TestCase):
+    """사람이 확인한 별칭(config/artist_aliases.json) → 신뢰도 high 간선. 충돌 검사는 자동 간선과 같이 받는다."""
+    ENTRY = {"main": "포스트이너서클", "aliases": ["포스트이너써클"], "reason": "같은 EP, 인디스트릿 페이지 둘",
+             "evidence": ["https://example.com/a"], "checked": "2026-11-27"}
+
+    def _names(self):
+        return [{"table": "gig", "name": "포스트이너서클", "count": 5}, {"table": "gig", "name": "포스트이너써클", "count": 3},
+                {"table": "gig", "name": "가나", "count": 2}, {"table": "gig", "name": "다라", "count": 2}]
+
+    def test_manual_alias_groups_teams_with_high_confidence(self):
+        artists, _ = ax.build_xref(self._names(), [], [], [], manual_aliases=[self.ENTRY])
+        grp = [a for a in artists if "포스트이너서클" in a["keys"]]
+        self.assertEqual(len(grp), 1)
+        self.assertEqual(sorted(grp[0]["keys"]), ["포스트이너서클", "포스트이너써클"])
+        self.assertEqual(grp[0]["confidence"], "high")
+
+    def test_without_manual_alias_they_stay_apart(self):
+        artists, _ = ax.build_xref(self._names(), [], [], [])
+        self.assertEqual(sum("포스트이너서클" in a["keys"] or "포스트이너써클" in a["keys"] for a in artists), 2)
+
+    def test_conflicting_manual_alias_is_dropped_and_reported(self):
+        bad = [{**self.ENTRY, "main": "가나", "aliases": ["포스트이너써클"]}, self.ENTRY]
+        artists, review = ax.build_xref(self._names(), [], [], [], manual_aliases=bad)
+        self.assertTrue(any(r["kind"] == "alias_conflict" and "포스트이너써클" in r["detail"] for r in review))
+        self.assertFalse(any({"가나", "포스트이너써클"} <= set(a["keys"]) for a in artists))
+
+    def test_load_manual_aliases_validates(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "a.json"
+            p.write_text(json.dumps({"_설명": "x", "aliases": [self.ENTRY]}, ensure_ascii=False), encoding="utf-8")
+            self.assertEqual(ax.load_manual_aliases(p), [self.ENTRY])
+            self.assertEqual(ax.load_manual_aliases(Path(d) / "없음.json"), [])
+            for broken in ({**self.ENTRY, "aliases": []}, {**self.ENTRY, "checked": "어제"},
+                           {**self.ENTRY, "evidence": []}, {k: v for k, v in self.ENTRY.items() if k != "reason"}):
+                p.write_text(json.dumps({"aliases": [broken]}, ensure_ascii=False), encoding="utf-8")
+                with self.assertRaises(ValueError):
+                    ax.load_manual_aliases(p)
+
+    def test_repo_config_is_valid_and_excludes_unsure_pairs(self):
+        entries = ax.load_manual_aliases()
+        keys = {ax.artist_key(n) for e in entries for n in [e["main"], *e["aliases"]]}
+        self.assertIn("포스트이너써클", keys)
+        self.assertNotIn("nibarchive", keys)       # 확신 중간 — 문서에 '확인 필요'로만
+
+
 class BacktraceCasesTest(unittest.TestCase):
     """backtrace에서 두 줄로 갈라졌던 실제 사례 (코디네이터 요청)."""
 

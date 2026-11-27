@@ -65,6 +65,8 @@
 | **포스트이너서클 / 포스트이너써클** | 같은 팀 (Post Inner Circle) | 인디스트릿에 아티스트 페이지가 둘(철자만 다름)이라 한 공연(2026-11-21 공상온도 'Time for Tolerance')에 두 번 올라 있다. 같은 EP 〈Artificial Sun〉(2025-11) 쇼케이스는 '써클' 쪽에, 2026년 공연은 '서클' 쪽에 적혔다([Korean Indie — Post Inner Circle: Artificial Sun](https://www.koreanindie.com/2025/11/10/post-inner-circle-artificial-sun/)) | **연결표 별칭으로 묶기** (대표 이름 하나 + 표기 2개) |
 | **밴디츠 / bandits** | 같은 팀 (부산 2인조 Bandits) | 2025-08-15 오방가르드 공연 제목은 '칩포스트갱 / **밴디츠** / 일가인 / 리포맨'인데 출연자 칸에는 'bandits'로 적혔다. 두 이름 모두 부산·경남 공연장(오방가르드·유기체·언드)에 나온다. 부산 2인조로 데뷔 EP 〈Nowhere〉를 냈다([Korea Times](https://www.koreatimes.co.kr/amp/southkorea/globalcommunity/20240914/bandits-rules-southeastern-koreas-underground-music-scene), [Bandcamp](https://banditssk.bandcamp.com/)) | **연결표 별칭으로 묶기** |
 
+**반영 (2026-11-27 저녁)**: '묶기'로 판정한 포스트이너서클/포스트이너써클, 밴디츠/bandits와 아래 '묶기 유력' 3쌍(데킬라/데낄라올드패션드, 올드카컬렉션/콜렉션, 7번국도/칠번국도)을 사람이 확인한 별칭 파일 `config/artist_aliases.json`에 넣었다. 연결표(`scripts/artist_xref.py`)가 이 파일을 high 연결로 읽어 다섯 쌍이 각각 한 팀이 됐다(충돌 0). nib ↔ nib.archive는 확신이 중간이라 넣지 않고 **확인 필요**로 둔다.
+
 ## 301~600위 점검 (2026-11-27 저녁)
 
 - 만들기: `.venv/bin/python scripts/candidate_audit.py --skip 300 --top 600` → `data/raw/review/candidate_audit_<날짜>_301-600.csv` (비공개). 1~300위 파일 이름은 그대로라 멜론 보강 명단(0순위)은 1~300위 결과만 읽는다.
