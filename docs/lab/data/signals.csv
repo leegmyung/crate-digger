@@ -1415,7 +1415,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 급한노새,공연,indiego,,,2026-09-26,Club 빵,pending
 급한노새,공연,indistreet,,,2026-09-26,Club 빵,discovery
 급한노새,공연,indiego,,,2026-10-04,우무지,pending
-급한노새,공연,indiego,,,2026-10-10,제임스레코드,pending
+급한노새,공연,indiego,,,2026-10-10,대구 제임스레코드,pending
 급한노새,공연,indiego,,,2026-10-18,Club FF,pending
 급한노새,공연,indistreet,,,2026-10-18,Club FF,discovery
 급한노새,공연,indistreet,,,2026-10-24,Hukez,discovery
@@ -1846,7 +1846,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 김산돌,공연,indistreet,,,2025-10-07,오방가르드,discovery
 김산돌,공연,indiego,,,2026-11-22,채널1969,pending
 김산돌,공연,indistreet,,,2026-11-22,채널1969,discovery
-김산돌,공연,indiego,,,2026-11-29,제임스레코드,pending
+김산돌,공연,indiego,,,2026-11-29,대구 제임스레코드,pending
 김산돌,공연,indistreet,,,2026-11-29,대구 제임스레코드,discovery
 김상민그는감히전설이라고할수있다,큐레이션,hiphople,HIPHOPLE,,2022-04-21,,pending
 김상민그는감히전설이라고할수있다,큐레이션,hiphople,HIPHOPLE,,2022-10-31,,pending
@@ -2105,7 +2105,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 김일두,공연,indistreet,,,2026-05-01,,discovery
 김일두,공연,indistreet,,,2026-05-01,대구 제임스레코드,discovery
 김일두,공연,indiego,,,2026-07-10,모래내 극락,pending
-김일두,공연,indiego,,,2026-07-11,제임스레코드,pending
+김일두,공연,indiego,,,2026-07-11,대구 제임스레코드,pending
 김일두,공연,indistreet,,,2026-07-11,대구 제임스레코드,discovery
 김일두,공연,indistreet,,,2026-09-13,,discovery
 김일두,공연,indiego,,,2026-11-22,채널1969,pending
@@ -3768,7 +3768,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 단편선순간들,공연,indiego,,,2026-04-11,채널1969,pending
 단편선순간들,공연,indiego,,,2026-04-25,인천아트플랫폼,pending
 단편선순간들,공연,indiego,,,2026-05-08,고라니특공대,pending
-단편선순간들,공연,indiego,,,2026-05-23,제임스레코드,pending
+단편선순간들,공연,indiego,,,2026-05-23,대구 제임스레코드,pending
 단편선순간들,공연,indiego,,,2026-07-03,롤링홀,pending
 단편선순간들,공연,indistreet,,,2026-07-03,롤링홀,discovery
 단편선순간들,공연,indiego,,,2026-07-29,카페 언플러그드 홍대점,pending
@@ -4913,7 +4913,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 드링킹소년소녀합창단,공연,indistreet,,,2024-12-31,오방가르드,discovery
 드링킹소년소녀합창단,큐레이션,trackzero,멜론 트랙제로,,2025-07-17,,pending
 드링킹소년소녀합창단,공연,indistreet,,,2025-10-11,오방가르드,discovery
-드링킹소년소녀합창단,공연,indiego,,,2026-07-18,제임스레코드,pending
+드링킹소년소녀합창단,공연,indiego,,,2026-07-18,대구 제임스레코드,pending
 드링킹소년소녀합창단,공연,indistreet,,,2026-07-18,꼬뮨,discovery
 드링킹소년소녀합창단,큐레이션,trackzero,멜론 트랙제로,,2026-08-13,,pending
 드링킹소년소녀합창단,공연,indistreet,,,2026-08-16,,discovery
@@ -7461,7 +7461,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 모허,공연,indiego,,,2026-11-14,비호소,pending
 모허,공연,indiego,,,2026-11-15,Club 빵,pending
 모허,공연,indistreet,,,2026-11-15,Club 빵,discovery
-모허,공연,indiego,,,2026-11-29,제임스레코드,pending
+모허,공연,indiego,,,2026-11-29,대구 제임스레코드,pending
 모허,공연,indistreet,,,2026-11-29,대구 제임스레코드,discovery
 모혀,공연,indistreet,,,2025-02-21,Club 빵,discovery
 모호프로젝트,큐레이션,trackzero,멜론 트랙제로,,2023-11-16,,pending
@@ -8464,8 +8464,8 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 박휘노,공연,indiego,,,2026-11-07,생기스튜디오,pending
 박희수,선정·지원,yjh,yoojaeha_finalist,3,2016-12-31,,discovery
 박희수,공연,indistreet,,,2026-06-24,우주정거장,discovery
-반,공연,indiego,,,2026-07-24,제임스레코드,pending
 반,공연,indiego,,,2026-07-24,클럽샤프,pending
+반,공연,indiego,,,2026-07-24,대구 제임스레코드,pending
 반느와르,큐레이션,hiphople,HIPHOPLE,,2022-12-23,,pending
 반다오이,큐레이션,trackzero,멜론 트랙제로,,2024-06-13,,pending
 반도,큐레이션,musicy,음악취향Y,,2024-01-02,,discovery
@@ -9541,8 +9541,8 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 블랙스완,큐레이션,izm,IZM,,2025-06-08,,context
 블랙스트링,큐레이션,musicy,음악취향Y,,2024-12-30,,discovery
 블랙신드롬,공연,indistreet,,,2026-05-17,프리즘홀,discovery
-블랙앤화이트,공연,indiego,,,2026-07-24,제임스레코드,pending
 블랙앤화이트,공연,indiego,,,2026-07-24,클럽샤프,pending
+블랙앤화이트,공연,indiego,,,2026-07-24,대구 제임스레코드,pending
 블랙우든도어,공연,indistreet,,,2024-09-12,Club FF,discovery
 블랙우든도어,공연,indiego,,,2026-02-07,채널1969,pending
 블랙체리클럽,큐레이션,musicy,음악취향Y,,2026-09-14,,discovery
@@ -9820,7 +9820,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 비제로,공연,indistreet,,,2026-03-14,언드,discovery
 비제로,공연,indiego,,,2026-04-05,클럽 프리버드,pending
 비제로,공연,indistreet,,,2026-04-30,오방가르드,discovery
-비제로,공연,indiego,,,2026-05-23,제임스레코드,pending
+비제로,공연,indiego,,,2026-05-23,대구 제임스레코드,pending
 비제로,공연,indistreet,,,2026-05-23,대구 제임스레코드,discovery
 비제로,공연,indistreet,,,2026-05-30,오방가르드,discovery
 비제로,공연,indistreet,,,2026-06-06,대구 제임스레코드,discovery
@@ -12280,8 +12280,8 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 슬랙스,큐레이션,hiphople,HIPHOPLE,,2022-05-13,,pending
 슬랙스,큐레이션,hiphople,HIPHOPLE,,2023-09-18,,pending
 슬랙스,큐레이션,hiphople,HIPHOPLE,,2024-01-11,,pending
-슬랜트,공연,indiego,,,2026-07-24,제임스레코드,pending
 슬랜트,공연,indiego,,,2026-07-24,클럽샤프,pending
+슬랜트,공연,indiego,,,2026-07-24,대구 제임스레코드,pending
 슬랜트,공연,indiego,,,2026-11-06,베이비돌,pending
 슬랜트,공연,indiego,,,2026-11-28,아차산로5길 24-14,pending
 슬러,공연,indistreet,,,2026-02-28,유기체,discovery
@@ -13038,7 +13038,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 썬타운걸즈,공연,indistreet,,,2025-06-22,오방가르드,discovery
 썬타운걸즈,공연,indistreet,,,2025-10-10,오방가르드,discovery
 썬타운걸즈,공연,indistreet,,,2025-10-11,오방가르드,discovery
-썬타운걸즈,공연,indiego,,,2026-05-23,제임스레코드,pending
+썬타운걸즈,공연,indiego,,,2026-05-23,대구 제임스레코드,pending
 썸머스노우,공연,indiego,,,2026-07-17,카페 언플러그드 홍대점,pending
 쎄노,큐레이션,hiphople,HIPHOPLE,,2021-08-06,,pending
 쎄미블루,공연,sangsangmadang,,,2019-10-26,KT&G 상상마당 홍대 라이브홀,discovery
@@ -13055,7 +13055,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 쏘노로스,공연,indiego,,,2026-07-26,오방가르드,pending
 쏘노로스,공연,indistreet,,,2026-07-26,오방가르드,discovery
 쏘노로스,공연,indistreet,,,2026-08-02,,discovery
-쏘노로스,공연,indiego,,,2026-10-10,제임스레코드,pending
+쏘노로스,공연,indiego,,,2026-10-10,대구 제임스레코드,pending
 쏜애플,선정·지원,sangsangmadang,band_discovery,2,2013-07-30,,discovery
 쏜애플,선정·지원,sangsangmadang,band_discovery,4,2013-08-07,,discovery
 쏜애플,공연,sangsangmadang,,,2018-05-01,KT&G 상상마당 홍대 라이브홀,discovery
@@ -13097,7 +13097,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 쓰다,공연,indistreet,,,2026-05-07,언플러그드 라운지,discovery
 쓰다,공연,indistreet,,,2026-08-30,,discovery
 쓰다,공연,indiego,,,2026-10-03,제비다방,pending
-쓰다,공연,indiego,,,2026-11-29,제임스레코드,pending
+쓰다,공연,indiego,,,2026-11-29,대구 제임스레코드,pending
 쓰다,공연,indistreet,,,2026-11-29,대구 제임스레코드,discovery
 쓰렉,공연,indistreet,,,2025-02-22,ACS,discovery
 씨쓰리엠,공연,indistreet,,,2024-02-11,공연장 미정,discovery
@@ -19090,7 +19090,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 전파상사,공연,indiego,,,2026-05-15,생기스튜디오,pending
 전파상사,공연,indistreet,,,2026-05-15,생기스튜디오,discovery
 전파상사,공연,indiego,,,2026-05-30,Club Victim,pending
-전파상사,공연,indiego,,,2026-07-18,제임스레코드,pending
+전파상사,공연,indiego,,,2026-07-18,대구 제임스레코드,pending
 전파상사,공연,indistreet,,,2026-07-18,꼬뮨,discovery
 전파상사,공연,indiego,,,2026-08-01,Club Victim,pending
 전현재,큐레이션,hiphople,HIPHOPLE,,2022-12-19,,pending
@@ -20309,7 +20309,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 짐다헤,공연,indistreet,,,2025-10-22,Club 빵,discovery
 집단지성,공연,indistreet,,,2025-10-22,Club 빵,discovery
 집단지성,공연,indistreet,,,2025-11-07,공상온도,discovery
-집시유랑단,공연,indiego,,,2026-10-10,제임스레코드,pending
+집시유랑단,공연,indiego,,,2026-10-10,대구 제임스레코드,pending
 징가징가,공연,indistreet,,,2026-08-12,Club 빵,discovery
 징가징가,공연,indistreet,,,2026-10-21,Club 빵,discovery
 짙은,공연,sangsangmadang,,,2023-08-19,KT&G 상상마당 부산 3층 라이브홀,discovery
@@ -23551,7 +23551,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 포져군단,선정·지원,sangsangmadang,band_discovery,2,2026-07-17,,discovery
 포져군단,공연,indistreet,,,2026-07-31,,discovery
 포져군단,공연,indistreet,,,2026-08-07,오방가르드,discovery
-포져군단,공연,indiego,,,2026-08-08,제임스레코드,pending
+포져군단,공연,indiego,,,2026-08-08,대구 제임스레코드,pending
 포져군단,선정·지원,busanrock,burock_rookies,3,2026-08-13,,pending
 포져군단,공연,indiego,,,2026-08-14,롤링홀,pending
 포져군단,공연,indistreet,,,2026-08-14,롤링홀,discovery
@@ -30407,7 +30407,7 @@ pcr,공연,indistreet,,,2026-04-30,오방가르드,discovery
 pcr,공연,indiego,,,2026-05-02,Club FF,pending
 pcr,공연,indistreet,,,2026-05-02,Club FF,discovery
 pcr,공연,indistreet,,,2026-05-22,오방가르드,discovery
-pcr,공연,indiego,,,2026-05-23,제임스레코드,pending
+pcr,공연,indiego,,,2026-05-23,대구 제임스레코드,pending
 pcr,공연,indistreet,,,2026-05-23,대구 제임스레코드,discovery
 pcr,공연,indiego,,,2026-05-24,생기스튜디오,pending
 pcr,공연,indistreet,,,2026-05-24,생기스튜디오,discovery
@@ -30508,7 +30508,7 @@ philiphelmer,공연,indistreet,,,2026-05-16,OL'55,discovery
 philipppss,공연,instagram,@goyoroom,,2026-11-26,고요의 방,pending
 philldj티즈,큐레이션,hiphople,HIPHOPLE,,2021-11-18,,pending
 philsphunkphrenzy,공연,indistreet,,,2024-12-31,꼬뮨,discovery
-phoebebridgers,공연,indiego,,,2026-08-13,제임스레코드,pending
+phoebebridgers,공연,indiego,,,2026-08-13,대구 제임스레코드,pending
 phoebebridgers,큐레이션,overtone,overtone,,2026-08-23,,context
 phoeberings,공연,indistreet,,,2025-06-25,오방가르드,discovery
 phoeberings,큐레이션,izm,IZM,,2026-03-29,,context

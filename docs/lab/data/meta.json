@@ -9,7 +9,7 @@
     "images": 241,
     "collabs": 0
   },
-  "generated_at": "2026-11-28T02:19:38+09:00",
+  "generated_at": "2026-11-28T02:36:35+09:00",
   "data_end": "2026-11-28",
   "uses_artist_xref": true,
   "rows": {
@@ -42,5 +42,5 @@
     "venue_profiles.json": true,
     "venue_tiers.csv": 57
   },
-  "extras_updated_at": "2026-11-28T02:19:41+09:00"
+  "extras_updated_at": "2026-11-28T02:36:37+09:00"
 }

@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-28T02:19:41+09:00",
+ "generated_at": "2026-11-28T02:36:37+09:00",
  "as_of": "2026-11-28",
  "baseline": {
   "kind": "state",
@@ -40,7 +40,7 @@
   "big_venue_first": 29,
   "peer_winner": 327,
   "spike": 3,
-  "new_gig": 364,
+  "new_gig": 361,
   "rank_jump": 34
  },
  "counts_shown": {
@@ -5980,32 +5980,15 @@
    "evidence": [
     {
      "branch": "공연",
+     "source": "indiego",
+     "date": "2026-11-29",
+     "venue": "대구 제임스레코드"
+    },
+    {
+     "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-29",
      "venue": "대구 제임스레코드"
-    }
-   ],
-   "importance": 15,
-   "upcoming": true,
-   "rank": null,
-   "also": [
-    "peer_winner"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "김산돌",
-   "name": "김산돌",
-   "date": "2026-11-29",
-   "text": "예정 공연 2026-11-29 제임스레코드",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-11-29",
-     "venue": "제임스레코드"
     }
    ],
    "importance": 15,
@@ -7221,30 +7204,15 @@
    "evidence": [
     {
      "branch": "공연",
+     "source": "indiego",
+     "date": "2026-11-29",
+     "venue": "대구 제임스레코드"
+    },
+    {
+     "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-29",
      "venue": "대구 제임스레코드"
-    }
-   ],
-   "importance": 15,
-   "upcoming": true,
-   "rank": null,
-   "also": [],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "모허",
-   "name": "모허",
-   "date": "2026-11-29",
-   "text": "예정 공연 2026-11-29 제임스레코드",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-11-29",
-     "venue": "제임스레코드"
     }
    ],
    "importance": 15,
@@ -8432,32 +8400,15 @@
    "evidence": [
     {
      "branch": "공연",
+     "source": "indiego",
+     "date": "2026-11-29",
+     "venue": "대구 제임스레코드"
+    },
+    {
+     "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-29",
      "venue": "대구 제임스레코드"
-    }
-   ],
-   "importance": 15,
-   "upcoming": true,
-   "rank": null,
-   "also": [
-    "peer_winner"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "쓰다",
-   "name": "쓰다",
-   "date": "2026-11-29",
-   "text": "예정 공연 2026-11-29 제임스레코드",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-11-29",
-     "venue": "제임스레코드"
     }
    ],
    "importance": 15,
@@ -9719,6 +9670,87 @@
      "source": "indistreet",
      "date": "2026-12-04",
      "venue": "벨르"
+    }
+   ],
+   "importance": 15,
+   "upcoming": true,
+   "rank": null,
+   "also": [],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
+   "team_key": "이글루베이",
+   "name": "이글루베이",
+   "date": "2026-12-02",
+   "text": "예정 공연 2026-12-02 우무지",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indiego",
+     "date": "2026-12-02",
+     "venue": "우무지"
+    },
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-12-02",
+     "venue": "우무지"
+    }
+   ],
+   "importance": 15,
+   "upcoming": true,
+   "rank": null,
+   "also": [],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
+   "team_key": "이디어츠",
+   "name": "이디어츠",
+   "date": "2026-11-28",
+   "text": "예정 공연 2026-11-28 언드",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indiego",
+     "date": "2026-11-28",
+     "venue": "언드"
+    },
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-11-28",
+     "venue": "언드"
+    }
+   ],
+   "importance": 15,
+   "upcoming": true,
+   "rank": null,
+   "also": [],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
+   "team_key": "이르미",
+   "name": "이르미",
+   "date": "2026-12-03",
+   "text": "예정 공연 2026-12-03 우주정거장",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indiego",
+     "date": "2026-12-03",
+     "venue": "우주정거장"
+    },
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-12-03",
+     "venue": "우주정거장"
     }
    ],
    "importance": 15,
