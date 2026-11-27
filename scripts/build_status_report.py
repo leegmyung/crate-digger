@@ -68,6 +68,53 @@ def parse_link_rate(text: str) -> Optional[dict]:
     return {"linked": int(m.group(1).replace(",", "")), "total": int(m.group(2).replace(",", "")), "pct": m.group(3)}
 
 
+def _int(text: str) -> int:
+    return int(text.replace(",", ""))
+
+
+def parse_debut(text: str) -> Optional[dict]:
+    m = re.search(r"백지 신인 ([0-9,]+)팀 중 ([0-9,]+)팀\(([0-9]+)%\)은 첫 발매 뒤 ([0-9]+)개월 안에", text)
+    return {"cohort": _int(m.group(1)), "unmentioned": _int(m.group(2)), "pct": int(m.group(3)), "months": int(m.group(4))} if m else None
+
+
+def parse_missed(text: str) -> Optional[dict]:
+    m = re.search(r"정답 6개월 전에 상위 100 안에 있던 팀은 ([0-9,]+)/([0-9,]+)팀, 12개월 전에는 ([0-9,]+)/[0-9,]+팀", text)
+    return {"m6": _int(m.group(1)), "m12": _int(m.group(3)), "total": _int(m.group(2))} if m else None
+
+
+def parse_fan_history(text: str) -> Optional[dict]:
+    a = re.search(r"팬 수 기록이 있는 아티스트 \| ([0-9,]+) \|", text)
+    b = re.search(r"두 날짜 이상 기록된 아티스트[^|]*\| ([0-9,]+) \|", text)
+    return {"artists": _int(a.group(1)), "multi": _int(b.group(1)) if b else 0} if a else None
+
+
+def analysis_lines(root: Path) -> List[str]:
+    """③ 검증에 붙는 분석 지표 (오늘 생긴 분석 문서·CSV 에서 읽음). 파일이 없거나 형식을 못 읽으면 그 줄은 뺀다."""
+    lines = []
+    deb = parse_debut(_text(root / "docs" / "debut_cohort.md"))
+    if deb:
+        lines.append(f"데뷔 코호트: 백지 신인 {deb['cohort']}팀 중 {deb['unmentioned']}팀({deb['pct']}%)이 첫 발매 {deb['months']}개월 안에 "
+                     "어느 출처에도 안 나옴 (docs/debut_cohort.md)")
+    mis = parse_missed(_text(root / "docs" / "missed_analysis.md"))
+    if mis:
+        lines.append(f"놓친 정답: 2025년 이후 S·A 정답 {mis['total']}팀 중 정답 6개월 전 후보 상위 100에 {mis['m6']}팀 "
+                     f"({mis['m6'] / mis['total'] * 100:.0f}%), 12개월 전 {mis['m12']}팀 (docs/missed_analysis.md)")
+    lab = root / "docs" / "lab" / "data"
+    teams = _csv(lab / "teams.csv")
+    fan = parse_fan_history(_text(root / "docs" / "fan_history.md"))
+    if teams:
+        n_fr = sum(1 for t in teams if (t.get("first_release") or "").strip())
+        lines.append(f"첫 발매일이 있는 팀 {n_fr:,} / {len(teams):,}" + (f" · 팬 수 기록 {fan['artists']:,}명(두 날짜 이상 {fan['multi']:,}명)" if fan else ""))
+    elif fan:
+        lines.append(f"팬 수 기록 {fan['artists']:,}명(두 날짜 이상 {fan['multi']:,}명)")
+    outs = _csv(lab / "outcomes.csv")
+    if outs and "same_house_sources" in outs[0]:
+        marked = sum(1 for o in outs if (o.get("same_house_sources") or "").strip())
+        scored = sum(1 for o in outs if str(o.get("same_house_scored", "")).lower() == "true")
+        lines.append(f"같은 집안 표시 정답 {marked}행 (그중 점수 검증에서 뺀 {scored}행, docs/same_house.md)")
+    return lines
+
+
 def score_review_line(report: Optional[dict]) -> str:
     """점검표 ③ 검증의 한 줄: 매주 점수 재검토(scripts/score_review.py) 결과."""
     if not report:
@@ -170,7 +217,8 @@ def collect_report(root: Path = ROOT, today: Optional[str] = None) -> dict:
                   "link_rate": parse_link_rate(_text(root / "docs" / "artist_xref.md")),
                   "suggestions": review.get("suggestions") or [], "sources": review.get("sources") or [],
                   "review_cutoffs": review.get("cutoffs") or [],
-                  "score_review": score_review_line(_json(root / "docs" / "data" / "score_review.json"))}
+                  "score_review": score_review_line(_json(root / "docs" / "data" / "score_review.json")),
+                  "analysis": analysis_lines(root)}
 
     first_seen: Dict[str, str] = {}
     for s in signals:
@@ -276,7 +324,7 @@ def render_html(rep: dict) -> str:
 <p class="muted">센 정답 등급: {_e(grade_txt)} · 팀 상태(프로필): {_e(prof_txt)}</p></section>
 <section><h2>③ 검증</h2>
 <ul><li>형식 검사: 수집 파일 {ok}/{tot} 통과</li><li>{auc_txt}</li><li>{lr_txt}</li>
-<li>{_e(v.get('score_review', ''))}</li>
+<li>{_e(v.get('score_review', ''))}</li>{"".join(f"<li>{_e(x)}</li>" for x in v.get("analysis", []))}
 <li>출처 재분류 제안 {len(v['suggestions'])}건 (성적표 기준일 {_e(', '.join(v['review_cutoffs']) or '—')})</li></ul>
 {_table(["출처", "지금 역할", "제안", "근거"], sug_rows)}
 {_table(["출처", "역할", "후보 팀", "적중률(%)", "배수", "유일 기여"], src_rows)}</section>

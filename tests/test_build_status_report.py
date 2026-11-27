@@ -133,3 +133,34 @@ class HtmlTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AnalysisLinesTest(unittest.TestCase):
+    """③ 검증에 붙는 분석 지표 줄: 각 문서·CSV 에서 읽고, 파일이 없거나 형식을 못 읽으면 그 줄은 뺀다."""
+
+    def test_parsers(self):
+        self.assertEqual(sr.parse_debut("- 백지 신인 63팀 중 50팀(79%)은 첫 발매 뒤 6개월 안에 어느 출처에도 안 나왔다."),
+                         {"cohort": 63, "unmentioned": 50, "pct": 79, "months": 6})
+        self.assertEqual(sr.parse_missed("- 정답 6개월 전에 상위 100 안에 있던 팀은 5/70팀, 12개월 전에는 4/70팀이다."),
+                         {"m6": 5, "m12": 4, "total": 70})
+        self.assertEqual(sr.parse_fan_history("| 팬 수 기록이 있는 아티스트 | 1,309 |\n| 두 날짜 이상 기록된 아티스트 (변화를 볼 수 있음) | 12 |"),
+                         {"artists": 1309, "multi": 12})
+        self.assertIsNone(sr.parse_debut("다른 글"))
+
+    def test_lines_from_root_and_omit_missing(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            lab = root / "docs" / "lab" / "data"
+            lab.mkdir(parents=True)
+            (lab / "teams.csv").write_text("team_key,first_release\na,2024-01-01\nb,\n", encoding="utf-8")
+            (lab / "outcomes.csv").write_text("team_key,counted,same_house_sources,same_house_scored\n"
+                                              "a,true,큐레이션:hiphople,false\nb,true,,false\nc,true,큐레이션:musicy,true\n", encoding="utf-8")
+            (root / "docs" / "debut_cohort.md").write_text("- 백지 신인 10팀 중 8팀(80%)은 첫 발매 뒤 6개월 안에 어느 출처에도 안 나왔다.", encoding="utf-8")
+            lines = sr.analysis_lines(root)
+        text = "\n".join(lines)
+        self.assertIn("80%", text)                                  # 데뷔 코호트
+        self.assertIn("첫 발매일이 있는 팀 1", text)
+        self.assertIn("같은 집안 표시 정답 2행", text)
+        self.assertIn("점수 검증에서 뺀 1행", text)
+        self.assertNotIn("놓친 정답", text)                          # missed_analysis.md 없음 → 줄 생략
+        self.assertNotIn("팬 수 기록", text)                         # fan_history.md 없음 → 줄 생략
