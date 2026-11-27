@@ -25,6 +25,7 @@ from build_dashboard_data import PROGRAM_NAMES, _has_xref_table, psql_csv  # noq
 from csv_schema import OUTCOME_TIER  # noqa: E402
 import genre as genre_mod  # noqa: E402
 import genre_fill  # noqa: E402
+import video_match  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "docs" / "lab" / "data"
@@ -144,6 +145,15 @@ def queries(use_xref: bool) -> Dict[str, str]:
             SELECT DISTINCT COALESCE(tm.team_key, r.artist_key) AS team_key, r.platform, r.ref
             FROM refs r LEFT JOIN core.v_team_map tm ON tm.variant_key = r.artist_key
             WHERE r.artist_key IS NOT NULL AND r.artist_key <> ''""",
+        # 매체 리뷰 장르(음악취향Y·overtone·VISLA): 새 원본의 genre 칸 — 칸이 없는 옛 적재본에서도 돌게 to_jsonb 로 읽는다.
+        # 이미 받은 글의 장르는 data/raw/reference/press_genres.csv(collect_webzines --genre-backfill)에서 주소로 보탠다.
+        "press_genres": """-- lab:press_genres
+            SELECT DISTINCT COALESCE(tm.team_key, p.artist_key) AS team_key, p.url,
+                   COALESCE(to_jsonb(p) ->> 'genre', '') AS genre
+            FROM raw.raw_press p LEFT JOIN core.v_team_map tm ON tm.variant_key = p.artist_key
+            WHERE p.source IN ('musicy', 'overtone', 'visla') AND COALESCE(p.artist_key, '') <> ''
+              AND COALESCE(p.is_sponsored, '0') <> '1'
+            ORDER BY 1, 2""",
         "outcomes": """-- lab:outcomes
             SELECT DISTINCT team_key, program, tier, COALESCE(result, '') AS result,
                    announced_start AS announced_date, counted
@@ -198,6 +208,23 @@ def load_team_overrides(path: Path, kind: str) -> Dict[str, dict]:
     return teams
 
 
+def press_genres_by_team(rows: List[dict], reference: Dict[str, str]) -> Dict[str, str]:
+    """매체 리뷰 행(team_key·url·genre) → {팀: '장르|장르'}. 행의 genre 가 비면 참고 파일(주소 → 장르)로 보탠다."""
+    out: Dict[str, List[str]] = {}
+    for r in rows:
+        g = (r.get("genre") or "").strip() or (reference.get(r.get("url") or "") or "").strip()
+        if g and r.get("team_key"):
+            got = out.setdefault(r["team_key"], [])
+            if g not in got:
+                got.append(g)
+    return {k: "|".join(v) for k, v in out.items()}
+
+
+def _press_genre_ref() -> Dict[str, str]:
+    from collect_webzines import load_genre_reference
+    return load_genre_reference()
+
+
 def team_rows(rows: List[dict], roles: dict | None = None, debut_overrides: Dict[str, dict] | None = None,
               genre_overrides: Dict[str, dict] | None = None) -> List[dict]:
     """도우미 열(raw_genres 등)로 대표 장르를 정하고, 프로필 없는 팀은 unknown으로.
@@ -216,7 +243,7 @@ def team_rows(rows: List[dict], roles: dict | None = None, debut_overrides: Dict
         row["profile_status"] = row["profile_status"] or "unknown"
         # 대표 장르 + 확신도(profile 플랫폼 장르 / press 확실한 출처 힌트) — 빈칸 추정(inferred)은 export()의 genre_fill
         row["primary_genre"], row["genre_confidence"] = genre_fill.base_genre(
-            r.get("raw_genres"), r.get("press_sources"), r.get("sel_programs"))
+            r.get("raw_genres"), r.get("press_sources"), r.get("sel_programs"), r.get("press_genres"))
         if key in debut_overrides:
             row["first_release"] = min(d for d in (row["first_release"], debut_overrides[key]["debut"]) if d)
         if key in genre_overrides:
@@ -397,7 +424,9 @@ def _extra_refs() -> List[dict]:
 
 
 def video_rows(raw: List[dict], per_team: int = VIDEOS_PER_TEAM) -> List[dict]:
-    """수집한 유튜브 영상 → 팀별 무대 영상(무대 > 공식 라이브 > 공식 > 검색, 같은 순위는 최신순, 팀당 최대 per_team)."""
+    """수집한 유튜브 영상 → 팀별 무대 영상(무대 > 공식 라이브 > 공식 > 검색, 같은 순위는 최신순, 팀당 최대 per_team).
+    제목 ↔ 팀 이름은 video_match 규칙(흔한 낱말·짧은 이름)으로 다시 걸러낸다 — 원본 raw_video 는 그대로."""
+    raw, _ = video_match.filter_rows(raw)
     best: Dict[tuple, dict] = {}
     for r in raw:
         vid, title, channel = r.get("video_id") or "", r.get("title") or "", r.get("channel_title") or ""
@@ -545,12 +574,14 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
            extra_refs: Callable[[], List[dict]] | None = _extra_refs,
            raw_videos: Callable[[], List[dict]] | None = _raw_videos,
            image_cache: Callable[[], dict] | None = _image_cache,
-           raw_collabs: Callable[[], tuple] | None = _raw_collabs) -> dict:
+           raw_collabs: Callable[[], tuple] | None = _raw_collabs,
+           press_genre_ref: Callable[[], Dict[str, str]] | None = _press_genre_ref) -> dict:
     use_xref = _has_xref_table(run)
     q = queries(use_xref)
     roles = load_roles()
     signals = [{**r, "role": signal_role(r, roles)} for r in _records(run(q["signals"]))]
-    team_raw = _records(run(q["teams"]))
+    press = press_genres_by_team(_records(run(q["press_genres"])), press_genre_ref() if press_genre_ref else {})
+    team_raw = [{**r, "press_genres": press.get(r.get("team_key") or "", "")} for r in _records(run(q["teams"]))]
     teams = team_rows(team_raw, roles,
                       debut_overrides=load_team_overrides(DEBUT_OVERRIDES_FILE, "debut"),
                       genre_overrides=load_team_overrides(GENRE_OVERRIDES_FILE, "genre"))

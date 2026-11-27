@@ -51,7 +51,33 @@ def fake_run(sql):
         return _csv([{"team_key": "abc", "platform": "melon", "ref": "1273629"}])
     if "-- lab:outcomes" in sql:
         return _csv(OUTCOMES)
+    if "-- lab:press_genres" in sql:
+        return _csv(PRESS_GENRES)
     raise AssertionError(sql[:80])
+
+
+PRESS_GENRES = [   # 매체 리뷰 1건 × 팀 (장르는 새 원본의 genre 칸, 비면 참고 파일 press_genres.csv)
+    {"team_key": "xyz", "url": "http://musicy.kr/?ix=1", "genre": ""},
+    {"team_key": "abc", "url": "https://overtone.kr/comment/a", "genre": "ROCK"},
+]
+
+
+class PressGenreTest(unittest.TestCase):
+    """매체 리뷰 장르(음악취향Y·overtone·VISLA) → 확신도 press (docs/genre_fill.md)."""
+
+    def test_press_genres_by_team_uses_row_then_reference(self):
+        got = ex.press_genres_by_team(PRESS_GENRES + [{"team_key": "xyz", "url": "u2", "genre": "포크"}],
+                                      {"http://musicy.kr/?ix=1": "록"})
+        self.assertEqual(got, {"xyz": "록|포크", "abc": "ROCK"})
+
+    def test_export_uses_press_genre_reference(self):
+        with tempfile.TemporaryDirectory() as d:
+            ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=None, image_cache=None,
+                      press_genre_ref=lambda: {"http://musicy.kr/?ix=1": "포크"})
+            with open(Path(d) / "teams.csv", encoding="utf-8") as f:
+                rows = {r["team_key"]: r for r in csv.DictReader(f)}
+        self.assertEqual((rows["xyz"]["primary_genre"], rows["xyz"]["genre_confidence"]), ("포크·싱어송라이터", "press"))
+        self.assertEqual((rows["abc"]["primary_genre"], rows["abc"]["genre_confidence"]), ("록·밴드", "press"))
 
 
 class TeamRowsTest(unittest.TestCase):
@@ -282,6 +308,21 @@ class VideoRowsTest(unittest.TestCase):
                               _v("a", "AAAAAAAAAAA", "에이 live")])
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0]["published_at"], "2026-01-01")
+
+
+class VideoRecheckTest(unittest.TestCase):
+    def test_common_word_and_short_name_rows_rechecked(self):
+        # 원본 raw_video 는 그대로 두고 내보낼 때 video_match 규칙으로 다시 거른다
+        def v(team, display, vid, title, kind="stage"):
+            return dict(_v(team, vid, title, kind=kind), display_name=display)
+        rows = ex.video_rows([
+            v("글로벌", "글로벌", "AAAAAAAAAAA", "원호 - BLUE │ 글로벌 대세 원호의 라이브"),
+            v("day", "Day", "BBBBBBBBBBB", "조이 - Day By Day"),
+            v("day", "Day", "CCCCCCCCCCC", "Day - 첫 노래 [LIVE]"),
+            v("day", "Day", "DDDDDDDDDDD", "연습 브이로그", kind="official"),
+            v("실리카겔", "실리카겔", "EEEEEEEEEEE", "부산에서 만난 실리카겔 LIVE"),
+        ])
+        self.assertEqual(sorted(r["video_id"] for r in rows), ["DDDDDDDDDDD", "EEEEEEEEEEE"])
 
 
 class ImageRowsTest(unittest.TestCase):

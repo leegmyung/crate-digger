@@ -19,8 +19,10 @@
   3) 최신 점수 스냅샷(docs/lab/data/snapshots/<날짜>.csv) 상위 팀 중 7일 안에 검색 안 한 40팀을
      "<이름> 라이브"로 검색(최근 400일, 한국, 5개). 제목에 그 팀 이름이 있을 때만 kind=search.
 - 이름 맞추기는 보수적으로: 잘못 붙는 것이 놓치는 것보다 나쁘다.
-  한 글자·숫자만인 이름, 영문 2글자 이하, 흔한 낱말(STOPLIST)은 쓰지 않는다. 같은 이름의 팀이 둘 이상이면 버린다.
-  두 글자 한글·세 글자 영문 이름은 제목 맨 앞이나 '-', '|', '(' 같은 구분 기호 옆에 있을 때만 인정한다.
+  규칙은 scripts/video_match.py (내보내기 export_lab_data 도 같은 규칙으로 원본을 다시 거름).
+  한 글자·숫자만인 이름, 영문 2글자 이하, 흔한 낱말(기본 목록 + config/video_common_words.json)은 쓰지 않는다.
+  같은 이름의 팀이 둘 이상이면 버린다. 두 글자 한글·세 글자 영문 이름은 '팀 이름 자리'(맨 앞·구분 기호 뒤이면서
+  뒤도 구분 기호·괄호·끝, 또는 [팀명])일 때만 인정한다.
 - 상태: data/raw/state/videos_state.json (채널별 마지막 영상 시각, 주소→업로드 목록, 팀별 마지막 검색일)
 """
 import argparse
@@ -36,6 +38,10 @@ import urllib.request
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from video_match import (CREDIT_ONLY, STOPLIST, TOKEN, artist_position, load_common,  # noqa: E402,F401
+                         name_rule, split_names, tokens as _tokens)
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"
@@ -64,58 +70,8 @@ COLUMNS = ["collected_at", "team_key", "display_name", "video_id", "title", "cha
            "published_at", "kind", "source_channel_handle"]
 VIDEO_ID = re.compile(r"^[A-Za-z0-9_-]{11}$")
 LIVE_WORDS = re.compile(r"\blive\b|\bsession\b|라이브|세션|무대", re.I)
-TRAILING_ALIAS = re.compile(r"^(.*?)\s*[\(\[（]([^\)\]）]+)[\)\]）]\s*$")
-TOKEN = re.compile(r"[0-9a-z가-힣ㄱ-ㅎㅏ-ㅣ一-鿿ぁ-んァ-ヶー]+")
-HANGUL_ONLY = re.compile(r"^[가-힣]+$")
-LATIN_ONLY = re.compile(r"^[a-z]+$")
-LEADING_TAGS = re.compile(r"^\s*(?:[\[【(（<][^\]】)）>]*[\]】)）>]\s*)*$")
-# '(원곡: 팀)', 'Original by 팀', 'cover by 팀' 처럼 원곡자·만든 사람으로만 나온 부분은 지우고 맞춘다
-CREDIT_ONLY = re.compile(r"(?:원곡|original(?:\s*(?:by|artist))?|cover(?:ed)?\s*by|prod\.?\s*by)\s*[:：.]?[^)\]|/]*", re.I)
 # 아이돌 멤버 직캠은 멤버 이름이 다른 팀 이름과 겹쳐 잘못 붙기 쉬워 무대 채널 훑기에서 뺀다
 FANCAM = re.compile(r"직캠|fancam|facecam", re.I)
-SEP_BEFORE = set("-–—|:/")   # 가운데의 [ ( 뒤는 작품·프로그램 이름일 때가 많아 뺀다
-SEP_AFTER = set("-–—|:/(（[【'\"‘’“”「『<")
-
-# 제목에 흔히 나오는 낱말이라 팀 이름으로 쓰면 잘못 붙는 것들 (팀 이름 쪽에서 제외)
-STOPLIST = {
-    # 방송·채널·영상 용어 (제목 앞머리 [태그]로 자주 나옴)
-    "하이라이트", "highlight", "티저", "teaser", "세로", "fullcam", "inside", "스포트라이트", "spotlight",
-    "헬로루키", "잇츠라이브", "리무진서비스", "고막남친", "뮤직뱅크", "musicbank", "공감라이브",
-    "화이트", "white", "블랙", "black", "레드", "red", "블루", "blue", "핑크", "pink", "골드", "gold",
-    "라이브", "세션", "무대", "밴드", "노래", "공연", "직캠", "난장", "공감", "딩고", "스케치북", "온스테이지", "시즌즈",
-    "live", "session", "stage", "band", "music", "official", "video", "audio", "clip", "full", "cover", "kpop",
-    "onstage", "dingo", "sketchbook", "tinydesk", "mv", "ost", "kbs", "ebs", "mbc", "sbs", "mnet", "nhk", "ktv",
-    # 흔한 한국어 낱말 (팀 이름과 겹침)
-    "사랑", "바보", "바다", "하늘", "이제", "모든", "어떤", "언제", "있지", "확인", "소리", "소년", "시간", "지구", "영원",
-    "영화", "태양", "우리", "오늘", "하루", "그대", "다섯", "서른", "공원", "근처", "단독", "이런", "비밀", "요정",
-    "지옥", "천둥", "고요", "낭만", "여백", "여운", "물결", "흔적", "투명", "온도", "동화", "부활", "새해", "시골",
-    "식구", "자매", "취미", "피난", "항해", "한결", "흑백", "직시", "체감", "목적", "매듭", "무덤", "반말", "방백",
-    "불씨", "거품", "구름", "모래", "소금", "양파", "치즈", "곱창", "꼬막", "키위", "모과", "녹두", "레고", "버그",
-    "카드", "코드", "링크", "메타", "무드", "원더", "그린", "크림", "피크", "오프", "이브", "아이", "마크", "노선",
-    "대동", "진보", "진화", "정오", "초승", "하지", "세기", "세로", "단지", "달력", "다방", "이유", "이월", "민주",
-    "사색", "사심", "사양", "산보", "서리", "선명", "성에", "소통", "소실", "암호", "염력", "예상", "오열", "온돌",
-    "온화", "우기", "우물", "유령", "유랑", "유아", "유자", "재판", "정국", "진격", "청백", "청록", "커서", "포효",
-    "한해", "해무", "화목", "환원", "회랑", "흐를", "희미", "끌림", "느린", "느림", "맑은", "짙은", "날선", "달다",
-    "쓰다", "말고", "물들", "홀린", "아늑", "오붓", "든든", "담담", "거미", "광야", "교정", "극야", "기원", "나날",
-    "낙원", "녹음", "누에", "뉴런", "도끼", "동녘", "마치", "매미", "면도", "모음", "목적", "몽돌", "물결", "미소",
-    "반도", "백합", "보리", "부활", "사가", "산새", "서정", "선망", "소담", "소요", "솔잎", "수호", "시소", "심단",
-    "앗싸", "어흥", "여울", "연정", "영롱", "오존", "울림", "원형", "유수", "은하", "이삭", "일렁", "잔향", "잔영",
-    "적재", "지주", "천둥", "청하", "초하", "치기", "키키", "태양", "피아", "한음", "해파", "호수", "홍시", "화원",
-    "효정", "흑백", "희로", "다다", "나나", "미미", "비비", "디디", "지지", "더더", "문문", "용용", "양양", "월월",
-    "위위", "윤윤", "넘넘", "핍핍", "수수", "씽씽", "차차", "논논", "든든", "뉘뉘", "낙낙", "교교", "구구",
-    # 흔한 영어 낱말
-    "the", "one", "air", "add", "ear", "eve", "man", "los", "toe", "dim", "dear", "what", "every", "enjoy", "envy",
-    "sorry", "surf", "flow", "fog", "lamp", "laugh", "speed", "tank", "unity", "upper", "wood", "patch", "pale",
-    "rave", "ray", "trace", "verge", "veil", "wiki", "cyan", "dots", "haven", "mania", "mike", "nyc", "bike",
-    "brick", "chasm", "crane", "geese", "otter", "poppy", "pulp", "squid", "scrim", "slant", "sole", "mood", "room",
-    "root", "loud", "low", "blur", "lilac", "pine", "pony", "puff", "puffy", "saga", "spin", "uni", "pam", "par",
-    "dan", "ado", "amy", "ali", "eve", "ora", "roi", "rue", "sen", "tak", "khc", "cero", "flick", "leech", "limbs",
-    "wack", "wade", "wisp", "zulu", "aries", "haim", "nina", "noah", "ethan", "chloe", "rosie", "robyn", "sammy",
-    "shane", "isaac", "mina", "zoey", "kang", "jinho", "sunho", "yujin", "bela", "alma", "gaku", "kirin", "noi",
-    "voi", "nib", "nuh", "gud", "kaz", "kik", "nas", "yon", "zinn", "baths", "beaks", "dorks", "elves", "fleet",
-    "knob", "pores", "suede", "twice", "bada", "hana", "sora", "yama", "yuka", "yuzu", "saya", "huka", "maga",
-}
-
 
 class QuotaExceeded(RuntimeError):
     """예산(또는 API 하루 한도)에 닿음. rows에 그때까지 찾은 행을 싣는다."""
@@ -249,54 +205,17 @@ def valid_video_id(video_id):
     return bool(VIDEO_ID.match(video_id or ""))
 
 
-def split_names(display_name):
-    """'사뮈 (Samui)' → ['사뮈', 'Samui']"""
-    name = (display_name or "").strip()
-    m = TRAILING_ALIAS.match(name)
-    names = [m.group(1), m.group(2)] if m and m.group(1).strip() else [name]
-    return [n.strip() for n in names if n.strip()]
-
-
-def _tokens(text):
-    return tuple(TOKEN.findall((text or "").lower()))
-
-
-def name_rule(tokens):
-    """이름 낱말 묶음 → None(쓰지 않음) / 'short'(구분 기호 옆에서만) / 'ok'."""
-    joined = "".join(tokens)
-    if not joined or joined.isdigit() or len(joined) < 2:
-        return None
-    if joined in STOPLIST or " ".join(tokens) in STOPLIST:
-        return None
-    if LATIN_ONLY.match(joined):
-        if len(joined) < 3:
-            return None
-        return "short" if len(joined) == 3 else "ok"
-    if HANGUL_ONLY.match(joined) and len(joined) == 2:
-        return "short"
-    return "ok"
-
-
-def _credit_position(text, start, end):
-    """짧은 이름이 '팀 이름 자리'에 있는지: 제목 맨 앞(앞머리 [태그] 제외)이거나 구분 기호 옆."""
-    prefix = text[:start]
-    if LEADING_TAGS.match(prefix):
-        return True
-    before = prefix.rstrip()[-1:]
-    after = text[end:].lstrip()[:1]
-    return before in SEP_BEFORE or after in SEP_AFTER or after == ""
-
-
 class TitleMatcher:
-    def __init__(self, teams):
-        """teams: [(team_key, display_name), ...]"""
+    def __init__(self, teams, common=None):
+        """teams: [(team_key, display_name), ...]. common: 흔한 낱말 집합 (없으면 기본 목록 + config/video_common_words.json)."""
+        self.common = load_common()[0] if common is None else common
         self.display = {}
         owners = {}
         for key, display in teams:
             self.display.setdefault(key, display)
             for name in split_names(display):
                 toks = _tokens(name)
-                rule = name_rule(toks)
+                rule = name_rule(toks, self.common)
                 if rule and len(toks) <= MAX_NAME_TOKENS:
                     owners.setdefault(toks, {}).setdefault(key, rule)
         # 같은 이름을 가진 팀이 둘 이상이면 어느 팀인지 알 수 없으니 버린다
@@ -328,7 +247,7 @@ class TitleMatcher:
                 key, rule = hit
                 if only is not None and key != only:
                     continue
-                if rule == "short" and not _credit_position(text, spans[i][1], spans[i + size - 1][2]):
+                if rule == "short" and not artist_position(text, spans[i][1], spans[i + size - 1][2]):
                     continue
                 found.append((i, i + size, key))
         # 겹치면 긴 이름 우선

@@ -1,0 +1,29 @@
+{
+  "_설명": "영상 제목 ↔ 팀 이름 대조에서 팀 이름으로 쓰지 않을 흔한 낱말(common, scripts/video_match.py 의 기본 목록에 더함). allow 는 기본·수동·자동 후보 어디에 있어도 팀 이름으로 인정. 대소문자·띄어쓰기는 상관없음.",
+  "common": [
+    "글로벌",
+    "그리고",
+    "Day",
+    "사랑",
+    "우리",
+    "11월",
+    "새로운",
+    "수록곡",
+    "퍼포먼스",
+    "완전판",
+    "크리스마스",
+    "프리스타일",
+    "오아시스",
+    "플레어",
+    "Earth",
+    "Rush",
+    "Express",
+    "Valentine",
+    "Winter"
+  ],
+  "allow": [
+    "Adios Audio",
+    "권정열"
+  ],
+  "_검토": "2026-11-28 자동 후보 검토: 11월~Winter 는 제목 속 보통 낱말·다른 팀 이름의 일부(Galaxy Express, Broken Valentine, FLARE U)로만 걸려 common 에 넣음. Adios Audio(아디오스오디오 별칭)·권정열(10CM)은 진짜 이름이라 allow."
+}
