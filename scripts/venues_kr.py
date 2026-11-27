@@ -708,7 +708,7 @@ META = {
              "venue_capacity.json 과 같은 기준), status = open(1년 안 공연 확인)·unknown(확인 필요)·paused(휴업)·closed(폐업), "
              "sources = 근거 링크, checked = 확인일, mainstream = 대형·공공 공연장(출처 공백 목록에서 뺌), "
              "instagram·indiego_url·indiego_past = 공연장 계정·인디고 공연장 페이지·인디고 지난 공연 수, "
-             "merge_note = 두 항목을 하나로 합친 근거, our_venue·in_our_data = 우리 공연 데이터와 짝(--update-config 가 갱신).",
+             "merge_note = 두 항목을 하나로 합친 근거, genre_focus = 특정 장르 위주 공연장(예: hiphop), our_venue·in_our_data = 우리 공연 데이터와 짝(--update-config 가 갱신).",
     "types": TYPES,
     "statuses": STATUSES,
 }

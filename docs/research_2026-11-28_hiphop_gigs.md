@@ -1,0 +1,121 @@
+# 힙합·R&B 공연 출처 조사 (2026-11-28)
+
+**왜**: [놓친 팀 분석](missed_analysis.md)에서 힙합 정답 팀은 정답 전에 공연 신호가 거의 없었다(7팀 중 1팀). 앞선 [힙합·R&B 출처 조사](research_2026-11-27_hiphop_rnb_sources.md)도 한국힙합어워즈 신인 36팀 중 시상 전 공연 신호가 0팀이라고 적었다. 이 문서는 세 가지를 한다.
+
+1. 우리 공연 출처에 힙합이 얼마나 적은지 센다.
+2. 힙합·R&B 공연을 공지하는 공연장·크루·행사 계정을 설정에 정리한다.
+3. 공연 일정을 공개로 모을 수 있는 다른 출처를 robots.txt와 함께 고른다.
+
+**수집기는 만들지 않았다**(조사·설정만).
+
+- 숫자는 2026-11-28 랩 데이터(`docs/lab/data/signals.csv`, `teams.csv`) 기준이다.
+- 장르는 팀 장르 칸(`primary_genre`: 프로필·기사·추정)으로 셌다. '힙합', '힙합·R&B', 'R&B·소울'을 힙합·R&B로 묶었고, 장르를 모르는 팀은 뺐다.
+- 웹은 검색과 robots.txt 조회만 했다.
+
+## 1. 공백 크기 — 인디스트릿·인디고에 힙합 공연이 얼마나 있나
+
+| 묶음 | 전체 | 힙합·R&B | 비율 |
+|---|---|---|---|
+| 인디스트릿·인디고 공연 줄 (장르 아는 팀) | 14,431 | 1,063 | **7.4%** |
+| 　인디스트릿만 | 10,435 | 809 | 7.8% |
+| 　인디고만 | 3,996 | 254 | 6.4% |
+| 공연 날짜(같은 공연장·같은 날) 중 힙합·R&B 팀이 1팀이라도 선 날 | 4,633 | 611 | 13.2% |
+| 인디스트릿·인디고에 공연한 팀 | 5,067 | 360 | 7.1% |
+| 비교: 장르를 아는 팀 전체 | 4,929 | 1,704 | **34.6%** |
+| 비교: 정답(수상·선정) 팀 | 715 | 143 | **20.0%** |
+
+참고: 상상마당 공연은 17.6%, 공연장·기획 인스타 라인업 글은 9.0%다.
+
+**읽는 법**
+- 정답 팀의 20%가 힙합·R&B인데, 공연 출처에 나오는 팀은 7%뿐이다. 공연 신호로 잡을 수 있는 힙합 신인은 정답 비율의 약 3분의 1밖에 안 된다.
+- 힙합 공연이 잡히는 곳도 소형 클럽이 아니라 중형 홀이다(4절 표). 신인이 처음 서는 **소형 힙합 클럽·라운지·크루 파티·오픈마이크**가 통째로 빠져 있다.
+
+## 2. 이번에 설정에 넣은 것
+
+### 2-1. 공연장 (`config/venues_kr.json`, 3곳 추가)
+
+| 공연장 | 도시·구 | 근거 | 운영 | 비고 |
+|---|---|---|---|---|
+| Deeper (이태원) | 서울 용산구 | 인스타 소개글 'Hiphop Lounge Club by Bedlam crew' | 운영(최근 글 2026-11) | 인스타 @deeper_itaewon |
+| 베드럼 라운지 | 서울 용산구 이태원로27가길 8 B1 | 인스타 소개글(주소·#힙합) | 운영 | 인스타 @bedlamlounge |
+| UNDER 힙합 클럽 (부산) | 부산 | 인스타 소개글 '대관, 공연 문의' | 확인 필요(마지막 글 2025-03) | 수집 계정에는 넣지 않음 |
+
+- 새 칸 `genre_focus: "hiphop"`을 달았다. 장르 특화 공연장을 앱에서 거를 때 쓴다.
+- Lit Lounge Itaewon(힙합·아프로비츠 라운지)은 어제 이미 넣었다.
+
+### 2-2. 인스타 공연 공지 계정 (`config/insta_accounts.json`, 역할 정리 19개)
+
+힙합·R&B 후보 조사(`data/raw/review/instagram_candidates_hiphop_rnb.json`, 공개 프로필 소개글)에서 크루·행사인데 '공연장' 역할로 등록돼 있던 계정을 바로잡았다.
+- 모두 라인업 공지라 계속 '공연' 신호로 센다.
+- 다만 어느 공연장인지는 모르므로 [공연장 문서](venues_kr.md)에서는 '공연장 미상'으로 따로 센다.
+- 수집 주기는 7일마다로 옮겼다.
+
+| 역할 | 계정 |
+|---|---|
+| 기획·크루 (promoter_showcase) 10 | busynessmoney(언더 크루) · lbtkrew(부산 크루, 2013~) · backnforthseoul(DJ·스크래치 콜렉티브) · crew_da_era_no.1(버스킹 크루) · seoul_cult(언더 콜렉티브) · drt.friends(부산 크루·공연) · accessallareas.kr(부킹 에이전시) · palvolt_official(부산 DJ·이벤트 회사) · vibecampus.kr(DJ 콜렉티브) · hitdemfolkskorea(힛뎀폭스 커뮤니티) |
+| 행사·정기 파티 (event_showcase) 9 | openmic.moim(누구나 10분 무대 오픈마이크) · demhitzkorea · skrrparty(스껄파티) · 101breaktime(DJing 파티) · w4ckids · stoned_party_(돌잔치 파티) · weloveomm · hiphopplayafestival(힙플페) · rapbeatfestival(랩비트) |
+
+- **그대로 둔 것:** deeper_itaewon·bedlamlounge·litlounge_itw는 공연장 역할을 유지했다. 이제 마스터에 있으니 연결표가 '@계정'을 공연장 이름으로 묶는다.
+- daeguhiphop(대구힙합 소식·대구힙페 운영, 매일 확인)과 hiphopplayacalendar는 소식·발매 글이 섞여 있어 매체 역할로 남겼다. 대구힙페 라인업은 daeguhiphopfestival(행사)이 맡는다.
+- **같은 집안 표시**(`same_house: "힙합플레이야"`): hiphopplayafestival · hiphopplayashow · hiphopplayacalendar · accessallareas.kr.
+  - accessallareas.kr은 연락처가 hiphopplaya.com 메일이다.
+  - 힙합플레이야는 한국힙합어워즈 공동 주최사다.
+- 힙플페·랩비트는 큰 페스티벌이라 이미 유명한 팀이 대부분이다. 신호로 세더라도 정답 쪽(크고 경쟁 센 단계)에 가깝다. 출처 성적표가 나오면 빼는 것을 검토한다.
+- 이 계정들은 아직 신호가 0이다. 인스타 수집이 2026-11 말부터라서, 3개월 뒤 출처 성적표로 판단한다.
+
+## 3. 공개로 공연 일정을 모을 수 있는 다른 출처
+
+| 출처 | 범위 | robots.txt (2026-11-28) | 힙합 구분 | 과거 기록 | 같은 집안 | 판단 |
+|---|---|---|---|---|---|---|
+| **NOL 티켓** (nol.yanolja.com/ticket) | 전국 유료 공연. 소형 힙합 공연 상품도 있음(예: 'M.I.SEA 힙합콘서트', 슈퍼루키챌린지) | `Allow: /`. `/search/`·`/discovery/`·`/reviews/` 등만 막음 → 상품 페이지는 허용 | 상품 장르 칸이 부정확(슈퍼루키를 '보컬'로 분류) → 출연진·제목으로 다시 거름 | 상품 페이지는 남아 있음. 검색 목록이 막혀 사이트맵·외부 링크로 찾아야 함 | 아님 | **1순위 후보**. 사이트맵이 있는지 먼저 확인 |
+| **2TM 투더문** (2tm.co.kr) | 인디 소공연 예매처(라랄라온 단독 판매 등) | `Disallow: /api/`만 → 나머지 허용 | 확인 필요 | 확인 필요 | 아님 | 2순위. 힙합 공연 비중을 먼저 표본으로 셈 |
+| **팝가** (popga.co.kr) | 공연·팝업 모음(세티 라이브홀 등 소공연도 게재) | `Allow: /`. 로그인·기업 페이지만 막음 | 제목·설명 글로만 | 지난 공연 페이지가 남아 있음 | 아님 | 3순위. 모음 사이트라 원 출처와 겹치는지 확인 필요 |
+| 티켓링크 (ticketlink.co.kr) | 전국 예매 | `User-agent: *` 허용. `/reserve`·`/my`·`/facility`·`/search`만 막음 | 장르 분류 확인 필요 | 확인 필요 | 아님 | 대형 위주일 가능성 — 표본 확인 뒤 |
+| 예스24 티켓 | 쇼미더머니 콘서트 등 대형 힙합 | robots.txt 주소가 HTML 페이지를 돌려줌(규칙 파일 없음) | 확인 필요 | 확인 필요 | 아님 | 대형 위주 → 정답 쪽. 낮은 우선순위 |
+| 멜론티켓 | 전국 예매 | robots.txt 없음(404) | 앱에 장르 필터 있음(앱 설명 기준) | 확인 필요 | 아님 | 대형 위주 가능성. 낮은 우선순위 |
+| KOPIS 오픈 API | 예매처를 거친 전국 공연 | 공식 API(인증키 필요 — 사용자에게 요청 중) | '대중음악'까지만, 힙합 구분 없음 → 출연진으로 거름 | 날짜 구간 조회(안내 기준) | 아님 | 키가 생기면 힙합 비중을 함께 셈 |
+| Resident Advisor (ra.co) | 서울 클럽 행사(대부분 DJ) | 일반 봇은 허용. **ClaudeBot·anthropic-ai·Claude-Web은 이름으로 전부 막음** | 장르 태그 있음(힙합 파티 일부) | 공개 | 아님 | 스크립트 수집 불가. 필요하면 aside로 사람처럼 읽기만. 신인 래퍼 신호로는 약함 |
+| Bandsintown | 해외 투어·내한 위주 | 일반 봇은 허용. **ClaudeBot·anthropic-ai·Claude-Web 막음** | — | — | 아님 | 제외(신인 국내 무대가 거의 없음) |
+| 힙합플레이야 캘린더·힙플쇼 | 힙합 공연 일정 모음, 월례 공연 | `/bbs/` 등을 막고 **ClaudeBot·anthropic-ai도 막음**. 앞선 조사 중 429(요청 과다)도 있었음 | 힙합 전용 | 힙플쇼는 2026-07 재개 뒤 61~66회 | **같은 집안**(한국힙합어워즈 공동 주최) | 스크립트 불가. 인스타 계정(@hiphopplayashow 등)만 쓰고 same_house 표시 |
+| 힙합엘이 (hiphople.com) | 힙합 매체 | `Disallow: /*?`(검색어 붙은 주소), `Crawl-delay: 1` | 힙합 전용 | 이미 수집 중(국내 뉴스) | 매체 — 이미 큐레이션 출처 | 공연 게시판이 따로 있는지 확인 못 함. 지금 수집 범위 유지 |
+| 인스타 크루·파티 계정 (2-2절) | 홍대·이태원·부산·대구 소형 무대 | 인스타는 로그인 요구로 막힐 수 있음(막히면 그때 늦춤) | 계정 자체가 힙합 | 계정마다 수년 치 | 힙합플레이야 계열 4개 표시 | **지금 가장 현실적.** 이미 등록됐고 7일마다 돈다 |
+| 슈퍼루키챌린지 | 신인 래퍼 서바이벌(합정 프리즘홀) | (이미 수집 중) | 힙합 전용 | 시즌 14~ 복원 | 루트노트 주관 | 이미 선정·지원 갈래로 씀 |
+
+**권고 순서**
+1. **인스타 크루·파티·라운지 계정을 3개월 쌓기.** 설정은 끝났고, 출처 성적표로 발굴 출처 여부를 정한다.
+2. **NOL 티켓 상품 페이지**: 사이트맵이나 외부 링크로 소형 힙합 공연 상품을 찾을 수 있는지 표본 20건으로 확인한다. 검색 목록(`/search/`)은 robots가 막는다.
+3. **2TM·팝가**: 힙합 공연 비중을 표본으로 센 뒤 결정한다.
+4. **KOPIS**: 키를 받으면 힙합 출연진 비중을 같이 센다.
+
+## 4. 우리 데이터에서 힙합 공연이 많이 열린 공연장 (공연 줄 15건 이상, 장르 아는 팀)
+
+| 공연장 | 공연 줄 | 힙합·R&B | 비율 |
+|---|---|---|---|
+| 스페이스브릭 | 44 | 34 | 77% |
+| 예스24 원더로크홀 | 29 | 19 | 66% |
+| 프리즘홀 (슈퍼루키챌린지) | 81 | 44 | 54% |
+| 북두칠성도서관 아트훌 (부산) | 15 | 7 | 47% |
+| 아지토 라이브 홀 | 110 | 36 | 33% |
+| 웨스트브릿지 라이브홀 | 34 | 11 | 32% |
+| 무신사개러지 | 185 | 48 | 26% |
+| KT&G 상상마당 홍대 라이브홀 | 389 | 79 | 20% |
+| 롤링홀 | 171 | 29 | 17% |
+
+힙합 공연이 잡히는 곳은 중형 홀(스페이스브릭·원더로크홀·무신사개러지)과 슈퍼루키챌린지가 열리는 프리즘홀이다. 소형 클럽(Club FF·빵 등)은 밴드 무대라 힙합 비율이 낮다. 신인 래퍼가 처음 서는 이태원·홍대 힙합 라운지, 크루 파티, 오픈마이크는 인디스트릿·인디고에 올라오지 않는다.
+
+## 5. 한계
+
+- 장르는 팀 장르 칸 기준이다. 장르를 모르는 팀(공연 팀의 약 45%)은 뺐으므로 실제 힙합 공연 수는 이보다 많을 수 있다.
+- 웹 검색으로는 홍대·대구·광주 힙합 클럽의 2026년 공연 정보가 거의 나오지 않았다. 힙합 신인 무대 정보는 대부분 인스타에만 있다.
+- 예매처의 장르 목록 주소와 사이트맵은 아직 확인하지 않았고, robots.txt만 봤다.
+- 크루·파티 계정의 공연은 공연장을 모른다('공연장 미상'). 그래서 공연장 다양성 같은 점수 특징에는 쓰이지 않고, '공연 신호가 있다' 정도로만 쓰인다.
+
+## 출처
+
+- 놓친 팀 분석 [missed_analysis.md](missed_analysis.md), 앞선 조사 [research_2026-11-27_hiphop_rnb_sources.md](research_2026-11-27_hiphop_rnb_sources.md), [research_2026-11-27_regional_gigs.md](research_2026-11-27_regional_gigs.md)
+- robots.txt: https://nol.yanolja.com/robots.txt · https://2tm.co.kr/robots.txt · https://popga.co.kr/robots.txt · https://www.ticketlink.co.kr/robots.txt · https://ticket.yes24.com/robots.txt · https://ticket.melon.com/robots.txt · https://ra.co/robots.txt · https://www.bandsintown.com/robots.txt · https://hiphopplaya.com/robots.txt · https://hiphople.com/robots.txt
+- 공연 상품 예: https://nol.yanolja.com/ticket/products/26008164 (힙합콘서트) · https://nol.yanolja.com/ticket/products/26011617 (슈퍼루키챌린지, 장르 '보컬'로 표기)
+- 슈퍼루키챌린지 시즌 16 라운드 1(합정 프리즘홀): https://routenote.com/kr/blog/?p=1912
+- 힙플쇼 재개(에스콰이어): https://www.esquirekorea.co.kr/article/1910301
+- 랩비트 2026·힙합플레이야 페스티벌 2026: https://www.esquirekorea.co.kr/article/1904087 · https://sports.khan.co.kr/article/202605082303003
+- 인스타 공개 프로필: https://www.instagram.com/deeper_itaewon/ · https://www.instagram.com/bedlamlounge/ · https://www.instagram.com/under_busan/ · https://www.instagram.com/accessallareas.kr/ · https://www.instagram.com/daeguhiphopfestival/
