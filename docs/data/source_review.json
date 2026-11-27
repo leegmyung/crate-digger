@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-27T18:32:06+09:00",
+ "generated_at": "2026-11-27T19:00:20+09:00",
  "data_end": "2026-11-27",
  "cutoffs": [
   "2025-01-01",
@@ -19,18 +19,25 @@
  "suggestions_changed_on": "2026-11-27",
  "suggestions": [
   {
+   "src": "큐레이션:trackzero",
+   "role": "pending",
+   "kind": "ready",
+   "suggestion": "평가 가능 — 성적표로 판정",
+   "reason": "기록 1688일·후보 2133팀·적중 41·배수 2.2·유일 기여 4팀"
+  },
+  {
    "src": "큐레이션:rhythmer",
    "role": "context",
    "kind": "promote",
    "suggestion": "discovery로 올릴 후보",
-   "reason": "후보 74팀·적중 2·배수 2.9·유일 기여 1팀"
+   "reason": "후보 72팀·적중 2·배수 3.2·유일 기여 0팀"
   },
   {
    "src": "큐레이션:hiphople",
    "role": "pending",
    "kind": "ready",
    "suggestion": "평가 가능 — 성적표로 판정",
-   "reason": "기록 2155일·후보 1715팀·적중 1·배수 0.1·유일 기여 1팀"
+   "reason": "기록 2155일·후보 1709팀·적중 1·배수 0.1·유일 기여 1팀"
   },
   {
    "src": "선정·지원:superrookie",
@@ -45,37 +52,50 @@
    "src": "공연:indistreet",
    "role": "discovery",
    "since_date": "2024-01-04",
-   "signal_rows": 13835,
-   "teams": 4677,
+   "signal_rows": 13834,
+   "teams": 4604,
    "hits": 62,
-   "rate": 1.33,
-   "lift": 1.4,
-   "winners_seen": 49,
-   "first_to_see": 32,
-   "only_source": 22
+   "rate": 1.35,
+   "lift": 1.6,
+   "winners_seen": 50,
+   "first_to_see": 31,
+   "only_source": 19
+  },
+  {
+   "src": "큐레이션:trackzero",
+   "role": "pending",
+   "since_date": "2022-04-14",
+   "signal_rows": 2905,
+   "teams": 2133,
+   "hits": 41,
+   "rate": 1.92,
+   "lift": 2.2,
+   "winners_seen": 38,
+   "first_to_see": 9,
+   "only_source": 4
   },
   {
    "src": "큐레이션:musicy",
    "role": "discovery",
    "since_date": "2023-01-02",
    "signal_rows": 1053,
-   "teams": 1541,
-   "hits": 35,
-   "rate": 2.27,
-   "lift": 2.4,
+   "teams": 1497,
+   "hits": 36,
+   "rate": 2.4,
+   "lift": 2.8,
    "winners_seen": 26,
-   "first_to_see": 14,
-   "only_source": 5
+   "first_to_see": 12,
+   "only_source": 3
   },
   {
    "src": "큐레이션:izm",
    "role": "context",
    "since_date": "2023-01-01",
    "signal_rows": 1322,
-   "teams": 1208,
+   "teams": 1180,
    "hits": 14,
-   "rate": 1.16,
-   "lift": 1.2,
+   "rate": 1.19,
+   "lift": 1.4,
    "winners_seen": 10,
    "first_to_see": 2,
    "only_source": 1
@@ -85,39 +105,39 @@
    "role": "discovery",
    "since_date": "2010-07-08",
    "signal_rows": 839,
-   "teams": 270,
-   "hits": 14,
-   "rate": 5.19,
-   "lift": 5.6,
+   "teams": 255,
+   "hits": 13,
+   "rate": 5.1,
+   "lift": 5.9,
    "winners_seen": 9,
    "first_to_see": 5,
-   "only_source": 1
+   "only_source": 0
   },
   {
    "src": "큐레이션:visla",
    "role": "context",
    "since_date": "2023-01-02",
    "signal_rows": 1063,
-   "teams": 1819,
+   "teams": 1794,
    "hits": 9,
-   "rate": 0.49,
-   "lift": 0.5,
+   "rate": 0.5,
+   "lift": 0.6,
    "winners_seen": 7,
-   "first_to_see": 5,
-   "only_source": 3
+   "first_to_see": 4,
+   "only_source": 1
   },
   {
    "src": "큐레이션:overtone",
    "role": "context",
    "since_date": "2024-07-22",
    "signal_rows": 500,
-   "teams": 597,
+   "teams": 589,
    "hits": 6,
-   "rate": 1.01,
-   "lift": 1.1,
+   "rate": 1.02,
+   "lift": 1.2,
    "winners_seen": 6,
    "first_to_see": 2,
-   "only_source": 1
+   "only_source": 0
   },
   {
    "src": "선정·지원:band_discovery",
@@ -127,7 +147,7 @@
    "teams": 27,
    "hits": 4,
    "rate": 14.81,
-   "lift": 15.9,
+   "lift": 17.2,
    "winners_seen": 3,
    "first_to_see": 2,
    "only_source": 0
@@ -137,23 +157,23 @@
    "role": "context",
    "since_date": "2023-02-02",
    "signal_rows": 111,
-   "teams": 74,
+   "teams": 72,
    "hits": 2,
-   "rate": 2.7,
-   "lift": 2.9,
+   "rate": 2.78,
+   "lift": 3.2,
    "winners_seen": 3,
    "first_to_see": 1,
-   "only_source": 1
+   "only_source": 0
   },
   {
    "src": "선정·지원:yoojaeha_finalist",
    "role": "discovery",
    "since_date": "1989-12-31",
    "signal_rows": 349,
-   "teams": 86,
+   "teams": 84,
    "hits": 3,
-   "rate": 3.49,
-   "lift": 3.7,
+   "rate": 3.57,
+   "lift": 4.2,
    "winners_seen": 2,
    "first_to_see": 2,
    "only_source": 0
@@ -163,7 +183,7 @@
    "role": "pending",
    "since_date": "2021-01-02",
    "signal_rows": 3556,
-   "teams": 1715,
+   "teams": 1709,
    "hits": 1,
    "rate": 0.06,
    "lift": 0.1,
@@ -179,7 +199,7 @@
    "teams": 34,
    "hits": 1,
    "rate": 2.94,
-   "lift": 3.2,
+   "lift": 3.4,
    "winners_seen": 1,
    "first_to_see": 0,
    "only_source": 0
@@ -189,7 +209,7 @@
    "role": "excluded",
    "since_date": "2018-06-30",
    "signal_rows": 152,
-   "teams": 94,
+   "teams": 82,
    "hits": 0,
    "rate": 0.0,
    "lift": 0.0,

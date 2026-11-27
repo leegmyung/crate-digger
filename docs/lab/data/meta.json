@@ -1,14 +1,14 @@
 {
   "prev_rows": {},
-  "generated_at": "2026-11-27T18:28:10+09:00",
+  "generated_at": "2026-11-27T18:55:46+09:00",
   "data_end": "2026-11-27",
   "uses_artist_xref": true,
   "rows": {
-    "signals": 23630,
-    "teams": 8470,
+    "signals": 26534,
+    "teams": 9096,
     "outcomes": 723,
     "programs": 19,
-    "links": 884,
+    "links": 1100,
     "videos": 1736,
     "images": 241,
     "collabs": 0
