@@ -16,7 +16,7 @@
 
 | 결과물 | 무엇 | 바로 가기 |
 |---|---|---|
-| 앱 (대시보드) | 매주 보는 후보 브리핑·후보 목록·공연장·관심 팀·백테스트 (브라우저 안 DuckDB로 가중치를 바꿔 직접 확인) | [열기](https://leegmyung.github.io/crate-digger/dashboard.html) |
+| 앱 (대시보드) | 매주 보는 후보 브리핑·후보 목록·공연장·관심 팀·백테스트 (브라우저 안 DuckDB로 가중치를 바꿔 직접 확인). 새 화면: 갓 데뷔(첫 발매 뒤 언급) · 팀 관계망 · 씬 네트워크 · 공연장 상세(체급·전후 흐름·나중 정답 팀) · 오늘 알림 | [열기](https://leegmyung.github.io/crate-digger/dashboard.html) |
 | 주간 엑셀 | 요약·후보 TOP100·이번 주 변화·다가오는 공연·출처 성적표·점수 검증·정의 7시트 (앱과 같은 숫자) | [docs/report/crate-digger_weekly.xlsx](docs/report/crate-digger_weekly.xlsx) |
 | Tableau 추출 | 바로 올릴 긴 형식 CSV 4개 + 시트·계산 필드 설계서 | [docs/tableau/](docs/tableau/README.md) |
 | 사운드 지도 | 같은 무대 공동 출연으로 나눈 씬 묶음 244개, 묶음별 대표 공연장·상위 후보 | [docs/scene_map.md](docs/scene_map.md) |
@@ -24,6 +24,7 @@
 | SQL (PostgreSQL · BigQuery) | 분석 9개·검증 8개 쿼리와 결과, 같은 쿼리의 BigQuery 문법판 | [결과](docs/sql/README.md) · [sql/kr/](sql/kr/) · [sql/bigquery/](sql/bigquery/) |
 | 데이터 사전 | 모든 표의 칸·단위·출처·갱신 주기 (코드에서 자동 생성) | [docs/data_dictionary.md](docs/data_dictionary.md) |
 | 방법론 | 정의·시점 누수 방지·점수 공식·백테스트·한계 | [docs/methods.md](docs/methods.md) |
+| 화면 정보 분석 (점수 미반영) | 발굴 단계·공연장 체급과 사다리·공연장 프로필·도시·라인업 역할·알림·새 특징 실험·신원 점검 — 한 줄 정의와 점수에 안 넣은 이유(교차 검증 숫자) | [방법론 마지막 절](docs/methods.md) |
 | 출처 분류 | 출처별 성적표와 역할(발굴·맥락·제외·검증 대기), 정답 등급 S·A·B | [docs/source_roles.md](docs/source_roles.md) |
 | 점수 교차 검증 | 기준일을 하나씩 빼고 가중치를 고른 결과 | [docs/score_tuning.md](docs/score_tuning.md) |
 
@@ -60,7 +61,10 @@
     │
  ⑥ 점수 v2 · 백테스트 · 교차 검증(과거 기준일엔 '지금 팬 수' 유명 판정 안 씀) · 분석/검증 SQL
     │
- ⑦ 결과물: 앱 · 주간 엑셀 · Tableau 추출 · 사운드 지도 · SQL 결과 (매일 자동 갱신)
+ ⑦ 화면 정보(점수 미반영): 발굴 단계 · 공연장 체급·사다리·프로필 · 도시 · 라인업 역할 · 오늘 알림
+    │   (단계·체급·도시·라인업은 점수 v2에 더해 교차 검증 — 채택 기준 미달이라 설명·탐색용으로만)
+    │
+ ⑧ 결과물: 앱 · 주간 엑셀 · Tableau 추출 · 사운드 지도 · SQL 결과 (매일 자동 갱신)
 ```
 
 ## 핵심 결과 (지금까지)
