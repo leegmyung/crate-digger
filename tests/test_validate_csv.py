@@ -49,6 +49,13 @@ class TableDetectionTest(unittest.TestCase):
         self.assertEqual(validate_csv.table_for("raw_kr_release_2026-11-26_bugs.csv"), "raw_kr_release")
         self.assertEqual(validate_csv.table_for("raw_kr_gig_2026-11-26_indiego.csv"), "raw_kr_gig")
 
+    def test_auxiliary_files_are_skipped_not_errors(self):   # 영상·협업 보조 파일은 각 수집기 테스트가 형식을 지킴
+        with tempfile.TemporaryDirectory() as d:
+            for name in ("raw_video_2026-11-27.csv", "raw_collab_2026-11-27.csv", "raw_collab_partner_2026-11-27.csv"):
+                p = write_csv(d, name, "a,b\n1,2")
+                self.assertEqual(validate_csv.validate_file(p), [])
+                self.assertTrue(validate_csv.is_auxiliary(p))
+
     def test_unknown_file_name_is_error(self):
         with tempfile.TemporaryDirectory() as d:
             p = write_csv(d, "something.csv", RELEASE_HEADER + "\n" + GOOD_RELEASE)

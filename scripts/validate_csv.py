@@ -105,7 +105,16 @@ def check_rows(rows, header, spec):
     return issues
 
 
+AUX_PREFIXES = ("raw_video_", "raw_collab_")   # 보조 파일: 형식은 각 수집기 테스트가 지키고, 적재 대상 표가 아님
+
+
+def is_auxiliary(path):
+    return Path(path).name.startswith(AUX_PREFIXES)
+
+
 def validate_file(path):
+    if is_auxiliary(path):
+        return []
     table = table_for(path)
     if table is None:
         known = ", ".join(t + "_" for t in TABLES)
@@ -128,6 +137,9 @@ def main(argv):
         issues = validate_file(path)
         errors = [i for i in issues if i.level == "error"]
         has_error = has_error or bool(errors)
+        if is_auxiliary(path):
+            print(f"➖ {Path(path).name}: 보조 파일 (형식 검사 건너뜀)")
+            continue
         print(f"{'❌' if errors else '✅'} {Path(path).name}: 오류 {len(errors)}개, 경고 {len(issues) - len(errors)}개")
         for i in issues:
             where = f"{i.row}행" if i.row else "파일"
