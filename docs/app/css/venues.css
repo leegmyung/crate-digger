@@ -1,2 +1,192 @@
 /* 정보 구조 v2 묶음 D 공연장 페이지·목록 (docs/app_structure_v2.md 4절)
    이 묶음의 스타일은 이 파일에만 — style.css 는 건드리지 않는다. 색은 var(--토큰)만. */
+
+/* ---------- 공연장 페이지: 고정 머리(이름·체급·종류 + 탭) ---------- */
+.venue-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.venue-sticky {
+  position: sticky;
+  top: var(--venue-sticky-top, 52px); /* 위쪽 머리줄 높이 */
+  z-index: 15;
+  margin: 0 0 var(--space-3);
+  padding: var(--space-3) var(--space-4) 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+.venue-sticky-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.venue-name {
+  margin: 0;
+  font-size: var(--text-h1);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.venue-tabs {
+  display: flex;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.venue-tab {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 var(--space-3);
+  border-bottom: 2px solid transparent;
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.venue-tab:hover {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.venue-tab.is-active {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+  font-weight: var(--weight-semi);
+}
+
+.venue-tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.venue-head {
+  margin-bottom: var(--space-4);
+  padding: 0 var(--space-1);
+}
+
+.venue-head .venue-kpi-strip {
+  margin-top: var(--space-3);
+}
+
+.venue-upcoming-list {
+  margin: 0;
+  padding-left: var(--space-4);
+  font-size: var(--text-sm);
+  line-height: 1.8;
+}
+
+.venue-evidence {
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px dashed var(--line-strong);
+}
+
+.venue-evidence p {
+  margin: var(--space-2) 0 0;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .venue-sticky {
+    top: 0; /* 휴대폰에선 위쪽 머리줄이 고정되지 않음 */
+    padding: var(--space-2) var(--space-3) 0;
+  }
+
+  .venue-name {
+    font-size: var(--text-xl);
+  }
+
+  .venue-tab {
+    min-height: 44px;
+  }
+}
+
+/* ---------- 공연장 목록 · 씬 보기: 제목 줄 + 보기 전환 [표 | 지도 | 씬] ---------- */
+.vl-page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.vl-title {
+  margin: 0;
+  font-size: var(--text-h1);
+}
+
+.vl-page-head p {
+  margin: 2px 0 0;
+}
+
+.vl-view-switch {
+  display: inline-flex;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.vl-view-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 var(--space-4);
+  background: var(--surface);
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+
+.vl-view-btn + .vl-view-btn {
+  border-left: 1px solid var(--line-strong);
+}
+
+.vl-view-btn:hover {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.vl-view-btn.is-active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: var(--weight-semi);
+}
+
+.vl-view-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* 표 보기의 줄: 최근 12개월 막대는 작게 */
+.vl-table .vl-row-months {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 150px;
+}
+
+.vl-table .vl-months {
+  width: 96px;
+  height: 22px;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 640px) {
+  .vl-view-btn {
+    min-height: 44px;
+  }
+
+  .vl-table .vl-row-months {
+    min-width: 0;
+  }
+}

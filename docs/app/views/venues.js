@@ -9,22 +9,38 @@ import {
   triggerTableCsvExport, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
 import { mountSceneNetworkBlock } from './graph.js';
-import { renderVenueListTab } from './venues_list.js';
+import { renderVenueListPage, renderVenueViewSwitch, wireVenueViewSwitch } from './venues_list.js';
 import { renderCityTab } from './city.js';
 import { renderFestivalTab } from './festivals.js';
 
-const EXTRA_TABS = { list: renderVenueListTab, city: renderCityTab, festival: renderFestivalTab };
-const ALL_TABS = new Set(['overview', 'list', 'city', 'festival', 'network']);
-const normTab = t => (ALL_TABS.has(t) ? t : 'overview');
-
+/**
+ * 공연장 메뉴(정보 구조 v2 묶음 D): #/venues · #/venues/list = 공연장 목록(보기: 표·지도),
+ * #/venues/network = 씬 보기(씬 네트워크 그림 + 이번 달 신인 많은 공연장 · 씬 묶음 · 다가오는 공연 달력).
+ * 도시(#/cities·#/city/<이름>)·페스티벌(#/festivals·#/festival/<이름>)도 안쪽 경로는 venues 라 여기서 나눠 준다.
+ */
 export async function renderVenuesView(root) {
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
-  const isNetworkInit = appState.venuesTab === 'network';
+  if (appState.venuesTab === 'city' || appState.venuesTab === 'festival') {
+    root.innerHTML = '<div id="venuesTabHost"></div>';
+    const render = appState.venuesTab === 'city' ? renderCityTab : renderFestivalTab;
+    await render(root.querySelector('#venuesTabHost'));
+    return;
+  }
+  // 팀 상세의 '속한 씬' 링크는 씬 묶음을 펼쳐 보여 줘야 하므로 씬 보기로
+  if (appState.focusSceneId !== undefined && appState.focusSceneId !== null) {
+    appState.venuesTab = 'network';
+    syncHash(true);
+  }
+  if (appState.venuesTab !== 'network') {
+    await renderVenueListPage(root);
+    return;
+  }
   const [candRows, upcomingRaw, sceneMap] = await Promise.all([
     queryCandidates({ limit: 300 }),
     queryUpcomingGigs({ asOf }),
     loadSceneMap(),
-    isNetworkInit ? ensureD3().catch(() => null) : loadDashboardJson().catch(() => null),
+    ensureD3().catch(() => null),
+    loadDashboardJson().catch(() => null),
   ]);
   const monthly = await queryMonthlyNewcomerVenues(candRows, asOf);
   const sceneCommunities = sceneMap?.communities || [];
@@ -69,7 +85,7 @@ export async function renderVenuesView(root) {
   });
 
   const bannerHtml = renderActionBanner({
-    title: '공연장·씬',
+    title: '이번 달',
     lead: topMonthV
       ? `${escapeHtml(monthly.monthLabel)} 신인 후보가 가장 많이 선 공연장은 <a class="inline-venue-link" href="#/venue/${encodeURIComponent(topMonthV.venue)}"><strong>${escapeHtml(topMonthV.venue)}</strong></a>(후보 ${fmtInt(topMonthV.candidateCount)}팀 · 전체 ${fmtInt(topMonthV.totalTeams)}팀)이며, 예정된 후보 무대는 <strong>${fmtInt(candUpcomingEvents.length)}건</strong>입니다.`
       : `${escapeHtml(monthly.monthLabel)} 기준 조건에 맞는 신인 후보 출연 공연장이 아직 없습니다.`,
@@ -83,7 +99,6 @@ export async function renderVenuesView(root) {
     const targetId = Number(appState.focusSceneId);
     const idx = sceneCommunities.findIndex(c => Number(c.id) === targetId);
     if (idx >= 0) {
-      appState.venuesTab = 'overview';
       expandedSceneId = targetId;
       if (idx + 1 > sceneLimit) sceneLimit = Math.ceil((idx + 1) / 10) * 10;
     }
@@ -93,15 +108,6 @@ export async function renderVenuesView(root) {
   let calLimit = 8;
   let chartRendered = false;
   let sceneGraphHandle = null;
-
-  function renderVenuesSubTabs(activeTab) {
-    const tab = (id, label) => `<button type="button" class="sub-tab-btn ${activeTab === id ? 'active' : ''}" role="tab" aria-selected="${activeTab === id ? 'true' : 'false'}" data-venues-tab="${id}">${label}</button>`;
-    return `
-      <div class="sub-tabs venues-sub-tabs" role="tablist" aria-label="공연장·씬 보기 전환">
-        ${tab('overview', '이번 달 · 씬 묶음')}${tab('list', '공연장 목록')}${tab('city', '도시')}${tab('festival', '페스티벌')}${tab('network', '씬 네트워크')}
-      </div>
-    `;
-  }
 
   function renderVenueRow(v, idx) {
     const isOpen = expandedVenue === v.venue;
@@ -415,72 +421,38 @@ export async function renderVenuesView(root) {
     `;
   }
 
-  function wireSubTabs() {
-    root.querySelectorAll('[data-venues-tab]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const next = normTab(btn.dataset.venuesTab);
-        if (next === appState.venuesTab) return;
-        appState.venuesTab = next;
-        syncHash(true);
-        paint();
-      });
+  // 씬 보기 틀: 제목·보기 전환 + 씬 네트워크 그림(한 번만 그림) + 아래 묶음들(paint 가 다시 그림)
+  root.innerHTML = `
+    <div class="vl-page-head">
+      <div>
+        <h1 class="vl-title">공연장 · 씬</h1>
+        <p class="small muted">같은 무대에 함께 선 팀·공연장의 연결 — 이번 달 신인이 많이 선 곳 · 씬 묶음 · 다가오는 공연</p>
+      </div>
+      ${renderVenueViewSwitch('scene')}
+    </div>
+    ${bannerHtml}
+    <div id="sceneNetworkHost"></div>
+    <div id="venueSceneSections"></div>
+  `;
+  wireVenueViewSwitch(root);
+  const graphHost = root.querySelector('#sceneNetworkHost');
+  if (graphHost) {
+    sceneGraphHandle = mountSceneNetworkBlock(graphHost, {
+      initialGenre: appState.cfg.genre || '',
+      initialLimit: appState.sceneNetLimit || 150,
+      nextGigByTeam,
     });
   }
 
   function paint() {
-    if (sceneGraphHandle) {
-      try { sceneGraphHandle.destroy(); } catch (_) {}
-      sceneGraphHandle = null;
-    }
     chartRendered = false;
-    const activeTab = normTab(appState.venuesTab);
-
-    if (EXTRA_TABS[activeTab]) {
-      root.innerHTML = `
-        ${bannerHtml}
-        ${renderVenuesSubTabs(activeTab)}
-        <div id="venuesTabHost"></div>
-      `;
-      wireSubTabs();
-      EXTRA_TABS[activeTab](root.querySelector('#venuesTabHost'));
-      return;
-    }
-
-    if (activeTab === 'network') {
-      root.innerHTML = `
-        ${bannerHtml}
-        ${renderVenuesSubTabs(activeTab)}
-        <div id="sceneNetworkHost"></div>
-      `;
-
-      root.querySelectorAll('[data-venues-tab]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const next = normTab(btn.dataset.venuesTab);
-          if (next === appState.venuesTab) return;
-          appState.venuesTab = next;
-          syncHash(true);
-          paint();
-        });
-      });
-
-      const host = root.querySelector('#sceneNetworkHost');
-      if (host) {
-        sceneGraphHandle = mountSceneNetworkBlock(host, {
-          initialGenre: appState.cfg.genre || '',
-          initialLimit: appState.sceneNetLimit || 150,
-          nextGigByTeam,
-        });
-      }
-      return;
-    }
+    const sectionsHost = root.querySelector('#venueSceneSections');
+    if (!sectionsHost) return;
 
     const visVenues = monthly.venues.slice(0, venueLimit);
     const remVenues = monthly.venues.length - visVenues.length;
 
-    root.innerHTML = `
-      ${bannerHtml}
-      ${renderVenuesSubTabs(activeTab)}
-
+    sectionsHost.innerHTML = `
       <section class="block" id="monthlyVenuesBlock">
         <div class="block-head">
           <div>
@@ -524,23 +496,6 @@ export async function renderVenuesView(root) {
 
     wireAvatarFallbacks(root);
     wireSpotifyButtons(root);
-
-    root.querySelectorAll('[data-venues-tab]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const next = normTab(btn.dataset.venuesTab);
-        if (next === appState.venuesTab) return;
-        appState.venuesTab = next;
-        syncHash(true);
-        paint();
-        if (next === 'overview' && !appState.dashboardJson) {
-          loadDashboardJson().then(dj => {
-            if (!dj || appState.venuesTab !== 'overview' || !root.isConnected) return;
-            allTimeVenues = dj.sections?.top_venues || [];
-            if (allTimeVenues.length) paint();
-          }).catch(() => {});
-        }
-      });
-    });
 
     root.querySelectorAll('[data-toggle-venue]').forEach(btn => {
       const toggle = () => {
@@ -616,7 +571,7 @@ export async function renderVenuesView(root) {
   }
 
   paint();
-  if (expandedSceneId !== null && appState.venuesTab !== 'network') {
+  if (expandedSceneId !== null) {
     root.querySelector(`[data-scene-id="${expandedSceneId}"]`)?.scrollIntoView({ block: 'center' });
   }
 }

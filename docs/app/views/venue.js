@@ -1,4 +1,4 @@
-import { appState, navigateTo, setExportContext } from '../state.js';
+import { appState, navigateTo, setExportContext, VENUE_TABS } from '../state.js';
 import {
   loadVenueProfiles, queryCandidates, queryDiscoveryStages, queryVenueRecentShows,
 } from '../db.js';
@@ -194,14 +194,25 @@ function groupRecentShows(rows, asOf) {
   return [...byDate.values()].sort((a, b) => b.date.localeCompare(a.date));
 }
 
+// 탭을 옮겨도(주소가 바뀌어 화면을 다시 그려도) 같은 질의를 다시 돌리지 않게
+const venueTeamsCache = new Map();
+function cachedVenueTeams(venue, asOf) {
+  const key = `${venue}|${asOf}`;
+  if (!venueTeamsCache.has(key)) {
+    venueTeamsCache.set(key, queryVenueTeams(venue, asOf));
+    if (venueTeamsCache.size > 12) venueTeamsCache.delete(venueTeamsCache.keys().next().value);
+  }
+  return venueTeamsCache.get(key);
+}
+
 export async function renderVenueView(root, venueName) {
   const cleanVenue = String(venueName || '').trim();
   if (!cleanVenue) {
     root.innerHTML = renderActionBanner({
       title: '공연장 상세',
       lead: '선택된 공연장이 없습니다.',
-      todo: '공연장·씬 화면에서 공연장을 선택하면 체급·수상 선례·전후 흐름·최근 공연 목록을 볼 수 있습니다.',
-      buttonsHtml: '<a class="btn" href="#/venues">공연장·씬으로</a>',
+      todo: '공연장 목록에서 공연장을 고르면 체급·출연 팀·공연·전후 흐름을 탭으로 볼 수 있습니다.',
+      buttonsHtml: '<a class="btn" href="#/venues">공연장 목록으로</a>',
     });
     return;
   }
@@ -211,7 +222,7 @@ export async function renderVenueView(root, venueName) {
     loadVenueProfiles(),
     queryVenueRecentShows(cleanVenue, 1000).catch(() => []),
     loadVenueLadder(),
-    queryVenueTeams(cleanVenue, asOf),
+    cachedVenueTeams(cleanVenue, asOf),
     queryCandidates({ limit: 300 }).catch(() => []),
     queryDiscoveryStages({ as_of: asOf }).catch(() => null),
   ]);
@@ -223,7 +234,7 @@ export async function renderVenueView(root, venueName) {
   const showGroups = groupRecentShows(recentShowRows, effectiveAsOf);
 
   const backLabels = {
-    venues: '공연장·씬',
+    venues: '공연장 목록',
     team: '팀 상세',
     today: '이번 주 브리핑',
     candidates: '후보 목록',
@@ -231,7 +242,7 @@ export async function renderVenueView(root, venueName) {
   };
   const backRoute = appState.prevRoute && backLabels[appState.prevRoute] ? appState.prevRoute : 'venues';
   const backParam = backRoute === 'team' ? (appState.prevParam || '') : '';
-  const backLabel = backLabels[backRoute] || '공연장·씬';
+  const backLabel = backLabels[backRoute] || '공연장 목록';
 
   const showsCsvSpec = showGroups.length ? {
     filename: `crate_digger_venue_${cleanVenue.replace(/[^a-zA-Z0-9가-힣_-]+/g, '_')}_${effectiveAsOf}.csv`,
@@ -411,141 +422,134 @@ export async function renderVenueView(root, venueName) {
     tierOf,
   }) : null;
 
-  // Build Hero & Body depending on profile availability
-  let mainSectionsHtml = '';
-  if (!profile) {
-    const noticeTitle = hasProfilesFile ? '공연장 프로필 미집계' : '공연장 프로필 준비 중';
-    const noticeDesc = hasProfilesFile
-      ? `기준일(${effectiveAsOf})까지 집계된 프로필 목록에 '${cleanVenue}' 항목이 아직 없습니다.`
-      : '공연장 체급·수용 인원·월별 공연 추이·첫 출연 비율·수상 선례·전후 이동 흐름 데이터를 준비 중입니다. 집계 파일이 생성되면 이 화면에 자동으로 표시됩니다.';
-    mainSectionsHtml = `
-      <section class="action-banner venue-hero">
-        <div class="venue-hero-top">
-          <div class="venue-hero-title-row">
-            <h1>${escapeHtml(cleanVenue)}</h1>
-            <span class="venue-prep-pill">준비 중</span>
-          </div>
-          ${showGroups.length
-            ? `<p class="action-lead">수집된 공연 날짜 <strong>${fmtInt(showGroups.length)}일</strong> · 마지막 기록 ${escapeHtml(showGroups[0].date)}</p>`
-            : '<p class="action-lead">공연장 상세 프로필이 아직 준비되지 않았습니다.</p>'}
-        </div>
-        ${actionsHtml}
-      </section>
+  // ---------- 정보 구조 v2 묶음 D: 고정 머리 + 탭 4개(개요·출연 팀·공연·흐름) + 근거 줄 ----------
+  const tab = VENUE_TABS.includes(appState.venueTab) ? appState.venueTab : 'overview';
+  const tabHref = t => `#/venue/${encodeURIComponent(cleanVenue)}${t === 'overview' ? '' : `/${t}`}`;
+  const TAB_LABELS = { overview: '개요', teams: `출연 팀 ${fmtInt(venueTeams.length)}`, gigs: '공연', flow: '흐름' };
+  const tabsHtml = `
+    <nav class="venue-tabs" aria-label="공연장 탭">
+      ${VENUE_TABS.map(t => `<a class="venue-tab${t === tab ? ' is-active' : ''}" href="${tabHref(t)}"${t === tab ? ' aria-current="page"' : ''}>${TAB_LABELS[t]}</a>`).join('')}
+    </nav>`;
 
-      <section class="block venue-prep-card" aria-label="공연장 프로필 준비 중 안내">
-        <div class="venue-prep-body">
-          <strong>${escapeHtml(noticeTitle)}</strong>
-          <p class="small muted" style="margin:4px 0 0 0;">${escapeHtml(noticeDesc)}</p>
-        </div>
-      </section>
+  const sharePct = (profile?.first_timer_share_1y !== null && profile?.first_timer_share_1y !== undefined)
+    ? `${Math.round(Number(profile.first_timer_share_1y) * 100)}%` : '—';
+  const nights12 = profile?.discovery?.nights_12m;
+  const metaParts = [];
+  if (profile?.city) metaParts.push(String(profile.city));
+  if (profile?.first_night && profile?.last_night) metaParts.push(`공연 기록 ${profile.first_night} ~ ${profile.last_night}`);
+  if (profile) metaParts.push(`누적 ${fmtInt(profile.nights || 0)}일`);
 
-      <section class="block" id="venueTeamsBlock"></section>
-      <section class="block" id="venueRecentShowsBlock"></section>
-    `;
-  } else {
-    const metaParts = [];
-    const cityStr = String(profile.city || '').trim();
-    if (cityStr) {
-      metaParts.push(cityStr);
-    }
-    if (profile.first_night || profile.last_night) {
-      const range = profile.first_night && profile.last_night
-        ? `${profile.first_night} ~ ${profile.last_night}`
-        : (profile.first_night || profile.last_night);
-      metaParts.push(`공연 기간 ${range}`);
-    }
-    metaParts.push(`누적 ${fmtInt(profile.nights || 0)}일`);
-
-    const sharePct = (profile.first_timer_share_1y !== null && profile.first_timer_share_1y !== undefined)
-      ? `${(Number(profile.first_timer_share_1y) * 100).toFixed(0)}%`
-      : '—';
-
-    mainSectionsHtml = `
-      <section class="action-banner venue-hero">
-        <div class="venue-hero-top">
-          <div class="venue-hero-title-row">
-            <h1>${escapeHtml(cleanVenue)}</h1>
-            ${renderTierBadge(profile.tier)}
-            <span class="venue-type-chip${profile.type ? '' : ' is-unknown'}" title="${escapeHtml(profile.type_basis || '종류 근거 없음')}">${escapeHtml(venueTypeLabel(profile))}</span>
-            ${Number(profile.upcoming_nights || 0) > 0
-              ? `<span class="venue-upcoming-pill">예정 ${fmtInt(profile.upcoming_nights)}일</span>`
-              : ''}
-          </div>
-          <p class="venue-hero-meta">${escapeHtml(metaParts.join(' · '))}</p>
-          ${capacityLineHtml}
-          ${aliasLineHtml}
-          <p class="venue-hero-geo">${geoLine}</p>
-        </div>
-
+  const headHtml = `
+    <div class="venue-sticky">
+      <div class="venue-sticky-row">
+        <h1 class="venue-name">${escapeHtml(cleanVenue)}</h1>
+        ${profile ? renderTierBadge(profile.tier) : '<span class="venue-prep-pill">프로필 준비 중</span>'}
+        ${profile ? `<span class="venue-type-chip${profile.type ? '' : ' is-unknown'}" title="${escapeHtml(profile.type_basis || '종류 근거 없음')}">${escapeHtml(venueTypeLabel(profile))}</span>` : ''}
+        ${Number(profile?.upcoming_nights || 0) > 0 ? `<span class="venue-upcoming-pill">예정 ${fmtInt(profile.upcoming_nights)}일</span>` : ''}
+      </div>
+      ${tabsHtml}
+    </div>
+    <section class="venue-head">
+      ${metaParts.length ? `<p class="venue-hero-meta">${escapeHtml(metaParts.join(' · '))}</p>` : ''}
+      ${capacityLineHtml}
+      ${aliasLineHtml}
+      ${profile ? `<p class="venue-hero-geo">${geoLine}</p>` : ''}
+      ${profile ? `
         <div class="venue-kpi-strip">
           <div class="venue-kpi-card">
-            <span class="venue-kpi-lbl">공연 날짜</span>
-            <strong class="venue-kpi-val mono">${fmtInt(profile.nights || 0)}일</strong>
-            <span class="venue-kpi-sub">${Number(profile.upcoming_nights || 0) > 0 ? `예정 ${fmtInt(profile.upcoming_nights)}일` : `기준 ${escapeHtml(effectiveAsOf)}`}</span>
+            <span class="venue-kpi-lbl">최근 12개월 공연</span>
+            <strong class="venue-kpi-val mono">${nights12 !== undefined && nights12 !== null ? `${fmtInt(nights12)}일` : '—'}</strong>
+            <span class="venue-kpi-sub">같은 날 = 1일 · 기준 ${escapeHtml(effectiveAsOf)}</span>
           </div>
           <div class="venue-kpi-card">
-            <span class="venue-kpi-lbl">최근 1년 출연</span>
-            <strong class="venue-kpi-val mono">${fmtInt(profile.teams_1y || 0)}팀</strong>
-            <span class="venue-kpi-sub">첫 출연 ${fmtInt(profile.first_timers_1y || 0)}팀</span>
-          </div>
-          <div class="venue-kpi-card">
-            <span class="venue-kpi-lbl">첫 출연 비율</span>
+            <span class="venue-kpi-lbl">첫 무대 신인 비율</span>
             <strong class="venue-kpi-val mono">${escapeHtml(sharePct)}</strong>
-            <span class="venue-kpi-sub">데이터상 첫 무대</span>
+            <span class="venue-kpi-sub">최근 1년 ${fmtInt(profile.teams_1y || 0)}팀 중 ${fmtInt(profile.first_timers_1y || 0)}팀</span>
           </div>
           <div class="venue-kpi-card">
-            <span class="venue-kpi-lbl">나중에 상 받은 팀</span>
+            <span class="venue-kpi-lbl">정답 전에 선 팀</span>
             <strong class="venue-kpi-val mono">${fmtInt(profile.later_winners_total || 0)}팀</strong>
-            <span class="venue-kpi-sub">수상 전 이곳 거쳐감</span>
+            <span class="venue-kpi-sub">수상·선정 전에 이곳</span>
           </div>
           ${discoveryKpiHtml}
-        </div>
-        ${actionsHtml}
-        ${basisFoldHtml}
-      </section>
+        </div>` : `
+        <p class="venue-hero-meta">${showGroups.length ? `수집된 공연 날짜 ${fmtInt(showGroups.length)}일 · 마지막 기록 ${escapeHtml(showGroups[0].date)}` : '이 공연장의 공연 기록이 아직 없습니다.'}</p>`}
+      ${actionsHtml}
+    </section>`;
 
-      <div class="venue-overview-grid">
-        <section class="block venue-overview-card">
-          ${renderVenueMonthlyBarsHtml(profile.monthly, effectiveAsOf, notes.nights || '')}
-        </section>
-        <section class="block venue-overview-card">
-          ${renderFirstTimerCardHtml(profile, notes.first_timers_1y || '')}
-        </section>
+  const prepNotice = profile ? '' : `
+    <section class="block venue-prep-card" aria-label="공연장 프로필 준비 중 안내">
+      <div class="venue-prep-body">
+        <strong>${escapeHtml(hasProfilesFile ? '공연장 프로필 미집계' : '공연장 프로필 준비 중')}</strong>
+        <p class="small muted" style="margin:4px 0 0 0;">${escapeHtml(hasProfilesFile
+          ? `기준일(${effectiveAsOf})까지 집계된 프로필 목록에 '${cleanVenue}' 항목이 아직 없습니다. 출연 팀·공연 탭은 공연 기록으로 볼 수 있습니다.`
+          : '공연장 프로필 파일이 아직 없습니다. 출연 팀·공연 탭은 공연 기록으로 볼 수 있습니다.')}</p>
       </div>
+    </section>`;
 
-      <section class="block" id="venueFlowBlock">
-        <div class="block-head">
-          <div>
-            <h2>전후 공연장 흐름</h2>
-            <span class="block-meta">${escapeHtml(notes.before_after || '이 공연장에 처음 선 팀들이 전후 1년에 거친 곳 (공연장 이름을 누르면 이동)')}</span>
-          </div>
-        </div>
-        ${flow ? `<div class="vf-wrap vf-${flow.kind}">${flow.html}</div>
-        <p class="small muted vf-note">위 = 이곳 전에 선 곳(회색), 아래 = 이곳 뒤에 처음 선 곳(강조색), 굵기 = 팀 수 · 체급 상승은 점수에 넣지 않는 참고 자료입니다</p>` : ''}
-        <details class="vf-list-fold"><summary class="small">목록으로 보기</summary>
-        <div class="venue-flow-grid">
-          ${renderFlowColumnHtml('이곳 전에 많이 선 곳', profile.before, '이전 1년 사이 함께 집계된 선행 공연장이 없습니다.')}
-          ${renderFlowColumnHtml('이곳 뒤에 많이 선 곳', profile.after, '이후 1년 사이 함께 집계된 다음 공연장이 없습니다.')}
-        </div>
-        </details>
-      </section>
+  const upcoming = showGroups.filter(g => g.isUpcoming).sort((x, y) => x.date.localeCompare(y.date)).slice(0, 6);
+  const upcomingHtml = `
+    <section class="block">
+      <div class="block-head"><h2>다가오는 공연</h2><span class="block-meta">${fmtInt(showGroups.filter(g => g.isUpcoming).length)}일</span></div>
+      ${upcoming.length ? `<ul class="venue-upcoming-list">${upcoming.map(g => `
+        <li><span class="mono">${escapeHtml(g.date)}</span> ${g.teams.map(t => `<a href="#/team/${encodeURIComponent(t.team_key)}">${escapeHtml(t.display_name)}</a>`).join(' · ')}</li>`).join('')}</ul>`
+        : '<p class="muted small" style="margin:0;">잡힌 공연 기록이 없습니다.</p>'}
+    </section>`;
 
+  const flowHtml = profile ? `
+    <section class="block" id="venueFlowBlock">
+      <div class="block-head">
+        <div>
+          <h2>전후 공연장 흐름</h2>
+          <span class="block-meta">${escapeHtml(notes.before_after || '이 공연장에 처음 선 팀들이 전후 1년에 거친 곳')}</span>
+        </div>
+      </div>
+      ${flow ? `<div class="vf-wrap vf-${flow.kind}">${flow.html}</div>
+      <p class="small muted vf-note">위 = 이곳 전에 선 곳(회색), 아래 = 이곳 뒤에 처음 선 곳(강조색), 굵기 = 팀 수 · 체급 상승은 점수에 넣지 않는 참고 자료입니다</p>` : ''}
+      <details class="vf-list-fold"><summary class="small">목록으로 보기</summary>
+      <div class="venue-flow-grid">
+        ${renderFlowColumnHtml('이곳 전에 많이 선 곳', profile.before, '이전 1년 사이 함께 집계된 선행 공연장이 없습니다.')}
+        ${renderFlowColumnHtml('이곳 뒤에 많이 선 곳', profile.after, '이후 1년 사이 함께 집계된 다음 공연장이 없습니다.')}
+      </div>
+      </details>
+    </section>` : '<section class="block"><p class="muted small" style="margin:0;">공연장 프로필이 없어 전후 흐름을 그릴 수 없습니다.</p></section>';
+
+  const bodyByTab = {
+    overview: profile ? `
+      <div class="venue-overview-grid">
+        <section class="block venue-overview-card">${renderVenueMonthlyBarsHtml(profile.monthly, effectiveAsOf, notes.nights || '')}</section>
+        <section class="block venue-overview-card">${renderFirstTimerCardHtml(profile, notes.first_timers_1y || '')}</section>
+      </div>
       <div class="venue-roster-grid">
         <section class="block" id="venueWinnersBlock"></section>
         <section class="block" id="venueCandidatesBlock">${renderTopCandidatesInner()}</section>
       </div>
+      ${upcomingHtml}` : `${prepNotice}${upcomingHtml}`,
+    teams: '<section class="block" id="venueTeamsBlock"></section>',
+    gigs: '<section class="block" id="venueRecentShowsBlock"></section>',
+    flow: flowHtml,
+  };
 
-      <section class="block" id="venueTeamsBlock"></section>
-      <section class="block" id="venueRecentShowsBlock"></section>
-    `;
-  }
+  // 근거 줄: 별칭·'묶지 않음' · 체급 근거(검증) · 점수와의 관계 · 틀림 제보
+  const evidenceHtml = `
+    <section class="venue-evidence" aria-label="근거">
+      ${basisFoldHtml}
+      <p class="small muted">체급·수용 인원은 공개 자료 확인값(출처·확실도는 머리에) · 데이터 수집 상태는 <a href="#/verify/quality">검증 › 데이터 품질</a> ·
+        후보 점수의 '서로 다른 공연장'은 <strong>최근 2년</strong> 공연만 세고, 이 화면의 첫 무대 신인·흐름·발굴 주목도는 점수에 넣지 않는 참고 자료입니다 ·
+        외부 서비스의 공연장 페이지와 달리 정답(수상·선정) 전에 선 팀을 따로 셉니다 ·
+        <a href="${escapeHtml(reportUrl)}" target="_blank" rel="noopener noreferrer">정보가 틀려요 ↗</a></p>
+    </section>`;
 
   root.innerHTML = `
     <div class="team-topbar">
       <button type="button" class="btn btn-sm" id="btnVenueBack">← ${escapeHtml(backLabel)}</button>
       <span class="small muted">기준일 ${escapeHtml(effectiveAsOf)}</span>
     </div>
-    ${mainSectionsHtml}
+    <div class="venue-page">
+      ${headHtml}
+      <div class="venue-tab-body" data-venue-tab="${tab}">${bodyByTab[tab]}</div>
+      ${evidenceHtml}
+    </div>
   `;
 
   function paintWinners() {
@@ -563,7 +567,7 @@ export async function renderVenueView(root, venueName) {
   // 4-2 출연 팀 표 + 공연 표
   const candByKey = new Map(candRows.map((r, i) => [r.team_key, { score: r.score, rank: i + 1 }]));
   const stageByTeam = new Map((stageData?.rows || []).map(r => [r.team_key, r.stage]));
-  mountVenueTables(root, { venue: cleanVenue, asOf: effectiveAsOf, teams: venueTeams, showGroups, candByKey, stageByTeam });
+  mountVenueTables(root, { venue: cleanVenue, asOf: effectiveAsOf, teams: venueTeams, showGroups, candByKey, stageByTeam, totalNights: profile ? Number(profile.nights) + Number(profile.upcoming_nights || 0) : null });
   // 5-5 공연장 구독
   root.querySelector('#btnVenueSub')?.addEventListener('click', (e) => {
     const btn = e.currentTarget;

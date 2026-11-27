@@ -23,7 +23,35 @@ const SORTS = {
   winners: { label: '나중에 상 받은 팀', fn: v => v.later_winners_total ?? 0 },
   name: { label: '이름', fn: v => v.name },
 };
-const st = { q: '', city: '', type: '', tiers: new Set(), upcoming: false, showAccounts: false, sort: 'discovery', limit: CARDS_FIRST };
+const st = { q: '', city: '', type: '', tiers: new Set(), upcoming: false, showAccounts: false, sort: 'discovery', limit: CARDS_FIRST, mode: 'table' };
+
+/** 보기 전환 [표 | 지도 | 씬] — 표·지도는 이 화면 안에서, 씬은 #/venues/network (정보 구조 v2 묶음 D) */
+export function setVenueListMode(mode) {
+  st.mode = mode === 'map' ? 'map' : 'table';
+}
+
+export function renderVenueViewSwitch(active) {
+  const cur = key => (active === key ? ' is-active' : '');
+  const aria = key => (active === key ? ' aria-current="page"' : '');
+  return `<nav class="vl-view-switch" aria-label="공연장 보기 전환">
+    <a class="vl-view-btn${cur('table')}" href="#/venues/list" data-venue-view="table"${aria('table')}>표</a>
+    <a class="vl-view-btn${cur('map')}" href="#/venues/list" data-venue-view="map"${aria('map')}>지도</a>
+    <a class="vl-view-btn${cur('scene')}" href="#/venues/network"${aria('scene')}>씬</a>
+  </nav>`;
+}
+
+/** 보기 전환 링크를 누르면 표·지도 상태를 먼저 정한다(같은 화면이면 onLocalChange 로 다시 그림, 아니면 링크가 이동) */
+export function wireVenueViewSwitch(container, onLocalChange = null) {
+  container.addEventListener('click', (e) => {
+    const a = e.target.closest('[data-venue-view]');
+    if (!a) return;
+    setVenueListMode(a.dataset.venueView);
+    if (onLocalChange) {
+      e.preventDefault();
+      onLocalChange();
+    }
+  });
+}
 
 function tierKey(v) {
   const t = String(v.tier || '').toUpperCase();
@@ -158,6 +186,28 @@ function cardHtml(v, months) {
     </li>`;
 }
 
+function rowHtml(v, months) {
+  const share = v.first_timer_share_1y;
+  const disc = v.discovery?.score;
+  return `
+    <tr>
+      <td data-label="공연장"><a href="#/venue/${encodeURIComponent(v.name)}"><strong>${escapeHtml(v.name)}</strong></a>${Number(v.upcoming_nights) > 0 ? ` <span class="venue-upcoming-pill">예정 ${fmtInt(v.upcoming_nights)}일</span>` : ''}</td>
+      <td data-label="도시">${escapeHtml(v.city || '모름')}</td>
+      <td data-label="종류"><span title="${escapeHtml(v.type_basis || '종류 근거 없음')}">${escapeHtml(venueTypeLabel(v))}</span></td>
+      <td data-label="체급">${TIER_LABEL[tierKey(v)]}${v.capacity ? ` <span class="small muted">~${fmtInt(v.capacity)}명</span>` : ''}</td>
+      <td data-label="최근 12개월" class="vl-row-months">${monthBarsHtml(v, months)}<span class="small muted">${fmtInt(v.discovery?.nights_12m ?? sumLast12(v))}일</span></td>
+      <td class="num" data-label="첫 무대 신인">${share !== null && share !== undefined ? `${Math.round(share * 100)}%` : '—'}</td>
+      <td class="num" data-label="정답 전">${fmtInt(v.later_winners_total || 0)}팀</td>
+      <td class="num" data-label="발굴 주목도"><strong>${disc !== undefined && disc !== null ? fmtNum(disc, 1) : '—'}</strong></td>
+    </tr>`;
+}
+
+/** 공연장 목록 화면(#/venues · #/venues/list) — 제목·보기 전환 + 목록 */
+export async function renderVenueListPage(root) {
+  root.innerHTML = '<div id="venueListHost"></div>';
+  await renderVenueListTab(root.querySelector('#venueListHost'));
+}
+
 /** @param {HTMLElement} host */
 export async function renderVenueListTab(host) {
   const vp = await loadVenueProfiles();
@@ -176,23 +226,34 @@ export async function renderVenueListTab(host) {
       return st.sort === 'name' ? String(va).localeCompare(String(vb)) : (vb - va) || a.name.localeCompare(b.name);
     });
     const shown = list.slice(0, st.limit);
+    const more = list.length > shown.length ? `<div class="more-row"><span>${fmtInt(shown.length)} / ${fmtInt(list.length)}곳</span><button type="button" class="btn btn-sm" data-vl-more="1">24곳 더 보기</button></div>` : '';
+    const empty = '<p class="small muted">조건에 맞는 공연장이 없습니다.</p>';
+    const tableHtml = shown.length ? `
+      <div class="table-wrap">
+        <table class="data-table stack-table vl-table">
+          <thead><tr><th>공연장</th><th>도시</th><th>종류</th><th>체급</th><th>최근 12개월</th><th class="num">첫 무대 신인</th><th class="num">정답 전</th><th class="num">발굴 주목도</th></tr></thead>
+          <tbody>${shown.map(v => rowHtml(v, months)).join('')}</tbody>
+        </table>
+      </div>` : empty;
     host.innerHTML = `
+      <div class="vl-page-head">
+        <div>
+          <h1 class="vl-title">공연장</h1>
+          <p class="small muted">${fmtInt(list.length)} / ${fmtInt(all.length)}곳 · 기준 ${escapeHtml(vp.as_of || '')} · 기본 정렬은 발굴 주목도${infoTip('발굴 주목도', INFO_TIPS.venue_discovery, { compact: true })}</p>
+        </div>
+        ${renderVenueViewSwitch(st.mode)}
+      </div>
       <section class="block vl-block">
-        <div class="block-head">
-          <div><h2>공연장 목록${infoTip('발굴 주목도', INFO_TIPS.venue_discovery, { compact: true })}</h2>
-          <span class="block-meta">${fmtInt(list.length)} / ${fmtInt(all.length)}곳 · 기준 ${escapeHtml(vp.as_of || '')}</span></div>
-        </div>
         ${filtersHtml(all)}
-        <div class="vl-body">
-          ${mapHtml(list)}
-          <div class="vl-cards-wrap">
-            ${shown.length ? `<ul class="vl-cards">${shown.map(v => cardHtml(v, months)).join('')}</ul>` : '<p class="small muted">조건에 맞는 공연장이 없습니다.</p>'}
-            ${list.length > shown.length ? `<div class="more-row"><span>${fmtInt(shown.length)} / ${fmtInt(list.length)}곳</span><button type="button" class="btn btn-sm" data-vl-more="1">24곳 더 보기</button></div>` : ''}
-          </div>
-        </div>
+        ${st.mode === 'map' ? `
+          <div class="vl-body">
+            ${mapHtml(list)}
+            <div class="vl-cards-wrap">${shown.length ? `<ul class="vl-cards">${shown.map(v => cardHtml(v, months)).join('')}</ul>` : empty}${more}</div>
+          </div>` : `${tableHtml}${more}`}
       </section>`;
   };
 
+  wireVenueViewSwitch(host, () => { st.limit = CARDS_FIRST; paint(); });
   host.addEventListener('click', (e) => {
     const tierBtn = e.target.closest('[data-vl-tier]');
     if (tierBtn) {

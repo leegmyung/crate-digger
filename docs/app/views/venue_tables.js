@@ -127,7 +127,7 @@ export function mountVenueTables(root, ctx) {
     const shown = sorted.slice(0, showLimit);
     el.innerHTML = `
       <div class="block-head">
-        <div><h2>공연</h2><span class="block-meta">수집된 공연 날짜 ${fmtInt(sorted.length)}일 · 팀 이름을 누르면 팀 상세로</span></div>
+        <div><h2>공연</h2><span class="block-meta">${ctx.totalNights && ctx.totalNights > sorted.length ? `최근 ${fmtInt(sorted.length)}일 표시 (전체 ${fmtInt(ctx.totalNights)}일 중 — 오래된 기록은 CSV에도 빠짐)` : `공연 날짜 ${fmtInt(sorted.length)}일`} · 팀 이름을 누르면 팀 상세로</span></div>
         ${sorted.length ? `<div class="block-head-actions">${renderTableCsvBtn('btnVenueShowsCsv', 'CSV 내려받기')}</div>` : ''}
       </div>
       ${sorted.length ? `
