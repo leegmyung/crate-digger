@@ -131,6 +131,27 @@ class DebutOverridesTest(unittest.TestCase):
         self.assertLess(sql.index("CREATE TABLE IF NOT EXISTS ref.debut_overrides"), sql.index("CREATE VIEW core.v_team_profile"))
 
 
+class ArtistProfileOwnReleaseTest(unittest.TestCase):
+    """v_artist_profile: 같은 출처·번호는 최신 행만(다시 받은 프로필이 옛 행의 이른 날짜를 덮게) · 첫 발매 = 본인 음반 기준
+    (first_release_own)이 있으면 그것, 없으면 전체 앨범 기준 — 데뷔일과 이른 쪽 (2026-11-28, 성현: 2016 → 2025-10-22)."""
+
+    def setUp(self):
+        sql = (ROOT / "sql" / "kr" / "00_core_views.sql").read_text(encoding="utf-8")
+        self.view = sql[sql.index("CREATE VIEW core.v_artist_profile"):sql.index("CREATE VIEW core.v_team_profile")]
+
+    def test_latest_row_per_source_and_id(self):
+        self.assertIn("DISTINCT ON (source, artist_source_id)", self.view)
+        self.assertIn("ORDER BY source, artist_source_id, collected_at DESC", self.view)
+
+    def test_first_release_prefers_own_albums(self):
+        self.assertIn("coalesce(first_release_own_start, first_release_start)", self.view.lower())
+        self.assertIn("least(", self.view.lower())
+        self.assertIn("ref.blocked_profile_ids", self.view)
+
+    def test_own_column_is_loaded(self):
+        self.assertIn("first_release_own_start", lp.columns("raw_artist_profile"))
+
+
 class ExpandRowsTest(unittest.TestCase):
     """원본은 그대로 두고, 적재할 때 오버톤의 '여러 팀 한 칸'을 팀별 행으로 나눈다."""
 

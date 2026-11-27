@@ -93,7 +93,8 @@ def career_at_outcome(profiles, teams):
     out = {}
     for p in profiles:
         name = _team_of(_keys(p["artist_text"]), teams)
-        dates = [outcome_date(d) for d in (p.get("debut_date"), p.get("first_release_date")) if outcome_date(d or "")]
+        first = p.get("first_release_own") or p.get("first_release_date")   # 본인 음반 기준이 있으면 그것 (참여 음반 제외)
+        dates = [outcome_date(d) for d in (p.get("debut_date"), first) if outcome_date(d or "")]
         if not name or not dates:
             continue
         years = round((date.fromisoformat(teams[name]["date"]) - date.fromisoformat(min(dates))).days / 365.25, 1)

@@ -497,7 +497,8 @@ def _years_before(earlier: str, later: str, years: int) -> bool:
 
 
 def _is_established(partner_key: str, profile: dict, released: str, famous: set, first_outcome: Dict[str, str]) -> bool:
-    first = period_end_date(profile.get("first_release_date", ""))   # 파트너 첫 발매도 보수적으로 늦게
+    # 파트너 첫 발매도 보수적으로 늦게 · 본인 음반 기준(first_release_own)이 있으면 그것 (참여 음반이 연차를 앞당기지 않게)
+    first = period_end_date(profile.get("first_release_own") or profile.get("first_release_date", ""))
     albums = int(profile["album_count"]) if str(profile.get("album_count") or "").isdigit() else 0
     won = first_outcome.get(partner_key)
     return bool((first and _years_before(first, released, ESTABLISHED_YEARS)) or albums >= ESTABLISHED_ALBUMS

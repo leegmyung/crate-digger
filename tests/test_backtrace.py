@@ -48,6 +48,17 @@ class CareerTest(unittest.TestCase):
         self.assertFalse(car["우희준"]["newcomer_rule"])
 
 
+class OwnReleaseCareerTest(unittest.TestCase):
+    """본인 음반 기준 첫 발매(first_release_own)가 있으면 그걸 쓴다 — 참여 음반이 연차를 부풀리지 않게 (2026-11-28)."""
+
+    def test_own_first_release_is_used_when_present(self):
+        prof = [{"artist_text": "우희준", "debut_date": "", "first_release_date": "2019-05-01",
+                 "first_release_own": "2024-01-01", "album_count": "9"}]
+        car = bt.career_at_outcome(prof, bt.first_outcomes(OUT))
+        self.assertLess(car["우희준"]["years"], 3)
+        self.assertTrue(car["우희준"]["newcomer_rule"])
+
+
 class PrecisionTest(unittest.TestCase):
     def test_hit_rate_per_signal_program_for_rounds_before_window(self):
         rates = bt.signal_hit_rates(SEL, OUT, window_start="2025-01-01")

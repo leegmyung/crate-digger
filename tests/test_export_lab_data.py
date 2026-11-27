@@ -206,6 +206,15 @@ class NewcomerCheckTest(unittest.TestCase):
         self.assertEqual(got, {"abc": "unverified", "xyz": "verified"})   # abc: 선정 신호가 그 출처 첫 기록
 
 
+class OwnReleasePartnerTest(unittest.TestCase):
+    """협업 파트너 기성 판정도 본인 음반 첫 발매(first_release_own)가 있으면 그걸 쓴다 (없으면 예전 칸)."""
+
+    def test_own_release_makes_partner_not_established(self):
+        old = {"first_release_date": "2010-01-01", "album_count": "3"}
+        self.assertTrue(ex._is_established("p", old, "2025-06-30", set(), {}))
+        self.assertFalse(ex._is_established("p", {**old, "first_release_own": "2024-01-01"}, "2025-06-30", set(), {}))
+
+
 class OutcomeRowsTest(unittest.TestCase):
     def test_label_and_boolean(self):
         row = ex.outcome_rows(OUTCOMES, ROLES)[0]

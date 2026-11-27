@@ -138,7 +138,45 @@ WHERE
 /* 2) 아티스트 첫 발매일·규모 (멜론 프로필). 같은 키에 여러 프로필이면 가장 이른 날짜 */
 /*    프로필은 이름 키로 잇기 때문에, 같은 이름의 다른 아티스트 번호(ref.blocked_profile_ids — artist_xref.py --load-pg 가 */
 /*    config/artist_aliases.json 의 platform_ids.not·멜론 공용 번호로 채움)로 받은 행은 뺀다. 표가 없으면 빈 표로 만든다. */
+/*    같은 출처·번호를 여러 번 받았으면 가장 최근 행만 쓴다 (다시 받은 프로필이 옛 행의 값을 덮게 — 팬 수 날짜별 기록은 fan_history 쪽). */
+/*    첫 발매 = 본인 음반 기준(first_release_own: 앨범 아티스트에 이 팀 번호가 있는 음반)이 있으면 그것, 없으면 전체 앨범 기준. */
+/*    참여·피처링·소속 밴드 음반이 첫 발매를 앞당기는 문제(예: 인디 성현 2016 → 본인 EP 2025-10-22) 때문 (2026-11-28). */
 CREATE VIEW core.v_artist_profile AS
+WITH latest AS (
+  SELECT
+    artist_key,
+    source,
+    artist_source_id,
+    debut_start,
+    album_count,
+    fan_count,
+    first_release_start
+  FROM (
+    SELECT
+      artist_key AS artist_key,
+      source AS source,
+      artist_source_id AS artist_source_id,
+      debut_start AS debut_start,
+      album_count AS album_count,
+      fan_count AS fan_count,
+      COALESCE(first_release_own_start, first_release_start) AS first_release_start,
+      ROW_NUMBER() OVER (
+        PARTITION BY source, artist_source_id
+        ORDER BY source NULLS LAST, artist_source_id NULLS LAST, collected_at DESC NULLS FIRST
+      ) AS _row_number
+    FROM raw.raw_artist_profile AS rp
+    WHERE
+      NOT EXISTS(
+        SELECT
+          1
+        FROM ref.blocked_profile_ids AS b
+        WHERE
+          b.source = rp.source AND b.artist_source_id = rp.artist_source_id
+      )
+  ) AS _t
+  WHERE
+    _row_number = 1
+)
 SELECT
   artist_key,
   MIN(
@@ -150,15 +188,7 @@ SELECT
   MAX(album_count) AS album_count,
   MAX(fan_count) AS fan_count,
   COUNT(DISTINCT artist_source_id) AS profile_count /* 2 이상이면 동명 팀 가능성 */
-FROM raw.raw_artist_profile AS rp
-WHERE
-  NOT EXISTS(
-    SELECT
-      1
-    FROM ref.blocked_profile_ids AS b
-    WHERE
-      b.source = rp.source AND b.artist_source_id = rp.artist_source_id
-  )
+FROM latest
 GROUP BY
   artist_key;
 
