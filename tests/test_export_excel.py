@@ -31,12 +31,16 @@ b,공연,indistreet,,,2026-12-01,클럽1,discovery
 x,공연,indistreet,,,2026-12-01,클럽1,discovery
 c,공연,indistreet,,,2026-12-03,클럽2,discovery
 c,공연,indistreet,,,2027-01-20,클럽2,discovery
+d,큐레이션,trackzero,멜론 트랙제로,,2026-04-01,,pending
+d,공연,indistreet,,,2026-05-01,클럽2,discovery
 """,
     "teams.csv": """team_key,display_name,first_seen,first_release,fan_count,album_count,profile_status,primary_genre,agency
 a,에이,2026-06-01,2025-05-01,100,2,newcomer,록·밴드,
 b,비,2026-09-05,,,,unknown,힙합,
 c,씨,2026-08-01,,,,unknown,,
 x,엑스,2026-12-01,,,,unknown,,
+d,디,2026-04-01,2026-03-01,10,1,newcomer,포크,
+e,이,2026-06-01,2026-06-01,5,1,newcomer,,
 """,
     "outcomes.csv": ("team_key,program,program_label,tier,announced_date,counted,grade,weight\n"
                      "zz,kma_rookie,한대음 신인,final,2025-03-01,true,S,3\n"),   # 후보와 무관한 한 줄 (칸 형식 추론용)
@@ -49,10 +53,48 @@ def make_data(d: Path):
     for name, text in FILES.items():
         (d / name).write_text(text, encoding="utf-8")
     (d / "meta.json").write_text(json.dumps({"data_end": "2026-11-27"}), encoding="utf-8")
+    (d / "scene_map.json").write_text(json.dumps({
+        "communities": [{"id": 1, "size": 3, "top_venues": [{"venue": "클럽1", "events": 2}]}],
+        "nodes": [{"team_key": "a", "community": 1}, {"team_key": "b", "community": 1}, {"team_key": "c", "community": 7}]},
+        ensure_ascii=False), encoding="utf-8")
     snaps = d / "snapshots"
     snaps.mkdir()
     (snaps / "2026-11-20.csv").write_text("team_key,score,rank\nb,3.0,1\nc,1.0,2\n", encoding="utf-8")
     (snaps / "2026-11-27.csv").write_text("team_key,score,rank\na,5.0,1\nb,3.5,2\nc,1.0,3\n", encoding="utf-8")
+
+
+TUNING = "**평균 AUC (뺀 기준일 기준)**: 고른 가중치 0.786 · v0 0.783 · 공연 수만 0.577\n"
+DEBUT = "- 백지 신인 100팀 중 76팀(76%)은 첫 발매 뒤 6개월 안에 어느 출처에도 안 나왔다. 그중 정답을 받은 팀이 13팀 — 놓치는 몫\n"
+MISSED = ("대상: 2025-01-01 이후 첫 S·A 정답을 받은 **70팀**.\n"
+          "- 정답 6개월 전에 상위 100 안에 있던 팀은 5/70팀, 12개월 전에는 5/70팀이다.\n")
+
+
+class DocLinesTest(unittest.TestCase):
+    def test_summary_lines_from_docs(self):
+        lines = ee.doc_lines(TUNING, DEBUT, MISSED)
+        self.assertEqual(len(lines), 3)
+        self.assertIn("v2 0.786", lines[0])
+        self.assertIn("v0 0.783", lines[0])
+        self.assertIn("76%", lines[1])
+        self.assertIn("5/70", lines[2])
+        self.assertIn("7%", lines[2])
+
+    def test_missing_docs_are_skipped(self):
+        self.assertEqual(ee.doc_lines("", "", ""), [])
+        self.assertEqual(len(ee.doc_lines(TUNING, "", "")), 1)
+
+    def test_scene_label(self):
+        scene = {"communities": [{"id": 1, "top_venues": [{"venue": "클럽1"}]}], "nodes": [{"team_key": "a", "community": 1},
+                                                                                       {"team_key": "c", "community": 7}]}
+        labels = ee.scene_labels(scene)
+        self.assertEqual(labels["a"], "씬 1 · 클럽1")
+        self.assertEqual(labels["c"], "씬 7 (작은 묶음)")
+        self.assertNotIn("x", labels)
+        self.assertEqual(ee.scene_labels({}), {})
+
+    def test_reference_mark_for_unscored_sources(self):
+        self.assertEqual(ee.mention_label({"src": "큐레이션:trackzero", "role": "pending", "days": 31}), "큐레이션:trackzero(참고) +31일")
+        self.assertEqual(ee.mention_label({"src": "공연:indistreet", "role": "discovery", "days": 61}), "공연:indistreet +61일")
 
 
 class DiffTest(unittest.TestCase):
@@ -89,7 +131,8 @@ class WorkbookTest(unittest.TestCase):
         cls.tmp = tempfile.TemporaryDirectory()
         d = Path(cls.tmp.name)
         make_data(d)
-        cls.ctx = ee.load_context(d, tuning_text="**평균 AUC (뺀 기준일 기준)**: 고른 가중치 0.721 · v0 0.692\n")
+        cls.ctx = ee.load_context(d, tuning_text="**평균 AUC (뺀 기준일 기준)**: 고른 가중치 0.721 · v0 0.692\n",
+                                  debut_text=DEBUT, missed_text=MISSED)
         cls.path = d / "out.xlsx"
         ee.build_workbook(cls.ctx).save(cls.path)
         cls.wb = openpyxl.load_workbook(cls.path)
@@ -145,6 +188,30 @@ class WorkbookTest(unittest.TestCase):
         defs = " ".join(str(c.value) for row in self.wb["정의"].iter_rows() for c in row if c.value)
         for word in ("발굴", "맥락", "검증 대기", "제외", "AUC", "S"):
             self.assertIn(word, defs)
+
+    def test_debut_sheet_mentioned_and_unmentioned(self):
+        ws = self.wb["갓 데뷔"]
+        cells = [str(c.value) for row in ws.iter_rows() for c in row if c.value is not None]
+        self.assertIn("디", cells)
+        self.assertIn("이", cells)
+        self.assertTrue(any("trackzero(참고)" in v for v in cells))         # 점수 미반영 출처 표시
+        self.assertTrue(any("언급 없음" in v for v in cells))
+        names = [ws.cell(row=i, column=1).value for i in range(1, ws.max_row + 1)]
+        self.assertLess(names.index("디"), names.index("이"))              # 언급 없음 팀은 아래 따로
+
+    def test_summary_doc_lines_and_title(self):
+        ws = self.wb["요약"]
+        values = " ".join(str(c.value) for row in ws.iter_rows() for c in row if c.value is not None)
+        self.assertIn("Gigle Research", values)
+        self.assertIn("76%", values)
+        self.assertIn("5/70", values)
+
+    def test_scene_column(self):
+        ws = self.wb["후보 TOP100"]
+        header = [c.value for c in ws[1]]
+        col = header.index("관계망·씬") + 1
+        names = [ws.cell(row=i, column=2).value for i in range(2, ws.max_row + 1)]
+        self.assertEqual(ws.cell(row=names.index("에이") + 2, column=col).value, "씬 1 · 클럽1")
 
     def test_korean_font(self):
         self.assertEqual(self.wb["후보 TOP100"]["A1"].font.name, ee.FONT)

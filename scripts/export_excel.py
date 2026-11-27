@@ -24,7 +24,10 @@ import lab_sql  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "report" / "crate-digger_weekly.xlsx"
 TUNING = ROOT / "docs" / "score_tuning.md"
-SHEETS = ("요약", "후보 TOP100", "이번 주 변화", "다가오는 공연", "출처 성적표", "점수 검증", "정의")
+DEBUT_DOC = ROOT / "docs" / "debut_cohort.md"           # 데뷔 코호트 '언급 없음' 비율 (요약 한 줄)
+MISSED_DOC = ROOT / "docs" / "missed_analysis.md"       # 놓친 정답 '상위 100 안' 비율 (요약 한 줄)
+SHEETS = ("요약", "후보 TOP100", "갓 데뷔", "이번 주 변화", "다가오는 공연", "출처 성적표", "점수 검증", "정의")
+SCORED_ROLES = {"discovery", "context"}                 # 점수에 쓰는 출처 역할 — 나머지는 '참고'로 표시
 FONT = "맑은 고딕"
 CANDIDATE_POOL = 300          # 앱과 같이 상위 300팀을 '후보'로 (공연 묶음·순위 표시)
 TOP_N = 100                   # 시트에 싣는 후보 수
@@ -57,6 +60,8 @@ DEFINITIONS = [
     ("교차 검증", "기준일 하나를 빼고 나머지로 가중치를 고른 뒤, 뺀 기준일로 채점 (고를 때 안 본 시점)"),
     ("새 후보 / 상승", "최신 점수 스냅샷을 7일 전(없으면 가장 가까운 이전) 스냅샷과 비교: 새로 상위 300에 든 팀 / 점수가 올랐거나 순위가 3계단 이상 오른 팀"),
     ("신인 기준", "첫 발매 3년 이내 & 발매 10개 이하 (프로필이 없으면 우리 데이터 첫 등장 3년 이내)"),
+    ("갓 데뷔", "기준일 전 12개월 안에 첫 발매를 냈고 첫 발매 전 신호가 하나도 없는 팀(백지 신인). 언급 출처 중 (참고)는 점수에 안 쓰는 출처"),
+    ("관계망·씬", "최근 1년 같은 공연에 함께 선 팀끼리 묶은 씬 번호와 그 씬의 대표 공연장 (docs/scene_map.md)"),
 ]
 
 
@@ -133,7 +138,65 @@ def tuning_summary(text: str) -> List[str]:
     return out
 
 
-def load_context(data_dir: Path = lab_sql.DATA_DIR, tuning_text: Optional[str] = None) -> dict:
+def doc_lines(tuning_text: str, debut_text: str, missed_text: str) -> List[str]:
+    """요약 시트용 한 줄씩: 교차 검증(score_tuning.md)·데뷔 코호트 언급 없음(debut_cohort.md)·놓친 정답(missed_analysis.md).
+    문서에 해당 문장이 없으면 그 줄은 뺀다."""
+    out = []
+    m = re.search(r"평균 AUC[^\n]*?고른 가중치 ([\d.]+) · v0 ([\d.]+)", tuning_text or "")
+    if m:
+        out.append(f"교차 검증 평균 AUC: v2 {m.group(1)} · v0 {m.group(2)} (docs/score_tuning.md)")
+    m = re.search(r"백지 신인 (\d+)팀 중 (\d+)팀\((\d+)%\)은 첫 발매 뒤 (\d+)개월 안에 어느 출처에도 안 나왔다"
+                  r"(?:\. 그중 정답을 받은 팀이 (\d+)팀)?", debut_text or "")
+    if m:
+        hit = f" (그중 정답 {m.group(5)}팀)" if m.group(5) else ""
+        out.append(f"데뷔 코호트: 백지 신인 {m.group(1)}팀 중 {m.group(2)}팀({m.group(3)}%)이 첫 발매 {m.group(4)}개월 안 언급 없음"
+                   f"{hit} (docs/debut_cohort.md)")
+    m = re.search(r"정답 (\d+)개월 전에 상위 100 안에 있던 팀은 (\d+)/(\d+)팀", missed_text or "")
+    if m:
+        got, total = int(m.group(2)), int(m.group(3))
+        out.append(f"놓친 정답: S·A 정답 {total}팀 중 정답 {m.group(1)}개월 전 후보 상위 100 안 {got}/{total}팀"
+                   f"({round(100 * got / total)}%) — 나머지는 놓침 (docs/missed_analysis.md)")
+    return out
+
+
+def scene_labels(scene: dict) -> Dict[str, str]:
+    """씬 지도(scene_map.json) → {팀: '씬 N · 대표 공연장'}. 작은 묶음(목록에 없는 묶음)은 '(작은 묶음)'."""
+    venue = {c["id"]: (c.get("top_venues") or [{}])[0].get("venue", "") for c in scene.get("communities", [])}
+    out = {}
+    for n in scene.get("nodes", []):
+        cid = n.get("community")
+        if cid is None:
+            continue
+        out[n["team_key"]] = f"씬 {cid} · {venue[cid]}" if venue.get(cid) else f"씬 {cid} (작은 묶음)"
+    return out
+
+
+def mention_label(m: dict) -> str:
+    ref = "" if m.get("role") in SCORED_ROLES else "(참고)"
+    days = f" +{m['days']}일" if m.get("days") is not None else ""
+    return f"{m['src']}{ref}{days}"
+
+
+def group_debut(rows: List[dict]) -> Tuple[List[dict], List[dict]]:
+    """debut_candidates.sql 결과(팀 × 출처) → (언급 있는 팀, 언급 없는 팀). 순서는 SQL 순서(점수 높은 순) 그대로."""
+    teams: Dict[str, dict] = {}
+    for r in rows:
+        t = teams.setdefault(r["team_key"], {"team_key": r["team_key"], "display_name": r["display_name"],
+                                             "genre": r.get("primary_genre") or "", "first_release": str(r["first_release"])[:10],
+                                             "score": r.get("score"), "mentions": []})
+        if r.get("src"):
+            t["mentions"].append({"src": r["src"], "role": r.get("role"), "days": r.get("days_to_mention"),
+                                  "first": str(r.get("first_mention_date") or "")[:10]})
+    mentioned = [t for t in teams.values() if t["mentions"]]
+    return mentioned, [t for t in teams.values() if not t["mentions"]]
+
+
+def _read_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8") if path.exists() else ""
+
+
+def load_context(data_dir: Path = lab_sql.DATA_DIR, tuning_text: Optional[str] = None,
+                 debut_text: Optional[str] = None, missed_text: Optional[str] = None) -> dict:
     """보고서에 필요한 숫자를 모두 계산 (DuckDB, 앱과 같은 SQL)."""
     meta = json.loads((data_dir / "meta.json").read_text(encoding="utf-8")) if (data_dir / "meta.json").exists() else {}
     as_of = meta.get("data_end") or date.today().isoformat()
@@ -163,11 +226,17 @@ def load_context(data_dir: Path = lab_sql.DATA_DIR, tuning_text: Optional[str] =
     if tuning_text is None:
         tuning_text = TUNING.read_text(encoding="utf-8") if TUNING.exists() else ""
     weights = {k: lab_sql.DEFAULTS[k] for k in WEIGHT_LABELS if k in lab_sql.DEFAULTS}
+    debut_mentioned, debut_unmentioned = group_debut(lab_sql.query(con, "debut_candidates.sql", as_of=f"'{as_of}'"))
+    scene_path = data_dir / "scene_map.json"
+    scene = json.loads(scene_path.read_text(encoding="utf-8")) if scene_path.exists() else {}
+    docs = doc_lines(tuning_text, _read_text(DEBUT_DOC) if debut_text is None else debut_text,
+                     _read_text(MISSED_DOC) if missed_text is None else missed_text)
     return {"as_of": as_of, "candidates": cands, "rank": rank, "teams": teams, "next_gig": next_gig,
             "spotify": spotify, "new": new, "rising": rising,
             "snap_dates": [d for d in (prev_day, snaps[-1].stem if snaps else None) if d],
             "gig_events": group_gigs(upcoming, rank), "scorecard": scorecard, "backtests": backtests,
-            "tuning": tuning_summary(tuning_text), "weights": weights}
+            "tuning": tuning_summary(tuning_text), "weights": weights, "doc_lines": docs,
+            "debut": debut_mentioned, "debut_unmentioned": debut_unmentioned, "scene": scene_labels(scene)}
 
 
 # ---------- 엑셀 쓰기 ----------
@@ -241,7 +310,10 @@ def _summary(ws, ctx: dict, st: dict) -> None:
              + (f" — 새 후보 1위 {ctx['new'][0]['display_name']}" if ctx["new"] else ""),
              f"{GIG_DAYS}일 안 후보가 서는 공연 {len(events)}건 ({len(gig_teams)}팀)"
              + (f" — 가장 가까운 공연 {events[0]['date']} {events[0]['venue']}" if events else ""),
-             *[f"점수 검증: {t}" for t in ctx["tuning"][:2]]]
+             f"갓 데뷔(기준일 전 12개월 첫 발매·사전 신호 없음): 언급 있음 {len(ctx['debut'])}팀 · "
+             f"아직 언급 없음 {len(ctx['debut_unmentioned'])}팀",
+             *ctx["doc_lines"],
+             *[f"점수 검증: {t}" for t in ctx["tuning"][1:2]]]
     for i, line in enumerate(lines, r + 1):
         ws.cell(row=i, column=1, value=line).font = st["font"]
     _autosize(ws, max_width=70)
@@ -249,7 +321,7 @@ def _summary(ws, ctx: dict, st: dict) -> None:
 
 def _candidates(ws, ctx: dict, st: dict) -> None:
     from openpyxl.formatting.rule import DataBarRule
-    header = ["순위", "팀", "장르", "점수", *PTS_COLS, "첫 등장", "첫 발매", "다음 공연", "스포티파이", "신인 여부"]
+    header = ["순위", "팀", "장르", "점수", *PTS_COLS, "첫 등장", "첫 발매", "다음 공연", "스포티파이", "신인 여부", "관계망·씬"]
     rows = []
     for i, c in enumerate(ctx["candidates"][:TOP_N], 1):
         t = ctx["teams"].get(c["team_key"], {})
@@ -257,7 +329,8 @@ def _candidates(ws, ctx: dict, st: dict) -> None:
                      *[float(c.get(p) or 0) for p in PTS_COLS], str(c.get("first_seen") or "")[:10],
                      t.get("first_release") or "", ctx["next_gig"].get(c["team_key"], ""),
                      "열기" if c["team_key"] in ctx["spotify"] else "",
-                     STATUS_KO.get(c.get("profile_status") or "", c.get("profile_status") or "")])
+                     STATUS_KO.get(c.get("profile_status") or "", c.get("profile_status") or ""),
+                     ctx["scene"].get(c["team_key"], "")])
     _table(ws, header, rows, st)
     link_col = header.index("스포티파이") + 1
     for i, c in enumerate(ctx["candidates"][:TOP_N], 2):
@@ -268,6 +341,23 @@ def _candidates(ws, ctx: dict, st: dict) -> None:
     if rows:
         ws.conditional_formatting.add(f"D2:D{len(rows) + 1}",
                                       DataBarRule(start_type="min", end_type="max", color="5B9BD5"))
+    _finish(ws)
+
+
+def _debut(ws, ctx: dict, st: dict) -> None:
+    header = ["팀", "장르", "첫 발매", "점수", "언급 출처 (첫 발매→첫 언급, 빠른 순)"]
+    rows = [[t["display_name"], t["genre"], t["first_release"], float(t["score"]) if t["score"] is not None else "",
+             ", ".join(mention_label(m) for m in sorted(t["mentions"], key=lambda m: (m["days"] is None, m["days"] or 0)))]
+            for t in ctx["debut"]]
+    _table(ws, header, rows, st)
+    r = len(rows) + 3
+    ws.cell(row=r, column=1, value=f"아직 언급 없음 ({len(ctx['debut_unmentioned'])}팀) — 첫 발매 뒤 어느 출처에도 안 나온 팀").font = st["bold"]
+    _table(ws, header[:4], [[t["display_name"], t["genre"], t["first_release"],
+                             float(t["score"]) if t["score"] is not None else ""] for t in ctx["debut_unmentioned"]],
+           st, start_row=r + 1)
+    note = r + len(ctx["debut_unmentioned"]) + 3
+    ws.cell(row=note, column=1, value="(참고) = 점수에 쓰지 않는 출처(검증 대기·제외). 정의는 docs/lab/sql/debut_candidates.sql "
+                                       "— 앱 '후보 > 갓 데뷔'와 같음. 첫 발매일은 멜론·스포티파이 프로필이 있는 팀에만 있다.").font = st["font"]
     _finish(ws)
 
 
@@ -341,6 +431,7 @@ def build_workbook(ctx: dict):
     sheets = {name: wb.create_sheet(name) for name in SHEETS}
     _summary(sheets["요약"], ctx, st)
     _candidates(sheets["후보 TOP100"], ctx, st)
+    _debut(sheets["갓 데뷔"], ctx, st)
     _changes(sheets["이번 주 변화"], ctx, st)
     _gigs(sheets["다가오는 공연"], ctx, st)
     _scorecard(sheets["출처 성적표"], ctx, st)
