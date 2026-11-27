@@ -178,6 +178,9 @@ function renderMonthlyBarsHtml(timeline, endDateStr) {
   `;
 }
 
+// 사건 별점(event_stars.csv, 약 2.4MB)은 화면을 막지 않고 뒤에서 받는다 — 받은 뒤엔 다음 팀부터 바로 씀 (속도 점검 2026-11-28)
+let eventStarsCache;          // undefined = 아직, null = 파일 없음, Map = 받음
+
 export async function renderTeamView(root, teamKey) {
   if (!teamKey) {
     root.innerHTML = renderEmptyState({
@@ -200,7 +203,7 @@ export async function renderTeamView(root, teamKey) {
     queryRankChange({ as_of: asOf }).catch(() => null),
     queryScenePeerWinners(teamKey, asOf),
     queryPeerCompare({ as_of: asOf, team_key: teamKey, scope: 'stage' }),
-    loadEventStars(),
+    Promise.resolve(eventStarsCache === undefined ? null : eventStarsCache),
     loadLineupRoles(),
     loadVenueMeta(),
     queryTeamGigActs(teamKey),
@@ -419,7 +422,7 @@ export async function renderTeamView(root, teamKey) {
   let showAllPrec = false;
   let showAllTimeline = false;
   let showAllEvents = false;
-  const teamEvents = eventStarsMap ? (eventStarsMap.get(teamKey) || []) : null;
+  let teamEvents = eventStarsMap ? (eventStarsMap.get(teamKey) || []) : null;
   let showAllStageRel = false;
 
   // Section 1: 요약
@@ -801,6 +804,14 @@ export async function renderTeamView(root, teamKey) {
 
   paintRelatedBody();
   paintActivity();
+  if (eventStarsCache === undefined) {
+    loadEventStars().then(m => {
+      eventStarsCache = m || null;
+      if (!m || !root.isConnected || appState.routeParam !== teamKey) return;
+      teamEvents = m.get(teamKey) || [];
+      paintActivity();
+    }).catch(() => { eventStarsCache = null; });
+  }
   paintPrecedents();
   paintVideos();
 

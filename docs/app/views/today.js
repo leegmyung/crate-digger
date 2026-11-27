@@ -139,6 +139,9 @@ function renderDebutPreviewHtml(debutData) {
   `;
 }
 
+// 사건 별점(event_stars.csv, 약 2.4MB)은 알림 요약의 별 표시에만 쓰므로 화면을 막지 않고 뒤에서 받는다 (속도 점검 2026-11-28)
+let homeEventStars;           // undefined = 아직, null = 없음, Map = 받음
+
 export async function renderTodayView(root) {
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-28';
   const [candRows, upcomingRaw, risingRows, debutData, alertsData, eventStarsMap] = await Promise.all([
@@ -147,7 +150,7 @@ export async function renderTodayView(root) {
     queryRisingPreset({ as_of: asOf }).catch(() => []),
     queryDebutCandidates({ as_of: asOf }).catch(() => null),
     loadAlertsJson().catch(() => null),
-    loadEventStars().catch(() => null),
+    Promise.resolve(homeEventStars === undefined ? null : homeEventStars),
   ]);
   const extras = await queryWeeklyDigestExtras(candRows);
 
@@ -257,6 +260,14 @@ export async function renderTodayView(root) {
       subVenues,
       limit: 5,
     });
+    if (homeEventStars === undefined) {
+      loadEventStars().then(m => {
+        homeEventStars = m || null;
+        const el = root.querySelector('#todayAlertsBlock');
+        if (!m || !el || !root.isConnected) return;
+        el.outerHTML = renderHomeAlertsSummaryHtml(alertsData, { eventStarsMap: m, watchKeys, subVenues, limit: 5 });
+      }).catch(() => { homeEventStars = null; });
+    }
 
     const venueSubsRaw = renderVenueSubsHtml(alertsData, { title: '구독 공연장 소식' });
     const venueSubsSectionHtml = venueSubsRaw
