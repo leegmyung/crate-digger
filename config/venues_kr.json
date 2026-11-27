@@ -852,7 +852,7 @@
    "province": "서울",
    "city": "서울",
    "district": "용산구",
-   "address": "",
+   "address": "서울 용산구 이태원로23길 6 지하1층",
    "type": "cafe",
    "type_basis": "수동: 후보 조사 메모 — 이태원 DJ 바",
    "capacity": null,
@@ -862,12 +862,20 @@
     {
      "url": "https://www.instagram.com/lvhs.kr/",
      "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    },
+    {
+     "url": "https://m.place.naver.com/restaurant/1204487051/home",
+     "note": "네이버 플레이스(공연장 인스타 링크) — 주소"
     }
    ],
    "instagram": "lvhs.kr",
    "checked": "2026-11-28",
    "our_venue": "LoveHaus",
    "in_our_data": true,
+   "lat": 37.534806,
+   "lon": 126.992795,
+   "geo_confidence": "high",
+   "geo_method": "address",
    "geo_checked": "2026-11-28"
   },
   {
@@ -1338,6 +1346,40 @@
    "geo_method": "address"
   },
   {
+   "name": "hertz",
+   "aliases": [
+    "헤르츠"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "용산구",
+   "address": "서울 용산구 우사단로14길 21",
+   "type": "live_club",
+   "type_basis": "수동: RA 클럽 페이지 — DJ 클럽",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-25 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://ra.co/clubs/262068",
+     "note": "RA 클럽 페이지 — 21, Usadan-ro 14-gil, Yongsan-gu"
+    },
+    {
+     "url": "https://www.instagram.com/hertz.sound/",
+     "note": "공연장 공식 인스타그램(소개글)"
+    }
+   ],
+   "instagram": "hertz.sound",
+   "checked": "2026-11-28",
+   "our_venue": "hertz",
+   "in_our_data": true,
+   "lat": 37.534362,
+   "lon": 126.99682,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
    "name": "감마홀",
    "aliases": [],
    "province": "서울",
@@ -1665,8 +1707,8 @@
    ],
    "province": "서울",
    "city": "서울",
-   "district": "",
-   "address": "",
+   "district": "강남구",
+   "address": "서울 강남구 압구정로11길 37-53 (한강 선상 공간, 가장 안쪽 배)",
    "type": "cafe",
    "type_basis": "수동: 후보 조사 메모 — 만화·책 바, 리스닝 이벤트",
    "capacity": null,
@@ -1676,12 +1718,20 @@
     {
      "url": "https://www.instagram.com/graphic.hangang/",
      "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    },
+    {
+     "url": "https://tracked.fan/event/8dttxu4c",
+     "note": "공연 예매 페이지 — '한강 위에 정박한 선상 문화공간 GRAPHIC Hangang' 주소"
     }
    ],
    "instagram": "graphic.hangang",
    "checked": "2026-11-28",
    "our_venue": "그래픽 한강",
    "in_our_data": true,
+   "lat": 37.529059,
+   "lon": 127.019157,
+   "geo_confidence": "high",
+   "geo_method": "address",
    "geo_checked": "2026-11-28"
   },
   {
@@ -3351,7 +3401,7 @@
    "province": "서울",
    "city": "서울",
    "district": "성동구",
-   "address": "",
+   "address": "서울 성동구 성수이로16길 31 3층·4층",
    "type": "hall",
    "type_basis": "수동: 소개글 — 'Immersive Audiovisual Space'(구는 이름의 '성수'로 정함)",
    "capacity": null,
@@ -3361,12 +3411,20 @@
     {
      "url": "https://www.instagram.com/seongsuyulmusic/",
      "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    },
+    {
+     "url": "https://m.booking.naver.com/booking/12/bizes/1593143",
+     "note": "네이버 예약(공연장 인스타 링크) — 주소"
     }
    ],
    "instagram": "seongsuyulmusic",
    "checked": "2026-11-28",
    "our_venue": "성수율 뮤직 3F",
    "in_our_data": true,
+   "lat": 37.540408,
+   "lon": 127.059229,
+   "geo_confidence": "medium",
+   "geo_method": "address",
    "geo_checked": "2026-11-28"
   },
   {
@@ -4818,7 +4876,7 @@
    "province": "서울",
    "city": "서울",
    "district": "마포구",
-   "address": "",
+   "address": "서울 마포구 와우산로21길 19-8 1층",
    "type": "cafe",
    "type_basis": "수동: 소개글 — 'Live Music Bar'",
    "capacity": null,
@@ -4828,12 +4886,20 @@
     {
      "url": "https://www.instagram.com/_jam_lounge_hongdae/",
      "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    },
+    {
+     "url": "https://m.place.naver.com/restaurant/2008358127/home",
+     "note": "네이버 플레이스(공연장 인스타 링크) — 주소"
     }
    ],
    "instagram": "_jam_lounge_hongdae",
    "checked": "2026-11-28",
    "our_venue": "잼라운지 홍대",
    "in_our_data": true,
+   "lat": 37.55209,
+   "lon": 126.922646,
+   "geo_confidence": "high",
+   "geo_method": "address",
    "geo_checked": "2026-11-28"
   },
   {
@@ -7040,6 +7106,41 @@
    "geo_checked": "2026-11-27"
   },
   {
+   "name": "에이치아츠 콘서트홀&스튜디오",
+   "aliases": [
+    "에이치아츠",
+    "H.ARTS"
+   ],
+   "province": "대구",
+   "city": "대구",
+   "district": "남구",
+   "address": "대구 남구 현충로48길 19",
+   "type": "hall",
+   "type_basis": "수동: 소개글 '콘서트홀&스튜디오·미니홀·살롱음악회'",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-27 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://booking.naver.com/booking/5/bizes/942192",
+     "note": "네이버 예약(공연장 인스타 링크) — 주소"
+    },
+    {
+     "url": "https://www.instagram.com/harts.music.studio/",
+     "note": "공연장 공식 인스타그램(소개글)"
+    }
+   ],
+   "instagram": "harts.music.studio",
+   "checked": "2026-11-28",
+   "our_venue": "에이치아츠",
+   "in_our_data": true,
+   "lat": 35.852648,
+   "lon": 128.585176,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
    "name": "제임스레코드 사운드가든",
    "aliases": [
     "James Record",
@@ -8018,6 +8119,41 @@
    "geo_checked": "2026-11-27"
   },
   {
+   "name": "재즈프레소 레코드 바",
+   "aliases": [
+    "재즈프레소",
+    "Jazzpresso"
+   ],
+   "province": "부산",
+   "city": "부산",
+   "district": "수영구",
+   "address": "부산 수영구 광안해변로 27-3 2층",
+   "type": "cafe",
+   "type_basis": "수동: 소개글 '재즈엘피바·재즈클럽'",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-25 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://m.place.naver.com/restaurant/1792731242/home",
+     "note": "네이버 플레이스(공연장 인스타 링크) — 주소"
+    },
+    {
+     "url": "https://www.instagram.com/jazzpresso_record/",
+     "note": "공연장 공식 인스타그램(소개글)"
+    }
+   ],
+   "instagram": "jazzpresso_record",
+   "checked": "2026-11-28",
+   "our_venue": "재즈프레소 레코드 바",
+   "in_our_data": true,
+   "lat": 35.156336,
+   "lon": 129.133501,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
    "name": "클럽 벨포스",
    "aliases": [],
    "province": "부산",
@@ -8386,8 +8522,8 @@
    ],
    "province": "인천",
    "city": "인천",
-   "district": "",
-   "address": "",
+   "district": "부평구",
+   "address": "인천 부평구 경원대로 1299 (캠프마켓 안)",
    "type": "creation_center",
    "type_basis": "수동: 소개글 — 인천 지역 뮤지션 제작지원·기획",
    "capacity": null,
@@ -8397,12 +8533,20 @@
     {
      "url": "https://www.instagram.com/portrock_incheon/",
      "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    },
+    {
+     "url": "https://www.portrock.kr/",
+     "note": "인천음악창작소 공식 홈페이지 — 주소"
     }
    ],
    "instagram": "portrock_incheon",
    "checked": "2026-11-28",
    "our_venue": "인천음악창작소 Portrock",
    "in_our_data": true,
+   "lat": 37.490987,
+   "lon": 126.71386,
+   "geo_confidence": "medium",
+   "geo_method": "address",
    "geo_checked": "2026-11-28"
   },
   {

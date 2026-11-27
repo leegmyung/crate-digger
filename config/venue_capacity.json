@@ -1337,6 +1337,30 @@
    "capacity": null,
    "tier": null,
    "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "hertz": {
+   "rank": null,
+   "events": 0,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-28",
+   "note": "공개 자료(인스타 소개글·네이버 플레이스·RA)에서 수용 인원을 찾지 못함"
+  },
+  "재즈프레소 레코드 바": {
+   "rank": null,
+   "events": 0,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-28",
+   "note": "공개 자료(인스타 소개글·네이버 플레이스·RA)에서 수용 인원을 찾지 못함"
+  },
+  "에이치아츠": {
+   "rank": 243,
+   "events": 1,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-28",
+   "note": "공개 자료(인스타 소개글·네이버 플레이스·RA)에서 수용 인원을 찾지 못함"
   }
  }
 }
