@@ -5356,6 +5356,28 @@ table.data-table tbody tr[data-nav-row]:focus-visible {
   }
 }
 
+.team-report-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+  padding-top: 4px;
+}
+
+.team-report-link {
+  font-size: 12px;
+  color: var(--ink-subtle);
+  text-decoration: none;
+  border-bottom: 1px dotted transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.team-report-link:hover,
+.team-report-link:focus-visible {
+  color: var(--accent);
+  border-bottom-color: currentColor;
+}
+
+
 
 
 

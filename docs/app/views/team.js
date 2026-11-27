@@ -595,6 +595,13 @@ export async function renderTeamView(root, teamKey) {
     `;
   }
 
+  const reportUrl =
+    'https://github.com/leegmyung/crate-digger/issues/new?template=identity.yml'
+    + `&title=${encodeURIComponent(`[팀 정보] ${displayName}`)}`
+    + `&team=${encodeURIComponent(displayName)}`
+    + `&team_key=${encodeURIComponent(teamKey)}`
+    + `&page=${encodeURIComponent(window.location.href)}`;
+
   // Exact requested flow: 요약 → 점수 근거 → 관계망 → 활동 기록 → 비슷한 과거 수상 팀 → 영상
   root.innerHTML = `
     <div class="team-back-bar">
@@ -645,6 +652,10 @@ export async function renderTeamView(root, teamKey) {
     <section class="block" id="teamPrecedentsBlock"></section>
 
     ${videos.length ? '<section class="block" id="teamVideosBlock"></section>' : ''}
+
+    <div class="team-report-bar">
+      <a class="team-report-link" href="${escapeHtml(reportUrl)}" target="_blank" rel="noopener noreferrer" title="공개 저장소 이슈로 접수돼요 — 개인 연락처는 적지 마세요">정보가 틀려요 ↗</a>
+    </div>
   `;
 
   wireAvatarFallbacks(root);
