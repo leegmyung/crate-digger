@@ -8,12 +8,12 @@ import {
 } from '../db.js';
 import {
   avatarHtml, dormantBadgeHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText,
-  formatRecentActivityCell, formatSourceKey, gradeBadgeHtml, isDormantTeam,
-  newcomerUnverifiedBadgeHtml, plainWhyLine, renderActionBanner, renderEmptyState,
-  renderTableCsvBtn, scorePartsLine, spotifyButtonHtml, STAGE_META, STAGE_ORDER,
-  stageBadgeHtml, TERMS, triggerTableCsvExport, updateSortHeaders,
-  watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons, wireTableKeyboardNav,
-  wireTableRowHoverPreview, youtubeQuickInfo,
+  formatRecentActivityCell, formatSourceKey, gradeBadgeHtml, INFO_TIPS, infoTip,
+  isDormantTeam, newcomerUnverifiedBadgeHtml, plainWhyLine, renderActionBanner,
+  renderEmptyState, renderTableCsvBtn, scorePartsLine, spotifyButtonHtml,
+  STAGE_META, STAGE_ORDER, stageBadgeHtml, TERMS, triggerTableCsvExport,
+  updateSortHeaders, watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
+  wireTableKeyboardNav, wireTableRowHoverPreview, youtubeQuickInfo,
 } from '../ui.js';
 
 const DEBUT_MIN_SAMPLE = 5;
@@ -764,7 +764,7 @@ export async function renderCandidatesView(root) {
       </div>
 
       <div class="inline-filter-row inline-stage-row">
-        <span class="stage-filter-label">발굴 단계</span>
+        <span class="stage-filter-label">발굴 단계${infoTip('발굴 단계', INFO_TIPS.discovery_stage, { compact: true })}</span>
         <div class="chip-group chip-group-stage" role="group" aria-label="발굴 단계 필터">${stageChipsHtml}</div>
         <span class="small muted stage-filter-hint">졸업 기본 숨김</span>
       </div>
@@ -819,8 +819,8 @@ export async function renderCandidatesView(root) {
               <th class="sortable" data-sort="display_name">팀</th>
               <th>주목 이유</th>
               <th class="nowrap sortable" data-sort="next_gig_sort">다음 공연</th>
-              <th class="num nowrap sortable cand-activity-col" data-sort="momentum_pct" title="같은 발굴 단계 안에서 최근 90일 대 그 전 90일 남의 언급 수 백분위">최근 활동</th>
-              <th class="num sortable" data-sort="score">점수</th>
+              <th class="num nowrap sortable cand-activity-col" data-sort="momentum_pct">최근 활동${infoTip('최근 활동', INFO_TIPS.recent_activity, { compact: true })}</th>
+              <th class="num sortable" data-sort="score">점수${infoTip('종합 점수', INFO_TIPS.score, { compact: true })}</th>
               <th class="nowrap">듣기</th>
               <th class="nowrap">관심</th>
             </tr>
@@ -1198,8 +1198,12 @@ export async function renderCandidatesView(root) {
       syncHash(true);
       paintTable();
     };
-    th.addEventListener('click', onSort);
+    th.addEventListener('click', e => {
+      if (e.target.closest('.cd-infotip')) return;
+      onSort();
+    });
     th.addEventListener('keydown', e => {
+      if (e.target.closest('.cd-infotip')) return;
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         onSort();

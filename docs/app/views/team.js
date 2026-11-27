@@ -6,13 +6,13 @@ import {
 import {
   alertKindChipHtml, avatarHtml, avatarSourceOf, dormantBadgeHtml, ensureD3,
   escapeHtml, fmtInt, fmtNum, formatAlertEvidenceText, formatNextGigText,
-  formatRecentActivityCell, formatSignalDate, gradeBadgeHtml, isDormantTeam,
-  isLoweredOutcomeResult, lookupSourceRoleMeta, newcomerUnverifiedBadgeHtml,
-  nextStageConditionText, PROFILE_LABELS, renderActionBanner,
-  renderCompactGradeSummary, renderScoreBar, renderTableCsvBtn, roleBadgeHtml,
-  SOURCE_LABELS, spotifyButtonHtml, spotifyUrlOf, stageBadgeHtml,
-  summarizeWhyTeam, TERMS, triggerTableCsvExport, watchButtonHtml,
-  wireAvatarFallbacks, wireSpotifyButtons,
+  formatRecentActivityCell, formatSignalDate, gradeBadgeHtml, INFO_TIPS, infoTip,
+  isDormantTeam, isLoweredOutcomeResult, lookupSourceRoleMeta,
+  newcomerUnverifiedBadgeHtml, nextStageConditionText, PROFILE_LABELS,
+  renderActionBanner, renderCompactGradeSummary, renderScoreBar,
+  renderTableCsvBtn, roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml,
+  spotifyUrlOf, stageBadgeHtml, summarizeWhyTeam, TERMS, triggerTableCsvExport,
+  watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
 import { mountTeamGraphBlock } from './graph.js';
 
@@ -372,7 +372,7 @@ export async function renderTeamView(root, teamKey) {
   const stageAct = stageInfo ? formatRecentActivityCell(stageInfo) : null;
   const stageLineHtml = stageInfo
     ? `<div class="team-stage-line" aria-label="발굴 단계 및 다음 단계 조건">
-        ${stageBadgeHtml(stageInfo.stage)}
+        ${stageBadgeHtml(stageInfo.stage)}${infoTip('발굴 단계', INFO_TIPS.discovery_stage, { compact: true })}
         <span class="team-stage-next">${escapeHtml(nextStageConditionText(stageInfo.stage))}</span>
         ${stageInfo.momentum_pct !== null ? stageAct.html : ''}
       </div>`
@@ -439,7 +439,7 @@ export async function renderTeamView(root, teamKey) {
   const scoreSectionHtml = `
     <section class="block" id="teamScoreBlock">
       <div class="block-head">
-        <h2>점수 근거</h2>
+        <h2>점수 근거${infoTip('점수 근거', INFO_TIPS.score_breakdown)}</h2>
         ${scored ? `<span class="block-meta">합계 ${fmtNum(scored.score, 2)}점</span>` : ''}
       </div>
       ${scored ? `

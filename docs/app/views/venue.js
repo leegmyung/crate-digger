@@ -2,8 +2,8 @@ import { appState, navigateTo, setExportContext } from '../state.js';
 import { loadVenueProfiles, queryVenueRecentShows } from '../db.js';
 import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, formatKoreanShortDate, gradeBadgeHtml,
-  renderActionBanner, renderTableCsvBtn, spotifyButtonHtml, triggerTableCsvExport,
-  wireAvatarFallbacks, wireSpotifyButtons,
+  INFO_TIPS, infoTip, renderActionBanner, renderTableCsvBtn, spotifyButtonHtml,
+  triggerTableCsvExport, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
 
 const TIER_META = {
@@ -125,7 +125,7 @@ function renderFirstTimerCardHtml(profile, noteText = '') {
   return `
     <div class="venue-first-timer-wrap">
       <div class="venue-card-head">
-        <h2>첫 출연 비율</h2>
+        <h2>첫 출연 비율${infoTip('첫 출연 비율', INFO_TIPS.first_timer_share)}</h2>
         <span class="venue-stage-tag ${badgeCls}">${escapeHtml(badgeTxt)}</span>
       </div>
       ${pctNum !== null && teams1y > 0 ? `

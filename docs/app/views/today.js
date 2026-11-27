@@ -10,8 +10,9 @@ import {
   alertDedupKey, alertKindChipHtml, avatarHtml, buildWeeklySummaryText,
   escapeHtml, fmtInt, fmtNum, formatAlertBaselineNote, formatAlertEvidenceText,
   formatKoreanShortDate, formatNextGigText, getGeneralTodayAlerts,
-  getWatchlistAlerts, plainWhyLine, renderEmptyState, spotifyButtonHtml,
-  watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons, youtubeQuickInfo,
+  getWatchlistAlerts, INFO_TIPS, infoTip, plainWhyLine, renderEmptyState,
+  spotifyButtonHtml, watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
+  youtubeQuickInfo,
 } from '../ui.js';
 
 function renderCardListenAction(r) {
@@ -501,7 +502,7 @@ export async function renderTodayView(root) {
 
       <section class="today-section">
         <div class="block-head" style="border:none;margin-bottom:10px;padding:0;">
-          <h2>이번 주 먼저 볼 5팀</h2>
+          <h2>이번 주 먼저 볼 5팀${infoTip('종합 점수', INFO_TIPS.score)}</h2>
           <a class="small muted" href="#/candidates">후보 전체 보기 →</a>
         </div>
         ${top5Html}

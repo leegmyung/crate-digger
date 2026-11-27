@@ -1,4 +1,7 @@
 import { appState, exportTableToCsv, isWatched } from './state.js';
+export { INFO_TIPS, infoTip, wireInfoTips, closeInfoTip } from './components/infotip.js';
+export { itemBar, itemBarList, peerBar, statusBar } from './components/bars.js';
+export { naCell, periodSwitch, wirePeriodSwitch } from './components/controls.js';
 
 export const TERMS = {
   outcome: '수상·선정',
@@ -946,15 +949,23 @@ export function updateSortHeaders(tableEl, activeCol, dir, attrName = 'sort') {
   const dataAttr = attrName.replace(/[A-Z]/g, m => `-${m.toLowerCase()}`);
   tableEl.querySelectorAll(`th[data-${dataAttr}]`).forEach(th => {
     const col = th.dataset[attrName];
-    const baseLabel = th.dataset.sortLabel || th.textContent.replace(/\s*[▲▼↕]\s*$/, '').trim();
-    th.dataset.sortLabel = baseLabel;
+    if (!th.dataset.sortLabel) {
+      const tipEl = th.querySelector('.cd-infotip');
+      if (tipEl) {
+        th.dataset.sortTipHtml = tipEl.outerHTML;
+        tipEl.remove();
+      }
+      th.dataset.sortLabel = th.textContent.replace(/\s*[▲▼↕]\s*$/, '').trim();
+    }
+    const baseLabel = th.dataset.sortLabel;
+    const tipHtml = th.dataset.sortTipHtml || '';
     const isActive = col === activeCol;
     const arrow = isActive ? (dir === 'asc' ? '▲' : '▼') : '↕';
     th.classList.add('sortable');
     th.classList.toggle('is-sorted', isActive);
     th.setAttribute('aria-sort', isActive ? (dir === 'asc' ? 'ascending' : 'descending') : 'none');
     th.setAttribute('tabindex', '0');
-    th.innerHTML = `<span class="th-sort-inner"><span class="th-sort-lbl">${escapeHtml(baseLabel)}</span><span class="sort-ind" aria-hidden="true">${arrow}</span></span>`;
+    th.innerHTML = `<span class="th-sort-inner"><span class="th-sort-lbl">${escapeHtml(baseLabel)}</span>${tipHtml}<span class="sort-ind" aria-hidden="true">${arrow}</span></span>`;
   });
 }
 
