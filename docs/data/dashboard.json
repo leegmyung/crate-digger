@@ -1,13 +1,13 @@
 {
-  "generated": "2026-11-27T12:36:05+09:00",
+  "generated": "2026-11-27T15:12:33+09:00",
   "window_from": "2025-01-01",
   "lookback_from": "2020-01-01",
   "xref_active": true,
   "deltas": {
-    "prev_generated": "2026-11-27T10:33:52+09:00",
+    "prev_generated": "2026-11-27T12:36:05+09:00",
     "candidates": 0,
-    "total_rows": 61,
-    "profiles": 110
+    "total_rows": 0,
+    "profiles": 107
   },
   "errors": [],
   "sections": {
@@ -799,9 +799,9 @@
         "first_seen": "2026-08-08",
         "last_seen": "2026-11-23",
         "first_seen_all": "2025-01-13",
-        "status": "확인 안 됨",
-        "first_release": null,
-        "fan_count": null,
+        "status": "신인",
+        "first_release": "2025-01-01",
+        "fan_count": 353,
         "already_outcome": null,
         "best_stage": 0,
         "dmz": 0,
@@ -809,13 +809,16 @@
         "outlets": 3,
         "peer_selected": 1,
         "score_v0": 7.2,
-        "genres": [],
-        "primary_genre": "",
+        "genres": [
+          "록·밴드",
+          "인디팝·발라드"
+        ],
+        "primary_genre": "록·밴드",
         "already_outcome_label": "",
         "years_in_data": 1.9,
         "first_seen_text": "1.9년 전 첫 등장",
-        "rookie_label": "신인 추정",
-        "rookie_code": "inferred",
+        "rookie_label": "신인 확인",
+        "rookie_code": "confirmed",
         "is_rookie_pool": true,
         "score_parts": [
           {
@@ -1848,154 +1851,6 @@
         "why": "갈래 2개 +2 · 선정팀 합동무대 +1 · 최근 1년 공연 5회 +0.9 · 큐레이션 2매체 +2"
       },
       {
-        "artist_key": "올드잉글리쉬쉽독",
-        "artist": "올드잉글리쉬쉽독",
-        "n_branch": 2,
-        "n_signals": 6,
-        "branches": "공연 · 큐레이션",
-        "first_seen": "2026-05-31",
-        "last_seen": "2026-11-27",
-        "first_seen_all": "2024-07-01",
-        "status": "확인 안 됨",
-        "first_release": null,
-        "fan_count": null,
-        "already_outcome": null,
-        "best_stage": 0,
-        "dmz": 0,
-        "gigs_1y": 5,
-        "outlets": 2,
-        "peer_selected": 1,
-        "score_v0": 5.9,
-        "genres": [],
-        "primary_genre": "",
-        "already_outcome_label": "",
-        "years_in_data": 2.4,
-        "first_seen_text": "2.4년 전 첫 등장",
-        "rookie_label": "신인 추정",
-        "rookie_code": "inferred",
-        "is_rookie_pool": true,
-        "score_parts": [
-          {
-            "label": "갈래 2개",
-            "pts": 2.0
-          },
-          {
-            "label": "선정팀 합동무대",
-            "pts": 1.0
-          },
-          {
-            "label": "최근 1년 공연 5회",
-            "pts": 0.9
-          },
-          {
-            "label": "큐레이션 2매체",
-            "pts": 2.0
-          }
-        ],
-        "signals": [
-          {
-            "date": "2026-11-28",
-            "date_label": "2026-11-28 (예정)",
-            "sort_date": "2026-11-28",
-            "branch": "공연",
-            "source": "indiego",
-            "source_label": "인디고",
-            "title": "Time for Tolerance – The Harmony",
-            "detail": "베이비돌",
-            "url": "https://www.indiego.co.kr/events/1707-time-for-tolerance-the-harmony"
-          },
-          {
-            "date": "2026-11-28",
-            "date_label": "2026-11-28 (예정)",
-            "sort_date": "2026-11-28",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "Time for Tolerance – The Harmony",
-            "detail": "베이비돌",
-            "url": "https://indistreet.com/gigs/2026-11-28-time-for-tolerance-the-harmony-mzhch8zl8doth9apog2yzz3v"
-          },
-          {
-            "date": "2026-09-14",
-            "date_label": "2026-09-14",
-            "sort_date": "2026-09-14",
-            "branch": "큐레이션",
-            "source": "musicy",
-            "source_label": "음악취향Y",
-            "title": "[Single-Out] 올드잉글리쉬쉽독 (Old English Sheepdog) 「American Ping Pong」",
-            "detail": "음악취향Y",
-            "url": "http://musicy.kr/?c=review&s=1&gbn=view&ix=9435"
-          },
-          {
-            "date": "2026-09-09",
-            "date_label": "2026-09-09",
-            "sort_date": "2026-09-09",
-            "branch": "큐레이션",
-            "source": "overtone",
-            "source_label": "오버톤",
-            "title": "결핍이 다진 결의, 올드 잉글리쉬 쉽독 <American Ping Pong>",
-            "detail": "overtone",
-            "url": "https://overtone.kr/full-review/%EA%B2%B0%ED%95%8D%EC%9D%B4-%EB%8B%A4%EC%A7%84-%EA%B2%B0%EC%9D%98-%EC%98%AC%EB%93%9C-%EC%9E%89%EA%B8%80%EB%A6%AC%EC%89%AC-%EC%89%BD%EB%8F%85-american-ping-pong"
-          },
-          {
-            "date": "2026-08-30",
-            "date_label": "2026-08-30",
-            "sort_date": "2026-08-30",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "[페스티벌] PATCHROOM FESTIVAL 2026 DAY 3",
-            "detail": "",
-            "url": "https://indistreet.com/programs/patchroom-festival-2026-q4glaj6k6v4rdncgsi5lp8z5#2026-08-30"
-          },
-          {
-            "date": "2026-05-31",
-            "date_label": "2026-05-31",
-            "sort_date": "2026-05-31",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "Sunday Live Show at Club FF",
-            "detail": "Club FF",
-            "url": "https://indistreet.com/gigs/2026-05-31-sunday-live-show-at-club-ff-xlk62az0c0p7e0cfd7btzw0r"
-          },
-          {
-            "date": "2026-05-10",
-            "date_label": "2026-05-10",
-            "sort_date": "2026-05-10",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "오방가르드 8주년 시리즈 : 올드 잉글리쉬 쉽독 X 검은잎들 X 시너가렛",
-            "detail": "오방가르드",
-            "url": "https://indistreet.com/gigs/2026-05-10-%EC%98%A4%EB%B0%A9%EA%B0%80%EB%A5%B4%EB%93%9C-8%EC%A3%BC%EB%85%84-%EC%8B%9C%EB%A6%AC%EC%A6%88-%EC%98%AC%EB%93%9C-%EC%9E%89%EA%B8%80%EB%A6%AC%EC%89%AC-%EC%89%BD%EB%8F%85-x-%EA%B2%80%EC%9D%80%EC%9E%8E%EB%93%A4-x-%EC%8B%9C%EB%84%88%EA%B0%80%EB%A0%9B-u7xkyxetyzv9dfrutunrxvxh"
-          },
-          {
-            "date": "2026-04-30",
-            "date_label": "2026-04-30",
-            "sort_date": "2026-04-30",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "오방가르드 8주년 공연 시리즈 Ovantgarde the 8th Anniversary Series : Time goes on, Music goes on",
-            "detail": "오방가르드",
-            "url": "https://indistreet.com/gigs/2026-04-30-%EC%98%A4%EB%B0%A9%EA%B0%80%EB%A5%B4%EB%93%9C-8%EC%A3%BC%EB%85%84-%EA%B3%B5%EC%97%B0-%EC%8B%9C%EB%A6%AC%EC%A6%88-ovantgarde-the-8th-anniversary-series-time-goes-on-music-goes-on-lgqondln213p34eu6orwmt41"
-          },
-          {
-            "date": "2026-02-22",
-            "date_label": "2026-02-22",
-            "sort_date": "2026-02-22",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "MY EAR OUT",
-            "detail": "언플러그드 라운지",
-            "url": "https://indistreet.com/gigs/mncc2zhggoi5filrwx3o6zg8"
-          }
-        ],
-        "why": "갈래 2개 +2 · 선정팀 합동무대 +1 · 최근 1년 공연 5회 +0.9 · 큐레이션 2매체 +2"
-      },
-      {
         "artist_key": "매듭",
         "artist": "매듭",
         "n_branch": 2,
@@ -2108,9 +1963,9 @@
         "first_seen": "2026-06-27",
         "last_seen": "2026-11-21",
         "first_seen_all": "2024-01-12",
-        "status": "확인 안 됨",
-        "first_release": null,
-        "fan_count": null,
+        "status": "신인",
+        "first_release": "2024-08-02",
+        "fan_count": 26,
         "already_outcome": null,
         "best_stage": 0,
         "dmz": 0,
@@ -2118,13 +1973,15 @@
         "outlets": 1,
         "peer_selected": 1,
         "score_v0": 5.63,
-        "genres": [],
-        "primary_genre": "",
+        "genres": [
+          "록·밴드"
+        ],
+        "primary_genre": "록·밴드",
         "already_outcome_label": "",
         "years_in_data": 2.9,
         "first_seen_text": "2.9년 전 첫 등장",
-        "rookie_label": "신인 추정",
-        "rookie_code": "inferred",
+        "rookie_label": "신인 확인",
+        "rookie_code": "confirmed",
         "is_rookie_pool": true,
         "score_parts": [
           {
@@ -2322,9 +2179,9 @@
         "first_seen": "2026-06-12",
         "last_seen": "2026-11-21",
         "first_seen_all": "2026-03-12",
-        "status": "확인 안 됨",
-        "first_release": null,
-        "fan_count": null,
+        "status": "신인",
+        "first_release": "2026-06-18",
+        "fan_count": 39,
         "already_outcome": null,
         "best_stage": 0,
         "dmz": 0,
@@ -2332,13 +2189,15 @@
         "outlets": 1,
         "peer_selected": 1,
         "score_v0": 5.35,
-        "genres": [],
-        "primary_genre": "",
+        "genres": [
+          "록·밴드"
+        ],
+        "primary_genre": "록·밴드",
         "already_outcome_label": "",
         "years_in_data": 0.7,
         "first_seen_text": "9개월 전 첫 등장",
-        "rookie_label": "신인 추정",
-        "rookie_code": "inferred",
+        "rookie_label": "신인 확인",
+        "rookie_code": "confirmed",
         "is_rookie_pool": true,
         "score_parts": [
           {
@@ -2863,187 +2722,6 @@
             "title": "GREY ZONE",
             "detail": "언드",
             "url": "https://indistreet.com/gigs/2025-12-06-grey-zone-dq1mmur34wx2rk8ndnm6qebx"
-          }
-        ],
-        "why": "갈래 2개 +2 · 선정팀 합동무대 +1 · 최근 1년 공연 9회 +1.15 · 큐레이션 1매체 +1"
-      },
-      {
-        "artist_key": "잔물결",
-        "artist": "잔물결",
-        "n_branch": 2,
-        "n_signals": 5,
-        "branches": "공연 · 큐레이션",
-        "first_seen": "2026-06-06",
-        "last_seen": "2026-11-27",
-        "first_seen_all": "2024-03-31",
-        "status": "확인 안 됨",
-        "first_release": null,
-        "fan_count": null,
-        "already_outcome": null,
-        "best_stage": 0,
-        "dmz": 0,
-        "gigs_1y": 9,
-        "outlets": 1,
-        "peer_selected": 1,
-        "score_v0": 5.15,
-        "genres": [],
-        "primary_genre": "",
-        "already_outcome_label": "",
-        "years_in_data": 2.7,
-        "first_seen_text": "2.7년 전 첫 등장",
-        "rookie_label": "신인 추정",
-        "rookie_code": "inferred",
-        "is_rookie_pool": true,
-        "score_parts": [
-          {
-            "label": "갈래 2개",
-            "pts": 2.0
-          },
-          {
-            "label": "선정팀 합동무대",
-            "pts": 1.0
-          },
-          {
-            "label": "최근 1년 공연 9회",
-            "pts": 1.15
-          },
-          {
-            "label": "큐레이션 1매체",
-            "pts": 1.0
-          }
-        ],
-        "signals": [
-          {
-            "date": "2026-11-28",
-            "date_label": "2026-11-28 (예정)",
-            "sort_date": "2026-11-28",
-            "branch": "공연",
-            "source": "indiego",
-            "source_label": "인디고",
-            "title": "2026 잔물결절",
-            "detail": "사이드킥프로덕션",
-            "url": "https://www.indiego.co.kr/events/1848-2026-%EC%9E%94%EB%AC%BC%EA%B2%B0%EC%A0%88"
-          },
-          {
-            "date": "2026-11-28",
-            "date_label": "2026-11-28 (예정)",
-            "sort_date": "2026-11-28",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "잔물결절 《사랑의 히치하이커》 쇼케이스 & 생일잔치",
-            "detail": "공연장 미정",
-            "url": "https://indistreet.com/gigs/2026-11-28-%EC%9E%94%EB%AC%BC%EA%B2%B0%EC%A0%88-%EC%82%AC%EB%9E%91%EC%9D%98-%ED%9E%88%EC%B9%98%ED%95%98%EC%9D%B4%EC%BB%A4-%EC%87%BC%EC%BC%80%EC%9D%B4%EC%8A%A4-%EC%83%9D%EC%9D%BC%EC%9E%94%EC%B9%98-tvgzecsywb1pf50ocib98ujf"
-          },
-          {
-            "date": "2026-11-23",
-            "date_label": "2026-11-23",
-            "sort_date": "2026-11-23",
-            "branch": "큐레이션",
-            "source": "musicy",
-            "source_label": "음악취향Y",
-            "title": "[Single-Out] 잔물결 「사랑의 히치하이커」",
-            "detail": "음악취향Y",
-            "url": "http://musicy.kr/?c=review&s=1&gbn=view&ix=9488"
-          },
-          {
-            "date": "2026-08-07",
-            "date_label": "2026-08-07",
-            "sort_date": "2026-08-07",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "[페스티벌] 비수기의 전문가들 DAY 3",
-            "detail": "",
-            "url": "https://indistreet.com/programs/%EB%B9%84%EC%88%98%EA%B8%B0%EC%9D%98-%EC%A0%84%EB%AC%B8%EA%B0%80%EB%93%A4-d2vzimw1ww9cia2mz4iequkv#2026-08-07"
-          },
-          {
-            "date": "2026-06-06",
-            "date_label": "2026-06-06",
-            "sort_date": "2026-06-06",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "0층 수영장",
-            "detail": "대구 제임스레코드",
-            "url": "https://indistreet.com/gigs/2026-06-06-0%EC%B8%B5-%EC%88%98%EC%98%81%EC%9E%A5-jvtdauqjwf23unfk149iqv5d"
-          },
-          {
-            "date": "2026-05-30",
-            "date_label": "2026-05-30",
-            "sort_date": "2026-05-30",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "오방가르드 8주년 시리즈 : 숨비 X 비제로 X 잔물결",
-            "detail": "오방가르드",
-            "url": "https://indistreet.com/gigs/2026-05-30-%EC%98%A4%EB%B0%A9%EA%B0%80%EB%A5%B4%EB%93%9C-8%EC%A3%BC%EB%85%84-%EC%8B%9C%EB%A6%AC%EC%A6%88-%EC%88%A8%EB%B9%84-x-%EB%B9%84%EC%A0%9C%EB%A1%9C-x-%EC%9E%94%EB%AC%BC%EA%B2%B0-h4oilt190d7mheqs5xvil0ru"
-          },
-          {
-            "date": "2026-04-30",
-            "date_label": "2026-04-30",
-            "sort_date": "2026-04-30",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "오방가르드 8주년 공연 시리즈 Ovantgarde the 8th Anniversary Series : Time goes on, Music goes on",
-            "detail": "오방가르드",
-            "url": "https://indistreet.com/gigs/2026-04-30-%EC%98%A4%EB%B0%A9%EA%B0%80%EB%A5%B4%EB%93%9C-8%EC%A3%BC%EB%85%84-%EA%B3%B5%EC%97%B0-%EC%8B%9C%EB%A6%AC%EC%A6%88-ovantgarde-the-8th-anniversary-series-time-goes-on-music-goes-on-lgqondln213p34eu6orwmt41"
-          },
-          {
-            "date": "2026-03-21",
-            "date_label": "2026-03-21",
-            "sort_date": "2026-03-21",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "[언드LIVEㅣPick Up •Vol.2]",
-            "detail": "언드",
-            "url": "https://indistreet.com/gigs/2026-03-21-%EC%96%B8%EB%93%9Clivepick-up-vol.2-rcew2dm8gumgmiwm7iio9eac"
-          },
-          {
-            "date": "2026-02-07",
-            "date_label": "2026-02-07",
-            "sort_date": "2026-02-07",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "공연 [유기체 라이브] - Band Live & Acoustic Live",
-            "detail": "유기체",
-            "url": "https://indistreet.com/gigs/2026-02-07-%EA%B3%B5%EC%97%B0-%EC%9C%A0%EA%B8%B0%EC%B2%B4-%EB%9D%BC%EC%9D%B4%EB%B8%8C-band-live-acoustic-live"
-          },
-          {
-            "date": "2026-01-29",
-            "date_label": "2026-01-29",
-            "sort_date": "2026-01-29",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "Thursday Vibes @FF",
-            "detail": "Club FF",
-            "url": "https://indistreet.com/gigs/zadszol2kwxus8k70p9y7slu"
-          },
-          {
-            "date": "2026-01-25",
-            "date_label": "2026-01-25",
-            "sort_date": "2026-01-25",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "신세계(新世界)",
-            "detail": "언플러그드 라운지",
-            "url": "https://indistreet.com/gigs/riz7ds6lv0tc4xjl6cj5yuw0"
-          },
-          {
-            "date": "2025-12-31",
-            "date_label": "2025-12-31",
-            "sort_date": "2025-12-31",
-            "branch": "공연",
-            "source": "indistreet",
-            "source_label": "인디스트릿",
-            "title": "Happy Countdown Club - 테트라포드 / 잔물결 / 모스힐 / 유령서점",
-            "detail": "오방가르드",
-            "url": "https://indistreet.com/gigs/y7jcogehrtnl35afkz7nbkk5"
           }
         ],
         "why": "갈래 2개 +2 · 선정팀 합동무대 +1 · 최근 1년 공연 9회 +1.15 · 큐레이션 1매체 +1"
@@ -8612,6 +8290,157 @@
         "why": "갈래 2개 +2 · 선정팀 합동무대 +1 · 최근 1년 공연 3회 +0.69 · 큐레이션 3매체 +3"
       },
       {
+        "artist_key": "올드잉글리쉬쉽독",
+        "artist": "올드잉글리쉬쉽독",
+        "n_branch": 2,
+        "n_signals": 6,
+        "branches": "공연 · 큐레이션",
+        "first_seen": "2026-05-31",
+        "last_seen": "2026-11-27",
+        "first_seen_all": "2024-07-01",
+        "status": "기성",
+        "first_release": "2022-05-30",
+        "fan_count": 119,
+        "already_outcome": null,
+        "best_stage": 0,
+        "dmz": 0,
+        "gigs_1y": 5,
+        "outlets": 2,
+        "peer_selected": 1,
+        "score_v0": 5.9,
+        "genres": [
+          "록·밴드",
+          "실험·기타"
+        ],
+        "primary_genre": "록·밴드",
+        "already_outcome_label": "",
+        "years_in_data": 2.4,
+        "first_seen_text": "2.4년 전 첫 등장",
+        "rookie_label": "기성",
+        "rookie_code": "established",
+        "is_rookie_pool": false,
+        "score_parts": [
+          {
+            "label": "갈래 2개",
+            "pts": 2.0
+          },
+          {
+            "label": "선정팀 합동무대",
+            "pts": 1.0
+          },
+          {
+            "label": "최근 1년 공연 5회",
+            "pts": 0.9
+          },
+          {
+            "label": "큐레이션 2매체",
+            "pts": 2.0
+          }
+        ],
+        "signals": [
+          {
+            "date": "2026-11-28",
+            "date_label": "2026-11-28 (예정)",
+            "sort_date": "2026-11-28",
+            "branch": "공연",
+            "source": "indiego",
+            "source_label": "인디고",
+            "title": "Time for Tolerance – The Harmony",
+            "detail": "베이비돌",
+            "url": "https://www.indiego.co.kr/events/1707-time-for-tolerance-the-harmony"
+          },
+          {
+            "date": "2026-11-28",
+            "date_label": "2026-11-28 (예정)",
+            "sort_date": "2026-11-28",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "Time for Tolerance – The Harmony",
+            "detail": "베이비돌",
+            "url": "https://indistreet.com/gigs/2026-11-28-time-for-tolerance-the-harmony-mzhch8zl8doth9apog2yzz3v"
+          },
+          {
+            "date": "2026-09-14",
+            "date_label": "2026-09-14",
+            "sort_date": "2026-09-14",
+            "branch": "큐레이션",
+            "source": "musicy",
+            "source_label": "음악취향Y",
+            "title": "[Single-Out] 올드잉글리쉬쉽독 (Old English Sheepdog) 「American Ping Pong」",
+            "detail": "음악취향Y",
+            "url": "http://musicy.kr/?c=review&s=1&gbn=view&ix=9435"
+          },
+          {
+            "date": "2026-09-09",
+            "date_label": "2026-09-09",
+            "sort_date": "2026-09-09",
+            "branch": "큐레이션",
+            "source": "overtone",
+            "source_label": "오버톤",
+            "title": "결핍이 다진 결의, 올드 잉글리쉬 쉽독 <American Ping Pong>",
+            "detail": "overtone",
+            "url": "https://overtone.kr/full-review/%EA%B2%B0%ED%95%8D%EC%9D%B4-%EB%8B%A4%EC%A7%84-%EA%B2%B0%EC%9D%98-%EC%98%AC%EB%93%9C-%EC%9E%89%EA%B8%80%EB%A6%AC%EC%89%AC-%EC%89%BD%EB%8F%85-american-ping-pong"
+          },
+          {
+            "date": "2026-08-30",
+            "date_label": "2026-08-30",
+            "sort_date": "2026-08-30",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "[페스티벌] PATCHROOM FESTIVAL 2026 DAY 3",
+            "detail": "",
+            "url": "https://indistreet.com/programs/patchroom-festival-2026-q4glaj6k6v4rdncgsi5lp8z5#2026-08-30"
+          },
+          {
+            "date": "2026-05-31",
+            "date_label": "2026-05-31",
+            "sort_date": "2026-05-31",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "Sunday Live Show at Club FF",
+            "detail": "Club FF",
+            "url": "https://indistreet.com/gigs/2026-05-31-sunday-live-show-at-club-ff-xlk62az0c0p7e0cfd7btzw0r"
+          },
+          {
+            "date": "2026-05-10",
+            "date_label": "2026-05-10",
+            "sort_date": "2026-05-10",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "오방가르드 8주년 시리즈 : 올드 잉글리쉬 쉽독 X 검은잎들 X 시너가렛",
+            "detail": "오방가르드",
+            "url": "https://indistreet.com/gigs/2026-05-10-%EC%98%A4%EB%B0%A9%EA%B0%80%EB%A5%B4%EB%93%9C-8%EC%A3%BC%EB%85%84-%EC%8B%9C%EB%A6%AC%EC%A6%88-%EC%98%AC%EB%93%9C-%EC%9E%89%EA%B8%80%EB%A6%AC%EC%89%AC-%EC%89%BD%EB%8F%85-x-%EA%B2%80%EC%9D%80%EC%9E%8E%EB%93%A4-x-%EC%8B%9C%EB%84%88%EA%B0%80%EB%A0%9B-u7xkyxetyzv9dfrutunrxvxh"
+          },
+          {
+            "date": "2026-04-30",
+            "date_label": "2026-04-30",
+            "sort_date": "2026-04-30",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "오방가르드 8주년 공연 시리즈 Ovantgarde the 8th Anniversary Series : Time goes on, Music goes on",
+            "detail": "오방가르드",
+            "url": "https://indistreet.com/gigs/2026-04-30-%EC%98%A4%EB%B0%A9%EA%B0%80%EB%A5%B4%EB%93%9C-8%EC%A3%BC%EB%85%84-%EA%B3%B5%EC%97%B0-%EC%8B%9C%EB%A6%AC%EC%A6%88-ovantgarde-the-8th-anniversary-series-time-goes-on-music-goes-on-lgqondln213p34eu6orwmt41"
+          },
+          {
+            "date": "2026-02-22",
+            "date_label": "2026-02-22",
+            "sort_date": "2026-02-22",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "MY EAR OUT",
+            "detail": "언플러그드 라운지",
+            "url": "https://indistreet.com/gigs/mncc2zhggoi5filrwx3o6zg8"
+          }
+        ],
+        "why": "갈래 2개 +2 · 선정팀 합동무대 +1 · 최근 1년 공연 5회 +0.9 · 큐레이션 2매체 +2"
+      },
+      {
         "artist_key": "손을모아",
         "artist": "손을모아",
         "n_branch": 2,
@@ -8852,6 +8681,223 @@
           }
         ],
         "why": "갈래 2개 +2 · 최근 1년 공연 3회 +0.69 · 큐레이션 3매체 +3"
+      },
+      {
+        "artist_key": "삼월생",
+        "artist": "삼월생",
+        "n_branch": 2,
+        "n_signals": 9,
+        "branches": "공연 · 큐레이션",
+        "first_seen": "2026-06-24",
+        "last_seen": "2026-11-25",
+        "first_seen_all": "2024-12-05",
+        "status": "기성",
+        "first_release": "2022-09-28",
+        "fan_count": 1431,
+        "already_outcome": null,
+        "best_stage": 0,
+        "dmz": 0,
+        "gigs_1y": 14,
+        "outlets": 1,
+        "peer_selected": 1,
+        "score_v0": 5.35,
+        "genres": [
+          "포크·싱어송라이터",
+          "록·밴드"
+        ],
+        "primary_genre": "포크·싱어송라이터",
+        "already_outcome_label": "",
+        "years_in_data": 2.0,
+        "first_seen_text": "2.0년 전 첫 등장",
+        "rookie_label": "기성",
+        "rookie_code": "established",
+        "is_rookie_pool": false,
+        "score_parts": [
+          {
+            "label": "갈래 2개",
+            "pts": 2.0
+          },
+          {
+            "label": "선정팀 합동무대",
+            "pts": 1.0
+          },
+          {
+            "label": "최근 1년 공연 14회",
+            "pts": 1.35
+          },
+          {
+            "label": "큐레이션 1매체",
+            "pts": 1.0
+          }
+        ],
+        "signals": [
+          {
+            "date": "2026-11-25",
+            "date_label": "2026-11-25",
+            "sort_date": "2026-11-25",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "클럽웬즈데이",
+            "detail": "카페 언플러그드 홍대점",
+            "url": "https://indistreet.com/gigs/2026-11-25-%ED%81%B4%EB%9F%BD%EC%9B%AC%EC%A6%88%EB%8D%B0%EC%9D%B4-cpwyv5r2lqlxhegcmtxbtnwm"
+          },
+          {
+            "date": "2026-11-20",
+            "date_label": "2026-11-20",
+            "sort_date": "2026-11-20",
+            "branch": "큐레이션",
+            "source": "instagram",
+            "source_label": "인스타그램",
+            "title": "연말이 다가올수록 점점 좋은 앨범들이 쏟아지고 있는 게 느껴지시나요? bdbd는 지난 10월에도 한국 음악 실컷 들을 수 있어서 행복했습니다.",
+            "detail": "@bdbd.wav",
+            "url": "https://www.instagram.com/bdbd.wav/p/DgAEtMaowPp/"
+          },
+          {
+            "date": "2026-10-31",
+            "date_label": "2026-10-31",
+            "sort_date": "2026-10-31",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "시간과 흔적",
+            "detail": "언플러그드 라운지",
+            "url": "https://indistreet.com/gigs/2026-10-31-%EC%8B%9C%EA%B0%84%EA%B3%BC-%ED%9D%94%EC%A0%81-hzz8vldivs2sm7ewdn5dg2fb"
+          },
+          {
+            "date": "2026-10-14",
+            "date_label": "2026-10-14",
+            "sort_date": "2026-10-14",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "아지트🏕️ 6번지 - 한동규, 삼월생",
+            "detail": "언플러그드 라운지",
+            "url": "https://indistreet.com/gigs/2026-10-14-%EC%95%84%EC%A7%80%ED%8A%B8-6%EB%B2%88%EC%A7%80-%ED%95%9C%EB%8F%99%EA%B7%9C-%EC%82%BC%EC%9B%94%EC%83%9D-goeffsr8xzu9pkod47nzdhk7"
+          },
+          {
+            "date": "2026-09-24",
+            "date_label": "2026-09-24",
+            "sort_date": "2026-09-24",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "항해",
+            "detail": "언플러그드 라운지",
+            "url": "https://indistreet.com/gigs/2026-09-24-%ED%95%AD%ED%95%B4-eig4f8s40i2o43xe8uvd5q8c"
+          },
+          {
+            "date": "2026-09-04",
+            "date_label": "2026-09-04",
+            "sort_date": "2026-09-04",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "ON/OFF - 윤형준, 삼월생, 이종서",
+            "detail": "언플러그드 라운지",
+            "url": "https://indistreet.com/gigs/2026-09-04-onoff-%EC%9C%A4%ED%98%95%EC%A4%80-%EC%82%BC%EC%9B%94%EC%83%9D-%EC%9D%B4%EC%A2%85%EC%84%9C-n0ua8kt3awoevqte1bhamlip"
+          },
+          {
+            "date": "2026-08-12",
+            "date_label": "2026-08-12",
+            "sort_date": "2026-08-12",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "이륙(Take Off) - 지지, 삼월생, 윤준",
+            "detail": "언플러그드 라운지",
+            "url": "https://indistreet.com/gigs/2026-08-12-%EC%9D%B4%EB%A5%99take-off-%EC%A7%80%EC%A7%80-%EC%82%BC%EC%9B%94%EC%83%9D-%EC%9C%A4%EC%A4%80-werkcmls7pgsifiu44vnb0ki"
+          },
+          {
+            "date": "2026-07-27",
+            "date_label": "2026-07-27",
+            "sort_date": "2026-07-27",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "한여름 방정식",
+            "detail": "언플러그드 라운지",
+            "url": "https://indistreet.com/gigs/2026-07-27-%ED%95%9C%EC%97%AC%EB%A6%84-%EB%B0%A9%EC%A0%95%EC%8B%9D-l57ec8ith9xa1jfhrpp4qtuk"
+          },
+          {
+            "date": "2026-06-24",
+            "date_label": "2026-06-24",
+            "sort_date": "2026-06-24",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "클럽웬즈데이 <둥글게>",
+            "detail": "카페 언플러그드 홍대점",
+            "url": "https://indistreet.com/gigs/2026-06-24-%ED%81%B4%EB%9F%BD%EC%9B%AC%EC%A6%88%EB%8D%B0%EC%9D%B4-%EB%91%A5%EA%B8%80%EA%B2%8C-s7h1510gb2uhbkq6kxtu62nf"
+          },
+          {
+            "date": "2026-04-12",
+            "date_label": "2026-04-12",
+            "sort_date": "2026-04-12",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "종이를 접자 Vol.6 : 꽃반지를 접자 !",
+            "detail": "언플러그드 라운지",
+            "url": "https://indistreet.com/gigs/2026-04-12-%EC%A2%85%EC%9D%B4%EB%A5%BC-%EC%A0%91%EC%9E%90-vol.6-%EA%BD%83%EB%B0%98%EC%A7%80%EB%A5%BC-%EC%A0%91%EC%9E%90-q940b3o26u3busqhl4096n2p"
+          },
+          {
+            "date": "2026-03-29",
+            "date_label": "2026-03-29",
+            "sort_date": "2026-03-29",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "종합음악상가 2026",
+            "detail": "카페 언플러그드 홍대점",
+            "url": "https://indistreet.com/gigs/2026-03-29-%EC%A2%85%ED%95%A9%EC%9D%8C%EC%95%85%EC%83%81%EA%B0%80-2026"
+          },
+          {
+            "date": "2026-03-14",
+            "date_label": "2026-03-14",
+            "sort_date": "2026-03-14",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "《사탕은 사랑을 싣고》",
+            "detail": "언플러그드 라운지",
+            "url": "https://indistreet.com/gigs/2026-03-14-%EC%82%AC%ED%83%95%EC%9D%80-%EC%82%AC%EB%9E%91%EC%9D%84-%EC%8B%A3%EA%B3%A0-roy170snbd11k73uyqxnmc7d"
+          },
+          {
+            "date": "2026-02-14",
+            "date_label": "2026-02-14",
+            "sort_date": "2026-02-14",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "사랑을 한 스푼",
+            "detail": "언플러그드 라운지",
+            "url": "https://indistreet.com/gigs/vdwwth0b6qexik5e4lcpa8eu"
+          },
+          {
+            "date": "2026-01-31",
+            "date_label": "2026-01-31",
+            "sort_date": "2026-01-31",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "내친소 - 슬 편",
+            "detail": "언플러그드 라운지",
+            "url": "https://indistreet.com/gigs/o2pc9k2vahd13kzqk5y4900p"
+          },
+          {
+            "date": "2025-12-07",
+            "date_label": "2025-12-07",
+            "sort_date": "2025-12-07",
+            "branch": "공연",
+            "source": "indistreet",
+            "source_label": "인디스트릿",
+            "title": "✷ 정 오 별 점 ✷",
+            "detail": "언플러그드 라운지",
+            "url": "https://indistreet.com/gigs/bq6am3oh8wvt041mjecimvmw"
+          }
+        ],
+        "why": "갈래 2개 +2 · 선정팀 합동무대 +1 · 최근 1년 공연 14회 +1.35 · 큐레이션 1매체 +1"
       }
     ],
     "candidate_signals": [],
@@ -8893,9 +8939,21 @@
         "reason": "팬 수 (1만+)"
       },
       {
+        "artist": "기프트",
+        "fan_count": 5600,
+        "years_since_first": 9.0,
+        "reason": "활동 연차 (5년+ & 팬 1천+)"
+      },
+      {
         "artist": "김뜻돌",
         "fan_count": 6757,
         "years_since_first": 9.4,
+        "reason": "활동 연차 (5년+ & 팬 1천+)"
+      },
+      {
+        "artist": "김목인",
+        "fan_count": 1635,
+        "years_since_first": 24.9,
         "reason": "활동 연차 (5년+ & 팬 1천+)"
       },
       {
@@ -8911,10 +8969,22 @@
         "reason": "활동 연차 (5년+ & 팬 1천+)"
       },
       {
+        "artist": "김일두",
+        "fan_count": 1435,
+        "years_since_first": 14.9,
+        "reason": "활동 연차 (5년+ & 팬 1천+)"
+      },
+      {
         "artist": "나상현씨밴드",
         "fan_count": 11306,
         "years_since_first": 12.0,
         "reason": "팬 수 (1만+)"
+      },
+      {
+        "artist": "내귀에도청장치",
+        "fan_count": 1406,
+        "years_since_first": 29.3,
+        "reason": "활동 연차 (5년+ & 팬 1천+)"
       },
       {
         "artist": "너드커넥션",
@@ -8926,6 +8996,18 @@
         "artist": "놀이도감",
         "fan_count": 2099,
         "years_since_first": 11.3,
+        "reason": "활동 연차 (5년+ & 팬 1천+)"
+      },
+      {
+        "artist": "담담",
+        "fan_count": 1319,
+        "years_since_first": 10.4,
+        "reason": "활동 연차 (5년+ & 팬 1천+)"
+      },
+      {
+        "artist": "더베인",
+        "fan_count": 2455,
+        "years_since_first": 12.0,
         "reason": "활동 연차 (5년+ & 팬 1천+)"
       },
       {
@@ -8983,9 +9065,15 @@
         "reason": "활동 연차 (5년+ & 팬 1천+)"
       },
       {
-        "artist": "사뮈(Samui)",
+        "artist": "사뮈 (Samui)",
         "fan_count": 2363,
         "years_since_first": 9.9,
+        "reason": "활동 연차 (5년+ & 팬 1천+)"
+      },
+      {
+        "artist": "서울전자음악단",
+        "fan_count": 1282,
+        "years_since_first": 21.8,
         "reason": "활동 연차 (5년+ & 팬 1천+)"
       },
       {
@@ -9010,6 +9098,12 @@
         "artist": "송소희",
         "fan_count": 8819,
         "years_since_first": 12.3,
+        "reason": "활동 연차 (5년+ & 팬 1천+)"
+      },
+      {
+        "artist": "숨비",
+        "fan_count": 1152,
+        "years_since_first": 6.0,
         "reason": "활동 연차 (5년+ & 팬 1천+)"
       },
       {
@@ -9043,7 +9137,7 @@
         "reason": "활동 연차 (5년+ & 팬 1천+)"
       },
       {
-        "artist": "에피톤 프로젝트",
+        "artist": "에피톤 프로젝트(Epitone Project)",
         "fan_count": 33498,
         "years_since_first": 20.8,
         "reason": "팬 수 (1만+)"
@@ -9083,6 +9177,12 @@
         "fan_count": 10048,
         "years_since_first": 7.3,
         "reason": "팬 수 (1만+)"
+      },
+      {
+        "artist": "이내꿈",
+        "fan_count": 1257,
+        "years_since_first": 5.8,
+        "reason": "활동 연차 (5년+ & 팬 1천+)"
       },
       {
         "artist": "이랑",
@@ -9284,7 +9384,7 @@
       },
       {
         "artist": "에이비티비 (ABTB)",
-        "fan_count": null,
+        "fan_count": 557,
         "years_since_first": null,
         "reason": "수동 제외 (2016 데뷔·한대음 록 음반 수상 기성 밴드 · 프로필 수집 전)"
       },
@@ -9519,20 +9619,6 @@
         "is_candidate": false
       },
       {
-        "artist_key": "하이키",
-        "artist": "하이키 (H1-KEY)",
-        "source": "izm",
-        "outlet": "IZM",
-        "kind": "웹매거진",
-        "published_at": "2026-11-25",
-        "pick_label": "싱글 리뷰",
-        "title": "Unbelievable",
-        "url": "https://izm.co.kr/posts?id=34307",
-        "status": "확인 안 됨",
-        "source_label": "IZM",
-        "is_candidate": false
-      },
-      {
         "artist_key": "에이티즈",
         "artist": "에이티즈 (ATEEZ)",
         "source": "izm",
@@ -9542,20 +9628,6 @@
         "pick_label": "싱글 리뷰",
         "title": "Up",
         "url": "https://izm.co.kr/posts?id=34309",
-        "status": "확인 안 됨",
-        "source_label": "IZM",
-        "is_candidate": false
-      },
-      {
-        "artist_key": "지선",
-        "artist": "지선",
-        "source": "izm",
-        "outlet": "IZM",
-        "kind": "웹매거진",
-        "published_at": "2026-11-25",
-        "pick_label": "Interview",
-        "title": "지선 인터뷰",
-        "url": "https://izm.co.kr/posts?id=34305",
         "status": "확인 안 됨",
         "source_label": "IZM",
         "is_candidate": false
@@ -9575,6 +9647,34 @@
         "is_candidate": false
       },
       {
+        "artist_key": "지선",
+        "artist": "지선",
+        "source": "izm",
+        "outlet": "IZM",
+        "kind": "웹매거진",
+        "published_at": "2026-11-25",
+        "pick_label": "Interview",
+        "title": "지선 인터뷰",
+        "url": "https://izm.co.kr/posts?id=34305",
+        "status": "확인 안 됨",
+        "source_label": "IZM",
+        "is_candidate": false
+      },
+      {
+        "artist_key": "하이키",
+        "artist": "하이키 (H1-KEY)",
+        "source": "izm",
+        "outlet": "IZM",
+        "kind": "웹매거진",
+        "published_at": "2026-11-25",
+        "pick_label": "싱글 리뷰",
+        "title": "Unbelievable",
+        "url": "https://izm.co.kr/posts?id=34307",
+        "status": "확인 안 됨",
+        "source_label": "IZM",
+        "is_candidate": false
+      },
+      {
         "artist_key": "wemakeeachother",
         "artist": "wemakeeachother_",
         "source": "instagram",
@@ -9584,48 +9684,6 @@
         "pick_label": "venue_lineup",
         "title": "같이도생 X 밴드 신인류 @shin_in_ryu “저희가 계속 열심히 하는 게 누군가에게는 응원이지 않을까요? 한 번 멈췄을지라도, 뭔가를 계속",
         "url": "https://www.instagram.com/wemakeeachother_/p/DgMnkWAIOxA/",
-        "status": "확인 안 됨",
-        "source_label": "인스타그램",
-        "is_candidate": false
-      },
-      {
-        "artist_key": "小山田壮平",
-        "artist": "oyamada_sohei",
-        "source": "instagram",
-        "outlet": "@pushplay_mag",
-        "kind": "인스타 큐레이터",
-        "published_at": "2026-11-25",
-        "pick_label": null,
-        "title": "일본 록밴드 andymori의 프런트맨이자 싱어송라이터 오야마다 소헤이(小山田壮平)가 오는 2027년 1월 10일 내한공연을 확정했다. 이번 공",
-        "url": "https://www.instagram.com/pushplay_mag/p/DgMu7slEpQ-/",
-        "status": "확인 안 됨",
-        "source_label": "인스타그램",
-        "is_candidate": false
-      },
-      {
-        "artist_key": "유령서점",
-        "artist": "유령서점",
-        "source": "instagram",
-        "outlet": "@omichive7",
-        "kind": "인스타 큐레이터",
-        "published_at": "2026-11-25",
-        "pick_label": null,
-        "title": "오는 12월 17일(목) 얼라이브홀에서 열릴 유키구니(@ykq2_)와 유령서점(@ghost_bookstore_official)의 공연과 유키구니",
-        "url": "https://www.instagram.com/omichive7/p/DgKk56yEw7C/",
-        "status": "신인",
-        "source_label": "인스타그램",
-        "is_candidate": true
-      },
-      {
-        "artist_key": "유키구니",
-        "artist": "유키구니",
-        "source": "instagram",
-        "outlet": "@omichive7",
-        "kind": "인스타 큐레이터",
-        "published_at": "2026-11-25",
-        "pick_label": null,
-        "title": "오는 12월 17일(목) 얼라이브홀에서 열릴 유키구니(@ykq2_)와 유령서점(@ghost_bookstore_official)의 공연과 유키구니",
-        "url": "https://www.instagram.com/omichive7/p/DgKk56yEw7C/",
         "status": "확인 안 됨",
         "source_label": "인스타그램",
         "is_candidate": false
@@ -9645,29 +9703,43 @@
         "is_candidate": false
       },
       {
-        "artist_key": "정욱",
-        "artist": "jung__uk_",
-        "source": "instagram",
-        "outlet": "@nugsmag",
-        "kind": "인스타 큐레이터",
-        "published_at": "2026-11-25",
-        "pick_label": null,
-        "title": "정욱, Discopia LISTENING SESSION 욕망과 방황 사이, 타오르는 삶의 열기. 정욱이 지난 11월 8일 EP [Discopia",
-        "url": "https://www.instagram.com/gedative/p/DgMLtCfOmd9/",
-        "status": "확인 안 됨",
-        "source_label": "인스타그램",
-        "is_candidate": true
-      },
-      {
-        "artist_key": "freereina",
-        "artist": "freereina!",
+        "artist_key": "유령서점",
+        "artist": "유령서점",
         "source": "instagram",
         "outlet": "@omichive7",
         "kind": "인스타 큐레이터",
         "published_at": "2026-11-25",
         "pick_label": null,
-        "title": "freereina! - conflict of interest Genre: shoegaze, noise pop... 싱가포르의 5인조 노이즈 팝/",
-        "url": "https://www.instagram.com/omichive7/p/DgK4T_NE8tT/",
+        "title": "오는 12월 17일(목) 얼라이브홀에서 열릴 유키구니(@ykq2_)와 유령서점(@ghost_bookstore_official)의 공연과 유키구니",
+        "url": "https://www.instagram.com/omichive7/p/DgKk56yEw7C/",
+        "status": "신인",
+        "source_label": "인스타그램",
+        "is_candidate": true
+      },
+      {
+        "artist_key": "小山田壮平",
+        "artist": "oyamada_sohei",
+        "source": "instagram",
+        "outlet": "@pushplay_mag",
+        "kind": "인스타 큐레이터",
+        "published_at": "2026-11-25",
+        "pick_label": null,
+        "title": "일본 록밴드 andymori의 프런트맨이자 싱어송라이터 오야마다 소헤이(小山田壮平)가 오는 2027년 1월 10일 내한공연을 확정했다. 이번 공",
+        "url": "https://www.instagram.com/pushplay_mag/p/DgMu7slEpQ-/",
+        "status": "확인 안 됨",
+        "source_label": "인스타그램",
+        "is_candidate": false
+      },
+      {
+        "artist_key": "유키구니",
+        "artist": "유키구니",
+        "source": "instagram",
+        "outlet": "@omichive7",
+        "kind": "인스타 큐레이터",
+        "published_at": "2026-11-25",
+        "pick_label": null,
+        "title": "오는 12월 17일(목) 얼라이브홀에서 열릴 유키구니(@ykq2_)와 유령서점(@ghost_bookstore_official)의 공연과 유키구니",
+        "url": "https://www.instagram.com/omichive7/p/DgKk56yEw7C/",
         "status": "확인 안 됨",
         "source_label": "인스타그램",
         "is_candidate": false
@@ -9687,8 +9759,22 @@
         "is_candidate": false
       },
       {
-        "artist_key": "midnightmunchiesofficial",
-        "artist": "midnightmunchies_official",
+        "artist_key": "freereina",
+        "artist": "freereina!",
+        "source": "instagram",
+        "outlet": "@omichive7",
+        "kind": "인스타 큐레이터",
+        "published_at": "2026-11-25",
+        "pick_label": null,
+        "title": "freereina! - conflict of interest Genre: shoegaze, noise pop... 싱가포르의 5인조 노이즈 팝/",
+        "url": "https://www.instagram.com/omichive7/p/DgK4T_NE8tT/",
+        "status": "확인 안 됨",
+        "source_label": "인스타그램",
+        "is_candidate": false
+      },
+      {
+        "artist_key": "정욱",
+        "artist": "jung__uk_",
         "source": "instagram",
         "outlet": "@nugsmag",
         "kind": "인스타 큐레이터",
@@ -9698,7 +9784,7 @@
         "url": "https://www.instagram.com/gedative/p/DgMLtCfOmd9/",
         "status": "확인 안 됨",
         "source_label": "인스타그램",
-        "is_candidate": false
+        "is_candidate": true
       },
       {
         "artist_key": "krstrangepiper",
@@ -9715,6 +9801,20 @@
         "is_candidate": false
       },
       {
+        "artist_key": "midnightmunchiesofficial",
+        "artist": "midnightmunchies_official",
+        "source": "instagram",
+        "outlet": "@nugsmag",
+        "kind": "인스타 큐레이터",
+        "published_at": "2026-11-25",
+        "pick_label": null,
+        "title": "정욱, Discopia LISTENING SESSION 욕망과 방황 사이, 타오르는 삶의 열기. 정욱이 지난 11월 8일 EP [Discopia",
+        "url": "https://www.instagram.com/gedative/p/DgMLtCfOmd9/",
+        "status": "확인 안 됨",
+        "source_label": "인스타그램",
+        "is_candidate": false
+      },
+      {
         "artist_key": "justmusic",
         "artist": "Just Music",
         "source": "overtone",
@@ -9726,20 +9826,6 @@
         "url": "https://overtone.kr/full-review/%EB%B0%B0%EB%8A%94-%EC%97%AC%EC%A0%84%ED%9E%88-%EC%88%9C%ED%95%AD%EC%A4%91-%EC%A0%80%EC%8A%A4%ED%8A%B8-%EB%AE%A4%EC%A7%81-the-ship-of-theseus",
         "status": "확인 안 됨",
         "source_label": "오버톤",
-        "is_candidate": false
-      },
-      {
-        "artist_key": "wakingsunsseoul",
-        "artist": "wakingsuns.seoul",
-        "source": "instagram",
-        "outlet": "@bdbd.wav",
-        "kind": "인스타 큐레이터",
-        "published_at": "2026-11-24",
-        "pick_label": null,
-        "title": "DJ 모과(Mogwaa)와 싱어송라이터 신세하(Xin Seha)의 새로운 프로젝트, 웨이킹 선즈(Waking Suns). @wakingsuns.",
-        "url": "https://www.instagram.com/bdbd.wav/reel/DgHzDbBPbch/",
-        "status": "확인 안 됨",
-        "source_label": "인스타그램",
         "is_candidate": false
       },
       {
@@ -9766,6 +9852,62 @@
         "pick_label": null,
         "title": "독일어로 neu는 새로움을 뜻한다고 한다. 노이는 음악으로 그리고 자신의 목소리로 새로운 감각을 전하고 싶어 한다. 장르는 물론이고 국가 간 경",
         "url": "https://www.instagram.com/pub.mag/p/DgJsKhACchn/",
+        "status": "확인 안 됨",
+        "source_label": "인스타그램",
+        "is_candidate": false
+      },
+      {
+        "artist_key": "hysterics",
+        "artist": "hysterics",
+        "source": "instagram",
+        "outlet": "@omichive7",
+        "kind": "인스타 큐레이터",
+        "published_at": "2026-11-24",
+        "pick_label": null,
+        "title": "House of hysterics - You Genre: Experimental, Sound Collage... 노이즈, 앰비언트, 사운드 콜라",
+        "url": "https://www.instagram.com/omichive7/p/DgIIjqAk-8u/",
+        "status": "확인 안 됨",
+        "source_label": "인스타그램",
+        "is_candidate": false
+      },
+      {
+        "artist_key": "silicagelofficial",
+        "artist": "silicagel.official",
+        "source": "instagram",
+        "outlet": "@ageofband",
+        "kind": "인스타 큐레이터",
+        "published_at": "2026-11-24",
+        "pick_label": null,
+        "title": "#AoB 놓치면 아쉬운 11월 3주차 #음악소식 ➊ 실리카겔(Silica Gel), 유럽 투어 발표… 내년 3월 6개 도시 순회 ➋ 최휘영 문화",
+        "url": "https://www.instagram.com/ageofband/p/DgHmPGeiAgi/",
+        "status": "확인 안 됨",
+        "source_label": "인스타그램",
+        "is_candidate": false
+      },
+      {
+        "artist_key": "no2yeyo",
+        "artist": "no2yeyo",
+        "source": "instagram",
+        "outlet": "@pub.mag",
+        "kind": "인스타 큐레이터",
+        "published_at": "2026-11-24",
+        "pick_label": null,
+        "title": "독일어로 neu는 새로움을 뜻한다고 한다. 노이는 음악으로 그리고 자신의 목소리로 새로운 감각을 전하고 싶어 한다. 장르는 물론이고 국가 간 경",
+        "url": "https://www.instagram.com/pub.mag/p/DgJsKhACchn/",
+        "status": "확인 안 됨",
+        "source_label": "인스타그램",
+        "is_candidate": false
+      },
+      {
+        "artist_key": "wakingsunsseoul",
+        "artist": "wakingsuns.seoul",
+        "source": "instagram",
+        "outlet": "@bdbd.wav",
+        "kind": "인스타 큐레이터",
+        "published_at": "2026-11-24",
+        "pick_label": null,
+        "title": "DJ 모과(Mogwaa)와 싱어송라이터 신세하(Xin Seha)의 새로운 프로젝트, 웨이킹 선즈(Waking Suns). @wakingsuns.",
+        "url": "https://www.instagram.com/bdbd.wav/reel/DgHzDbBPbch/",
         "status": "확인 안 됨",
         "source_label": "인스타그램",
         "is_candidate": false
@@ -9799,62 +9941,6 @@
         "is_candidate": false
       },
       {
-        "artist_key": "silicagelofficial",
-        "artist": "silicagel.official",
-        "source": "instagram",
-        "outlet": "@ageofband",
-        "kind": "인스타 큐레이터",
-        "published_at": "2026-11-24",
-        "pick_label": null,
-        "title": "#AoB 놓치면 아쉬운 11월 3주차 #음악소식 ➊ 실리카겔(Silica Gel), 유럽 투어 발표… 내년 3월 6개 도시 순회 ➋ 최휘영 문화",
-        "url": "https://www.instagram.com/ageofband/p/DgHmPGeiAgi/",
-        "status": "확인 안 됨",
-        "source_label": "인스타그램",
-        "is_candidate": false
-      },
-      {
-        "artist_key": "lovecoexist",
-        "artist": "lovecoexist",
-        "source": "instagram",
-        "outlet": "@pub.mag",
-        "kind": "인스타 큐레이터",
-        "published_at": "2026-11-24",
-        "pick_label": null,
-        "title": "독일어로 neu는 새로움을 뜻한다고 한다. 노이는 음악으로 그리고 자신의 목소리로 새로운 감각을 전하고 싶어 한다. 장르는 물론이고 국가 간 경",
-        "url": "https://www.instagram.com/pub.mag/p/DgJsKhACchn/",
-        "status": "확인 안 됨",
-        "source_label": "인스타그램",
-        "is_candidate": false
-      },
-      {
-        "artist_key": "hysterics",
-        "artist": "hysterics",
-        "source": "instagram",
-        "outlet": "@omichive7",
-        "kind": "인스타 큐레이터",
-        "published_at": "2026-11-24",
-        "pick_label": null,
-        "title": "House of hysterics - You Genre: Experimental, Sound Collage... 노이즈, 앰비언트, 사운드 콜라",
-        "url": "https://www.instagram.com/omichive7/p/DgIIjqAk-8u/",
-        "status": "확인 안 됨",
-        "source_label": "인스타그램",
-        "is_candidate": false
-      },
-      {
-        "artist_key": "pcr",
-        "artist": "피씨알 (PCR)",
-        "source": "musicy",
-        "outlet": "음악취향Y",
-        "kind": "웹매거진",
-        "published_at": "2026-11-23",
-        "pick_label": "Single-Out",
-        "title": "[Single-Out] 피씨알 (PCR)",
-        "url": "http://musicy.kr/?c=review&s=1&gbn=view&ix=9490",
-        "status": "확인 안 됨",
-        "source_label": "음악취향Y",
-        "is_candidate": true
-      },
-      {
         "artist_key": "아이아이",
         "artist": "아이아이",
         "source": "musicy",
@@ -9869,29 +9955,15 @@
         "is_candidate": false
       },
       {
-        "artist_key": "정욱",
-        "artist": "정욱 (Junguk)",
+        "artist_key": "pcr",
+        "artist": "피씨알 (PCR)",
         "source": "musicy",
         "outlet": "음악취향Y",
         "kind": "웹매거진",
         "published_at": "2026-11-23",
         "pick_label": "Single-Out",
-        "title": "[Single-Out] 정욱 (Junguk) 「Discopia」",
-        "url": "http://musicy.kr/?c=review&s=1&gbn=view&ix=9489",
-        "status": "확인 안 됨",
-        "source_label": "음악취향Y",
-        "is_candidate": true
-      },
-      {
-        "artist_key": "잔물결",
-        "artist": "잔물결",
-        "source": "musicy",
-        "outlet": "음악취향Y",
-        "kind": "웹매거진",
-        "published_at": "2026-11-23",
-        "pick_label": "Single-Out",
-        "title": "[Single-Out] 잔물결 「사랑의 히치하이커」",
-        "url": "http://musicy.kr/?c=review&s=1&gbn=view&ix=9488",
+        "title": "[Single-Out] 피씨알 (PCR)",
+        "url": "http://musicy.kr/?c=review&s=1&gbn=view&ix=9490",
         "status": "확인 안 됨",
         "source_label": "음악취향Y",
         "is_candidate": true
@@ -9925,6 +9997,34 @@
         "is_candidate": true
       },
       {
+        "artist_key": "정욱",
+        "artist": "정욱 (Junguk)",
+        "source": "musicy",
+        "outlet": "음악취향Y",
+        "kind": "웹매거진",
+        "published_at": "2026-11-23",
+        "pick_label": "Single-Out",
+        "title": "[Single-Out] 정욱 (Junguk) 「Discopia」",
+        "url": "http://musicy.kr/?c=review&s=1&gbn=view&ix=9489",
+        "status": "확인 안 됨",
+        "source_label": "음악취향Y",
+        "is_candidate": true
+      },
+      {
+        "artist_key": "잔물결",
+        "artist": "잔물결",
+        "source": "musicy",
+        "outlet": "음악취향Y",
+        "kind": "웹매거진",
+        "published_at": "2026-11-23",
+        "pick_label": "Single-Out",
+        "title": "[Single-Out] 잔물결 「사랑의 히치하이커」",
+        "url": "http://musicy.kr/?c=review&s=1&gbn=view&ix=9488",
+        "status": "기성",
+        "source_label": "음악취향Y",
+        "is_candidate": false
+      },
+      {
         "artist_key": "azrel",
         "artist": "Azrel",
         "source": "visla",
@@ -9953,22 +10053,8 @@
         "is_candidate": false
       },
       {
-        "artist_key": "inchesjpn",
-        "artist": "inches_jpn",
-        "source": "instagram",
-        "outlet": "@pushplay_mag",
-        "kind": "인스타 큐레이터",
-        "published_at": "2026-11-23",
-        "pick_label": null,
-        "title": "Dead By Inches - trying to smile again 요즘 일본 인디 신에서는 90~00년대 얼터너티브와 팝의 감성을 다시 꺼내",
-        "url": "https://www.instagram.com/pushplay_mag/reel/DgG9W2aSLHs/",
-        "status": "확인 안 됨",
-        "source_label": "인스타그램",
-        "is_candidate": false
-      },
-      {
-        "artist_key": "bassistyunsookim",
-        "artist": "bassist_yunsookim",
+        "artist_key": "oryoung",
+        "artist": "or___young",
         "source": "instagram",
         "outlet": "@pub.mag",
         "kind": "인스타 큐레이터",
@@ -9981,8 +10067,36 @@
         "is_candidate": false
       },
       {
+        "artist_key": "jeongyongchan",
+        "artist": "jeong_yong_chan",
+        "source": "instagram",
+        "outlet": "@pushplay_mag",
+        "kind": "인스타 큐레이터",
+        "published_at": "2026-11-23",
+        "pick_label": null,
+        "title": "정용찬 (Jeong yong chan) - Project 1 요요를 단순한 장난감으로만 알고 계셨다면, 이번 영상이 꽤 새롭게 다가올 것 같은데",
+        "url": "https://www.instagram.com/pushplay_mag/reel/DgFKHARy0oq/",
+        "status": "확인 안 됨",
+        "source_label": "인스타그램",
+        "is_candidate": false
+      },
+      {
         "artist_key": "wowchristmasexpress",
         "artist": "wowchristmasexpress",
+        "source": "instagram",
+        "outlet": "@senggistudio",
+        "kind": "공연장 라인업",
+        "published_at": "2026-11-22",
+        "pick_label": "venue_lineup",
+        "title": "⋆｡˚ 《와우성탄특급》 𝑾𝑶𝑾 𝑪𝒉𝒓𝒊𝒔𝒕𝒎𝒂𝒔 𝑬𝒙𝒑𝒓𝒆𝒔𝒔 ˚｡⋆ 12.24 → 12.25 크리스마스 이브 + 크리스마스 🎄 와우산로 이웃들",
+        "url": "https://www.instagram.com/wowchristmasexpress/p/DgCxrCUSQ-K/",
+        "status": "확인 안 됨",
+        "source_label": "인스타그램",
+        "is_candidate": false
+      },
+      {
+        "artist_key": "clubbbang",
+        "artist": "clubbbang",
         "source": "instagram",
         "outlet": "@senggistudio",
         "kind": "공연장 라인업",
@@ -10009,20 +10123,6 @@
         "is_candidate": false
       },
       {
-        "artist_key": "clubbbang",
-        "artist": "clubbbang",
-        "source": "instagram",
-        "outlet": "@senggistudio",
-        "kind": "공연장 라인업",
-        "published_at": "2026-11-22",
-        "pick_label": "venue_lineup",
-        "title": "⋆｡˚ 《와우성탄특급》 𝑾𝑶𝑾 𝑪𝒉𝒓𝒊𝒔𝒕𝒎𝒂𝒔 𝑬𝒙𝒑𝒓𝒆𝒔𝒔 ˚｡⋆ 12.24 → 12.25 크리스마스 이브 + 크리스마스 🎄 와우산로 이웃들",
-        "url": "https://www.instagram.com/wowchristmasexpress/p/DgCxrCUSQ-K/",
-        "status": "확인 안 됨",
-        "source_label": "인스타그램",
-        "is_candidate": false
-      },
-      {
         "artist_key": "원진",
         "artist": "원진",
         "source": "overtone",
@@ -10037,6 +10137,20 @@
         "is_candidate": false
       },
       {
+        "artist_key": "pcr",
+        "artist": "PCR",
+        "source": "overtone",
+        "outlet": "overtone",
+        "kind": "웹매거진",
+        "published_at": "2026-11-20",
+        "pick_label": "Comment",
+        "title": "PCR <________________________> Comments",
+        "url": "https://overtone.kr/comment/pcr-",
+        "status": "신인",
+        "source_label": "오버톤",
+        "is_candidate": true
+      },
+      {
         "artist_key": "pigrider",
         "artist": "PIG RIDER",
         "source": "overtone",
@@ -10048,76 +10162,6 @@
         "url": "https://overtone.kr/comment/pig-rider-piggy-pop",
         "status": "확인 안 됨",
         "source_label": "오버톤",
-        "is_candidate": false
-      },
-      {
-        "artist_key": "pcr",
-        "artist": "PCR",
-        "source": "overtone",
-        "outlet": "overtone",
-        "kind": "웹매거진",
-        "published_at": "2026-11-20",
-        "pick_label": "Comment",
-        "title": "PCR <________________________> Comments",
-        "url": "https://overtone.kr/comment/pcr-",
-        "status": "확인 안 됨",
-        "source_label": "오버톤",
-        "is_candidate": true
-      },
-      {
-        "artist_key": "채령",
-        "artist": "채령 (있지)",
-        "source": "izm",
-        "outlet": "IZM",
-        "kind": "웹매거진",
-        "published_at": "2026-11-19",
-        "pick_label": "싱글 리뷰",
-        "title": "Lovesick",
-        "url": "https://izm.co.kr/posts?id=34299",
-        "status": "확인 안 됨",
-        "source_label": "IZM",
-        "is_candidate": false
-      },
-      {
-        "artist_key": "피프티피프티",
-        "artist": "피프티피프티 (FIFTY FIFTY)",
-        "source": "izm",
-        "outlet": "IZM",
-        "kind": "웹매거진",
-        "published_at": "2026-11-19",
-        "pick_label": "Feature 라이브",
-        "title": "텍스트를 넘어 현장의 함성으로: 웹진 이즘 25주년 기념 공연 리뷰",
-        "url": "https://izm.co.kr/posts?id=34302",
-        "status": "확인 안 됨",
-        "source_label": "IZM",
-        "is_candidate": false
-      },
-      {
-        "artist_key": "피치트럭하이재커스",
-        "artist": "피치트럭하이재커스 (Peach Truck Hijackers)",
-        "source": "izm",
-        "outlet": "IZM",
-        "kind": "웹매거진",
-        "published_at": "2026-11-19",
-        "pick_label": "Feature 라이브",
-        "title": "텍스트를 넘어 현장의 함성으로: 웹진 이즘 25주년 기념 공연 리뷰",
-        "url": "https://izm.co.kr/posts?id=34302",
-        "status": "확인 안 됨",
-        "source_label": "IZM",
-        "is_candidate": false
-      },
-      {
-        "artist_key": "김수철",
-        "artist": "김수철",
-        "source": "izm",
-        "outlet": "IZM",
-        "kind": "웹매거진",
-        "published_at": "2026-11-19",
-        "pick_label": "Feature 라이브",
-        "title": "텍스트를 넘어 현장의 함성으로: 웹진 이즘 25주년 기념 공연 리뷰",
-        "url": "https://izm.co.kr/posts?id=34302",
-        "status": "확인 안 됨",
-        "source_label": "IZM",
         "is_candidate": false
       },
       {
@@ -10163,6 +10207,62 @@
         "is_candidate": false
       },
       {
+        "artist_key": "채령",
+        "artist": "채령 (있지)",
+        "source": "izm",
+        "outlet": "IZM",
+        "kind": "웹매거진",
+        "published_at": "2026-11-19",
+        "pick_label": "싱글 리뷰",
+        "title": "Lovesick",
+        "url": "https://izm.co.kr/posts?id=34299",
+        "status": "확인 안 됨",
+        "source_label": "IZM",
+        "is_candidate": false
+      },
+      {
+        "artist_key": "피치트럭하이재커스",
+        "artist": "피치트럭하이재커스 (Peach Truck Hijackers)",
+        "source": "izm",
+        "outlet": "IZM",
+        "kind": "웹매거진",
+        "published_at": "2026-11-19",
+        "pick_label": "Feature 라이브",
+        "title": "텍스트를 넘어 현장의 함성으로: 웹진 이즘 25주년 기념 공연 리뷰",
+        "url": "https://izm.co.kr/posts?id=34302",
+        "status": "확인 안 됨",
+        "source_label": "IZM",
+        "is_candidate": false
+      },
+      {
+        "artist_key": "피프티피프티",
+        "artist": "피프티피프티 (FIFTY FIFTY)",
+        "source": "izm",
+        "outlet": "IZM",
+        "kind": "웹매거진",
+        "published_at": "2026-11-19",
+        "pick_label": "Feature 라이브",
+        "title": "텍스트를 넘어 현장의 함성으로: 웹진 이즘 25주년 기념 공연 리뷰",
+        "url": "https://izm.co.kr/posts?id=34302",
+        "status": "확인 안 됨",
+        "source_label": "IZM",
+        "is_candidate": false
+      },
+      {
+        "artist_key": "김수철",
+        "artist": "김수철",
+        "source": "izm",
+        "outlet": "IZM",
+        "kind": "웹매거진",
+        "published_at": "2026-11-19",
+        "pick_label": "Feature 라이브",
+        "title": "텍스트를 넘어 현장의 함성으로: 웹진 이즘 25주년 기념 공연 리뷰",
+        "url": "https://izm.co.kr/posts?id=34302",
+        "status": "확인 안 됨",
+        "source_label": "IZM",
+        "is_candidate": false
+      },
+      {
         "artist_key": "pcr",
         "artist": "PCR",
         "source": "overtone",
@@ -10172,7 +10272,7 @@
         "pick_label": "Full Review",
         "title": "가장 더러운 천국, PCR <________________________> (24 Underscores)",
         "url": "https://overtone.kr/full-review/%EA%B0%80%EC%9E%A5-%EB%8D%94%EB%9F%AC%EC%9A%B4-%EC%B2%9C%EA%B5%AD-pcr",
-        "status": "확인 안 됨",
+        "status": "신인",
         "source_label": "오버톤",
         "is_candidate": true
       },
@@ -10205,8 +10305,8 @@
         "is_candidate": false
       },
       {
-        "artist_key": "dlaghtmd",
-        "artist": "dlaghtmd",
+        "artist_key": "4sale4sale4sale",
+        "artist": "4sale.4sale.4sale",
         "source": "instagram",
         "outlet": "@senggistudio",
         "kind": "공연장 라인업",
@@ -10231,20 +10331,6 @@
         "status": "확인 안 됨",
         "source_label": "음악취향Y",
         "is_candidate": true
-      },
-      {
-        "artist_key": "이진규",
-        "artist": "이진규",
-        "source": "musicy",
-        "outlet": "음악취향Y",
-        "kind": "웹매거진",
-        "published_at": "2026-11-16",
-        "pick_label": "Single-Out",
-        "title": "[Single-Out] 이진규 「8개의 문」",
-        "url": "http://musicy.kr/?c=review&s=1&gbn=view&ix=9484",
-        "status": "확인 안 됨",
-        "source_label": "음악취향Y",
-        "is_candidate": false
       },
       {
         "artist_key": "도빛나리",
@@ -10275,8 +10361,22 @@
         "is_candidate": true
       },
       {
-        "artist_key": "roon",
-        "artist": "roon",
+        "artist_key": "이진규",
+        "artist": "이진규",
+        "source": "musicy",
+        "outlet": "음악취향Y",
+        "kind": "웹매거진",
+        "published_at": "2026-11-16",
+        "pick_label": "Single-Out",
+        "title": "[Single-Out] 이진규 「8개의 문」",
+        "url": "http://musicy.kr/?c=review&s=1&gbn=view&ix=9484",
+        "status": "확인 안 됨",
+        "source_label": "음악취향Y",
+        "is_candidate": false
+      },
+      {
+        "artist_key": "박태욱",
+        "artist": "박태욱",
         "source": "instagram",
         "outlet": "@senggistudio",
         "kind": "공연장 라인업",
@@ -10289,8 +10389,8 @@
         "is_candidate": false
       },
       {
-        "artist_key": "박태욱",
-        "artist": "박태욱",
+        "artist_key": "기묘말",
+        "artist": "기묘말",
         "source": "instagram",
         "outlet": "@senggistudio",
         "kind": "공연장 라인업",
@@ -10328,8 +10428,8 @@
       {
         "program": "(기준선) 아무 신호",
         "teams": 2775,
-        "hits": 36,
-        "rate": 0.013,
+        "hits": 38,
+        "rate": 0.014,
         "program_label": "(기준선) 아무 신호 전체"
       },
       {
@@ -10357,9 +10457,9 @@
       },
       {
         "program": "kma_genre",
-        "teams": 13,
+        "teams": 15,
         "later_final": 4,
-        "rate": 0.308,
+        "rate": 0.267,
         "program_label": "한대음 장르 부문"
       },
       {
@@ -10401,26 +10501,26 @@
     "career_at_outcome": [
       {
         "bucket": "1년 차 이내",
-        "teams": 21
+        "teams": 22
       },
       {
         "bucket": "1~3년 차",
-        "teams": 27
+        "teams": 30
       },
       {
         "bucket": "3~5년 차",
-        "teams": 24
+        "teams": 25
       },
       {
         "bucket": "5년 초과",
-        "teams": 10
+        "teams": 11
       }
     ],
     "career_summary": [
       {
-        "teams": 82,
+        "teams": 88,
         "median_years": 2.4,
-        "within_3y": 48
+        "within_3y": 52
       }
     ],
     "lead_time": [
@@ -10438,8 +10538,8 @@
       },
       {
         "bucket": "12~24개월",
-        "teams": 23,
-        "avg_months": 15.5,
+        "teams": 25,
+        "avg_months": 15.7,
         "sort_key": 12.203947368421053
       },
       {
@@ -10457,11 +10557,11 @@
     ],
     "lead_time_summary": [
       {
-        "outcome_teams": 220,
-        "raw_outcome_teams": 220,
-        "with_prior_signal": 103,
+        "outcome_teams": 222,
+        "raw_outcome_teams": 222,
+        "with_prior_signal": 105,
         "median_months": 13.2,
-        "over_12m": 56
+        "over_12m": 58
       }
     ],
     "volume_by_month_branch": [
@@ -11017,33 +11117,33 @@
       },
       {
         "item": "멜론 프로필이 있는 팀",
-        "value": 314,
+        "value": 421,
         "level": "info",
         "note": "신인·유명 팀 판별 기준 데이터 · 프로필 없으면 첫 등장 3년 이내로 추정"
       },
       {
         "item": "센 정답 팀 (표기 통일 후)",
-        "value": 220,
+        "value": 222,
         "level": "ok",
-        "note": "표기 통일 기준 정답 풀 (원본 키 220개 중 한·영 중복 묶음 · backtrace.md 88팀과 묶기 방식 차이)"
+        "note": "표기 통일 기준 정답 풀 (원본 키 222개 중 한·영 중복 묶음 · backtrace.md 88팀과 묶기 방식 차이)"
       }
     ],
     "score_v0_backtest": [
       {
         "cutoff": "2025-01-01",
-        "pool_n": 2501,
-        "pool_hits": 24,
+        "pool_n": 2498,
+        "pool_hits": 26,
         "k": 20,
         "method": "갈래 수만",
         "hits": 1,
         "hit_rate_pct": 5.0,
         "random_expected": 0.2,
-        "lift": 5.2
+        "lift": 4.8
       },
       {
         "cutoff": "2025-01-01",
-        "pool_n": 2501,
-        "pool_hits": 24,
+        "pool_n": 2498,
+        "pool_hits": 26,
         "k": 20,
         "method": "공연 수만",
         "hits": 0,
@@ -11053,245 +11153,245 @@
       },
       {
         "cutoff": "2025-01-01",
-        "pool_n": 2501,
-        "pool_hits": 24,
+        "pool_n": 2498,
+        "pool_hits": 26,
         "k": 20,
         "method": "점수 v0",
         "hits": 2,
         "hit_rate_pct": 10.0,
         "random_expected": 0.2,
-        "lift": 10.4
+        "lift": 9.6
       },
       {
         "cutoff": "2025-01-01",
-        "pool_n": 2501,
-        "pool_hits": 24,
+        "pool_n": 2498,
+        "pool_hits": 26,
         "k": 50,
         "method": "갈래 수만",
         "hits": 2,
         "hit_rate_pct": 4.0,
         "random_expected": 0.5,
-        "lift": 4.2
+        "lift": 3.8
       },
       {
         "cutoff": "2025-01-01",
-        "pool_n": 2501,
-        "pool_hits": 24,
+        "pool_n": 2498,
+        "pool_hits": 26,
         "k": 50,
         "method": "공연 수만",
         "hits": 3,
         "hit_rate_pct": 6.0,
         "random_expected": 0.5,
-        "lift": 6.3
+        "lift": 5.8
       },
       {
         "cutoff": "2025-01-01",
-        "pool_n": 2501,
-        "pool_hits": 24,
+        "pool_n": 2498,
+        "pool_hits": 26,
         "k": 50,
         "method": "점수 v0",
         "hits": 2,
         "hit_rate_pct": 4.0,
         "random_expected": 0.5,
-        "lift": 4.2
+        "lift": 3.8
       },
       {
         "cutoff": "2025-01-01",
-        "pool_n": 2501,
-        "pool_hits": 24,
+        "pool_n": 2498,
+        "pool_hits": 26,
         "k": 100,
         "method": "갈래 수만",
         "hits": 3,
         "hit_rate_pct": 3.0,
         "random_expected": 1.0,
-        "lift": 3.1
+        "lift": 2.9
       },
       {
         "cutoff": "2025-01-01",
-        "pool_n": 2501,
-        "pool_hits": 24,
+        "pool_n": 2498,
+        "pool_hits": 26,
         "k": 100,
         "method": "공연 수만",
-        "hits": 5,
-        "hit_rate_pct": 5.0,
-        "random_expected": 1.0,
-        "lift": 5.2
-      },
-      {
-        "cutoff": "2025-01-01",
-        "pool_n": 2501,
-        "pool_hits": 24,
-        "k": 100,
-        "method": "점수 v0",
-        "hits": 3,
-        "hit_rate_pct": 3.0,
-        "random_expected": 1.0,
-        "lift": 3.1
-      },
-      {
-        "cutoff": "2025-01-01",
-        "pool_n": 2501,
-        "pool_hits": 24,
-        "k": 200,
-        "method": "갈래 수만",
-        "hits": 5,
-        "hit_rate_pct": 2.5,
-        "random_expected": 1.9,
-        "lift": 2.6
-      },
-      {
-        "cutoff": "2025-01-01",
-        "pool_n": 2501,
-        "pool_hits": 24,
-        "k": 200,
-        "method": "공연 수만",
-        "hits": 8,
-        "hit_rate_pct": 4.0,
-        "random_expected": 1.9,
-        "lift": 4.2
-      },
-      {
-        "cutoff": "2025-01-01",
-        "pool_n": 2501,
-        "pool_hits": 24,
-        "k": 200,
-        "method": "점수 v0",
         "hits": 6,
-        "hit_rate_pct": 3.0,
-        "random_expected": 1.9,
-        "lift": 3.1
+        "hit_rate_pct": 6.0,
+        "random_expected": 1.0,
+        "lift": 5.8
       },
       {
-        "cutoff": "2025-07-01",
-        "pool_n": 3179,
-        "pool_hits": 24,
-        "k": 20,
-        "method": "갈래 수만",
-        "hits": 1,
-        "hit_rate_pct": 5.0,
-        "random_expected": 0.2,
-        "lift": 6.6
-      },
-      {
-        "cutoff": "2025-07-01",
-        "pool_n": 3179,
-        "pool_hits": 24,
-        "k": 20,
-        "method": "공연 수만",
-        "hits": 1,
-        "hit_rate_pct": 5.0,
-        "random_expected": 0.2,
-        "lift": 6.6
-      },
-      {
-        "cutoff": "2025-07-01",
-        "pool_n": 3179,
-        "pool_hits": 24,
-        "k": 20,
-        "method": "점수 v0",
-        "hits": 1,
-        "hit_rate_pct": 5.0,
-        "random_expected": 0.2,
-        "lift": 6.6
-      },
-      {
-        "cutoff": "2025-07-01",
-        "pool_n": 3179,
-        "pool_hits": 24,
-        "k": 50,
-        "method": "갈래 수만",
-        "hits": 2,
-        "hit_rate_pct": 4.0,
-        "random_expected": 0.4,
-        "lift": 5.3
-      },
-      {
-        "cutoff": "2025-07-01",
-        "pool_n": 3179,
-        "pool_hits": 24,
-        "k": 50,
-        "method": "공연 수만",
-        "hits": 1,
-        "hit_rate_pct": 2.0,
-        "random_expected": 0.4,
-        "lift": 2.6
-      },
-      {
-        "cutoff": "2025-07-01",
-        "pool_n": 3179,
-        "pool_hits": 24,
-        "k": 50,
-        "method": "점수 v0",
-        "hits": 2,
-        "hit_rate_pct": 4.0,
-        "random_expected": 0.4,
-        "lift": 5.3
-      },
-      {
-        "cutoff": "2025-07-01",
-        "pool_n": 3179,
-        "pool_hits": 24,
-        "k": 100,
-        "method": "갈래 수만",
-        "hits": 3,
-        "hit_rate_pct": 3.0,
-        "random_expected": 0.8,
-        "lift": 4.0
-      },
-      {
-        "cutoff": "2025-07-01",
-        "pool_n": 3179,
-        "pool_hits": 24,
-        "k": 100,
-        "method": "공연 수만",
-        "hits": 3,
-        "hit_rate_pct": 3.0,
-        "random_expected": 0.8,
-        "lift": 4.0
-      },
-      {
-        "cutoff": "2025-07-01",
-        "pool_n": 3179,
-        "pool_hits": 24,
+        "cutoff": "2025-01-01",
+        "pool_n": 2498,
+        "pool_hits": 26,
         "k": 100,
         "method": "점수 v0",
         "hits": 4,
         "hit_rate_pct": 4.0,
-        "random_expected": 0.8,
-        "lift": 5.3
+        "random_expected": 1.0,
+        "lift": 3.8
       },
       {
-        "cutoff": "2025-07-01",
-        "pool_n": 3179,
-        "pool_hits": 24,
+        "cutoff": "2025-01-01",
+        "pool_n": 2498,
+        "pool_hits": 26,
         "k": 200,
         "method": "갈래 수만",
-        "hits": 5,
-        "hit_rate_pct": 2.5,
-        "random_expected": 1.5,
-        "lift": 3.3
-      },
-      {
-        "cutoff": "2025-07-01",
-        "pool_n": 3179,
-        "pool_hits": 24,
-        "k": 200,
-        "method": "공연 수만",
         "hits": 6,
         "hit_rate_pct": 3.0,
-        "random_expected": 1.5,
-        "lift": 4.0
+        "random_expected": 2.1,
+        "lift": 2.9
       },
       {
-        "cutoff": "2025-07-01",
-        "pool_n": 3179,
-        "pool_hits": 24,
+        "cutoff": "2025-01-01",
+        "pool_n": 2498,
+        "pool_hits": 26,
+        "k": 200,
+        "method": "공연 수만",
+        "hits": 9,
+        "hit_rate_pct": 4.5,
+        "random_expected": 2.1,
+        "lift": 4.3
+      },
+      {
+        "cutoff": "2025-01-01",
+        "pool_n": 2498,
+        "pool_hits": 26,
         "k": 200,
         "method": "점수 v0",
         "hits": 7,
         "hit_rate_pct": 3.5,
-        "random_expected": 1.5,
-        "lift": 4.6
+        "random_expected": 2.1,
+        "lift": 3.4
+      },
+      {
+        "cutoff": "2025-07-01",
+        "pool_n": 3174,
+        "pool_hits": 25,
+        "k": 20,
+        "method": "갈래 수만",
+        "hits": 1,
+        "hit_rate_pct": 5.0,
+        "random_expected": 0.2,
+        "lift": 6.3
+      },
+      {
+        "cutoff": "2025-07-01",
+        "pool_n": 3174,
+        "pool_hits": 25,
+        "k": 20,
+        "method": "공연 수만",
+        "hits": 1,
+        "hit_rate_pct": 5.0,
+        "random_expected": 0.2,
+        "lift": 6.3
+      },
+      {
+        "cutoff": "2025-07-01",
+        "pool_n": 3174,
+        "pool_hits": 25,
+        "k": 20,
+        "method": "점수 v0",
+        "hits": 1,
+        "hit_rate_pct": 5.0,
+        "random_expected": 0.2,
+        "lift": 6.3
+      },
+      {
+        "cutoff": "2025-07-01",
+        "pool_n": 3174,
+        "pool_hits": 25,
+        "k": 50,
+        "method": "갈래 수만",
+        "hits": 2,
+        "hit_rate_pct": 4.0,
+        "random_expected": 0.4,
+        "lift": 5.1
+      },
+      {
+        "cutoff": "2025-07-01",
+        "pool_n": 3174,
+        "pool_hits": 25,
+        "k": 50,
+        "method": "공연 수만",
+        "hits": 2,
+        "hit_rate_pct": 4.0,
+        "random_expected": 0.4,
+        "lift": 5.1
+      },
+      {
+        "cutoff": "2025-07-01",
+        "pool_n": 3174,
+        "pool_hits": 25,
+        "k": 50,
+        "method": "점수 v0",
+        "hits": 3,
+        "hit_rate_pct": 6.0,
+        "random_expected": 0.4,
+        "lift": 7.6
+      },
+      {
+        "cutoff": "2025-07-01",
+        "pool_n": 3174,
+        "pool_hits": 25,
+        "k": 100,
+        "method": "갈래 수만",
+        "hits": 3,
+        "hit_rate_pct": 3.0,
+        "random_expected": 0.8,
+        "lift": 3.8
+      },
+      {
+        "cutoff": "2025-07-01",
+        "pool_n": 3174,
+        "pool_hits": 25,
+        "k": 100,
+        "method": "공연 수만",
+        "hits": 4,
+        "hit_rate_pct": 4.0,
+        "random_expected": 0.8,
+        "lift": 5.1
+      },
+      {
+        "cutoff": "2025-07-01",
+        "pool_n": 3174,
+        "pool_hits": 25,
+        "k": 100,
+        "method": "점수 v0",
+        "hits": 5,
+        "hit_rate_pct": 5.0,
+        "random_expected": 0.8,
+        "lift": 6.3
+      },
+      {
+        "cutoff": "2025-07-01",
+        "pool_n": 3174,
+        "pool_hits": 25,
+        "k": 200,
+        "method": "갈래 수만",
+        "hits": 6,
+        "hit_rate_pct": 3.0,
+        "random_expected": 1.6,
+        "lift": 3.8
+      },
+      {
+        "cutoff": "2025-07-01",
+        "pool_n": 3174,
+        "pool_hits": 25,
+        "k": 200,
+        "method": "공연 수만",
+        "hits": 7,
+        "hit_rate_pct": 3.5,
+        "random_expected": 1.6,
+        "lift": 4.4
+      },
+      {
+        "cutoff": "2025-07-01",
+        "pool_n": 3174,
+        "pool_hits": 25,
+        "k": 200,
+        "method": "점수 v0",
+        "hits": 8,
+        "hit_rate_pct": 4.0,
+        "random_expected": 1.6,
+        "lift": 5.1
       }
     ]
   }

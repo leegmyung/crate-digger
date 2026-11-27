@@ -2,7 +2,7 @@
 # 매일 저녁 자동 실행: 수집 → 진행판 갱신 → 일일 기록 → 커밋·push
 #   직접 실행: bash scripts/daily_run.sh
 #   예약: ~/Library/LaunchAgents/com.crate-digger.daily.plist (scripts/install_daily.sh 로 설치)
-# 공개 저장소에는 docs/data/collect.json 과 docs/log/ 만 커밋한다 (원본 data/raw/, 개인 기록 records/ 제외).
+# 공개 저장소에는 진행판·일일 기록·대시보드·SQL 결과·랩 데이터만 커밋한다 (원본 data/raw/, 개인 기록 records/ 제외).
 set -u
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT" || exit 1
@@ -30,6 +30,8 @@ fi
 "$PY" scripts/collect_videos.py || echo "⚠️ 유튜브 무대 영상 수집 일부 실패 (하루 한도에 걸리면 다음 날 이어서)"
 "$PY" scripts/build_site_data.py || echo "⚠️ 진행판 데이터 갱신 실패"
 "$PY" scripts/load_pg.py || echo "⚠️ PostgreSQL 적재 실패 (brew services start postgresql@17 확인)"
+"$PY" scripts/artist_xref.py --load-pg || echo "⚠️ 아티스트 연결표(같은 팀 다른 표기) 갱신 실패"
+"$PY" scripts/venue_xref.py --load-pg || echo "⚠️ 공연장 연결표 갱신 실패"
 "$PY" scripts/build_dashboard_data.py || echo "⚠️ 데이터 대시보드 갱신 일부 실패"
 "$PY" scripts/run_pg_queries.py || echo "⚠️ SQL 결과 문서 일부 실패"
 "$PY" scripts/collect_artist_images.py || echo "⚠️ 아티스트 사진 수집 일부 실패"

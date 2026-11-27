@@ -257,7 +257,7 @@ team_key,program,program_label,tier,announced_date,counted
 서동현,khha_rookie,한국힙합어워즈 신인,final,2022-03-10,true
 서리,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 서보경,kma_rookie,한대음 올해의 신인,final,2021-02-28,true
-서울부인,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+서울부인,kma_genre,한대음 장르 부문,mid,2025-02-06,true
 선우정아,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 세이수미,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 세이수미,burock_main,부산록페 본무대,mid,2026-09-04,false
@@ -408,7 +408,7 @@ team_key,program,program_label,tier,announced_date,counted
 유다빈밴드,museon_final,뮤즈온 최종,mid,2023-06-21,true
 유다빈밴드,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 유라,mucon,뮤콘(MU:CON),mid,2023-05-17,false
-유인원,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+유인원,kma_genre,한대음 장르 부문,mid,2026-02-05,true
 유하,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 윤다혜,khha_rookie,한국힙합어워즈 신인,final,2026-01-14,true
 윤다혜,kma_genre,한대음 장르 부문,mid,2026-02-05,false
