@@ -132,10 +132,20 @@ class AppOrderTest(unittest.TestCase):
 
 class TieRuleNoteTest(unittest.TestCase):
     def test_note_has_reason_and_before_after(self):
-        note = st.tie_rule_note({"pick": 0.8, "v0": 0.79}, {"pick": 25, "v0": 22})
+        note = st.tie_rule_note()
         self.assertIn("앱 후보 목록과 같게", note)
-        self.assertIn("→ 0.800", note)
-        self.assertIn("→ 25", note)
+        self.assertIn("0.786 → 0.805", note)      # 바꾼 날 같은 데이터로 잰 고정값 (나중 데이터 숫자가 섞이지 않게)
+        self.assertIn("23 → 23", note)
+
+
+class DataRefreshNoteTest(unittest.TestCase):
+    def test_note_has_rows_and_before_after(self):
+        note = st.data_refresh_note({"pick": 0.81, "v0": 0.8}, {"pick": 30, "v0": 28}, n_rows=9000, n_pos=150)
+        self.assertIn(st.DATA_REFRESH["what"], note)
+        self.assertIn("8,434 → 9,000", note)
+        self.assertIn("81 → 150", note)
+        self.assertIn("→ 0.810", note)
+        self.assertIn("→ 30", note)
 
 
 class LocoTest(unittest.TestCase):

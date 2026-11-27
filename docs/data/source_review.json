@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-28T00:19:35+09:00",
+ "generated_at": "2026-11-28T00:29:08+09:00",
  "data_end": "2026-11-28",
  "cutoffs": [
   "2025-01-01",
@@ -348,10 +348,10 @@
    "only_source": 0
   },
   {
-   "src": "발매:genie",
+   "src": "발매:poclanos",
    "role": "pending",
-   "since_date": "2026-11-24",
-   "signal_rows": 65,
+   "since_date": "2026-05-21",
+   "signal_rows": 22,
    "teams": 0,
    "hits": 0,
    "rate": null,
@@ -361,10 +361,10 @@
    "only_source": 0
   },
   {
-   "src": "발매:poclanos",
+   "src": "발매:genie",
    "role": "pending",
-   "since_date": "2026-05-21",
-   "signal_rows": 22,
+   "since_date": "2026-11-24",
+   "signal_rows": 65,
    "teams": 0,
    "hits": 0,
    "rate": null,

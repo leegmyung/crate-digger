@@ -2,6 +2,8 @@
 
 _자동 생성: `.venv/bin/python scripts/score_tune.py`_
 
+**데이터 갱신 (2026-11-28)**: 2021~25 정답 보강 적재(outcomes.csv 723 → 1,272행). 전 → 후: 후보 8,434 → 8,175행, 정답 81 → 92행, 고른 가중치 평균 AUC 0.805 → 0.798, v0 0.799 → 0.793, 상위 50 적중 합계 고른 것 23 → 26, v0 22 → 23.
+
 **순위 규칙 변경 (2026-11-27)**: 동점 처리를 앱 후보 목록과 같게 바꿨다(점수 → 마지막 신호 최근 순 → md5). 전에는 AUC에서 동점을 절반으로, 상위 K에서 팀 이름 순으로 쳐서 문서 숫자가 앱 화면 순위와 달랐다. 같은 데이터(랩 데이터 2026-11-27 20:36)로 전 → 후: 고른 가중치 평균 AUC 0.786 → 0.805, v0 0.783 → 0.799, 상위 50 적중 합계 고른 것 23 → 23, v0 22 → 22.
 
 기준일 하나를 빼고 나머지 기준일의 평균 AUC가 가장 높은 가중치를 고른 뒤, **뺀 기준일**에서 채점했다(고를 때 안 본 시점).
@@ -11,15 +13,15 @@ AUC = 정답 팀 하나와 아닌 팀 하나를 골랐을 때 **앱 순위에서
 
 | 뺀 기준일 | 후보 | 정답 | 고른 가중치(나머지로 고름) | AUC 고른 것 | AUC v0 | AUC 공연 수만 | AUC 갈래 수만 | 상위50 고른 것 | 상위50 v0 |
 |---|---|---|---|---|---|---|---|---|---|
-| 2023-01-01 | 125 | 8 | branch 1 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.759 | 0.761 | 0.406 | 0.565 | 7 | 7 |
-| 2023-07-01 | 515 | 7 | branch 3 · stage 2 · peer 1 · dmz 0 · gigs 0 · outlets 2 · recent 1 · venues 1 · winner 0 · context 1 · collab 0 | 0.737 | 0.791 | 0.429 | 0.487 | 3 | 3 |
-| 2024-01-01 | 794 | 5 | branch 2 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.884 | 0.835 | 0.425 | 0.435 | 2 | 2 |
-| 2024-07-01 | 1,698 | 17 | branch 2 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.839 | 0.821 | 0.725 | 0.724 | 4 | 3 |
-| 2025-01-01 | 2,353 | 23 | branch 2 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.812 | 0.814 | 0.721 | 0.754 | 4 | 4 |
-| 2025-07-01 | 2,949 | 21 | branch 2 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.796 | 0.774 | 0.745 | 0.777 | 3 | 3 |
+| 2023-01-01 | 123 | 8 | branch 1 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.766 | 0.768 | 0.465 | 0.655 | 6 | 6 |
+| 2023-07-01 | 505 | 9 | branch 2 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 0.5 · recent 1 · venues 0 · winner 2 · context 0.25 · collab 0 | 0.740 | 0.789 | 0.394 | 0.450 | 3 | 3 |
+| 2024-01-01 | 777 | 8 | branch 1 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.811 | 0.781 | 0.476 | 0.483 | 2 | 2 |
+| 2024-07-01 | 1,638 | 21 | branch 1 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.847 | 0.811 | 0.768 | 0.763 | 4 | 3 |
+| 2025-01-01 | 2,269 | 22 | branch 2 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.813 | 0.813 | 0.732 | 0.760 | 6 | 5 |
+| 2025-07-01 | 2,863 | 24 | branch 1 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.812 | 0.792 | 0.766 | 0.789 | 5 | 4 |
 
-**평균 AUC (뺀 기준일 기준)**: 고른 가중치 0.805 · v0 0.799 · 공연 수만 0.575 · 갈래 수만 0.624
-**상위 50 적중 합계**: 고른 가중치 23 · v0 22 · 고른 가중치가 v0보다 AUC가 높았던 기준일 3/6
+**평균 AUC (뺀 기준일 기준)**: 고른 가중치 0.798 · v0 0.793 · 공연 수만 0.600 · 갈래 수만 0.650
+**상위 50 적중 합계**: 고른 가중치 26 · v0 23 · 고른 가중치가 v0보다 AUC가 높았던 기준일 3/6
 
 ## 추천 가중치 (기준일 전체로 고름)
 
@@ -27,14 +29,14 @@ AUC = 정답 팀 하나와 아닌 팀 하나를 골랐을 때 **앱 순위에서
 
 교차 검증에서 기준일마다 골라진 가중치의 범위(안정성 확인):
 
-- branch: 1, 2, 3
-- stage: 1, 2
-- peer: 0, 1
+- branch: 1, 2
+- stage: 1
+- peer: 0
 - dmz: 0
 - gigs: 0
-- outlets: 1, 2
+- outlets: 0.5, 1
 - recent: 0, 1
-- venues: 1
-- winner: 0, 2
-- context: 0.5, 1
+- venues: 0, 1
+- winner: 2
+- context: 0.25, 0.5
 - collab: 0

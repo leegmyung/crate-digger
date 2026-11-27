@@ -38,7 +38,11 @@ GRID = {"w_branch": (0, 1, 2, 3), "w_stage": (1, 2, 3), "w_peer": (0, 1), "w_dmz
 OUT = lab_sql.ROOT / "docs" / "score_tuning.md"
 # 순위 규칙을 앱과 같게 바꾸기 직전(옛 규칙: AUC 동점 절반·상위 K 팀 이름 순)의 결과 — 같은 랩 데이터로 잰 값, 문서 머리말 비교용
 TIE_RULE_CHANGE = {"date": "2026-11-27", "data": "랩 데이터 2026-11-27 20:36", "pick": 0.786, "v0": 0.783,
-                   "hits_pick": 23, "hits_v0": 22}
+                   "hits_pick": 23, "hits_v0": 22,
+                   "after": {"pick": 0.805, "v0": 0.799, "hits_pick": 23, "hits_v0": 22}}   # 같은 데이터, 새 규칙
+# 랩 데이터가 크게 바뀌기 직전 문서의 숫자 (같은 규칙, 이전 데이터) — 문서 머리말 비교용
+DATA_REFRESH = {"date": "2026-11-28", "what": "2021~25 정답 보강 적재(outcomes.csv 723 → 1,272행)",
+                "rows": 8434, "pos": 81, "pick": 0.805, "v0": 0.799, "hits_pick": 23, "hits_v0": 22}
 
 
 # ---------- 지표 ----------
@@ -237,12 +241,23 @@ def tune(con=None) -> dict:
             "ref_evals": ref_evals}
 
 
-def tie_rule_note(mean: Dict[str, float], hits: Dict[str, int]) -> str:
-    """머리말 한 줄: 순위 규칙을 앱과 같게 바꾼 이유와 전후 숫자."""
+def tie_rule_note() -> str:
+    """머리말 한 줄: 순위 규칙을 앱과 같게 바꾼 이유와 전후 숫자 (바꾼 날의 같은 데이터로 잰 고정값)."""
     b = TIE_RULE_CHANGE
+    a = b["after"]
+    mean, hits = {"pick": a["pick"], "v0": a["v0"]}, {"pick": a["hits_pick"], "v0": a["hits_v0"]}
     return (f"**순위 규칙 변경 ({b['date']})**: 동점 처리를 앱 후보 목록과 같게 바꿨다(점수 → 마지막 신호 최근 순 → md5). "
             "전에는 AUC에서 동점을 절반으로, 상위 K에서 팀 이름 순으로 쳐서 문서 숫자가 앱 화면 순위와 달랐다. "
             f"같은 데이터({b['data']})로 전 → 후: 고른 가중치 평균 AUC {b['pick']:.3f} → {mean.get('pick', float('nan')):.3f}, "
+            f"v0 {b['v0']:.3f} → {mean.get('v0', float('nan')):.3f}, 상위 50 적중 합계 고른 것 {b['hits_pick']} → {hits['pick']}, "
+            f"v0 {b['hits_v0']} → {hits['v0']}.\n")
+
+
+def data_refresh_note(mean: Dict[str, float], hits: Dict[str, int], n_rows: int, n_pos: int) -> str:
+    """머리말 한 줄: 데이터 갱신 전후 숫자 (같은 순위 규칙)."""
+    b = DATA_REFRESH
+    return (f"**데이터 갱신 ({b['date']})**: {b['what']}. 전 → 후: 후보 {b['rows']:,} → {n_rows:,}행, "
+            f"정답 {b['pos']} → {n_pos}행, 고른 가중치 평균 AUC {b['pick']:.3f} → {mean.get('pick', float('nan')):.3f}, "
             f"v0 {b['v0']:.3f} → {mean.get('v0', float('nan')):.3f}, 상위 50 적중 합계 고른 것 {b['hits_pick']} → {hits['pick']}, "
             f"v0 {b['hits_v0']} → {hits['v0']}.\n")
 
@@ -277,7 +292,10 @@ def main(res: Optional[dict] = None) -> int:
         hits["pick"] += e["hits50"]
         hits["v0"] += r0["hits50"]
     mean = {k: sum(v) / len(v) for k, v in sums.items() if v}
-    lines.insert(4, tie_rule_note(mean, hits))
+    n_rows = sum(len(data[c]) for c in CUTOFFS)
+    n_pos = sum(int(r["is_hit"]) for c in CUTOFFS for r in data[c])
+    lines.insert(4, data_refresh_note(mean, hits, n_rows, n_pos))
+    lines.insert(5, tie_rule_note())
     wins = sum(1 for c in CUTOFFS
                if (evals[int(picks[c])][c]["auc"] or 0) > (ref_evals["점수 v0"][c]["auc"] or 0))
     lines += ["", f"**평균 AUC (뺀 기준일 기준)**: 고른 가중치 {mean['pick']:.3f} · v0 {mean['v0']:.3f} · "
