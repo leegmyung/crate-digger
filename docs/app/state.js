@@ -204,12 +204,18 @@ export const appState = {
   imagesByTeam: new Map(), // team_key → 사진 주소 (lab/data/images.csv)
   imageMetaByTeam: new Map(), // team_key → { url, source }
   newcomerCheckByTeam: new Map(), // team_key → 'verified' | 'unverified' | 'first_seen' (optional column)
+  firstReleaseByTeam: new Map(), // team_key → 'YYYY-MM-DD'
+  genreConfidenceByTeam: new Map(), // team_key → 'inferred' | ...
+  teamCitiesByTeam: new Map(), // team_key → { home_city, cities, first_city, ... }
   teamIndex: [], // [{team_key, display_name, primary_genre}] for autocomplete
   candSort: { col: 'score', dir: 'desc' },
   debutSort: { col: 'score', dir: 'desc' },
   candQuery: '',
   candMove: '', // '' | 'new' | 'riser' | 'upcoming'
   candStage: '', // '' | '0' | '1' | '2' | '3' | '4' (졸업 '4' 기본 숨김)
+  candReleaseMonths: 0, // 0 | 6 | 12 | 18 | 24 | 36
+  candRegion: '', // '' | 'non_seoul'
+  candPreset: '', // '' | 'debut12' | 'blank' | 'selected' | 'regional' | 'rising'
   scFilter: 'all', // 'all' | 'discovery' | 'context' | 'excluded' | 'pending' | 'mismatch'
   scSort: { col: 'winners_seen', dir: 'desc' },
   venuesCalMode: 'cand', // 'cand' | 'all'
@@ -225,6 +231,9 @@ export function resetViewFilters() {
   appState.candQuery = '';
   appState.candMove = '';
   appState.candStage = '';
+  appState.candReleaseMonths = 0;
+  appState.candRegion = '';
+  appState.candPreset = '';
   appState.scFilter = 'all';
   appState.scSort = { col: 'winners_seen', dir: 'desc' };
   appState.venuesCalMode = 'cand';
@@ -284,7 +293,7 @@ export function registerChart(ch) {
 
 // ---------- Hash Routing + Query Sync ----------
 
-const VALID_CAND_SORTS = new Set(['score', 'display_name', 'next_gig_sort', 'momentum_pct']);
+const VALID_CAND_SORTS = new Set(['score', 'display_name', 'next_gig_sort', 'momentum_pct', 'genre_rank']);
 const VALID_DEBUT_SORTS = new Set(['score', 'display_name', 'first_release', 'mentions']);
 const VALID_SC_SORTS = new Set([
   'label', 'role', 'signal_rows', 'teams', 'rate',
@@ -293,6 +302,9 @@ const VALID_SC_SORTS = new Set([
 const VALID_SC_FILTERS = new Set(['all', 'discovery', 'context', 'excluded', 'pending', 'mismatch']);
 const VALID_MOVES = new Set(['new', 'riser', 'upcoming']);
 const VALID_STAGES = new Set(['0', '1', '2', '3', '4']);
+const VALID_RELEASE_MONTHS = new Set([6, 12, 18, 24, 36]);
+const VALID_REGIONS = new Set(['non_seoul']);
+const VALID_PRESETS = new Set(['debut12', 'blank', 'selected', 'regional', 'rising']);
 const VALID_SN_LIMITS = new Set([100, 150, 250, 300]);
 
 export function parseHash() {
@@ -387,6 +399,12 @@ export function parseHash() {
     appState.candMove = VALID_MOVES.has(mv) ? mv : '';
     const st = p.get('stage') || '';
     appState.candStage = VALID_STAGES.has(st) ? st : '';
+    const rmNum = Number(p.get('rm') || 0);
+    appState.candReleaseMonths = VALID_RELEASE_MONTHS.has(rmNum) ? rmNum : 0;
+    const reg = p.get('region') || '';
+    appState.candRegion = VALID_REGIONS.has(reg) ? reg : '';
+    const pr = p.get('preset') || '';
+    appState.candPreset = VALID_PRESETS.has(pr) ? pr : '';
     const sortCol = p.get('sort') || '';
     const sortDir = p.get('dir') === 'asc' ? 'asc' : (p.get('dir') === 'desc' ? 'desc' : '');
     if (appState.candTab === 'debut') {
@@ -397,7 +415,7 @@ export function parseHash() {
     } else {
       appState.candSort = {
         col: VALID_CAND_SORTS.has(sortCol) ? sortCol : 'score',
-        dir: sortDir || ((sortCol === 'display_name' || sortCol === 'next_gig_sort') ? 'asc' : 'desc'),
+        dir: sortDir || ((sortCol === 'display_name' || sortCol === 'next_gig_sort' || sortCol === 'genre_rank') ? 'asc' : 'desc'),
       };
     }
   } else if (appState.route === 'verify' && appState.verifyTab === 'scorecard') {
@@ -532,6 +550,11 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
     } else {
       if (appState.candMove && VALID_MOVES.has(appState.candMove)) p.set('move', appState.candMove);
       if (appState.candStage && VALID_STAGES.has(appState.candStage)) p.set('stage', appState.candStage);
+      if (appState.candReleaseMonths && VALID_RELEASE_MONTHS.has(Number(appState.candReleaseMonths))) {
+        p.set('rm', String(appState.candReleaseMonths));
+      }
+      if (appState.candRegion && VALID_REGIONS.has(appState.candRegion)) p.set('region', appState.candRegion);
+      if (appState.candPreset && VALID_PRESETS.has(appState.candPreset)) p.set('preset', appState.candPreset);
       const cs = appState.candSort || { col: 'score', dir: 'desc' };
       if (cs.col !== 'score' || cs.dir !== 'desc') {
         p.set('sort', cs.col);
@@ -742,3 +765,26 @@ export function setPreferredPlatform(platform) {
   } catch (_) {}
 }
 
+// ---------- Table Density (2-6: compact default | comfortable) ----------
+
+const TABLE_DENSITY_KEY = 'cd_table_density_v1';
+let memoryTableDensity = 'compact';
+
+export function getTableDensity() {
+  try {
+    const v = window.localStorage.getItem(TABLE_DENSITY_KEY);
+    if (v === 'compact' || v === 'comfortable') {
+      memoryTableDensity = v;
+      return v;
+    }
+  } catch (_) {}
+  return memoryTableDensity;
+}
+
+export function setTableDensity(mode) {
+  if (mode !== 'compact' && mode !== 'comfortable') return;
+  memoryTableDensity = mode;
+  try {
+    window.localStorage.setItem(TABLE_DENSITY_KEY, mode);
+  } catch (_) {}
+}

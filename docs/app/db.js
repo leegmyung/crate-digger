@@ -40,6 +40,8 @@ const backtestCache = new Map();         // sqlKey -> blocks
 const signalHitsCache = new Map();       // sql -> { cutoff, rows }
 const scorecardCache = new Map();        // sql -> result
 const discoveryStageCache = new Map();   // sql -> { rows, byTeam }
+const rankChangeCache = new Map();       // sql -> { rows, byTeam, nowDate, weekDate, monthDate }
+const risingPresetCache = new Map();     // sql -> rows
 const venueShowsCache = new Map();       // venue::limit -> rows
 const sqlTemplatePromises = new Map();   // name -> Promise<string>
 
@@ -72,6 +74,8 @@ function clearQueryCaches() {
   signalHitsCache.clear();
   scorecardCache.clear();
   discoveryStageCache.clear();
+  rankChangeCache.clear();
+  risingPresetCache.clear();
   venueShowsCache.clear();
 }
 
@@ -487,6 +491,8 @@ function parseTeamsCsvIndex(text) {
   const genreCounts = new Map();
   const teamIndex = [];
   const newcomerCheckByTeam = new Map();
+  const firstReleaseByTeam = new Map();
+  const genreConfidenceByTeam = new Map();
   for (const r of rows) {
     const team_key = r.team_key || '';
     if (!team_key) continue;
@@ -500,12 +506,20 @@ function parseTeamsCsvIndex(text) {
       const nc = String(r.newcomer_check || '').trim().toLowerCase();
       if (nc) newcomerCheckByTeam.set(team_key, nc);
     }
+    if (r.first_release) {
+      const fr = String(r.first_release).trim().slice(0, 10);
+      if (DATE_RE.test(fr)) firstReleaseByTeam.set(team_key, fr);
+    }
+    if (Object.prototype.hasOwnProperty.call(r, 'genre_confidence')) {
+      const gc = String(r.genre_confidence || '').trim().toLowerCase();
+      if (gc) genreConfidenceByTeam.set(team_key, gc);
+    }
   }
   teamIndex.sort((a, b) => (a.display_name < b.display_name ? -1 : a.display_name > b.display_name ? 1 : 0));
   const validGenres = [...genreCounts.entries()]
     .sort((a, b) => (b[1] - a[1]) || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
     .map(e => e[0]);
-  return { teamIndex, validGenres, newcomerCheckByTeam };
+  return { teamIndex, validGenres, newcomerCheckByTeam, firstReleaseByTeam, genreConfidenceByTeam };
 }
 
 function parseProgramsCsvMap(text) {
@@ -767,11 +781,22 @@ export async function bootstrapData(onStatus = () => {}) {
     const snapDates = Array.isArray(snapIdx?.dates) ? snapIdx.dates : [];
     const snapReconstructed = Array.isArray(snapIdx?.reconstructed) ? snapIdx.reconstructed : [];
     const { latestDate, prevDate } = pickWeeklyPrevSnapshot(snapDates);
-    const [latestTxt, prevTxt] = await Promise.all([
+    let monthDate = null;
+    if (latestDate) {
+      const target30 = new Date(Date.parse(`${latestDate}T00:00:00Z`) - 30 * 86400000).toISOString().slice(0, 10);
+      const sorted = [...new Set(snapDates.map(d => String(d || '').trim()).filter(d => DATE_RE.test(d)))]
+        .sort((a, b) => b.localeCompare(a));
+      const candMonth = sorted.find(d => d <= target30) || null;
+      if (candMonth && candMonth !== latestDate && candMonth !== prevDate) {
+        monthDate = candMonth;
+      }
+    }
+    const [latestTxt, prevTxt, monthTxt] = await Promise.all([
       latestDate ? fetchText(`lab/data/snapshots/${latestDate}.csv`, true) : Promise.resolve(null),
       prevDate ? fetchText(`lab/data/snapshots/${prevDate}.csv`, true) : Promise.resolve(null),
+      monthDate ? fetchText(`lab/data/snapshots/${monthDate}.csv`, true) : Promise.resolve(null),
     ]);
-    return { snapDates, snapReconstructed, latestDate, prevDate, latestTxt, prevTxt };
+    return { snapDates, snapReconstructed, latestDate, prevDate, monthDate, latestTxt, prevTxt, monthTxt };
   });
 
   const [
@@ -821,28 +846,46 @@ export async function bootstrapData(onStatus = () => {}) {
     related: '',
     ego_network: '',
     scene_network: '',
+    rank_change: '',
+    rising_preset: '',
   };
 
   onStatus('브라우저 DB에 표 적재 중...');
+  const snapCsvEntries = [
+    [snapBundle.latestDate, snapBundle.latestTxt],
+    [snapBundle.prevDate, snapBundle.prevTxt],
+    [snapBundle.monthDate, snapBundle.monthTxt],
+  ].filter(([d, txt]) => d && DATE_RE.test(d) && txt);
+
   await Promise.all([
     dbInstance.registerFileText('signals.csv', sigCsv),
     dbInstance.registerFileText('teams.csv', teamsCsv),
     dbInstance.registerFileText('outcomes.csv', outCsv),
     dbInstance.registerFileText('programs.csv', progCsv),
+    ...snapCsvEntries.map(([d, txt]) => dbInstance.registerFileText(`snap_${d}.csv`, txt)),
   ]);
 
-  // Run DuckDB core table load + macro setup in the Worker while parsing JS lookup indexes on main thread
+  // Run DuckDB core table load + auxiliary tables (matching scripts/lab_sql.py connect()) + macros
   const dbLoadPromise = (async () => {
+    const snapInsertSql = snapCsvEntries.map(([d]) => `
+      INSERT INTO snapshots
+      SELECT DATE '${d}', CAST(team_key AS VARCHAR), CAST(score AS DOUBLE), CAST(rank AS INTEGER)
+      FROM read_csv_auto('snap_${d}.csv', header=true);
+    `).join('\n');
     const createSql = `
       CREATE TABLE signals AS SELECT * FROM read_csv_auto('signals.csv', header=true);
       CREATE TABLE teams AS SELECT * FROM read_csv_auto('teams.csv', header=true);
       CREATE TABLE outcomes AS SELECT * FROM read_csv_auto('outcomes.csv', header=true);
       CREATE TABLE programs AS SELECT * FROM read_csv_auto('programs.csv', header=true);
       CREATE TABLE collabs(team_key VARCHAR, partner_key VARCHAR, partner_name VARCHAR, release_date DATE, role VARCHAR, partner_established BOOLEAN);
+      CREATE TABLE snapshots(snap_date DATE, team_key VARCHAR, score DOUBLE, rank INTEGER);
+      CREATE TABLE team_cities(team_key VARCHAR, home_city VARCHAR, cities INTEGER, first_city VARCHAR, first_date VARCHAR, seoul_first_date VARCHAR, months_to_seoul VARCHAR, nights INTEGER);
+      CREATE TABLE venue_tiers(venue VARCHAR, tier VARCHAR);
       ALTER TABLE teams ADD COLUMN IF NOT EXISTS newcomer_check VARCHAR;
       ALTER TABLE teams ADD COLUMN IF NOT EXISTS genre_confidence VARCHAR;
       ALTER TABLE outcomes ADD COLUMN IF NOT EXISTS same_house_sources VARCHAR DEFAULT '';
       ALTER TABLE outcomes ADD COLUMN IF NOT EXISTS same_house_scored BOOLEAN DEFAULT false;
+      ${snapInsertSql}
     `;
     await connInstance.query(createSql);
     await connInstance.query(featSql);
@@ -853,10 +896,19 @@ export async function bootstrapData(onStatus = () => {}) {
     `);
   })();
 
-  const { teamIndex, validGenres, newcomerCheckByTeam } = parseTeamsCsvIndex(teamsCsv);
+  const {
+    teamIndex,
+    validGenres,
+    newcomerCheckByTeam,
+    firstReleaseByTeam,
+    genreConfidenceByTeam,
+  } = parseTeamsCsvIndex(teamsCsv);
   appState.validGenres = validGenres;
   appState.teamIndex = teamIndex;
   appState.newcomerCheckByTeam = newcomerCheckByTeam;
+  appState.firstReleaseByTeam = firstReleaseByTeam;
+  appState.genreConfidenceByTeam = genreConfidenceByTeam;
+  appState.teamCitiesByTeam = new Map();
   appState.programLabels = parseProgramsCsvMap(progCsv);
   appState.linksByTeam = indexLinksRows(parseCsvObjects(linksCsv));
   appState.videosByTeam = indexVideosRows(parseCsvObjects(videosCsv));
@@ -868,6 +920,7 @@ export async function bootstrapData(onStatus = () => {}) {
     reconstructed: snapBundle.snapReconstructed,
     latestDate: snapBundle.latestDate,
     prevDate: snapBundle.prevDate,
+    monthDate: snapBundle.monthDate,
     latest: parseSnapshotCsv(snapBundle.latestTxt),
     prev: parseSnapshotCsv(snapBundle.prevTxt),
   };
@@ -950,6 +1003,168 @@ export async function queryDiscoveryStages(overrides = {}) {
   const result = { rows, byTeam };
   lruSet(discoveryStageCache, sql, result);
   return result;
+}
+
+/** meta.json(rows 또는 extras)에 보조 파일이 적혀 있는지. 적혀 있지 않으면 받지 않는다. */
+function labExtraListed(name) {
+  const meta = appState.meta || {};
+  const rows = meta.rows && typeof meta.rows === 'object' ? meta.rows : {};
+  const extras = Array.isArray(meta.extras) ? meta.extras : [];
+  return Number(rows[name]) > 0 || extras.includes(name) || extras.includes(`${name}.csv`);
+}
+
+let teamCitiesAttempted = false;
+let teamCitiesPromise = null;
+let venueTiersAttempted = false;
+let venueTiersPromise = null;
+
+export async function ensureTeamCitiesLoaded() {
+  if (teamCitiesAttempted) return appState.teamCitiesByTeam;
+  if (teamCitiesPromise) return teamCitiesPromise;
+  teamCitiesPromise = (async () => {
+    teamCitiesAttempted = true;
+    // 404 콘솔 오류를 막으려고 meta.json 에 team_cities 가 적힌 경우에만 받는다 (없으면 빈 표 그대로)
+    if (!labExtraListed('team_cities')) return appState.teamCitiesByTeam;
+    const csvTxt = await fetchText('lab/data/team_cities.csv', true);
+    if (!csvTxt || !csvTxt.trim()) return appState.teamCitiesByTeam;
+    const parsed = parseCsvObjects(csvTxt);
+    const map = new Map();
+    for (const r of parsed) {
+      if (!r.team_key) continue;
+      map.set(r.team_key, {
+        home_city: String(r.home_city || '').trim(),
+        cities: Number(r.cities) || 0,
+        first_city: String(r.first_city || '').trim(),
+        first_date: String(r.first_date || '').trim(),
+        seoul_first_date: String(r.seoul_first_date || '').trim(),
+        months_to_seoul: r.months_to_seoul || '',
+        nights: Number(r.nights) || 0,
+      });
+    }
+    appState.teamCitiesByTeam = map;
+    if (dbInstance && connInstance && parsed.length) {
+      try {
+        await dbInstance.registerFileText('team_cities.csv', csvTxt);
+        await connInstance.query(`DELETE FROM team_cities; INSERT INTO team_cities SELECT * FROM read_csv('team_cities.csv', header=true, all_varchar=true);`);
+      } catch (_) {}
+    }
+    return map;
+  })();
+  try {
+    return await teamCitiesPromise;
+  } finally {
+    teamCitiesPromise = null;
+  }
+}
+
+export async function ensureVenueTiersLoaded() {
+  if (venueTiersAttempted) return;
+  if (venueTiersPromise) return venueTiersPromise;
+  venueTiersPromise = (async () => {
+    venueTiersAttempted = true;
+    if (!connInstance) return;
+    try {
+      const vp = await loadVenueProfiles();
+      const venuesObj = vp && typeof vp === 'object' ? (vp.venues || null) : null;
+      if (!venuesObj) return;
+      const pairs = Object.entries(venuesObj)
+        .filter(([, info]) => info && typeof info === 'object' && info.tier)
+        .map(([name, info]) => `(${sqlStringLiteral(name)}, ${sqlStringLiteral(String(info.tier))})`);
+      if (!pairs.length) return;
+      await connInstance.query(`DELETE FROM venue_tiers; INSERT INTO venue_tiers VALUES ${pairs.join(', ')};`);
+    } catch (_) {}
+  })();
+  try {
+    await venueTiersPromise;
+  } finally {
+    venueTiersPromise = null;
+  }
+}
+
+export async function queryRankChange(overrides = {}) {
+  const tpl = await getSqlTemplate('rank_change');
+  const empty = { rows: [], byTeam: new Map(), nowDate: null, weekDate: null, monthDate: null };
+  if (!tpl) return empty;
+  await ensureTeamCitiesLoaded();
+  const c = appState.cfg;
+  const fallbackAsOf = appState.dataEnd || '2026-11-27';
+  const sql = fillTemplate(tpl, {
+    as_of: sqlDate(overrides.as_of || c.as_of, fallbackAsOf),
+  });
+  appState.lastSql.rank_change = sql;
+
+  const cached = lruGet(rankChangeCache, sql);
+  if (cached) return cached;
+
+  try {
+    const res = await runRawSql(sql);
+    const rows = res.rows.map(r => ({
+      ...r,
+      score: r.score !== null && r.score !== undefined ? Number(r.score) : null,
+      rank: r.rank !== null && r.rank !== undefined ? Number(r.rank) : null,
+      week_change: r.week_change !== null && r.week_change !== undefined ? Number(r.week_change) : null,
+      month_change: r.month_change !== null && r.month_change !== undefined ? Number(r.month_change) : null,
+      genre_rank: r.genre_rank !== null && r.genre_rank !== undefined ? Number(r.genre_rank) : null,
+      genre_n: r.genre_n !== null && r.genre_n !== undefined ? Number(r.genre_n) : null,
+      genre_week_change: r.genre_week_change !== null && r.genre_week_change !== undefined ? Number(r.genre_week_change) : null,
+      genre_month_change: r.genre_month_change !== null && r.genre_month_change !== undefined ? Number(r.genre_month_change) : null,
+      city_rank: r.city_rank !== null && r.city_rank !== undefined ? Number(r.city_rank) : null,
+      city_n: r.city_n !== null && r.city_n !== undefined ? Number(r.city_n) : null,
+    }));
+    const byTeam = new Map(rows.map(r => [r.team_key, r]));
+    const first = rows[0] || null;
+    const result = {
+      rows,
+      byTeam,
+      nowDate: first?.snap_date || null,
+      weekDate: first?.week_date || null,
+      monthDate: first?.month_date || null,
+    };
+    lruSet(rankChangeCache, sql, result);
+    return result;
+  } catch (_) {
+    return empty;
+  }
+}
+
+export async function queryRisingPreset(overrides = {}) {
+  const tpl = await getSqlTemplate('rising_preset');
+  if (!tpl) return [];
+  await ensureVenueTiersLoaded();
+  const baseParams = buildParams(overrides);
+  const windowDays = sqlInt(overrides.window_days ?? 30, 7, 180, 30);
+  const minRecent = sqlInt(overrides.min_recent ?? 2, 1, 50, 2);
+  const maxTierRaw = String(overrides.max_tier || 'M').trim().toUpperCase();
+  const maxTier = ['S', 'M', 'L', 'XL'].includes(maxTierRaw) ? maxTierRaw : 'M';
+  const maxFans = sqlInt(overrides.max_fans ?? 10000, 0, 10000000, 10000);
+  const sql = fillTemplate(tpl, {
+    ...baseParams,
+    window_days: windowDays,
+    min_recent: minRecent,
+    max_tier: sqlStringLiteral(maxTier),
+    max_fans: maxFans,
+  });
+  appState.lastSql.rising_preset = sql;
+
+  const cached = lruGet(risingPresetCache, sql);
+  if (cached) return cached;
+
+  try {
+    const res = await runRawSql(sql);
+    const rows = res.rows.map(r => ({
+      ...r,
+      recent_n: Number(r.recent_n) || 0,
+      prev_n: Number(r.prev_n) || 0,
+      recent_branches: Number(r.recent_branches) || 0,
+      growth: r.growth !== null && r.growth !== undefined ? Number(r.growth) : null,
+      score: r.score !== null && r.score !== undefined ? Number(r.score) : null,
+      fan_count_used: r.fan_count_used !== null && r.fan_count_used !== undefined ? Number(r.fan_count_used) : null,
+    }));
+    lruSet(risingPresetCache, sql, rows);
+    return rows;
+  } catch (_) {
+    return [];
+  }
 }
 
 export async function queryBacktestAll() {

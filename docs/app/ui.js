@@ -1,5 +1,6 @@
 import { appState, exportTableToCsv, isWatched } from './state.js';
-export { INFO_TIPS, infoTip, wireInfoTips, closeInfoTip } from './components/infotip.js';
+import { INFO_TIPS, infoTip, wireInfoTips, closeInfoTip } from './components/infotip.js';
+export { INFO_TIPS, infoTip, wireInfoTips, closeInfoTip };
 export { itemBar, itemBarList, peerBar, statusBar } from './components/bars.js';
 export { naCell, periodSwitch, wirePeriodSwitch } from './components/controls.js';
 
@@ -940,6 +941,13 @@ export async function ensureD3() {
 
 // ---------- Shared Table Usability Helpers (Sort, Keyboard, Hover Preview, CSV) ----------
 
+/** teams.genre_confidence='inferred' 인 팀의 장르 옆 '추정' 꼬리표(아니면 빈 문자열). */
+export function genreConfidenceBadgeHtml(teamKey, genreConfidence = '') {
+  const raw = String(genreConfidence || appState.genreConfidenceByTeam?.get(teamKey) || '').trim().toLowerCase();
+  if (raw !== 'inferred') return '';
+  return `<span class="genre-inferred-tag">추정${infoTip('추정 장르', INFO_TIPS.genre_inferred, { compact: true })}</span>`;
+}
+
 /**
  * 정렬 가능한 표 머리줄(th)에 일관된 정렬 방향 표시(▲/▼/↕)와 aria-sort를 반영한다.
  * attrName: 'sort' → data-sort, 'debutSort' → data-debut-sort 등.
@@ -949,12 +957,15 @@ export function updateSortHeaders(tableEl, activeCol, dir, attrName = 'sort') {
   const dataAttr = attrName.replace(/[A-Z]/g, m => `-${m.toLowerCase()}`);
   tableEl.querySelectorAll(`th[data-${dataAttr}]`).forEach(th => {
     const col = th.dataset[attrName];
+    const covEl = th.querySelector('.th-coverage');
+    const covHtml = covEl ? covEl.outerHTML : '';
     if (!th.dataset.sortLabel) {
       const tipEl = th.querySelector('.cd-infotip');
       if (tipEl) {
         th.dataset.sortTipHtml = tipEl.outerHTML;
         tipEl.remove();
       }
+      if (covEl) covEl.remove();
       th.dataset.sortLabel = th.textContent.replace(/\s*[▲▼↕]\s*$/, '').trim();
     }
     const baseLabel = th.dataset.sortLabel;
@@ -965,7 +976,7 @@ export function updateSortHeaders(tableEl, activeCol, dir, attrName = 'sort') {
     th.classList.toggle('is-sorted', isActive);
     th.setAttribute('aria-sort', isActive ? (dir === 'asc' ? 'ascending' : 'descending') : 'none');
     th.setAttribute('tabindex', '0');
-    th.innerHTML = `<span class="th-sort-inner"><span class="th-sort-lbl">${escapeHtml(baseLabel)}</span>${tipHtml}<span class="sort-ind" aria-hidden="true">${arrow}</span></span>`;
+    th.innerHTML = `<span class="th-sort-inner"><span class="th-sort-lbl">${escapeHtml(baseLabel)}</span>${tipHtml}<span class="sort-ind" aria-hidden="true">${arrow}</span></span>${covHtml}`;
   });
 }
 
