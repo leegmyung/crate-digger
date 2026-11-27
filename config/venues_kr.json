@@ -3,6 +3,7 @@
  "types": {
   "live_club": "라이브클럽",
   "hall": "홀·공연장",
+  "theater": "소극장",
   "creation_center": "창작소·지원 시설",
   "cafe": "카페·바",
   "festival": "페스티벌·야외"
@@ -22,7 +23,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 와우산로 156 지하1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -46,7 +47,8 @@
    "indiego_past": 46,
    "checked": "2026-11-27",
    "our_venue": "A.O.R",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "ACS",
@@ -55,7 +57,7 @@
    "city": "서울",
    "district": "중구",
    "address": "서울 중구 수표로6길 10 지하1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -77,7 +79,8 @@
    "instagram": "a_c_s.official",
    "checked": "2026-11-27",
    "our_venue": "ACS",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "ASTRA Live",
@@ -86,7 +89,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울특별시 마포구 동교로22길 14",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -100,7 +103,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "인디고 최근 공연 2026-10-09 (2026-11-27 확인)"
+   "status_note": "인디고 최근 공연 2026-10-09 (2026-11-27 확인)",
+   "type_basis": ""
   },
   {
    "name": "Bender",
@@ -109,7 +113,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 와우산로14길 4 지층1",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -127,7 +131,8 @@
    "instagram": "bender_hongdae",
    "checked": "2026-11-27",
    "our_venue": "Bender",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "CJ아지트 광흥창",
@@ -138,7 +143,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울특별시 마포구 창전로 14",
-   "type": "hall",
+   "type": "live_club",
    "capacity": 250,
    "status": "open",
    "sources": [
@@ -165,7 +170,8 @@
    "indiego_past": 4,
    "checked": "2026-11-27",
    "our_venue": "CJ아지트 광흥창",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "스탠딩 수용 250명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
   },
   {
    "name": "Cafe PPnF",
@@ -187,7 +193,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2025-09-26",
    "checked": "2026-11-27",
    "our_venue": "Cafe PPnF",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'Cafe PPnF'에 'Cafe' → 카페·바"
   },
   {
    "name": "Club FF",
@@ -231,7 +238,8 @@
    "indiego_past": 146,
    "checked": "2026-11-27",
    "our_venue": "Club FF",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'Club FF'에 'Club' → 라이브클럽"
   },
   {
    "name": "Club Sharp",
@@ -274,7 +282,8 @@
    "indiego_past": 39,
    "checked": "2026-11-27",
    "our_venue": "Club Sharp",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'Club Sharp'에 'Club' → 라이브클럽"
   },
   {
    "name": "Club Victim",
@@ -319,7 +328,8 @@
    "indiego_past": 112,
    "checked": "2026-11-27",
    "our_venue": "Club Victim",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'Club Victim'에 'Club' → 라이브클럽"
   },
   {
    "name": "Club 빵",
@@ -364,7 +374,8 @@
    "indiego_past": 67,
    "checked": "2026-11-27",
    "our_venue": "Club 빵",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'Club 빵'에 'Club' → 라이브클럽"
   },
   {
    "name": "DGT아트센터",
@@ -386,7 +397,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2024-01-20",
    "checked": "2026-11-27",
    "our_venue": "DGT아트센터",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'DGT아트센터'에 '아트센터' → 홀·공연장"
   },
   {
    "name": "GB가빈아트홀",
@@ -413,7 +425,8 @@
    "instagram": "seongam_arthall",
    "checked": "2026-11-27",
    "our_venue": "GB가빈아트홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'GB가빈아트홀'에 '아트홀' → 홀·공연장"
   },
   {
    "name": "Hukez",
@@ -422,7 +435,7 @@
    "city": "서울",
    "district": "영등포구",
    "address": "서울 영등포구 경인로 715",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -440,7 +453,8 @@
    "instagram": "hukez",
    "checked": "2026-11-27",
    "our_venue": "Hukez",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "H스테이지",
@@ -462,7 +476,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2024-04-10",
    "checked": "2026-11-27",
    "our_venue": "H스테이지",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'H스테이지'에 '스테이지' → 라이브클럽"
   },
   {
    "name": "KSPO DOME",
@@ -486,7 +501,8 @@
    "our_venue": null,
    "in_our_data": false,
    "mainstream": true,
-   "status_note": "인디고 최근 공연 2026-09-26 (2026-11-27 확인)"
+   "status_note": "인디고 최근 공연 2026-09-26 (2026-11-27 확인)",
+   "type_basis": "이름 'KSPO DOME'에 'DOME' → 홀·공연장"
   },
   {
    "name": "KT&G 상상마당 대치 아트홀",
@@ -524,7 +540,8 @@
    "instagram": "ssmadang.official",
    "checked": "2026-11-27",
    "our_venue": "아트홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'KT&G 상상마당 대치 아트홀'에 '아트홀' → 홀·공연장"
   },
   {
    "name": "KT&G 상상마당 홍대 라이브홀",
@@ -567,7 +584,8 @@
    "indiego_past": 20,
    "checked": "2026-11-27",
    "our_venue": "라이브홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'KT&G 상상마당 홍대 라이브홀'에 '라이브홀' → 홀·공연장"
   },
   {
    "name": "NOL 씨어터 합정",
@@ -578,7 +596,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 양화로 45 메세나폴리스 2층",
-   "type": "live_club",
+   "type": "theater",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -602,7 +620,8 @@
    "our_venue": "NOL 씨어터 합정",
    "in_our_data": true,
    "indiego_url": "https://www.indiego.co.kr/venues/137-nol-%EC%94%A8%EC%96%B4%ED%84%B0-%ED%95%A9%EC%A0%95-%EB%8F%99%EC%96%91%EC%83%9D%EB%AA%85%ED%99%80",
-   "indiego_past": 1
+   "indiego_past": 1,
+   "type_basis": "이름 'NOL 씨어터 합정'에 '씨어터' → 소극장"
   },
   {
    "name": "SMALL FRY",
@@ -611,7 +630,7 @@
    "city": "서울",
    "district": "중구",
    "address": "서울 중구 장충단로 179 4층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -624,7 +643,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-11-22",
    "checked": "2026-11-27",
    "our_venue": "SMALL FRY",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "SPACE SODA2002",
@@ -633,7 +653,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울특별시 마포구 희우정로5길 29",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -651,7 +671,8 @@
    "instagram": "space_soda2002",
    "checked": "2026-11-27",
    "our_venue": "SPACE SODA2002",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "SPIN AND GRIND",
@@ -660,7 +681,7 @@
    "city": "서울",
    "district": "서대문구",
    "address": "서울 서대문구 연세로12길 32",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -678,7 +699,8 @@
    "instagram": "spinandgrind",
    "checked": "2026-11-27",
    "our_venue": "SPIN AND GRIND",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "THILA",
@@ -687,7 +709,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 토정로9길 2 복합문화공간",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -700,7 +722,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "공연장 인스타 최근 글 2026-11-25 (2026-11-27 확인)"
+   "status_note": "공연장 인스타 최근 글 2026-11-25 (2026-11-27 확인)",
+   "type_basis": ""
   },
   {
    "name": "TILT",
@@ -709,7 +732,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 연희로1길 10 지층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -727,7 +750,8 @@
    "instagram": "tiltxfnst",
    "checked": "2026-11-27",
    "our_venue": "TILT",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "XSCALA(엑스칼라)",
@@ -736,7 +760,7 @@
    "city": "서울",
    "district": "중구",
    "address": "서울 중구 남대문시장10길 2 10층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -749,7 +773,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-11-29",
    "checked": "2026-11-27",
    "our_venue": "XSCALA(엑스칼라)",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "감마홀",
@@ -782,7 +807,8 @@
    "indiego_past": 4,
    "checked": "2026-11-27",
    "our_venue": "감마홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '감마홀'에 '홀' → 홀·공연장"
   },
   {
    "name": "거암아트홀",
@@ -804,7 +830,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-11-26",
    "checked": "2026-11-27",
    "our_venue": "거암아트홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '거암아트홀'에 '아트홀' → 홀·공연장"
   },
   {
    "name": "고고스2",
@@ -827,7 +854,8 @@
    "status_note": "2016 기사(라이브클럽데이) — 지금 운영 여부 확인 필요",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "근거 메모 '2016 기사(라이브클럽데이) — 지금 운영 여부 확인 필요'에 '라이브클럽' → 라이브클럽"
   },
   {
    "name": "고라니특공대",
@@ -836,7 +864,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 토정로 136 지하1층 (상수동)",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -850,7 +878,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "인디고 최근 공연 2026-10-05 (2026-11-27 확인)"
+   "status_note": "인디고 최근 공연 2026-10-05 (2026-11-27 확인)",
+   "type_basis": ""
   },
   {
    "name": "고요의 방",
@@ -859,7 +888,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울시 마포구 와우산로29길 14-10",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -883,7 +912,8 @@
    "indiego_past": 11,
    "checked": "2026-11-27",
    "our_venue": "고요의 방",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "공공일클럽",
@@ -928,7 +958,8 @@
    "our_venue": "공공일클럽",
    "in_our_data": true,
    "indiego_url": "https://www.indiego.co.kr/venues/179-001-%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%99%80",
-   "indiego_past": 1
+   "indiego_past": 1,
+   "type_basis": "이름 '공공일클럽'에 '클럽' → 라이브클럽"
   },
   {
    "name": "공상온도",
@@ -937,7 +968,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 동교로23길 40 지하 1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -961,7 +992,8 @@
    "indiego_past": 20,
    "checked": "2026-11-27",
    "our_venue": "공상온도",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "공중캠프",
@@ -970,7 +1002,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울시 마포구 와우산로 150 2층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -983,7 +1015,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "공연장 인스타 최근 글 2026-11-26 (2026-11-27 확인)"
+   "status_note": "공연장 인스타 최근 글 2026-11-26 (2026-11-27 확인)",
+   "type_basis": ""
   },
   {
    "name": "구름아래소극장",
@@ -992,7 +1025,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 와우산로29가길 15",
-   "type": "hall",
+   "type": "theater",
    "capacity": 200,
    "status": "open",
    "sources": [
@@ -1020,7 +1053,8 @@
    "indiego_past": 3,
    "checked": "2026-11-27",
    "our_venue": "구름아래소극장",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '구름아래소극장'에 '소극장' → 소극장"
   },
   {
    "name": "그림라이브하우스",
@@ -1029,7 +1063,7 @@
    "city": "서울",
    "district": "서대문구",
    "address": "서울 서대문구 연희로 14 준영빌딩 지하 1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -1047,7 +1081,8 @@
    "instagram": "grim.live",
    "checked": "2026-11-27",
    "our_venue": "그림라이브하우스",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "긱 라이브 하우스",
@@ -1056,7 +1091,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 신촌로10길 7",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -1074,7 +1109,8 @@
    "indiego_url": "https://www.indiego.co.kr/venues/188-%EA%B8%B1-%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%95%98%EC%9A%B0%EC%8A%A4",
    "checked": "2026-11-27",
    "our_venue": "긱 라이브 하우스",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "꿀약과홀",
@@ -1101,7 +1137,8 @@
    "instagram": "honeyakgwahall",
    "checked": "2026-11-27",
    "our_venue": "꿀약과홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '꿀약과홀'에 '홀' → 홀·공연장"
   },
   {
    "name": "노무현시민센터 다목적홀 '가치하다'",
@@ -1128,7 +1165,8 @@
    "instagram": "seoul.rmh",
    "checked": "2026-11-27",
    "our_venue": "노무현시민센터 다목적홀 '가치하다'",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '노무현시민센터 다목적홀 '가치하다''에 '홀 ' → 홀·공연장"
   },
   {
    "name": "더 마스카니",
@@ -1139,7 +1177,7 @@
    "city": "서울",
    "district": "",
    "address": "",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -1157,7 +1195,8 @@
    "indiego_past": 1,
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": ""
   },
   {
    "name": "더비틀즈 라이브펍",
@@ -1179,7 +1218,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2024-05-06",
    "checked": "2026-11-27",
    "our_venue": "더비틀즈 라이브펍",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '더비틀즈 라이브펍'에 '펍' → 카페·바"
   },
   {
    "name": "둘 스튜디오",
@@ -1193,7 +1233,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울특별시 마포구 잔다리로 20 B1, B2 듈스튜디오",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -1213,7 +1253,8 @@
    "in_our_data": false,
    "merge_note": "인디고 '둘 스튜디오'(마포구 잔다리로 20)에 2026-11-01 '2026 LALALAON' 공연 — 라랄라온 보도의 Tool Studio(11-01, 바비핀즈 등)와 같은 날·같은 행사",
    "instagram": "dule_studio",
-   "status_note": "인디고 최근 공연 2026-11-01 (2026-11-27 확인)"
+   "status_note": "인디고 최근 공연 2026-11-01 (2026-11-27 확인)",
+   "type_basis": ""
   },
   {
    "name": "드림씨어터 라이브홀",
@@ -1235,7 +1276,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "공연장 인스타 최근 글 2026-11-24 (2026-11-27 확인)"
+   "status_note": "공연장 인스타 최근 글 2026-11-24 (2026-11-27 확인)",
+   "type_basis": "이름 '드림씨어터 라이브홀'에 '라이브홀' → 홀·공연장"
   },
   {
    "name": "드림홀",
@@ -1262,7 +1304,8 @@
    "instagram": "dream_live_hall",
    "checked": "2026-11-27",
    "our_venue": "드림홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '드림홀'에 '홀' → 홀·공연장"
   },
   {
    "name": "디앤디",
@@ -1271,7 +1314,7 @@
    "city": "서울",
    "district": "서대문구",
    "address": "서울 서대문구 연세로7안길 52 지하1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -1289,7 +1332,8 @@
    "instagram": "dnd_livehouse",
    "checked": "2026-11-27",
    "our_venue": "디앤디",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "라디오가가",
@@ -1298,7 +1342,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 양화로11길 54",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -1322,7 +1366,8 @@
    "indiego_past": 1,
    "checked": "2026-11-27",
    "our_venue": "라디오가가",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "라이브앤라우드",
@@ -1331,7 +1376,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 동교로 191 디비엠빌딩 지하 2층 B201호",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -1355,7 +1400,8 @@
    "indiego_past": 6,
    "checked": "2026-11-27",
    "our_venue": "라이브앤라우드",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "레드포인트",
@@ -1364,7 +1410,7 @@
    "city": "서울",
    "district": "중구",
    "address": "서울특별시 중구 퇴계로88가길 8 1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -1387,7 +1433,8 @@
    "indiego_url": "https://www.indiego.co.kr/venues/208-%EB%A0%88%EB%93%9C%ED%8F%AC%EC%9D%B8%ED%8A%B8",
    "checked": "2026-11-27",
    "our_venue": "레드포인트",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "레진코믹스 브이홀",
@@ -1411,7 +1458,8 @@
    "status_note": "2016 기사(라이브클럽데이) — 지금 운영 여부 확인 필요",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이름 '레진코믹스 브이홀'에 '홀' → 홀·공연장"
   },
   {
    "name": "롤러코스터",
@@ -1420,7 +1468,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 동교로 147 청람빌딩 지하",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -1433,7 +1481,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-10-24",
    "checked": "2026-11-27",
    "our_venue": "롤러코스터",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "롤링홀",
@@ -1470,7 +1519,8 @@
    "indiego_past": 48,
    "checked": "2026-11-27",
    "our_venue": "롤링홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '롤링홀'에 '홀' → 홀·공연장"
   },
   {
    "name": "마더스 오피스",
@@ -1479,7 +1529,7 @@
    "city": "서울",
    "district": "성북구",
    "address": "서울 성북구 선잠로 29-1",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -1502,7 +1552,8 @@
    "indiego_url": "https://www.indiego.co.kr/venues/209-%EB%A7%88%EB%8D%94%EC%8A%A4-%EC%98%A4%ED%94%BC%EC%8A%A4",
    "checked": "2026-11-27",
    "our_venue": "마더스 오피스",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "마포 뮤지스탕스 (마포 음악창작소)",
@@ -1532,7 +1583,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "이름이 서울마포음악창작소(구 뮤지스땅스)로 바뀜 — 2026-08~10 정기 공연 'LP 한 잔' 안내"
+   "status_note": "이름이 서울마포음악창작소(구 뮤지스땅스)로 바뀜 — 2026-08~10 정기 공연 'LP 한 잔' 안내",
+   "type_basis": "이름 '마포 뮤지스탕스 (마포 음악창작소)'에 '뮤지스탕스' → 창작소·지원 시설"
   },
   {
    "name": "마포아트센터",
@@ -1556,7 +1608,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "mainstream": true
+   "mainstream": true,
+   "type_basis": "이름 '마포아트센터'에 '아트센터' → 홀·공연장"
   },
   {
    "name": "명화 라이브홀",
@@ -1583,7 +1636,8 @@
    "checked": "2026-11-27",
    "our_venue": "명화라이브홀",
    "in_our_data": true,
-   "mainstream": true
+   "mainstream": true,
+   "type_basis": "이름 '명화 라이브홀'에 '라이브홀' → 홀·공연장"
   },
   {
    "name": "모래내 극락",
@@ -1592,7 +1646,7 @@
    "city": "서울",
    "district": "서대문구",
    "address": "서울 서대문구 수색로4길 7 2층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -1616,7 +1670,8 @@
    "indiego_past": 72,
    "checked": "2026-11-27",
    "our_venue": "모래내 극락",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "모비딕",
@@ -1625,7 +1680,7 @@
    "city": "서울",
    "district": "강동구",
    "address": "서울 강동구 양재대로 1466 광동빌딩 지하1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -1638,7 +1693,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2025-03-29",
    "checked": "2026-11-27",
    "our_venue": "모비딕",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "몬스터펍",
@@ -1665,7 +1721,8 @@
    "instagram": "monster__pub",
    "checked": "2026-11-27",
    "our_venue": "몬스터펍",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '몬스터펍'에 '펍' → 카페·바"
   },
   {
    "name": "몽향 라이브홀",
@@ -1698,7 +1755,8 @@
    "indiego_past": 2,
    "checked": "2026-11-27",
    "our_venue": "몽향 라이브홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '몽향 라이브홀'에 '라이브홀' → 홀·공연장"
   },
   {
    "name": "무대륙",
@@ -1707,7 +1765,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 토정로5길 12",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -1731,7 +1789,8 @@
    "indiego_past": 4,
    "checked": "2026-11-27",
    "our_venue": "무대륙",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "무신사 개러지",
@@ -1770,7 +1829,8 @@
    "indiego_past": 16,
    "checked": "2026-11-27",
    "our_venue": "무신사개러지",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "수용 인원 550명(venue_capacity 확인값) — 401명 이상은 홀"
   },
   {
    "name": "문화비축기지",
@@ -1794,7 +1854,8 @@
    "our_venue": null,
    "in_our_data": false,
    "mainstream": true,
-   "status_note": "인디고 최근 공연 2026-09-05 (2026-11-27 확인)"
+   "status_note": "인디고 최근 공연 2026-09-05 (2026-11-27 확인)",
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "뮤즈라이브",
@@ -1814,7 +1875,8 @@
    ],
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "바이너리 스튜디오",
@@ -1823,7 +1885,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 망원로 65",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -1836,7 +1898,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-02-07",
    "checked": "2026-11-27",
    "our_venue": "바이너리 스튜디오",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "베이비돌",
@@ -1869,7 +1932,8 @@
    "indiego_past": 39,
    "checked": "2026-11-27",
    "our_venue": "베이비돌",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "스탠딩 수용 200명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
   },
   {
    "name": "베짱이홀",
@@ -1891,7 +1955,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-11-27",
    "checked": "2026-11-27",
    "our_venue": "베짱이홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '베짱이홀'에 '홀' → 홀·공연장"
   },
   {
    "name": "벨로주 홍대",
@@ -1903,7 +1968,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 잔다리로 46 스튜디오빌딩 지하",
-   "type": "hall",
+   "type": "live_club",
    "capacity": 200,
    "status": "open",
    "sources": [
@@ -1933,7 +1998,8 @@
    "instagram": "cafeveloso",
    "checked": "2026-11-27",
    "our_venue": "벨로주 홍대",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "스탠딩 수용 200명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
   },
   {
    "name": "벨르",
@@ -1942,7 +2008,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 잔다리로 46",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -1966,7 +2032,8 @@
    "indiego_past": 26,
    "checked": "2026-11-27",
    "our_venue": "벨르",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "블루스퀘어",
@@ -1994,7 +2061,8 @@
    "our_venue": null,
    "in_our_data": false,
    "mainstream": true,
-   "status_note": "인디고 최근 공연 2026-11-20 (2026-11-27 확인)"
+   "status_note": "인디고 최근 공연 2026-11-20 (2026-11-27 확인)",
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "사운드독 재즈",
@@ -2022,7 +2090,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "instagram": "sounddog_jazz"
+   "instagram": "sounddog_jazz",
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "사운드마인드",
@@ -2034,7 +2103,7 @@
    "city": "서울",
    "district": "관악구",
    "address": "서울 관악구 낙성대로 14",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2066,7 +2135,8 @@
    "indiego_past": 1,
    "checked": "2026-11-27",
    "our_venue": "사운드마인드",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "사운드시티 합정 라이브룸",
@@ -2075,7 +2145,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 잔다리로 35 서원빌딩 B1 사운드시티",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2093,7 +2163,8 @@
    "instagram": "soundcity.studio",
    "checked": "2026-11-27",
    "our_venue": "사운드시티 합정 라이브룸",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "살롱 문보우",
@@ -2132,7 +2203,8 @@
    "indiego_past": 2,
    "checked": "2026-11-27",
    "our_venue": "살롱문보우",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '살롱 문보우'에 '살롱' → 카페·바"
   },
   {
    "name": "생기스튜디오",
@@ -2141,7 +2213,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 와우산로 137 5층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2169,7 +2241,8 @@
    "indiego_past": 67,
    "checked": "2026-11-27",
    "our_venue": "생기스튜디오",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "서강대학교 메리홀 대극장",
@@ -2191,7 +2264,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2024-06-29",
    "checked": "2026-11-27",
    "our_venue": "서강대학교 메리홀 대극장",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '서강대학교 메리홀 대극장'에 '홀 ' → 홀·공연장"
   },
   {
    "name": "서브라이엇 해방촌",
@@ -2204,7 +2278,7 @@
    "city": "서울",
    "district": "용산구",
    "address": "서울 용산구 신흥로7길 1 지하 1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2231,7 +2305,8 @@
    "checked": "2026-11-27",
    "our_venue": "서브라이엇 해방촌",
    "in_our_data": true,
-   "merge_note": "같은 공간: 더 스튜디오 HBC(2024년 말 폐업) → 새 운영자가 서브라이엇(Subriot)으로 2025-02 재개장 (Korea Times 2025-02)"
+   "merge_note": "같은 공간: 더 스튜디오 HBC(2024년 말 폐업) → 새 운영자가 서브라이엇(Subriot)으로 2025-02 재개장 (Korea Times 2025-02)",
+   "type_basis": ""
   },
   {
    "name": "서울 노들섬 라이브하우스",
@@ -2242,7 +2317,7 @@
    "city": "서울",
    "district": "용산구",
    "address": "서울 용산구 양녕로 445",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2265,7 +2340,8 @@
    "our_venue": "서울 노들섬 라이브하우스",
    "in_our_data": true,
    "indiego_url": "https://www.indiego.co.kr/venues/125-%EB%85%B8%EB%93%A4%EC%84%AC%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%95%98%EC%9A%B0%EC%8A%A4",
-   "indiego_past": 3
+   "indiego_past": 3,
+   "type_basis": ""
   },
   {
    "name": "서울스트리밍스테이션",
@@ -2274,7 +2350,7 @@
    "city": "서울",
    "district": "강남구",
    "address": "서울 강남구 강남대로110길 51",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2292,7 +2368,8 @@
    "instagram": "sss_itv",
    "checked": "2026-11-27",
    "our_venue": "서울스트리밍스테이션",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "석촌호수 아뜰리에",
@@ -2301,7 +2378,7 @@
    "city": "서울",
    "district": "송파구",
    "address": "서울 송파구 석촌호수로 191",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2319,7 +2396,8 @@
    "instagram": "art_space_sla",
    "checked": "2026-11-27",
    "our_venue": "석촌호수 아뜰리에",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "성우레더스테이지",
@@ -2346,7 +2424,8 @@
    "instagram": "sungwooleatherstage",
    "checked": "2026-11-27",
    "our_venue": "성우레더스테이지",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '성우레더스테이지'에 '스테이지' → 라이브클럽"
   },
   {
    "name": "세티 라이브홀",
@@ -2371,7 +2450,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "2026-10 공연 일정(천체관측 vol.17 등) 확인"
+   "status_note": "2026-10 공연 일정(천체관측 vol.17 등) 확인",
+   "type_basis": "이름 '세티 라이브홀'에 '라이브홀' → 홀·공연장"
   },
   {
    "name": "수상한창고",
@@ -2380,7 +2460,7 @@
    "city": "서울",
    "district": "금천구",
    "address": "서울특별시 금천구 금하로24길 7",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2399,7 +2479,8 @@
    "indiego_past": 2,
    "checked": "2026-11-27",
    "our_venue": "수상한창고",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "숲세권",
@@ -2408,7 +2489,7 @@
    "city": "서울",
    "district": "영등포구",
    "address": "서울특별시 영등포구 도림로126길 1 (문래동3가) 지하 1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2422,7 +2503,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "인디고 최근 공연 2026-09-20 (2026-11-27 확인)"
+   "status_note": "인디고 최근 공연 2026-09-20 (2026-11-27 확인)",
+   "type_basis": ""
   },
   {
    "name": "숲세권 라이브 카인드스퀘어점",
@@ -2431,7 +2513,7 @@
    "city": "서울",
    "district": "종로구",
    "address": "서울특별시 종로구 사직로 8",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2449,7 +2531,8 @@
    "instagram": "for_rest_live",
    "checked": "2026-11-27",
    "our_venue": "숲세권 라이브 카인드스퀘어점",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "쉬바펍",
@@ -2476,7 +2559,8 @@
    "instagram": "shivapub",
    "checked": "2026-11-27",
    "our_venue": "쉬바펍",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '쉬바펍'에 '펍' → 카페·바"
   },
   {
    "name": "스컹크 신당",
@@ -2510,7 +2594,8 @@
     "SKUNK"
    ],
    "instagram": "skunk_sindang",
-   "merge_note": "인디스트릿 공연장 페이지 인스타가 @skunk_sindang — 우리 데이터의 SKUNK와 같은 곳"
+   "merge_note": "인디스트릿 공연장 페이지 인스타가 @skunk_sindang — 우리 데이터의 SKUNK와 같은 곳",
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "스튜디오산보",
@@ -2519,7 +2604,7 @@
    "city": "서울",
    "district": "용산구",
    "address": "서울 용산구 서빙고로79가길 32",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2532,7 +2617,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2025-11-29",
    "checked": "2026-11-27",
    "our_venue": "스튜디오산보",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "스트레인지 프룻",
@@ -2575,7 +2661,8 @@
    "indiego_past": 57,
    "checked": "2026-11-27",
    "our_venue": "스트레인지 프룻",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "스탠딩 수용 80명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
   },
   {
    "name": "스팀펑크락",
@@ -2584,7 +2671,7 @@
    "city": "서울",
    "district": "서대문구",
    "address": "서울 서대문구 연세로9길 13 B1",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2608,7 +2695,8 @@
    "indiego_past": 4,
    "checked": "2026-11-27",
    "our_venue": "스팀펑크락",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "스페이스 한강",
@@ -2619,7 +2707,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 와우산로 128 지하1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2647,7 +2735,8 @@
    "indiego_past": 38,
    "checked": "2026-11-27",
    "our_venue": "스페이스 한강",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "스페이스브릭",
@@ -2656,7 +2745,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 잔다리로 31. B2F",
-   "type": "hall",
+   "type": "live_club",
    "capacity": 350,
    "status": "open",
    "sources": [
@@ -2684,7 +2773,8 @@
    "indiego_past": 4,
    "checked": "2026-11-27",
    "our_venue": "스페이스브릭",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "스탠딩 수용 350명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
   },
   {
    "name": "신도시",
@@ -2723,7 +2813,8 @@
    "indiego_past": 6,
    "checked": "2026-11-27",
    "our_venue": "신도시",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "씨스퀘어",
@@ -2732,7 +2823,7 @@
    "city": "서울",
    "district": "강남구",
    "address": "서울 강남구 영동대로 326 컬쳐랜드타워 1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2750,7 +2841,8 @@
    "instagram": "c_square_culture",
    "checked": "2026-11-27",
    "our_venue": "씨스퀘어",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "아메노히커피점",
@@ -2759,7 +2851,7 @@
    "city": "서울",
    "district": "서대문구",
    "address": "서울 서대문구 창천동 508-2",
-   "type": "live_club",
+   "type": "cafe",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2777,7 +2869,8 @@
    "instagram": "amenohicoffee",
    "checked": "2026-11-27",
    "our_venue": "아메노히커피점",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '아메노히커피점'에 '커피' → 카페·바"
   },
   {
    "name": "아수",
@@ -2786,7 +2879,7 @@
    "city": "서울",
    "district": "은평구",
    "address": "서울 은평구 갈현로33길 4 3층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2799,7 +2892,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2025-12-06",
    "checked": "2026-11-27",
    "our_venue": "아수",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "아지토 라이브 홀",
@@ -2832,7 +2926,8 @@
    "indiego_past": 11,
    "checked": "2026-11-27",
    "our_venue": "아지토 라이브 홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '아지토 라이브 홀'에 '라이브 홀' → 홀·공연장"
   },
   {
    "name": "언더시티",
@@ -2841,7 +2936,7 @@
    "city": "서울",
    "district": "성동구",
    "address": "서울특별시 성동구 성수이로22길 61",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2864,7 +2959,8 @@
    "indiego_url": "https://www.indiego.co.kr/venues/192-%EC%96%B8%EB%8D%94%EC%8B%9C%ED%8B%B0",
    "checked": "2026-11-27",
    "our_venue": "언더시티",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "언플러그드 라운지",
@@ -2897,7 +2993,8 @@
    "indiego_past": 48,
    "checked": "2026-11-27",
    "our_venue": "언플러그드 라운지",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '언플러그드 라운지'에 '라운지' → 카페·바"
   },
   {
    "name": "얼라이브홀",
@@ -2940,7 +3037,8 @@
    "indiego_past": 1,
    "checked": "2026-11-27",
    "our_venue": "얼라이브홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '얼라이브홀'에 '라이브홀' → 홀·공연장"
   },
   {
    "name": "에반스라운지",
@@ -2972,7 +3070,8 @@
    "instagram": "evanslounge",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이름 '에반스라운지'에 '라운지' → 카페·바"
   },
   {
    "name": "엠피엠지",
@@ -2981,7 +3080,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울특별시 마포구 서강로 78",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -2999,7 +3098,8 @@
    "instagram": "mpmg.co.kr",
    "checked": "2026-11-27",
    "our_venue": "엠피엠지",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "연남스페이스",
@@ -3030,7 +3130,8 @@
    "instagram": "yeonnamspace",
    "checked": "2026-11-27",
    "our_venue": "연남스페이스",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "연남장",
@@ -3039,7 +3140,7 @@
    "city": "서울",
    "district": "서대문구",
    "address": "서울특별시 서대문구 연희로5길 22, 1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -3052,7 +3153,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-11-29",
    "checked": "2026-11-27",
    "our_venue": "연남장",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "예림당아트홀",
@@ -3074,7 +3176,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-11-28",
    "checked": "2026-11-27",
    "our_venue": "예림당아트홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '예림당아트홀'에 '아트홀' → 홀·공연장"
   },
   {
    "name": "예스24 라이브홀",
@@ -3112,7 +3215,8 @@
    "checked": "2026-11-27",
    "our_venue": "예스24 라이브홀",
    "in_our_data": true,
-   "mainstream": true
+   "mainstream": true,
+   "type_basis": "이름 '예스24 라이브홀'에 '라이브홀' → 홀·공연장"
   },
   {
    "name": "예스24 원더로크홀",
@@ -3138,7 +3242,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-11-29",
    "checked": "2026-11-27",
    "our_venue": "예스24 원더로크홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '예스24 원더로크홀'에 '홀' → 홀·공연장"
   },
   {
    "name": "오리진도어",
@@ -3163,7 +3268,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "2026-09-14 보도자료에 무대 사진(오리진그루브 제공) — 운영 중으로 봄, 위치는 확인 필요"
+   "status_note": "2026-09-14 보도자료에 무대 사진(오리진그루브 제공) — 운영 중으로 봄, 위치는 확인 필요",
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "옥타바리움 라이브홀",
@@ -3190,7 +3296,8 @@
    "instagram": "octavariumlive",
    "checked": "2026-11-27",
    "our_venue": "옥타바리움 라이브홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '옥타바리움 라이브홀'에 '라이브홀' → 홀·공연장"
   },
   {
    "name": "우무지",
@@ -3199,7 +3306,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 독막로8길 7 삼성빌딩 B1",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -3223,7 +3330,8 @@
    "indiego_past": 74,
    "checked": "2026-11-27",
    "our_venue": "우무지",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "우주정거장",
@@ -3232,7 +3340,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 와우산로29길 16",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -3256,7 +3364,8 @@
    "indiego_past": 19,
    "checked": "2026-11-27",
    "our_venue": "우주정거장",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "웨스트브릿지 라이브홀",
@@ -3290,7 +3399,8 @@
    "indiego_past": 2,
    "checked": "2026-11-27",
    "our_venue": "웨스트브릿지 라이브홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '웨스트브릿지 라이브홀'에 '라이브홀' → 홀·공연장"
   },
   {
    "name": "유킬봉",
@@ -3313,7 +3423,8 @@
    "status_note": "을지로(2024 기사)",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "육일봉",
@@ -3322,7 +3433,7 @@
    "city": "서울",
    "district": "중구",
    "address": "서울 중구 을지로16길 20 6층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -3335,7 +3446,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2024-02-03",
    "checked": "2026-11-27",
    "our_venue": "육일봉",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "은평 음악창작지원센터",
@@ -3356,7 +3468,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "서울시 안내에 대관·프로그램 정보(수색역 광장) — 2026년 소식은 못 찾음"
+   "status_note": "서울시 안내에 대관·프로그램 정보(수색역 광장) — 2026년 소식은 못 찾음",
+   "type_basis": "이름 '은평 음악창작지원센터'에 '창작지원' → 창작소·지원 시설"
   },
   {
    "name": "을지로 H.ai",
@@ -3365,7 +3478,7 @@
    "city": "서울",
    "district": "중구",
    "address": "서울 중구 을지로 146-1 5층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -3383,7 +3496,8 @@
    "instagram": "hai_info",
    "checked": "2026-11-27",
    "our_venue": "을지로 H.ai",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "이들스",
@@ -3392,7 +3506,7 @@
    "city": "서울",
    "district": "종로구",
    "address": "서울 종로구 삼일대로 428 낙원상가 중 2층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -3410,7 +3524,8 @@
    "instagram": "edls_official",
    "checked": "2026-11-27",
    "our_venue": "이들스",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "이화여자대학교 삼성홀",
@@ -3437,7 +3552,8 @@
    "instagram": "ecc_samsunghall",
    "checked": "2026-11-27",
    "our_venue": "이화여자대학교 삼성홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '이화여자대학교 삼성홀'에 '홀' → 홀·공연장"
   },
   {
    "name": "인피니티클럽",
@@ -3470,7 +3586,8 @@
    "indiego_past": 38,
    "checked": "2026-11-27",
    "our_venue": "인피니티클럽",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '인피니티클럽'에 '클럽' → 라이브클럽"
   },
   {
    "name": "일지아트홀",
@@ -3497,7 +3614,8 @@
    "instagram": "ilchiarthall",
    "checked": "2026-11-27",
    "our_venue": "일지아트홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '일지아트홀'에 '아트홀' → 홀·공연장"
   },
   {
    "name": "재미공작소",
@@ -3506,7 +3624,7 @@
    "city": "서울",
    "district": "영등포구",
    "address": "서울 영등포구 선유로24길 10 2층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -3518,7 +3636,8 @@
    "indiego_url": "https://www.indiego.co.kr/venues/172-%EC%9E%AC%EB%AF%B8%EA%B3%B5%EC%9E%91%EC%86%8C",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": ""
   },
   {
    "name": "재즈클럽 그루브",
@@ -3540,7 +3659,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-11-26",
    "checked": "2026-11-27",
    "our_venue": "재즈클럽 그루브",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '재즈클럽 그루브'에 '재즈클럽' → 라이브클럽"
   },
   {
    "name": "제비다방",
@@ -3583,7 +3703,8 @@
    "indiego_past": 36,
    "checked": "2026-11-27",
    "our_venue": "제비다방",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '제비다방'에 '다방' → 카페·바"
   },
   {
    "name": "제이에스아트홀&뮤직바",
@@ -3594,7 +3715,7 @@
    "city": "서울",
    "district": "강서구",
    "address": "서울 강서구 등촌로 36",
-   "type": "hall",
+   "type": "cafe",
    "capacity": null,
    "status": "open",
    "status_note": "우리 공연 데이터 최근 공연",
@@ -3606,7 +3727,8 @@
    ],
    "checked": "2026-11-27",
    "our_venue": "제이에스아트홀&뮤직바",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '제이에스아트홀&뮤직바'에 '바' → 카페·바"
   },
   {
    "name": "채널1969",
@@ -3617,7 +3739,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 연희로 35",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -3649,7 +3771,8 @@
    "indiego_past": 63,
    "checked": "2026-11-27",
    "our_venue": "채널1969",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "카페 아이다호",
@@ -3676,7 +3799,8 @@
    "instagram": "cafe.idaho",
    "checked": "2026-11-27",
    "our_venue": "카페 아이다호",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '카페 아이다호'에 '카페' → 카페·바"
   },
   {
    "name": "카페 언플러그드 홍대점",
@@ -3724,7 +3848,8 @@
    "indiego_past": 88,
    "checked": "2026-11-27",
    "our_venue": "카페 언플러그드 홍대점",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '카페 언플러그드 홍대점'에 '카페' → 카페·바"
   },
   {
    "name": "컨벤트",
@@ -3733,7 +3858,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 와우산로17길 19-22",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -3746,7 +3871,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2025-07-04",
    "checked": "2026-11-27",
    "our_venue": "컨벤트",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "코스모스루비",
@@ -3755,7 +3881,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 와우산로29길 8, 지하1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -3779,7 +3905,8 @@
    "indiego_past": 1,
    "checked": "2026-11-27",
    "our_venue": "코스모스루비",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "클럽 딥퍼플",
@@ -3812,7 +3939,8 @@
    "indiego_past": 11,
    "checked": "2026-11-27",
    "our_venue": "클럽 딥퍼플",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '클럽 딥퍼플'에 '클럽' → 라이브클럽"
   },
   {
    "name": "클럽 스틸페이스",
@@ -3835,7 +3963,8 @@
    "status_note": "2024 기사",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이름 '클럽 스틸페이스'에 '클럽' → 라이브클럽"
   },
   {
    "name": "클럽 에반스",
@@ -3846,7 +3975,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "CLUB EVANS",
-   "type": "cafe",
+   "type": "live_club",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -3864,7 +3993,8 @@
    "indiego_past": 1,
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이름 '클럽 에반스'에 '클럽' → 라이브클럽"
   },
   {
    "name": "클럽 온에어",
@@ -3897,7 +4027,8 @@
    "indiego_past": 5,
    "checked": "2026-11-27",
    "our_venue": "클럽 온에어",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '클럽 온에어'에 '클럽' → 라이브클럽"
   },
   {
    "name": "클럽 타",
@@ -3924,7 +4055,8 @@
    "status_note": "Time Out 서울 장소 목록에 'CLOSED' 표시 (폐업 날짜 미확인)",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이름 '클럽 타'에 '클럽' → 라이브클럽"
   },
   {
    "name": "클럽 프리버드",
@@ -3968,7 +4100,8 @@
    "indiego_past": 108,
    "checked": "2026-11-27",
    "our_venue": "클럽 프리버드",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '클럽 프리버드'에 '클럽' → 라이브클럽"
   },
   {
    "name": "클럽일마레",
@@ -3995,7 +4128,8 @@
    "instagram": "club_ilmare",
    "checked": "2026-11-27",
    "our_venue": "클럽일마레",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '클럽일마레'에 '클럽' → 라이브클럽"
   },
   {
    "name": "톤스튜디오 서울",
@@ -4026,7 +4160,8 @@
    "instagram": "tonestudio_live",
    "checked": "2026-11-27",
    "our_venue": "톤스튜디오 서울",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "스탠딩 수용 100명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
   },
   {
    "name": "팡타 개라지",
@@ -4063,7 +4198,8 @@
    "indiego_past": 2,
    "checked": "2026-11-27",
    "our_venue": "팡타 개라지",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "스탠딩 수용 200명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
   },
   {
    "name": "퍼플노이즈 라이브홀",
@@ -4096,7 +4232,8 @@
    "indiego_past": 1,
    "checked": "2026-11-27",
    "our_venue": "퍼플노이즈 라이브홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '퍼플노이즈 라이브홀'에 '라이브홀' → 홀·공연장"
   },
   {
    "name": "펫사운즈",
@@ -4135,7 +4272,8 @@
    "indiego_past": 2,
    "checked": "2026-11-27",
    "our_venue": "펫사운즈",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "푸르지오아트홀",
@@ -4162,7 +4300,8 @@
    "instagram": "prugio_arthall",
    "checked": "2026-11-27",
    "our_venue": "푸르지오아트홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '푸르지오아트홀'에 '아트홀' → 홀·공연장"
   },
   {
    "name": "프리즘홀",
@@ -4205,7 +4344,8 @@
    "indiego_past": 3,
    "checked": "2026-11-27",
    "our_venue": "프리즘홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '프리즘홀'에 '홀' → 홀·공연장"
   },
   {
    "name": "허밋",
@@ -4216,7 +4356,7 @@
    "city": "서울",
    "district": "",
    "address": "Hermit",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -4234,7 +4374,8 @@
    "indiego_past": 21,
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": ""
   },
   {
    "name": "현대카드 언더스테이지",
@@ -4260,7 +4401,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-11-29",
    "checked": "2026-11-27",
    "our_venue": "현대카드 언더스테이지",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '현대카드 언더스테이지'에 '스테이지' → 라이브클럽"
   },
   {
    "name": "홍대 스윙홀",
@@ -4283,7 +4425,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "인디고 최근 공연 2026-03-22 (2026-11-27 확인)"
+   "status_note": "인디고 최근 공연 2026-03-22 (2026-11-27 확인)",
+   "type_basis": "이름 '홍대 스윙홀'에 '홀' → 홀·공연장"
   },
   {
    "name": "홍대스테이지",
@@ -4292,7 +4435,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "",
-   "type": "hall",
+   "type": "live_club",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -4303,7 +4446,8 @@
    ],
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이름 '홍대스테이지'에 '스테이지' → 라이브클럽"
   },
   {
    "name": "휘슬",
@@ -4312,7 +4456,7 @@
    "city": "서울",
    "district": "용산구",
    "address": "서울 용산구 이태원동 225-111",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -4330,7 +4474,8 @@
    "instagram": "whistle_seoul",
    "checked": "2026-11-27",
    "our_venue": "휘슬",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "KT&G 상상마당 춘천",
@@ -4390,7 +4535,8 @@
    "indiego_past": 4,
    "checked": "2026-11-27",
    "our_venue": "사운드홀 로비",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'KT&G 상상마당 춘천 사운드홀 로비'에 '홀 ' → 홀·공연장"
   },
   {
    "name": "KT&G 상상마당 춘천 사운드홀",
@@ -4435,7 +4581,8 @@
    "instagram": "ssmadang.cc",
    "checked": "2026-11-27",
    "our_venue": "사운드홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'KT&G 상상마당 춘천 사운드홀'에 '홀' → 홀·공연장"
   },
   {
    "name": "KT&G 상상마당 춘천 야외공연장",
@@ -4470,7 +4617,8 @@
     "KT&G 상상마당 춘천 아트센터 야외무대 일대"
    ],
    "status_note": "공연장 인스타 최근 글 2026-11-25 (2026-11-27 확인)",
-   "instagram": "ssmadang.cc"
+   "instagram": "ssmadang.cc",
+   "type_basis": "이름 'KT&G 상상마당 춘천 야외공연장'에 '야외' → 페스티벌·야외"
   },
   {
    "name": "KINTEX",
@@ -4499,7 +4647,8 @@
    "our_venue": null,
    "in_our_data": false,
    "mainstream": true,
-   "instagram": "kintex_korea"
+   "instagram": "kintex_korea",
+   "type_basis": "이름 'KINTEX'에 'KINTEX' → 홀·공연장"
   },
   {
    "name": "딩깅프렌즈",
@@ -4508,7 +4657,7 @@
    "city": "수원",
    "district": "팔달구",
    "address": "경기 수원시 팔달구 창룡대로 20",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -4526,7 +4675,8 @@
    "checked": "2026-11-27",
    "our_venue": "딩깅프렌즈",
    "in_our_data": true,
-   "instagram": "dinggingfriends"
+   "instagram": "dinggingfriends",
+   "type_basis": ""
   },
   {
    "name": "수원SK아트리움 대공연장",
@@ -4554,7 +4704,8 @@
    "checked": "2026-11-27",
    "our_venue": "수원SK아트리움 대공연장",
    "in_our_data": true,
-   "mainstream": true
+   "mainstream": true,
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "수원음악캠프",
@@ -4563,7 +4714,7 @@
    "city": "수원",
    "district": "팔달구",
    "address": "경기 수원시 팔달구 정조로 751-11 중동빌딩 2층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -4587,7 +4738,8 @@
    "indiego_past": 1,
    "checked": "2026-11-27",
    "our_venue": "수원음악캠프",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "앨리웨이 탭하우스",
@@ -4610,7 +4762,8 @@
    "status_note": "2024 기사",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "퍼플홀",
@@ -4643,7 +4796,8 @@
    "indiego_past": 22,
    "checked": "2026-11-27",
    "our_venue": "퍼플홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '퍼플홀'에 '홀' → 홀·공연장"
   },
   {
    "name": "언드",
@@ -4654,7 +4808,7 @@
    "city": "거제",
    "district": "",
    "address": "경남 거제시 거제대로 3734 지하1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -4682,7 +4836,8 @@
    "indiego_past": 14,
    "checked": "2026-11-27",
    "our_venue": "언드",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "문씨어터",
@@ -4691,7 +4846,7 @@
    "city": "진주",
    "district": "",
    "address": "경남 진주시 석갑로155번길 17-13",
-   "type": "live_club",
+   "type": "theater",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -4710,7 +4865,8 @@
    "indiego_past": 1,
    "checked": "2026-11-27",
    "our_venue": "문씨어터",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '문씨어터'에 '씨어터' → 소극장"
   },
   {
    "name": "사이드킥프로덕션",
@@ -4719,7 +4875,7 @@
    "city": "창원",
    "district": "의창구",
    "address": "경남 창원시 의창구 남산로9번길 52 지층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -4742,7 +4898,8 @@
    "checked": "2026-11-27",
    "our_venue": "사이드킥프로덕션",
    "in_our_data": true,
-   "instagram": "sidekick_production"
+   "instagram": "sidekick_production",
+   "type_basis": ""
   },
   {
    "name": "로컬다움 롴돰",
@@ -4751,7 +4908,7 @@
    "city": "포항",
    "district": "북구",
    "address": "경북 포항시 북구 두호동 217-3 2층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -4769,7 +4926,8 @@
    "instagram": "locdam_recordbar",
    "checked": "2026-11-27",
    "our_venue": "로컬다움 롴돰",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "광주북구문화센터",
@@ -4778,7 +4936,7 @@
    "city": "광주",
    "district": "북구",
    "address": "광주 북구 하서로 299",
-   "type": "hall",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -4791,7 +4949,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2025-12-30",
    "checked": "2026-11-27",
    "our_venue": "광주북구문화센터",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "광주음악창작소",
@@ -4836,7 +4995,8 @@
    "checked": "2026-11-27",
    "our_venue": "광주음악창작소",
    "in_our_data": true,
-   "merge_note": "광주음악창작소 인스타 계정이 @gj__peakmusic — 피크뮤직(광주음악산업진흥센터)이 운영"
+   "merge_note": "광주음악창작소 인스타 계정이 @gj__peakmusic — 피크뮤직(광주음악산업진흥센터)이 운영",
+   "type_basis": "이름 '광주음악창작소'에 '창작소' → 창작소·지원 시설"
   },
   {
    "name": "롤링스톤즈 광주",
@@ -4847,7 +5007,7 @@
    "city": "광주",
    "district": "서구",
    "address": "광주 서구 상무연하로 68 지하2층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -4859,7 +5019,8 @@
    "status_note": "2018 기사",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": ""
   },
   {
    "name": "문화클럽 네버마인드",
@@ -4882,7 +5043,8 @@
    "status_note": "2017년 정기 공연 중단(2018 기사)",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이름 '문화클럽 네버마인드'에 '클럽' → 라이브클럽"
   },
   {
    "name": "보헤미안 소극장",
@@ -4894,7 +5056,7 @@
    "city": "광주",
    "district": "동구",
    "address": "광주 동구 문화전당로 43 지하",
-   "type": "hall",
+   "type": "theater",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -4925,7 +5087,8 @@
    "indiego_past": 2,
    "checked": "2026-11-27",
    "our_venue": "보헤미안 소극장",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '보헤미안 소극장'에 '소극장' → 소극장"
   },
   {
    "name": "부드러운 직선",
@@ -4970,7 +5133,8 @@
    "indiego_past": 6,
    "checked": "2026-11-27",
    "our_venue": "부드러운직선",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'Club Boojik'에 'Club' → 라이브클럽"
   },
   {
    "name": "소촌아트팩토리",
@@ -4991,7 +5155,8 @@
    "status_note": "2018 기사",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "스피크이지 광주",
@@ -5014,7 +5179,8 @@
    "status_note": "2018 기사",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "에포케",
@@ -5037,7 +5203,8 @@
    "status_note": "2018 기사",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "인더그루브",
@@ -5064,7 +5231,8 @@
    "status_note": "2026-04 공연 리뷰 기사 (동구 중앙로 지하 재즈바)",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "제4지대",
@@ -5073,7 +5241,7 @@
    "city": "광주",
    "district": "동구",
    "address": "전남광주통합특별시 동구 문화전당로 29-1 1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -5090,7 +5258,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "instagram": "the4zonelive"
+   "instagram": "the4zonelive",
+   "type_basis": ""
   },
   {
    "name": "프렌즈 광주",
@@ -5101,7 +5270,7 @@
    "city": "광주",
    "district": "",
    "address": "",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -5113,7 +5282,8 @@
    "status_note": "2023년 말 개업(2024 기사), 한글 이름 미확인",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": ""
   },
   {
    "name": "하멜아트홀",
@@ -5139,7 +5309,8 @@
    "our_names": [],
    "checked": "2026-11-27",
    "our_venue": "하멜아트홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '하멜아트홀'에 '아트홀' → 홀·공연장"
   },
   {
    "name": "꼬뮨",
@@ -5177,7 +5348,8 @@
    "indiego_url": "https://www.indiego.co.kr/venues/200-%EA%BC%AC%EB%AE%A8",
    "checked": "2026-11-27",
    "our_venue": "꼬뮨",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "스탠딩 수용 70명(마스터 목록, 스탠딩 기준 값) — 400명 이하 스탠딩 공연장은 라이브클럽"
   },
   {
    "name": "대구음악창작소",
@@ -5202,7 +5374,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "2022 기사: 개소 7년차, 앨범 제작 지원 44팀 — 2026년 공지는 못 찾음"
+   "status_note": "2022 기사: 개소 7년차, 앨범 제작 지원 44팀 — 2026년 공지는 못 찾음",
+   "type_basis": "이름 '대구음악창작소'에 '창작소' → 창작소·지원 시설"
   },
   {
    "name": "라이브소극장 락왕",
@@ -5215,7 +5388,7 @@
    "city": "대구",
    "district": "중구",
    "address": "대구 중구 명덕로 111 지하 1층",
-   "type": "live_club",
+   "type": "theater",
    "capacity": 340,
    "status": "open",
    "sources": [
@@ -5251,7 +5424,8 @@
    "indiego_past": 1,
    "checked": "2026-11-27",
    "our_venue": "라이브소극장 락왕",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '라이브소극장 락왕'에 '소극장' → 소극장"
   },
   {
    "name": "라이브펍 타락",
@@ -5278,7 +5452,8 @@
    "instagram": "livepub_tarock",
    "checked": "2026-11-27",
    "our_venue": "라이브펍 타락",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '라이브펍 타락'에 '펍' → 카페·바"
   },
   {
    "name": "락클럽 Bar 레드제플린",
@@ -5312,7 +5487,8 @@
    "checked": "2026-11-27",
    "our_venue": "락클럽 Bar 레드제플린",
    "in_our_data": true,
-   "instagram": "rock_club_led_zeppelin"
+   "instagram": "rock_club_led_zeppelin",
+   "type_basis": "이름 '락클럽 Bar 레드제플린'에 '클럽' → 라이브클럽"
   },
   {
    "name": "베리어스 재즈클럽",
@@ -5339,7 +5515,8 @@
    "instagram": "jazz_in_various",
    "checked": "2026-11-27",
    "our_venue": "베리어스 재즈클럽",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '베리어스 재즈클럽'에 '재즈클럽' → 라이브클럽"
   },
   {
    "name": "사차원우주음악연구소 × 네켄킴 스튜디오",
@@ -5348,7 +5525,7 @@
    "city": "대구",
    "district": "달서구",
    "address": "대구광역시 달서구 당산로 105, 2층(사무실) 및 지하 1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -5366,7 +5543,8 @@
    "checked": "2026-11-27",
    "our_venue": "사차원우주음악연구소 × 네켄킴 스튜디오",
    "in_our_data": true,
-   "instagram": "4dcosmosmusiclab"
+   "instagram": "4dcosmosmusiclab",
+   "type_basis": ""
   },
   {
    "name": "슈가조스",
@@ -5389,7 +5567,8 @@
    "status_note": "경북대 앞 바(2024 기사)",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "제임스레코드 사운드가든",
@@ -5438,7 +5617,8 @@
    "indiego_past": 9,
    "checked": "2026-11-27",
    "our_venue": "대구 제임스레코드",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "스탠딩 수용 200명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
   },
   {
    "name": "클럽 헤비",
@@ -5486,7 +5666,8 @@
    "indiego_past": 3,
    "checked": "2026-11-27",
    "our_venue": "클럽헤비",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '클럽 헤비'에 '클럽' → 라이브클럽"
   },
   {
    "name": "대전음악창작소",
@@ -5512,7 +5693,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-11-07",
    "checked": "2026-11-27",
    "our_venue": "대전 음악창작소",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '대전음악창작소'에 '창작소' → 창작소·지원 시설"
   },
   {
    "name": "버찌라이브하우스",
@@ -5524,7 +5706,7 @@
    "city": "대전",
    "district": "중구",
    "address": "대전 중구 중교로 40",
-   "type": "live_club",
+   "type": "hall",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -5551,7 +5733,8 @@
    "indiego_past": 3,
    "checked": "2026-11-27",
    "our_venue": "그린빈 버찌라이브하우스",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '버찌라이브홀'에 '라이브홀' → 홀·공연장"
   },
   {
    "name": "비호소",
@@ -5560,7 +5743,7 @@
    "city": "대전",
    "district": "중구",
    "address": "대전광역시 중구 충무로 40",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -5584,7 +5767,8 @@
    "indiego_past": 1,
    "checked": "2026-11-27",
    "our_venue": "비호소",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "인터플레이",
@@ -5593,7 +5777,7 @@
    "city": "대전",
    "district": "서구",
    "address": "대전 서구 대덕대로162번길 11 지하2층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -5617,7 +5801,8 @@
    "indiego_past": 1,
    "checked": "2026-11-27",
    "our_venue": "인터플레이",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "처치 앤 댄스홀",
@@ -5626,7 +5811,7 @@
    "city": "대전",
    "district": "중구",
    "address": "",
-   "type": "cafe",
+   "type": "hall",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -5638,7 +5823,8 @@
    "status_note": "2017 개업 카페·공연 공간. 리뷰에 '7월 31일까지 영업' 안내(연도 미확인) — 폐업 가능성 높음, 확인 필요",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이름 '처치 앤 댄스홀'에 '홀' → 홀·공연장"
   },
   {
    "name": "HQ광안",
@@ -5650,7 +5836,7 @@
    "city": "부산",
    "district": "수영구",
    "address": "부산 수영구 광안해변로 237 4층 401호",
-   "type": "live_club",
+   "type": "cafe",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -5672,7 +5858,8 @@
    "instagram": "hqbar_busan",
    "checked": "2026-11-27",
    "our_venue": "HQ광안",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'HQ Bar'에 'Bar' → 카페·바"
   },
   {
    "name": "KT&G 상상마당 부산",
@@ -5713,7 +5900,8 @@
     "13층 루프탑",
     "KT&G 상상마당 부산 13층 루프탑",
     "KT&G상상마당 부산"
-   ]
+   ],
+   "type_basis": "수용 인원 500명(venue_capacity 확인값) — 401명 이상은 홀"
   },
   {
    "name": "KT&G 상상마당 부산 3층 라이브홀",
@@ -5754,7 +5942,8 @@
    "instagram": "sangsangmadang__busan",
    "checked": "2026-11-27",
    "our_venue": "3층 라이브홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'KT&G 상상마당 부산 3층 라이브홀'에 '라이브홀' → 홀·공연장"
   },
   {
    "name": "OL'55",
@@ -5765,7 +5954,7 @@
    "city": "부산",
    "district": "남구",
    "address": "부산 남구 용소로19번길 26",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -5787,7 +5976,8 @@
    "instagram": "ol55busan",
    "checked": "2026-11-27",
    "our_venue": "OL'55",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "WAV3",
@@ -5796,7 +5986,7 @@
    "city": "부산",
    "district": "수영구",
    "address": "부산 수영구 남천바다로 31-1 AK빌딩 3층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -5814,7 +6004,8 @@
    "instagram": "wav3_gwangan",
    "checked": "2026-11-27",
    "our_venue": "WAV3",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "금사락",
@@ -5823,7 +6014,7 @@
    "city": "부산",
    "district": "금정구",
    "address": "부산 금정구 개좌로 162",
-   "type": "live_club",
+   "type": "hall",
    "capacity": 500,
    "status": "open",
    "sources": [
@@ -5845,7 +6036,8 @@
    "instagram": "kumsarock",
    "checked": "2026-11-27",
    "our_venue": "금사락",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "수용 인원 500명(venue_capacity 확인값) — 401명 이상은 홀"
   },
   {
    "name": "리얼라이즈",
@@ -5878,7 +6070,8 @@
    "instagram": "clubrealize",
    "checked": "2026-11-27",
    "our_venue": "리얼라이즈",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'Club Realize'에 'Club' → 라이브클럽"
   },
   {
    "name": "무몽크",
@@ -5887,7 +6080,7 @@
    "city": "부산",
    "district": "금정구",
    "address": "부산 금정구 금정로 90-1",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -5906,7 +6099,8 @@
    "our_venue": null,
    "in_our_data": false,
    "instagram": "moomonk1995",
-   "status_note": "인디고 최근 공연 2026-04-18 (2026-11-27 확인)"
+   "status_note": "인디고 최근 공연 2026-04-18 (2026-11-27 확인)",
+   "type_basis": ""
   },
   {
    "name": "문화골목 노가다",
@@ -5915,7 +6109,7 @@
    "city": "부산",
    "district": "남구",
    "address": "부산 남구 용소로13번길 38-1 문화골목 2층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -5934,7 +6128,8 @@
    "our_venue": null,
    "in_our_data": false,
    "instagram": "nogada_pub",
-   "status_note": "인디고 최근 공연 2026-10-11 (2026-11-27 확인)"
+   "status_note": "인디고 최근 공연 2026-10-11 (2026-11-27 확인)",
+   "type_basis": ""
   },
   {
    "name": "바이널 언더그라운드 소극장",
@@ -5946,7 +6141,7 @@
    "city": "부산",
    "district": "남구",
    "address": "부산 남구 수영로322번길 32",
-   "type": "hall",
+   "type": "theater",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -5982,7 +6177,8 @@
    "our_venue": "바이널 언더그라운드 소극장",
    "in_our_data": true,
    "indiego_url": "https://www.indiego.co.kr/venues/167-%EB%B0%94%EC%9D%B4%EB%84%90-%EC%96%B8%EB%8D%94%EA%B7%B8%EB%9D%BC%EC%9A%B4%EB%93%9C",
-   "indiego_past": 1
+   "indiego_past": 1,
+   "type_basis": "이름 '바이널 언더그라운드 소극장'에 '소극장' → 소극장"
   },
   {
    "name": "베이스먼트 부산",
@@ -5993,7 +6189,7 @@
    "city": "부산",
    "district": "금정구",
    "address": "",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -6005,7 +6201,8 @@
    "status_note": "2023 재개장(2024 기사)",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": ""
   },
   {
    "name": "부산음악창작소",
@@ -6025,7 +6222,8 @@
    ],
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이름 '부산음악창작소'에 '창작소' → 창작소·지원 시설"
   },
   {
    "name": "북두칠성도서관 아트훌",
@@ -6034,7 +6232,7 @@
    "city": "부산",
    "district": "동구",
    "address": "부산 동구 충장대로 160 협성마리나G7 B동",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -6052,7 +6250,8 @@
    "instagram": "book7_library",
    "checked": "2026-11-27",
    "our_venue": "북두칠성도서관 아트훌",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "사상인디스테이션 소란동",
@@ -6061,7 +6260,7 @@
    "city": "부산",
    "district": "사상구",
    "address": "부산 사상구 사상로 190(괘법동)",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -6079,7 +6278,8 @@
    "instagram": "cats_sasang_",
    "checked": "2026-11-27",
    "our_venue": "사상인디스테이션 소란동",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "야만",
@@ -6088,7 +6288,7 @@
    "city": "부산",
    "district": "부산진구",
    "address": "부산 부산진구 중앙대로680번가길 18 4층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -6106,7 +6306,8 @@
    "checked": "2026-11-27",
    "our_venue": "야만",
    "in_our_data": true,
-   "instagram": "yaman_joint_official"
+   "instagram": "yaman_joint_official",
+   "type_basis": ""
   },
   {
    "name": "오방가르드",
@@ -6153,7 +6354,8 @@
    "indiego_past": 17,
    "checked": "2026-11-27",
    "our_venue": "오방가르드",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "스탠딩 수용 120명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
   },
   {
    "name": "유기체",
@@ -6164,7 +6366,7 @@
    "city": "부산",
    "district": "수영구",
    "address": "부산 수영구 민락로33번길 16 지하1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "closed",
    "sources": [
@@ -6186,7 +6388,8 @@
    "instagram": "yugiche",
    "checked": "2026-11-27",
    "our_venue": "유기체",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "인터플레이 부산",
@@ -6197,7 +6400,7 @@
    "city": "부산",
    "district": "",
    "address": "",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -6209,7 +6412,8 @@
    "status_note": "Korea Times 2024 부산 편: 1993년에 생긴 오래된 공연장으로 짧게 언급, 동네·주소는 없음. 대전 '인터플레이'(대덕대로162번길, @interplay_livemusic)는 다른 도시의 다른 곳으로 보고 합치지 않음",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": ""
   },
   {
    "name": "클럽 벨포스",
@@ -6236,7 +6440,8 @@
    "instagram": "belpos_official",
    "checked": "2026-11-27",
    "our_venue": "클럽 벨포스",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '클럽 벨포스'에 '클럽' → 라이브클럽"
   },
   {
    "name": "히떼로스터리 광안점",
@@ -6245,7 +6450,7 @@
    "city": "부산",
    "district": "수영구",
    "address": "부산 수영구 수영로510번길 57 2층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -6258,7 +6463,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2026-11-21",
    "checked": "2026-11-27",
    "our_venue": "히떼로스터리 광안점",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "세종 음악창작소 누리락",
@@ -6285,7 +6491,8 @@
    "checked": "2026-11-27",
    "our_venue": "세종 음악창작소 누리락",
    "in_our_data": true,
-   "instagram": "nurirock"
+   "instagram": "nurirock",
+   "type_basis": "이름 '세종 음악창작소 누리락'에 '창작소' → 창작소·지원 시설"
   },
   {
    "name": "로얄앵커",
@@ -6315,7 +6522,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "인디고 최근 공연 2026-11-07 (2026-11-27 확인)"
+   "status_note": "인디고 최근 공연 2026-11-07 (2026-11-27 확인)",
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "AMP MUSIC",
@@ -6324,7 +6532,7 @@
    "city": "인천",
    "district": "부평구",
    "address": "인천광역시 부평구 마장로 145 지하 1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -6338,7 +6546,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "인디고 최근 공연 2026-10-31 (2026-11-27 확인)"
+   "status_note": "인디고 최근 공연 2026-10-31 (2026-11-27 확인)",
+   "type_basis": ""
   },
   {
    "name": "Chord Space",
@@ -6347,7 +6556,7 @@
    "city": "인천",
    "district": "미추홀구",
    "address": "인천광역시 미추홀구 주안로 78, 3층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -6360,7 +6569,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "공연장 인스타 최근 글 2026-11-24 (2026-11-27 확인)"
+   "status_note": "공연장 인스타 최근 글 2026-11-24 (2026-11-27 확인)",
+   "type_basis": ""
   },
   {
    "name": "락캠프",
@@ -6371,7 +6581,7 @@
    "city": "인천",
    "district": "부평구",
    "address": "인천 부평구 신트리로6번길 6 지하1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -6393,7 +6603,8 @@
    "instagram": "rockcamp_live",
    "checked": "2026-11-27",
    "our_venue": "락캠프",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "올래공연장",
@@ -6402,7 +6613,7 @@
    "city": "인천",
    "district": "부평구",
    "address": "인천 부평구 경인로1104번길 24 지하1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -6415,7 +6626,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2024-04-27",
    "checked": "2026-11-27",
    "our_venue": "올래공연장",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "인천맥주호랑이",
@@ -6424,7 +6636,7 @@
    "city": "인천",
    "district": "중구",
    "address": "인천 중구 제물량로218번길 3 커뮤니티관H동 1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -6448,7 +6660,8 @@
    "indiego_past": 1,
    "checked": "2026-11-27",
    "our_venue": "인천맥주호랑이",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "인천아트플랫폼",
@@ -6472,7 +6685,8 @@
    "our_venue": null,
    "in_our_data": false,
    "mainstream": true,
-   "status_note": "인디고 최근 공연 2026-04-26 (2026-11-27 확인)"
+   "status_note": "인디고 최근 공연 2026-04-26 (2026-11-27 확인)",
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "인천여관X루비살롱",
@@ -6484,7 +6698,7 @@
    "city": "인천",
    "district": "중구",
    "address": "인천 중구 신포로31번길 20 1층",
-   "type": "live_club",
+   "type": "cafe",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -6512,7 +6726,8 @@
    "indiego_past": 1,
    "checked": "2026-11-27",
    "our_venue": "인천여관X루비살롱",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '인천여관X루비살롱'에 '살롱' → 카페·바"
   },
   {
    "name": "클럽 낙",
@@ -6535,7 +6750,8 @@
    "status_note": "제물포역 북쪽(2024 기사), 한글 이름 미확인",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이름 '클럽 낙'에 '클럽' → 라이브클럽"
   },
   {
    "name": "트라이보울",
@@ -6558,7 +6774,8 @@
    "checked": "2026-11-27",
    "our_venue": "트라이보울",
    "in_our_data": true,
-   "mainstream": true
+   "mainstream": true,
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "파라다이스시티",
@@ -6582,7 +6799,8 @@
    "our_venue": null,
    "in_our_data": false,
    "mainstream": true,
-   "status_note": "인디고 최근 공연 2026-10-03 (2026-11-27 확인)"
+   "status_note": "인디고 최근 공연 2026-10-03 (2026-11-27 확인)",
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "후즈하우스",
@@ -6594,7 +6812,7 @@
    "city": "인천",
    "district": "남동구",
    "address": "인천 남동구 인주대로591번길 32 3층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "open",
    "sources": [
@@ -6620,7 +6838,8 @@
    ],
    "indiego_url": "https://www.indiego.co.kr/venues/178-%EB%88%84%EA%B5%AC%EC%9D%98%EC%A7%91",
    "indiego_past": 1,
-   "merge_note": "Whose House = 누구의 집 (같은 인천 공연장의 영문·한글 이름)"
+   "merge_note": "Whose House = 누구의 집 (같은 인천 공연장의 영문·한글 이름)",
+   "type_basis": ""
   },
   {
    "name": "Club GP",
@@ -6648,7 +6867,8 @@
    "our_names": [],
    "checked": "2026-11-27",
    "our_venue": "Club GP",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 'Club GP'에 'Club' → 라이브클럽"
   },
   {
    "name": "더바인홀",
@@ -6681,7 +6901,8 @@
    "checked": "2026-11-27",
    "our_venue": "더바인홀",
    "in_our_data": true,
-   "instagram": "the_vine_hall"
+   "instagram": "the_vine_hall",
+   "type_basis": "이름 '더바인홀'에 '홀' → 홀·공연장"
   },
   {
    "name": "두더지 라이브 홀",
@@ -6708,7 +6929,8 @@
    "instagram": "ddg_live_hall",
    "checked": "2026-11-27",
    "our_venue": "두더지 라이브 홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '두더지 라이브 홀'에 '라이브 홀' → 홀·공연장"
   },
   {
    "name": "라디오가든",
@@ -6719,7 +6941,7 @@
    "city": "전주",
    "district": "",
    "address": "",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -6731,7 +6953,8 @@
    "status_note": "2024 기사",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": ""
   },
   {
    "name": "레드콘 (전북 음악창작소)",
@@ -6754,7 +6977,8 @@
    ],
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이름 '레드콘 (전북 음악창작소)'에 '창작소' → 창작소·지원 시설"
   },
   {
    "name": "남온 제주",
@@ -6793,7 +7017,8 @@
    "checked": "2026-11-27",
    "our_venue": "남온",
    "in_our_data": true,
-   "instagram": "namon_jeju"
+   "instagram": "namon_jeju",
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
   },
   {
    "name": "미예랑소극장",
@@ -6802,7 +7027,7 @@
    "city": "제주",
    "district": "",
    "address": "",
-   "type": "hall",
+   "type": "theater",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -6814,7 +7039,8 @@
    "status_note": "2014 기사",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이름 '미예랑소극장'에 '소극장' → 소극장"
   },
   {
    "name": "이디홀",
@@ -6847,7 +7073,8 @@
    "indiego_past": 1,
    "checked": "2026-11-27",
    "our_venue": "이디홀",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": "이름 '이디홀'에 '홀' → 홀·공연장"
   },
   {
    "name": "클럽 인디 제주",
@@ -6869,7 +7096,8 @@
    ],
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이름 '클럽 인디 제주'에 '클럽' → 라이브클럽"
   },
   {
    "name": "골목다방",
@@ -6892,7 +7120,8 @@
    "status_note": "2024 기사",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이름 '골목다방'에 '다방' → 카페·바"
   },
   {
    "name": "로드킹 (청주)",
@@ -6903,7 +7132,7 @@
    "city": "청주",
    "district": "",
    "address": "",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -6915,7 +7144,8 @@
    "status_note": "2024 기사 영문 표기 Road King",
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": ""
   },
   {
    "name": "지직",
@@ -6927,7 +7157,7 @@
    "city": "청주",
    "district": "상당구",
    "address": "충북 청주시 상당구 사직대로 338 지하1층",
-   "type": "live_club",
+   "type": "",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -6944,7 +7174,8 @@
    "status_note": "우리 공연 데이터 마지막 공연 2024-01-19",
    "checked": "2026-11-27",
    "our_venue": "지직",
-   "in_our_data": true
+   "in_our_data": true,
+   "type_basis": ""
   },
   {
    "name": "뮤지트 (충주 음악창작소)",
@@ -6967,7 +7198,8 @@
    ],
    "checked": "2026-11-27",
    "our_venue": null,
-   "in_our_data": false
+   "in_our_data": false,
+   "type_basis": "이름 '뮤지트 (충주 음악창작소)'에 '창작소' → 창작소·지원 시설"
   }
  ]
 }

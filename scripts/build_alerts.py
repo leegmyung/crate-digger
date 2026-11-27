@@ -4,7 +4,7 @@
 '오늘 새로 생긴 일'을 찾는다. '새로' = 지난 실행 때 본 상태(data/raw/state/alerts_state.json, 커밋 안 함)에 없던 것.
 상태 파일이 없으면(첫 실행) 기준일 7일 전까지를 이미 본 것으로 친다. 같은 날 두 번 돌려도 같은 알림이 나오게 그날의 기준선을 남긴다.
 
-알림 종류: 단계 상승 · 새 정답 · 새 선정·지원 · 백지 신인 첫 언급 · 순위 급상승(지난주 스냅샷 대비) · 큰 공연장 첫 출연
+알림 종류: 단계 상승 · 새 정답 · 새 선정·지원 · 백지 신인 첫 언급 · 순위 급상승(지난주 스냅샷 대비) · 언급 급증(최근 1주 대 지난 12주 평균) · 큰 공연장 첫 출연
 (config/venue_capacity.json 이 있을 때만) · 같은 무대 수상 팀(새 연결) · 새 공연(앱이 관심 목록 팀만 걸러 보임).
 각 알림 = 종류·팀 키·이름·날짜(그 일이 일어난/일어날 날 — 선정은 기간 끝날이라 미래일 수 있음)·알게 된 날(found_on)·
 한 줄 설명·근거(신호 출처)·중요도. 종류별 상한, 중요도 순. 공개 데이터라 팀 이름까지만 쓴다.
@@ -41,6 +41,11 @@ DEFAULT_CAP = 20
 CAPS = {"new_gig": 300}         # 새 공연은 앱이 관심 목록 팀만 걸러 보므로 넉넉히
 CANDIDATE_TOP = 300             # 오늘 후보 상위 300(스냅샷)에 있으면 중요도 가점
 EVIDENCE_MAX = 3
+SPIKE_RECENT_DAYS = 7           # 언급 급증: 최근 1주
+SPIKE_PAST_WEEKS = 12           # 대 그 전 12주 평균
+SPIKE_RATIO = 3.0               # 평균의 이 배 이상이면 급증
+SPIKE_MIN_RECENT = 3            # 1주 언급이 이보다 적으면 알림 안 함 (1~2건은 우연)
+SPIKE_LOW_AVG = 1.0             # 평소 주 1건 이하인 팀은 배수 대신 '처음 n건'·'평소 m건'으로
 
 STAGE_LABELS = {0: "백지", 1: "첫 신호", 2: "여러 갈래", 3: "선정·중간 정답", 4: "졸업"}
 SELECTION_STAGE = {0: "응모", 1: "서류 통과", 2: "라인업·쇼케이스", 3: "선정", 4: "최종"}
@@ -53,6 +58,7 @@ TYPES = {   # 종류 → (이름, 기본 중요도)
     "big_venue_first": ("큰 공연장 첫 출연", 55),
     "peer_winner": ("같은 무대 수상 팀", 45),
     "rank_jump": ("순위 급상승", 40),
+    "spike": ("언급 급증", 50),
     "new_gig": ("새 공연", 10),
 }
 BASE = {k: v[1] for k, v in TYPES.items()}
@@ -183,6 +189,47 @@ def detect_rank_jump(now: Dict[str, int], before: Dict[str, int], teams: Dict[st
         elif b - r >= min_jump:
             out.append(_alert("rank_jump", team, teams, as_of, f"{b}위 → {r}위 (+{b - r})", ev,
                               bonus=min((b - r) // 10, 20), rank_before=b, rank_now=r))
+    return out
+
+
+def _mention_units(rows: Iterable[Signal], start: str, end: str) -> Dict[Tuple[str, object, object], Signal]:
+    """(start, end] 안 '언급'(공연·발매 아닌 남의 언급 — 큐레이션·선정) — 같은 날·같은 출처·같은 프로그램은 한 건."""
+    out: Dict[Tuple[str, object, object], Signal] = {}
+    for s in rows:
+        d = str(s.get("signal_date") or "")
+        if start < d <= end and s.get("branch") != "공연" and _mention(s):
+            out.setdefault((d, s.get("source"), s.get("program")), s)
+    return out
+
+
+def detect_spike(signals: Sequence[Signal], new_signals: Sequence[Signal], teams: Dict[str, str], as_of: str,
+                 recent_days: int = SPIKE_RECENT_DAYS, past_weeks: int = SPIKE_PAST_WEEKS, ratio: float = SPIKE_RATIO,
+                 min_recent: int = SPIKE_MIN_RECENT, low_avg: float = SPIKE_LOW_AVG) -> List[Alert]:
+    """최근 1주 언급이 지난 12주 주평균의 ratio 배 이상인 팀. 평소 주 low_avg 건 이하면 배수 대신 건수로 쓴다.
+    이번에 새로 본 언급이 최근 1주 안에 하나는 있어야 한다(같은 급증을 매일 다시 알리지 않게)."""
+    rec_start = _shift(as_of, -recent_days)
+    past_start = _shift(rec_start, -7 * past_weeks)
+    new_teams = {str(s["team_key"]) for s in new_signals if _mention_units([s], rec_start, as_of)}
+    out = []
+    for team, rows in sorted(_by_team(signals).items()):
+        if team not in new_teams:
+            continue
+        recent = _mention_units(rows, rec_start, as_of)
+        if len(recent) < min_recent:
+            continue
+        past_n = len(_mention_units(rows, past_start, rec_start))
+        avg = past_n / past_weeks
+        n = len(recent)
+        ev = _evidence(sorted(recent.values(), key=lambda s: str(s.get("signal_date")), reverse=True))
+        extra = {"recent": n, "past_weeks_total": past_n, "past_weekly_avg": round(avg, 2)}
+        if avg <= low_avg:
+            text = (f"최근 1주 언급 처음 {n}건 (지난 {past_weeks}주엔 없음)" if past_n == 0
+                    else f"최근 1주 언급 {n}건 — 지난 {past_weeks}주 {past_n}건(평소 주 1건 이하)")
+            out.append(_alert("spike", team, teams, as_of, text, ev, bonus=min(n, 10) * 2, ratio=None, **extra))
+        elif n / avg >= ratio:
+            r = round(n / avg, 1)
+            out.append(_alert("spike", team, teams, as_of, f"최근 1주 언급 {n}건 — 지난 {past_weeks}주 평균의 {r}배", ev,
+                              bonus=min(n, 10) * 2, ratio=r, **extra))
     return out
 
 
@@ -344,6 +391,7 @@ def build(data: dict, stages_now: Dict[str, int], stages_before: Dict[str, int],
                 if not (a["team_key"] in blank_teams and int(before.get(a["team_key"], 0)) == 0)]
              + detect_big_venue(new_sigs, signals, data.get("capacity"), teams)
              + detect_new_peer_winner(pairs, known_pairs, teams)
+             + detect_spike(signals, new_sigs, teams, as_of)
              + detect_new_gigs(new_sigs, teams, as_of))
     snap_now, snap_before = data.get("snap_now") or {}, data.get("snap_before") or {}
     dates = data.get("snap_dates") or (None, None)

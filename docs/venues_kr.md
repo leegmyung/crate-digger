@@ -104,58 +104,58 @@ Chartmetric의 '공연장(Venue)'·'도시(City)' 화면처럼, 공연장마다 
 
 | 도시 | 공연장 | 종류 | 우리 공연 날짜 | 운영 | 가져올 곳 |
 |---|---|---|---|---|---|
-| 대전 | 버찌라이브하우스 | 라이브클럽 | 2 | 운영 | [인디고](https://www.indiego.co.kr/venues/147-%EA%B7%B8%EB%A6%B0%EB%B9%88%EB%B2%84%EC%B0%8C%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%95%98%EC%9A%B0%EC%8A%A4) 지난 공연 3 |
-| 부산 | 무몽크 | 라이브클럽 | 0 | 운영 | 인스타 @moomonk1995 · [인디고](https://www.indiego.co.kr/venues/67-%EB%AC%B4%EB%AA%BD%ED%81%AC) 지난 공연 2 |
-| 인천 | AMP MUSIC | 라이브클럽 | 0 | 운영 | [인디고](https://www.indiego.co.kr/venues/151-amp-music) 지난 공연 2 |
-| 대전 | 비호소 | 라이브클럽 | 1 | 운영 | 인스타 @bhoso_official · [인디고](https://www.indiego.co.kr/venues/193-%EB%B9%84%ED%98%B8%EC%86%8C) 지난 공연 1 |
-| 부산 | 문화골목 노가다 | 라이브클럽 | 0 | 운영 | 인스타 @nogada_pub · [인디고](https://www.indiego.co.kr/venues/165-%EB%AC%B8%ED%99%94%EA%B3%A8%EB%AA%A9-%EB%85%B8%EA%B0%80%EB%8B%A4) 지난 공연 1 |
-| 부산 | 바이널 언더그라운드 소극장 | 홀·공연장 | 1 | 운영 | 인스타 @the_vinyl_underground · [인디고](https://www.indiego.co.kr/venues/167-%EB%B0%94%EC%9D%B4%EB%84%90-%EC%96%B8%EB%8D%94%EA%B7%B8%EB%9D%BC%EC%9A%B4%EB%93%9C) 지난 공연 1 |
+| 대전 | 버찌라이브하우스 | 홀·공연장 | 2 | 운영 | [인디고](https://www.indiego.co.kr/venues/147-%EA%B7%B8%EB%A6%B0%EB%B9%88%EB%B2%84%EC%B0%8C%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%95%98%EC%9A%B0%EC%8A%A4) 지난 공연 3 |
+| 부산 | 무몽크 | 미정 | 0 | 운영 | 인스타 @moomonk1995 · [인디고](https://www.indiego.co.kr/venues/67-%EB%AC%B4%EB%AA%BD%ED%81%AC) 지난 공연 2 |
+| 인천 | AMP MUSIC | 미정 | 0 | 운영 | [인디고](https://www.indiego.co.kr/venues/151-amp-music) 지난 공연 2 |
+| 대전 | 비호소 | 미정 | 1 | 운영 | 인스타 @bhoso_official · [인디고](https://www.indiego.co.kr/venues/193-%EB%B9%84%ED%98%B8%EC%86%8C) 지난 공연 1 |
+| 부산 | 문화골목 노가다 | 미정 | 0 | 운영 | 인스타 @nogada_pub · [인디고](https://www.indiego.co.kr/venues/165-%EB%AC%B8%ED%99%94%EA%B3%A8%EB%AA%A9-%EB%85%B8%EA%B0%80%EB%8B%A4) 지난 공연 1 |
+| 부산 | 바이널 언더그라운드 소극장 | 소극장 | 1 | 운영 | 인스타 @the_vinyl_underground · [인디고](https://www.indiego.co.kr/venues/167-%EB%B0%94%EC%9D%B4%EB%84%90-%EC%96%B8%EB%8D%94%EA%B7%B8%EB%9D%BC%EC%9A%B4%EB%93%9C) 지난 공연 1 |
 | 서귀포 | 남온 제주 | 카페·바 | 1 | 운영 | 인스타 @namon_jeju · [인디고](https://www.indiego.co.kr/venues/185-%EB%82%A8%EC%98%A8) 지난 공연 1 |
-| 수원 | 수원음악캠프 | 라이브클럽 | 1 | 운영 | 인스타 @suwon_musiccamp · [인디고](https://www.indiego.co.kr/venues/66-%EC%88%98%EC%9B%90%EC%9D%8C%EC%95%85%EC%BA%A0%ED%94%84) 지난 공연 1 |
+| 수원 | 수원음악캠프 | 미정 | 1 | 운영 | 인스타 @suwon_musiccamp · [인디고](https://www.indiego.co.kr/venues/66-%EC%88%98%EC%9B%90%EC%9D%8C%EC%95%85%EC%BA%A0%ED%94%84) 지난 공연 1 |
 | 전주 | 더바인홀 | 홀·공연장 | 1 | 운영 | 인스타 @the_vine_hall · [인디고](https://www.indiego.co.kr/venues/141-%EB%8D%94%EB%B0%94%EC%9D%B8%ED%99%80) 지난 공연 1 |
 | 제주 | 이디홀 | 홀·공연장 | 2 | 운영 | 인스타 @2d_hall · [인디고](https://www.indiego.co.kr/venues/184-%EC%9D%B4%EB%94%94%ED%99%80) 지난 공연 1 |
 | 울산 | 로얄앵커 | 카페·바 | 0 | 운영 | [인디고](https://www.indiego.co.kr/venues/180-%EB%A1%9C%EC%96%84%EC%95%B5%EC%BB%A4) 지난 공연 1 |
-| 인천 | 후즈하우스 | 라이브클럽 | 1 | 운영 | [인디고](https://www.indiego.co.kr/venues/178-%EB%88%84%EA%B5%AC%EC%9D%98%EC%A7%91) 지난 공연 1 |
-| 진주 | 문씨어터 | 라이브클럽 | 1 | 운영 | [인디고](https://www.indiego.co.kr/venues/158-%EB%AC%B8%EC%94%A8%EC%96%B4%ED%84%B0) 지난 공연 1 |
+| 인천 | 후즈하우스 | 미정 | 1 | 운영 | [인디고](https://www.indiego.co.kr/venues/178-%EB%88%84%EA%B5%AC%EC%9D%98%EC%A7%91) 지난 공연 1 |
+| 진주 | 문씨어터 | 소극장 | 1 | 운영 | [인디고](https://www.indiego.co.kr/venues/158-%EB%AC%B8%EC%94%A8%EC%96%B4%ED%84%B0) 지난 공연 1 |
 | 광주 | 광주음악창작소 | 창작소·지원 시설 | 1 | 운영 | 인스타 @gj__peakmusic |
-| 광주 | 제4지대 | 라이브클럽 | 0 | 확인 필요 | 인스타 @the4zonelive · [인디고](https://www.indiego.co.kr/venues/214-%EC%A0%9C4%EC%A7%80%EB%8C%80) |
+| 광주 | 제4지대 | 미정 | 0 | 확인 필요 | 인스타 @the4zonelive · [인디고](https://www.indiego.co.kr/venues/214-%EC%A0%9C4%EC%A7%80%EB%8C%80) |
 | 대구 | 라이브펍 타락 | 카페·바 | 2 | 운영 | 인스타 @livepub_tarock |
-| 대구 | 사차원우주음악연구소 × 네켄킴 스튜디오 | 라이브클럽 | 1 | 운영 | 인스타 @4dcosmosmusiclab |
-| 부산 | HQ광안 | 라이브클럽 | 2 | 운영 | 인스타 @hqbar_busan |
-| 부산 | WAV3 | 라이브클럽 | 1 | 운영 | 인스타 @wav3_gwangan |
-| 부산 | 야만 | 라이브클럽 | 2 | 운영 | 인스타 @yaman_joint_official |
+| 대구 | 사차원우주음악연구소 × 네켄킴 스튜디오 | 미정 | 1 | 운영 | 인스타 @4dcosmosmusiclab |
+| 부산 | HQ광안 | 카페·바 | 2 | 운영 | 인스타 @hqbar_busan |
+| 부산 | WAV3 | 미정 | 1 | 운영 | 인스타 @wav3_gwangan |
+| 부산 | 야만 | 미정 | 2 | 운영 | 인스타 @yaman_joint_official |
 | 부산 | 클럽 벨포스 | 라이브클럽 | 1 | 운영 | 인스타 @belpos_official |
 | 세종 | 세종 음악창작소 누리락 | 창작소·지원 시설 | 2 | 운영 | 인스타 @nurirock |
-| 수원 | 딩깅프렌즈 | 라이브클럽 | 1 | 운영 | 인스타 @dinggingfriends |
-| 인천 | Chord Space | 라이브클럽 | 0 | 운영 | 인스타 @chord_space |
-| 창원 | 사이드킥프로덕션 | 라이브클럽 | 1 | 운영 | 인스타 @sidekick_production · [인디고](https://www.indiego.co.kr/venues/198-%EC%82%AC%EC%9D%B4%EB%93%9C%ED%82%A5%ED%94%84%EB%A1%9C%EB%8D%95%EC%85%98) |
+| 수원 | 딩깅프렌즈 | 미정 | 1 | 운영 | 인스타 @dinggingfriends |
+| 인천 | Chord Space | 미정 | 0 | 운영 | 인스타 @chord_space |
+| 창원 | 사이드킥프로덕션 | 미정 | 1 | 운영 | 인스타 @sidekick_production · [인디고](https://www.indiego.co.kr/venues/198-%EC%82%AC%EC%9D%B4%EB%93%9C%ED%82%A5%ED%94%84%EB%A1%9C%EB%8D%95%EC%85%98) |
 | 춘천 | KT&G 상상마당 춘천 야외공연장 | 페스티벌·야외 | 1 | 운영 | 인스타 @ssmadang.cc |
-| 광주 | 광주북구문화센터 | 홀·공연장 | 1 | 운영 | — |
-| 광주 | 롤링스톤즈 광주 | 라이브클럽 | 0 | 확인 필요 | — |
+| 광주 | 광주북구문화센터 | 미정 | 1 | 운영 | — |
+| 광주 | 롤링스톤즈 광주 | 미정 | 0 | 확인 필요 | — |
 | 광주 | 소촌아트팩토리 | 창작소·지원 시설 | 0 | 확인 필요 | — |
 | 광주 | 스피크이지 광주 | 카페·바 | 0 | 확인 필요 | — |
 | 광주 | 에포케 | 카페·바 | 0 | 확인 필요 | — |
 | 광주 | 인더그루브 | 카페·바 | 0 | 운영 | — |
-| 광주 | 프렌즈 광주 | 라이브클럽 | 0 | 확인 필요 | — |
+| 광주 | 프렌즈 광주 | 미정 | 0 | 확인 필요 | — |
 | 광주 | 하멜아트홀 | 홀·공연장 | 1 | 확인 필요 | — |
 | 대구 | 대구음악창작소 | 창작소·지원 시설 | 0 | 확인 필요 | — |
 | 대구 | 슈가조스 | 카페·바 | 0 | 확인 필요 | — |
-| 대전 | 처치 앤 댄스홀 | 카페·바 | 0 | 확인 필요 | — |
-| 부산 | 베이스먼트 부산 | 라이브클럽 | 0 | 확인 필요 | — |
+| 대전 | 처치 앤 댄스홀 | 홀·공연장 | 0 | 확인 필요 | — |
+| 부산 | 베이스먼트 부산 | 미정 | 0 | 확인 필요 | — |
 | 부산 | 부산음악창작소 | 창작소·지원 시설 | 0 | 확인 필요 | — |
-| 부산 | 인터플레이 부산 | 라이브클럽 | 0 | 확인 필요 | — |
-| 부산 | 히떼로스터리 광안점 | 라이브클럽 | 1 | 운영 | — |
+| 부산 | 인터플레이 부산 | 미정 | 0 | 확인 필요 | — |
+| 부산 | 히떼로스터리 광안점 | 미정 | 1 | 운영 | — |
 | 수원 | 앨리웨이 탭하우스 | 카페·바 | 0 | 확인 필요 | — |
-| 인천 | 올래공연장 | 라이브클럽 | 1 | 확인 필요 | — |
+| 인천 | 올래공연장 | 미정 | 1 | 확인 필요 | — |
 | 인천 | 클럽 낙 | 라이브클럽 | 0 | 확인 필요 | — |
 | 전주 | Club GP | 라이브클럽 | 1 | 확인 필요 | — |
-| 전주 | 라디오가든 | 라이브클럽 | 0 | 확인 필요 | — |
+| 전주 | 라디오가든 | 미정 | 0 | 확인 필요 | — |
 | 전주 | 레드콘 (전북 음악창작소) | 창작소·지원 시설 | 0 | 확인 필요 | — |
-| 제주 | 미예랑소극장 | 홀·공연장 | 0 | 확인 필요 | — |
+| 제주 | 미예랑소극장 | 소극장 | 0 | 확인 필요 | — |
 | 제주 | 클럽 인디 제주 | 라이브클럽 | 0 | 확인 필요 | — |
 | 청주 | 골목다방 | 카페·바 | 0 | 확인 필요 | — |
-| 청주 | 로드킹 (청주) | 라이브클럽 | 0 | 확인 필요 | — |
-| 청주 | 지직 | 라이브클럽 | 1 | 확인 필요 | — |
+| 청주 | 로드킹 (청주) | 미정 | 0 | 확인 필요 | — |
+| 청주 | 지직 | 미정 | 1 | 확인 필요 | — |
 | 충주 | 뮤지트 (충주 음악창작소) | 창작소·지원 시설 | 0 | 확인 필요 | — |
 
 ## 5. 수집 후보 출처 (공백을 채우는 순서 제안)

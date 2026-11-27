@@ -32,8 +32,9 @@ SIGNALS = ROOT / "docs" / "lab" / "data" / "signals.csv"
 OUT = ROOT / "docs" / "venues_kr.md"
 REVIEW_DIR = ROOT / "data" / "raw" / "review"
 
-TYPES = {"live_club": "라이브클럽", "hall": "홀·공연장", "creation_center": "창작소·지원 시설",
+TYPES = {"live_club": "라이브클럽", "hall": "홀·공연장", "theater": "소극장", "creation_center": "창작소·지원 시설",
          "cafe": "카페·바", "festival": "페스티벌·야외"}
+TYPE_UNKNOWN = "미정"           # type 이 빈칸 = 공개 근거로 종류를 못 정함 (scripts/venue_types.py)
 STATUSES = {"open": "운영", "paused": "휴업", "closed": "폐업", "unknown": "확인 필요"}
 SEOUL = "서울"
 UNKNOWN_CITY = "(도시 모름)"
@@ -91,6 +92,8 @@ def guess_type(name: str) -> str:
         return "festival"
     if re.search(r"카페|cafe|다방|라운지|바$|살롱|펍|pub", n, re.I):
         return "cafe"
+    if re.search(r"소극장|씨어터|시어터|theat(er|re)", n, re.I):
+        return "theater"
     if re.search(r"홀|hall|아트센터|극장|소극장|예술의전당|문화회관|회관|센터", n, re.I):
         return "hall"
     return "live_club"
@@ -240,7 +243,7 @@ def same_address_groups(master: Sequence[dict]) -> List[List[str]]:
 
 # ---------- 검사·갱신 ----------
 
-REQUIRED = ("name", "city", "province", "type", "status", "checked")
+REQUIRED = ("name", "city", "province", "status", "checked")   # type 은 빈칸 허용(근거 없으면 '미정')
 
 
 def validate(cfg: dict) -> List[str]:
@@ -401,7 +404,7 @@ def _gap_section(gaps: List[dict], limit: int = 60) -> List[str]:
     lines = ["**도시별 공백 공연장 수:** " + " · ".join(f"{c} {n}" for c, n in per_city.most_common()), "",
              f"| 도시 | 공연장 | 종류 | 우리 공연 날짜 | 운영 | 가져올 곳 |", "|---|---|---|---|---|---|"]
     for g in gaps[:limit]:
-        lines.append(f"| {g['city']} | {g['name']} | {TYPES.get(g.get('type'), g.get('type'))} | {g['our_days']} | "
+        lines.append(f"| {g['city']} | {g['name']} | {TYPES.get(g.get('type'), g.get('type')) or TYPE_UNKNOWN} | {g['our_days']} | "
                      f"{STATUSES.get(g.get('status'), '')} | {_src_label(g)} |")
     if len(gaps) > limit:
         lines.append(f"\n(나머지 {len(gaps) - limit}곳은 `config/venues_kr.json`에서 `in_our_data: false`로 찾을 수 있습니다.)")
@@ -652,7 +655,8 @@ META = {
     "_설명": "한국 대중음악 공연장 마스터 목록 (scripts/venues_kr.py 가 읽어 docs/venues_kr.md 를 만듦). "
              "name = 대표 이름, aliases = 다른 표기(영문·옛 이름), our_names = 우리 공연 데이터(venue_xref 대표 이름) 중 "
              "규칙으로 못 잇는 이름('라이브홀' 같은 지점 없는 이름·건물 안 작은 공간), province/city/district = 시·도/도시/구·군, "
-             "type = live_club·hall·creation_center·cafe·festival, capacity = 스탠딩 최대(없으면 좌석, 모르면 null — "
+             "type = live_club·hall·theater·creation_center·cafe·festival(빈칸 = 공개 근거 없어 미정), "
+             "type_basis = 종류를 정한 근거(이름·확인된 수용 인원·근거 메모, '수동:'으로 시작하면 사람이 정한 것 — scripts/venue_types.py), capacity = 스탠딩 최대(없으면 좌석, 모르면 null — "
              "venue_capacity.json 과 같은 기준), status = open(1년 안 공연 확인)·unknown(확인 필요)·paused(휴업)·closed(폐업), "
              "sources = 근거 링크, checked = 확인일, mainstream = 대형·공공 공연장(출처 공백 목록에서 뺌), "
              "instagram·indiego_url·indiego_past = 공연장 계정·인디고 공연장 페이지·인디고 지난 공연 수, "
@@ -675,7 +679,8 @@ def run_seed(extra_path: Path, as_of: date) -> dict:
     venues = seed(cfg.get("venues", []), cands)
     today = as_of.isoformat()
     venues = [{**e, "checked": e.get("checked") or today,
-               "type": e.get("type") or guess_type(e["name"]), "status": e.get("status") or "unknown"}
+               "type": e.get("type") if "type_basis" in e else (e.get("type") or guess_type(e["name"])),
+               "status": e.get("status") or "unknown"}
               for e in venues if e.get("city")]           # 도시를 모르는 곳은 빼고 문서 6절(짝 안 됨)에 남김
     return update_in_data({**META, **cfg, "checked": today, "venues": sorted(venues, key=lambda e: (e["city"] != SEOUL, e["province"],
                                                                         e["city"], e["name"]))}, stats)

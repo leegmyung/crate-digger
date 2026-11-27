@@ -110,6 +110,72 @@ class DetectTest(unittest.TestCase):
         self.assertEqual(ba.detect_new_peer_winner(pairs, known=set(pairs), teams=TEAMS), [])
 
 
+def mentions(team, dates, source="izm"):
+    """같은 출처라도 날짜가 다르면 다른 언급."""
+    return [sig(team, "큐레이션", d, source=source, role="context") for d in dates]
+
+
+def weekly_past(team, per_week, weeks=12, end="2026-11-20"):
+    """기준일 7일 전(end)부터 거꾸로 weeks주 동안 주마다 per_week건 (출처를 바꿔 같은 날 여러 건)."""
+    from datetime import date, timedelta
+    out_rows = []
+    for w in range(weeks):
+        day = (date.fromisoformat(end) - timedelta(days=7 * w + 1)).isoformat()
+        out_rows += [sig(team, "큐레이션", day, source=f"src{i}", role="context") for i in range(per_week)]
+    return out_rows
+
+
+class SpikeTest(unittest.TestCase):
+    RECENT = ["2026-11-22", "2026-11-24", "2026-11-26"]
+
+    def test_first_mentions_reported_as_count_not_ratio(self):
+        signals = mentions("n", self.RECENT)
+        alerts = ba.detect_spike(signals, signals, TEAMS, AS_OF)
+        self.assertEqual(len(alerts), 1)
+        a = alerts[0]
+        self.assertEqual((a["type"], a["team_key"], a["recent"], a["past_weeks_total"]), ("spike", "n", 3, 0))
+        self.assertIsNone(a["ratio"])
+        self.assertIn("처음 3건", a["text"])
+
+    def test_low_usual_team_shows_count_with_usual(self):
+        signals = mentions("n", self.RECENT) + mentions("n", ["2026-10-01", "2026-09-10"], source="visla")
+        a = ba.detect_spike(signals, signals[:3], TEAMS, AS_OF)[0]
+        self.assertIsNone(a["ratio"])
+        self.assertIn("12주 2건", a["text"])
+
+    def test_ratio_against_twelve_week_average(self):
+        past = weekly_past("a", 2)                                      # 평균 주 2건
+        recent = [sig("a", "큐레이션", d, source=f"r{i}", role="context") for i, d in
+                  enumerate(["2026-11-21", "2026-11-22", "2026-11-23", "2026-11-24", "2026-11-25", "2026-11-26"])]
+        a = ba.detect_spike(past + recent, recent, TEAMS, AS_OF)[0]
+        self.assertAlmostEqual(a["ratio"], 3.0)
+        self.assertIn("3.0배", a["text"])
+        self.assertEqual(ba.detect_spike(past + recent[:4], recent[:4], TEAMS, AS_OF), [])   # 2배는 알림 아님
+
+    def test_needs_minimum_recent_and_a_new_signal(self):
+        two = mentions("n", self.RECENT[:2])
+        self.assertEqual(ba.detect_spike(two, two, TEAMS, AS_OF), [])                  # 1주 2건은 너무 적음
+        three = mentions("n", self.RECENT)
+        self.assertEqual(ba.detect_spike(three, [], TEAMS, AS_OF), [])                 # 새로 본 언급이 없으면 이미 알린 것
+
+    def test_gigs_excluded_and_future_not_counted(self):
+        rows = mentions("n", self.RECENT[:2]) + [sig("n", "공연", "2026-11-25", venue="클럽"),
+                                                 sig("n", "큐레이션", "2026-11-25", source="x", role="excluded"),
+                                                 sig("n", "큐레이션", "2026-12-01", source="y", role="context")]
+        self.assertEqual(ba.detect_spike(rows, rows, TEAMS, AS_OF), [])
+
+    def test_same_day_same_source_counts_once(self):
+        rows = mentions("n", self.RECENT[:1]) + mentions("n", ["2026-11-26", "2026-11-26"])   # 1 + 1 = 2건
+        self.assertEqual(ba.detect_spike(rows, rows, TEAMS, AS_OF), [])
+
+    def test_build_includes_spike_type(self):
+        self.assertIn("spike", ba.TYPES)
+        data = {"signals": mentions("n", self.RECENT), "outcomes": [], "teams": TEAMS, "programs": {}, "capacity": None,
+                "snap_now": {}, "snap_before": {}, "snap_dates": (None, None)}
+        doc, _ = ba.build(data, {"n": 1}, {"n": 1}, baseline=None, as_of=AS_OF)
+        self.assertIn("spike", {a["type"] for a in doc["alerts"]})
+
+
 class RankCapTest(unittest.TestCase):
     def test_sort_by_importance_and_cap_per_type(self):
         alerts = [{"type": "new_gig", "importance": 10, "date": "2026-12-01", "team_key": f"t{i}"} for i in range(5)]

@@ -6,16 +6,19 @@
 # 결과(모두 앱이 읽는 데이터 — 문서는 덮지 않음):
 #   docs/lab/data/venue_ladder.json (팀별 공연장 사다리·공연장 전후 흐름)  · docs/lab/data/venue_profiles.json (공연장 프로필)
 #   docs/lab/data/city_profiles.json · team_cities.csv (도시 층)            · docs/lab/data/lineup_roles.csv (단독·헤드라이너)
-#   docs/data/alerts.json (오늘 새로 생긴 일)
+#   docs/lab/data/event_stars.csv (사건 별점·전후 28일)
+#   docs/lab/data/venue_tiers.csv (공연장 체급 — 앱이 config/ 를 못 읽어서)  · docs/data/alerts.json (오늘 새로 생긴 일)
 set -u
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT" || exit 1
 PY="${PY:-$ROOT/.venv/bin/python}"
 # "이름|스크립트 인자" — 이름은 출력용
-STEPS=("venue_ladder|scripts/venue_ladder.py --json-only"
+STEPS=("venue_tiers|scripts/export_venue_tiers.py"
+       "venue_ladder|scripts/venue_ladder.py --json-only"
        "venue_profiles|scripts/venue_profiles.py"
        "city_profiles|scripts/city_profiles.py --data-only"
        "lineup_roles|scripts/lineup_roles.py --data-only"
+       "event_stars|scripts/event_stars.py"
        "build_alerts|scripts/build_alerts.py")
 if [ "${1:-}" = "--with-export" ]; then
   STEPS=("export_lab_data|scripts/export_lab_data.py" "${STEPS[@]}")
