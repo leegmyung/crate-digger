@@ -47,7 +47,8 @@
  [소스]  공연 · 큐레이션 · 선정·지원 · 발매 · (협업·영상)     정답(신인상·신인 프로그램)
     │                                                          │
     ▼                                                          ▼
- ① 수집기 15개 (매일 21:00 자동)  → 원본 CSV (수정 금지) → 형식 검사
+ ① 수집기 18개 (13개는 매일 21:00 자동)  → 원본 CSV (수정 금지) → 형식 검사
+    │   └ 관찰 팀 멜론 팬 수 7일마다 다시 받기 → 팬 수 날짜별 기록 (기준일 시점 유명 판정 준비)
     │
  ② PostgreSQL 적재 (raw 스키마)
     │
@@ -55,9 +56,9 @@
     │
  ④ 기초 뷰 (core.v_signal · v_outcome …)  날짜 규칙으로 시점 누수 차단
     │
- ⑤ 출처 성적표 → 역할 분류(발굴·맥락·제외·검증 대기) · 정답 등급(S·A·B)
+ ⑤ 출처 성적표 → 역할 분류(발굴·맥락·제외·검증 대기) · 정답 등급(S·A·B) · 같은 집안 규칙 (월요일 문서 자동 갱신)
     │
- ⑥ 점수 v2 · 백테스트 · 교차 검증 · 분석/검증 SQL
+ ⑥ 점수 v2 · 백테스트 · 교차 검증(과거 기준일엔 '지금 팬 수' 유명 판정 안 씀) · 분석/검증 SQL
     │
  ⑦ 결과물: 앱 · 주간 엑셀 · Tableau 추출 · 사운드 지도 · SQL 결과 (매일 자동 갱신)
 ```
@@ -107,12 +108,16 @@ PostgreSQL(17)과 `.env`(유튜브·스포티파이 키, 커밋 안 됨)는 수�
 
 | 단계 | 스크립트 | 결과 |
 |---|---|---|
-| 1. 수집 | `collect_poclanos` · `collect_selection` · `collect_gigs` · `collect_insta` · `collect_platforms` · `collect_artists`(+ `melon_names` 보강 명단) · `collect_spotify` · `collect_spotify_collabs` · `collect_videos` | `data/raw/*.csv` (비공개) |
+| 1. 수집 (스크립트) | `collect_poclanos` · `collect_selection` · `collect_superrookie`(슈퍼루키챌린지, 새 글만) | `data/raw/*.csv` (비공개) |
+| 1. 수집 (aside 브라우저) | `collect_gigs` · `collect_insta` · `collect_platforms` · `collect_artists`(새 아티스트) · `collect_hiphople`(힙합엘이 국내 뉴스) · `melon_names` → `collect_artists --names-file`(후보·정답 팀 프로필 보강) · `collect_artists --refresh`(관찰 팀 팬 수, 마지막으로 받은 지 7일 지난 것만) | 〃 |
+| 1. 수집 (API) | `fan_history`(팬 수 날짜별 기록) · `collect_spotify` · `collect_spotify_collabs` · `collect_videos` | 〃, `data/raw/state/fan_history.json` + [팬 수 기록 요약](docs/fan_history.md) |
 | 2. 검사 | `validate_csv` | 형식 오류 표시 |
 | 3. 적재·묶기 | `build_site_data` · `load_pg` · `artist_xref --load-pg` · `venue_xref --load-pg` | 진행판 데이터, PostgreSQL |
 | 4. 분석 | `build_dashboard_data` · `run_pg_queries` | 대시보드 숫자, [SQL 결과](docs/sql/README.md) |
-| 5. 랩·결과물 | `collect_artist_images` · `export_lab_data` · `source_review` · `collect_video_stats` · `export_video_momentum` · `export_excel`(월요일) · `lab_snapshot` · `build_scene_map` | `docs/lab/data/`, 주간 엑셀, 사운드 지도 |
-| 6. 기록 | `daily_note` → 커밋·push | `docs/log/<날짜>.md` |
+| 5. 랩·결과물 | `collect_artist_images` · `export_lab_data` · `source_roles_doc`(월요일, [출처 분류](docs/source_roles.md) 성적표 표) · `source_review` · `score_review`(월요일) · `collect_video_stats` · `export_video_momentum` · `export_excel`(월요일) · `lab_snapshot` · `build_scene_map` | `docs/lab/data/`, 주간 엑셀, 사운드 지도 |
+| 6. 기록 | `daily_note` · `build_status_report` → 커밋·push | `docs/log/<날짜>.md`, 진행 점검표 |
+
+손으로 가끔 돌리는 수집기: `collect_gigs_history`(인디스트릿 지난 공연) · `collect_webzines`(웹진 과거 기록) · `collect_ig_artists` · `collect_ssm_shows` · `collect_trackzero`(멜론 트랙제로) · `collect_hiphople --backfill`(과거 기록, 21~23시 제외).
 
 ### 손으로 다시 만들기
 
