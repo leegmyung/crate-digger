@@ -12,8 +12,8 @@
 - 운영 방식: 사용자는 "관여 없이 끝까지". 작업자마다 할 일 3~6개를 미리 쌓아 두고, 결과 보고가 오면 코디네이터(Claude 메인 세션)가 검토(테스트·브라우저 확인) → 커밋·push → 다음 일 추가. 작업자는 커밋 금지. 같은 단계 안은 묻지 않고 진행·보고, 방향·틀 변경만 사용자에게 묻기.
 - Orca 실행: `/Applications/Orca.app/Contents/Resources/bin/orca orchestration send --to dispatch:<id> --subject … --body …` (run run_bb3533879a4f). 작업자 목록: `orca orchestration worker-list --environment local --json`. 같은 작업자에게 보낸 후속 메시지는 새 dispatch id로 이어짐.
   - 안티그래비티(앱 docs/app/**·dashboard.html): 최근 dispatch ctx_8e6c4abf4272 — 출처 성적표에 분류 사유·재분류 제안, 검증 안내에 정답 등급표(outcome_rules 포함), 팀 상세 '후보' 표시, backtest.js 옛 숫자 갱신.
-  - Claude 작업자 A: 최근 dispatch ctx_1cd87a3c5d65 — 정답 정리 후 score_model·genre_bias 재실행, README·methods 등 숫자 갱신(교차 검증 v2 0.752·v0 0.740), methods에 '정답 정리' 절.
-  - Claude 작업자 B: 최근 dispatch ctx_84d1c1aa6889 — 데뷔 코호트 출처 성적표(source_scorecard_debut.sql, debut_cohort.py, docs/debut_cohort.md: '백지 신인을 먼저 언급한 출처의 신뢰도') → 슈퍼루키챌린지 복원율 → collect_hiphople.py(aside, 21~23시 금지). hiphople는 source_roles에 pending으로 추가 요청 오면 코디네이터가.
+  - Claude 작업자 A: 최근 dispatch ctx_73895dbee590 — 후보 상위 300 '인디 신인 아님' 점검(아이돌·기성 팀·비아티스트·중복), docs/candidate_audit.md 제안만 → 적용 여부 사용자에게 묻기.
+  - Claude 작업자 B: 최근 dispatch ctx_eab49a6a465f — 힙합엘이 과거 기록 백필(21~23시 금지) → hiphople 성적표·역할 제안 → collect_superrookie.py(루트노트 WP API·포크라노스) → 성적표. 데뷔 코호트(docs/debut_cohort.md)는 커밋됨.
   - 정답 정리(2026-11-27 사용자 결정, 커밋 5054911): config/source_roles.json outcome_rules — 후보(nominee·shortlist) 한 등급 아래, 기획사 아이돌 10팀 제외. 교차 검증 0.711/0.712 → 0.752/0.740, 추천 가중치가 v2와 일치.
 - 21시 자동 실행 끝나면(대기 작업이 깨움, 없으면 records/daily_run.log 확인): 협업 수집 건수 확인 → score_tune(w_collab 포함) 돌려 협업 신호 효과 확인 → 효과 있으면 점수 반영 여부 사용자에게 물음. 인스타 499계정·멜론 100팀·연결표 갱신·출처 재분류 제안이 잘 돌았는지 확인.
 - 작업자 결과 반영 시 daily_run.sh에 넣을 줄은 코디네이터가 넣음(작업자는 알려만 줌).
