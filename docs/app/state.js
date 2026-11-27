@@ -139,6 +139,7 @@ export const appState = {
   routeParam: '',
   verifyTab: 'backtest', // 'backtest' | 'signals' | 'evidence' | 'scorecard'
   candTab: 'all', // 'all' | 'debut'
+  venuesTab: 'overview', // 'overview' | 'network'
   prevRoute: null,
   prevParam: '',
   cfg: cloneDefaults(),
@@ -169,6 +170,7 @@ export const appState = {
     team: '',
     related: '',
     ego_network: '',
+    scene_network: '',
   },
   sqlTemplates: {
     features: '',
@@ -181,6 +183,7 @@ export const appState = {
     team: '',
     related: '',
     ego_network: '',
+    scene_network: '',
   },
   sourceRolesJson: null,
   programLabels: new Map(),
@@ -296,6 +299,12 @@ export function parseHash() {
     appState.routeParam = '';
     if (segs[0] === 'candidates' && (segs[1] === 'debut' || segs[1] === 'all')) {
       appState.candTab = segs[1];
+    } else if (segs[0] === 'venues') {
+      if (segs[1] === 'network' || segs[1] === 'overview') {
+        appState.venuesTab = segs[1];
+      } else if (!queryPart) {
+        appState.venuesTab = 'overview';
+      }
     }
   } else if (!pathPart && queryPart) {
     appState.route = 'verify';
@@ -315,6 +324,11 @@ export function parseHash() {
   }
   if (p.has('ctab') && (p.get('ctab') === 'debut' || p.get('ctab') === 'all')) {
     appState.candTab = p.get('ctab');
+  }
+  if (p.has('vmode') && (p.get('vmode') === 'network' || p.get('vmode') === 'overview')) {
+    appState.venuesTab = p.get('vmode');
+  } else if (appState.route === 'venues' && p.has('genre') && p.get('genre')) {
+    appState.venuesTab = 'network';
   }
 
   for (const key of WEIGHT_KEYS) {
@@ -404,6 +418,8 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
     p.set('vtab', appState.verifyTab);
   } else if (route === 'candidates' && appState.candTab === 'debut') {
     p.set('ctab', 'debut');
+  } else if (route === 'venues' && appState.venuesTab === 'network') {
+    if (!c.genre) p.set('vmode', 'network');
   }
 
   const basePath = normRoute === 'team' && param ? `#/team/${encodeURIComponent(param)}` : `#/${normRoute}`;

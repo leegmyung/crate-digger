@@ -88,7 +88,7 @@ async function reloadLabMacrosOnce() {
   macroReloadPromise = (async () => {
     try {
       const reloadOpts = { cache: 'reload', bust: true };
-      const [featSql, btSql, candSql, sigHitSql, scorecardSql, debutScorecardSql, precSql, teamSql, relSql, egoSql] = await Promise.all([
+      const [featSql, btSql, candSql, sigHitSql, scorecardSql, debutScorecardSql, precSql, teamSql, relSql, egoSql, sceneNetSql] = await Promise.all([
         fetchText('lab/sql/features.sql', false, reloadOpts),
         fetchText('lab/sql/backtest.sql', true, reloadOpts),
         fetchText('lab/sql/candidates.sql', true, reloadOpts),
@@ -99,6 +99,7 @@ async function reloadLabMacrosOnce() {
         fetchText('lab/sql/team.sql', true, reloadOpts),
         fetchText('lab/sql/related.sql', true, reloadOpts),
         fetchText('lab/sql/ego_network.sql', true, reloadOpts),
+        fetchText('lab/sql/scene_network.sql', true, reloadOpts),
       ]);
       if (!featSql) return false;
       await connInstance.query(featSql);
@@ -112,6 +113,7 @@ async function reloadLabMacrosOnce() {
       if (teamSql) appState.sqlTemplates.team = teamSql;
       if (relSql) appState.sqlTemplates.related = relSql;
       if (egoSql) appState.sqlTemplates.ego_network = egoSql;
+      if (sceneNetSql) appState.sqlTemplates.scene_network = sceneNetSql;
       return true;
     } catch (_) {
       return false;
@@ -209,7 +211,7 @@ export function buildParams(overrides = {}) {
     exclude_famous: sqlBool(c.exclude_famous),
     outcome_tier: sqlTier(c.outcome_tier),
     horizon_months: sqlInt(c.horizon_months, 1, 60, 24),
-    genre: sqlGenre(c.genre),
+    genre: sqlGenre(overrides.genre !== undefined ? overrides.genre : c.genre),
     branches: sqlBranches(c.branches),
     w_branch: sqlNum(c.w_branch, 0, 10, DEFAULT_WEIGHTS.w_branch),
     w_stage: sqlNum(c.w_stage, 0, 10, DEFAULT_WEIGHTS.w_stage),
@@ -580,6 +582,7 @@ export async function bootstrapData(onStatus = () => {}) {
     teamSql,
     relSql,
     egoSql,
+    sceneNetSql,
     snapIdx,
     dashJson,
     collectJson,
@@ -599,6 +602,7 @@ export async function bootstrapData(onStatus = () => {}) {
     fetchText('lab/sql/team.sql', true),
     fetchText('lab/sql/related.sql', true),
     fetchText('lab/sql/ego_network.sql', true),
+    fetchText('lab/sql/scene_network.sql', true),
     fetchJson('lab/data/snapshots/index.json', true),
     fetchJson('data/dashboard.json', true),
     fetchJson('data/collect.json', true),
@@ -623,6 +627,7 @@ export async function bootstrapData(onStatus = () => {}) {
     team: teamSql || '',
     related: relSql || '',
     ego_network: egoSql || '',
+    scene_network: sceneNetSql || '',
   };
 
   // Optional datasets gated by meta.rows to avoid noisy 404s before files exist
@@ -1800,16 +1805,20 @@ export async function queryNodeExpansion(node, { period = 'all', limit = 10 } = 
     const sceneMap = await loadSceneMap();
     const comm = sceneMap?.communityById?.get(Number(key));
     if (!comm) return [];
+    const validTeams = appState.teamIndex?.length
+      ? new Set(appState.teamIndex.map(t => t.team_key))
+      : null;
     const merged = [];
     const seen = new Set();
     for (const c of (comm.top_candidates || [])) {
       if (!c?.team_key || seen.has(c.team_key)) continue;
+      if (validTeams && !validTeams.has(c.team_key)) continue;
       seen.add(c.team_key);
       merged.push({
         node_id: `team:${c.team_key}`,
         node_type: 'team',
         node_key: c.team_key,
-        label: c.display_name || c.team_key,
+        label: c.display_name || c.name || c.team_key,
         relation: 'scene',
         weight: Number(c.score) || 1,
         grade: '',
@@ -1820,16 +1829,18 @@ export async function queryNodeExpansion(node, { period = 'all', limit = 10 } = 
     }
     for (const h of (comm.hubs || [])) {
       if (!h?.team_key || seen.has(h.team_key)) continue;
+      if (validTeams && !validTeams.has(h.team_key)) continue;
       seen.add(h.team_key);
+      const deg = Number(h.degree ?? h.links) || 1;
       merged.push({
         node_id: `team:${h.team_key}`,
         node_type: 'team',
         node_key: h.team_key,
-        label: h.display_name || h.team_key,
+        label: h.display_name || h.name || h.team_key,
         relation: 'scene',
-        weight: Number(h.degree) || 1,
+        weight: deg,
         grade: '',
-        detail: h.degree ? `씬 허브 · 연결 ${h.degree}` : '씬 허브',
+        detail: deg ? `씬 허브 · 연결 ${deg}` : '씬 허브',
         last_date: '',
         primary_genre: h.primary_genre || '',
       });
@@ -1865,7 +1876,7 @@ export async function queryNodeExpansion(node, { period = 'all', limit = 10 } = 
              MAX(g.signal_date)                   AS last_date,
              COALESCE(t.primary_genre, '')        AS primary_genre
       FROM gig g
-      LEFT JOIN teams t ON t.team_key = g.team_key
+      JOIN teams t ON t.team_key = g.team_key
       GROUP BY g.team_key, t.display_name, t.primary_genre
       ORDER BY weight DESC, last_date DESC
       LIMIT ${fetchLim}
@@ -1895,7 +1906,7 @@ export async function queryNodeExpansion(node, { period = 'all', limit = 10 } = 
              MAX(o.announced_date)                                         AS last_date,
              COALESCE(t.primary_genre, '')                                 AS primary_genre
       FROM outcomes o
-      LEFT JOIN teams t ON t.team_key = o.team_key
+      JOIN teams t ON t.team_key = o.team_key
       WHERE o.program = ${keyLit}
         AND o.counted
         AND o.announced_date >= DATE ${sinceLit}
@@ -1920,7 +1931,7 @@ export async function queryNodeExpansion(node, { period = 'all', limit = 10 } = 
              MAX(s.signal_date)                   AS last_date,
              COALESCE(t.primary_genre, '')        AS primary_genre
       FROM signals s
-      LEFT JOIN teams t ON t.team_key = s.team_key
+      JOIN teams t ON t.team_key = s.team_key
       WHERE s.branch = '선정·지원'
         AND s.program = ${keyLit}
         AND s.signal_date >= DATE ${sinceLit}
@@ -1954,7 +1965,7 @@ export async function queryNodeExpansion(node, { period = 'all', limit = 10 } = 
              MAX(s.signal_date)                   AS last_date,
              COALESCE(t.primary_genre, '')        AS primary_genre
       FROM signals s
-      LEFT JOIN teams t ON t.team_key = s.team_key
+      JOIN teams t ON t.team_key = s.team_key
       WHERE (${branch ? `s.branch = ${sqlStringLiteral(branch)}` : 'true'})
         AND s.source = ${sqlStringLiteral(source)}
         AND COALESCE(s.role, '') <> 'excluded'
@@ -1978,6 +1989,150 @@ export async function queryNodeExpansion(node, { period = 'all', limit = 10 } = 
 
   return [];
 }
+
+/**
+ * docs/lab/sql/scene_network.sql을 실행해 전체/장르별 씬 네트워크(상위 N팀 + 같은 무대 엣지)를 반환하고,
+ * scene_map.json의 씬 묶음 정보와 결합한다.
+ */
+export async function querySceneNetwork({ limit = 150, genre } = {}) {
+  let tpl = appState.sqlTemplates.scene_network;
+  if (!tpl) {
+    tpl = await fetchText('lab/sql/scene_network.sql', true);
+    if (tpl) appState.sqlTemplates.scene_network = tpl;
+  }
+  if (!tpl) {
+    return {
+      nodes: [],
+      edges: [],
+      communities: [],
+      winnerCount: 0,
+      candidateCount: 0,
+      genre: genre ?? appState.cfg.genre ?? '',
+      limit,
+    };
+  }
+
+  const useLimit = Math.max(20, Math.min(400, Math.round(Number(limit) || 150)));
+  const useGenre = genre !== undefined ? String(genre || '') : String(appState.cfg.genre || '');
+  const { untilDate } = resolveGraphWindow('all');
+  const params = buildParams({ limit: useLimit, genre: useGenre });
+  const sql = fillTemplate(tpl, {
+    ...params,
+    until_date: sqlDate(untilDate, '2099-12-31'),
+  });
+  appState.lastSql.scene_network = sql;
+
+  const [sqlRes, sceneMap] = await Promise.all([
+    runRawSql(sql),
+    loadSceneMap(),
+  ]);
+
+  const rawRows = sqlRes.rows || [];
+  const nodeRows = [];
+  const edgeRows = [];
+  for (const r of rawRows) {
+    if (r.row_kind === 'edge') edgeRows.push(r);
+    else if (r.row_kind === 'node') nodeRows.push(r);
+  }
+
+  const commCounts = new Map();
+  const nodeById = new Map();
+  let winnerCount = 0;
+  let candidateCount = 0;
+
+  const nodes = nodeRows.map(r => {
+    const key = String(r.team_key || '');
+    const comm = sceneMap?.teamToCommunity?.get(key) || null;
+    const commId = comm && comm.id !== undefined && comm.id !== null ? Number(comm.id) : null;
+    const commVenues = comm && Array.isArray(comm.top_venues)
+      ? comm.top_venues.slice(0, 3).map(v => v.venue).filter(Boolean)
+      : [];
+    const hadOutcome = Boolean(r.had_outcome);
+    if (hadOutcome) winnerCount += 1;
+    else candidateCount += 1;
+
+    if (commId !== null) {
+      if (!commCounts.has(commId)) {
+        commCounts.set(commId, {
+          id: commId,
+          count: 0,
+          size: Number(comm.size) || 0,
+          topVenues: commVenues,
+        });
+      }
+      commCounts.get(commId).count += 1;
+    }
+
+    const imgEntry = appState.imagesByTeam?.get(key);
+    const node = {
+      id: key,
+      team_key: key,
+      display_name: r.display_name || key,
+      score: Number(r.score) || 0,
+      cand_rank: r.cand_rank !== null && r.cand_rank !== undefined ? Number(r.cand_rank) : null,
+      primary_genre: r.primary_genre || '',
+      had_outcome: hadOutcome,
+      outcome_grade: r.outcome_grade || '',
+      outcome_label: r.outcome_label || '',
+      gigs_1y: Number(r.gigs_1y) || 0,
+      venues: Number(r.venues) || 0,
+      n_branch: Number(r.n_branch) || 0,
+      last_date: r.last_date ? String(r.last_date).slice(0, 10) : '',
+      communityId: commId,
+      communitySize: comm ? Number(comm.size) || 0 : 0,
+      communityVenues: commVenues,
+      colorSlot: -1,
+      imageUrl: imgEntry?.image_url || '',
+      degree: 0,
+    };
+    nodeById.set(key, node);
+    return node;
+  });
+
+  // Top 8 communities visible in the current network get color slots 0..7
+  const communities = [...commCounts.values()]
+    .sort((a, b) => (b.count - a.count) || (b.size - a.size) || (a.id - b.id));
+  const slotByCommId = new Map();
+  communities.slice(0, 8).forEach((c, idx) => {
+    c.colorSlot = idx;
+    slotByCommId.set(c.id, idx);
+  });
+  for (const n of nodes) {
+    if (n.communityId !== null && slotByCommId.has(n.communityId)) {
+      n.colorSlot = slotByCommId.get(n.communityId);
+    }
+  }
+
+  const edges = [];
+  for (const r of edgeRows) {
+    const src = String(r.team_key || '');
+    const tgt = String(r.target_key || '');
+    if (!src || !tgt || src === tgt) continue;
+    const a = nodeById.get(src);
+    const b = nodeById.get(tgt);
+    if (!a || !b) continue;
+    a.degree += 1;
+    b.degree += 1;
+    edges.push({
+      source: src,
+      target: tgt,
+      weight: Math.max(1, Number(r.weight) || 1),
+      detail: r.detail || '',
+      last_date: r.last_date ? String(r.last_date).slice(0, 10) : '',
+    });
+  }
+
+  return {
+    nodes,
+    edges,
+    communities,
+    winnerCount,
+    candidateCount,
+    genre: useGenre,
+    limit: useLimit,
+  };
+}
+
 
 
 

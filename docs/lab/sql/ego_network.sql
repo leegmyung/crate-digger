@@ -26,7 +26,7 @@ co_stage AS (
       ON b.signal_date = a.signal_date
      AND b.venue = a.venue
      AND b.team_key <> a.team_key
-    LEFT JOIN teams t ON t.team_key = b.team_key
+    JOIN teams t ON t.team_key = b.team_key
     WHERE a.team_key = {{team_key}}
     GROUP BY b.team_key, t.display_name, t.primary_genre
     ORDER BY weight DESC, last_date DESC, label ASC

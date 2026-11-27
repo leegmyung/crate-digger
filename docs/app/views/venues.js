@@ -1,4 +1,4 @@
-import { appState, registerChart, setExportContext } from '../state.js';
+import { appState, registerChart, setExportContext, syncHash } from '../state.js';
 import {
   buildNextGigByTeam, groupUpcomingEvents, loadSceneMap, queryCandidates,
   queryMonthlyNewcomerVenues, queryUpcomingGigs,
@@ -8,6 +8,7 @@ import {
   formatNextGigText, plainWhyLine, renderActionBanner, spotifyButtonHtml,
   wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
+import { mountSceneNetworkBlock } from './graph.js';
 
 export async function renderVenuesView(root) {
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
@@ -68,6 +69,7 @@ export async function renderVenuesView(root) {
     const targetId = Number(appState.focusSceneId);
     const idx = sceneCommunities.findIndex(c => Number(c.id) === targetId);
     if (idx >= 0) {
+      appState.venuesTab = 'overview';
       expandedSceneId = targetId;
       if (idx + 1 > sceneLimit) sceneLimit = Math.ceil((idx + 1) / 10) * 10;
     }
@@ -76,6 +78,16 @@ export async function renderVenuesView(root) {
   let calMode = 'cand'; // 'cand' | 'all'
   let calLimit = 8;
   let chartRendered = false;
+  let sceneGraphHandle = null;
+
+  function renderVenuesSubTabs(activeTab) {
+    return `
+      <div class="sub-tabs venues-sub-tabs" role="tablist" aria-label="공연장·씬 보기 전환">
+        <button type="button" class="sub-tab-btn ${activeTab === 'overview' ? 'active' : ''}" role="tab" aria-selected="${activeTab === 'overview' ? 'true' : 'false'}" data-venues-tab="overview">공연장 · 씬 묶음</button>
+        <button type="button" class="sub-tab-btn ${activeTab === 'network' ? 'active' : ''}" role="tab" aria-selected="${activeTab === 'network' ? 'true' : 'false'}" data-venues-tab="network">씬 네트워크</button>
+      </div>
+    `;
+  }
 
   function renderVenueRow(v, idx) {
     const isOpen = expandedVenue === v.venue;
@@ -256,6 +268,10 @@ export async function renderVenuesView(root) {
     }));
   }
 
+  const validTeamKeys = appState.teamIndex?.length
+    ? new Set(appState.teamIndex.map(t => t.team_key))
+    : null;
+
   function renderSceneRow(c) {
     const isOpen = expandedSceneId === Number(c.id);
     const topVenues = (c.top_venues || []).slice(0, 3);
@@ -265,8 +281,12 @@ export async function renderVenuesView(root) {
     const venuesCounts = topVenues.length
       ? topVenues.map(v => `${v.venue} ${fmtInt(v.events)}`).join(' · ')
       : '';
-    const topCands = (c.top_candidates || []).slice(0, 5);
-    const hubs = (c.hubs || []).slice(0, 5);
+    const topCands = (c.top_candidates || [])
+      .filter(t => !validTeamKeys || validTeamKeys.has(t.team_key))
+      .slice(0, 5);
+    const hubs = (c.hubs || [])
+      .filter(h => !validTeamKeys || validTeamKeys.has(h.team_key))
+      .slice(0, 5);
     const previewTeams = topCands.length ? topCands.slice(0, 5) : hubs.slice(0, 3);
 
     return `
@@ -370,12 +390,47 @@ export async function renderVenuesView(root) {
   }
 
   function paint() {
+    if (sceneGraphHandle) {
+      try { sceneGraphHandle.destroy(); } catch (_) {}
+      sceneGraphHandle = null;
+    }
     chartRendered = false;
+    const activeTab = appState.venuesTab === 'network' ? 'network' : 'overview';
+
+    if (activeTab === 'network') {
+      root.innerHTML = `
+        ${bannerHtml}
+        ${renderVenuesSubTabs(activeTab)}
+        <div id="sceneNetworkHost"></div>
+      `;
+
+      root.querySelectorAll('[data-venues-tab]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const next = btn.dataset.venuesTab === 'network' ? 'network' : 'overview';
+          if (next === appState.venuesTab) return;
+          appState.venuesTab = next;
+          syncHash(true);
+          paint();
+        });
+      });
+
+      const host = root.querySelector('#sceneNetworkHost');
+      if (host) {
+        sceneGraphHandle = mountSceneNetworkBlock(host, {
+          initialGenre: appState.cfg.genre || '',
+          initialLimit: 150,
+          nextGigByTeam,
+        });
+      }
+      return;
+    }
+
     const visVenues = monthly.venues.slice(0, venueLimit);
     const remVenues = monthly.venues.length - visVenues.length;
 
     root.innerHTML = `
       ${bannerHtml}
+      ${renderVenuesSubTabs(activeTab)}
 
       <section class="block" id="monthlyVenuesBlock">
         <div class="block-head">
@@ -417,6 +472,16 @@ export async function renderVenuesView(root) {
 
     wireAvatarFallbacks(root);
     wireSpotifyButtons(root);
+
+    root.querySelectorAll('[data-venues-tab]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const next = btn.dataset.venuesTab === 'network' ? 'network' : 'overview';
+        if (next === appState.venuesTab) return;
+        appState.venuesTab = next;
+        syncHash(true);
+        paint();
+      });
+    });
 
     root.querySelectorAll('[data-toggle-venue]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -475,7 +540,7 @@ export async function renderVenuesView(root) {
   }
 
   paint();
-  if (expandedSceneId !== null) {
+  if (expandedSceneId !== null && appState.venuesTab !== 'network') {
     root.querySelector(`[data-scene-id="${expandedSceneId}"]`)?.scrollIntoView({ block: 'center' });
   }
 }
