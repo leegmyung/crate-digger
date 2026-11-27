@@ -22,5 +22,26 @@
     "images": 243,
     "collabs": 0
   },
-  "scene_communities": 274
+  "scene_communities": 274,
+  "extras": [
+    "city_profiles",
+    "event_stars",
+    "festival_profiles",
+    "lineup_roles",
+    "team_cities",
+    "venue_ladder",
+    "venue_profiles",
+    "venue_tiers"
+  ],
+  "extras_rows": {
+    "city_profiles.json": true,
+    "event_stars.csv": 13140,
+    "festival_profiles.json": true,
+    "lineup_roles.csv": 4477,
+    "team_cities.csv": 4985,
+    "venue_ladder.json": true,
+    "venue_profiles.json": true,
+    "venue_tiers.csv": 55
+  },
+  "extras_updated_at": "2026-11-28T00:21:28+09:00"
 }
