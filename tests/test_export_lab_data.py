@@ -119,10 +119,40 @@ class LinkRowsTest(unittest.TestCase):
         self.assertEqual(refs, [{"team_key": "김승주", "platform": "spotify", "ref": "BBB"}])
 
 
+def _v(team, vid, title, channel="스페이스 공감", kind="stage", date="2026-01-01T00:00:00Z"):
+    return {"team_key": team, "video_id": vid, "title": title, "channel_title": channel,
+            "published_at": date, "kind": kind}
+
+
+class VideoRowsTest(unittest.TestCase):
+    def test_drops_interviews_shorts_and_non_live_kbs_clips(self):
+        rows = ex.video_rows([
+            _v("a", "AAAAAAAAAAA", "에이 - 노래 [스페이스 공감]"),
+            _v("a", "BBBBBBBBBBB", "(ENG)[MusicBank Interview Cam] 에이", channel="KBS Kpop"),
+            _v("a", "CCCCCCCCCCC", "에이 셀캠 #shorts", channel="it's Live"),
+            _v("a", "DDDDDDDDDDD", "에이 - 노래 [더 시즌즈-성시경의 고막남친] | KBS", channel="KBS Kpop"),
+            _v("a", "EEEEEEEEEEE", "에이 근황 토크", channel="KBS Kpop"),
+        ])
+        self.assertEqual([r["video_id"] for r in rows], ["AAAAAAAAAAA", "DDDDDDDDDDD"])
+
+    def test_orders_by_kind_then_recency_and_caps_per_team(self):
+        raw = [_v("a", f"{i:011d}", f"에이 live {i}", kind="search", date=f"2026-01-{i + 1:02d}T00:00:00Z")
+               for i in range(8)]
+        raw.append(_v("a", "STAGEVIDEO1", "에이 [it's Live]", date="2025-01-01T00:00:00Z"))
+        rows = ex.video_rows(raw, per_team=3)
+        self.assertEqual([r["video_id"] for r in rows], ["STAGEVIDEO1", "00000000007", "00000000006"])
+
+    def test_invalid_ids_and_duplicates_removed(self):
+        rows = ex.video_rows([_v("a", "bad", "에이 live"), _v("a", "AAAAAAAAAAA", "에이 live"),
+                              _v("a", "AAAAAAAAAAA", "에이 live")])
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["published_at"], "2026-01-01")
+
+
 class ExportTest(unittest.TestCase):
     def test_writes_all_files_with_meta(self):
         with tempfile.TemporaryDirectory() as d:
-            meta = ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None)
+            meta = ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=None)
             for name in ("signals.csv", "teams.csv", "outcomes.csv", "programs.csv", "links.csv", "meta.json"):
                 self.assertTrue((Path(d) / name).exists(), name)
             self.assertEqual(meta["rows"]["signals"], 3)
@@ -134,7 +164,7 @@ class ExportTest(unittest.TestCase):
 
     def test_programs_list_marks_outcome_and_signal_kinds(self):
         with tempfile.TemporaryDirectory() as d:
-            ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None)
+            ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=None)
             with open(Path(d) / "programs.csv", encoding="utf-8") as f:
                 kinds = {r["program"]: r["kind"] for r in csv.DictReader(f)}
             self.assertEqual(kinds["band_discovery"], "signal")

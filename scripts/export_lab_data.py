@@ -27,11 +27,20 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "docs" / "lab" / "data"
 SPOTIFY_MATCH = ROOT / "data" / "raw" / "state" / "spotify_match.json"
 XREF_FILE = ROOT / "data" / "raw" / "state" / "artist_xref.json"
+RAW_DIR = ROOT / "data" / "raw"
 
 SIGNAL_FIELDS = ["team_key", "branch", "source", "program", "stage_rank", "signal_date", "venue"]
 TEAM_FIELDS = ["team_key", "display_name", "first_seen", "first_release", "fan_count", "album_count",
                "profile_status", "primary_genre", "agency"]
 LINK_FIELDS = ["team_key", "platform", "url"]
+VIDEO_FIELDS = ["team_key", "video_id", "title", "channel_title", "published_at", "kind"]
+VIDEO_KIND_ORDER = {"stage": 0, "official_live": 1, "official": 2, "search": 3}
+VIDEOS_PER_TEAM = 6
+VIDEO_ID = re.compile(r"[A-Za-z0-9_-]{11}")
+# 무대가 아닌 영상(인터뷰·셀캠·직캠·쇼츠·예고)은 어느 채널이든 뺀다
+NOT_STAGE = re.compile(r"interview|인터뷰|셀캠|직캠|fancam|#shorts|선공개|예고|teaser|비하인드|behind", re.I)
+# KBS Kpop 채널은 아이돌 예능 클립이 대부분 → 라이브 프로그램 클립만 남긴다
+KBS_LIVE = re.compile(r"더 시즌즈|리무진서비스|the seasons", re.I)
 # 플랫폼 번호 → 아티스트 페이지 주소 (번호만 있을 때). 전체 주소가 오면 이 도메인일 때만 그대로 쓴다.
 URL_TEMPLATES = {
     "melon": ("https://www.melon.com/artist/detail.htm?artistId={}", r"\d+"),
@@ -207,6 +216,37 @@ def _extra_refs() -> List[dict]:
     return refs
 
 
+def video_rows(raw: List[dict], per_team: int = VIDEOS_PER_TEAM) -> List[dict]:
+    """수집한 유튜브 영상 → 팀별 무대 영상(무대 > 공식 라이브 > 공식 > 검색, 같은 순위는 최신순, 팀당 최대 per_team)."""
+    best: Dict[tuple, dict] = {}
+    for r in raw:
+        vid, title, channel = r.get("video_id") or "", r.get("title") or "", r.get("channel_title") or ""
+        if not VIDEO_ID.fullmatch(vid) or not r.get("team_key") or NOT_STAGE.search(title):
+            continue
+        if channel.startswith("KBS") and not KBS_LIVE.search(title):
+            continue
+        row = {k: r.get(k) or "" for k in VIDEO_FIELDS}
+        row["published_at"] = row["published_at"][:10]
+        best.setdefault((row["team_key"], vid), row)
+    by_team: Dict[str, List[dict]] = {}
+    for row in best.values():
+        by_team.setdefault(row["team_key"], []).append(row)
+    out = []
+    for team in sorted(by_team):
+        ranked = sorted(by_team[team], key=lambda v: v["published_at"], reverse=True)
+        ranked.sort(key=lambda v: VIDEO_KIND_ORDER.get(v["kind"], 9))
+        out.extend(ranked[:per_team])
+    return out
+
+
+def _raw_videos(raw_dir: Path = RAW_DIR) -> List[dict]:
+    rows: List[dict] = []
+    for path in sorted(raw_dir.glob("raw_video_*.csv")):
+        with open(path, encoding="utf-8") as f:
+            rows.extend(csv.DictReader(f))
+    return rows
+
+
 def program_rows(signals: List[dict], outcomes: List[dict]) -> List[dict]:
     kinds: Dict[str, str] = {}
     for s in signals:
@@ -226,7 +266,8 @@ def _write_csv(path: Path, fields: List[str], rows: List[dict]) -> None:
 
 
 def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = None,
-           extra_refs: Callable[[], List[dict]] | None = _extra_refs) -> dict:
+           extra_refs: Callable[[], List[dict]] | None = _extra_refs,
+           raw_videos: Callable[[], List[dict]] | None = _raw_videos) -> dict:
     use_xref = _has_xref_table(run)
     q = queries(use_xref)
     signals = _records(run(q["signals"]))
@@ -241,12 +282,14 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
     _write_csv(out_dir / "outcomes.csv", OUTCOME_FIELDS, outcomes)
     _write_csv(out_dir / "programs.csv", ["program", "label", "kind"], programs)
     _write_csv(out_dir / "links.csv", LINK_FIELDS, links)
+    videos = video_rows(raw_videos()) if raw_videos else []
+    _write_csv(out_dir / "videos.csv", VIDEO_FIELDS, videos)
     meta = {
         "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "data_end": today or date.today().isoformat(),
         "uses_artist_xref": use_xref,
         "rows": {"signals": len(signals), "teams": len(teams), "outcomes": len(outcomes),
-                 "programs": len(programs), "links": len(links)},
+                 "programs": len(programs), "links": len(links), "videos": len(videos)},
     }
     (out_dir / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
     return meta

@@ -26,6 +26,7 @@ else
 fi
 "$PY" scripts/collect_spotify.py || echo "⚠️ 스포티파이 발매 이력 수집 일부 실패 (하루 한도에 걸리면 다음 날 이어서)"
 "$PY" scripts/validate_csv.py data/raw/*"$DAY"*.csv || echo "⚠️ 형식 검사에서 오류 발견 (진행판에 실패로 표시됨)"
+"$PY" scripts/collect_videos.py || echo "⚠️ 유튜브 무대 영상 수집 일부 실패 (하루 한도에 걸리면 다음 날 이어서)"
 "$PY" scripts/build_site_data.py || echo "⚠️ 진행판 데이터 갱신 실패"
 "$PY" scripts/load_pg.py || echo "⚠️ PostgreSQL 적재 실패 (brew services start postgresql@17 확인)"
 "$PY" scripts/build_dashboard_data.py || echo "⚠️ 데이터 대시보드 갱신 일부 실패"
