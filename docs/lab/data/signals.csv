@@ -286,7 +286,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 갤럭시익스프레스,선정·지원,dmz,dmz_lineup,2,2026-04-14,
 갤럭시익스프레스,공연,indistreet,,,2026-04-26,
 갤럭시익스프레스,공연,indistreet,,,2026-07-04,Club FF
-갤럭시익스프레스,공연,indiego,,,2026-11-29,프리버드
+갤럭시익스프레스,공연,indiego,,,2026-11-29,클럽 프리버드
 거니앤건즈,공연,indistreet,,,2024-05-24,Club Victim
 거니앤건즈,공연,indistreet,,,2024-07-26,Club Victim
 거니앤건즈,공연,indistreet,,,2024-08-24,Club Victim
@@ -338,16 +338,16 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 검은잎들,공연,indistreet,,,2024-10-13,오방가르드
 검은잎들,큐레이션,izm,IZM,,2024-11-29,
 검은잎들,큐레이션,musicy,음악취향Y,,2024-12-02,
-검은잎들,공연,sangsangmadang,,,2024-12-08,KT&G 상상마당 부산 라이브홀
+검은잎들,공연,sangsangmadang,,,2024-12-08,KT&G상상마당 부산
 검은잎들,공연,indistreet,,,2025-07-12,채널1969
 검은잎들,공연,indistreet,,,2025-07-26,오방가르드
 검은잎들,공연,indistreet,,,2026-02-08,오방가르드
 검은잎들,공연,indistreet,,,2026-04-11,대구 제임스레코드
 검은잎들,공연,indistreet,,,2026-04-30,오방가르드
 검은잎들,공연,indistreet,,,2026-05-10,오방가르드
-검정치마,공연,sangsangmadang,,,2017-09-07,상상마당 홍대 라이브홀
-검정치마,공연,sangsangmadang,,,2017-09-10,상상마당 홍대 라이브홀
-검정치마,공연,sangsangmadang,,,2017-09-14,상상마당 홍대 라이브홀
+검정치마,공연,sangsangmadang,,,2017-09-07,KT&G 상상마당 홍대 라이브홀
+검정치마,공연,sangsangmadang,,,2017-09-10,KT&G 상상마당 홍대 라이브홀
+검정치마,공연,sangsangmadang,,,2017-09-14,KT&G 상상마당 홍대 라이브홀
 검정치마,공연,sangsangmadang,,,2017-09-20,라이브홀
 검정치마,공연,sangsangmadang,,,2019-05-17,라이브홀
 검정치마,공연,sangsangmadang,,,2019-06-07,라이브홀
@@ -372,10 +372,10 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 게이트플라워즈,큐레이션,musicy,음악취향Y,,2024-07-15,
 게이트플라워즈,공연,indistreet,,,2024-07-19,공연장 미정
 게키오코뿡뿡마루,공연,indistreet,,,2026-06-20,유기체
-겐그레아,공연,sangsangmadang,,,2017-06-22,상상마당 홍대 라이브홀
+겐그레아,공연,sangsangmadang,,,2017-06-22,KT&G 상상마당 홍대 라이브홀
 겟베러,공연,indistreet,,,2024-05-05,Club Victim
 겨울에서봄,공연,sangsangmadang,,,2019-10-12,라이브홀
-결,공연,sangsangmadang,,,2024-08-24,KT&G 상상마당 부산 라이브홀
+결,공연,sangsangmadang,,,2024-08-24,KT&G상상마당 부산
 결,발매,bugs,,,2026-11-26,
 결,발매,flo,,,2026-11-26,
 결,발매,melon,,,2026-11-26,
@@ -399,7 +399,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 고고학,공연,indistreet,,,2025-04-20,금사락
 고고학,큐레이션,izm,IZM,,2025-05-21,
 고고학,공연,indistreet,,,2025-07-06,오방가르드
-고고학,공연,sangsangmadang,,,2025-12-06,KT&G 상상마당 부산 3F 라이브홀
+고고학,공연,sangsangmadang,,,2025-12-06,KT&G 상상마당 부산 3층 라이브홀
 고고학,공연,indistreet,,,2026-02-06,롤링홀
 고고학,큐레이션,izm,IZM,,2026-04-02,
 고고학,공연,indistreet,,,2026-06-20,무신사개러지
@@ -424,7 +424,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 고니밴드,공연,indistreet,,,2024-09-26,Club FF
 고니밴드,공연,indistreet,,,2025-04-25,Club Victim
 고니밴드,공연,indistreet,,,2025-11-22,언드
-고니밴드,공연,indistreet,,,2026-11-29,JS 아트홀
+고니밴드,공연,indistreet,,,2026-11-29,제이에스아트홀&뮤직바
 고니아,선정·지원,sejong,muse_sejong,3,2021-12-31,
 고니아,선정·지원,sejong,muse_sejong,3,2022-12-31,
 고닭,공연,indistreet,,,2025-05-14,Club 빵
@@ -526,7 +526,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 공원,큐레이션,izm,IZM,,2025-10-15,
 공원,큐레이션,overtone,overtone,,2026-03-02,
 공원,공연,indistreet,,,2026-10-02,
-공원,공연,indiego,,,2026-11-28,무신사 개러지
+공원,공연,indiego,,,2026-11-28,무신사개러지
 공원,공연,indistreet,,,2026-11-28,무신사개러지
 공원,공연,indistreet,,,2026-11-29,무신사개러지
 공음,공연,indistreet,,,2024-07-27,공연장 미정
@@ -871,7 +871,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 극동아시아타이거즈,공연,indistreet,,,2025-05-03,Club FF
 극동아시아타이거즈,공연,sangsangmadang,,,2025-05-17,라이브홀
 극동아시아타이거즈,공연,indistreet,,,2025-05-24,Club 빵
-극동아시아타이거즈,공연,sangsangmadang,,,2025-06-06,KT&G 상상마당 부산 라이브홀
+극동아시아타이거즈,공연,sangsangmadang,,,2025-06-06,KT&G상상마당 부산
 극동아시아타이거즈,공연,sangsangmadang,,,2025-06-28,KT&G 상상마당 춘천 사운드홀
 극동아시아타이거즈,공연,sangsangmadang,,,2025-08-22,라이브홀
 극동아시아타이거즈,공연,indistreet,,,2025-10-31,Club FF
@@ -900,7 +900,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 글루,공연,indistreet,,,2024-06-07,Club FF
 글루,공연,indistreet,,,2025-05-23,Club FF
 글루미시즌,공연,sangsangmadang,,,2017-08-12,사운드홀 로비
-금넉재,공연,indiego,,,2026-11-26,클럽 빵
+금넉재,공연,indiego,,,2026-11-26,Club 빵
 금모래,공연,indistreet,,,2026-05-02,Club FF
 급한노새,공연,indistreet,,,2024-01-20,Club 빵
 급한노새,공연,indistreet,,,2024-02-02,A.O.R
@@ -998,7 +998,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 기묘말,공연,indistreet,,,2026-09-11,카페 언플러그드 홍대점
 기묘말,공연,indistreet,,,2026-10-14,스페이스 한강
 기묘말,공연,indistreet,,,2026-10-28,언플러그드 라운지
-기묘말,공연,instagram,@senggistudio,,2026-11-14,@senggistudio
+기묘말,공연,instagram,@senggistudio,,2026-11-14,생기스튜디오
 기묘말,공연,indistreet,,,2026-11-15,카페 언플러그드 홍대점
 기묘말,공연,indistreet,,,2026-11-20,공상온도
 기묘말,공연,indiego,,,2026-11-26,언플러그드 라운지
@@ -1024,7 +1024,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 기쿠하시,공연,indistreet,,,2026-08-30,
 기쿠하시,공연,indistreet,,,2026-09-05,
 기쿠하시,공연,indistreet,,,2026-10-17,벨르
-기쿠하시,공연,indiego,,,2026-11-29,KT&G상상마당 홍대
+기쿠하시,공연,indiego,,,2026-11-29,KT&G 상상마당 홍대 라이브홀
 기프트,공연,sangsangmadang,,,2017-12-15,라이브홀
 기프트,공연,indistreet,,,2025-03-16,오방가르드
 기프트,공연,indistreet,,,2025-11-01,오방가르드
@@ -1066,7 +1066,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 김경호,큐레이션,izm,IZM,,2024-06-01,
 김광석,큐레이션,izm,IZM,,2023-03-01,
 김광진,공연,indistreet,,,2026-08-16,
-김광호,공연,sangsangmadang,,,2020-02-29,상상마당 춘천 사운드홀
+김광호,공연,sangsangmadang,,,2020-02-29,KT&G 상상마당 춘천 사운드홀
 김규도,공연,indistreet,,,2024-03-29,Club FF
 김규도,공연,indistreet,,,2025-01-17,Club FF
 김규도,공연,indistreet,,,2026-04-05,언플러그드 라운지
@@ -1165,7 +1165,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 김목인,공연,indistreet,,,2026-05-05,언플러그드 라운지
 김목인,공연,indistreet,,,2026-08-09,Club 빵
 김목인,공연,indistreet,,,2026-08-30,
-김목인,공연,indiego,,,2026-11-29,클럽 빵
+김목인,공연,indiego,,,2026-11-29,Club 빵
 김목인,공연,indistreet,,,2026-11-29,Club 빵
 김뮤지엄,공연,indistreet,,,2026-11-21,KT&G 상상마당 홍대 라이브홀
 김민결,공연,indistreet,,,2026-10-06,언플러그드 라운지
@@ -1176,7 +1176,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 김민석,공연,sangsangmadang,,,2018-06-30,라이브홀
 김민석,큐레이션,izm,IZM,,2024-04-01,
 김민수,선정·지원,yjh,yoojaeha_finalist,3,2016-12-31,
-김민수,공연,sangsangmadang,,,2020-02-29,상상마당 춘천 사운드홀
+김민수,공연,sangsangmadang,,,2020-02-29,KT&G 상상마당 춘천 사운드홀
 김민영,큐레이션,musicy,음악취향Y,,2025-07-21,
 김민영,발매,bugs,,,2026-11-25,
 김민영,발매,genie,,,2026-11-25,
@@ -1203,13 +1203,13 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 김사월,선정·지원,dmz,dmz_lineup,2,2019-06-30,
 김사월,공연,sangsangmadang,,,2019-07-21,라이브홀
 김사월,공연,sangsangmadang,,,2019-10-18,라이브홀
-김사월,공연,sangsangmadang,,,2022-05-07,3F 라이브홀
+김사월,공연,sangsangmadang,,,2022-05-07,3층 라이브홀
 김사월,공연,sangsangmadang,,,2022-08-15,라이브홀
 김사월,공연,sangsangmadang,,,2022-12-17,라이브홀
 김사월,큐레이션,izm,IZM,,2024-04-01,
 김사월,큐레이션,musicy,음악취향Y,,2024-04-01,
 김사월,공연,indistreet,,,2025-07-26,북두칠성도서관 아트훌
-김사월,공연,indiego,,,2026-11-29,KT&G상상마당 홍대
+김사월,공연,indiego,,,2026-11-29,KT&G 상상마당 홍대 라이브홀
 김산,큐레이션,musicy,음악취향Y,,2025-11-24,
 김산돌,공연,indistreet,,,2025-01-26,Club 빵
 김산돌,공연,indistreet,,,2025-03-23,Club 빵
@@ -1264,7 +1264,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 김세현과좋은친구들,공연,sangsangmadang,,,2017-07-22,라이브홀
 김세현밴드,공연,sangsangmadang,,,2017-12-13,라이브홀
 김세현밴드,공연,sangsangmadang,,,2018-07-26,라이브홀
-김세호,공연,indistreet,,,2026-11-29,JS 아트홀
+김세호,공연,indistreet,,,2026-11-29,제이에스아트홀&뮤직바
 김세환,큐레이션,izm,IZM,,2025-12-09,
 김세황,큐레이션,izm,IZM,,2024-01-01,
 김소연,큐레이션,izm,IZM,,2023-07-01,
@@ -1494,7 +1494,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 김필,큐레이션,izm,IZM,,2023-06-01,
 김필,큐레이션,izm,IZM,,2025-09-17,
 김필선,공연,indistreet,,,2024-01-04,살롱문보우
-김필선,공연,sangsangmadang,,,2024-04-20,KT&G 상상마당 부산 라이브홀
+김필선,공연,sangsangmadang,,,2024-04-20,KT&G상상마당 부산
 김필선,큐레이션,musicy,음악취향Y,,2024-12-23,
 김필선,공연,sangsangmadang,,,2024-12-28,3층 라이브홀
 김필선,공연,indistreet,,,2026-09-06,
@@ -1578,8 +1578,8 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 까치산,공연,indistreet,,,2026-07-01,공연장 미정
 까치산,공연,indistreet,,,2026-08-15,
 까치산,공연,indistreet,,,2026-10-04,
-까치산,공연,indistreet,,,2026-10-31,JS 아트홀
-까치산,공연,indistreet,,,2026-11-01,JS 아트홀
+까치산,공연,indistreet,,,2026-10-31,제이에스아트홀&뮤직바
+까치산,공연,indistreet,,,2026-11-01,제이에스아트홀&뮤직바
 까치산,공연,indistreet,,,2026-11-07,대전 음악창작소
 까치산,공연,indistreet,,,2026-11-21,공연장 미정
 깐병,공연,indistreet,,,2025-02-23,무신사개러지
@@ -1622,7 +1622,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 나나,큐레이션,izm,IZM,,2025-02-26,
 나나,큐레이션,musicy,음악취향Y,,2025-09-29,
 나나섬,공연,indistreet,,,2026-11-12,카페 언플러그드 홍대점
-나날,공연,sangsangmadang,,,2024-07-05,상상마당 부산 3층 라이브홀
+나날,공연,sangsangmadang,,,2024-07-05,KT&G 상상마당 부산 3층 라이브홀
 나날,공연,indistreet,,,2025-11-04,리얼라이즈
 나날과대파크림치즈,공연,indistreet,,,2026-02-14,언드
 나노말,큐레이션,musicy,음악취향Y,,2023-03-27,
@@ -1693,9 +1693,9 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 나움,공연,indistreet,,,2026-05-30,카페 언플러그드 홍대점
 나원주,선정·지원,yjh,yoojaeha_finalist,3,1995-12-31,
 나윤권,공연,sangsangmadang,,,2026-07-18,KT&G 상상마당 홍대 라이브홀
-나윤권,공연,sangsangmadang,,,2026-08-01,KT&G 상상마당 부산 라이브홀
+나윤권,공연,sangsangmadang,,,2026-08-01,KT&G상상마당 부산
 나윤권소극장,공연,sangsangmadang,,,2025-07-19,KT&G 상상마당 춘천 사운드홀
-나윤권소극장,공연,sangsangmadang,,,2025-08-02,KT&G 상상마당 부산 라이브홀
+나윤권소극장,공연,sangsangmadang,,,2025-08-02,KT&G상상마당 부산
 나윤권소극장,공연,sangsangmadang,,,2025-08-09,라이브홀
 나은,공연,indistreet,,,2026-04-18,Bender
 나의노랑말들,공연,indistreet,,,2024-09-20,KT&G상상마당 부산
@@ -1793,7 +1793,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 나타샤,공연,indistreet,,,2026-11-07,KT&G상상마당 부산
 나타샤,공연,indistreet,,,2026-11-14,언플러그드 라운지
 나타샤,공연,indistreet,,,2026-11-15,클럽 프리버드
-나타샤,공연,indiego,,,2026-11-28,클럽FF
+나타샤,공연,indiego,,,2026-11-28,Club FF
 나타샤,공연,indistreet,,,2026-11-28,Club FF
 나타샤,공연,indistreet,,,2026-11-29,생기스튜디오
 나탈,공연,indistreet,,,2026-09-20,스페이스 한강
@@ -1905,7 +1905,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 낫마이베이스,공연,indistreet,,,2026-09-18,Club 빵
 낫마이베이스,공연,indistreet,,,2026-10-10,Club Victim
 낫마이베이스,공연,indistreet,,,2026-11-22,Club Victim
-낫마이베이스,공연,indiego,,,2026-11-29,스트레인지프룻
+낫마이베이스,공연,indiego,,,2026-11-29,스트레인지 프룻
 낫마이베이스,공연,indistreet,,,2026-11-29,스트레인지 프룻
 낭만,발매,bugs,,,2026-11-26,
 낭만,발매,genie,,,2026-11-26,
@@ -1990,7 +1990,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 네켄킴,공연,indistreet,,,2026-10-24,락클럽 Bar 레드제플린
 네켄킴,공연,indistreet,,,2026-10-31,공연장 미정
 네켄킴,공연,indistreet,,,2026-11-28,라이브펍 타락
-네키루,공연,indistreet,,,2024-03-02,웨스트브릿지
+네키루,공연,indistreet,,,2024-03-02,웨스트브릿지 라이브홀
 네키루,공연,indistreet,,,2024-05-06,프리즘홀
 네키루,공연,indistreet,,,2024-12-14,베이비돌
 넥스지,큐레이션,izm,IZM,,2024-06-01,
@@ -2040,7 +2040,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 노백,공연,indistreet,,,2026-08-07,A.O.R
 노백,공연,indistreet,,,2026-10-11,A.O.R
 노백,공연,indistreet,,,2026-11-21,클럽 프리버드
-노백,공연,indiego,,,2026-11-27,클럽 빵
+노백,공연,indiego,,,2026-11-27,Club 빵
 노브,공연,indistreet,,,2026-07-01,공연장 미정
 노브레인,공연,sangsangmadang,,,2018-06-13,라이브홀
 노브레인,선정·지원,dmz,dmz_lineup,2,2022-10-31,
@@ -2130,7 +2130,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 녹이녹,공연,indistreet,,,2026-09-13,
 녹이녹,공연,indistreet,,,2026-10-25,신도시
 녹이녹,큐레이션,instagram,@muzik.street,,2026-11-22,
-녹이녹,공연,indiego,,,2026-11-29,스페이스 브릭
+녹이녹,공연,indiego,,,2026-11-29,스페이스브릭
 논논,공연,indistreet,,,2026-01-31,대구 제임스레코드
 놀이도감,공연,indistreet,,,2024-09-21,서브라이엇 해방촌
 놀이도감,공연,indistreet,,,2024-11-06,무신사개러지
@@ -2239,10 +2239,10 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 다다다,공연,indistreet,,,2026-10-02,
 다다다,공연,indistreet,,,2026-10-31,예스24 원더로크홀
 다다다,발매,bugs,,,2026-11-25,
-다다다,공연,indiego,,,2026-11-26,AOR
+다다다,공연,indiego,,,2026-11-26,A.O.R
 다다다,공연,indistreet,,,2026-11-26,A.O.R
-다다다,공연,indiego,,,2026-11-27,클럽 빵
-다다다,공연,indiego,,,2026-11-28,클럽FF
+다다다,공연,indiego,,,2026-11-27,Club 빵
+다다다,공연,indiego,,,2026-11-28,Club FF
 다다다,공연,indistreet,,,2026-11-28,Club FF
 다민이,공연,indistreet,,,2026-07-04,스페이스브릭
 다방,선정·지원,yjh,yoojaeha_finalist,3,2013-12-31,
@@ -2265,7 +2265,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 다브다,발매,bugs,,,2026-11-24,
 다브다,발매,flo,,,2026-11-24,
 다브다,발매,poclanos,,,2026-11-24,
-다브다,공연,indiego,,,2026-11-29,스페이스 브릭
+다브다,공연,indiego,,,2026-11-29,스페이스브릭
 다섯,공연,sangsangmadang,,,2020-02-16,라이브홀
 다섯,공연,sangsangmadang,,,2020-02-22,라이브홀
 다섯,공연,indistreet,,,2024-01-13,무신사개러지
@@ -2324,7 +2324,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 다정,큐레이션,musicy,음악취향Y,,2024-05-06,
 다크비,큐레이션,izm,IZM,,2023-06-01,
 다플루토,큐레이션,musicy,음악취향Y,,2024-08-12,
-다플루토,공연,indiego,,,2026-11-29,스페이스 브릭
+다플루토,공연,indiego,,,2026-11-29,스페이스브릭
 다현,공연,indistreet,,,2026-11-01,언플러그드 라운지
 닥스후드,큐레이션,rhythmer,리드머,,2026-11-10,
 단감자,공연,indistreet,,,2026-01-24,대구 제임스레코드
@@ -2371,7 +2371,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 단편선순간들,공연,indistreet,,,2026-08-30,
 단편선순간들,공연,indistreet,,,2026-11-14,채널1969
 단편선순간들,공연,indistreet,,,2026-11-18,라이브앤라우드
-단편선순간들,공연,indiego,,,2026-11-29,KT&G상상마당 홍대
+단편선순간들,공연,indiego,,,2026-11-29,KT&G 상상마당 홍대 라이브홀
 단편선이보람,공연,indistreet,,,2025-03-22,공연장 미정
 단편선이보람,공연,indistreet,,,2025-08-23,생기스튜디오
 단편선이보람,공연,indistreet,,,2026-04-18,생기스튜디오
@@ -2411,7 +2411,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 달위의콜린스,공연,indistreet,,,2025-08-20,Club 빵
 달위의콜린스,공연,indistreet,,,2026-02-01,Club 빵
 달위의콜린스,공연,indistreet,,,2026-05-09,Hukez
-달위의콜린스,공연,indiego,,,2026-11-29,스트레인지프룻
+달위의콜린스,공연,indiego,,,2026-11-29,스트레인지 프룻
 달위의콜린스,공연,indistreet,,,2026-11-29,스트레인지 프룻
 달음,큐레이션,musicy,음악취향Y,,2024-09-30,
 달의하루,큐레이션,musicy,음악취향Y,,2023-08-07,
@@ -2809,7 +2809,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 데이로터스,큐레이션,musicy,음악취향Y,,2024-04-01,
 데이로터스,공연,indistreet,,,2024-04-06,A.O.R
 데이로터스,공연,indistreet,,,2024-05-04,옥타바리움 라이브홀
-데이로터스,공연,indistreet,,,2024-05-25,웨스트브릿지
+데이로터스,공연,indistreet,,,2024-05-25,웨스트브릿지 라이브홀
 데이로터스,공연,indistreet,,,2024-08-10,Club Victim
 데이로터스,공연,indistreet,,,2024-09-07,Club FF
 데이로터스,공연,indistreet,,,2024-09-21,Club Victim
@@ -3057,7 +3057,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 듀스,큐레이션,izm,IZM,,2023-03-01,
 듀스,큐레이션,izm,IZM,,2025-12-13,
 듀오벗,큐레이션,musicy,음악취향Y,,2024-05-13,
-듀포인트,공연,indiego,,,2026-11-29,후케즈
+듀포인트,공연,indiego,,,2026-11-29,Hukez
 드래곤포니,공연,indistreet,,,2024-03-22,Club FF
 드래곤포니,공연,indistreet,,,2024-04-14,A.O.R
 드래곤포니,공연,indistreet,,,2024-04-27,Club FF
@@ -3162,7 +3162,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 디어베어,공연,indistreet,,,2024-01-04,Club 빵
 디어베어,공연,indistreet,,,2024-02-15,Club 빵
 디어클라우드,큐레이션,izm,IZM,,2023-02-01,
-디어클라우드,공연,sangsangmadang,,,2026-04-25,KT&G 상상마당 부산 3F 라이브홀
+디어클라우드,공연,sangsangmadang,,,2026-04-25,KT&G 상상마당 부산 3층 라이브홀
 디어클라우드,공연,indistreet,,,2026-06-06,롤링홀
 디어클라우드,공연,indistreet,,,2026-09-05,
 디에이드,공연,sangsangmadang,,,2017-11-12,라이브홀
@@ -3258,10 +3258,10 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 뚜루스,공연,indistreet,,,2026-06-18,Club 빵
 뚜루스,공연,indistreet,,,2026-06-25,Club FF
 뚜루스,공연,indistreet,,,2026-07-31,Club FF
-뚜루스,공연,indiego,,,2026-11-26,클럽 빵
+뚜루스,공연,indiego,,,2026-11-26,Club 빵
 띵송,공연,indistreet,,,2025-01-05,Club Victim
 띵송,공연,indistreet,,,2025-04-26,Club Victim
-라그라스,공연,sangsangmadang,,,2020-02-29,상상마당 춘천 사운드홀
+라그라스,공연,sangsangmadang,,,2020-02-29,KT&G 상상마당 춘천 사운드홀
 라드뮤지엄,큐레이션,izm,IZM,,2023-02-01,
 라드뮤지엄,큐레이션,rhythmer,리드머,,2023-10-26,
 라드뮤지엄,큐레이션,musicy,음악취향Y,,2024-09-02,
@@ -3356,7 +3356,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 라쿠나,선정·지원,yjh,yoojaeha_finalist,3,2020-12-31,
 라쿠나,공연,sangsangmadang,,,2022-04-27,라이브홀
 라쿠나,공연,sangsangmadang,,,2023-02-18,라이브홀
-라쿠나,공연,sangsangmadang,,,2023-02-25,3F 라이브홀
+라쿠나,공연,sangsangmadang,,,2023-02-25,3층 라이브홀
 라쿠나,공연,sangsangmadang,,,2023-03-04,사운드홀
 라쿠나,큐레이션,izm,IZM,,2023-08-01,
 라쿠나,큐레이션,izm,IZM,,2023-09-01,
@@ -3435,7 +3435,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 러스트러블,공연,indistreet,,,2026-07-24,Club Victim
 러스트러블,공연,indistreet,,,2026-08-22,공연장 미정
 러스트러블,공연,indistreet,,,2026-10-31,Club Sharp
-러프위드스무스,공연,indiego,,,2026-12-02,프리버드
+러프위드스무스,공연,indiego,,,2026-12-02,클럽 프리버드
 럭스,공연,indistreet,,,2024-01-13,Club Victim
 럭스,공연,indistreet,,,2024-03-01,Club Victim
 럭스,공연,indistreet,,,2024-05-04,Club Victim
@@ -3474,7 +3474,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 레고,공연,indistreet,,,2026-08-01,언플러그드 라운지
 레고,공연,indistreet,,,2026-08-28,A.O.R
 레고,공연,indistreet,,,2026-10-31,Hukez
-레고,공연,indiego,,,2026-11-26,클럽FF
+레고,공연,indiego,,,2026-11-26,Club FF
 레고,공연,indistreet,,,2026-11-26,Club FF
 레드벨벳,큐레이션,izm,IZM,,2023-12-01,
 레드벨벳,큐레이션,overtone,overtone,,2026-08-05,
@@ -3533,7 +3533,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 레이지본,공연,indistreet,,,2026-10-09,
 레이지본,공연,indistreet,,,2026-10-17,Club FF
 레인보우노트,공연,sangsangmadang,,,2021-11-10,라이브홀
-레인보우노트,공연,indistreet,,,2024-01-13,CJ 아지트 광흥창
+레인보우노트,공연,indistreet,,,2024-01-13,CJ아지트 광흥창
 레인폴띠어리,공연,indistreet,,,2025-04-26,A.O.R
 레인폴씨어리,공연,indistreet,,,2026-04-09,Club FF
 레코다메,공연,indistreet,,,2024-02-25,Club 빵
@@ -3619,7 +3619,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 로스트파츠,큐레이션,musicy,음악취향Y,,2026-06-15,
 로시,공연,indistreet,,,2026-08-14,
 로썸,공연,sangsangmadang,,,2018-11-02,라이브홀
-로우,공연,indiego,,,2026-12-03,아지토
+로우,공연,indiego,,,2026-12-03,아지토 라이브 홀
 로우브라더스,공연,indistreet,,,2024-01-06,Club Victim
 로우브라더스,공연,indistreet,,,2024-01-21,Club Victim
 로우브라더스,공연,indistreet,,,2024-01-26,Club Victim
@@ -3725,7 +3725,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 롤링쿼츠,큐레이션,izm,IZM,,2023-10-01,
 롤링쿼츠,공연,indistreet,,,2024-04-06,드림홀
 롤링쿼츠,큐레이션,musicy,음악취향Y,,2024-07-01,
-롤링쿼츠,공연,indistreet,,,2026-01-03,웨스트브릿지
+롤링쿼츠,공연,indistreet,,,2026-01-03,웨스트브릿지 라이브홀
 롤링쿼츠,큐레이션,izm,IZM,,2026-01-06,
 롤링쿼츠,공연,indistreet,,,2026-04-25,
 롤링쿼츠,공연,indistreet,,,2026-07-05,A.O.R
@@ -4039,7 +4039,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 리장단,큐레이션,musicy,음악취향Y,,2024-03-18,
 리제스트,공연,indistreet,,,2024-12-13,오방가르드
 리제스트,공연,indistreet,,,2025-01-11,유기체
-리제스트,공연,sangsangmadang,,,2025-06-21,KT&G 상상마당 부산 라이브홀
+리제스트,공연,sangsangmadang,,,2025-06-21,KT&G상상마당 부산
 리즈,공연,indistreet,,,2025-06-14,락클럽 Bar 레드제플린
 리즈,공연,indistreet,,,2026-06-13,언드
 리짓군즈,공연,sangsangmadang,,,2019-05-11,라이브홀
@@ -4127,7 +4127,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 마누콩테,공연,indistreet,,,2024-08-23,공연장 미정
 마니,공연,indistreet,,,2026-06-15,카페 언플러그드 홍대점
 마릐한,공연,indistreet,,,2024-03-23,무대륙
-마리슈,공연,sangsangmadang,,,2017-06-22,상상마당 홍대 라이브홀
+마리슈,공연,sangsangmadang,,,2017-06-22,KT&G 상상마당 홍대 라이브홀
 마리슈,공연,sangsangmadang,,,2019-05-02,라이브홀
 마리슈,공연,indistreet,,,2024-10-25,Cafe PPnF
 마리슈,공연,indistreet,,,2025-02-22,Cafe PPnF
@@ -4159,7 +4159,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 마이베리엔드,공연,indistreet,,,2026-06-20,공연장 미정
 마이베리엔드,공연,indistreet,,,2026-06-20,인천여관X루비살롱
 마이베리엔드,공연,indistreet,,,2026-08-06,Club 빵
-마이베리엔드,공연,indiego,,,2026-11-27,클럽 빵
+마이베리엔드,공연,indiego,,,2026-11-27,Club 빵
 마이샐러드데이즈,공연,indistreet,,,2025-11-21,언플러그드 라운지
 마이앤트메리,큐레이션,musicy,음악취향Y,,2023-05-30,
 마이앤트메리,선정·지원,dmz,dmz_lineup,2,2023-09-30,
@@ -4182,7 +4182,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 마지큥,공연,indistreet,,,2026-11-04,아지토 라이브 홀
 마지큥,공연,indistreet,,,2026-12-02,아지토 라이브 홀
 마철반,공연,indistreet,,,2024-12-20,오방가르드
-마치,공연,sangsangmadang,,,2024-03-09,상상마당 부산 3층 라이브홀
+마치,공연,sangsangmadang,,,2024-03-09,KT&G 상상마당 부산 3층 라이브홀
 마치,공연,sangsangmadang,,,2024-05-11,라이브홀
 마치,공연,indistreet,,,2026-11-22,
 마크,큐레이션,izm,IZM,,2024-12-26,
@@ -4198,7 +4198,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 마해담,공연,indistreet,,,2026-10-07,우주정거장
 만다린쥬스,공연,indistreet,,,2026-09-19,언플러그드 라운지
 만다린쥬스,공연,indistreet,,,2026-10-30,카페 언플러그드 홍대점
-만다린쥬스,공연,indiego,,,2026-11-26,클럽FF
+만다린쥬스,공연,indiego,,,2026-11-26,Club FF
 만다린쥬스,공연,indistreet,,,2026-11-26,Club FF
 만동,큐레이션,visla,VISLA,,2023-03-30,
 만동,큐레이션,musicy,음악취향Y,,2023-04-10,
@@ -4394,7 +4394,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 메써드,공연,indistreet,,,2026-10-25,롤링홀
 메쓰카멜,큐레이션,musicy,음악취향Y,,2025-04-07,
 메쓰카멜,공연,indistreet,,,2025-11-08,인터플레이
-메쓰카멜,공연,indistreet,,,2026-11-29,JS 아트홀
+메쓰카멜,공연,indistreet,,,2026-11-29,제이에스아트홀&뮤직바
 메이슨홈,큐레이션,izm,IZM,,2026-08-18,
 메이앤줄라이,공연,indistreet,,,2026-07-03,우주정거장
 메이앤줄라이,공연,indistreet,,,2026-08-26,스페이스 한강
@@ -4516,7 +4516,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 모스힐,공연,indistreet,,,2026-05-17,오방가르드
 모스힐,공연,indistreet,,,2026-06-19,HQ광안
 모스힐,공연,indistreet,,,2026-09-05,HQ광안
-모스힐,공연,indiego,,,2026-11-29,프리버드
+모스힐,공연,indiego,,,2026-11-29,클럽 프리버드
 모시,공연,indistreet,,,2026-03-01,언플러그드 라운지
 모시깽이,공연,indistreet,,,2026-01-30,공연장 미정
 모시카,큐레이션,musicy,음악취향Y,,2025-04-14,
@@ -4705,7 +4705,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 무이야드,공연,indistreet,,,2024-10-08,무신사개러지
 무이야드,공연,indistreet,,,2025-02-05,언플러그드 라운지
 무이야드,공연,indistreet,,,2025-03-22,공연장 미정
-무이야드,공연,indiego,,,2026-11-29,언플러그드
+무이야드,공연,indiego,,,2026-11-29,카페 언플러그드 홍대점
 무이야드,공연,indistreet,,,2026-11-29,카페 언플러그드 홍대점
 무중력소년,공연,sangsangmadang,,,2018-04-20,라이브홀
 무한동력,공연,indistreet,,,2026-06-04,Club FF
@@ -4732,7 +4732,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 문소문,큐레이션,musicy,음악취향Y,,2026-03-02,
 문소문,큐레이션,izm,IZM,,2026-05-12,
 문소문,공연,indistreet,,,2026-07-18,Club 빵
-문수진,공연,indiego,,,2026-11-26,무신사 개러지
+문수진,공연,indiego,,,2026-11-26,무신사개러지
 문수진,공연,indistreet,,,2026-11-26,무신사개러지
 문시연,공연,indistreet,,,2026-02-03,언플러그드 라운지
 문시연,공연,indistreet,,,2026-03-09,카페 언플러그드 홍대점
@@ -4951,7 +4951,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 밀레나,큐레이션,overtone,overtone,,2025-07-23,
 밀레나,공연,indistreet,,,2026-09-20,북두칠성도서관 아트훌
 밀리오션,큐레이션,musicy,음악취향Y,,2026-05-11,
-밍기뉴,공연,sangsangmadang,,,2024-05-18,상상마당 부산 3층 라이브홀
+밍기뉴,공연,sangsangmadang,,,2024-05-18,KT&G 상상마당 부산 3층 라이브홀
 밍기뉴,공연,indistreet,,,2024-07-14,무신사개러지
 밍기뉴,큐레이션,musicy,음악취향Y,,2025-02-17,
 밍기뉴,공연,indistreet,,,2025-12-28,유기체
@@ -5105,7 +5105,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 박소은,공연,sangsangmadang,,,2023-10-14,사운드홀
 박소은,공연,sangsangmadang,,,2023-11-05,3층 라이브홀
 박소은,공연,indistreet,,,2024-03-23,북두칠성도서관 아트훌
-박소은,공연,sangsangmadang,,,2025-08-16,KT&G 상상마당 부산 3F 라이브홀
+박소은,공연,sangsangmadang,,,2025-08-16,KT&G 상상마당 부산 3층 라이브홀
 박소은,큐레이션,izm,IZM,,2025-08-19,
 박소은,공연,indistreet,,,2025-09-05,공연장 미정
 박소은,공연,indistreet,,,2026-02-19,무신사개러지
@@ -5202,7 +5202,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 박태욱,공연,indistreet,,,2025-12-29,언플러그드 라운지
 박태욱,공연,indistreet,,,2026-05-16,언플러그드 라운지
 박태욱,공연,indistreet,,,2026-05-18,언플러그드 라운지
-박태욱,공연,instagram,@senggistudio,,2026-11-14,@senggistudio
+박태욱,공연,instagram,@senggistudio,,2026-11-14,생기스튜디오
 박태욱,공연,indiego,,,2026-11-30,생기스튜디오
 박태욱,공연,indistreet,,,2026-11-30,생기스튜디오
 박태원,공연,indistreet,,,2026-02-16,유기체
@@ -5372,7 +5372,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 백현진,공연,indistreet,,,2026-10-29,채널1969
 밴드곰치,공연,indistreet,,,2026-04-26,유기체
 밴드그린,공연,indistreet,,,2026-09-27,언플러그드 라운지
-밴드그린,공연,indiego,,,2026-11-28,언플러그드
+밴드그린,공연,indiego,,,2026-11-28,카페 언플러그드 홍대점
 밴드그린,공연,indiego,,,2026-12-03,언플러그드 라운지
 밴드그린,공연,indistreet,,,2026-12-03,언플러그드 라운지
 밴드기린,선정·지원,gbsound,gb_creation,3,2022-12-23,
@@ -5383,14 +5383,14 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 밴드기린,공연,indistreet,,,2025-05-02,오방가르드
 밴드기린,공연,indistreet,,,2025-05-05,오방가르드
 밴드기린,공연,indistreet,,,2025-10-26,오방가르드
-밴드기린,공연,sangsangmadang,,,2025-11-01,KT&G 상상마당 부산 3F 라이브홀
+밴드기린,공연,sangsangmadang,,,2025-11-01,KT&G 상상마당 부산 3층 라이브홀
 밴드기린,공연,indistreet,,,2026-03-14,오방가르드
 밴드기린,공연,indistreet,,,2026-05-02,
 밴드기린,공연,indistreet,,,2026-05-02,대구 제임스레코드
 밴드기린,공연,indistreet,,,2026-08-15,
 밴드기린,공연,indistreet,,,2026-09-19,
 밴드기린,공연,indistreet,,,2026-10-02,
-밴드기린,공연,sangsangmadang,,,2026-12-12,KT&G 상상마당 부산 3F 라이브홀
+밴드기린,공연,sangsangmadang,,,2026-12-12,KT&G 상상마당 부산 3층 라이브홀
 밴드녹음들,공연,indistreet,,,2026-11-14,KT&G상상마당 부산
 밴드다미,선정·지원,gbsound,gb_creation,3,2023-11-24,
 밴드동영,공연,indistreet,,,2024-05-25,클럽헤비
@@ -5476,7 +5476,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 벙커프로덕션,공연,indistreet,,,2026-10-11,A.O.R
 벙커프로덕션,공연,indistreet,,,2026-10-14,클럽 프리버드
 벙커프로덕션,공연,indistreet,,,2026-10-18,Club Victim
-벙커프로덕션,공연,indiego,,,2026-12-02,프리버드
+벙커프로덕션,공연,indiego,,,2026-12-02,클럽 프리버드
 벙커프로덕션,공연,indistreet,,,2026-12-02,클럽 프리버드
 베다,큐레이션,musicy,음악취향Y,,2024-04-22,
 베드타임픽쳐스,큐레이션,musicy,음악취향Y,,2023-02-20,
@@ -5579,7 +5579,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 베티애스,공연,indistreet,,,2024-01-27,보헤미안 소극장
 베티애스,공연,indistreet,,,2024-08-16,부드러운직선
 베티애스,공연,indistreet,,,2026-08-22,Club Victim
-벤더씨,공연,indiego,,,2026-11-28,언플러그드
+벤더씨,공연,indiego,,,2026-11-28,카페 언플러그드 홍대점
 벤디시온,공연,indistreet,,,2026-06-23,우주정거장
 벤치위레오,공연,indistreet,,,2024-02-29,Club FF
 벤치위레오,공연,indistreet,,,2024-03-14,Club FF
@@ -5714,7 +5714,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 본하,공연,indistreet,,,2026-04-16,카페 언플러그드 홍대점
 본하,공연,indistreet,,,2026-06-14,Club 빵
 본하,공연,indistreet,,,2026-09-24,카페 언플러그드 홍대점
-본하,공연,indiego,,,2026-11-26,언플러그드
+본하,공연,indiego,,,2026-11-26,카페 언플러그드 홍대점
 본하,공연,indistreet,,,2026-11-26,카페 언플러그드 홍대점
 볼빨간사춘기,큐레이션,izm,IZM,,2023-05-01,
 볼빨간사춘기,큐레이션,musicy,음악취향Y,,2023-05-02,
@@ -5737,7 +5737,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 봉제인간,공연,indistreet,,,2026-11-08,베이비돌
 부기브라운,공연,indistreet,,,2026-07-01,공연장 미정
 부나비즈,큐레이션,musicy,음악취향Y,,2024-01-22,
-부산버스킹,공연,sangsangmadang,,,2024-05-19,KT&G 상상마당 부산 라이브홀
+부산버스킹,공연,sangsangmadang,,,2024-05-19,KT&G상상마당 부산
 부석순,큐레이션,musicy,음악취향Y,,2025-01-20,
 부석순,큐레이션,izm,IZM,,2025-01-21,
 부활,큐레이션,izm,IZM,,2023-04-01,
@@ -5781,7 +5781,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 불나방스타쏘세지클럽,공연,indistreet,,,2024-10-08,무신사개러지
 불씨,공연,indistreet,,,2026-10-01,Club FF
 불지옥서퍼즈,공연,indistreet,,,2026-10-24,꼬뮨
-불지옥서퍼즈,공연,indiego,,,2026-11-27,VICTIM
+불지옥서퍼즈,공연,indiego,,,2026-11-27,Club Victim
 불타,공연,indistreet,,,2026-11-21,OL'55
 불타는버스,공연,indistreet,,,2024-07-27,공연장 미정
 불타는버스,공연,indistreet,,,2024-08-23,몬스터펍
@@ -5826,7 +5826,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 브라이언신앤더스윙메이커스,큐레이션,musicy,음악취향Y,,2023-06-19,
 브라이언윌슨,큐레이션,izm,IZM,,2025-06-22,
 브라이트하우스,공연,indistreet,,,2026-10-23,스트레인지 프룻
-브라이트하우스,공연,indiego,,,2026-11-27,스트레인지프룻
+브라이트하우스,공연,indiego,,,2026-11-27,스트레인지 프룻
 브라이튼,공연,indistreet,,,2026-08-05,스페이스 한강
 브레이크오브데이,공연,indistreet,,,2026-10-24,락클럽 Bar 레드제플린
 브로콜리너마저,큐레이션,izm,IZM,,2024-10-13,
@@ -5839,13 +5839,13 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 브로콜리너마저,공연,indistreet,,,2025-07-12,오방가르드
 브로콜리너마저,공연,indistreet,,,2025-11-30,노무현시민센터 다목적홀 '가치하다'
 브로콜리너마저,공연,indistreet,,,2025-12-20,KT&G상상마당 부산
-브로콜리너마저,공연,sangsangmadang,,,2025-12-20,KT&G 상상마당 부산 3F 라이브홀
+브로콜리너마저,공연,sangsangmadang,,,2025-12-20,KT&G 상상마당 부산 3층 라이브홀
 브로콜리너마저,공연,indistreet,,,2025-12-21,KT&G상상마당 부산
 브로콜리너마저,공연,indistreet,,,2025-12-23,서울 노들섬 라이브하우스
 브로콜리너마저,공연,indistreet,,,2025-12-24,서울 노들섬 라이브하우스
 브로콜리너마저,공연,indistreet,,,2025-12-30,광주북구문화센터
 브로콜리너마저,공연,indistreet,,,2026-04-18,무신사개러지
-브로콜리너마저,공연,sangsangmadang,,,2026-08-08,KT&G 상상마당 부산 3F 라이브홀
+브로콜리너마저,공연,sangsangmadang,,,2026-08-08,KT&G 상상마당 부산 3층 라이브홀
 브로콜리너마저,공연,indistreet,,,2026-08-15,언드
 브로콜리너마저,공연,indistreet,,,2026-09-05,
 브로콜리너마저,공연,indistreet,,,2026-10-02,
@@ -5856,13 +5856,13 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 브로큰발렌타인,공연,sangsangmadang,,,2024-02-24,3층 라이브홀
 브로큰발렌타인,공연,indistreet,,,2024-03-16,A.O.R
 브로큰발렌타인,공연,indistreet,,,2024-08-31,A.O.R
-브로큰발렌타인,공연,sangsangmadang,,,2025-06-21,KT&G 상상마당 부산 라이브홀
+브로큰발렌타인,공연,sangsangmadang,,,2025-06-21,KT&G상상마당 부산
 브로큰발렌타인,공연,indistreet,,,2025-11-29,Club FF
 브로큰발렌타인,공연,indistreet,,,2026-02-14,무신사개러지
 브로큰발렌타인,공연,indistreet,,,2026-04-11,예스24 라이브홀
 브로큰발렌타인,공연,indistreet,,,2026-04-25,
 브로큰발렌타인,공연,indistreet,,,2026-05-23,무신사개러지
-브로큰발렌타인,공연,sangsangmadang,,,2026-06-20,KT&G 상상마당 부산 라이브홀
+브로큰발렌타인,공연,sangsangmadang,,,2026-06-20,KT&G상상마당 부산
 브로큰발렌타인,공연,indistreet,,,2026-07-11,Club FF
 브로큰발렌타인,공연,indistreet,,,2026-07-31,
 브로큰발렌타인,공연,indistreet,,,2026-08-15,
@@ -5935,7 +5935,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 블랙핑크,큐레이션,musicy,음악취향Y,,2026-03-09,
 블랙홀,큐레이션,izm,IZM,,2023-12-01,
 블랙홀,공연,indistreet,,,2024-03-23,롤링홀
-블랙홀,공연,sangsangmadang,,,2024-06-29,상상마당 부산 3층 라이브홀
+블랙홀,공연,sangsangmadang,,,2024-06-29,KT&G 상상마당 부산 3층 라이브홀
 블랙홀,공연,indistreet,,,2025-10-18,제이에스아트홀&뮤직바
 블랙홀,공연,indistreet,,,2026-04-26,
 블랙홀원정대,공연,sangsangmadang,,,2022-07-02,사운드홀
@@ -5964,7 +5964,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 블루터틀랜드,공연,indistreet,,,2026-05-22,카페 언플러그드 홍대점
 블루터틀랜드,공연,indistreet,,,2026-06-21,생기스튜디오
 블루터틀랜드,공연,indistreet,,,2026-10-31,신도시
-블루터틀랜드,공연,indistreet,,,2026-11-14,CJ 아지트 광흥창
+블루터틀랜드,공연,indistreet,,,2026-11-14,CJ아지트 광흥창
 블루파프리카,공연,sangsangmadang,,,2018-04-28,사운드홀
 블루파프리카,공연,indistreet,,,2024-01-18,살롱문보우
 블루파프리카,공연,indistreet,,,2024-03-01,Club FF
@@ -5988,7 +5988,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 블루화,공연,indistreet,,,2026-10-23,A.O.R
 블루화,공연,indistreet,,,2026-11-01,클럽 프리버드
 블루화,공연,indistreet,,,2026-11-16,아지토 라이브 홀
-블루화,공연,indiego,,,2026-11-26,AOR
+블루화,공연,indiego,,,2026-11-26,A.O.R
 블루화,공연,indistreet,,,2026-11-26,A.O.R
 블루힐즈,공연,indistreet,,,2026-11-23,아지토 라이브 홀
 비,큐레이션,izm,IZM,,2026-05-20,
@@ -5998,7 +5998,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 비공정,공연,sangsangmadang,,,2024-09-08,라이브홀
 비공정,공연,indistreet,,,2025-11-07,Club FF
 비공정,공연,indistreet,,,2025-11-29,공연장 미정
-비공정,공연,sangsangmadang,,,2025-11-29,KT&G 부산 상상마당 3층 라이브홀
+비공정,공연,sangsangmadang,,,2025-11-29,KT&G 상상마당 부산 3층 라이브홀
 비공정,큐레이션,musicy,음악취향Y,,2025-12-01,
 비공정,공연,indistreet,,,2025-12-11,무신사개러지
 비공정,공연,indistreet,,,2026-02-08,무신사개러지
@@ -6034,7 +6034,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 비비지,큐레이션,izm,IZM,,2025-08-22,
 비세랄익스플로전,큐레이션,musicy,음악취향Y,,2023-02-06,
 비스메이저컴퍼니,큐레이션,visla,VISLA,,2023-01-04,
-비스메이저크루,공연,sangsangmadang,,,2017-03-25,상상마당 홍대 라이브홀
+비스메이저크루,공연,sangsangmadang,,,2017-03-25,KT&G 상상마당 홍대 라이브홀
 비아스,공연,indistreet,,,2024-01-12,Club 빵
 비아스,공연,indistreet,,,2024-02-11,공연장 미정
 비아스,공연,indistreet,,,2024-05-10,A.O.R
@@ -6070,7 +6070,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 비제로,공연,indistreet,,,2026-10-11,꼬뮨
 비제로,공연,indiego,,,2026-11-28,꼬뮨
 비제로,공연,indistreet,,,2026-11-28,꼬뮨
-비제로,공연,indiego,,,2026-11-29,프리버드
+비제로,공연,indiego,,,2026-11-29,클럽 프리버드
 비지정주파수,공연,indistreet,,,2025-03-13,Club 빵
 비지정주파수,공연,indistreet,,,2025-05-29,Club 빵
 비지정주파수,공연,indistreet,,,2026-07-22,스페이스 한강
@@ -6167,7 +6167,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 빌리아일리시,큐레이션,visla,VISLA,,2024-08-08,
 빌리어코스티,공연,sangsangmadang,,,2018-08-19,라이브홀
 빌리어코스티,공연,sangsangmadang,,,2021-06-19,라이브홀
-빌리카터,공연,sangsangmadang,,,2017-04-29,상상마당 홍대 라이브홀
+빌리카터,공연,sangsangmadang,,,2017-04-29,KT&G 상상마당 홍대 라이브홀
 빌리카터,선정·지원,dmz,dmz_lineup,2,2018-06-30,
 빌스택스,공연,sangsangmadang,,,2019-12-08,라이브홀
 빌스택스,큐레이션,visla,VISLA,,2025-03-10,
@@ -6244,7 +6244,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 사양,공연,indistreet,,,2025-12-05,Club 빵
 사양,공연,indistreet,,,2026-09-13,
 사양,공연,indistreet,,,2026-10-29,Club FF
-사양,공연,indiego,,,2026-11-26,클럽FF
+사양,공연,indiego,,,2026-11-26,Club FF
 사양,공연,indistreet,,,2026-11-26,Club FF
 사우스카니발,큐레이션,musicy,음악취향Y,,2023-11-13,
 사운드마켓,공연,indistreet,,,2026-10-03,사상인디스테이션 소란동
@@ -6413,7 +6413,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 삼치와이기리,공연,indistreet,,,2025-05-11,공연장 미정
 삼치와이기리,공연,indistreet,,,2026-08-02,스페이스 한강
 삼킴,큐레이션,musicy,음악취향Y,,2025-04-07,
-상상라이브연습실부산파이널,공연,sangsangmadang,,,2025-03-23,상상마당 부산 3층 라이브홀
+상상라이브연습실부산파이널,공연,sangsangmadang,,,2025-03-23,KT&G 상상마당 부산 3층 라이브홀
 상심욕절,공연,indistreet,,,2026-11-14,채널1969
 상하,공연,indistreet,,,2026-02-13,언플러그드 라운지
 상하,큐레이션,rhythmer,리드머,,2026-07-06,
@@ -6512,7 +6512,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 생각의여름,공연,indistreet,,,2025-11-30,Club 빵
 생각의여름,공연,indistreet,,,2026-02-21,언플러그드 라운지
 생각의여름,공연,indistreet,,,2026-08-29,
-생각의여름,공연,indiego,,,2026-11-29,클럽 빵
+생각의여름,공연,indiego,,,2026-11-29,Club 빵
 생각의여름,공연,indistreet,,,2026-11-29,Club 빵
 샤부지,큐레이션,izm,IZM,,2024-12-19,
 샤이니,큐레이션,izm,IZM,,2023-07-01,
@@ -6531,7 +6531,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 서뉼,공연,indistreet,,,2024-12-13,Cafe PPnF
 서데모와상호작용,공연,indistreet,,,2026-07-26,스페이스 한강
 서도밴드,큐레이션,musicy,음악취향Y,,2024-10-14,
-서도밴드,공연,sangsangmadang,,,2025-03-01,상상마당 부산 3층 라이브홀
+서도밴드,공연,sangsangmadang,,,2025-03-01,KT&G 상상마당 부산 3층 라이브홀
 서도밴드,공연,sangsangmadang,,,2025-03-15,KT&G 상상마당 춘천 사운드홀
 서도밴드,공연,sangsangmadang,,,2025-04-13,라이브홀
 서도밴드,큐레이션,musicy,음악취향Y,,2026-08-24,
@@ -6540,7 +6540,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 서로다른,공연,indistreet,,,2025-02-20,Club 빵
 서로다른,선정·지원,sejong,muse_sejong,3,2025-05-31,
 서로별,공연,indistreet,,,2024-11-02,공연장 미정
-서른,공연,indiego,,,2026-11-26,클럽FF
+서른,공연,indiego,,,2026-11-26,Club FF
 서리,큐레이션,rhythmer,리드머,,2023-04-03,
 서리,큐레이션,musicy,음악취향Y,,2024-04-01,
 서린,공연,indistreet,,,2025-02-10,언플러그드 라운지
@@ -6638,7 +6638,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 서울촌놈,공연,indistreet,,,2024-03-20,Club 빵
 서울촌놈,공연,indistreet,,,2024-05-01,Club 빵
 서은광,큐레이션,izm,IZM,,2024-07-31,
-서인범,공연,sangsangmadang,,,2020-02-29,상상마당 춘천 사운드홀
+서인범,공연,sangsangmadang,,,2020-02-29,KT&G 상상마당 춘천 사운드홀
 서자영,공연,indistreet,,,2026-02-28,공연장 미정
 서자영,큐레이션,instagram,@bdbd.wav,,2026-11-20,
 서정,공연,indistreet,,,2024-01-05,스페이스 한강
@@ -6769,7 +6769,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 세기말,공연,indistreet,,,2026-08-15,Hukez
 세기말,공연,indistreet,,,2026-08-30,감마홀
 세기말,공연,indistreet,,,2026-11-21,Hukez
-세기말,공연,indiego,,,2026-11-29,VICTIM
+세기말,공연,indiego,,,2026-11-29,Club Victim
 세기말,공연,indistreet,,,2026-11-29,Club Victim
 세네시,큐레이션,musicy,음악취향Y,,2026-10-12,
 세레스티얼어나이얼레이터,큐레이션,musicy,음악취향Y,,2023-09-11,
@@ -6847,7 +6847,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 세일러허니문,공연,indistreet,,,2026-10-11,채널1969
 세일러허니문,공연,indistreet,,,2026-11-07,꼬뮨
 세일러허니문,공연,indistreet,,,2026-11-13,채널1969
-세일러허니문,공연,indiego,,,2026-11-29,프리버드
+세일러허니문,공연,indiego,,,2026-11-29,클럽 프리버드
 세진,큐레이션,musicy,음악취향Y,,2023-05-22,
 세진,큐레이션,izm,IZM,,2023-06-01,
 세진,공연,indistreet,,,2026-09-27,카페 언플러그드 홍대점
@@ -6926,7 +6926,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 소닉스톤즈,공연,indistreet,,,2026-11-14,Bender
 소닉스톤즈,공연,indistreet,,,2026-11-21,롤링홀
 소담,공연,indistreet,,,2025-02-07,Cafe PPnF
-소란,공연,sangsangmadang,,,2017-08-14,상상마당 홍대 라이브홀
+소란,공연,sangsangmadang,,,2017-08-14,KT&G 상상마당 홍대 라이브홀
 소란,공연,sangsangmadang,,,2017-08-15,라이브홀
 소란,공연,sangsangmadang,,,2018-06-30,라이브홀
 소란,공연,sangsangmadang,,,2018-09-04,라이브홀
@@ -6969,7 +6969,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 소실,공연,indistreet,,,2026-08-05,카페 언플러그드 홍대점
 소실,공연,indistreet,,,2026-08-29,
 소실,공연,indistreet,,,2026-10-31,신촌 SPIN & GRIND
-소심한오빠들,공연,sangsangmadang,,,2017-06-22,상상마당 홍대 라이브홀
+소심한오빠들,공연,sangsangmadang,,,2017-06-22,KT&G 상상마당 홍대 라이브홀
 소여,공연,indistreet,,,2026-06-18,Club FF
 소여,공연,indistreet,,,2026-07-27,카페 언플러그드 홍대점
 소여,공연,indistreet,,,2026-07-28,언플러그드 라운지
@@ -7232,7 +7232,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 스내피돌,공연,indistreet,,,2026-10-01,우주정거장
 스내피돌,공연,indistreet,,,2026-10-09,Club Victim
 스내피돌,공연,indistreet,,,2026-11-13,공상온도
-스낵타운,공연,sangsangmadang,,,2023-09-03,3F 라이브홀
+스낵타운,공연,sangsangmadang,,,2023-09-03,3층 라이브홀
 스네이크치킨수프,선정·지원,dmz,dmz_lineup,2,2024-06-30,
 스네이크치킨수프,큐레이션,musicy,음악취향Y,,2024-12-09,
 스네이크치킨수프,공연,indistreet,,,2026-08-16,
@@ -7473,7 +7473,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 스톤드,공연,indistreet,,,2026-10-04,OL'55
 스톰,큐레이션,musicy,음악취향Y,,2024-07-08,
 스톰,공연,indistreet,,,2024-08-16,퍼플홀
-스트라이커스,공연,indiego,,,2026-11-29,VICTIM
+스트라이커스,공연,indiego,,,2026-11-29,Club Victim
 스트레이,공연,indistreet,,,2026-11-21,살롱문보우
 스트레이키즈,큐레이션,izm,IZM,,2023-07-01,
 스트레이키즈,큐레이션,izm,IZM,,2023-11-01,
@@ -7532,7 +7532,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 스티커몬어드벤처,공연,indistreet,,,2025-03-14,Club Victim
 스티커몬어드벤처,공연,indistreet,,,2025-05-31,Club Victim
 스티키레몬슈거,공연,indistreet,,,2026-06-25,Club 빵
-스틱키레몬슈거,공연,indiego,,,2026-11-26,클럽 빵
+스틱키레몬슈거,공연,indiego,,,2026-11-26,Club 빵
 스파게티,공연,indistreet,,,2024-06-30,Club 빵
 스파게티즈,공연,indistreet,,,2025-03-12,Club 빵
 스파이키브랫츠,공연,indistreet,,,2026-10-03,Club Victim
@@ -7644,13 +7644,13 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 시나몬잼,공연,indistreet,,,2025-08-01,공연장 미정
 시나몬잼,공연,indistreet,,,2025-10-31,언드
 시나몬잼,공연,indistreet,,,2026-06-13,Organ Bar
-시나몬잼,공연,indistreet,,,2026-07-04,Club Heavy
+시나몬잼,공연,indistreet,,,2026-07-04,클럽헤비
 시나몬잼,공연,indistreet,,,2026-07-05,Club Victim
 시나몬잼,공연,indistreet,,,2026-07-09,공연장 미정
 시나몬잼,공연,indistreet,,,2026-07-21,공연장 미정
 시나몬잼,공연,indistreet,,,2026-09-04,공연장 미정
 시나몬잼,공연,indistreet,,,2026-09-05,공연장 미정
-시나몬잼,공연,indistreet,,,2026-09-19,Club Heavy
+시나몬잼,공연,indistreet,,,2026-09-19,클럽헤비
 시나쓰는앨리스,공연,indistreet,,,2026-10-25,생기스튜디오
 시너,큐레이션,musicy,음악취향Y,,2025-09-15,
 시너,공연,indistreet,,,2025-11-16,스팀펑크락
@@ -7679,7 +7679,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 시네마스퀘어,공연,indistreet,,,2026-07-11,Club Victim
 시네마스퀘어,공연,indistreet,,,2026-07-19,Club Victim
 시네마스퀘어,공연,indistreet,,,2026-10-25,Club Victim
-시네마스퀘어,공연,indiego,,,2026-11-27,VICTIM
+시네마스퀘어,공연,indiego,,,2026-11-27,Club Victim
 시네마스퀘어,공연,indistreet,,,2026-11-27,Club Victim
 시네아,공연,indistreet,,,2026-11-04,스페이스 한강
 시노페,공연,indistreet,,,2025-04-19,공연장 미정
@@ -7697,14 +7697,14 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 시린지,공연,indistreet,,,2024-12-05,Club 빵
 시린지,공연,indistreet,,,2025-02-21,Club 빵
 시모야,공연,indistreet,,,2026-10-19,카페 언플러그드 홍대점
-시소,공연,sangsangmadang,,,2026-05-23,KT&G 상상마당 부산 3F 라이브홀
+시소,공연,sangsangmadang,,,2026-05-23,KT&G 상상마당 부산 3층 라이브홀
 시소,공연,sangsangmadang,,,2026-05-31,KT&G 상상마당 홍대 라이브홀
 시소단,공연,indistreet,,,2026-10-18,Hukez
 시소단,공연,indistreet,,,2026-10-29,Club 빵
 시소단,공연,indistreet,,,2026-11-06,Club 빵
-시소단,공연,indiego,,,2026-11-29,후케즈
+시소단,공연,indiego,,,2026-11-29,Hukez
 시소단,공연,indistreet,,,2026-11-29,Hukez
-시수,공연,sangsangmadang,,,2022-11-18,3F 라이브홀
+시수,공연,sangsangmadang,,,2022-11-18,3층 라이브홀
 시스템서울,큐레이션,izm,IZM,,2026-08-14,
 시스템서울,공연,indistreet,,,2026-09-05,
 시아나,공연,indistreet,,,2025-09-12,Club Victim
@@ -7931,10 +7931,10 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 신해경,큐레이션,izm,IZM,,2023-01-01,
 신해경,공연,sangsangmadang,,,2023-08-14,3층 라이브홀
 신해경,큐레이션,musicy,음악취향Y,,2024-12-09,
-신해경,공연,sangsangmadang,,,2025-05-24,KT&G 상상마당 부산 라이브홀
+신해경,공연,sangsangmadang,,,2025-05-24,KT&G상상마당 부산
 신해경,공연,indistreet,,,2026-11-15,KT&G 상상마당 홍대 라이브홀
 신해경,공연,indistreet,,,2026-11-21,KT&G상상마당 부산
-신해경,공연,sangsangmadang,,,2026-11-21,KT&G 상상마당 부산 3F 라이브홀
+신해경,공연,sangsangmadang,,,2026-11-21,KT&G 상상마당 부산 3층 라이브홀
 신해남과환자들,공연,indistreet,,,2026-05-23,Club FF
 신해남과환자들,공연,indistreet,,,2026-07-11,Bender
 신해남과환자들,공연,indistreet,,,2026-09-12,Club FF
@@ -8021,7 +8021,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 십센치,공연,indistreet,,,2026-09-20,
 십센치,공연,indistreet,,,2026-11-25,무신사개러지
 싱건탕프로젝트,큐레이션,musicy,음악취향Y,,2026-01-12,
-싱긴어게인,공연,sangsangmadang,,,2026-01-17,KT&G 상상마당 부산 라이브홀
+싱긴어게인,공연,sangsangmadang,,,2026-01-17,KT&G상상마당 부산
 싱크투라이즈,공연,indistreet,,,2024-01-19,지직
 싱크투라이즈,공연,indistreet,,,2024-01-28,Club FF
 싱크투라이즈,공연,indistreet,,,2024-03-24,Club Victim
@@ -8078,7 +8078,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 쏜애플,공연,sangsangmadang,,,2019-01-19,라이브홀
 쏜애플,공연,sangsangmadang,,,2019-10-12,라이브홀
 쏜애플,공연,sangsangmadang,,,2020-01-18,라이브홀
-쏜애플,공연,sangsangmadang,,,2021-11-05,3F 라이브홀
+쏜애플,공연,sangsangmadang,,,2021-11-05,3층 라이브홀
 쏜애플,공연,sangsangmadang,,,2021-11-27,상상마당춘천 아트센터 사운드홀
 쏜애플,큐레이션,izm,IZM,,2023-09-01,
 쏜애플,큐레이션,izm,IZM,,2023-10-01,
@@ -8119,7 +8119,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 아가미,공연,indistreet,,,2026-11-06,Club FF
 아가테,큐레이션,musicy,음악취향Y,,2025-04-14,
 아가테,큐레이션,musicy,음악취향Y,,2026-04-20,
-아구쨈덥쿠커스,공연,indiego,,,2026-12-03,스트레인지프룻
+아구쨈덥쿠커스,공연,indiego,,,2026-12-03,스트레인지 프룻
 아구쨈덥쿠커스,공연,indistreet,,,2026-12-03,스트레인지 프룻
 아나키컬쳐,공연,indistreet,,,2026-08-22,우무지
 아나키컬쳐,공연,indistreet,,,2026-09-27,Club FF
@@ -8138,7 +8138,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 아늑,공연,indistreet,,,2024-12-13,Club 빵
 아늑,공연,indistreet,,,2025-02-21,Club 빵
 아니타,큐레이션,izm,IZM,,2023-09-01,
-아더,공연,indiego,,,2026-11-26,클럽FF
+아더,공연,indiego,,,2026-11-26,Club FF
 아더,공연,indistreet,,,2026-11-26,Club FF
 아도레,공연,indistreet,,,2025-01-25,언플러그드 라운지
 아도이,선정·지원,dmz,dmz_lineup,2,2018-06-30,
@@ -8238,7 +8238,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 아스라이,공연,indistreet,,,2026-10-02,
 아스라이,공연,indistreet,,,2026-10-09,언플러그드 라운지
 아스라이,공연,indistreet,,,2026-10-31,클럽 프리버드
-아스라이,공연,indiego,,,2026-11-28,프리버드
+아스라이,공연,indiego,,,2026-11-28,클럽 프리버드
 아스라이,공연,indistreet,,,2026-11-28,클럽 프리버드
 아스테리아,공연,indistreet,,,2026-10-04,아지토 라이브 홀
 아스테리아,공연,indistreet,,,2026-11-12,아지토 라이브 홀
@@ -8680,7 +8680,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 야자수,발매,genie,,,2026-11-24,
 약한마음,공연,indistreet,,,2024-06-14,Club Victim
 양다일,공연,sangsangmadang,,,2018-10-25,라이브홀
-양동욱밴드,공연,indiego,,,2026-11-27,스트레인지프룻
+양동욱밴드,공연,indiego,,,2026-11-27,스트레인지 프룻
 양동욱밴드,공연,indistreet,,,2026-11-27,스트레인지 프룻
 양말서랍,선정·지원,sejong,muse_sejong,3,2022-12-31,
 양반들,큐레이션,visla,VISLA,,2023-11-03,
@@ -8725,7 +8725,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 양치기소년단,공연,indistreet,,,2026-09-11,Club FF
 양치기소년단,공연,indistreet,,,2026-10-04,
 양치기소년단,공연,indistreet,,,2026-11-21,
-양치기소년단,공연,indiego,,,2026-11-28,클럽FF
+양치기소년단,공연,indiego,,,2026-11-28,Club FF
 양치기소년단,공연,indistreet,,,2026-11-28,Club FF
 양파,공연,sangsangmadang,,,2021-11-12,아트홀
 양파,큐레이션,musicy,음악취향Y,,2024-06-03,
@@ -8910,7 +8910,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 에브리데이먼데이,공연,indistreet,,,2026-09-18,A.O.R
 에브리데이먼데이,공연,indistreet,,,2026-10-23,A.O.R
 에브리데이먼데이,공연,indistreet,,,2026-11-22,구름아래소극장
-에브리데이먼데이,공연,indiego,,,2026-11-26,AOR
+에브리데이먼데이,공연,indiego,,,2026-11-26,A.O.R
 에브리데이먼데이,공연,indistreet,,,2026-11-26,A.O.R
 에설,큐레이션,musicy,음악취향Y,,2025-12-29,
 에스에프나인,큐레이션,izm,IZM,,2024-01-01,
@@ -8942,7 +8942,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 에이투오라이트,큐레이션,izm,IZM,,2026-10-27,
 에이트레인,큐레이션,izm,IZM,,2025-10-18,
 에이트레인,큐레이션,musicy,음악취향Y,,2025-10-20,
-에이트레인,공연,indiego,,,2026-11-27,스트레인지프룻
+에이트레인,공연,indiego,,,2026-11-27,스트레인지 프룻
 에이트레인,공연,indistreet,,,2026-11-27,스트레인지 프룻
 에이티즈,큐레이션,izm,IZM,,2023-06-01,
 에이티즈,큐레이션,izm,IZM,,2025-06-24,
@@ -9070,7 +9070,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 엔플라잉,공연,sangsangmadang,,,2018-07-07,라이브홀
 엔플라잉,공연,sangsangmadang,,,2020-02-23,라이브홀
 엔플라잉,공연,sangsangmadang,,,2022-05-06,라이브홀
-엔플라잉,공연,sangsangmadang,,,2022-05-13,3F 라이브홀
+엔플라잉,공연,sangsangmadang,,,2022-05-13,3층 라이브홀
 엔플라잉,공연,sangsangmadang,,,2022-05-20,KT&G 상상마당 춘천 사운드홀
 엔플라잉,공연,sangsangmadang,,,2022-05-27,라이브홀
 엔플라잉,공연,indistreet,,,2026-09-06,
@@ -9085,7 +9085,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 엘레강스타투스토어,공연,indistreet,,,2024-11-30,공연장 미정
 엘루이,공연,indistreet,,,2024-12-09,클럽 온에어
 엘르가든,큐레이션,izm,IZM,,2023-08-01,
-엘리워드,공연,indiego,,,2026-11-26,클럽 빵
+엘리워드,공연,indiego,,,2026-11-26,Club 빵
 엘리펀트쥬스,공연,indistreet,,,2024-05-04,클럽헤비
 엘리펀트쥬스,공연,indistreet,,,2024-07-27,클럽헤비
 엘리펀트쥬스,공연,indistreet,,,2024-12-07,클럽헤비
@@ -9180,7 +9180,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 연준,큐레이션,izm,IZM,,2025-11-20,
 연준,큐레이션,izm,IZM,,2026-07-23,
 연준,큐레이션,izm,IZM,,2026-07-25,
-연하늘,공연,indiego,,,2026-11-26,CJ아지트
+연하늘,공연,indiego,,,2026-11-26,CJ아지트 광흥창
 연하늘밴드,공연,indistreet,,,2024-05-25,석촌호수 아뜰리에
 연희퍼포머그룹처랏,공연,indistreet,,,2025-05-17,공연장 미정
 염따,큐레이션,visla,VISLA,,2025-06-16,
@@ -9248,7 +9248,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 예람,선정·지원,yjh,yoojaeha_finalist,3,2024-12-31,
 예람,공연,indistreet,,,2025-03-22,Club 빵
 예람,공연,indistreet,,,2026-09-12,
-예람,공연,indistreet,,,2026-10-22,웨스트브릿지
+예람,공연,indistreet,,,2026-10-22,웨스트브릿지 라이브홀
 예람,공연,indistreet,,,2026-11-28,SPACE SODA2002
 예린,큐레이션,izm,IZM,,2024-09-17,
 예린,큐레이션,izm,IZM,,2024-11-29,
@@ -9257,7 +9257,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 예빈,큐레이션,musicy,음악취향Y,,2023-12-26,
 예빈나다,공연,indistreet,,,2024-03-24,롤링홀
 예빛,공연,indistreet,,,2026-10-03,롤링홀
-예빛,공연,indiego,,,2026-11-27,KT&G 상상마당 부산
+예빛,공연,indiego,,,2026-11-27,KT&G상상마당 부산
 예상,큐레이션,musicy,음악취향Y,,2024-05-27,
 예상,공연,indistreet,,,2026-06-18,Club FF
 예서인,공연,indistreet,,,2026-10-30,우주정거장
@@ -9347,7 +9347,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 오마르와동방전력,공연,indistreet,,,2026-05-24,생기스튜디오
 오마르와동방전력,공연,indistreet,,,2026-08-17,스트레인지 프룻
 오마르와동방전력,공연,indistreet,,,2026-09-19,생기스튜디오
-오마르와동방전력,공연,indiego,,,2026-12-03,스트레인지프룻
+오마르와동방전력,공연,indiego,,,2026-12-03,스트레인지 프룻
 오마르와동방전력,공연,indistreet,,,2026-12-03,스트레인지 프룻
 오마이걸,큐레이션,izm,IZM,,2023-08-01,
 오마이걸,큐레이션,musicy,음악취향Y,,2023-08-07,
@@ -9379,7 +9379,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 오버헤드,공연,indistreet,,,2026-08-22,Club Victim
 오버헤드,공연,indistreet,,,2026-10-03,Club Victim
 오버헤드,공연,indistreet,,,2026-10-10,Club Victim
-오버헤드,공연,indiego,,,2026-11-29,VICTIM
+오버헤드,공연,indiego,,,2026-11-29,Club Victim
 오버헤드,공연,indistreet,,,2026-11-29,Club Victim
 오붓,공연,indistreet,,,2024-03-08,Club FF
 오붓,공연,indistreet,,,2024-04-05,Club FF
@@ -9439,7 +9439,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 오예린밴드,공연,indistreet,,,2026-10-11,우무지
 오예린밴드,공연,indistreet,,,2026-10-24,아지토 라이브 홀
 오예린밴드,공연,indistreet,,,2026-11-22,언플러그드 라운지
-오예린밴드,공연,indiego,,,2026-11-28,언플러그드
+오예린밴드,공연,indiego,,,2026-11-28,카페 언플러그드 홍대점
 오예본,선정·지원,yjh,yoojaeha_finalist,3,2024-12-31,
 오예본,공연,indistreet,,,2025-11-30,언플러그드 라운지
 오예본,공연,indistreet,,,2026-09-05,카페 언플러그드 홍대점
@@ -9781,7 +9781,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 요,공연,indistreet,,,2025-01-17,오방가르드
 요,공연,indistreet,,,2025-02-22,Club 빵
 요시맨,큐레이션,rhythmer,리드머,,2026-11-14,
-요시자와케이스케,공연,indiego,,,2026-11-29,클럽 빵
+요시자와케이스케,공연,indiego,,,2026-11-29,Club 빵
 요시자와케이스케,공연,indistreet,,,2026-11-29,Club 빵
 요아소비,큐레이션,izm,IZM,,2023-12-01,
 요아소비,큐레이션,overtone,overtone,,2024-07-28,
@@ -9903,7 +9903,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 우지원,공연,indistreet,,,2026-05-16,생기스튜디오
 우지원,공연,indistreet,,,2026-10-05,팡타 개라지
 우키,큐레이션,izm,IZM,,2026-03-04,
-우탄,공연,sangsangmadang,,,2017-03-25,상상마당 홍대 라이브홀
+우탄,공연,sangsangmadang,,,2017-03-25,KT&G 상상마당 홍대 라이브홀
 우피,큐레이션,musicy,음악취향Y,,2026-05-11,
 우회로,공연,indistreet,,,2026-05-07,Club 빵
 우회로,공연,indistreet,,,2026-07-24,Club 빵
@@ -10067,7 +10067,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 웨인쇼터,큐레이션,izm,IZM,,2023-03-01,
 웨일랜드,공연,indistreet,,,2025-03-22,공연장 미정
 웨일랜드,공연,indistreet,,,2026-09-12,언드
-웨터,공연,sangsangmadang,,,2017-05-21,상상마당 홍대 라이브홀
+웨터,공연,sangsangmadang,,,2017-05-21,KT&G 상상마당 홍대 라이브홀
 웨터,공연,sangsangmadang,,,2017-08-20,라이브홀
 웨터,공연,sangsangmadang,,,2018-09-09,라이브홀
 웨터,공연,sangsangmadang,,,2018-11-11,라이브홀
@@ -10086,7 +10086,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 웬즈데이,공연,indistreet,,,2026-05-28,카페 언플러그드 홍대점
 웬즈데이,공연,indistreet,,,2026-08-05,언플러그드 라운지
 웬즈데이,공연,indistreet,,,2026-10-24,클럽 프리버드
-웬즈데이,공연,indiego,,,2026-11-28,프리버드
+웬즈데이,공연,indiego,,,2026-11-28,클럽 프리버드
 웬즈데이,공연,indistreet,,,2026-11-28,클럽 프리버드
 웬즈데이오프,큐레이션,musicy,음악취향Y,,2026-06-15,
 웬즈데이오프,공연,indistreet,,,2026-08-22,오방가르드
@@ -10158,22 +10158,22 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 위시스,공연,indistreet,,,2025-11-16,스팀펑크락
 위시스,공연,indistreet,,,2026-06-04,Club FF
 위시스,공연,indistreet,,,2026-08-02,Club FF
-위시스,공연,indistreet,,,2026-09-19,수상한 창고
+위시스,공연,indistreet,,,2026-09-19,수상한창고
 위아더나잇,공연,sangsangmadang,,,2019-08-03,라이브홀
 위아더나잇,공연,sangsangmadang,,,2019-08-18,라이브홀
-위아영,공연,sangsangmadang,,,2017-06-22,상상마당 홍대 라이브홀
+위아영,공연,sangsangmadang,,,2017-06-22,KT&G 상상마당 홍대 라이브홀
 위아영,공연,sangsangmadang,,,2018-08-19,라이브홀
 위아위안,공연,indistreet,,,2025-04-11,Cafe PPnF
 위위,공연,sangsangmadang,,,2019-08-25,라이브홀
 위위,공연,sangsangmadang,,,2019-11-10,라이브홀
 위재연,공연,indistreet,,,2024-01-27,카페 언플러그드 홍대점
-위재연,공연,indistreet,,,2025-06-18,웨스트브릿지
+위재연,공연,indistreet,,,2025-06-18,웨스트브릿지 라이브홀
 위지수,공연,indistreet,,,2026-08-22,우무지
 위지수,공연,indistreet,,,2026-09-19,
 윈디시티,공연,indistreet,,,2026-09-13,
 윈디시티,공연,indistreet,,,2026-10-11,생기스튜디오
 윙,큐레이션,izm,IZM,,2025-05-30,
-유강,공연,sangsangmadang,,,2020-02-29,상상마당 춘천 사운드홀
+유강,공연,sangsangmadang,,,2020-02-29,KT&G 상상마당 춘천 사운드홀
 유겸,큐레이션,musicy,음악취향Y,,2025-06-30,
 유경옥,선정·지원,yjh,yoojaeha_finalist,3,2002-12-31,
 유근호,선정·지원,yjh,yoojaeha_finalist,3,2011-12-31,
@@ -10215,7 +10215,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 유랑,공연,indistreet,,,2026-10-25,Club Victim
 유랑,공연,indistreet,,,2026-10-28,Club 빵
 유랑,공연,indistreet,,,2026-11-11,클럽 프리버드
-유랑,공연,indiego,,,2026-12-02,프리버드
+유랑,공연,indiego,,,2026-12-02,클럽 프리버드
 유랑,공연,indistreet,,,2026-12-02,클럽 프리버드
 유령,공연,indistreet,,,2025-01-12,Club Victim
 유령서점,큐레이션,musicy,음악취향Y,,2024-10-21,
@@ -10234,7 +10234,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 유령서점,큐레이션,instagram,@omichive7,,2026-11-25,
 유리미파솔,공연,sangsangmadang,,,2017-05-27,사운드홀 로비
 유리상자,큐레이션,izm,IZM,,2023-04-01,
-유리상자,공연,sangsangmadang,,,2026-03-28,KT&G상상마당 대치아트홀
+유리상자,공연,sangsangmadang,,,2026-03-28,상상마당 대치 아트홀
 유리조각소녀,공연,indistreet,,,2026-09-12,
 유리킴,공연,indistreet,,,2026-06-28,살롱문보우
 유민,공연,indistreet,,,2026-09-04,카페 언플러그드 홍대점
@@ -10258,7 +10258,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 유수빈,공연,indistreet,,,2026-08-24,카페 언플러그드 홍대점
 유스투스아이히혼,큐레이션,overtone,overtone,,2026-10-04,
 유스티나스,공연,indistreet,,,2026-11-07,Club 빵
-유스티나스,공연,indiego,,,2026-11-29,스트레인지프룻
+유스티나스,공연,indiego,,,2026-11-29,스트레인지 프룻
 유스티나스,공연,indistreet,,,2026-11-29,스트레인지 프룻
 유스피어,큐레이션,izm,IZM,,2026-07-23,
 유승우,공연,sangsangmadang,,,2018-10-19,라이브홀
@@ -10319,7 +10319,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 유인원,공연,indistreet,,,2025-03-07,Club FF
 유인원,큐레이션,musicy,음악취향Y,,2025-03-10,
 유인원,공연,indistreet,,,2025-05-16,Club FF
-유인원,공연,indistreet,,,2025-06-18,웨스트브릿지
+유인원,공연,indistreet,,,2025-06-18,웨스트브릿지 라이브홀
 유인원,공연,indistreet,,,2025-07-21,생기스튜디오
 유인원,공연,indistreet,,,2025-10-11,언드
 유인원,공연,indistreet,,,2025-11-15,Bender
@@ -10335,7 +10335,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 유인원,공연,indiego,,,2026-11-29,모래내 극락
 유일하,공연,indistreet,,,2026-05-22,유기체
 유잉,공연,indistreet,,,2025-09-05,Cafe PPnF
-유자,공연,sangsangmadang,,,2024-10-09,KT&G 상상마당 부산 라이브홀
+유자,공연,sangsangmadang,,,2024-10-09,KT&G상상마당 부산
 유자,공연,indistreet,,,2026-02-25,Club 빵
 유자,공연,indistreet,,,2026-07-06,카페 언플러그드 홍대점
 유자,공연,indistreet,,,2026-07-19,Club 빵
@@ -10568,7 +10568,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 이규형,공연,indistreet,,,2026-02-08,유기체
 이규형,공연,indistreet,,,2026-03-08,유기체
 이규호,선정·지원,yjh,yoojaeha_finalist,3,1993-12-31,
-이그나이트,공연,indiego,,,2026-11-27,VICTIM
+이그나이트,공연,indiego,,,2026-11-27,Club Victim
 이그린,공연,indistreet,,,2024-02-25,언드
 이그린,공연,indistreet,,,2025-10-11,언드
 이그린,공연,indistreet,,,2026-02-28,언드
@@ -10609,7 +10609,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 이내꿈,공연,indistreet,,,2025-12-13,언드
 이내꿈,공연,indistreet,,,2026-08-21,클럽헤비
 이내꿈,공연,indistreet,,,2026-08-23,모래내 극락
-이내꿈,공연,indistreet,,,2026-09-19,Club Heavy
+이내꿈,공연,indistreet,,,2026-09-19,클럽헤비
 이내꿈,공연,indistreet,,,2026-10-09,언드
 이내꿈,공연,indistreet,,,2026-10-31,채널1969
 이너,공연,indistreet,,,2024-12-18,언플러그드 라운지
@@ -11001,7 +11001,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 이예은,공연,indistreet,,,2026-07-13,카페 언플러그드 홍대점
 이오늘,공연,indistreet,,,2024-02-01,살롱문보우
 이오키,공연,indistreet,,,2026-08-28,
-이온,공연,sangsangmadang,,,2024-12-26,상상마당 부산 3층 라이브홀
+이온,공연,sangsangmadang,,,2024-12-26,KT&G 상상마당 부산 3층 라이브홀
 이온,공연,indistreet,,,2026-08-06,Club FF
 이온,공연,indistreet,,,2026-09-04,스페이스 한강
 이온,공연,indistreet,,,2026-11-04,클럽 프리버드
@@ -11259,13 +11259,13 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 이혁준,선정·지원,yjh,yoojaeha_finalist,3,2012-12-31,
 이현도,큐레이션,musicy,음악취향Y,,2023-08-28,
 이현도,큐레이션,izm,IZM,,2024-05-01,
-이현아,공연,sangsangmadang,,,2020-02-29,상상마당 춘천 사운드홀
+이현아,공연,sangsangmadang,,,2020-02-29,KT&G 상상마당 춘천 사운드홀
 이현우,큐레이션,izm,IZM,,2025-10-16,
 이현준,공연,indistreet,,,2026-09-12,스페이스브릭
 이형주,선정·지원,yjh,yoojaeha_finalist,3,2022-12-31,
 이형주,공연,indistreet,,,2026-04-15,카페 언플러그드 홍대점
 이형주,공연,indistreet,,,2026-08-05,카페 언플러그드 홍대점
-이형주,공연,indiego,,,2026-11-29,언플러그드
+이형주,공연,indiego,,,2026-11-29,카페 언플러그드 홍대점
 이형주,공연,indistreet,,,2026-11-29,카페 언플러그드 홍대점
 이혜미,공연,indistreet,,,2025-08-13,Club 빵
 이혜미,공연,indistreet,,,2026-02-04,Club 빵
@@ -11368,7 +11368,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 일루반,공연,indistreet,,,2026-08-14,Club FF
 일루반,공연,indistreet,,,2026-09-04,Club FF
 일루반,공연,indistreet,,,2026-11-01,클럽 프리버드
-일루반,공연,indiego,,,2026-11-26,AOR
+일루반,공연,indiego,,,2026-11-26,A.O.R
 일루반,공연,indistreet,,,2026-11-26,A.O.R
 일루반,공연,indiego,,,2026-11-28,언플러그드 라운지
 일루반,공연,indistreet,,,2026-11-28,언플러그드 라운지
@@ -11412,13 +11412,13 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 일팔피버스,공연,indistreet,,,2026-09-12,
 일팔피버스,공연,indistreet,,,2026-10-03,Club FF
 일팔피버스,공연,indistreet,,,2026-10-31,생기스튜디오
-일팔피버스,공연,indistreet,,,2026-11-29,JS 아트홀
+일팔피버스,공연,indistreet,,,2026-11-29,제이에스아트홀&뮤직바
 임계점,큐레이션,musicy,음악취향Y,,2025-04-21,
 임다,공연,sangsangmadang,,,2019-05-25,라이브홀
 임두혁,선정·지원,yjh,yoojaeha_finalist,3,1993-12-31,
 임병수밴드,공연,indistreet,,,2026-08-23,로컬다움 롴돰
 임세모,공연,sangsangmadang,,,2023-06-10,3층 라이브홀
-임세모,공연,sangsangmadang,,,2025-08-10,KT&G 부산 상상마당 3층 라이브홀
+임세모,공연,sangsangmadang,,,2025-08-10,KT&G 상상마당 부산 3층 라이브홀
 임슬옹,큐레이션,izm,IZM,,2025-02-26,
 임슬옹,큐레이션,izm,IZM,,2026-11-14,
 임영웅,큐레이션,izm,IZM,,2023-10-01,
@@ -11582,7 +11582,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 장범준,큐레이션,izm,IZM,,2025-03-27,
 장범준,큐레이션,musicy,음악취향Y,,2025-03-31,
 장범준,큐레이션,izm,IZM,,2025-07-30,
-장범준,공연,sangsangmadang,,,2026-08-15,KT&G 상상마당 부산 라이브홀
+장범준,공연,sangsangmadang,,,2026-08-15,KT&G상상마당 부산
 장보영퀄텟,공연,indistreet,,,2024-05-04,언드
 장사익,큐레이션,musicy,음악취향Y,,2024-08-05,
 장사익,큐레이션,izm,IZM,,2024-12-29,
@@ -11655,7 +11655,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 잭킹콩,공연,indistreet,,,2025-08-31,오방가르드
 잭킹콩,공연,indistreet,,,2026-02-19,무신사개러지
 잭킹콩,큐레이션,musicy,음악취향Y,,2026-03-16,
-잭킹콩,공연,sangsangmadang,,,2026-07-18,KT&G 상상마당 부산 3F 라이브홀
+잭킹콩,공연,sangsangmadang,,,2026-07-18,KT&G 상상마당 부산 3층 라이브홀
 잭킹콩,공연,indistreet,,,2026-08-01,
 잭킹콩,공연,indistreet,,,2026-09-06,
 잭킹콩,공연,indistreet,,,2026-10-16,스트레인지 프룻
@@ -11743,7 +11743,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 전기뱀장어,선정·지원,sangsangmadang,band_discovery,2,2012-07-16,
 전기뱀장어,선정·지원,sangsangmadang,band_discovery,4,2012-07-16,
 전기뱀장어,큐레이션,izm,IZM,,2023-08-01,
-전기뱀장어,공연,sangsangmadang,,,2023-12-23,3F 라이브홀
+전기뱀장어,공연,sangsangmadang,,,2023-12-23,3층 라이브홀
 전기뱀장어,공연,indistreet,,,2024-05-18,프리즘홀
 전기뱀장어,공연,sangsangmadang,,,2024-12-26,라이브홀
 전기뱀장어,공연,indistreet,,,2025-11-16,벨로주 홍대
@@ -11754,7 +11754,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 전기뱀장어,큐레이션,izm,IZM,,2026-09-30,
 전기뱀장어,공연,indistreet,,,2026-10-17,벨르
 전기뱀장어,큐레이션,izm,IZM,,2026-10-28,
-전기뱀장어,공연,indiego,,,2026-11-29,KT&G상상마당 홍대
+전기뱀장어,공연,indiego,,,2026-11-29,KT&G 상상마당 홍대 라이브홀
 전기승,공연,indistreet,,,2026-04-16,언플러그드 라운지
 전다인밴드,공연,indistreet,,,2024-01-14,Club 빵
 전다인밴드,공연,indistreet,,,2024-02-11,공연장 미정
@@ -11853,7 +11853,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 정규형,공연,indistreet,,,2024-07-26,Club 빵
 정규형,공연,indistreet,,,2024-08-24,Club 빵
 정글줄리,선정·지원,sangsangmadang,band_discovery,2,2018-05-31,
-정기고,공연,sangsangmadang,,,2017-07-01,상상마당 홍대 라이브홀
+정기고,공연,sangsangmadang,,,2017-07-01,KT&G 상상마당 홍대 라이브홀
 정기고,큐레이션,izm,IZM,,2023-12-01,
 정기훈,공연,indistreet,,,2026-09-30,언플러그드 라운지
 정다운,선정·지원,yjh,yoojaeha_finalist,3,2003-12-31,
@@ -11896,7 +11896,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 정서사,공연,indistreet,,,2026-02-06,생기스튜디오
 정서윤,공연,indistreet,,,2025-11-16,Club 빵
 정서윤,공연,indistreet,,,2026-07-26,Club 빵
-정성하,공연,sangsangmadang,,,2025-11-22,KT&G 상상마당 부산 라이브홀
+정성하,공연,sangsangmadang,,,2025-11-22,KT&G상상마당 부산
 정성하,공연,indistreet,,,2026-11-22,NOL 씨어터 합정
 정세영,공연,indiego,,,2026-11-26,언플러그드 라운지
 정세영,공연,indistreet,,,2026-11-26,언플러그드 라운지
@@ -12068,7 +12068,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 제인리무버,큐레이션,visla,VISLA,,2025-06-23,
 제인비,큐레이션,musicy,음악취향Y,,2024-08-19,
 제임스키스,큐레이션,musicy,음악취향Y,,2025-02-03,
-제임스키스,공연,indiego,,,2026-11-26,클럽FF
+제임스키스,공연,indiego,,,2026-11-26,Club FF
 제임스키스,공연,indistreet,,,2026-11-26,Club FF
 제프리화이트,큐레이션,izm,IZM,,2026-08-18,
 제프벡,큐레이션,izm,IZM,,2023-01-01,
@@ -12085,7 +12085,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 조광일,큐레이션,izm,IZM,,2025-12-13,
 조규찬,선정·지원,yjh,yoojaeha_finalist,3,1989-12-31,
 조규찬,큐레이션,musicy,음악취향Y,,2024-11-04,
-조규찬,공연,sangsangmadang,,,2027-01-02,KT&G 상상마당 부산 3F 라이브홀
+조규찬,공연,sangsangmadang,,,2027-01-02,KT&G 상상마당 부산 3층 라이브홀
 조나스브라더스,큐레이션,izm,IZM,,2023-07-01,
 조니반,큐레이션,izm,IZM,,2024-08-19,
 조니반,공연,indistreet,,,2024-09-20,A.O.R
@@ -12182,7 +12182,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 조이풀스,공연,indistreet,,,2026-10-22,롤링홀
 조이풀스,공연,indistreet,,,2026-11-08,클럽 프리버드
 조이풀스,공연,indistreet,,,2026-11-13,언플러그드 라운지
-조이풀스,공연,indiego,,,2026-11-27,클럽 빵
+조이풀스,공연,indiego,,,2026-11-27,Club 빵
 조이풀언더웨어,공연,indistreet,,,2024-03-29,Club 빵
 조이풀언더웨어,공연,indistreet,,,2024-04-25,Club 빵
 조이풀언더웨어,공연,indistreet,,,2024-05-23,Club FF
@@ -12534,8 +12534,8 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 징가징가,공연,indistreet,,,2026-10-21,Club 빵
 짙은,공연,sangsangmadang,,,2023-08-19,3층 라이브홀
 짙은,공연,indistreet,,,2025-02-16,무신사개러지
-짙은,공연,sangsangmadang,,,2025-07-19,KT&G 상상마당 부산 라이브홀
-짙은,공연,sangsangmadang,,,2026-07-04,KT&G 상상마당 부산 라이브홀
+짙은,공연,sangsangmadang,,,2025-07-19,KT&G상상마당 부산
+짙은,공연,sangsangmadang,,,2026-07-04,KT&G상상마당 부산
 짱유,공연,sangsangmadang,,,2019-12-08,라이브홀
 째파이,공연,indistreet,,,2026-09-21,아지토 라이브 홀
 째파이,공연,indistreet,,,2026-10-21,아지토 라이브 홀
@@ -12628,7 +12628,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 찬주,공연,indistreet,,,2024-01-04,롤링홀
 찰리빈웍스,공연,sangsangmadang,,,2022-11-13,라이브홀
 찰리빈웍스,큐레이션,musicy,음악취향Y,,2023-02-06,
-찰리빈웍스,공연,sangsangmadang,,,2026-03-28,KT&G 상상마당 부산 라이브홀
+찰리빈웍스,공연,sangsangmadang,,,2026-03-28,KT&G상상마당 부산
 찰리빈웍스,공연,indistreet,,,2026-11-22,구름아래소극장
 찰리재즈오케스트라,공연,indistreet,,,2026-11-27,에이치아츠
 찰리정,큐레이션,izm,IZM,,2025-11-01,
@@ -12665,7 +12665,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 채소현,공연,indistreet,,,2026-10-29,우주정거장
 채소현,공연,indistreet,,,2026-11-13,공상온도
 채소현,공연,indistreet,,,2026-11-19,카페 언플러그드 홍대점
-채소현,공연,indiego,,,2026-11-26,클럽 빵
+채소현,공연,indiego,,,2026-11-26,Club 빵
 채수윤,공연,indistreet,,,2026-10-19,카페 언플러그드 홍대점
 채수윤,공연,indistreet,,,2026-11-14,카페 언플러그드 홍대점
 채수현,선정·지원,yjh,yoojaeha_finalist,3,2011-12-31,
@@ -12698,7 +12698,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 천둥오리,공연,indistreet,,,2026-10-08,Club FF
 천둥오리,공연,indistreet,,,2026-10-22,롤링홀
 천둥오리,공연,indistreet,,,2026-10-29,언플러그드 라운지
-천둥오리,공연,indiego,,,2026-11-28,프리버드
+천둥오리,공연,indiego,,,2026-11-28,클럽 프리버드
 천둥오리,공연,indistreet,,,2026-11-28,클럽 프리버드
 천둥오리,선정·지원,busanrock,burock_rookies,3,2026-12-31,
 천서혜밴드,선정·지원,yjh,yoojaeha_finalist,3,2012-12-31,
@@ -12728,7 +12728,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 청록,공연,indistreet,,,2026-11-08,카페 언플러그드 홍대점
 청룡당,큐레이션,musicy,음악취향Y,,2024-03-18,
 청백,공연,indistreet,,,2024-04-27,올래공연장
-청새,공연,indiego,,,2026-12-02,프리버드
+청새,공연,indiego,,,2026-12-02,클럽 프리버드
 청새,공연,indistreet,,,2026-12-02,클럽 프리버드
 청새치밴드,공연,indistreet,,,2025-05-09,Cafe PPnF
 청요일,선정·지원,sangsangmadang,band_discovery,2,2023-06-14,
@@ -12831,7 +12831,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 초록커튼,공연,indistreet,,,2024-09-22,Club Victim
 초림,공연,indistreet,,,2026-08-23,언플러그드 라운지
 초림,공연,indistreet,,,2026-09-21,언플러그드 라운지
-초승,공연,sangsangmadang,,,2023-11-18,라이브스튜디오
+초승,공연,sangsangmadang,,,2023-11-18,라이브 스튜디오
 초승,공연,sangsangmadang,,,2024-10-26,3층 라이브홀
 초춘목밴드,공연,indistreet,,,2026-07-30,Club FF
 초콜릿파우더,공연,indistreet,,,2024-05-17,Club Victim
@@ -12888,7 +12888,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 최애리,공연,indistreet,,,2025-09-10,언플러그드 라운지
 최애리,공연,indistreet,,,2026-04-21,언플러그드 라운지
 최애리,공연,indistreet,,,2026-07-23,카페 언플러그드 홍대점
-최언서,공연,sangsangmadang,,,2023-09-17,3F 라이브홀
+최언서,공연,sangsangmadang,,,2023-09-17,3층 라이브홀
 최언서,공연,indistreet,,,2025-09-13,언드
 최엘비,큐레이션,izm,IZM,,2024-12-10,
 최엘비,공연,indistreet,,,2025-03-22,공연장 미정
@@ -12921,7 +12921,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 최유리,공연,indistreet,,,2026-09-06,
 최유미,선정·지원,yjh,yoojaeha_finalist,3,2003-12-31,
 최유진,선정·지원,yjh,yoojaeha_finalist,3,2006-12-31,
-최윤서,공연,sangsangmadang,,,2020-02-29,상상마당 춘천 사운드홀
+최윤서,공연,sangsangmadang,,,2020-02-29,KT&G 상상마당 춘천 사운드홀
 최윤영,공연,indistreet,,,2025-11-30,언플러그드 라운지
 최윤희,선정·지원,yjh,yoojaeha_finalist,3,2015-12-31,
 최인경,공연,indistreet,,,2024-02-16,살롱문보우
@@ -12979,7 +12979,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 추다혜차지스,큐레이션,izm,IZM,,2025-09-15,
 추다혜차지스,공연,indistreet,,,2026-04-19,채널1969
 추다혜차지스,공연,indistreet,,,2026-07-19,생기스튜디오
-추다혜차지스,공연,instagram,@senggistudio,,2026-11-17,@senggistudio
+추다혜차지스,공연,instagram,@senggistudio,,2026-11-17,생기스튜디오
 추수민,공연,indistreet,,,2026-10-18,스페이스 한강
 취미,공연,sangsangmadang,,,2018-12-18,라이브홀
 취미,공연,sangsangmadang,,,2019-06-30,라이브홀
@@ -13148,14 +13148,14 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 칵투스,공연,indistreet,,,2026-07-30,Club 빵
 칵투스,공연,indistreet,,,2026-08-23,Club FF
 칵투스,공연,indistreet,,,2026-10-22,언플러그드 라운지
-칵투스,공연,indiego,,,2026-11-28,프리버드
+칵투스,공연,indiego,,,2026-11-28,클럽 프리버드
 칵투스,공연,indistreet,,,2026-11-28,클럽 프리버드
 칸,큐레이션,izm,IZM,,2023-02-01,
 칸,공연,indistreet,,,2026-09-04,예스24 원더로크홀
 칸호야쿠시지,공연,indistreet,,,2026-10-30,예스24 원더로크홀
 칼블루독,공연,indistreet,,,2024-05-02,Club FF
 칼있으마,공연,indistreet,,,2026-08-07,로컬다움 롴돰
-칼카이져,공연,indiego,,,2026-11-27,JS 아트홀
+칼카이져,공연,indiego,,,2026-11-27,제이에스아트홀&뮤직바
 칼카이져,공연,indiego,,,2026-11-29,클럽 딥퍼플
 캉뉴,공연,indistreet,,,2025-12-31,대구 제임스레코드
 캐스커,큐레이션,musicy,음악취향Y,,2026-11-02,
@@ -13168,7 +13168,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 캐치더영,큐레이션,musicy,음악취향Y,,2023-11-13,
 캐치더영,공연,indistreet,,,2024-03-22,Club FF
 캐치더영,공연,indistreet,,,2024-10-20,Club FF
-캐치더영,공연,sangsangmadang,,,2025-03-29,상상마당 부산 3층 라이브홀
+캐치더영,공연,sangsangmadang,,,2025-03-29,KT&G 상상마당 부산 3층 라이브홀
 캐치더영,공연,indistreet,,,2025-05-05,Club FF
 캐치더영,큐레이션,izm,IZM,,2025-10-11,
 캐치더영,큐레이션,izm,IZM,,2025-11-13,
@@ -13246,7 +13246,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 케이에이치씨모리벳,큐레이션,musicy,음악취향Y,,2023-07-10,
 케이윌,큐레이션,izm,IZM,,2024-07-01,
 케이티조지,공연,indistreet,,,2026-11-12,베리어스 재즈클럽
-케타케,공연,indiego,,,2026-12-03,스트레인지프룻
+케타케,공연,indiego,,,2026-12-03,스트레인지 프룻
 케타케,공연,indistreet,,,2026-12-03,스트레인지 프룻
 케플러,큐레이션,izm,IZM,,2024-06-01,
 케플러,큐레이션,musicy,음악취향Y,,2024-06-17,
@@ -13283,7 +13283,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 코나,큐레이션,musicy,음악취향Y,,2023-02-13,
 코넛,공연,indistreet,,,2026-10-29,생기스튜디오
 코니프란시스,큐레이션,izm,IZM,,2025-07-24,
-코도모드래곤,공연,sangsangmadang,,,2017-07-02,상상마당 홍대 라이브홀
+코도모드래곤,공연,sangsangmadang,,,2017-07-02,KT&G 상상마당 홍대 라이브홀
 코도모드래곤,공연,sangsangmadang,,,2018-10-13,라이브홀
 코드,공연,indistreet,,,2025-06-05,Club 빵
 코드,공연,indistreet,,,2025-10-16,Club 빵
@@ -13373,7 +13373,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 코튼스틱,공연,indistreet,,,2026-10-24,Club 빵
 코튼스틱,공연,indistreet,,,2026-10-31,인천여관X루비살롱
 코튼스틱,공연,indistreet,,,2026-11-13,Club Victim
-코튼스틱,공연,indiego,,,2026-11-29,VICTIM
+코튼스틱,공연,indiego,,,2026-11-29,Club Victim
 코튼스틱,공연,indistreet,,,2026-11-29,Club Victim
 콘트라젤리,공연,indistreet,,,2024-01-07,Club 빵
 콘트라젤리,큐레이션,musicy,음악취향Y,,2024-04-08,
@@ -13399,7 +13399,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 콘트라젤리,공연,indistreet,,,2026-09-26,Club 빵
 콘트라젤리,공연,indistreet,,,2026-09-27,Club Victim
 콘트라젤리,공연,indistreet,,,2026-11-14,인피니티클럽
-콘트라젤리,공연,indiego,,,2026-11-27,VICTIM
+콘트라젤리,공연,indiego,,,2026-11-27,Club Victim
 콘트라젤리,공연,indistreet,,,2026-11-27,Club Victim
 콜드건챔버,큐레이션,musicy,음악취향Y,,2023-11-06,
 콜드플레이,큐레이션,izm,IZM,,2025-04-30,
@@ -13737,7 +13737,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 킬러티,공연,indistreet,,,2026-10-04,OL'55
 킬카이저,큐레이션,musicy,음악취향Y,,2026-09-07,
 킬카이저,공연,indistreet,,,2026-10-25,롤링홀
-킬카이저,공연,indistreet,,,2026-11-27,JS 아트홀
+킬카이저,공연,indistreet,,,2026-11-27,제이에스아트홀&뮤직바
 킴쿨,공연,indistreet,,,2024-10-12,오방가르드
 킴쿨,공연,indistreet,,,2025-07-26,공연장 미정
 킴쿨,공연,indistreet,,,2025-10-24,언드
@@ -14020,7 +14020,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 트리스,선정·지원,sangsangmadang,band_discovery,2,2017-04-12,
 트리스,선정·지원,sangsangmadang,band_discovery,4,2017-04-30,
 트리스상상마당라이브홀,공연,sangsangmadang,,,2019-02-22,라이브홀
-트리오크레도,공연,indiego,,,2026-11-27,NC문화재단 STAGE BLACK
+트리오크레도,공연,indiego,,,2026-11-27,NC문화재단 Stage Black
 트리케라톱스,공연,indistreet,,,2024-01-12,Club Victim
 트리케라톱스,공연,indistreet,,,2024-06-02,Club Victim
 트리케라톱스,공연,indistreet,,,2024-08-16,Club Victim
@@ -14166,7 +14166,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 파아란,공연,indistreet,,,2026-10-04,Club FF
 파아란,공연,indistreet,,,2026-10-23,Club FF
 파아란,공연,indistreet,,,2026-11-19,언플러그드 라운지
-파아란,공연,indiego,,,2026-11-28,언플러그드
+파아란,공연,indiego,,,2026-11-28,카페 언플러그드 홍대점
 파이브립스,공연,indistreet,,,2024-10-31,Club FF
 파이브피엠어반,공연,indistreet,,,2024-08-17,성우레더스테이지
 파이어플라이스,공연,indistreet,,,2026-11-18,언플러그드 라운지
@@ -14252,7 +14252,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 팡크레인,공연,indistreet,,,2026-11-28,라이브펍 타락
 팬텀루나틱스,공연,indistreet,,,2024-03-16,Club FF
 팬텀루나틱스,공연,indistreet,,,2024-04-06,A.O.R
-팬텀루나틱스,공연,indistreet,,,2024-05-25,웨스트브릿지
+팬텀루나틱스,공연,indistreet,,,2024-05-25,웨스트브릿지 라이브홀
 팬텀루나틱스,큐레이션,musicy,음악취향Y,,2024-05-27,
 팬텀루나틱스,공연,indistreet,,,2024-08-18,Club FF
 팬텀루나틱스,공연,indistreet,,,2025-03-22,A.O.R
@@ -14296,7 +14296,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 퍼퓨라,공연,indistreet,,,2026-06-27,인천여관X루비살롱
 퍼퓨라,공연,indistreet,,,2026-08-27,Club FF
 퍼퓨라,공연,indistreet,,,2026-09-12,감마홀
-퍼퓨라,공연,indistreet,,,2026-09-19,수상한 창고
+퍼퓨라,공연,indistreet,,,2026-09-19,수상한창고
 퍼퓨라,공연,indistreet,,,2026-09-20,A.O.R
 퍼퓨라,공연,indistreet,,,2026-11-07,퍼플홀
 퍼플레이디블루스,큐레이션,musicy,음악취향Y,,2023-03-13,
@@ -14370,11 +14370,11 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 페이퍼피클,공연,indistreet,,,2026-04-16,Club 빵
 페이퍼피클,공연,indistreet,,,2026-07-18,Club 빵
 페이퍼피클,공연,indistreet,,,2026-10-30,Club 빵
-페이퍼피클,공연,indiego,,,2026-11-29,스트레인지프룻
+페이퍼피클,공연,indiego,,,2026-11-29,스트레인지 프룻
 페이퍼피클,공연,indistreet,,,2026-11-29,스트레인지 프룻
 페일패스트,공연,indistreet,,,2024-12-14,Club Victim
 페일패스트,공연,indistreet,,,2026-01-10,클럽 프리버드
-펜타슈퍼루키라이브결선,공연,sangsangmadang,,,2017-07-08,상상마당 홍대 라이브홀
+펜타슈퍼루키라이브결선,공연,sangsangmadang,,,2017-07-08,KT&G 상상마당 홍대 라이브홀
 펜타클,큐레이션,musicy,음악취향Y,,2024-02-13,
 펜텐,공연,indistreet,,,2024-02-15,롤링홀
 펜토,큐레이션,musicy,음악취향Y,,2023-05-15,
@@ -14477,7 +14477,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 폭음만취,공연,indistreet,,,2026-10-03,Club Victim
 폭음만취,공연,indistreet,,,2026-10-10,Club Victim
 폭음만취,공연,indistreet,,,2026-11-20,스팀펑크락
-폭음만취,공연,indiego,,,2026-11-29,VICTIM
+폭음만취,공연,indiego,,,2026-11-29,Club Victim
 폭음만취,공연,indistreet,,,2026-11-29,Club Victim
 폴그라운드,공연,indistreet,,,2024-02-11,공연장 미정
 폴디드,공연,indistreet,,,2025-11-28,Club 빵
@@ -14769,7 +14769,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 핍핍,공연,indistreet,,,2026-10-16,스트레인지 프룻
 핍핍,공연,indistreet,,,2026-11-01,Club FF
 핍핍,공연,indistreet,,,2026-11-20,스페이스 한강
-핍핍,공연,indiego,,,2026-11-28,언플러그드
+핍핍,공연,indiego,,,2026-11-28,카페 언플러그드 홍대점
 핍핍,공연,indistreet,,,2026-11-28,카페 언플러그드 홍대점
 핑쿠와이블헤드,공연,indistreet,,,2025-02-15,Club Victim
 하노,공연,indistreet,,,2024-02-11,공연장 미정
@@ -14932,7 +14932,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 한샘바위,공연,indistreet,,,2026-05-24,생기스튜디오
 한성욱,선정·지원,yjh,yoojaeha_finalist,3,2009-12-31,
 한성일,공연,indistreet,,,2026-07-12,언플러그드 라운지
-한성일,공연,indiego,,,2026-12-03,아지토
+한성일,공연,indiego,,,2026-12-03,아지토 라이브 홀
 한성일,공연,indistreet,,,2026-12-03,아지토 라이브 홀
 한세,큐레이션,musicy,음악취향Y,,2025-07-21,
 한솔,공연,indistreet,,,2026-09-02,카페 언플러그드 홍대점
@@ -14977,7 +14977,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 한이,공연,indistreet,,,2026-11-20,우무지
 한정인,큐레이션,visla,VISLA,,2026-08-27,
 한정인,공연,indistreet,,,2026-10-21,언플러그드 라운지
-한정인,공연,indistreet,,,2026-10-22,웨스트브릿지
+한정인,공연,indistreet,,,2026-10-22,웨스트브릿지 라이브홀
 한정인,공연,indistreet,,,2026-10-30,생기스튜디오
 한정훈,선정·지원,yjh,yoojaeha_finalist,3,2015-12-31,
 한주호,공연,indistreet,,,2026-10-21,Club 빵
@@ -15003,7 +15003,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 핫클럽디코리아,공연,indistreet,,,2025-03-22,공연장 미정
 항해,공연,indistreet,,,2026-03-21,수원음악캠프
 해나,공연,indistreet,,,2026-04-20,언플러그드 라운지
-해노,공연,sangsangmadang,,,2022-11-18,3F 라이브홀
+해노,공연,sangsangmadang,,,2022-11-18,3층 라이브홀
 해로이키,공연,indistreet,,,2026-05-07,카페 언플러그드 홍대점
 해리벨라폰테,큐레이션,izm,IZM,,2023-05-01,
 해리빅버튼,공연,sangsangmadang,,,2021-05-29,라이브홀
@@ -15032,13 +15032,13 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 해리빅버튼,공연,indistreet,,,2026-11-21,우무지
 해리스,공연,indistreet,,,2026-09-16,Club 빵
 해머링,공연,indistreet,,,2024-03-10,Club FF
-해머링,공연,indistreet,,,2024-05-25,웨스트브릿지
+해머링,공연,indistreet,,,2024-05-25,웨스트브릿지 라이브홀
 해머링,공연,indistreet,,,2024-06-16,Club FF
 해머링,공연,indistreet,,,2024-11-16,Bender
 해머링,공연,indistreet,,,2026-04-12,Club FF
 해머링,공연,indistreet,,,2026-07-25,Club FF
 해머링,공연,indistreet,,,2026-10-17,A.O.R
-해머링,공연,indistreet,,,2026-11-29,JS 아트홀
+해머링,공연,indistreet,,,2026-11-29,제이에스아트홀&뮤직바
 해무,공연,indistreet,,,2026-08-23,우무지
 해미,공연,indistreet,,,2026-06-08,카페 언플러그드 홍대점
 해미,공연,indistreet,,,2026-10-17,카페 언플러그드 홍대점
@@ -15057,7 +15057,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 해서웨이,공연,indistreet,,,2025-05-02,오방가르드
 해서웨이,공연,indistreet,,,2025-06-25,오방가르드
 해서웨이,공연,indistreet,,,2025-10-03,언드
-해서웨이,공연,sangsangmadang,,,2025-10-24,KT&G 상상마당 부산 라이브홀
+해서웨이,공연,sangsangmadang,,,2025-10-24,KT&G상상마당 부산
 해서웨이,공연,indistreet,,,2026-02-22,오방가르드
 해서웨이,공연,indistreet,,,2026-03-28,오방가르드
 해서웨이,공연,indistreet,,,2026-03-29,오방가르드
@@ -15067,7 +15067,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 해서웨이,공연,indistreet,,,2026-06-14,오방가르드
 해서웨이,공연,indistreet,,,2026-07-18,벨르
 해서웨이,큐레이션,izm,IZM,,2026-07-21,
-해서웨이,공연,sangsangmadang,,,2026-07-25,상상마당 부산 라이브홀
+해서웨이,공연,sangsangmadang,,,2026-07-25,KT&G상상마당 부산
 해서웨이,공연,indistreet,,,2026-10-02,
 해서웨이,공연,indistreet,,,2026-10-31,금사락
 해서웨이,공연,indistreet,,,2026-11-21,성수율 뮤직 3F
@@ -15078,7 +15078,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 해찬,큐레이션,izm,IZM,,2025-09-17,
 해티스,공연,indistreet,,,2026-04-26,
 해티스,공연,indistreet,,,2026-08-08,Hukez
-해티스,공연,indistreet,,,2026-11-29,JS 아트홀
+해티스,공연,indistreet,,,2026-11-29,제이에스아트홀&뮤직바
 해파,큐레이션,musicy,음악취향Y,,2026-04-27,
 해파,공연,indistreet,,,2026-05-08,채널1969
 해파,선정·지원,dmz,dmz_lineup,2,2026-05-12,
@@ -15222,7 +15222,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 허클베리핀,공연,indistreet,,,2026-04-18,우무지
 허클베리핀,공연,indistreet,,,2026-07-04,Club FF
 허클베리핀,큐레이션,musicy,음악취향Y,,2026-10-12,
-허클베리핀,공연,indistreet,,,2026-10-22,웨스트브릿지
+허클베리핀,공연,indistreet,,,2026-10-22,웨스트브릿지 라이브홀
 허클베리핀,공연,indistreet,,,2026-10-31,KT&G 상상마당 홍대 라이브홀
 허험스,큐레이션,musicy,음악취향Y,,2024-04-08,
 허혁진,공연,indistreet,,,2026-11-23,아지토 라이브 홀
@@ -15324,7 +15324,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 호와호,공연,indistreet,,,2024-02-11,공연장 미정
 혹시몰라,공연,indistreet,,,2026-10-21,채널1969
 혼,큐레이션,musicy,음악취향Y,,2025-06-02,
-혼블리,공연,sangsangmadang,,,2020-02-29,상상마당 춘천 사운드홀
+혼블리,공연,sangsangmadang,,,2020-02-29,KT&G 상상마당 춘천 사운드홀
 혼숙,공연,indistreet,,,2026-11-01,채널1969
 혼씨,공연,indistreet,,,2026-11-09,언플러그드 라운지
 혼즈,큐레이션,weiv,weiv,,2023-12-29,
@@ -15345,10 +15345,10 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 홀린,공연,indistreet,,,2024-04-19,Club FF
 홀린,발매,melon,,,2026-11-26,
 홀스맨즈,공연,indistreet,,,2026-10-31,우무지
-홀스맨즈,공연,indiego,,,2026-11-29,VICTIM
+홀스맨즈,공연,indiego,,,2026-11-29,Club Victim
 홈바디,공연,indistreet,,,2024-12-13,오방가르드
 홈바디,공연,indistreet,,,2025-01-25,유기체
-홈바디,공연,sangsangmadang,,,2025-06-21,KT&G 상상마당 부산 라이브홀
+홈바디,공연,sangsangmadang,,,2025-06-21,KT&G상상마당 부산
 홈바디,공연,indistreet,,,2025-09-07,오방가르드
 홈스테이,공연,indistreet,,,2025-08-28,Club 빵
 홈타운버디,공연,indistreet,,,2026-05-09,살롱문보우
@@ -15435,7 +15435,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 환상특급,공연,indistreet,,,2026-05-07,Club 빵
 환원,공연,indistreet,,,2024-11-14,Club FF
 환원,공연,indistreet,,,2025-01-16,Club FF
-활,공연,sangsangmadang,,,2017-07-09,상상마당 홍대 라이브홀
+활,공연,sangsangmadang,,,2017-07-09,KT&G 상상마당 홍대 라이브홀
 황경석,선정·지원,yjh,yoojaeha_finalist,3,2001-12-31,
 황다정,선정·지원,yjh,yoojaeha_finalist,3,2022-12-31,
 황다정,공연,indistreet,,,2024-04-20,석촌호수 아뜰리에
@@ -15478,7 +15478,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 황토길부루쓰,공연,indistreet,,,2025-06-07,인천여관X루비살롱
 황푸하,공연,indistreet,,,2025-03-22,Club 빵
 황푸하,공연,indistreet,,,2026-11-08,벨르
-황푸하,공연,indiego,,,2026-11-29,클럽 빵
+황푸하,공연,indiego,,,2026-11-29,Club 빵
 황푸하,공연,indistreet,,,2026-11-29,Club 빵
 황홀경,공연,indistreet,,,2024-11-28,Club 빵
 회기본능,큐레이션,visla,VISLA,,2025-01-15,
@@ -15570,7 +15570,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 히로,큐레이션,musicy,음악취향Y,,2025-06-02,
 히미츠,공연,sangsangmadang,,,2019-05-19,라이브홀
 히미츠,큐레이션,musicy,음악취향Y,,2026-04-27,
-히미츠,공연,sangsangmadang,,,2026-05-09,KT&G 상상마당 부산 3F 라이브홀
+히미츠,공연,sangsangmadang,,,2026-05-09,KT&G 상상마당 부산 3층 라이브홀
 히미츠,공연,indistreet,,,2026-08-07,롤링홀
 히미츠,공연,indistreet,,,2026-10-31,우주정거장
 히미츠,발매,bugs,,,2026-11-25,
@@ -15622,7 +15622,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 엔시티127,큐레이션,izm,IZM,,2026-10-31,
 12bh,선정·지원,sangsangmadang,band_discovery,2,2024-05-22,
 12bh,공연,indistreet,,,2025-01-24,Club FF
-12bh,공연,sangsangmadang,,,2025-06-29,KT&G 상상마당 부산 3F 라이브홀
+12bh,공연,sangsangmadang,,,2025-06-29,KT&G 상상마당 부산 3층 라이브홀
 사람12사람kanallia,큐레이션,musicy,음악취향Y,,2024-06-24,
 12rods,큐레이션,visla,VISLA,,2023-07-11,
 13스텝스,공연,indistreet,,,2025-02-01,Club Victim
@@ -15678,7 +15678,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 1cm,공연,indistreet,,,2025-07-19,A.O.R
 1day,발매,melon,,,2026-11-24,
 1watt,공연,indistreet,,,2026-09-04,공연장 미정
-1watt,공연,indistreet,,,2026-09-19,Club Heavy
+1watt,공연,indistreet,,,2026-09-19,클럽헤비
 2부데카당단독공연,공연,sangsangmadang,,,2019-05-04,라이브홀
 이차형외2명,선정·지원,yjh,yoojaeha_finalist,3,2002-12-31,
 20,공연,indistreet,,,2026-10-22,카페 언플러그드 홍대점
@@ -15730,14 +15730,14 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 3호선버터플라이갤럭시익스프레스,공연,sangsangmadang,,,2018-11-09,라이브홀
 찰스3세,큐레이션,visla,VISLA,,2023-02-09,
 로다운30,공연,sangsangmadang,,,2016-10-15,사운드홀
-로다운30,공연,sangsangmadang,,,2017-04-22,상상마당 홍대 라이브홀
+로다운30,공연,sangsangmadang,,,2017-04-22,KT&G 상상마당 홍대 라이브홀
 로다운30,공연,sangsangmadang,,,2019-06-28,라이브홀
 로다운30,공연,indistreet,,,2025-10-31,언드
 룸306,공연,indistreet,,,2026-11-21,이디홀
 노동자3071,선정·지원,yjh,yoojaeha_finalist,3,2020-12-31,
 317,공연,indistreet,,,2026-09-16,Club 빵
 317,공연,indistreet,,,2026-11-11,Club 빵
-317,공연,indiego,,,2026-11-29,스트레인지프룻
+317,공연,indiego,,,2026-11-29,스트레인지 프룻
 317,공연,indistreet,,,2026-11-29,스트레인지 프룻
 3355,공연,indistreet,,,2025-11-30,몽향 라이브홀
 33emybw,큐레이션,visla,VISLA,,2024-01-24,
@@ -15766,7 +15766,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 4bottles,공연,indistreet,,,2026-10-10,OL'55
 4lunair,공연,indistreet,,,2026-09-21,아지토 라이브 홀
 4q,공연,indistreet,,,2026-10-04,프리즘홀
-4sale4sale4sale,공연,instagram,@senggistudio,,2026-11-17,@senggistudio
+4sale4sale4sale,공연,instagram,@senggistudio,,2026-11-17,생기스튜디오
 4shyrd,공연,indistreet,,,2026-07-31,스페이스브릭
 5149,큐레이션,musicy,음악취향Y,,2025-06-16,
 57,선정·지원,sangsangmadang,band_discovery,2,2015-09-01,
@@ -15828,7 +15828,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 9와숫자들,공연,sangsangmadang,,,2019-02-22,라이브홀
 9와숫자들,공연,sangsangmadang,,,2021-03-13,라이브홀
 9와숫자들,공연,sangsangmadang,,,2022-03-26,사운드홀
-9와숫자들,공연,sangsangmadang,,,2022-04-02,3F 라이브홀
+9와숫자들,공연,sangsangmadang,,,2022-04-02,3층 라이브홀
 9와숫자들,공연,sangsangmadang,,,2022-05-15,라이브홀
 9와숫자들,큐레이션,izm,IZM,,2024-06-24,
 9와숫자들,선정·지원,dmz,dmz_lineup,2,2024-06-30,
@@ -15886,7 +15886,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 9b2,공연,indistreet,,,2026-09-20,Club 빵
 9b2,공연,indistreet,,,2026-10-16,A.O.R
 9b2,공연,indistreet,,,2026-11-07,채널1969
-9b2,공연,indiego,,,2026-11-27,클럽 빵
+9b2,공연,indiego,,,2026-11-27,Club 빵
 9duck,공연,indistreet,,,2026-08-22,살롱문보우
 aancod,공연,sangsangmadang,,,2021-12-01,라이브홀
 aaprocky,큐레이션,visla,VISLA,,2024-09-04,
@@ -16153,7 +16153,7 @@ baritalia,큐레이션,visla,VISLA,,2025-08-01,
 baritalia,공연,indistreet,,,2026-01-24,무신사개러지
 bartskils,공연,indistreet,,,2026-10-16,언더시티
 baseck,큐레이션,visla,VISLA,,2023-07-11,
-basementzero,공연,indistreet,,,2026-09-19,Club Heavy
+basementzero,공연,indistreet,,,2026-09-19,클럽헤비
 bassistyunsookim,큐레이션,instagram,@pub.mag,,2026-11-23,
 bassvictim,큐레이션,visla,VISLA,,2025-10-23,
 baths,큐레이션,visla,VISLA,,2025-03-08,
@@ -16314,7 +16314,7 @@ byeongchanleeofficial,큐레이션,instagram,@kindiemagazine,,2026-11-19,
 cabane,공연,indistreet,,,2026-04-27,카페 언플러그드 홍대점
 cactus,공연,indistreet,,,2026-04-23,Club FF
 cactus,공연,indistreet,,,2026-05-19,스트레인지 프룻
-cafeunplugged,공연,instagram,@senggistudio,,2026-11-22,@senggistudio
+cafeunplugged,공연,instagram,@senggistudio,,2026-11-22,생기스튜디오
 cakedog,큐레이션,visla,VISLA,,2023-01-12,
 calyne,공연,indistreet,,,2026-10-10,채널1969
 candytune,공연,indistreet,,,2026-11-22,
@@ -16387,7 +16387,7 @@ chlalsdud,공연,indistreet,,,2026-04-17,프리즘홀
 chlalsdud,공연,indistreet,,,2026-05-22,프리즘홀
 chloe,공연,indistreet,,,2026-08-27,카페 언플러그드 홍대점
 chocolatd,공연,sangsangmadang,,,2017-07-08,사운드홀 로비
-choha,공연,indistreet,,,2026-11-29,JS 아트홀
+choha,공연,indistreet,,,2026-11-29,제이에스아트홀&뮤직바
 choisonar,공연,indistreet,,,2026-10-18,스페이스 한강
 주니어스chrisguardy,큐레이션,musicy,음악취향Y,,2024-01-15,
 chs,선정·지원,dmz,dmz_lineup,2,2022-10-31,
@@ -16428,8 +16428,8 @@ cloudkreme,공연,indistreet,,,2026-08-05,언플러그드 라운지
 cloudunderground,공연,indistreet,,,2025-04-12,오방가르드
 cloudunderground,공연,indistreet,,,2025-05-30,공연장 미정
 cloudunderground,공연,indistreet,,,2026-06-06,Club Sharp
-clubbbang,공연,instagram,@senggistudio,,2026-11-22,@senggistudio
-clubffhongdae,공연,instagram,@hongdaeff,,2026-11-22,@hongdaeff
+clubbbang,공연,instagram,@senggistudio,,2026-11-22,생기스튜디오
+clubffhongdae,공연,instagram,@hongdaeff,,2026-11-22,Club FF
 clubsharp,큐레이션,visla,VISLA,,2024-11-18,
 clueat,발매,melon,,,2026-11-25,
 clydex21,공연,indistreet,,,2025-08-08,Cafe PPnF
@@ -16722,7 +16722,7 @@ djtxako,공연,indistreet,,,2026-10-04,스트레인지 프룻
 djunnie,공연,indistreet,,,2026-04-03,채널1969
 djyesyes,공연,indistreet,,,2025-07-05,공연장 미정
 djyesyes,공연,indistreet,,,2026-09-23,채널1969
-dlaghtmd,공연,instagram,@senggistudio,,2026-11-17,@senggistudio
+dlaghtmd,공연,instagram,@senggistudio,,2026-11-17,생기스튜디오
 dmute,공연,indistreet,,,2025-11-30,몽향 라이브홀
 딥플로우do,큐레이션,musicy,음악취향Y,,2023-08-28,
 docheon,공연,indistreet,,,2024-06-14,공연장 미정
@@ -16992,9 +16992,9 @@ fleet,공연,indistreet,,,2026-10-03,Club FF
 fleet,공연,indistreet,,,2026-10-17,언플러그드 라운지
 fleet,공연,indistreet,,,2026-10-23,벨르
 fleet,공연,indistreet,,,2026-10-30,A.O.R
-fleet,공연,indiego,,,2026-11-26,AOR
+fleet,공연,indiego,,,2026-11-26,A.O.R
 fleet,공연,indistreet,,,2026-11-26,A.O.R
-fleet,공연,indiego,,,2026-11-28,프리버드
+fleet,공연,indiego,,,2026-11-28,클럽 프리버드
 fleet,공연,indistreet,,,2026-11-28,클럽 프리버드
 fleetofficial,큐레이션,instagram,@kindiemagazine,,2026-11-19,
 fleetwoodmac,큐레이션,visla,VISLA,,2023-05-16,
@@ -17134,7 +17134,7 @@ goofy18,공연,indistreet,,,2024-10-19,공연장 미정
 goofy18,공연,indistreet,,,2024-10-20,Club Sharp
 gordyharmon,큐레이션,visla,VISLA,,2023-01-11,
 gorgeousgorgeous,공연,indistreet,,,2025-11-14,오방가르드
-goyoroom,공연,instagram,@senggistudio,,2026-11-22,@senggistudio
+goyoroom,공연,instagram,@senggistudio,,2026-11-22,생기스튜디오
 gr2n,공연,indistreet,,,2024-03-15,락클럽 Bar 레드제플린
 gr2n,공연,indistreet,,,2025-11-09,제이에스아트홀&뮤직바
 gr2n,공연,indistreet,,,2026-09-10,카페 언플러그드 홍대점
@@ -17430,7 +17430,7 @@ jaydag,큐레이션,visla,VISLA,,2023-02-21,
 jaymensy,공연,indistreet,,,2026-07-11,스페이스브릭
 jayminaj,공연,indistreet,,,2026-07-31,스페이스브릭
 jayu,공연,indistreet,,,2025-01-23,Club FF
-jayunakha,공연,instagram,@senggistudio,,2026-11-14,@senggistudio
+jayunakha,공연,instagram,@senggistudio,,2026-11-14,생기스튜디오
 jayunakha,큐레이션,instagram,@metro_kr,,2026-11-20,
 jayvito,큐레이션,visla,VISLA,,2025-04-24,
 jazzman,공연,indistreet,,,2026-10-10,채널1969
@@ -17475,7 +17475,7 @@ jluke,공연,indistreet,,,2026-08-04,언플러그드 라운지
 jmin,공연,indistreet,,,2026-09-05,
 jmsn,큐레이션,visla,VISLA,,2023-05-30,
 jo0ji,공연,indistreet,,,2026-11-20,
-프로job러talk쏘는,공연,sangsangmadang,,,2026-11-25,KT&G 상상마당 부산 3F 라이브홀
+프로job러talk쏘는,공연,sangsangmadang,,,2026-11-25,KT&G 상상마당 부산 3층 라이브홀
 joeyjsaye,공연,indistreet,,,2026-06-04,스트레인지 프룻
 joha,공연,indistreet,,,2026-09-05,
 johnnypandora,공연,indistreet,,,2026-09-06,Bender
@@ -17577,7 +17577,7 @@ kazuhikomaeda,큐레이션,visla,VISLA,,2026-10-14,
 kazumikaneda,발매,poclanos,,,2026-11-23,
 밴드kbk,공연,indistreet,,,2026-04-26,유기체
 kcitymarket,큐레이션,visla,VISLA,,2025-06-02,
-kcm,공연,sangsangmadang,,,2024-12-22,KT&G 상상마당 부산 라이브홀
+kcm,공연,sangsangmadang,,,2024-12-22,KT&G상상마당 부산
 kebin,공연,indistreet,,,2025-10-22,Club 빵
 keemhyoeun,공연,indistreet,,,2026-09-05,
 keithape,공연,indistreet,,,2026-09-05,
@@ -17588,7 +17588,7 @@ kendricklamar,큐레이션,visla,VISLA,,2023-05-22,
 kenishii,큐레이션,visla,VISLA,,2024-02-05,
 kennybeats,큐레이션,visla,VISLA,,2025-07-29,
 kennysegal,큐레이션,visla,VISLA,,2023-05-16,
-ketc,공연,sangsangmadang,,,2017-07-04,상상마당 홍대 라이브홀
+ketc,공연,sangsangmadang,,,2017-07-04,KT&G 상상마당 홍대 라이브홀
 kevinabstract,큐레이션,visla,VISLA,,2025-07-07,
 kevincustardgrass,공연,indistreet,,,2026-05-16,OL'55
 kevincustardgrass,공연,indistreet,,,2026-07-04,OL'55
@@ -17735,7 +17735,7 @@ leepete,공연,indistreet,,,2025-04-12,오방가르드
 legendhasit,큐레이션,visla,VISLA,,2025-12-10,
 lele,공연,indistreet,,,2026-07-26,오방가르드
 lele,공연,indistreet,,,2026-12-02,KT&G상상마당 부산
-lemonradio,공연,indiego,,,2026-11-26,언플러그드
+lemonradio,공연,indiego,,,2026-11-26,카페 언플러그드 홍대점
 lemonradio,공연,indistreet,,,2026-11-26,카페 언플러그드 홍대점
 lennartwiehe,큐레이션,visla,VISLA,,2023-03-27,
 lennykravitz,큐레이션,visla,VISLA,,2023-11-10,
@@ -17776,7 +17776,7 @@ littleboys,공연,indistreet,,,2026-09-21,언드
 littleboys,공연,indistreet,,,2026-09-26,OL'55
 liulee,큐레이션,visla,VISLA,,2023-09-21,
 liulee,큐레이션,visla,VISLA,,2024-06-10,
-liveclubday,공연,instagram,@hongdaeff,,2026-11-24,@hongdaeff
+liveclubday,공연,instagram,@hongdaeff,,2026-11-24,Club FF
 liveforever,공연,indistreet,,,2026-09-13,Club Victim
 liveforever,공연,indistreet,,,2026-11-13,Club Victim
 livershot,공연,indistreet,,,2025-07-19,A.O.R
@@ -17916,7 +17916,7 @@ markwilliamlewis,큐레이션,visla,VISLA,,2025-05-26,
 marmaladeclub,공연,indistreet,,,2026-08-18,언플러그드 라운지
 marmaladeclub,공연,indistreet,,,2026-09-14,카페 언플러그드 홍대점
 marrakech,큐레이션,visla,VISLA,,2026-03-09,
-marshall,공연,instagram,@senggistudio,,2026-11-22,@senggistudio
+marshall,공연,instagram,@senggistudio,,2026-11-22,생기스튜디오
 marshallallen,큐레이션,visla,VISLA,,2025-03-01,
 marshotel,공연,indistreet,,,2025-09-21,A.O.R
 marswalk,공연,indistreet,,,2026-09-05,
@@ -18029,7 +18029,7 @@ mkgee,큐레이션,visla,VISLA,,2024-09-09,
 mmm,큐레이션,visla,VISLA,,2026-08-19,
 mmoku,공연,indistreet,,,2024-11-02,무대륙
 mmoku,공연,indistreet,,,2024-11-03,Club Victim
-moanzy,공연,indiego,,,2026-11-27,스트레인지프룻
+moanzy,공연,indiego,,,2026-11-27,스트레인지 프룻
 moanzy,공연,indistreet,,,2026-11-27,스트레인지 프룻
 mobbdeep,큐레이션,overtone,overtone,,2025-10-14,
 modeci,큐레이션,visla,VISLA,,2024-07-15,
@@ -18065,7 +18065,7 @@ mombrimz,공연,indistreet,,,2026-08-27,Club FF
 mombrimz,큐레이션,overtone,overtone,,2026-10-31,
 mombrimz,공연,indiego,,,2026-11-26,공상온도
 mombrimz,공연,indistreet,,,2026-11-26,공상온도
-mombrimz,공연,indiego,,,2026-11-28,언플러그드
+mombrimz,공연,indiego,,,2026-11-28,카페 언플러그드 홍대점
 mombrimz,공연,indistreet,,,2026-11-28,카페 언플러그드 홍대점
 monchmonch,공연,indistreet,,,2026-09-05,
 monchmonch,공연,indistreet,,,2026-09-07,스트레인지 프룻
@@ -18421,7 +18421,7 @@ omm,큐레이션,visla,VISLA,,2026-11-26,
 on,공연,indistreet,,,2026-08-01,우주정거장
 on,공연,indistreet,,,2026-10-22,우주정거장
 on,공연,indistreet,,,2026-11-19,스페이스 한강
-on,공연,indiego,,,2026-11-26,언플러그드
+on,공연,indiego,,,2026-11-26,카페 언플러그드 홍대점
 on,공연,indistreet,,,2026-11-26,카페 언플러그드 홍대점
 ondea,큐레이션,visla,VISLA,,2024-03-01,
 ondea,큐레이션,visla,VISLA,,2025-01-21,
@@ -18799,7 +18799,7 @@ redc,공연,indistreet,,,2024-09-04,무신사개러지
 redc,공연,indistreet,,,2024-09-14,Club FF
 redc,공연,indistreet,,,2024-11-16,Club FF
 redc,공연,indistreet,,,2025-02-15,Club FF
-redc,공연,indistreet,,,2025-06-18,웨스트브릿지
+redc,공연,indistreet,,,2025-06-18,웨스트브릿지 라이브홀
 redc,공연,indistreet,,,2025-09-13,언드
 redc,공연,indistreet,,,2026-03-01,Club FF
 redc,공연,indistreet,,,2026-05-29,롤링홀
@@ -18854,7 +18854,7 @@ roomintheelephant,공연,indistreet,,,2026-07-22,스페이스 한강
 roomintheelephant,공연,indistreet,,,2026-08-17,카페 언플러그드 홍대점
 roon,공연,indistreet,,,2026-07-24,카페 언플러그드 홍대점
 roon,공연,indistreet,,,2026-11-07,카페 언플러그드 홍대점
-roon,공연,instagram,@senggistudio,,2026-11-14,@senggistudio
+roon,공연,instagram,@senggistudio,,2026-11-14,생기스튜디오
 roon,공연,indistreet,,,2026-11-30,생기스튜디오
 rooster,큐레이션,visla,VISLA,,2025-09-05,
 root,공연,indistreet,,,2025-10-31,제이에스아트홀&뮤직바
@@ -19066,7 +19066,7 @@ simakim,큐레이션,visla,VISLA,,2024-06-04,
 simocell,큐레이션,visla,VISLA,,2024-09-26,
 simocell,큐레이션,musicy,음악취향Y,,2024-10-07,
 sinahill,큐레이션,visla,VISLA,,2024-04-19,
-sindosi,공연,indistreet,,,2026-09-19,Club Heavy
+sindosi,공연,indistreet,,,2026-09-19,클럽헤비
 sinndavin,공연,indistreet,,,2026-09-27,신도시
 siro,공연,indistreet,,,2026-06-06,우주정거장
 siro,공연,indistreet,,,2026-10-03,인천여관X루비살롱
@@ -19222,7 +19222,7 @@ stickylemonsugar,공연,indistreet,,,2026-11-06,스페이스 한강
 stoneleek,공연,indistreet,,,2024-06-28,부드러운직선
 stoneleek,공연,indistreet,,,2024-06-29,롤링홀
 strandedalienphiliphelmer,공연,indistreet,,,2026-07-04,OL'55
-strangefruitseoul,공연,instagram,@senggistudio,,2026-11-22,@senggistudio
+strangefruitseoul,공연,instagram,@senggistudio,,2026-11-22,생기스튜디오
 sturmangriff,공연,indiego,,,2026-11-29,클럽 딥퍼플
 stvincent,큐레이션,visla,VISLA,,2024-04-02,
 subconsciousterror,공연,indistreet,,,2025-11-14,퍼플홀
@@ -19539,14 +19539,14 @@ troopersalute,큐레이션,overtone,overtone,,2026-06-23,
 troopersalute,큐레이션,overtone,overtone,,2026-06-30,
 truebluesband,공연,indistreet,,,2024-04-19,언드
 truehaldenblackmetalbandmork,공연,indistreet,,,2026-01-16,제이에스아트홀&뮤직바
-trugdy,공연,instagram,@senggistudio,,2026-11-17,@senggistudio
+trugdy,공연,instagram,@senggistudio,,2026-11-17,생기스튜디오
 trugoythedove,큐레이션,visla,VISLA,,2023-02-13,
 truthteller,공연,indistreet,,,2026-04-25,제이에스아트홀&뮤직바
 truthteller,공연,indistreet,,,2026-08-16,Club Victim
 truthteller,공연,indistreet,,,2026-11-08,Club Victim
 ttt,공연,indistreet,,,2024-09-20,SKUNK
 tuesdaybeachclub,공연,indistreet,,,2024-12-28,무신사개러지
-tuesdaybeachclub,공연,sangsangmadang,,,2025-01-03,상상마당 부산 3층 라이브홀
+tuesdaybeachclub,공연,sangsangmadang,,,2025-01-03,KT&G 상상마당 부산 3층 라이브홀
 tuesdaybeachclub,공연,indistreet,,,2026-10-04,
 tuffdaehee,공연,indistreet,,,2024-06-06,무신사개러지
 tujikonoriko,큐레이션,visla,VISLA,,2025-02-18,
@@ -19612,7 +19612,7 @@ unmaries,공연,indistreet,,,2024-07-04,Club FF
 unofficialboyy,공연,indistreet,,,2026-11-22,웨스트브릿지 라이브홀
 unpluggedstage,큐레이션,instagram,@kindiemagazine,,2026-11-22,
 untain,공연,indistreet,,,2026-10-21,아지토 라이브 홀
-unveilraze,공연,indistreet,,,2024-05-25,웨스트브릿지
+unveilraze,공연,indistreet,,,2024-05-25,웨스트브릿지 라이브홀
 upper,공연,indistreet,,,2024-01-19,지직
 upper,공연,indistreet,,,2024-01-20,Club FF
 upper,공연,indistreet,,,2024-01-21,Club Victim
@@ -19620,7 +19620,7 @@ upstairsoundtrack,발매,bugs,,,2026-11-25,
 urbanzakapa,공연,indistreet,,,2026-09-05,
 urethane,공연,indistreet,,,2024-06-28,부드러운직선
 urethane,공연,indistreet,,,2024-06-29,롤링홀
-ureukgypsies,공연,instagram,@senggistudio,,2026-11-17,@senggistudio
+ureukgypsies,공연,instagram,@senggistudio,,2026-11-17,생기스튜디오
 utpa,공연,indistreet,,,2026-11-08,사상인디스테이션 소란동
 uverworld,공연,indistreet,,,2026-09-05,
 uwol,공연,indistreet,,,2026-06-01,카페 언플러그드 홍대점
@@ -19650,7 +19650,7 @@ vangdale,큐레이션,izm,IZM,,2025-07-21,
 vangdalejvckiwai,큐레이션,overtone,overtone,,2025-03-03,
 vankiden,공연,indistreet,,,2026-11-23,아지토 라이브 홀
 varnish,공연,sangsangmadang,,,2024-10-19,KT&G 상상마당 춘천 구름다리
-vassline,공연,indistreet,,,2026-01-03,웨스트브릿지
+vassline,공연,indistreet,,,2026-01-03,웨스트브릿지 라이브홀
 vaundy,큐레이션,overtone,overtone,,2024-10-20,
 vector,공연,indistreet,,,2025-11-08,무신사개러지
 vegetableorchestra,큐레이션,visla,VISLA,,2025-04-11,
@@ -19696,7 +19696,7 @@ vislafm,큐레이션,visla,VISLA,,2023-03-29,
 vkblanka,공연,indistreet,,,2025-11-22,무신사개러지
 vmc,공연,sangsangmadang,,,2018-03-17,라이브홀
 voi,공연,indistreet,,,2026-07-22,우주정거장
-vomitory,공연,indistreet,,,2026-11-27,JS 아트홀
+vomitory,공연,indistreet,,,2026-11-27,제이에스아트홀&뮤직바
 vorus,공연,indistreet,,,2026-11-21,언더시티
 vpr,큐레이션,visla,VISLA,,2023-06-26,
 vu,공연,sangsangmadang,,,2019-03-23,라이브홀
@@ -19705,7 +19705,7 @@ vulvectomy,공연,indistreet,,,2025-08-30,리얼라이즈
 vybzkartel,큐레이션,visla,VISLA,,2024-08-09,
 w24,공연,sangsangmadang,,,2018-07-07,사운드홀 로비
 w24,공연,sangsangmadang,,,2023-01-07,사운드홀
-w24,공연,sangsangmadang,,,2025-10-11,KT&G 상상마당 부산 라이브홀
+w24,공연,sangsangmadang,,,2025-10-11,KT&G상상마당 부산
 w24,공연,indistreet,,,2026-04-10,롤링홀
 w24,공연,indistreet,,,2026-05-05,Club FF
 w24,공연,indistreet,,,2026-09-05,
@@ -19804,7 +19804,7 @@ wintrysketch,공연,indistreet,,,2025-05-16,Cafe PPnF
 wintrysketch,공연,indistreet,,,2025-07-11,Cafe PPnF
 wisp,공연,indistreet,,,2026-01-18,무신사개러지
 with김민석,공연,sangsangmadang,,,2019-01-18,라이브홀
-유예성with이그린,공연,sangsangmadang,,,2022-11-18,3F 라이브홀
+유예성with이그린,공연,sangsangmadang,,,2022-11-18,3층 라이브홀
 이지구with안마루,공연,indistreet,,,2026-02-08,Club 빵
 witmilly,공연,indistreet,,,2026-05-25,카페 언플러그드 홍대점
 wnsday,큐레이션,musicy,음악취향Y,,2026-07-20,
@@ -19819,7 +19819,7 @@ woosoo,큐레이션,instagram,@pub.mag,,2026-11-24,
 wooze,공연,indistreet,,,2024-02-11,Club FF
 workwear,공연,indistreet,,,2026-10-24,우무지
 woshi,선정·지원,yjh,yoojaeha_finalist,3,2024-12-31,
-wowchristmasexpress,공연,instagram,@senggistudio,,2026-11-22,@senggistudio
+wowchristmasexpress,공연,instagram,@senggistudio,,2026-11-22,생기스튜디오
 wrack,큐레이션,visla,VISLA,,2023-11-08,
 wrkms,큐레이션,musicy,음악취향Y,,2024-01-08,
 wsatcc,큐레이션,visla,VISLA,,2023-10-01,
@@ -19922,7 +19922,7 @@ yhwhnailgun,큐레이션,visla,VISLA,,2025-04-08,
 yhwhnailgun,큐레이션,overtone,overtone,,2026-06-17,
 yhwhnailgun,큐레이션,overtone,overtone,,2026-06-23,
 yigitoglu,공연,indistreet,,,2026-11-21,언더시티
-yihayoon,공연,instagram,@senggistudio,,2026-11-14,@senggistudio
+yihayoon,공연,instagram,@senggistudio,,2026-11-14,생기스튜디오
 yippee,공연,indistreet,,,2024-01-11,Club FF
 yippee,공연,indistreet,,,2024-02-08,Club FF
 yippee,공연,indistreet,,,2025-11-07,카페 언플러그드 홍대점

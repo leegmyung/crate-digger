@@ -8,7 +8,7 @@
 
 CREATE SCHEMA IF NOT EXISTS core;
 DROP VIEW IF EXISTS core.v_artist_status, core.v_outcome_team, core.v_outcome, core.v_artist_profile,
-                    core.v_signal, core.v_team_map, core.v_signal_base CASCADE;
+                    core.v_signal, core.v_team_map, core.v_venue_map, core.v_signal_base CASCADE;
 
 -- 1) 신호 이벤트: 팀 × 갈래 × 날짜 (파일 출처를 빼고 UNION으로 합쳐 재수집 중복 제거) — team_key 붙이기 전
 CREATE VIEW core.v_signal_base AS
@@ -61,10 +61,23 @@ BEGIN
     END IF;
 END $$;
 
+-- 1-2) 공연장 표기 → 대표 이름 (ref.venue_xref, python3 scripts/venue_xref.py --load-pg). 표가 없으면 빈 매핑 → detail 그대로
+DO $$
+BEGIN
+    IF to_regclass('ref.venue_xref') IS NOT NULL THEN
+        EXECUTE 'CREATE VIEW core.v_venue_map AS SELECT variant, venue FROM ref.venue_xref';
+    ELSE
+        EXECUTE 'CREATE VIEW core.v_venue_map AS SELECT NULL::text AS variant, NULL::text AS venue WHERE false';
+    END IF;
+END $$;
+
+-- 신호 + team_key(팀 대표 키) + venue(공연 갈래의 공연장 대표 이름; 다른 갈래는 NULL, detail 은 원래 표기 그대로)
 CREATE VIEW core.v_signal AS
-SELECT b.*, COALESCE(tm.team_key, b.artist_key) AS team_key
+SELECT b.*, COALESCE(tm.team_key, b.artist_key) AS team_key,
+       CASE WHEN b.branch = '공연' THEN COALESCE(vm.venue, TRIM(b.detail)) END AS venue
 FROM core.v_signal_base b
-LEFT JOIN core.v_team_map tm ON tm.variant_key = b.artist_key;
+LEFT JOIN core.v_team_map tm ON tm.variant_key = b.artist_key
+LEFT JOIN core.v_venue_map vm ON b.branch = '공연' AND vm.variant = TRIM(b.detail);
 
 -- 2) 아티스트 첫 발매일·규모 (멜론 프로필). 같은 키에 여러 프로필이면 가장 이른 날짜
 CREATE VIEW core.v_artist_profile AS

@@ -63,7 +63,7 @@ def queries(use_xref: bool) -> Dict[str, str]:
             {SIG_CTE}
             SELECT DISTINCT team_key, branch, source, COALESCE(program, '') AS program,
                    stage_rank, signal_date,
-                   CASE WHEN branch = '공연' THEN COALESCE(detail, '') ELSE '' END AS venue
+                   CASE WHEN branch = '공연' THEN COALESCE(venue, detail, '') ELSE '' END AS venue   -- 공연장 대표 이름 (ref.venue_xref)
             FROM sig ORDER BY team_key, signal_date""",
         "teams": f"""-- lab:teams
             {SIG_CTE},

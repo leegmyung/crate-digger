@@ -9,10 +9,11 @@ WITH params AS (
 ),
 gig_2024 AS (                                        -- 공연장 × 팀 (2024년)
     SELECT DISTINCT
-           TRIM(split_part(g.venue_text, ' (', 1)) AS venue,
+           COALESCE(vm.venue, TRIM(split_part(g.venue_text, ' (', 1))) AS venue,
            COALESCE(tm.team_key, g.artist_key) AS team_key   -- 팀 대표 키
     FROM raw.raw_kr_gig g
     CROSS JOIN params p
+    LEFT JOIN core.v_venue_map vm ON vm.variant = TRIM(split_part(g.venue_text, ' (', 1))   -- 공연장 대표 이름
     LEFT JOIN core.v_team_map tm ON tm.variant_key = g.artist_key
     WHERE g.gig_date BETWEEN p.gig_from AND p.gig_to
       AND g.artist_key IS NOT NULL AND g.artist_key <> ''

@@ -21,7 +21,7 @@ WITH params AS (
 ),
 sig AS (                                              -- 기준일 전 3년 신호, 팀 키 통일
     SELECT p.cutoff, s.team_key,                     -- 팀 대표 키 (core 뷰: 연결표 → 괄호 별칭)
-           s.branch, s.program, s.stage_rank, s.signal_date, s.detail
+           s.branch, s.program, s.stage_rank, s.signal_date, s.venue AS detail   -- 공연장은 대표 이름 (ref.venue_xref)
     FROM core.v_signal s
     JOIN params p ON s.signal_date <  p.cutoff
                  AND s.signal_date >= p.cutoff - INTERVAL '3 years'
