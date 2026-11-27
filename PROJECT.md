@@ -5,17 +5,14 @@
 > 대화 흐름 전체는 [HISTORY.md](HISTORY.md). 이 문서는 Claude Code 세션(2026-11-23 ~ 11-26)에서 정리한 방향, 결정 사항, 조사 결과, 할 일을 모은 것입니다.
 > 대화 원문은 포함되지 않았습니다. 2026-11-26 기준.
 
-## 0. 재개 지점 (중단되면 여기부터) — 마지막 갱신 2026-11-27 오전
+## 0. 재개 지점 (중단되면 여기부터) — 마지막 갱신 2026-11-27 오후
 사용량 한도·인터넷 끊김으로 멈추면 다음 세션은 이 칸부터 본다. 수집기는 `data/raw/state/*.json`에 '이미 받은 것'을 기록하므로 같은 명령을 다시 돌리면 이어서 받는다.
 
-**2026-11-27 병렬 작업 분담** (같은 폴더를 두 에이전트가 씀)
-- 안티그래비티(Orca 작업자): 대시보드 샘플 조사 → 재설계·구현. 담당 파일만: `docs/dashboard.html`, `scripts/build_dashboard_data.py`, `tests/test_build_dashboard_data.py`, `docs/research_2026-11-27_dashboard_samples.md`. 커밋은 Claude가 검토 후.
-- Claude: 수집(인스타 general·snowball·공연장 → `data/raw/review/instagram_*.json`, 결과 파일의 `"final": false`면 이어서), ~~overtone 웹진~~ ✅(517글, 실패분은 다음 실행에 재시도), 멜론 481팀, 후보 합치기·커밋.
-- Claude 작업자(Orca): 같은 팀 다른 표기 묶기 `scripts/artist_xref.py` → `ref.artist_xref`로 DB 연결 예정.
-- 하위 에이전트: 과거 정답 명단 2021~2024 → `data/raw/raw_outcome_2026-11-27_manual_history.csv` (백테스트 기간 늘리기).
-- ✅ backtrace 재실행, 점수 v0 백테스트 `sql/kr/analysis/a09_score_v0_backtest.sql` (상위 20팀 중 2팀 적중·무작위 9배, 단 표본 작음). 다음: 과거 정답 들어오면 기준일 2023·2024 추가해 재검증 → 대시보드 백테스트 섹션(안티그래비티에 전달함).
-- **랩(설정형 분석 도구)** 진행 중 (사용자 결정: 웹 링크, 팀별 신호 표 공개 OK): Claude = `scripts/export_lab_data.py` → `docs/lab/data/`, DuckDB 계산식 `docs/lab/sql/`(테스트 `tests/test_lab_sql.py`, `.venv`에 duckdb) ✅ / 안티그래비티 = `docs/lab.html` 화면(DuckDB-WASM) 진행 중 / Claude 작업자 = PG SQL·backtrace를 `ref.artist_xref`로 전환 중.
-- 서로 피드백: 대시보드 정렬 = 점수 v0 공식, 신인 대용 = '우리 데이터 첫 등장 3년 이내', 팀 키 = artist_xref(완성 후).
+**2026-11-27 오후 현재 (재개 시 여기부터)**
+- ✅ 통합 앱 `docs/dashboard.html` + `docs/app/*` (왼쪽 패널 10화면·전역 선택 창·오늘 볼 것/새로 뜬 팀·팀 상세(선례·관련 팀·플랫폼 메뉴·무대 영상)·관심 목록·설정형 백테스트·SQL 실행). 데이터 `docs/lab/data/*`(export_lab_data.py), 계산식 `docs/lab/sql/*`(테스트 tests/test_lab_sql.py, .venv duckdb), 매일 스냅샷 lab_snapshot.py, 무대 영상 collect_videos.py(YouTube API, .env 키).
+- ✅ 이름 묶기 artist_xref, 공연장 묶기 venue_xref, 과거 정답 2021~2024, README·docs/methods.md.
+- ⏳ 인스타 공연장·general·snowball 수집(하위 에이전트, `data/raw/review/instagram_*.json`의 final=false면 이어서).
+- 다음: 멜론 프로필 481팀(aside 비면, 신인 판단·링크·소속사 늘어남) → 점수 개선(한 기준일 빼고 맞추는 교차 검증) → 디자인(사용자가 말하면).
 
 **진행 중이던 것**
 - [ ] (2026-11-27 시작) **전 장르 확장** — 사용자: "모든 장르에서 구현", "인스타 매거진 500개 이상 리스트업"
