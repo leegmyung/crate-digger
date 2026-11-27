@@ -269,6 +269,24 @@ async function fetchJson(path, optional = false, opts = {}) {
   }
 }
 
+/**
+ * 스냅샷 목록에서 비교 기준(prevDate)을 고른다.
+ * 최신 날짜에서 7일 이상 이전(<= latest - 7일) 중 가장 늦은 스냅샷을 선택하고,
+ * 없으면 바로 앞 스냅샷으로 폴백한다.
+ */
+export function pickWeeklyPrevSnapshot(dates, latestDate = null) {
+  const sorted = [...new Set((Array.isArray(dates) ? dates : []).map(d => String(d || '').trim()).filter(d => DATE_RE.test(d)))]
+    .sort((a, b) => b.localeCompare(a));
+  if (!sorted.length) return { latestDate: null, prevDate: null };
+  const latest = (latestDate && DATE_RE.test(latestDate)) ? latestDate : sorted[0];
+  const earlier = sorted.filter(d => d < latest);
+  if (!earlier.length) return { latestDate: latest, prevDate: null };
+  const targetMs = Date.parse(`${latest}T00:00:00Z`) - 7 * 86400000;
+  const targetStr = new Date(targetMs).toISOString().slice(0, 10);
+  const atLeast7d = earlier.find(d => d <= targetStr);
+  return { latestDate: latest, prevDate: atLeast7d || earlier[0] };
+}
+
 function parseSnapshotCsv(text) {
   const map = new Map();
   if (!text) return map;
@@ -632,8 +650,7 @@ export async function bootstrapData(onStatus = () => {}) {
 
   const snapDates = Array.isArray(snapIdx?.dates) ? snapIdx.dates : [];
   const snapReconstructed = Array.isArray(snapIdx?.reconstructed) ? snapIdx.reconstructed : [];
-  const latestDate = snapDates[0] || null;
-  const prevDate = snapDates[1] || null;
+  const { latestDate, prevDate } = pickWeeklyPrevSnapshot(snapDates);
 
   const [genreRes, rangeRes, teamIdxRes, progRes, snapLatestTxt, snapPrevTxt, linksRes, videosRes] = await Promise.all([
     runRawSql(`

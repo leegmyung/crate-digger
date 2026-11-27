@@ -221,7 +221,7 @@ export async function renderTodayView(root) {
   if (diff.latestDate && diff.prevDate) {
     snapNoteParts.push(`${diff.prevDate} → ${diff.latestDate}`);
     if (customW) snapNoteParts.push('기본 점수 기준');
-    if (isReconstructed) snapNoteParts.push('지난주 점수는 당시 신호 기준 재계산');
+    if (isReconstructed) snapNoteParts.push(`${diff.prevDate} 점수는 당시 신호 기준 재계산`);
   }
   const snapNote = snapNoteParts.join(' · ');
 
