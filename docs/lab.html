@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Crate Digger — 대시보드로 이동</title>
+  <meta http-equiv="refresh" content="0; url=dashboard.html#/backtest">
+  <script>
+    const h = window.location.hash.replace(/^#/, '');
+    const target = h && !h.startsWith('/') ? `dashboard.html#/backtest?${h}` : `dashboard.html#/backtest`;
+    window.location.replace(target);
+  </script>
+</head>
+<body>
+  <p><a href="dashboard.html#/backtest">Crate Digger 앱으로 이동합니다.</a></p>
+</body>
+</html>

@@ -186,7 +186,18 @@ class BacktestFallbackTest(unittest.TestCase):
         self.assertEqual(rows[0]["k"], 20)
         self.assertEqual(rows[0]["method"], "점수 v0")
         self.assertEqual(rows[0]["hits"], 2)
+        self.assertEqual(rows[0]["random_expected"], 0.2)
         self.assertEqual(rows[0]["lift"], 8.9)
+
+    def test_normalize_a09_preserves_floats_from_records(self):
+        csv_text = (
+            "기준일,후보_팀수,이후_정답_팀수,상위_k,방법,맞힌_팀수,적중률_pct,무작위_기대_팀수,무작위_대비_배수\n"
+            "2025-01-01,2583,29,200,점수 v0,7,3.5,2.2,3.1\n"
+        )
+        rows = bd._normalize_a09_rows(bd.records(csv_text))
+        self.assertEqual(rows[0]["hit_rate_pct"], 3.5)
+        self.assertEqual(rows[0]["random_expected"], 2.2)
+        self.assertEqual(rows[0]["lift"], 3.1)
 
 
 class BuildTest(unittest.TestCase):
