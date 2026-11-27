@@ -1757,6 +1757,73 @@ export async function loadSourceRoles() {
   }
 }
 
+let alertsCache = undefined;
+let alertsPromise = null;
+
+/**
+ * docs/data/alerts.json을 1회 지연 로드한다.
+ * 파일이 없거나 alerts가 비어 있으면 null을 반환(오류 없음).
+ */
+export async function loadAlertsJson() {
+  if (alertsCache !== undefined) return alertsCache;
+  if (alertsPromise) return alertsPromise;
+  alertsPromise = (async () => {
+    const raw = await fetchJson('data/alerts.json', true);
+    if (!raw || typeof raw !== 'object' || !Array.isArray(raw.alerts) || !raw.alerts.length) {
+      alertsCache = null;
+      appState.alertsJson = null;
+      return null;
+    }
+    const alerts = raw.alerts
+      .filter(a => a && typeof a === 'object' && a.team_key)
+      .map(a => ({
+        ...a,
+        type: String(a.type || ''),
+        type_label: String(a.type_label || raw.types?.[a.type] || a.type || ''),
+        team_key: String(a.team_key),
+        name: String(a.name || a.team_key),
+        date: String(a.date || ''),
+        found_on: String(a.found_on || raw.as_of || ''),
+        text: String(a.text || ''),
+        evidence: Array.isArray(a.evidence) ? a.evidence : [],
+        importance: Number(a.importance) || 0,
+      }))
+      .sort((a, b) => (b.importance - a.importance) || b.date.localeCompare(a.date) || a.team_key.localeCompare(b.team_key, 'ko'));
+
+    if (!alerts.length) {
+      alertsCache = null;
+      appState.alertsJson = null;
+      return null;
+    }
+
+    const byTeam = new Map();
+    for (const a of alerts) {
+      if (!byTeam.has(a.team_key)) byTeam.set(a.team_key, []);
+      byTeam.get(a.team_key).push(a);
+    }
+
+    alertsCache = {
+      generated_at: raw.generated_at || '',
+      as_of: String(raw.as_of || ''),
+      baseline: raw.baseline && typeof raw.baseline === 'object' ? raw.baseline : null,
+      types: raw.types && typeof raw.types === 'object' ? raw.types : {},
+      counts_found: raw.counts_found && typeof raw.counts_found === 'object' ? raw.counts_found : {},
+      alerts,
+      byTeam,
+    };
+    appState.alertsJson = alertsCache;
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('app:alerts-loaded'));
+    }
+    return alertsCache;
+  })();
+  try {
+    return await alertsPromise;
+  } finally {
+    alertsPromise = null;
+  }
+}
+
 let scoreTuningCache = undefined;
 let scoreTuningPromise = null;
 

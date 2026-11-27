@@ -5,11 +5,12 @@ import {
 } from './state.js';
 import {
   bootstrapData, computeDataHealth, getSnapshotDiff,
-  loadSourceReview, queryCandidates, queryWeeklyDigestExtras,
+  loadAlertsJson, loadSourceReview, queryCandidates, queryWeeklyDigestExtras,
 } from './db.js';
 import {
   avatarHtml, buildWeeklySummaryText, cssVar, escapeHtml,
-  fmtInt, friendlySqlError, hideRowHoverPreview, renderViewSkeleton, wireAvatarFallbacks,
+  fmtInt, friendlySqlError, getWatchlistAlerts, hideRowHoverPreview,
+  renderViewSkeleton, wireAvatarFallbacks,
 } from './ui.js';
 
 const ADVANCED_ROUTES = new Set(['verify', 'backtest', 'signals', 'evidence', 'scorecard', 'quality', 'sql']);
@@ -145,6 +146,21 @@ function updateNavActive() {
       const tip = `출처 재분류 검토 제안 ${reviewSuggestions.length}건`;
       reviewDot.title = tip;
       reviewDot.setAttribute('aria-label', tip);
+    }
+  }
+
+  const alertBadge = document.getElementById('topWatchAlertsBadge');
+  if (alertBadge) {
+    const wAlerts = getWatchlistAlerts(appState.alertsJson, getWatchlist());
+    if (wAlerts.length > 0) {
+      alertBadge.hidden = false;
+      alertBadge.textContent = `관심 알림 ${fmtInt(wAlerts.length)}`;
+      const tip = `관심 목록 팀의 최근 알림 ${fmtInt(wAlerts.length)}건 (새 공연 포함) — 브리핑에서 보기`;
+      alertBadge.title = tip;
+      alertBadge.setAttribute('aria-label', tip);
+    } else {
+      alertBadge.hidden = true;
+      alertBadge.textContent = '';
     }
   }
 }
@@ -541,9 +557,20 @@ function wireGlobalEvents() {
   });
 
   window.addEventListener('app:watchlist', updateNavActive);
+  window.addEventListener('app:alerts-loaded', updateNavActive);
   window.addEventListener('app:export-ctx', updateExportMenuUI);
   window.addEventListener('app:toast', (e) => {
     if (e.detail) showToast(String(e.detail));
+  });
+
+  document.getElementById('topWatchAlertsBadge')?.addEventListener('click', (e) => {
+    if (appState.route === 'today') {
+      const target = document.getElementById('todayAlertsBlock');
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
   });
 
   // Allow live health recomputation (also helpful for automated verification)
@@ -565,17 +592,20 @@ async function boot() {
   updateNavActive();
 
   try {
-    // Preload the initial route JS module concurrently with DuckDB + CSV bootstrap
+    // Preload the initial route JS module and optional alerts.json concurrently with DuckDB + CSV bootstrap
     const initialViewPromise = loadViewRenderer(appState.route).catch(() => null);
+    const alertsBootPromise = loadAlertsJson().catch(() => null);
     await Promise.all([
       bootstrapData(msg => setStatus(msg, true)),
       initialViewPromise,
+      alertsBootPromise,
     ]);
 
     if (!window.location.hash.includes('as_of=')) {
       appState.cfg.as_of = appState.dataEnd;
     }
     parseHash();
+    updateNavActive();
 
     const r = appState.meta?.rows || {};
     const footMeta = document.getElementById('navDataMeta');

@@ -1,15 +1,16 @@
 import { appState, navigateTo, setExportContext } from '../state.js';
 import {
-  getTeamExternalLinks, loadDashboardJson, loadSceneMap, loadSourceRoles,
-  queryDiscoveryStages, queryTeamDetail,
+  getTeamExternalLinks, loadAlertsJson, loadDashboardJson, loadSceneMap,
+  loadSourceRoles, queryDiscoveryStages, queryTeamDetail,
 } from '../db.js';
 import {
-  avatarHtml, avatarSourceOf, dormantBadgeHtml, ensureD3, escapeHtml, fmtInt, fmtNum,
-  formatNextGigText, formatRecentActivityCell, formatSignalDate, gradeBadgeHtml,
-  isDormantTeam, isLoweredOutcomeResult, lookupSourceRoleMeta,
-  newcomerUnverifiedBadgeHtml, nextStageConditionText, PROFILE_LABELS,
-  renderActionBanner, renderCompactGradeSummary, renderScoreBar, renderTableCsvBtn,
-  roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml, spotifyUrlOf, stageBadgeHtml,
+  alertKindChipHtml, avatarHtml, avatarSourceOf, dormantBadgeHtml, ensureD3,
+  escapeHtml, fmtInt, fmtNum, formatAlertEvidenceText, formatNextGigText,
+  formatRecentActivityCell, formatSignalDate, gradeBadgeHtml, isDormantTeam,
+  isLoweredOutcomeResult, lookupSourceRoleMeta, newcomerUnverifiedBadgeHtml,
+  nextStageConditionText, PROFILE_LABELS, renderActionBanner,
+  renderCompactGradeSummary, renderScoreBar, renderTableCsvBtn, roleBadgeHtml,
+  SOURCE_LABELS, spotifyButtonHtml, spotifyUrlOf, stageBadgeHtml,
   summarizeWhyTeam, TERMS, triggerTableCsvExport, watchButtonHtml,
   wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
@@ -175,11 +176,12 @@ export async function renderTeamView(root, teamKey) {
   }
 
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
-  const [data, sceneMap, sourceRoles, stageData] = await Promise.all([
+  const [data, sceneMap, sourceRoles, stageData, alertsData] = await Promise.all([
     queryTeamDetail(teamKey),
     loadSceneMap(),
     loadSourceRoles(),
     queryDiscoveryStages({ as_of: asOf }),
+    loadAlertsJson().catch(() => null),
     loadDashboardJson().catch(() => null),
     ensureD3().catch(() => null),
   ]);
@@ -364,6 +366,19 @@ export async function renderTeamView(root, teamKey) {
         ${stageBadgeHtml(stageInfo.stage)}
         <span class="team-stage-next">${escapeHtml(nextStageConditionText(stageInfo.stage))}</span>
         ${stageInfo.momentum_pct !== null ? stageAct.html : ''}
+      </div>`
+    : '';
+
+  const teamAlerts = alertsData?.byTeam?.get(teamKey) || [];
+  const teamAlertsLineHtml = teamAlerts.length
+    ? `<div class="team-alerts-line" aria-label="이 팀 최근 알림">
+        <span class="team-alerts-lbl">최근 알림</span>
+        ${teamAlerts.slice(0, 3).map(a => {
+          const evTxt = formatAlertEvidenceText(a);
+          const tip = [evTxt ? `근거: ${evTxt}` : '', a.found_on ? `발견일: ${a.found_on}` : ''].filter(Boolean).join(' · ');
+          return `<span class="team-alert-chip"${tip ? ` title="${escapeHtml(tip)}"` : ''}>${alertKindChipHtml(a, alertsData?.types)}<span>${escapeHtml(a.text)}</span>${a.date ? `<span class="mono muted">${escapeHtml(a.date)}</span>` : ''}</span>`;
+        }).join('')}
+        ${teamAlerts.length > 3 ? `<span class="small muted">외 ${fmtInt(teamAlerts.length - 3)}건</span>` : ''}
       </div>`
     : '';
 
@@ -621,6 +636,7 @@ export async function renderTeamView(root, teamKey) {
           </div>
           <p class="team-subline">${escapeHtml(metaParts.join(' · ') || '기록된 활동 ' + fmtInt(mergedTimeline.length) + '건')}</p>
           ${stageLineHtml}
+          ${teamAlertsLineHtml}
           ${sceneLineHtml}
           ${outcomesLineHtml}
           ${nextGigHtml}

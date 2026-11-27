@@ -188,6 +188,7 @@ export const appState = {
     scene_network: '',
   },
   sourceRolesJson: null,
+  alertsJson: null,
   programLabels: new Map(),
   snapshots: {
     dates: [],

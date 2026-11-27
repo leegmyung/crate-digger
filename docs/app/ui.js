@@ -1248,5 +1248,89 @@ export function newcomerUnverifiedBadgeHtml(teamKey, profile = null) {
   return `<span class="tag-pill tag-unverified" title="${escapeHtml(NEWCOMER_UNVERIFIED_TIP)}">신인 미확인</span>`;
 }
 
+// ---------- Alerts (docs/data/alerts.json) helpers ----------
+
+export const ALERT_TYPE_LABELS = {
+  new_outcome: '새 정답',
+  new_selection: '새 선정·지원',
+  blank_first_mention: '백지 신인 첫 언급',
+  stage_up: '단계 상승',
+  big_venue_first: '큰 공연장 첫 출연',
+  peer_winner: '같은 무대 수상 팀',
+  rank_jump: '순위 급상승',
+  new_gig: '새 공연',
+};
+
+export function alertDedupKey(a) {
+  if (!a) return '';
+  return `${a.type || ''}::${a.team_key || ''}::${a.date || ''}::${a.text || ''}`;
+}
+
+export function alertKindChipHtml(alert, typesMap = null) {
+  if (!alert) return '';
+  const t = String(alert.type || '').trim();
+  const safeType = /^[a-z0-9_]+$/.test(t) ? t : 'other';
+  const label = alert.type_label || (typesMap && typesMap[t]) || ALERT_TYPE_LABELS[t] || t || '알림';
+  return `<span class="alert-kind-chip alert-kind-${safeType}">${escapeHtml(label)}</span>`;
+}
+
+export function formatAlertEvidenceText(alert) {
+  if (!alert || !Array.isArray(alert.evidence) || !alert.evidence.length) return '';
+  const seen = new Set();
+  const parts = [];
+  for (const ev of alert.evidence) {
+    if (!ev || typeof ev !== 'object') continue;
+    const progLabel = ev.program ? (appState.programLabels?.get(ev.program) || SOURCE_LABELS[ev.program] || ev.program) : '';
+    const srcLabel = ev.source ? (SOURCE_LABELS[ev.source] || ev.source) : '';
+    const label = ev.venue || progLabel || srcLabel || ev.branch || '';
+    const dt = ev.date && ev.date !== alert.date ? ev.date : '';
+    const token = dt ? `${label} (${dt})` : label;
+    if (!token || seen.has(token)) continue;
+    seen.add(token);
+    parts.push(token);
+    if (parts.length >= 3) break;
+  }
+  return parts.join(' · ');
+}
+
+export function formatAlertBaselineNote(alertsData) {
+  if (!alertsData) return '';
+  const parts = [];
+  if (alertsData.as_of) parts.push(`기준일 ${alertsData.as_of}`);
+  const b = alertsData.baseline;
+  if (b && typeof b === 'object') {
+    if (b.since) parts.push(`비교 기준 ${b.since} 이후`);
+    if (b.note) parts.push(b.note);
+  }
+  return parts.join(' · ');
+}
+
+export function getWatchlistAlerts(alertsData, watchlist = null) {
+  if (!alertsData || !Array.isArray(alertsData.alerts) || !alertsData.alerts.length) return [];
+  const list = Array.isArray(watchlist) ? watchlist : [];
+  if (!list.length) return [];
+  const keySet = new Set();
+  for (const item of list) {
+    if (typeof item === 'string' && item) keySet.add(item);
+    else if (item && typeof item.team_key === 'string' && item.team_key) keySet.add(item.team_key);
+  }
+  if (!keySet.size) return [];
+  return alertsData.alerts.filter(a => keySet.has(a.team_key));
+}
+
+export function getGeneralTodayAlerts(alertsData, { limit = 8, excludeKeys = null } = {}) {
+  if (!alertsData || !Array.isArray(alertsData.alerts) || !alertsData.alerts.length) return [];
+  const ex = excludeKeys instanceof Set ? excludeKeys : null;
+  const out = [];
+  for (const a of alertsData.alerts) {
+    if (a.type === 'new_gig') continue;
+    if (ex && ex.has(alertDedupKey(a))) continue;
+    out.push(a);
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
+
 
 
