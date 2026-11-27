@@ -14,6 +14,7 @@
 - Claude 작업자(Orca): 같은 팀 다른 표기 묶기 `scripts/artist_xref.py` → `ref.artist_xref`로 DB 연결 예정.
 - 하위 에이전트: 과거 정답 명단 2021~2024 → `data/raw/raw_outcome_2026-11-27_manual_history.csv` (백테스트 기간 늘리기).
 - ✅ backtrace 재실행, 점수 v0 백테스트 `sql/kr/analysis/a09_score_v0_backtest.sql` (상위 20팀 중 2팀 적중·무작위 9배, 단 표본 작음). 다음: 과거 정답 들어오면 기준일 2023·2024 추가해 재검증 → 대시보드 백테스트 섹션(안티그래비티에 전달함).
+- **랩(설정형 분석 도구)** 진행 중 (사용자 결정: 웹 링크, 팀별 신호 표 공개 OK): Claude = `scripts/export_lab_data.py` → `docs/lab/data/`, DuckDB 계산식 `docs/lab/sql/`(테스트 `tests/test_lab_sql.py`, `.venv`에 duckdb) ✅ / 안티그래비티 = `docs/lab.html` 화면(DuckDB-WASM) 진행 중 / Claude 작업자 = PG SQL·backtrace를 `ref.artist_xref`로 전환 중.
 - 서로 피드백: 대시보드 정렬 = 점수 v0 공식, 신인 대용 = '우리 데이터 첫 등장 3년 이내', 팀 키 = artist_xref(완성 후).
 
 **진행 중이던 것**
