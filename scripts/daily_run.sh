@@ -46,8 +46,9 @@ if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then "$PY" scripts/export_excel.py || ec
 "$PY" scripts/lab_snapshot.py || echo "⚠️ 점수 스냅샷 실패 (.venv에 duckdb 필요)"
 "$PY" scripts/build_scene_map.py || echo "⚠️ 사운드 지도 실패"
 "$PY" scripts/daily_note.py "$DAY" || echo "⚠️ 일일 기록 실패"
+"$PY" scripts/build_status_report.py || echo "⚠️ 진행 점검표 실패"   # 일일 기록까지 끝난 뒤 (최근 기록 링크 포함)
 
-git add docs/data/collect.json "docs/log/$DAY.md" docs/data/dashboard.json docs/sql/README.md docs/lab/data docs/data/source_review.json docs/report
+git add docs/data/collect.json "docs/log/$DAY.md" docs/data/dashboard.json docs/sql/README.md docs/lab/data docs/data/source_review.json docs/report docs/status_report.html
 if git diff --cached --quiet; then
   echo "바뀐 내용 없음 → 커밋 안 함"
 else
