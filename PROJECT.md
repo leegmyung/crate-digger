@@ -18,7 +18,8 @@
   - (2026-11-27 밤 추가) 새 Claude 작업자 3명: 디자인 시안 조사 ctx_e7f5fe253421(docs/research_2026-11-27_design_samples.md, 사용자가 시안 고름) · 매일 데이터 검증 점검표 ctx_95a37bdfa0e1(scripts/data_checks.py) · 점수 새 특징 실험 ctx_94aa0adafa8c(scripts/feature_lab.py, 제안만). 작업자 B(ECFA45F8)는 ctx_0e56671e3810 후속 — 인스타 단계별 수집 점검·오늘 밤 실행 로그 분류. 안티그래비티 ctx_65a16febd176 — 표·목록 사용성(큰 디자인은 시안 선택 뒤).
   - 사용자 지시(2026-11-27 밤): 다른 말이 있기 전까지 끝까지 개발·데이터 검증 계속, 작업자 최대한 늘려 병렬, 쉬지 않게 계속 지시.
   - (2026-11-27 21:30) 사용자가 Chartmetric·Viberate 무료 체험 로그인해 둠 → 안쪽 A~Z 분석 작업자 4명: Chartmetric 아티스트·점수·발굴·레이아웃 ctx_87afd67458d0 · Chartmetric 공연·공연장·도시 ctx_ba422c46c687 · Viberate ctx_963858238824 · 한국 공연장·도시 마스터 목록 ctx_62504478b760(config/venues_kr.json). 끝나면 코디네이터가 '한국형 적용 계획' 정리 → 사용자 확인 → 실행. 디자인 시안 선택은 그 뒤.
-  - 21시 자동 실행 끝나면 할 일: daily_run.sh에 build_alerts.py 줄·alerts.json 자동 커밋 추가(실행 중엔 스크립트 수정 금지), 대기 중인 newcomer_check·데뷔 덮어쓰기 묶음(features.sql·candidates.sql·db.js·export·config) 함께 커밋 → export·venue_xref·score_tune 재실행.
+    - 사용자 지시(2026-11-27 22:10): Chartmetric·Viberate(+orphiq 비교) 분석 끝나면 계획 보여 주고, 그 뒤 분석 반영을 끝까지 실행 — 기능·로직·데이터뿐 아니라 디자인·UI·UX(레이아웃·밀도·표·필터·상세 구성)도 분석해서 우리 사이트에 반영. 디자인 시안 A/B/C 대신 이 분석 결과를 디자인 기준으로 삼음. 앞선 지시(한국 공연장·도시 리스트업, 한국형 적용)도 함께 완료.
+- 21시 자동 실행 끝나면 할 일: daily_run.sh에 build_alerts.py 줄·alerts.json 자동 커밋 추가(실행 중엔 스크립트 수정 금지), 대기 중인 newcomer_check·데뷔 덮어쓰기 묶음(features.sql·candidates.sql·db.js·export·config) 함께 커밋 → export·venue_xref·score_tune 재실행.
 - 21시 자동 실행 끝나면(대기 작업이 깨움, 없으면 records/daily_run.log 확인): 협업 수집 건수 확인 → score_tune(w_collab 포함) 돌려 협업 신호 효과 확인 → 효과 있으면 점수 반영 여부 사용자에게 물음. 인스타 499계정·멜론 100팀·연결표 갱신·출처 재분류 제안이 잘 돌았는지 확인.
 - 작업자 결과 반영 시 daily_run.sh에 넣을 줄은 코디네이터가 넣음(작업자는 알려만 줌).
 
