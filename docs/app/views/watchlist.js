@@ -1,11 +1,12 @@
 import {
   appState, getWatchlist, getWatchlistViewMode, setExportContext,
-  setWatchlistViewMode, setWatchStatus, toggleWatch, WATCH_STATUSES,
+  setWatchlistViewMode, setWatchStatus, syncHash, toggleWatch, WATCH_STATUSES,
 } from '../state.js';
 import { queryWatchlistEnriched } from '../db.js';
 import {
   avatarHtml, clampDateDisplay, escapeHtml, fmtInt, fmtNum,
-  renderActionBanner, spotifyButtonHtml, wireAvatarFallbacks,
+  renderActionBanner, renderTableCsvBtn, spotifyButtonHtml,
+  triggerTableCsvExport, wireAvatarFallbacks,
   wireSpotifyButtons, youtubeQuickInfo,
 } from '../ui.js';
 
@@ -24,7 +25,7 @@ function renderDeltaStr(r) {
     return `#${r.rank_now} (${r.rank_delta === 0 ? '유지' : sign})`;
   }
   if (r.rank_now !== null) return `#${r.rank_now}`;
-  return '-';
+  return '—';
 }
 
 function renderListenQuick(r, mode, slotId) {
@@ -51,24 +52,37 @@ export async function renderWatchlistView(root) {
   const recentActive = rows.filter(r => r.recent_7d > 0).length;
   const statusMap = Object.fromEntries(WATCH_STATUSES.map(s => [s.id, s.label]));
 
-  setExportContext({
-    csvLabel: rows.length ? `관심 목록 CSV 내려받기 (${fmtInt(rows.length)}팀)` : '',
-    csvFilename: `crate_digger_watchlist_${appState.dataEnd || 'export'}.csv`,
-    csvHeaders: ['team_key', 'display_name', 'status', 'score', 'rank_now', 'rank_delta', 'recent_7d_signals', 'last_seen', 'added_at'],
-    csvRows: rows.map(r => [
-      r.team_key,
-      r.display_name,
+  let viewMode = (appState.watchModeParam === 'board' || appState.watchModeParam === 'table')
+    ? appState.watchModeParam
+    : getWatchlistViewMode();
+  appState.watchModeParam = viewMode;
+  setWatchlistViewMode(viewMode);
+
+  const buildWatchCsvSpec = () => ({
+    filename: `crate_digger_watchlist_${appState.dataEnd || 'export'}.csv`,
+    headers: ['팀', '장르', '상태', '현재 점수', '순위 변화', '최근 7일', '최근 신호일'],
+    rows: rows.map(r => [
+      r.display_name || r.team_key,
+      r.primary_genre || '',
       statusMap[r.status] || '지켜보는 중',
-      r.score ?? '',
-      r.rank_now ?? '',
-      r.rank_delta ?? '',
-      r.recent_7d ?? 0,
-      r.last_seen ?? '',
-      r.added_at ?? '',
+      r.score !== null && r.score !== undefined ? fmtNum(r.score, 2) : '—',
+      renderDeltaStr(r),
+      `${r.recent_7d ?? 0}건`,
+      clampDateDisplay(r.last_seen),
     ]),
   });
 
-  let viewMode = getWatchlistViewMode();
+  const syncWatchExport = () => {
+    const spec = buildWatchCsvSpec();
+    setExportContext({
+      csvLabel: rows.length ? `관심 목록 CSV 내려받기 (${fmtInt(rows.length)}팀)` : '',
+      csvFilename: spec.filename,
+      csvHeaders: spec.headers,
+      csvRows: spec.rows,
+    });
+    return spec;
+  };
+  syncWatchExport();
 
   const bannerHtml = renderActionBanner({
     title: '관심 목록',
@@ -158,7 +172,15 @@ export async function renderWatchlistView(root) {
       `
       : `
         <div class="block" style="padding:0;overflow:hidden;">
-          <div class="table-wrap">
+          <div class="table-bar">
+            <div class="table-bar-left">
+              <strong>관심 팀 (${fmtInt(rows.length)}팀)</strong>
+            </div>
+            <div class="table-bar-right">
+              ${renderTableCsvBtn('btnWatchCsv', 'CSV 내려받기')}
+            </div>
+          </div>
+          <div class="table-wrap table-sticky">
             <table class="data-table">
               <thead>
                 <tr>
@@ -179,14 +201,14 @@ export async function renderWatchlistView(root) {
                       <a class="row-team-cell" href="#/team/${encodeURIComponent(r.team_key)}">
                         ${avatarHtml(r.team_key, r.display_name, 28, { shape: 'circle', genre: r.primary_genre })}
                         <div class="row-team-text">
-                          <strong>${escapeHtml(r.display_name)}</strong>
-                          ${r.primary_genre ? `<div class="muted small">${escapeHtml(r.primary_genre)}</div>` : ''}
+                          <strong class="cell-truncate" title="${escapeHtml(r.display_name)}">${escapeHtml(r.display_name)}</strong>
+                          ${r.primary_genre ? `<div class="muted small row-team-sub cell-truncate" title="${escapeHtml(r.primary_genre)}">${escapeHtml(r.primary_genre)}</div>` : ''}
                         </div>
                       </a>
                     </td>
                     <td class="nowrap">${renderListenQuick(r, 'table-row', '')}</td>
                     <td class="nowrap">${statusSelectHtml(r.team_key, r.status || 'watching')}</td>
-                    <td class="num"><strong>${r.score !== null ? fmtNum(r.score, 2) : '-'}</strong></td>
+                    <td class="num"><strong>${r.score !== null && r.score !== undefined ? fmtNum(r.score, 2) : '—'}</strong></td>
                     <td class="num nowrap">${escapeHtml(renderDeltaStr(r))}</td>
                     <td class="num">${r.recent_7d > 0 ? `<span class="badge-new">${fmtInt(r.recent_7d)}건</span>` : '<span class="muted">0건</span>'}</td>
                     <td class="nowrap mono muted">${escapeHtml(clampDateDisplay(r.last_seen))}</td>
@@ -210,10 +232,16 @@ export async function renderWatchlistView(root) {
     wireAvatarFallbacks(root);
     wireSpotifyButtons(root);
 
+    root.querySelector('#btnWatchCsv')?.addEventListener('click', () => {
+      triggerTableCsvExport(syncWatchExport());
+    });
+
     root.querySelectorAll('[data-wmode]').forEach(btn => {
       btn.addEventListener('click', () => {
         viewMode = btn.dataset.wmode;
+        appState.watchModeParam = viewMode;
         setWatchlistViewMode(viewMode);
+        syncHash(true);
         paint();
       });
     });
@@ -225,6 +253,7 @@ export async function renderWatchlistView(root) {
         setWatchStatus(key, nextStatus);
         const item = rows.find(r => r.team_key === key);
         if (item) item.status = nextStatus;
+        syncWatchExport();
         paint();
       });
     });
@@ -236,6 +265,7 @@ export async function renderWatchlistView(root) {
         setWatchStatus(key, nextStatus);
         const item = rows.find(r => r.team_key === key);
         if (item) item.status = nextStatus;
+        syncWatchExport();
         paint();
       });
     });

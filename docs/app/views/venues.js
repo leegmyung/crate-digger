@@ -5,8 +5,8 @@ import {
 } from '../db.js';
 import {
   avatarHtml, cssVar, ensureChartJs, ensureD3, escapeHtml, fmtInt, fmtNum, formatKoreanShortDate,
-  formatNextGigText, plainWhyLine, renderActionBanner, spotifyButtonHtml,
-  wireAvatarFallbacks, wireSpotifyButtons,
+  formatNextGigText, plainWhyLine, renderActionBanner, renderTableCsvBtn, spotifyButtonHtml,
+  triggerTableCsvExport, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
 import { mountSceneNetworkBlock } from './graph.js';
 
@@ -38,13 +38,10 @@ export async function renderVenuesView(root) {
   let allTimeVenues = appState.dashboardJson?.sections?.top_venues || [];
   const topMonthV = monthly.venues[0];
 
-  setExportContext({
-    csvLabel: monthly.venues.length
-      ? `${monthly.monthLabel} 공연장·씬 CSV 내려받기 (${fmtInt(monthly.venues.length)}곳)`
-      : '',
-    csvFilename: `crate_digger_venues_${monthly.ym || appState.dataEnd || 'export'}.csv`,
-    csvHeaders: ['rank', 'venue', 'candidate_teams', 'total_teams', 'month_gigs', 'candidate_ratio_pct', 'top_candidates'],
-    csvRows: monthly.venues.map((v, idx) => [
+  const venuesCsvSpec = monthly.venues.length ? {
+    filename: `crate_digger_venues_${monthly.ym || appState.dataEnd || 'export'}.csv`,
+    headers: ['순위', '공연장', '후보 팀', '전체 팀', '이달 무대', '후보 비율(%)', '주요 후보'],
+    rows: monthly.venues.map((v, idx) => [
       idx + 1,
       v.venue,
       v.candidateCount,
@@ -53,6 +50,15 @@ export async function renderVenuesView(root) {
       v.candidateRatio.toFixed(1),
       v.candidates.slice(0, 5).map(c => `${c.display_name}(#${c.rank})`).join(' / '),
     ]),
+  } : null;
+
+  setExportContext({
+    csvLabel: venuesCsvSpec
+      ? `${monthly.monthLabel} 공연장·씬 CSV 내려받기 (${fmtInt(monthly.venues.length)}곳)`
+      : '',
+    csvFilename: venuesCsvSpec?.filename || '',
+    csvHeaders: venuesCsvSpec?.headers || [],
+    csvRows: venuesCsvSpec?.rows || [],
   });
 
   const bannerHtml = renderActionBanner({
@@ -76,7 +82,7 @@ export async function renderVenuesView(root) {
     }
     appState.focusSceneId = null;
   }
-  let calMode = 'cand'; // 'cand' | 'all'
+  let calMode = appState.venuesCalMode === 'all' ? 'all' : 'cand';
   let calLimit = 8;
   let chartRendered = false;
   let sceneGraphHandle = null;
@@ -424,7 +430,7 @@ export async function renderVenuesView(root) {
       if (host) {
         sceneGraphHandle = mountSceneNetworkBlock(host, {
           initialGenre: appState.cfg.genre || '',
-          initialLimit: 150,
+          initialLimit: appState.sceneNetLimit || 150,
           nextGigByTeam,
         });
       }
@@ -444,7 +450,10 @@ export async function renderVenuesView(root) {
             <h2>이번 달 신인이 많이 선 공연장 TOP</h2>
             <span class="block-meta">${escapeHtml(monthly.monthLabel)} 기준 · 공연장을 누르면 출연한 상위 후보가 펼쳐집니다</span>
           </div>
-          <span class="block-meta">${fmtInt(monthly.venues.length)}곳</span>
+          <div class="block-head-actions">
+            <span class="block-meta">${fmtInt(monthly.venues.length)}곳</span>
+            ${venuesCsvSpec ? renderTableCsvBtn('btnVenuesCsv', 'CSV 내려받기') : ''}
+          </div>
         </div>
         ${visVenues.length
           ? `<ul class="venue-acc-list" id="venueAccList">${visVenues.map((v, i) => renderVenueRow(v, i)).join('')}</ul>`
@@ -527,10 +536,16 @@ export async function renderVenuesView(root) {
       paint();
     });
 
+    root.querySelector('#btnVenuesCsv')?.addEventListener('click', () => {
+      if (venuesCsvSpec) triggerTableCsvExport(venuesCsvSpec);
+    });
+
     root.querySelectorAll('[data-cal-mode]').forEach(btn => {
       btn.addEventListener('click', () => {
-        calMode = btn.dataset.calMode;
+        calMode = btn.dataset.calMode === 'all' ? 'all' : 'cand';
+        appState.venuesCalMode = calMode;
         calLimit = 8;
+        syncHash(true);
         paint();
       });
     });

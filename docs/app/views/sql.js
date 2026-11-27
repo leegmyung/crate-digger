@@ -1,6 +1,9 @@
-import { appState } from '../state.js';
+import { appState, setExportContext } from '../state.js';
 import { ensureAuxDuckDbTables, getSqlTemplate, runRawSql } from '../db.js';
-import { escapeHtml, fmtInt, friendlySqlError, renderActionBanner } from '../ui.js';
+import {
+  escapeHtml, fmtInt, friendlySqlError, renderActionBanner,
+  renderTableCsvBtn, triggerTableCsvExport,
+} from '../ui.js';
 
 let savedEditorText = '';
 
@@ -57,7 +60,11 @@ export async function renderSqlView(root) {
 
     <div id="sqlError" class="notice notice-err" hidden></div>
     <div class="block" id="sqlResultBlock" hidden style="padding:0;overflow:hidden;">
-      <div class="table-wrap" id="sqlResultWrap"></div>
+      <div class="table-bar">
+        <div class="table-bar-left"><strong id="sqlResultTitle">실행 결과</strong></div>
+        <div class="table-bar-right">${renderTableCsvBtn('btnSqlCsv', 'CSV 내려받기')}</div>
+      </div>
+      <div class="table-wrap table-sticky" id="sqlResultWrap"></div>
     </div>
   `;
 
@@ -66,6 +73,12 @@ export async function renderSqlView(root) {
   const metaEl = root.querySelector('#sqlMeta');
   const resBlock = root.querySelector('#sqlResultBlock');
   const resWrap = root.querySelector('#sqlResultWrap');
+  const resTitle = root.querySelector('#sqlResultTitle');
+  let lastSqlCsvSpec = null;
+
+  root.querySelector('#btnSqlCsv')?.addEventListener('click', () => {
+    if (lastSqlCsvSpec) triggerTableCsvExport(lastSqlCsvSpec);
+  });
 
   editor.addEventListener('input', () => { savedEditorText = editor.value; });
 
@@ -85,14 +98,28 @@ export async function renderSqlView(root) {
       const ms = (performance.now() - t0).toFixed(0);
       const cap = 500;
       const shown = rows.slice(0, cap);
-      metaEl.textContent = rows.length > cap
+      const summaryTxt = rows.length > cap
         ? `${fmtInt(rows.length)}행 중 상위 ${cap}행 표시 (${ms}ms)`
         : `${fmtInt(rows.length)}행 (${ms}ms)`;
+      metaEl.textContent = summaryTxt;
+      if (resTitle) resTitle.textContent = `실행 결과 · ${summaryTxt}`;
       resBlock.hidden = false;
       if (!columns.length) {
+        lastSqlCsvSpec = null;
         resWrap.innerHTML = '<p class="muted small" style="padding:12px;margin:0;">실행 완료 (반환 행 없음)</p>';
         return;
       }
+      lastSqlCsvSpec = {
+        filename: `crate_digger_sql_${appState.dataEnd || 'export'}.csv`,
+        headers: columns,
+        rows: rows.map(r => columns.map(c => (r[c] === null || r[c] === undefined ? '' : r[c]))),
+      };
+      setExportContext({
+        csvLabel: `SQL 결과 CSV 내려받기 (${fmtInt(rows.length)}행)`,
+        csvFilename: lastSqlCsvSpec.filename,
+        csvHeaders: lastSqlCsvSpec.headers,
+        csvRows: lastSqlCsvSpec.rows,
+      });
       const head = columns.map(c => `<th>${escapeHtml(c)}</th>`).join('');
       const body = shown.map(r => `<tr>${columns.map(c => {
         const v = r[c];

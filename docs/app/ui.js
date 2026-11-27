@@ -1,4 +1,4 @@
-import { appState, isWatched } from './state.js';
+import { appState, exportTableToCsv, isWatched } from './state.js';
 
 export const TERMS = {
   outcome: '수상·선정',
@@ -934,4 +934,204 @@ export async function ensureD3() {
   await loadExternalScript(D3_JS_URL);
   return window.d3 || null;
 }
+
+// ---------- Shared Table Usability Helpers (Sort, Keyboard, Hover Preview, CSV) ----------
+
+/**
+ * 정렬 가능한 표 머리줄(th)에 일관된 정렬 방향 표시(▲/▼/↕)와 aria-sort를 반영한다.
+ * attrName: 'sort' → data-sort, 'debutSort' → data-debut-sort 등.
+ */
+export function updateSortHeaders(tableEl, activeCol, dir, attrName = 'sort') {
+  if (!tableEl) return;
+  const dataAttr = attrName.replace(/[A-Z]/g, m => `-${m.toLowerCase()}`);
+  tableEl.querySelectorAll(`th[data-${dataAttr}]`).forEach(th => {
+    const col = th.dataset[attrName];
+    const baseLabel = th.dataset.sortLabel || th.textContent.replace(/\s*[▲▼↕]\s*$/, '').trim();
+    th.dataset.sortLabel = baseLabel;
+    const isActive = col === activeCol;
+    const arrow = isActive ? (dir === 'asc' ? '▲' : '▼') : '↕';
+    th.classList.add('sortable');
+    th.classList.toggle('is-sorted', isActive);
+    th.setAttribute('aria-sort', isActive ? (dir === 'asc' ? 'ascending' : 'descending') : 'none');
+    th.setAttribute('tabindex', '0');
+    th.innerHTML = `<span class="th-sort-inner"><span class="th-sort-lbl">${escapeHtml(baseLabel)}</span><span class="sort-ind" aria-hidden="true">${arrow}</span></span>`;
+  });
+}
+
+/**
+ * 표 행 키보드 탐색(↑/↓/Home/End 이동, Enter 상세 실행, →/← 펼침 토글)을 일관되게 연결한다.
+ */
+export function wireTableKeyboardNav(tbodyEl, {
+  rowSelector = 'tr[data-nav-row]',
+  onActivate = null,
+  onToggleExpand = null,
+} = {}) {
+  if (!tbodyEl || tbodyEl.dataset.kbNavWired === '1') return;
+  tbodyEl.dataset.kbNavWired = '1';
+  tbodyEl.addEventListener('keydown', (e) => {
+    const tag = e.target?.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+    const tr = e.target.closest(rowSelector);
+    if (!tr || !tbodyEl.contains(tr)) return;
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Home' || e.key === 'End') {
+      const rows = [...tbodyEl.querySelectorAll(rowSelector)];
+      if (!rows.length) return;
+      const idx = rows.indexOf(tr);
+      let nextIdx = idx;
+      if (e.key === 'ArrowDown') nextIdx = Math.min(rows.length - 1, idx + 1);
+      else if (e.key === 'ArrowUp') nextIdx = Math.max(0, idx - 1);
+      else if (e.key === 'Home') nextIdx = 0;
+      else if (e.key === 'End') nextIdx = rows.length - 1;
+      e.preventDefault();
+      const target = rows[nextIdx];
+      if (target) {
+        target.focus({ preventScroll: false });
+        target.scrollIntoView({ block: 'nearest' });
+      }
+      return;
+    }
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      if (e.target.closest('button') || e.target.closest('a')) return;
+      if (onToggleExpand) {
+        e.preventDefault();
+        onToggleExpand(tr, e.key);
+      }
+      return;
+    }
+
+    if (e.key === 'Enter' || e.key === ' ') {
+      if (e.target.closest('button') || e.target.closest('a')) return;
+      if (onActivate) {
+        e.preventDefault();
+        onActivate(tr);
+      }
+    }
+  });
+}
+
+// Single shared lightweight floating hover preview popover for tables
+let hoverPreviewEl = null;
+let hoverPreviewTimer = null;
+let hoverPreviewRow = null;
+let hoverPreviewGlobalWired = false;
+
+function ensureHoverPreviewEl() {
+  if (hoverPreviewEl && hoverPreviewEl.isConnected) return hoverPreviewEl;
+  const el = document.createElement('div');
+  el.id = 'rowHoverPreview';
+  el.className = 'row-hover-preview';
+  el.setAttribute('role', 'tooltip');
+  el.setAttribute('aria-hidden', 'true');
+  el.hidden = true;
+  document.body.appendChild(el);
+  hoverPreviewEl = el;
+  if (!hoverPreviewGlobalWired) {
+    hoverPreviewGlobalWired = true;
+    window.addEventListener('scroll', hideRowHoverPreview, true);
+    window.addEventListener('resize', hideRowHoverPreview);
+    window.addEventListener('hashchange', hideRowHoverPreview);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') hideRowHoverPreview();
+    });
+  }
+  return el;
+}
+
+export function hideRowHoverPreview() {
+  clearTimeout(hoverPreviewTimer);
+  hoverPreviewTimer = null;
+  hoverPreviewRow = null;
+  if (hoverPreviewEl) {
+    hoverPreviewEl.hidden = true;
+    hoverPreviewEl.setAttribute('aria-hidden', 'true');
+  }
+}
+
+function positionHoverPreview(el, anchorRect, pointerX) {
+  const pad = 12;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  el.style.left = '0px';
+  el.style.top = '0px';
+  el.hidden = false;
+  const rect = el.getBoundingClientRect();
+
+  let left = Number.isFinite(pointerX) ? pointerX + 14 : anchorRect.left + 24;
+  if (left + rect.width + pad > vw) {
+    left = Math.max(pad, vw - rect.width - pad);
+  }
+  let top = anchorRect.bottom + 8;
+  if (top + rect.height + pad > vh) {
+    top = Math.max(pad, anchorRect.top - rect.height - 8);
+  }
+  el.style.left = `${Math.round(left)}px`;
+  el.style.top = `${Math.round(top)}px`;
+  el.setAttribute('aria-hidden', 'false');
+}
+
+/**
+ * 데스크톱 포인터 호버 시 모든 표에 일관된 행 미리보기 카드를 띄운다.
+ * 버튼/링크 위에서는 방해되지 않게 숨기며, 모바일 터치에서는 동작하지 않는다.
+ */
+export function wireTableRowHoverPreview(tbodyEl, getPreviewHtml, { rowSelector = 'tr[data-nav-row]' } = {}) {
+  if (!tbodyEl || typeof getPreviewHtml !== 'function') return;
+  if (tbodyEl.dataset.hoverPreviewWired === '1') return;
+  tbodyEl.dataset.hoverPreviewWired = '1';
+
+  const supportsHover = typeof window !== 'undefined' &&
+    window.matchMedia &&
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!supportsHover) return;
+
+  tbodyEl.addEventListener('mouseover', (e) => {
+    if (e.target.closest('button') || e.target.closest('a') || e.target.closest('select')) {
+      hideRowHoverPreview();
+      return;
+    }
+    const tr = e.target.closest(rowSelector);
+    if (!tr || !tbodyEl.contains(tr)) {
+      hideRowHoverPreview();
+      return;
+    }
+    if (tr === hoverPreviewRow) return;
+    clearTimeout(hoverPreviewTimer);
+    hoverPreviewRow = tr;
+    const pointerX = e.clientX;
+    hoverPreviewTimer = setTimeout(() => {
+      if (!tr.isConnected || hoverPreviewRow !== tr) return;
+      const html = getPreviewHtml(tr);
+      if (!html) {
+        hideRowHoverPreview();
+        return;
+      }
+      const el = ensureHoverPreviewEl();
+      el.innerHTML = html;
+      positionHoverPreview(el, tr.getBoundingClientRect(), pointerX);
+    }, 220);
+  });
+
+  tbodyEl.addEventListener('mouseleave', hideRowHoverPreview);
+  tbodyEl.addEventListener('mousedown', hideRowHoverPreview);
+}
+
+/**
+ * 모든 표에서 동일한 이름·스타일의 인라인 CSV 내보내기 버튼 HTML을 반환한다.
+ */
+export function renderTableCsvBtn(id = '', label = 'CSV 내려받기') {
+  const idAttr = id ? ` id="${escapeHtml(id)}"` : '';
+  return `<button type="button" class="btn btn-sm table-csv-btn"${idAttr} data-table-csv>${escapeHtml(label)}</button>`;
+}
+
+export function triggerTableCsvExport({ filename, headers, rows } = {}) {
+  if (!headers || !headers.length || !rows || !rows.length) {
+    window.dispatchEvent(new CustomEvent('app:toast', { detail: '내려받을 행이 없습니다.' }));
+    return false;
+  }
+  exportTableToCsv(filename || `crate_digger_${appState.dataEnd || 'export'}.csv`, headers, rows);
+  window.dispatchEvent(new CustomEvent('app:toast', { detail: 'CSV 파일을 내려받았습니다.' }));
+  return true;
+}
+
 

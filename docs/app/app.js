@@ -1,7 +1,7 @@
 import {
   appState, cloneDefaults, destroyActiveCharts, exportTableToCsv,
   getWatchlist, hasCustomWeights, navigateTo, parseHash,
-  setExportContext, syncHash, toggleWatch,
+  resetViewFilters, setExportContext, syncHash, toggleWatch,
 } from './state.js';
 import {
   bootstrapData, computeDataHealth, getSnapshotDiff,
@@ -9,7 +9,7 @@ import {
 } from './db.js';
 import {
   avatarHtml, buildWeeklySummaryText, cssVar, escapeHtml,
-  fmtInt, friendlySqlError, renderViewSkeleton, wireAvatarFallbacks,
+  fmtInt, friendlySqlError, hideRowHoverPreview, renderViewSkeleton, wireAvatarFallbacks,
 } from './ui.js';
 
 const ADVANCED_ROUTES = new Set(['verify', 'backtest', 'signals', 'evidence', 'scorecard', 'quality', 'sql']);
@@ -164,6 +164,7 @@ function closeMobileNav() {
 function resetAllFiltersAndWeights() {
   appState.cfg = cloneDefaults();
   appState.cfg.as_of = appState.dataEnd;
+  resetViewFilters();
   syncHash(true);
   renderCurrentView();
 }
@@ -419,6 +420,7 @@ async function renderCurrentView() {
   updateNavActive();
   renderAnomalyBanner();
   closeMobileNav();
+  hideRowHoverPreview();
 
   if (!appState.cfg.branches.length) {
     setGlobalError('갈래(공연·선정·지원·발매·큐레이션)를 최소 1개 이상 선택해 주세요.');
@@ -540,6 +542,9 @@ function wireGlobalEvents() {
 
   window.addEventListener('app:watchlist', updateNavActive);
   window.addEventListener('app:export-ctx', updateExportMenuUI);
+  window.addEventListener('app:toast', (e) => {
+    if (e.detail) showToast(String(e.detail));
+  });
 
   // Allow live health recomputation (also helpful for automated verification)
   window.addEventListener('app:refresh-health', () => {

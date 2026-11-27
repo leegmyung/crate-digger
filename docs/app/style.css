@@ -4886,4 +4886,248 @@ body.graph-modal-open {
   }
 }
 
+/* ---------- Unified Table Usability (Sticky Header, Sort, Ellipsis, Hover Preview, CSV Bar) ---------- */
+
+.table-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.table-bar-left {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.table-bar-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.table-kb-hint {
+  font-size: 11.5px;
+  color: var(--ink-subtle);
+}
+
+.table-bar-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.block-head-actions {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.table-csv-btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.table-wrap.table-sticky {
+  max-height: min(70vh, 720px);
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.table-wrap.table-sticky table.data-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table-wrap.table-sticky table.data-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--surface);
+  box-shadow: inset 0 -1px 0 var(--line-strong);
+}
+
+.th-sort-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+}
+
+table.data-table th.num .th-sort-inner {
+  justify-content: flex-end;
+}
+
+table.data-table th.sortable .sort-ind {
+  font-size: 10.5px;
+  line-height: 1;
+  opacity: 0.42;
+  transition: opacity 0.12s ease, color 0.12s ease;
+}
+
+table.data-table th.sortable:hover .sort-ind,
+table.data-table th.sortable:focus-visible .sort-ind {
+  opacity: 0.85;
+}
+
+table.data-table th.sortable.is-sorted {
+  color: var(--ink);
+}
+
+table.data-table th.sortable.is-sorted .sort-ind {
+  opacity: 1;
+  color: var(--accent);
+}
+
+table.data-table th.sortable:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+table.data-table tbody tr[data-nav-row]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+  background: var(--surface);
+}
+
+.row-team-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.row-team-name {
+  min-width: 0;
+}
+
+.row-team-name strong.cell-truncate,
+.sc-src-name.cell-truncate {
+  display: inline-block;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+.row-team-sub.cell-truncate {
+  display: block;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cand-table td.why-cell {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sc-src-cell {
+  min-width: 0;
+}
+
+.row-hover-preview {
+  position: fixed;
+  z-index: 1200;
+  pointer-events: none;
+  width: max-content;
+  max-width: min(340px, calc(100vw - 24px));
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: var(--shadow-md, 0 8px 24px rgba(0, 0, 0, 0.14));
+  font-size: 12.5px;
+  line-height: 1.48;
+}
+
+.row-hover-preview[hidden] {
+  display: none;
+}
+
+.rhp-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.rhp-head strong {
+  font-size: 13px;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rhp-score {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.rhp-meta {
+  font-size: 11.5px;
+  color: var(--ink-muted);
+  margin-bottom: 5px;
+}
+
+.rhp-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.rhp-line {
+  font-size: 12px;
+  color: var(--ink-soft, var(--ink));
+}
+
+.rhp-line .rhp-lbl {
+  color: var(--ink-muted);
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+.rhp-foot {
+  margin-top: 6px;
+  padding-top: 5px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--ink-subtle);
+}
+
+@media (max-width: 760px) {
+  .table-kb-hint {
+    display: none;
+  }
+
+  .table-wrap.table-sticky {
+    max-height: min(68vh, 580px);
+  }
+
+  .row-team-name strong.cell-truncate,
+  .row-team-sub.cell-truncate,
+  .sc-src-name.cell-truncate {
+    max-width: 155px;
+  }
+}
+
+
 

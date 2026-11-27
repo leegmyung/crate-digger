@@ -1,8 +1,9 @@
-import { appState, registerChart, syncHash } from '../state.js';
+import { appState, registerChart, setExportContext, syncHash } from '../state.js';
 import { querySignalHits } from '../db.js';
 import {
   cssVar, ensureChartJs, escapeHtml, fmtInt, fmtNum,
-  renderActionBanner, renderEmptyState, signalWhiskerPlugin,
+  renderActionBanner, renderEmptyState, renderTableCsvBtn,
+  signalWhiskerPlugin, triggerTableCsvExport,
 } from '../ui.js';
 
 export async function renderSignalsView(root) {
@@ -18,6 +19,26 @@ export async function renderSignalsView(root) {
   const baselineRow = rows.find(r => String(r.program || '').startsWith('(기준선)'));
   const baseRate = baselineRow ? Number(baselineRow.rate) : null;
   const bestProg = rows.find(r => !String(r.program || '').startsWith('(기준선)') && Number(r.teams) >= 10);
+
+  const sigCsvSpec = rows.length ? {
+    filename: `crate_digger_signal_hits_${cutoff}.csv`,
+    headers: ['프로그램', '후보 팀', '정답 팀', '적중률(%)', '95% 신뢰구간', '기준선 대비'],
+    rows: rows.map(r => [
+      r.label || r.program,
+      r.teams ?? 0,
+      r.hits ?? 0,
+      r.rate !== null && r.rate !== undefined ? fmtNum(r.rate, 1) : '—',
+      `${fmtNum(r.ci_low, 1)}% ~ ${fmtNum(r.ci_high, 1)}%`,
+      r.lift !== null && r.lift !== undefined ? `${fmtNum(r.lift, 1)}배` : '—',
+    ]),
+  } : null;
+
+  setExportContext({
+    csvLabel: sigCsvSpec ? `신호별 적중률 CSV 내려받기 (${fmtInt(rows.length)}행)` : '',
+    csvFilename: sigCsvSpec?.filename || '',
+    csvHeaders: sigCsvSpec?.headers || [],
+    csvRows: sigCsvSpec?.rows || [],
+  });
 
   const leadParts = [];
   if (baselineRow) {
@@ -48,12 +69,15 @@ export async function renderSignalsView(root) {
 
     <section class="block">
       <div class="block-head">
-        <h2>선정·지원 프로그램별 정답 비율과 윌슨 95% 신뢰구간</h2>
-        <span class="block-meta">n &lt; 10 흐리게 표시</span>
+        <div>
+          <h2>선정·지원 프로그램별 정답 비율과 윌슨 95% 신뢰구간</h2>
+          <span class="block-meta">n &lt; 10 흐리게 표시</span>
+        </div>
+        ${rows.length ? `<div class="block-head-actions">${renderTableCsvBtn('btnSigCsv', 'CSV 내려받기')}</div>` : ''}
       </div>
       ${rows.length ? `
         <div class="chart-box chart-box-tall"><canvas id="sigHitsChart"></canvas></div>
-        <div class="table-wrap">
+        <div class="table-wrap table-sticky">
           <table class="data-table">
             <thead>
               <tr>
@@ -70,7 +94,7 @@ export async function renderSignalsView(root) {
                 const isBase = String(r.program || '').startsWith('(기준선)');
                 const lowN = !isBase && Number(r.teams) < 10;
                 const cls = isBase ? 'baseline-row' : (lowN ? 'low-n' : '');
-                const liftTxt = r.lift !== null && r.lift !== undefined ? `${fmtNum(r.lift, 1)}배` : '-';
+                const liftTxt = r.lift !== null && r.lift !== undefined ? `${fmtNum(r.lift, 1)}배` : '—';
                 return `
                   <tr class="${cls}">
                     <td>${escapeHtml(r.label || r.program)}${lowN ? ' <span class="muted small">(표본 적음)</span>' : ''}</td>
@@ -92,6 +116,10 @@ export async function renderSignalsView(root) {
         })}
     </section>
   `;
+
+  root.querySelector('#btnSigCsv')?.addEventListener('click', () => {
+    if (sigCsvSpec) triggerTableCsvExport(sigCsvSpec);
+  });
 
   if (rows.length && window.Chart) {
     const cv = root.querySelector('#sigHitsChart');

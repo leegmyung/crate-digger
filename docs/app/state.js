@@ -203,8 +203,29 @@ export const appState = {
   imageMetaByTeam: new Map(), // team_key → { url, source }
   teamIndex: [], // [{team_key, display_name, primary_genre}] for autocomplete
   candSort: { col: 'score', dir: 'desc' },
+  debutSort: { col: 'score', dir: 'desc' },
+  candQuery: '',
+  candMove: '', // '' | 'new' | 'riser' | 'upcoming'
+  scFilter: 'all', // 'all' | 'discovery' | 'context' | 'excluded' | 'pending' | 'mismatch'
+  scSort: { col: 'winners_seen', dir: 'desc' },
+  venuesCalMode: 'cand', // 'cand' | 'all'
+  sceneNetLimit: 150, // 80 | 150 | 250
+  teamGraphPeriod: 'all', // 'all' | '1y'
+  watchModeParam: null, // 'table' | 'board' | null
   activeCharts: [],
 };
+
+export function resetViewFilters() {
+  appState.candSort = { col: 'score', dir: 'desc' };
+  appState.debutSort = { col: 'score', dir: 'desc' };
+  appState.candQuery = '';
+  appState.candMove = '';
+  appState.scFilter = 'all';
+  appState.scSort = { col: 'winners_seen', dir: 'desc' };
+  appState.venuesCalMode = 'cand';
+  appState.sceneNetLimit = 150;
+  appState.teamGraphPeriod = 'all';
+}
 
 export function setExportContext({ csvLabel = '', csvFilename = '', csvHeaders = [], csvRows = [], digestText = null } = {}) {
   appState.exportCtx = { csvLabel, csvFilename, csvHeaders, csvRows };
@@ -258,6 +279,16 @@ export function registerChart(ch) {
 
 // ---------- Hash Routing + Query Sync ----------
 
+const VALID_CAND_SORTS = new Set(['score', 'display_name', 'next_gig_sort']);
+const VALID_DEBUT_SORTS = new Set(['score', 'display_name', 'first_release', 'mentions']);
+const VALID_SC_SORTS = new Set([
+  'label', 'role', 'signal_rows', 'teams', 'rate',
+  'winners_seen', 'first_to_see', 'median_lead_months',
+]);
+const VALID_SC_FILTERS = new Set(['all', 'discovery', 'context', 'excluded', 'pending', 'mismatch']);
+const VALID_MOVES = new Set(['new', 'riser', 'upcoming']);
+const VALID_SN_LIMITS = new Set([100, 150, 250, 300]);
+
 export function parseHash() {
   const raw = window.location.hash.replace(/^#/, '');
   if (!raw) {
@@ -277,6 +308,7 @@ export function parseHash() {
     queryPart = raw;
   }
 
+  const p = new URLSearchParams(queryPart);
   const segs = pathPart.split('/').filter(Boolean);
   if (segs[0] === 'team' && segs[1]) {
     appState.route = 'team';
@@ -290,6 +322,8 @@ export function parseHash() {
     appState.routeParam = '';
     if (segs[1] && VERIFY_TABS.includes(segs[1])) {
       appState.verifyTab = segs[1];
+    } else if (!p.has('vtab')) {
+      appState.verifyTab = 'backtest';
     }
   } else if (segs[0] && VERIFY_TABS.includes(segs[0])) {
     // Backward-compatible aliases: #/backtest, #/signals, #/evidence -> unified verify view
@@ -299,12 +333,16 @@ export function parseHash() {
   } else if (segs[0] && ROUTES.includes(segs[0])) {
     appState.route = segs[0];
     appState.routeParam = '';
-    if (segs[0] === 'candidates' && (segs[1] === 'debut' || segs[1] === 'all')) {
-      appState.candTab = segs[1];
+    if (segs[0] === 'candidates') {
+      if (segs[1] === 'debut' || segs[1] === 'all') {
+        appState.candTab = segs[1];
+      } else if (!p.has('ctab')) {
+        appState.candTab = 'all';
+      }
     } else if (segs[0] === 'venues') {
       if (segs[1] === 'network' || segs[1] === 'overview') {
         appState.venuesTab = segs[1];
-      } else if (!queryPart) {
+      } else if (!p.has('vmode')) {
         appState.venuesTab = 'overview';
       }
     }
@@ -317,10 +355,6 @@ export function parseHash() {
     appState.routeParam = '';
   }
 
-  if (!queryPart) return;
-  const p = new URLSearchParams(queryPart);
-  const c = appState.cfg;
-
   if (p.has('vtab') && VERIFY_TABS.includes(p.get('vtab'))) {
     appState.verifyTab = p.get('vtab');
   }
@@ -329,9 +363,50 @@ export function parseHash() {
   }
   if (p.has('vmode') && (p.get('vmode') === 'network' || p.get('vmode') === 'overview')) {
     appState.venuesTab = p.get('vmode');
-  } else if (appState.route === 'venues' && p.has('genre') && p.get('genre')) {
+  } else if (appState.route === 'venues' && segs[1] !== 'overview' && p.has('genre') && p.get('genre')) {
     appState.venuesTab = 'network';
   }
+
+  // Restore per-view UI filters from URL (reset to default when absent for that view)
+  if (appState.route === 'candidates') {
+    appState.candQuery = p.has('q') ? String(p.get('q') || '').slice(0, 100) : '';
+    const mv = p.get('move') || '';
+    appState.candMove = VALID_MOVES.has(mv) ? mv : '';
+    const sortCol = p.get('sort') || '';
+    const sortDir = p.get('dir') === 'asc' ? 'asc' : (p.get('dir') === 'desc' ? 'desc' : '');
+    if (appState.candTab === 'debut') {
+      appState.debutSort = {
+        col: VALID_DEBUT_SORTS.has(sortCol) ? sortCol : 'score',
+        dir: sortDir || (sortCol === 'display_name' ? 'asc' : 'desc'),
+      };
+    } else {
+      appState.candSort = {
+        col: VALID_CAND_SORTS.has(sortCol) ? sortCol : 'score',
+        dir: sortDir || ((sortCol === 'display_name' || sortCol === 'next_gig_sort') ? 'asc' : 'desc'),
+      };
+    }
+  } else if (appState.route === 'verify' && appState.verifyTab === 'scorecard') {
+    const roleVal = p.get('role') || 'all';
+    appState.scFilter = VALID_SC_FILTERS.has(roleVal) ? roleVal : 'all';
+    const sortCol = p.get('sort') || '';
+    const sortDir = p.get('dir') === 'asc' ? 'asc' : (p.get('dir') === 'desc' ? 'desc' : '');
+    appState.scSort = {
+      col: VALID_SC_SORTS.has(sortCol) ? sortCol : 'winners_seen',
+      dir: sortDir || ((sortCol === 'label' || sortCol === 'role') ? 'asc' : 'desc'),
+    };
+  } else if (appState.route === 'venues') {
+    appState.venuesCalMode = p.get('cal') === 'all' ? 'all' : 'cand';
+    const snLim = Number(p.get('sn_limit'));
+    appState.sceneNetLimit = VALID_SN_LIMITS.has(snLim) ? snLim : 150;
+  } else if (appState.route === 'team') {
+    appState.teamGraphPeriod = p.get('gp') === '1y' ? '1y' : 'all';
+  } else if (appState.route === 'watchlist') {
+    const wm = p.get('wmode');
+    appState.watchModeParam = (wm === 'board' || wm === 'table') ? wm : null;
+  }
+
+  if (!queryPart) return;
+  const c = appState.cfg;
 
   for (const key of WEIGHT_KEYS) {
     if (key === 'outlet_cap') continue;
@@ -413,15 +488,60 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
   setIf('signal_cutoff', c.signal_cutoff, DEFAULTS.signal_cutoff);
 
   let normRoute = route;
+  let normVerifyTab = appState.verifyTab || 'backtest';
   if (VERIFY_TABS.includes(route)) {
     normRoute = 'verify';
+    normVerifyTab = route;
     if (route !== 'backtest') p.set('vtab', route);
-  } else if (route === 'verify' && appState.verifyTab && appState.verifyTab !== 'backtest') {
-    p.set('vtab', appState.verifyTab);
+  } else if (route === 'verify' && normVerifyTab !== 'backtest') {
+    p.set('vtab', normVerifyTab);
   } else if (route === 'candidates' && appState.candTab === 'debut') {
     p.set('ctab', 'debut');
-  } else if (route === 'venues' && appState.venuesTab === 'network') {
-    if (!c.genre) p.set('vmode', 'network');
+  } else if (route === 'venues') {
+    if (appState.venuesTab === 'network') {
+      p.set('vmode', 'network');
+    } else if (c.genre) {
+      p.set('vmode', 'overview');
+    }
+  }
+
+  // Serialize active view-specific filter & sort state so refresh/share preserves exact view
+  if (normRoute === 'candidates') {
+    if (appState.candQuery && appState.candQuery.trim()) p.set('q', appState.candQuery.trim());
+    if (appState.candTab === 'debut') {
+      const ds = appState.debutSort || { col: 'score', dir: 'desc' };
+      if (ds.col !== 'score' || ds.dir !== 'desc') {
+        p.set('sort', ds.col);
+        p.set('dir', ds.dir);
+      }
+    } else {
+      if (appState.candMove && VALID_MOVES.has(appState.candMove)) p.set('move', appState.candMove);
+      const cs = appState.candSort || { col: 'score', dir: 'desc' };
+      if (cs.col !== 'score' || cs.dir !== 'desc') {
+        p.set('sort', cs.col);
+        p.set('dir', cs.dir);
+      }
+    }
+  } else if (normRoute === 'verify' && normVerifyTab === 'scorecard') {
+    if (appState.scFilter && appState.scFilter !== 'all') p.set('role', appState.scFilter);
+    const ss = appState.scSort || { col: 'winners_seen', dir: 'desc' };
+    if (ss.col !== 'winners_seen' || ss.dir !== 'desc') {
+      p.set('sort', ss.col);
+      p.set('dir', ss.dir);
+    }
+  } else if (normRoute === 'venues') {
+    if (appState.venuesTab === 'network') {
+      if (appState.sceneNetLimit && appState.sceneNetLimit !== 150) {
+        p.set('sn_limit', String(appState.sceneNetLimit));
+      }
+    } else if (appState.venuesCalMode === 'all') {
+      p.set('cal', 'all');
+    }
+  } else if (normRoute === 'team') {
+    if (appState.teamGraphPeriod === '1y') p.set('gp', '1y');
+  } else if (normRoute === 'watchlist') {
+    const wm = appState.watchModeParam || getWatchlistViewMode();
+    if (wm === 'board') p.set('wmode', 'board');
   }
 
   const basePath = normRoute === 'team' && param ? `#/team/${encodeURIComponent(param)}` : `#/${normRoute}`;

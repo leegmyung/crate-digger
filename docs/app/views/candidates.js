@@ -8,15 +8,16 @@ import {
 } from '../db.js';
 import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText, formatSourceKey,
-  gradeBadgeHtml, plainWhyLine, renderActionBanner, renderEmptyState, scorePartsLine,
-  spotifyButtonHtml, TERMS, watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
-  youtubeQuickInfo,
+  gradeBadgeHtml, plainWhyLine, renderActionBanner, renderEmptyState, renderTableCsvBtn,
+  scorePartsLine, spotifyButtonHtml, TERMS, triggerTableCsvExport, updateSortHeaders,
+  watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons, wireTableKeyboardNav,
+  wireTableRowHoverPreview, youtubeQuickInfo,
 } from '../ui.js';
 
 const DEBUT_MIN_SAMPLE = 5;
 const DEBUT_DOC_URL = 'https://github.com/leegmyung/crate-digger/blob/main/docs/debut_cohort.md';
 const VALID_SORT_COLS = new Set(['score', 'display_name', 'next_gig_sort']);
-const VALID_DEBUT_SORT_COLS = new Set(['score', 'first_release', 'display_name']);
+const VALID_DEBUT_SORT_COLS = new Set(['score', 'first_release', 'display_name', 'mentions']);
 
 function sortRows(rows, col, dir) {
   const safeCol = VALID_SORT_COLS.has(col) ? col : 'score';
@@ -87,6 +88,12 @@ function sortDebutRows(rows, col, dir) {
       if (va !== vb) return (va - vb) * mult;
       return String(b.first_release || '').localeCompare(String(a.first_release || ''));
     }
+    if (safeCol === 'mentions') {
+      const ma = a.mentions?.length || 0;
+      const mb = b.mentions?.length || 0;
+      if (ma !== mb) return (ma - mb) * mult;
+      return ((Number(b.score) || 0) - (Number(a.score) || 0));
+    }
     if (safeCol === 'first_release') {
       const cmp = String(a.first_release || '').localeCompare(String(b.first_release || '')) * mult;
       if (cmp !== 0) return cmp;
@@ -141,7 +148,13 @@ async function renderDebutCandidatesView(root) {
     queryDebutScorecard({ horizonMonths: c.horizon_months || 24 }),
   ]);
 
-  let debutSort = { col: 'score', dir: 'desc' };
+  if (!VALID_DEBUT_SORT_COLS.has(appState.debutSort?.col)) {
+    appState.debutSort = { col: 'score', dir: 'desc' };
+  }
+  const debutSort = appState.debutSort;
+  const debutByKey = new Map(debutData.mentioned.map(t => [t.team_key, t]));
+  let expandedDebutKey = null;
+  let lastDebutCsvSpec = { filename: `crate_digger_debut_${asOf}.csv`, headers: [], rows: [] };
 
   const bannerHtml = renderActionBanner({
     title: '후보 목록',
@@ -160,8 +173,8 @@ async function renderDebutCandidatesView(root) {
         const teams = Number(r.teams) || 0;
         const hits = Number(r.hits) || 0;
         const thin = teams < DEBUT_MIN_SAMPLE;
-        const rateTxt = r.rate !== null && r.rate !== undefined ? `${fmtNum(r.rate, 1)}%` : '-';
-        const liftTxt = r.lift !== null && r.lift !== undefined ? `${fmtNum(r.lift, 1)}배` : '-';
+        const rateTxt = r.rate !== null && r.rate !== undefined ? `${fmtNum(r.rate, 1)}%` : '—';
+        const liftTxt = r.lift !== null && r.lift !== undefined ? `${fmtNum(r.lift, 1)}배` : '—';
         const medTxt = r.median_days !== null && r.median_days !== undefined ? ` · 중앙 ${fmtNum(r.median_days, 0)}일` : '';
         const tip = `${info.label}: 코호트 ${fmtInt(hits)}/${fmtInt(teams)}팀 (적중률 ${rateTxt}, 배수 ${liftTxt}${medTxt})`;
         return `<span class="debut-cohort-pill${thin ? ' is-thin' : ''}" title="${escapeHtml(tip)}"><strong>${escapeHtml(info.label)}</strong> <span class="mono">${escapeHtml(rateTxt)} · ${escapeHtml(liftTxt)}</span>${thin ? ' <span class="small">(표본 부족)</span>' : ''}</span>`;
@@ -183,7 +196,7 @@ async function renderDebutCandidatesView(root) {
 
     <section class="inline-filter-bar" aria-label="갓 데뷔 필터">
       <div class="inline-filter-row">
-        <input type="search" id="debutFilterInput" class="input cand-search-input" placeholder="팀 이름·장르·언급 출처 검색..." aria-label="갓 데뷔 표 안에서 검색">
+        <input type="search" id="debutFilterInput" class="input cand-search-input" value="${escapeHtml(appState.candQuery || '')}" placeholder="팀 이름·장르·언급 출처 검색..." aria-label="갓 데뷔 표 안에서 검색">
         <select id="debutGenreSel" class="select" aria-label="장르 필터">${genreOpts}</select>
         <span class="small muted inline-filter-count" id="debutCountText"></span>
       </div>
@@ -217,14 +230,23 @@ async function renderDebutCandidatesView(root) {
     </section>
 
     <div class="block" style="padding:0;overflow:hidden;">
-      <div class="table-wrap">
+      <div class="table-bar">
+        <div class="table-bar-left">
+          <span class="table-bar-title" id="debutTableBarTitle">첫 발매 뒤 언급 팀</span>
+          <span class="table-kb-hint">↑↓ 이동 · Enter 상세 · → 미리보기</span>
+        </div>
+        <div class="table-bar-right">
+          ${renderTableCsvBtn('btnDebutCsv', 'CSV 내려받기')}
+        </div>
+      </div>
+      <div class="table-wrap table-sticky">
         <table class="data-table debut-table" id="debutTable">
           <thead>
             <tr>
               <th class="num">#</th>
               <th class="sortable" data-debut-sort="display_name">팀</th>
               <th class="nowrap sortable" data-debut-sort="first_release">첫 발매일</th>
-              <th>첫 발매 뒤 언급 출처 · 데뷔 신뢰도</th>
+              <th class="sortable" data-debut-sort="mentions">첫 발매 뒤 언급 출처 · 데뷔 신뢰도</th>
               <th class="num sortable" data-debut-sort="score">점수</th>
               <th class="nowrap">듣기</th>
               <th class="nowrap">관심</th>
@@ -248,8 +270,70 @@ async function renderDebutCandidatesView(root) {
 
   wireCandTabs(root);
 
+  function closeDebutPreviewRows() {
+    const tbody = root.querySelector('#debutTbody');
+    if (!tbody) return;
+    tbody.querySelectorAll('tr.cand-preview-row').forEach(el => el.remove());
+    tbody.querySelectorAll('.cand-expand-btn').forEach(btn => {
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = '▸';
+      btn.title = '미리보기 펼치기';
+    });
+  }
+
+  function openDebutPreviewRow(teamKey, tr) {
+    const r = debutByKey.get(teamKey);
+    if (!r || !tr) return;
+    closeDebutPreviewRows();
+    const btn = tr.querySelector('.cand-expand-btn');
+    if (btn) {
+      btn.setAttribute('aria-expanded', 'true');
+      btn.textContent = '▾';
+      btn.title = '미리보기 접기';
+    }
+    const mentionDetails = r.mentions.map(m => {
+      const info = formatSourceKey(m.src);
+      const sc = debutScorecard?.bySrc?.get(m.src);
+      const daysTxt = m.days_to_mention !== null && m.days_to_mention !== undefined ? `+${fmtInt(m.days_to_mention)}일` : '—';
+      const scTxt = sc && sc.rate !== null && sc.rate !== undefined
+        ? ` (코호트 ${fmtNum(sc.rate, 1)}% · ${fmtNum(sc.lift, 1)}배)`
+        : '';
+      return `${info.label} ${daysTxt}${scTxt}`;
+    }).join(' · ');
+
+    const previewTr = document.createElement('tr');
+    previewTr.className = 'cand-preview-row';
+    previewTr.dataset.previewFor = teamKey;
+    previewTr.innerHTML = `
+      <td colspan="7" class="cand-preview-cell">
+        <div class="cand-preview-box">
+          <div class="cand-preview-items">
+            <div class="cand-preview-item">
+              <span class="cand-preview-lbl">첫 발매</span>
+              <span class="cand-preview-val mono">${escapeHtml(r.first_release || '—')}${r.primary_genre ? ` · ${escapeHtml(r.primary_genre)}` : ''}</span>
+            </div>
+            <div class="cand-preview-item">
+              <span class="cand-preview-lbl">언급 출처 (${fmtInt(r.mentions.length)}곳)</span>
+              <span class="cand-preview-val">${escapeHtml(mentionDetails || '—')}</span>
+            </div>
+            <div class="cand-preview-item">
+              <span class="cand-preview-lbl">현재 점수</span>
+              <span class="cand-preview-val mono">${r.score !== null ? `${fmtNum(r.score, 2)}점` : '점수 미산출'}</span>
+            </div>
+          </div>
+          <div class="cand-preview-actions">
+            <a class="btn btn-sm" href="#/team/${encodeURIComponent(teamKey)}">팀 상세 보기 →</a>
+          </div>
+        </div>
+      </td>
+    `;
+    tr.insertAdjacentElement('afterend', previewTr);
+  }
+
   function paintDebut() {
-    const q = (root.querySelector('#debutFilterInput')?.value || '').trim().toLowerCase();
+    const qRaw = (root.querySelector('#debutFilterInput')?.value || '').trim();
+    appState.candQuery = qRaw;
+    const q = qRaw.toLowerCase();
     const matchQuery = (t) => {
       if (!q) return true;
       if (String(t.display_name || '').toLowerCase().includes(q)) return true;
@@ -266,30 +350,31 @@ async function renderDebutCandidatesView(root) {
     const filteredUnmentioned = debutData.unmentioned.filter(matchQuery);
 
     root.querySelector('#debutCountText').textContent = `언급 있음 ${fmtInt(filteredMentioned.length)}팀 · 미언급 ${fmtInt(filteredUnmentioned.length)}팀`;
+    const barTitle = root.querySelector('#debutTableBarTitle');
+    if (barTitle) barTitle.textContent = `첫 발매 뒤 언급 팀 (${fmtInt(filteredMentioned.length)}팀)`;
     const unmSumEl = root.querySelector('#debutUnmSummary');
     if (unmSumEl) unmSumEl.textContent = `아직 언급 없음 (${fmtInt(filteredUnmentioned.length)}팀)`;
 
-    root.querySelectorAll('th[data-debut-sort]').forEach(th => {
-      const col = th.dataset.debutSort;
-      const baseLabel = th.dataset.label || th.textContent.replace(/ [▲▼]$/, '');
-      th.dataset.label = baseLabel;
-      th.textContent = col === debutSort.col
-        ? `${baseLabel} ${debutSort.dir === 'asc' ? '▲' : '▼'}`
-        : baseLabel;
-    });
+    updateSortHeaders(root.querySelector('#debutTable'), debutSort.col, debutSort.dir, 'debutSort');
 
-    setExportContext({
-      csvLabel: `갓 데뷔 백지 신인 CSV 내려받기 (${fmtInt(filteredMentioned.length + filteredUnmentioned.length)}팀)`,
-      csvFilename: `crate_digger_debut_${asOf}.csv`,
-      csvHeaders: ['team_key', 'display_name', 'genre', 'first_release', 'score', 'mentions'],
-      csvRows: [...filteredMentioned, ...filteredUnmentioned].map(r => [
-        r.team_key,
-        r.display_name,
+    lastDebutCsvSpec = {
+      filename: `crate_digger_debut_${asOf}.csv`,
+      headers: ['#', '팀', '장르', '첫 발매일', '첫 발매 뒤 언급 출처', '점수'],
+      rows: filteredMentioned.map((r, idx) => [
+        idx + 1,
+        r.display_name || r.team_key,
         r.primary_genre || '',
         r.first_release || '',
-        r.score ?? '',
         r.mentions.map(m => `${formatSourceKey(m.src).label}(+${m.days_to_mention ?? '?'}일)`).join(' / '),
+        r.score !== null && r.score !== undefined ? fmtNum(r.score, 2) : '',
       ]),
+    };
+
+    setExportContext({
+      csvLabel: `갓 데뷔 CSV 내려받기 (${fmtInt(filteredMentioned.length)}팀)`,
+      csvFilename: lastDebutCsvSpec.filename,
+      csvHeaders: lastDebutCsvSpec.headers,
+      csvRows: lastDebutCsvSpec.rows,
     });
 
     const tbody = root.querySelector('#debutTbody');
@@ -302,38 +387,47 @@ async function renderDebutCandidatesView(root) {
     } else {
       tbody.innerHTML = filteredMentioned.map((r, idx) => {
         const subParts = [];
-        if (r.primary_genre) subParts.push(escapeHtml(r.primary_genre));
-        if (r.had_outcome) subParts.push(escapeHtml(TERMS.priorOutcome));
+        if (r.primary_genre) subParts.push(r.primary_genre);
+        if (r.had_outcome) subParts.push(TERMS.priorOutcome);
+        const subText = subParts.join(' · ');
         const mentionsHtml = `<div class="debut-mention-list">${r.mentions.map(m => renderDebutMentionChip(m, debutScorecard)).join('')}</div>`;
+        const isExpanded = expandedDebutKey === r.team_key;
+        const nameTxt = r.display_name || r.team_key;
         return `
-          <tr class="clickable" tabindex="0" data-team-key="${escapeHtml(r.team_key)}">
+          <tr class="clickable" tabindex="0" data-nav-row="1" data-team-key="${escapeHtml(r.team_key)}">
             <td class="num muted">${idx + 1}</td>
             <td>
               <div class="row-team-cell">
-                ${avatarHtml(r.team_key, r.display_name, 28, { shape: 'circle', genre: r.primary_genre })}
+                <button type="button" class="cand-expand-btn" data-debut-expand="${escapeHtml(r.team_key)}" aria-expanded="${isExpanded ? 'true' : 'false'}" aria-label="${escapeHtml(nameTxt)} 미리보기 ${isExpanded ? '접기' : '펼치기'}" title="${isExpanded ? '미리보기 접기' : '미리보기 펼치기'}">${isExpanded ? '▾' : '▸'}</button>
+                ${avatarHtml(r.team_key, nameTxt, 28, { shape: 'circle', genre: r.primary_genre })}
                 <div class="row-team-text">
                   <div class="row-team-name">
                     <span class="cand-mobile-rank">#${idx + 1}</span>
-                    <strong>${escapeHtml(r.display_name)}</strong>
+                    <strong class="cell-truncate" title="${escapeHtml(nameTxt)}">${escapeHtml(nameTxt)}</strong>
                   </div>
-                  ${subParts.length ? `<div class="muted small">${subParts.join(' · ')}</div>` : ''}
+                  ${subText ? `<div class="muted small row-team-sub cell-truncate" title="${escapeHtml(subText)}">${escapeHtml(subText)}</div>` : ''}
                   <div class="debut-mobile-meta">
-                    <span class="mono muted small">첫 발매 ${escapeHtml(r.first_release || '-')}</span>
+                    <span class="mono muted small">첫 발매 ${escapeHtml(r.first_release || '—')}</span>
                     ${mentionsHtml}
                   </div>
                 </div>
               </div>
             </td>
-            <td class="nowrap mono muted debut-date-col">${escapeHtml(r.first_release || '-')}</td>
+            <td class="nowrap mono muted debut-date-col">${escapeHtml(r.first_release || '—')}</td>
             <td class="debut-mentions-col">${mentionsHtml}</td>
             <td class="num"><strong>${r.score !== null ? fmtNum(r.score, 2) : '—'}</strong></td>
             <td class="nowrap cand-listen-col">${renderRowListenControl(r)}</td>
-            <td class="nowrap">${watchButtonHtml(r.team_key, r.display_name, true, true)}</td>
+            <td class="nowrap">${watchButtonHtml(r.team_key, nameTxt, true, true)}</td>
           </tr>
         `;
       }).join('');
       wireAvatarFallbacks(tbody);
       wireSpotifyButtons(tbody);
+      if (expandedDebutKey) {
+        const targetTr = [...tbody.querySelectorAll('tr[data-nav-row]')].find(el => el.dataset.teamKey === expandedDebutKey);
+        if (targetTr) openDebutPreviewRow(expandedDebutKey, targetTr);
+        else expandedDebutKey = null;
+      }
     }
 
     const unmBody = root.querySelector('#debutUnmBody');
@@ -344,11 +438,11 @@ async function renderDebutCandidatesView(root) {
             <li>
               <a class="debut-unm-team" href="#/team/${encodeURIComponent(r.team_key)}">
                 ${avatarHtml(r.team_key, r.display_name, 24, { shape: 'circle', genre: r.primary_genre })}
-                <strong>${escapeHtml(r.display_name)}</strong>
+                <strong class="cell-truncate" title="${escapeHtml(r.display_name)}">${escapeHtml(r.display_name)}</strong>
                 ${r.primary_genre ? `<span class="small muted">${escapeHtml(r.primary_genre)}</span>` : ''}
               </a>
               <span class="debut-unm-right">
-                <span class="mono small muted">첫 발매 ${escapeHtml(r.first_release || '-')}</span>
+                <span class="mono small muted">첫 발매 ${escapeHtml(r.first_release || '—')}</span>
                 ${watchButtonHtml(r.team_key, r.display_name, true, true)}
               </span>
             </li>
@@ -366,7 +460,16 @@ async function renderDebutCandidatesView(root) {
 
   paintDebut();
 
-  root.querySelector('#debutFilterInput')?.addEventListener('input', () => paintDebut());
+  root.querySelector('#btnDebutCsv')?.addEventListener('click', () => {
+    triggerTableCsvExport(lastDebutCsvSpec);
+  });
+
+  let debutSearchTimer = null;
+  root.querySelector('#debutFilterInput')?.addEventListener('input', () => {
+    paintDebut();
+    clearTimeout(debutSearchTimer);
+    debutSearchTimer = setTimeout(() => syncHash(true), 200);
+  });
 
   const triggerRecompute = () => {
     syncHash(true);
@@ -386,7 +489,6 @@ async function renderDebutCandidatesView(root) {
   });
 
   root.querySelectorAll('th[data-debut-sort]').forEach(th => {
-    th.setAttribute('tabindex', '0');
     const onSort = () => {
       const col = th.dataset.debutSort;
       if (debutSort.col === col) {
@@ -395,6 +497,7 @@ async function renderDebutCandidatesView(root) {
         debutSort.col = col;
         debutSort.dir = col === 'display_name' ? 'asc' : 'desc';
       }
+      syncHash(true);
       paintDebut();
     };
     th.addEventListener('click', onSort);
@@ -408,18 +511,63 @@ async function renderDebutCandidatesView(root) {
 
   const tbodyEl = root.querySelector('#debutTbody');
   tbodyEl?.addEventListener('click', (e) => {
+    const expBtn = e.target.closest('[data-debut-expand]');
+    if (expBtn) {
+      e.stopPropagation();
+      const tk = expBtn.dataset.debutExpand;
+      const tr = expBtn.closest('tr[data-nav-row]');
+      if (expandedDebutKey === tk) {
+        expandedDebutKey = null;
+        closeDebutPreviewRows();
+      } else {
+        expandedDebutKey = tk;
+        openDebutPreviewRow(tk, tr);
+      }
+      return;
+    }
     if (e.target.closest('button') || e.target.closest('a')) return;
-    const tr = e.target.closest('tr.clickable');
+    const tr = e.target.closest('tr[data-nav-row]');
     if (tr && tr.dataset.teamKey) navigateTo('team', tr.dataset.teamKey);
   });
-  tbodyEl?.addEventListener('keydown', (e) => {
-    if (e.key !== 'Enter' && e.key !== ' ') return;
-    if (e.target.closest('button') || e.target.closest('a')) return;
-    const tr = e.target.closest('tr.clickable');
-    if (tr && tr.dataset.teamKey) {
-      e.preventDefault();
-      navigateTo('team', tr.dataset.teamKey);
-    }
+
+  wireTableKeyboardNav(tbodyEl, {
+    onActivate: (tr) => {
+      if (tr.dataset.teamKey) navigateTo('team', tr.dataset.teamKey);
+    },
+    onToggleExpand: (tr, key) => {
+      const tk = tr.dataset.teamKey;
+      if (!tk) return;
+      if (key === 'ArrowLeft') {
+        if (expandedDebutKey === tk) {
+          expandedDebutKey = null;
+          closeDebutPreviewRows();
+        }
+      } else if (expandedDebutKey !== tk) {
+        expandedDebutKey = tk;
+        openDebutPreviewRow(tk, tr);
+      }
+    },
+  });
+
+  wireTableRowHoverPreview(tbodyEl, (tr) => {
+    const r = debutByKey.get(tr.dataset.teamKey);
+    if (!r) return '';
+    const mTxt = r.mentions.slice(0, 3).map(m => {
+      const info = formatSourceKey(m.src);
+      const d = m.days_to_mention !== null && m.days_to_mention !== undefined ? ` +${fmtInt(m.days_to_mention)}일` : '';
+      return `${info.label}${d}`;
+    }).join(', ') + (r.mentions.length > 3 ? ` 외 ${r.mentions.length - 3}곳` : '');
+    return `
+      <div class="rhp-head">
+        <strong>${escapeHtml(r.display_name || r.team_key)}</strong>
+        <span class="rhp-score">${r.score !== null ? `${fmtNum(r.score, 2)}점` : '—'}</span>
+      </div>
+      <div class="rhp-meta">${escapeHtml([r.primary_genre || '장르 미분류', `첫 발매 ${r.first_release || '—'}`].join(' · '))}</div>
+      <div class="rhp-lines">
+        <div class="rhp-line"><span class="rhp-lbl">언급 출처</span>${escapeHtml(mTxt || '—')}</div>
+      </div>
+      <div class="rhp-foot">클릭 또는 Enter로 팀 상세 · →로 표 안에서 펼치기</div>
+    `;
   });
 }
 
@@ -465,9 +613,9 @@ export async function renderCandidatesView(root) {
   const filterSummary = getActiveFilterSummary(c);
 
   const rowByKey = new Map(rows.map(r => [r.team_key, r]));
-  let moveFilter = ''; // '' | 'new' | 'riser' | 'upcoming'
   let visibleCount = 20;
   let expandedTeamKey = null;
+  let lastCandCsvSpec = null;
 
   const topName = rows[0] ? `${rows[0].display_name} (${fmtNum(rows[0].score, 2)}점)` : '없음';
   const bannerHtml = renderActionBanner({
@@ -486,13 +634,15 @@ export async function renderCandidatesView(root) {
     return `<button type="button" class="chip-btn ${active ? 'active' : ''}" data-branch-chip="${escapeHtml(b)}" aria-pressed="${active ? 'true' : 'false'}">${escapeHtml(b)}</button>`;
   }).join('');
 
+  const hasFilterOrSearch = filterSummary.count > 0 || Boolean(appState.candQuery) || Boolean(appState.candMove);
+
   root.innerHTML = `
     ${bannerHtml}
     ${renderCandTabsHtml('all')}
 
     <section class="inline-filter-bar" aria-label="후보 목록 필터">
       <div class="inline-filter-row">
-        <input type="search" id="candFilterInput" class="input cand-search-input" placeholder="팀 이름·장르·이유 검색..." aria-label="표 안에서 팀 검색">
+        <input type="search" id="candFilterInput" class="input cand-search-input" value="${escapeHtml(appState.candQuery || '')}" placeholder="팀 이름·장르·이유 검색..." aria-label="표 안에서 팀 검색">
 
         <select id="candGenreSel" class="select" aria-label="장르 필터">${genreOpts}</select>
 
@@ -512,7 +662,7 @@ export async function renderCandidatesView(root) {
           <button type="button" class="chip-btn" data-move-chip="upcoming" aria-pressed="false">예정 공연${upcomingCount ? ` ${fmtInt(upcomingCount)}` : ''}</button>
         </div>
 
-        ${filterSummary.count > 0 ? '<button type="button" class="btn btn-sm" data-action="reset-filters">초기화</button>' : ''}
+        ${hasFilterOrSearch ? '<button type="button" class="btn btn-sm" data-action="reset-filters">초기화</button>' : ''}
 
         <span class="small muted inline-filter-count" id="candCountText"></span>
       </div>
@@ -550,7 +700,16 @@ export async function renderCandidatesView(root) {
     </section>
 
     <div class="block" style="padding:0;overflow:hidden;">
-      <div class="table-wrap">
+      <div class="table-bar">
+        <div class="table-bar-left">
+          <strong id="candTableBarTitle">신인 후보 목록</strong>
+          <span class="table-kb-hint">↑↓ 이동 · Enter 상세 · → 미리보기</span>
+        </div>
+        <div class="table-bar-right">
+          ${renderTableCsvBtn('btnCandCsv', 'CSV 내려받기')}
+        </div>
+      </div>
+      <div class="table-wrap table-sticky">
         <table class="data-table cand-table" id="candTable">
           <thead>
             <tr>
@@ -572,7 +731,10 @@ export async function renderCandidatesView(root) {
   `;
 
   function paintTable() {
-    const q = (root.querySelector('#candFilterInput')?.value || '').trim().toLowerCase();
+    const qRaw = (root.querySelector('#candFilterInput')?.value || '').trim();
+    appState.candQuery = qRaw;
+    const q = qRaw.toLowerCase();
+    const moveFilter = appState.candMove || '';
     let list = rows;
     if (moveFilter === 'new') list = list.filter(r => r.is_new);
     else if (moveFilter === 'riser') list = list.filter(r => Boolean(r.riser));
@@ -596,37 +758,33 @@ export async function renderCandidatesView(root) {
       btn.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
 
+    lastCandCsvSpec = {
+      filename: `crate_digger_candidates_${appState.dataEnd || 'export'}.csv`,
+      headers: ['#', '팀', '장르', '주목 이유', '다음 공연', '점수'],
+      rows: list.map((r, idx) => [
+        idx + 1,
+        r.display_name || r.team_key,
+        r.primary_genre || '',
+        r.why_line || '',
+        r.next_gig_text ? `${r.next_gig_text}${r.next_gig?.count > 1 ? ` 외 ${r.next_gig.count - 1}` : ''}` : '',
+        r.score !== null && r.score !== undefined ? fmtNum(r.score, 2) : '',
+      ]),
+    };
+
     // Register current filtered & sorted rows with unified Export menu
     setExportContext({
       csvLabel: `후보 목록 CSV 내려받기 (${fmtInt(list.length)}팀)`,
-      csvFilename: `crate_digger_candidates_${appState.dataEnd || 'export'}.csv`,
-      csvHeaders: ['rank', 'team_key', 'display_name', 'genre', 'score', 'why', 'next_gig', 'n_branch', 'gigs_1y', 'venues', 'last_seen'],
-      csvRows: list.map((r, idx) => [
-        idx + 1,
-        r.team_key,
-        r.display_name || r.team_key,
-        r.primary_genre || '',
-        r.score ?? '',
-        r.why_line || '',
-        r.next_gig_text || '',
-        r.n_branch ?? 0,
-        r.gigs_1y ?? 0,
-        r.venues ?? 0,
-        r.last_seen || '',
-      ]),
+      csvFilename: lastCandCsvSpec.filename,
+      csvHeaders: lastCandCsvSpec.headers,
+      csvRows: lastCandCsvSpec.rows,
     });
 
     const shown = list.slice(0, visibleCount);
     root.querySelector('#candCountText').textContent = `${fmtInt(shown.length)} / ${fmtInt(list.length)}팀`;
+    const barTitle = root.querySelector('#candTableBarTitle');
+    if (barTitle) barTitle.textContent = `신인 후보 (${fmtInt(list.length)}팀)`;
 
-    root.querySelectorAll('th.sortable').forEach(th => {
-      const col = th.dataset.sort;
-      const baseLabel = th.dataset.label || th.textContent.replace(/ [▲▼]$/, '');
-      th.dataset.label = baseLabel;
-      th.textContent = col === appState.candSort.col
-        ? `${baseLabel} ${appState.candSort.dir === 'asc' ? '▲' : '▼'}`
-        : baseLabel;
-    });
+    updateSortHeaders(root.querySelector('#candTable'), appState.candSort.col, appState.candSort.dir, 'sort');
 
     const tbody = root.querySelector('#candTbody');
     if (!shown.length) {
@@ -647,8 +805,9 @@ export async function renderCandidatesView(root) {
 
     tbody.innerHTML = shown.map((r, idx) => {
       const subParts = [];
-      if (r.primary_genre) subParts.push(escapeHtml(r.primary_genre));
-      if (r.had_outcome) subParts.push(escapeHtml(TERMS.priorOutcome));
+      if (r.primary_genre) subParts.push(r.primary_genre);
+      if (r.had_outcome) subParts.push(TERMS.priorOutcome);
+      const subText = subParts.join(' · ');
 
       let moveBadge = '';
       if (r.is_new) {
@@ -661,37 +820,39 @@ export async function renderCandidatesView(root) {
       }
 
       const nextGigCell = r.next_gig_text
-        ? `<span class="next-gig-chip">${escapeHtml(r.next_gig_text)}${r.next_gig.count > 1 ? ` 외 ${r.next_gig.count - 1}` : ''}</span>`
+        ? `<span class="next-gig-chip" title="${escapeHtml(r.next_gig_text)}">${escapeHtml(r.next_gig_text)}${r.next_gig.count > 1 ? ` 외 ${r.next_gig.count - 1}` : ''}</span>`
         : '<span class="muted">—</span>';
 
       const isExpanded = expandedTeamKey === r.team_key;
+      const nameTxt = r.display_name || r.team_key;
+      const whyTxt = r.why_line || '';
 
       return `
-        <tr class="clickable" tabindex="0" data-team-key="${escapeHtml(r.team_key)}">
+        <tr class="clickable" tabindex="0" data-nav-row="1" data-team-key="${escapeHtml(r.team_key)}">
           <td class="num muted">${idx + 1}</td>
           <td>
             <div class="row-team-cell">
-              <button type="button" class="cand-expand-btn" data-expand-team="${escapeHtml(r.team_key)}" aria-expanded="${isExpanded ? 'true' : 'false'}" aria-label="${escapeHtml(r.display_name || r.team_key)} 미리보기 ${isExpanded ? '접기' : '펼치기'}" title="${isExpanded ? '미리보기 접기' : '미리보기 펼치기'}">${isExpanded ? '▾' : '▸'}</button>
-              ${avatarHtml(r.team_key, r.display_name, 28, { shape: 'circle', genre: r.primary_genre })}
+              <button type="button" class="cand-expand-btn" data-expand-team="${escapeHtml(r.team_key)}" aria-expanded="${isExpanded ? 'true' : 'false'}" aria-label="${escapeHtml(nameTxt)} 미리보기 ${isExpanded ? '접기' : '펼치기'}" title="${isExpanded ? '미리보기 접기' : '미리보기 펼치기'}">${isExpanded ? '▾' : '▸'}</button>
+              ${avatarHtml(r.team_key, nameTxt, 28, { shape: 'circle', genre: r.primary_genre })}
               <div class="row-team-text">
                 <div class="row-team-name">
                   <span class="cand-mobile-rank">#${idx + 1}</span>
-                  <strong>${escapeHtml(r.display_name || r.team_key)}</strong>
+                  <strong class="cell-truncate" title="${escapeHtml(nameTxt)}">${escapeHtml(nameTxt)}</strong>
                   ${moveBadge}
                 </div>
-                ${subParts.length ? `<div class="muted small">${subParts.join(' · ')}</div>` : ''}
+                ${subText ? `<div class="muted small row-team-sub cell-truncate" title="${escapeHtml(subText)}">${escapeHtml(subText)}</div>` : ''}
                 <div class="cand-mobile-meta">
-                  <span class="cand-mobile-why">${escapeHtml(r.why_line)}</span>
+                  <span class="cand-mobile-why">${escapeHtml(whyTxt)}</span>
                   ${r.next_gig_text ? `<span class="next-gig-chip">${escapeHtml(r.next_gig_text)}</span>` : ''}
                 </div>
               </div>
             </div>
           </td>
-          <td class="why-cell">${escapeHtml(r.why_line)}</td>
+          <td class="why-cell" title="${escapeHtml(whyTxt)}">${escapeHtml(whyTxt || '—')}</td>
           <td class="nowrap next-gig-col">${nextGigCell}</td>
-          <td class="num"><strong>${fmtNum(r.score, 2)}</strong></td>
+          <td class="num"><strong>${r.score !== null && r.score !== undefined ? fmtNum(r.score, 2) : '—'}</strong></td>
           <td class="nowrap cand-listen-col">${renderRowListenControl(r)}</td>
-          <td class="nowrap">${watchButtonHtml(r.team_key, r.display_name || r.team_key, true, true)}</td>
+          <td class="nowrap">${watchButtonHtml(r.team_key, nameTxt, true, true)}</td>
         </tr>
       `;
     }).join('');
@@ -700,7 +861,7 @@ export async function renderCandidatesView(root) {
     wireSpotifyButtons(tbody);
 
     if (expandedTeamKey) {
-      const targetTr = [...tbody.querySelectorAll('tr.clickable')].find(el => el.dataset.teamKey === expandedTeamKey);
+      const targetTr = [...tbody.querySelectorAll('tr[data-nav-row]')].find(el => el.dataset.teamKey === expandedTeamKey);
       if (targetTr) openPreviewRow(expandedTeamKey, targetTr);
       else expandedTeamKey = null;
     }
@@ -793,16 +954,24 @@ export async function renderCandidatesView(root) {
   wireCandTabs(root);
   paintTable();
 
+  root.querySelector('#btnCandCsv')?.addEventListener('click', () => {
+    if (lastCandCsvSpec) triggerTableCsvExport(lastCandCsvSpec);
+  });
+
+  let candQueryHashTimer = null;
   root.querySelector('#candFilterInput').addEventListener('input', () => {
     visibleCount = 20;
     paintTable();
+    clearTimeout(candQueryHashTimer);
+    candQueryHashTimer = setTimeout(() => syncHash(true), 220);
   });
 
   root.querySelectorAll('[data-move-chip]').forEach(btn => {
     btn.addEventListener('click', () => {
       const target = btn.dataset.moveChip;
-      moveFilter = (moveFilter === target) ? '' : target;
+      appState.candMove = (appState.candMove === target) ? '' : target;
       visibleCount = 20;
+      syncHash(true);
       paintTable();
     });
   });
@@ -867,6 +1036,7 @@ export async function renderCandidatesView(root) {
         appState.candSort.col = col;
         appState.candSort.dir = (col === 'display_name' || col === 'next_gig_sort') ? 'asc' : 'desc';
       }
+      syncHash(true);
       paintTable();
     };
     th.addEventListener('click', onSort);
@@ -884,7 +1054,7 @@ export async function renderCandidatesView(root) {
     if (expandBtn) {
       e.stopPropagation();
       const tk = expandBtn.dataset.expandTeam;
-      const tr = expandBtn.closest('tr.clickable');
+      const tr = expandBtn.closest('tr[data-nav-row]');
       if (expandedTeamKey === tk) {
         expandedTeamKey = null;
         closePreviewRows();
@@ -895,18 +1065,50 @@ export async function renderCandidatesView(root) {
       return;
     }
     if (e.target.closest('button') || e.target.closest('a')) return;
-    const tr = e.target.closest('tr.clickable');
+    const tr = e.target.closest('tr[data-nav-row]');
     if (tr && tr.dataset.teamKey) {
       navigateTo('team', tr.dataset.teamKey);
     }
   });
-  tbodyEl.addEventListener('keydown', (e) => {
-    if (e.key !== 'Enter' && e.key !== ' ') return;
-    if (e.target.closest('button') || e.target.closest('a')) return;
-    const tr = e.target.closest('tr.clickable');
-    if (tr && tr.dataset.teamKey) {
-      e.preventDefault();
-      navigateTo('team', tr.dataset.teamKey);
-    }
+
+  wireTableKeyboardNav(tbodyEl, {
+    onActivate: (tr) => {
+      if (tr.dataset.teamKey) navigateTo('team', tr.dataset.teamKey);
+    },
+    onToggleExpand: (tr, key) => {
+      const tk = tr.dataset.teamKey;
+      if (!tk) return;
+      if (key === 'ArrowLeft') {
+        if (expandedTeamKey === tk) {
+          expandedTeamKey = null;
+          closePreviewRows();
+        }
+      } else if (expandedTeamKey !== tk) {
+        expandedTeamKey = tk;
+        openPreviewRow(tk, tr);
+      }
+    },
+  });
+
+  wireTableRowHoverPreview(tbodyEl, (tr) => {
+    const r = rowByKey.get(tr.dataset.teamKey);
+    if (!r) return '';
+    const metaParts = [r.primary_genre || '장르 미분류'];
+    if (r.last_seen) metaParts.push(`최근 신호 ${r.last_seen}`);
+    const nextTxt = r.next_gig_text
+      ? `${r.next_gig_text}${r.next_gig?.count > 1 ? ` 외 ${r.next_gig.count - 1}건` : ''}`
+      : '예정 공연 없음';
+    return `
+      <div class="rhp-head">
+        <strong>${escapeHtml(r.display_name || r.team_key)}</strong>
+        <span class="rhp-score">${r.score !== null && r.score !== undefined ? `${fmtNum(r.score, 2)}점` : '—'}</span>
+      </div>
+      <div class="rhp-meta">${escapeHtml(metaParts.join(' · '))}</div>
+      <div class="rhp-lines">
+        <div class="rhp-line"><span class="rhp-lbl">점수 근거</span>${escapeHtml(scorePartsLine(r) || r.why_line || '—')}</div>
+        <div class="rhp-line"><span class="rhp-lbl">다음 공연</span>${escapeHtml(nextTxt)}</div>
+      </div>
+      <div class="rhp-foot">클릭 또는 Enter로 팀 상세 · →로 표 안에서 펼치기</div>
+    `;
   });
 }

@@ -190,7 +190,7 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
 
   const instanceId = nextGraphInstanceId++;
   let destroyed = false;
-  let period = 'all'; // 'all' | '1y'
+  let period = appState.teamGraphPeriod === '1y' ? '1y' : 'all'; // 'all' | '1y'
   let nodeCap = INITIAL_NODE_CAP;
   let isModalOpen = false;
   let loading = false;
@@ -228,8 +228,8 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
         </div>
         <div class="graph-head-actions">
           <div class="seg-toggle graph-period-toggle" role="group" aria-label="관계망 기간">
-            <button type="button" class="seg-btn active" data-graph-period="all" aria-pressed="true">전체</button>
-            <button type="button" class="seg-btn" data-graph-period="1y" aria-pressed="false">최근 1년</button>
+            <button type="button" class="seg-btn ${period === 'all' ? 'active' : ''}" data-graph-period="all" aria-pressed="${period === 'all'}">전체</button>
+            <button type="button" class="seg-btn ${period === '1y' ? 'active' : ''}" data-graph-period="1y" aria-pressed="${period === '1y'}">최근 1년</button>
           </div>
           <button type="button" class="btn btn-sm" data-graph-expand-modal aria-label="관계망 크게 보기">크게 보기 ⤢</button>
         </div>
@@ -1166,6 +1166,8 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
         const nextP = btn.dataset.graphPeriod;
         if (nextP && nextP !== period) {
           period = nextP;
+          appState.teamGraphPeriod = period === '1y' ? '1y' : 'all';
+          syncHash(true);
           loadInitialGraph();
         }
       });
@@ -1208,6 +1210,8 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
       const nextP = btn.dataset.graphPeriod;
       if (nextP && nextP !== period) {
         period = nextP;
+        appState.teamGraphPeriod = period === '1y' ? '1y' : 'all';
+        syncHash(true);
         loadInitialGraph();
       }
     });
@@ -2380,6 +2384,8 @@ export function mountSceneNetworkBlock(hostEl, {
       const lim = Number(btn.dataset.snLimit) || 150;
       if (lim === currentLimit) return;
       currentLimit = lim;
+      appState.sceneNetLimit = currentLimit;
+      syncHash(true);
       hostEl.querySelectorAll('[data-sn-limit]').forEach(b => {
         const active = Number(b.dataset.snLimit) === currentLimit;
         b.classList.toggle('active', active);

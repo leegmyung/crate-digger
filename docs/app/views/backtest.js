@@ -1,11 +1,12 @@
 import {
-  appState, DEFAULTS, getMatchingWeightPreset, PRESET_KS, registerChart, syncHash,
-  WEIGHT_FIELDS, WEIGHT_KEYS, WEIGHT_PRESETS,
+  appState, DEFAULTS, getMatchingWeightPreset, PRESET_KS, registerChart,
+  setExportContext, syncHash, WEIGHT_FIELDS, WEIGHT_KEYS, WEIGHT_PRESETS,
 } from '../state.js';
 import { loadScoreTuningSummary, queryBacktestAll } from '../db.js';
 import {
   cssVar, ensureChartJs, escapeHtml, fmtInt, fmtNum,
-  horizontalBaselinePlugin, renderActionBanner,
+  horizontalBaselinePlugin, renderActionBanner, renderTableCsvBtn,
+  triggerTableCsvExport,
 } from '../ui.js';
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -101,20 +102,57 @@ export async function renderBacktestView(root) {
     </label>
   `).join('');
 
+  const btCsvSpec = blocks.length ? {
+    filename: `crate_digger_backtest_top${compK}_${appState.dataEnd || 'export'}.csv`,
+    headers: ['기준일', '후보', '이후 정답', '점수 맞힘', '공연 수만', '갈래 수만', '무작위 기대', '점수 배수'],
+    rows: [
+      ...summaryRows.map(r => [
+        r.cutoff,
+        r.poolN,
+        r.poolHits,
+        `${r.scoreHits}팀`,
+        `${r.gigsHits}팀`,
+        `${r.branchHits}팀`,
+        `${fmtNum(r.randExp, 2)}팀`,
+        r.lift !== null ? `${fmtNum(r.lift, 1)}배` : '—',
+      ]),
+      [
+        `모든 기준일 합계 (${summaryRows.length}개)`,
+        totPoolN,
+        totPoolHits,
+        `${totScoreHits}팀`,
+        `${totGigsHits}팀`,
+        `${totBranchHits}팀`,
+        `${fmtNum(totRandExp, 2)}팀`,
+        totLift !== null ? `${fmtNum(totLift, 1)}배` : '—',
+      ],
+    ],
+  } : null;
+
+  setExportContext({
+    csvLabel: btCsvSpec ? `과거 검증 CSV 내려받기 (상위 ${compK}팀)` : '',
+    csvFilename: btCsvSpec?.filename || '',
+    csvHeaders: btCsvSpec?.headers || [],
+    csvRows: btCsvSpec?.rows || [],
+  });
+
   // Side-by-side table across cutoffs + total row
   const summaryTableHtml = blocks.length ? `
     <section class="block">
       <div class="block-head">
         <h2>기준일별 나란히 비교 (상위 ${compK}팀)</h2>
-        <div class="toolbar-group">
-          <label for="btCompK" class="small muted">비교 구간</label>
-          <select id="btCompK" class="select">
-            ${validKs.map(k => `<option value="${k}" ${k === compK ? 'selected' : ''}>상위 ${k}팀</option>`).join('')}
-          </select>
+        <div class="block-head-actions">
+          <div class="toolbar-group">
+            <label for="btCompK" class="small muted">비교 구간</label>
+            <select id="btCompK" class="select">
+              ${validKs.map(k => `<option value="${k}" ${k === compK ? 'selected' : ''}>상위 ${k}팀</option>`).join('')}
+            </select>
+          </div>
+          ${renderTableCsvBtn('btnBtCsv', 'CSV 내려받기')}
         </div>
       </div>
       <div class="chart-box chart-box-sm"><canvas id="btSummaryChart"></canvas></div>
-      <div class="table-wrap">
+      <div class="table-wrap table-sticky">
         <table class="data-table">
           <thead>
             <tr>
@@ -138,7 +176,7 @@ export async function renderBacktestView(root) {
                 <td class="num">${fmtInt(r.gigsHits)}팀</td>
                 <td class="num">${fmtInt(r.branchHits)}팀</td>
                 <td class="num muted">${fmtNum(r.randExp, 2)}팀</td>
-                <td class="num">${r.lift !== null ? `${fmtNum(r.lift, 1)}배` : '-'}</td>
+                <td class="num">${r.lift !== null ? `${fmtNum(r.lift, 1)}배` : '—'}</td>
               </tr>
             `).join('')}
             <tr class="summary-row">
@@ -149,7 +187,7 @@ export async function renderBacktestView(root) {
               <td class="num">${fmtInt(totGigsHits)}팀</td>
               <td class="num">${fmtInt(totBranchHits)}팀</td>
               <td class="num">${fmtNum(totRandExp, 2)}팀</td>
-              <td class="num">${totLift !== null ? `${fmtNum(totLift, 1)}배` : '-'}</td>
+              <td class="num">${totLift !== null ? `${fmtNum(totLift, 1)}배` : '—'}</td>
             </tr>
           </tbody>
         </table>
@@ -269,6 +307,10 @@ export async function renderBacktestView(root) {
     ${summaryTableHtml}
     ${perCutoffHtml}
   `;
+
+  root.querySelector('#btnBtCsv')?.addEventListener('click', () => {
+    if (btCsvSpec) triggerTableCsvExport(btCsvSpec);
+  });
 
   // Render charts
   if (window.Chart && blocks.length) {

@@ -4,8 +4,9 @@ import {
   avatarHtml, avatarSourceOf, ensureD3, escapeHtml, fmtInt, fmtNum, formatNextGigText,
   formatSignalDate, gradeBadgeHtml, isLoweredOutcomeResult, lookupSourceRoleMeta,
   PROFILE_LABELS, renderActionBanner, renderCompactGradeSummary, renderScoreBar,
-  roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml, spotifyUrlOf, summarizeWhyTeam,
-  TERMS, watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
+  renderTableCsvBtn, roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml, spotifyUrlOf,
+  summarizeWhyTeam, TERMS, triggerTableCsvExport, watchButtonHtml,
+  wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
 import { mountTeamGraphBlock } from './graph.js';
 
@@ -276,11 +277,17 @@ export async function renderTeamView(root, teamKey) {
   ].filter(([, v]) => Number(v) > 0) : [];
 
   // Register team timeline CSV with unified export dropdown
+  const teamTlCsvSpec = mergedTimeline.length ? {
+    filename: `crate_digger_team_${teamKey.replace(/[^a-zA-Z0-9가-힣_-]+/g, '_')}_${appState.dataEnd || 'export'}.csv`,
+    headers: ['날짜', '갈래', '역할/등급', '내용'],
+    rows: mergedTimeline.map(m => [m.dateDisp, m.branch, m.isOutcome ? (m.grade || '') : (m.role || ''), m.text]),
+  } : null;
+
   setExportContext({
-    csvLabel: `${displayName} 활동 기록 CSV 내려받기 (${fmtInt(mergedTimeline.length)}건)`,
-    csvFilename: `crate_digger_team_${teamKey.replace(/[^a-zA-Z0-9가-힣_-]+/g, '_')}_${appState.dataEnd || 'export'}.csv`,
-    csvHeaders: ['date', 'branch', 'role_or_grade', 'detail'],
-    csvRows: mergedTimeline.map(m => [m.dateDisp, m.branch, m.isOutcome ? (m.grade || '') : (m.role || ''), m.text]),
+    csvLabel: teamTlCsvSpec ? `${displayName} 활동 기록 CSV 내려받기 (${fmtInt(mergedTimeline.length)}건)` : '',
+    csvFilename: teamTlCsvSpec?.filename || '',
+    csvHeaders: teamTlCsvSpec?.headers || [],
+    csvRows: teamTlCsvSpec?.rows || [],
   });
 
   const backLabels = {
@@ -467,8 +474,11 @@ export async function renderTeamView(root, teamKey) {
 
     return `
       <div class="block-head">
-        <h2>활동 기록</h2>
-        <span class="block-meta">전체 ${fmtInt(mergedTimeline.length)}건</span>
+        <div>
+          <h2>활동 기록</h2>
+          <span class="block-meta">전체 ${fmtInt(mergedTimeline.length)}건</span>
+        </div>
+        ${teamTlCsvSpec ? `<div class="block-head-actions">${renderTableCsvBtn('btnTeamTlCsv', 'CSV 내려받기')}</div>` : ''}
       </div>
       ${monthlyBarsHtml}
       ${hasNonDiscovery ? `<p class="timeline-role-legend">${legendText}</p>` : ''}
@@ -617,6 +627,9 @@ export async function renderTeamView(root, teamKey) {
     const el = root.querySelector('#teamActivityBlock');
     if (!el) return;
     el.innerHTML = renderActivityInner();
+    el.querySelector('#btnTeamTlCsv')?.addEventListener('click', () => {
+      if (teamTlCsvSpec) triggerTableCsvExport(teamTlCsvSpec);
+    });
     el.querySelector('#btnMoreTimeline')?.addEventListener('click', () => {
       showAllTimeline = true;
       paintActivity();

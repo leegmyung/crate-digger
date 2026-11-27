@@ -1,6 +1,9 @@
 import { appState, registerChart, setExportContext } from '../state.js';
 import { COLLECT_TABLE_LABELS, DROP_CHECK_TABLES, isRunDropped, loadDashboardJson } from '../db.js';
-import { cssVar, ensureChartJs, escapeHtml, fmtInt, renderActionBanner, SOURCE_LABELS } from '../ui.js';
+import {
+  cssVar, ensureChartJs, escapeHtml, fmtInt,
+  renderActionBanner, renderTableCsvBtn, SOURCE_LABELS, triggerTableCsvExport,
+} from '../ui.js';
 
 function formatDeltaText(cur, prev) {
   if (prev === null || prev === undefined || prev === '') return '';
@@ -29,11 +32,24 @@ export async function renderQualityView(root) {
   const hasAnyPrevRun = collectRuns.some(r => r.prev_rows !== null && r.prev_rows !== undefined);
   const health = appState.dataHealth;
 
+  const collCsvSpec = collRows.length ? {
+    filename: `crate_digger_collection_${appState.dataEnd || 'export'}.csv`,
+    headers: ['갈래', '출처', '행 수', '팀 수', '첫 날짜', '마지막 날짜'],
+    rows: collRows.map(c => [
+      c.branch || '—',
+      SOURCE_LABELS[c.source] || c.source,
+      c.rows ?? 0,
+      c.teams ?? 0,
+      c.first_date || '—',
+      c.last_date || '—',
+    ]),
+  } : null;
+
   setExportContext({
-    csvLabel: collRows.length ? `수집 현황 CSV 내려받기 (${fmtInt(collRows.length)}출처)` : '',
-    csvFilename: `crate_digger_collection_${appState.dataEnd || 'export'}.csv`,
-    csvHeaders: ['branch', 'source', 'rows', 'teams', 'first_date', 'last_date'],
-    csvRows: collRows.map(c => [c.branch || '', SOURCE_LABELS[c.source] || c.source, c.rows ?? 0, c.teams ?? 0, c.first_date || '', c.last_date || '']),
+    csvLabel: collCsvSpec ? `수집 현황 CSV 내려받기 (${fmtInt(collRows.length)}출처)` : '',
+    csvFilename: collCsvSpec?.filename || '',
+    csvHeaders: collCsvSpec?.headers || [],
+    csvRows: collCsvSpec?.rows || [],
   });
 
   const warnCount = qualityRows.filter(q => q.level === 'warn').length;
@@ -159,11 +175,16 @@ export async function renderQualityView(root) {
 
     ${collRows.length ? `
       <section class="block" style="padding:0;overflow:hidden;">
-        <div class="block-head" style="padding:16px 16px 10px 16px;margin:0;">
-          <h2>출처별 수집 현황</h2>
-          <span class="block-meta">${fmtInt(collRows.length)}개 출처</span>
+        <div class="block-head" style="padding:14px 16px 10px 16px;margin:0;">
+          <div>
+            <h2>출처별 수집 현황</h2>
+            <span class="block-meta">${fmtInt(collRows.length)}개 출처</span>
+          </div>
+          <div class="block-head-actions">
+            ${renderTableCsvBtn('btnQualCollCsv', 'CSV 내려받기')}
+          </div>
         </div>
-        <div class="table-wrap">
+        <div class="table-wrap table-sticky">
           <table class="data-table">
             <thead>
               <tr>
@@ -183,18 +204,22 @@ export async function renderQualityView(root) {
     ` : ''}
   `;
 
+  root.querySelector('#btnQualCollCsv')?.addEventListener('click', () => {
+    if (collCsvSpec) triggerTableCsvExport(collCsvSpec);
+  });
+
   if (collRows.length) {
     let showAllColl = false;
     const renderColl = () => {
       const shown = showAllColl ? collRows : collRows.slice(0, 10);
       root.querySelector('#qualCollTbody').innerHTML = shown.map(c => `
         <tr>
-          <td>${escapeHtml(c.branch || '-')}</td>
+          <td>${escapeHtml(c.branch || '—')}</td>
           <td><strong>${escapeHtml(SOURCE_LABELS[c.source] || c.source)}</strong></td>
           <td class="num">${fmtInt(c.rows)}</td>
           <td class="num">${fmtInt(c.teams)}</td>
-          <td class="nowrap mono muted">${escapeHtml(c.first_date || '-')}</td>
-          <td class="nowrap mono muted">${escapeHtml(c.last_date || '-')}</td>
+          <td class="nowrap mono muted">${escapeHtml(c.first_date || '—')}</td>
+          <td class="nowrap mono muted">${escapeHtml(c.last_date || '—')}</td>
         </tr>
       `).join('');
       const rem = collRows.length - shown.length;
