@@ -905,6 +905,23 @@ export async function queryTeamDetail(teamKey) {
   };
 }
 
+const topPrecedentCache = new Map();
+
+export async function queryTopPrecedent(teamKey) {
+  if (!teamKey) return null;
+  if (topPrecedentCache.has(teamKey)) return topPrecedentCache.get(teamKey);
+  if (!appState.sqlTemplates.precedents) return null;
+  try {
+    const sql = fillTemplate(appState.sqlTemplates.precedents, { team_key: sqlStringLiteral(teamKey) });
+    const { rows } = await runRawSql(sql);
+    const top = rows[0] || null;
+    topPrecedentCache.set(teamKey, top);
+    return top;
+  } catch (_) {
+    return null;
+  }
+}
+
 export async function queryWatchlistEnriched(watchItems) {
   if (!watchItems.length) return [];
   const keys = watchItems.map(it => sqlStringLiteral(it.team_key)).join(', ');

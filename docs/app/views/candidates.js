@@ -3,11 +3,11 @@ import {
   setExportContext, syncHash,
 } from '../state.js';
 import {
-  buildNextGigByTeam, getSnapshotDiff, queryCandidates, queryUpcomingGigs,
+  buildNextGigByTeam, getSnapshotDiff, queryCandidates, queryTopPrecedent, queryUpcomingGigs,
 } from '../db.js';
 import {
-  avatarHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText, plainWhyLine,
-  renderActionBanner, renderEmptyState, spotifyButtonHtml, watchButtonHtml,
+  avatarHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText, gradeBadgeHtml, plainWhyLine,
+  renderActionBanner, renderEmptyState, scorePartsLine, spotifyButtonHtml, watchButtonHtml,
   wireAvatarFallbacks, wireSpotifyButtons, youtubeQuickInfo,
 } from '../ui.js';
 
@@ -87,8 +87,10 @@ export async function renderCandidatesView(root) {
   const upcomingCount = rows.filter(r => Boolean(r.next_gig)).length;
   const filterSummary = getActiveFilterSummary(c);
 
+  const rowByKey = new Map(rows.map(r => [r.team_key, r]));
   let moveFilter = ''; // '' | 'new' | 'riser' | 'upcoming'
   let visibleCount = 20;
+  let expandedTeamKey = null;
 
   const topName = rows[0] ? `${rows[0].display_name} (${fmtNum(rows[0].score, 2)}점)` : '없음';
   const bannerHtml = renderActionBanner({
@@ -263,6 +265,8 @@ export async function renderCandidatesView(root) {
     const hasAnyImg = shown.some(r => appState.imagesByTeam.has(r.team_key));
     root.querySelector('#candPhotoCredit').hidden = !hasAnyImg;
 
+    const riserTitle = diff.prevDate ? `${diff.prevDate} 대비 상승` : '이전 대비 상승';
+
     tbody.innerHTML = shown.map((r, idx) => {
       const subParts = [];
       if (r.primary_genre) subParts.push(escapeHtml(r.primary_genre));
@@ -275,18 +279,21 @@ export async function renderCandidatesView(root) {
         let txt = '상승';
         if (r.riser.rank_gain > 0) txt = `+${r.riser.rank_gain}`;
         else if (r.riser.score_gain >= 0.05) txt = `+${fmtNum(r.riser.score_gain, 1)}`;
-        moveBadge = `<span class="delta-badge is-up" title="지난주 대비 상승">${escapeHtml(txt)}</span>`;
+        moveBadge = `<span class="delta-badge is-up" title="${escapeHtml(riserTitle)}">${escapeHtml(txt)}</span>`;
       }
 
       const nextGigCell = r.next_gig_text
         ? `<span class="next-gig-chip">${escapeHtml(r.next_gig_text)}${r.next_gig.count > 1 ? ` 외 ${r.next_gig.count - 1}` : ''}</span>`
         : '<span class="muted">—</span>';
 
+      const isExpanded = expandedTeamKey === r.team_key;
+
       return `
         <tr class="clickable" tabindex="0" data-team-key="${escapeHtml(r.team_key)}">
           <td class="num muted">${idx + 1}</td>
           <td>
             <div class="row-team-cell">
+              <button type="button" class="cand-expand-btn" data-expand-team="${escapeHtml(r.team_key)}" aria-expanded="${isExpanded ? 'true' : 'false'}" aria-label="${escapeHtml(r.display_name || r.team_key)} 미리보기 ${isExpanded ? '접기' : '펼치기'}" title="${isExpanded ? '미리보기 접기' : '미리보기 펼치기'}">${isExpanded ? '▾' : '▸'}</button>
               ${avatarHtml(r.team_key, r.display_name, 28, { shape: 'circle', genre: r.primary_genre })}
               <div class="row-team-text">
                 <div class="row-team-name">
@@ -314,6 +321,12 @@ export async function renderCandidatesView(root) {
     wireAvatarFallbacks(tbody);
     wireSpotifyButtons(tbody);
 
+    if (expandedTeamKey) {
+      const targetTr = [...tbody.querySelectorAll('tr.clickable')].find(el => el.dataset.teamKey === expandedTeamKey);
+      if (targetTr) openPreviewRow(expandedTeamKey, targetTr);
+      else expandedTeamKey = null;
+    }
+
     const moreRow = root.querySelector('#candMoreRow');
     const rem = list.length - shown.length;
     if (rem > 0) {
@@ -329,6 +342,74 @@ export async function renderCandidatesView(root) {
     } else {
       moreRow.hidden = true;
     }
+  }
+
+  function formatPrecedentPreview(p) {
+    if (!p) return '<span class="muted">겹치는 과거 수상 팀 선례 없음</span>';
+    const dt = p.outcome_date ? ` · ${escapeHtml(String(p.outcome_date).slice(0, 7))}` : '';
+    const shared = p.shared_list ? ` — <span class="muted">${escapeHtml(p.shared_list)}</span>` : '';
+    return `${gradeBadgeHtml(p.outcome_grade)} <a href="#/team/${encodeURIComponent(p.past_team)}"><strong>${escapeHtml(p.display_name || p.past_team)}</strong></a> <span class="muted">(${escapeHtml(p.outcome_label || '정답')}${dt})</span>${shared}`;
+  }
+
+  function closePreviewRows() {
+    const tbody = root.querySelector('#candTbody');
+    if (!tbody) return;
+    tbody.querySelectorAll('tr.cand-preview-row').forEach(el => el.remove());
+    tbody.querySelectorAll('.cand-expand-btn').forEach(btn => {
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = '▸';
+      btn.title = '미리보기 펼치기';
+    });
+  }
+
+  function openPreviewRow(teamKey, tr) {
+    const r = rowByKey.get(teamKey);
+    if (!r || !tr) return;
+    closePreviewRows();
+    const btn = tr.querySelector('.cand-expand-btn');
+    if (btn) {
+      btn.setAttribute('aria-expanded', 'true');
+      btn.textContent = '▾';
+      btn.title = '미리보기 접기';
+    }
+    const nextGigHtml = r.next_gig_text
+      ? `<strong>${escapeHtml(r.next_gig_text)}</strong>${r.next_gig.count > 1 ? ` <span class="muted">외 ${fmtInt(r.next_gig.count - 1)}건</span>` : ''}`
+      : '<span class="muted">예정된 공연 기록 없음</span>';
+    const whyDetail = scorePartsLine(r);
+
+    const previewTr = document.createElement('tr');
+    previewTr.className = 'cand-preview-row';
+    previewTr.dataset.previewFor = teamKey;
+    previewTr.innerHTML = `
+      <td colspan="7" class="cand-preview-cell">
+        <div class="cand-preview-box">
+          <div class="cand-preview-items">
+            <div class="cand-preview-item">
+              <span class="cand-preview-lbl">왜 후보인가</span>
+              <span class="cand-preview-val">${escapeHtml(whyDetail)}</span>
+            </div>
+            <div class="cand-preview-item">
+              <span class="cand-preview-lbl">비슷한 선례</span>
+              <span class="cand-preview-val" data-preview-prec><span class="muted">선례 불러오는 중...</span></span>
+            </div>
+            <div class="cand-preview-item">
+              <span class="cand-preview-lbl">다음 공연</span>
+              <span class="cand-preview-val">${nextGigHtml}</span>
+            </div>
+          </div>
+          <div class="cand-preview-actions">
+            <a class="btn btn-sm" href="#/team/${encodeURIComponent(teamKey)}">팀 상세 보기 →</a>
+          </div>
+        </div>
+      </td>
+    `;
+    tr.insertAdjacentElement('afterend', previewTr);
+
+    queryTopPrecedent(teamKey).then(p => {
+      if (!previewTr.isConnected || expandedTeamKey !== teamKey) return;
+      const slot = previewTr.querySelector('[data-preview-prec]');
+      if (slot) slot.innerHTML = formatPrecedentPreview(p);
+    });
   }
 
   paintTable();
@@ -420,6 +501,20 @@ export async function renderCandidatesView(root) {
 
   const tbodyEl = root.querySelector('#candTbody');
   tbodyEl.addEventListener('click', (e) => {
+    const expandBtn = e.target.closest('.cand-expand-btn');
+    if (expandBtn) {
+      e.stopPropagation();
+      const tk = expandBtn.dataset.expandTeam;
+      const tr = expandBtn.closest('tr.clickable');
+      if (expandedTeamKey === tk) {
+        expandedTeamKey = null;
+        closePreviewRows();
+      } else {
+        expandedTeamKey = tk;
+        openPreviewRow(tk, tr);
+      }
+      return;
+    }
     if (e.target.closest('button') || e.target.closest('a')) return;
     const tr = e.target.closest('tr.clickable');
     if (tr && tr.dataset.teamKey) {
