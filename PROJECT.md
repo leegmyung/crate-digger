@@ -10,7 +10,7 @@
 
 **2026-11-27 저녁 중단 지점 (재개 시 여기부터)** — 점검표: https://claude.ai/artifact/9pA1fPyVYqpRgBEEYqAA6x
 - ⏳ **안티그래비티(Orca 작업자, dispatch ctx_bd4ee4946ae3)**: 앱 구조 재설계 1차 구현 중 (사용자 승인: 매일 보는 4메뉴=이번 주 브리핑·후보 목록·공연장·관심 목록 + 접힌 고급·검증, 상단=기준일·팀 검색·내보내기·테마, 자동 이상 배너). 제안서 `docs/research_2026-11-27_ops_dashboards.md`. 끝나면 검토(브라우저로 화면·콘솔 확인) → 커밋 → 링크 보고. 커밋은 코디네이터만.
-- ⚠️ **멜론 프로필 멈춤 — 원인 찾음**: 멜론이 아티스트 상세 페이지 주소를 바꿈. `scripts/collect_artists.py`의 `ARTIST_URL = .../artist/detail.htm?artistId=` → "페이지를 찾을 수 없습니다"(앨범 페이지 album.htm은 정상). 새 주소는 페이지 안 `melon.link.goArtistDetail(id,'2')`(상세정보)가 가는 곳 — 확인하던 중 중단. 할 일: 새 주소 확인 → ARTIST_URL·선택자(.wrap_atist_info, #d_like_count, dl) 맞추기 → 테스트 → `.venv/bin/python scripts/collect_artists.py --names-file data/raw/review/melon_names_2026-11-27.txt` 반복(남은 214팀). 또 outcome_melon_match.json에 잘못된 id '0','1'이 있음 → 제외 규칙 추가.
+- ⚠️ **멜론 프로필 멈춤**: 아티스트 상세 페이지(`/artist/detail.htm?artistId=`)가 "페이지를 찾을 수 없습니다"를 냄. 멜론 사이트 자체 '상세정보' 링크(`melon.link.goArtistDetail(id,'2')`)도 같은 주소라 **주소 변경이 아니라 일시 차단 또는 로그인 요구로 추정**(앨범 페이지 album.htm은 정상). 재개 시: ① 상세 페이지를 aside로 한 번 열어 풀렸는지 확인 ② 안 풀리면 timeline.htm이나 앨범 페이지에서 이름·소속사를 읽도록 대체 ③ `.venv/bin/python scripts/collect_artists.py --names-file data/raw/review/melon_names_2026-11-27.txt` 반복(남은 214팀). outcome_melon_match.json의 잘못된 id '0','1'은 제외 규칙 추가.
 - ⏳ 협업·피처링(`collect_spotify_collabs.py`): 스포티파이 한도로 0건, 오늘 21시 자동 실행부터 이어짐. 데이터 생기면 '기성 아티스트와 협업' 신호 → 백테스트(정답보다 먼저인지) → 효과 있으면 점수 반영(점수 정의 변경이라 사용자 확인).
 - ✅ 오늘 끝낸 것: 점수 v1(교차 검증 AUC 0.651→0.701), 스포티파이 미리 듣기·사진 241팀(스포티파이·유튜브만 남김), 무대 영상 1,736개, 인스타 추적 499계정, 공연장 묶기 237→205, 과거 정답 2021~2024, prev_rows(수집 급감 경고용).
 - 남은 작은 일: validate_csv에 raw_video·raw_collab 형식 등록(지금 형식 검사 1건 실패 표시), 유튜브 채널 썸네일(스포티파이 없는 팀 사진), 이름 애매 97건·공연장 31건 사람 확인.
