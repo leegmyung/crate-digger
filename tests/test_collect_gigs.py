@@ -240,6 +240,18 @@ class VenueHistoryParseTest(unittest.TestCase):
         self.assertEqual(len(cg.history_targets(cfg, "all")), 2)
 
 
+class RedirectTest(unittest.TestCase):
+    def test_opener_follows_308_like_307(self):
+        # 인디고 /events/<번호> 는 308 로 /events/<번호>-<제목> 에 보냄 — 파이썬 3.9 기본 처리기는 308 을 오류로 냄
+        handler = cg.Redirect308Handler()
+        self.assertTrue(hasattr(handler, "http_error_308"))
+        import urllib.request
+        req = urllib.request.Request("https://www.indiego.co.kr/events/1609", headers={"User-Agent": "x"})
+        new = handler.redirect_request(req, None, 308, "Permanent Redirect", {},
+                                       "https://www.indiego.co.kr/events/1609-x")
+        self.assertEqual(new.full_url, "https://www.indiego.co.kr/events/1609-x")
+
+
 class VenueHistoryCollectTest(unittest.TestCase):
     def test_collects_only_past_unseen_events_and_writes_valid_csv(self):
         pages = {"https://www.indiego.co.kr/venues/2-b": VENUE_HTML,

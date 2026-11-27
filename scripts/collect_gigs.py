@@ -303,9 +303,25 @@ VENUE_EVENT = re.compile(r'public_id\\?":(\d+)[^{}]*?start_date\\?":\\?"(\d{4}-\
 LD_JSON = re.compile(r'<script type="application/ld\+json">(.*?)</script>', re.S)
 
 
+class Redirect308Handler(urllib.request.HTTPRedirectHandler):
+    """308(영구 이동)도 307처럼 따라간다 — 파이썬 3.9 기본 처리기는 308 을 오류로 낸다
+    (인디고 /events/<번호> → /events/<번호>-<제목>)."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        if code == 308:
+            code = 307
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+    def http_error_308(self, req, fp, code, msg, headers):
+        return self.http_error_302(req, fp, code, msg, headers)
+
+
+_OPENER = urllib.request.build_opener(Redirect308Handler)
+
+
 def http_get(url):
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(req, timeout=20) as resp:
+    with _OPENER.open(req, timeout=20) as resp:
         return resp.read().decode("utf-8", "replace")
 
 
