@@ -1,0 +1,138 @@
+{
+ "_설명": "휴면 점검(scripts/dormant_check.py) 웹 확인 결과 — 팀 키 → status(해체 확인/해외 팀/기성 팀/활동 확인/확인 못 함)·note·url. 웹 검색만, 확실한 것만 excluded_teams로 옮긴다. 2026-11-28 확인.",
+ "tortionals": {
+  "status": "해외 팀",
+  "note": "일본 지바현 가시와의 펑크 밴드 — 2024-01 Victim Records 초청 내한 투어(청주·서울) 기록",
+  "url": "https://www.koreatimes.co.kr/southkorea/globalcommunity/20240112/japanese-bands-flock-to-korea-this-month"
+ },
+ "upper": {
+  "status": "해외 팀",
+  "note": "TORTIONALS와 함께 2024-01 내한 투어를 마친 일본 밴드(같은 기사, 신호도 투어 이틀 2024-01-20·21뿐)",
+  "url": "https://www.koreatimes.co.kr/southkorea/globalcommunity/20240112/japanese-bands-flock-to-korea-this-month"
+ },
+ "다이섹티스트": {
+  "status": "기성 팀",
+  "note": "2012년 결성, 2014 EP·2020 정규 1집 (그라인드코어·데스메탈)",
+  "url": "https://namu.moe/w/Dissektist"
+ },
+ "careless": {
+  "status": "활동 확인",
+  "note": "서울 하드코어 펑크(2023-09 첫 공연, 2024-06 발매) — 해체 기사 없음, 2025-06 뒤 공연 목록에 안 보임",
+  "url": "https://www.koreatimes.co.kr/southkorea/globalcommunity/20240821/seoul-hardcore-punk-band-wants-you-to-stop-caring"
+ },
+ "틸더": {
+  "status": "활동 확인",
+  "note": "2019년 결성 록 밴드(2021 싱글 기사) — 해체 기사 없음, 2025-11 공연 기록 있음",
+  "url": "https://m.dailian.co.kr/news/view/1041562"
+ },
+ "quitenicenoise": {
+  "status": "확인 못 함",
+  "note": "2024-05 Club SHARP 공연 명단에만 이름(국적·해체 여부 모름)",
+  "url": "https://www.koreatimes.co.kr/southkorea/globalcommunity/20240520/japanese-instrumental-post-rock-band-myy-returns-for-2nd-korea-tour"
+ },
+ "neverandno": {
+  "status": "확인 못 함",
+  "note": "웹 검색에 이 팀 기사 없음",
+  "url": ""
+ },
+ "스핏온마이툼": {
+  "status": "확인 못 함",
+  "note": "웹 검색에 이 팀 기사 없음",
+  "url": ""
+ },
+ "서로다른": {
+  "status": "확인 못 함",
+  "note": "웹 검색에 이 팀 기사 없음",
+  "url": ""
+ },
+ "바닐레어": {
+  "status": "확인 못 함",
+  "note": "웹 검색에 이 팀 기사 없음",
+  "url": ""
+ },
+ "먼데이필링": {
+  "status": "확인 못 함",
+  "note": "웹 검색에 이 팀 기사 없음",
+  "url": ""
+ },
+ "escapingneverland": {
+  "status": "확인 못 함",
+  "note": "웹 검색에 이 팀 기사 없음",
+  "url": ""
+ },
+ "달과밤그리고별들": {
+  "status": "확인 못 함",
+  "note": "웹 검색에 이 팀 기사 없음",
+  "url": ""
+ },
+ "싱크투라이즈": {
+  "status": "확인 못 함",
+  "note": "웹 검색에 이 팀 기사 없음",
+  "url": ""
+ },
+ "지누콘다": {
+  "status": "확인 못 함",
+  "note": "웹 검색에 이 팀 기사 없음",
+  "url": ""
+ },
+ "복밴드": {
+  "status": "확인 못 함",
+  "note": "웹 검색에 이 팀 기사 없음",
+  "url": ""
+ },
+ "sombra": {
+  "status": "확인 못 함",
+  "note": "웹 검색에 이 팀 기사 없음",
+  "url": ""
+ },
+ "하지": {
+  "status": "확인 못 함",
+  "note": "흔한 낱말 이름이라 웹 검색으로 가려내지 못함",
+  "url": ""
+ },
+ "시골": {
+  "status": "확인 못 함",
+  "note": "흔한 낱말 이름이라 웹 검색으로 가려내지 못함",
+  "url": ""
+ },
+ "윾": {
+  "status": "확인 못 함",
+  "note": "흔한 낱말 이름이라 웹 검색으로 가려내지 못함",
+  "url": ""
+ },
+ "오씰": {
+  "status": "확인 못 함",
+  "note": "흔한 낱말 이름이라 웹 검색으로 가려내지 못함",
+  "url": ""
+ },
+ "바보": {
+  "status": "확인 못 함",
+  "note": "흔한 낱말 이름이라 웹 검색으로 가려내지 못함",
+  "url": ""
+ },
+ "공공카펫": {
+  "status": "확인 못 함",
+  "note": "흔한 낱말 이름이라 웹 검색으로 가려내지 못함",
+  "url": ""
+ },
+ "444": {
+  "status": "확인 못 함",
+  "note": "흔한 낱말 이름이라 웹 검색으로 가려내지 못함",
+  "url": ""
+ },
+ "fog": {
+  "status": "확인 못 함",
+  "note": "흔한 낱말 이름이라 웹 검색으로 가려내지 못함",
+  "url": ""
+ },
+ "서정": {
+  "status": "확인 못 함",
+  "note": "흔한 낱말 이름이라 웹 검색으로 가려내지 못함",
+  "url": ""
+ },
+ "진": {
+  "status": "확인 못 함",
+  "note": "흔한 낱말 이름이라 웹 검색으로 가려내지 못함",
+  "url": ""
+ }
+}
