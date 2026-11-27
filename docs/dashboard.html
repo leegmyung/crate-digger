@@ -3,233 +3,1416 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Crate Digger 데이터</title>
+<title>Crate Digger — 국내 신인 발굴 데이터 대시보드</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%23fff' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23fff'/%3E%3C/svg%3E">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  /* 구성 확인용 초안 — 디자인 다듬기는 나중. 섹션 틀: 질문 제목 → 정의 → 그래프 → 한 줄 결론 → 기준·표본 */
-  :root { --bg:#fafafa; --fg:#1d1d1f; --muted:#6b6b70; --line:#e2e2e6; --bar:#3a7d8c; --base:#c0563b; --card:#ffffff; --hit:#2f7d4f; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#141416; --fg:#ececef; --muted:#9a9aa2; --line:#2c2c31; --bar:#63b3c4; --base:#e08a6e; --card:#1c1c20; --hit:#6fcf97; } }
-  body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.55 system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif; }
-  main { max-width:1040px; margin:0 auto; padding:24px 16px 64px; }
-  h1 { font-size:1.5rem; margin:0 0 4px; }
-  section { margin-top:36px; }
-  h2 { font-size:1.08rem; margin:0 0 4px; }
-  .def { color:var(--muted); margin:0 0 10px; font-size:.88rem; max-width:75ch; }
-  .take { margin:10px 0 2px; font-weight:600; }
-  .src { color:var(--muted); font-size:.78rem; margin:2px 0 0; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px 14px; overflow-x:auto; }
-  .chart { position:relative; height:280px; }
-  table { border-collapse:collapse; width:100%; font-size:.86rem; }
-  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); white-space:nowrap; }
-  th { color:var(--muted); font-weight:500; cursor:pointer; user-select:none; }
-  td.n { text-align:right; font-variant-numeric:tabular-nums; }
-  tr.small td { opacity:.55; }
-  .tag { font-size:.75rem; padding:1px 7px; border-radius:999px; border:1px solid var(--line); }
-  .tag.new { color:var(--hit); border-color:var(--hit); }
-  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; margin-top:14px; }
-  .kpi { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
-  .kpi b { display:block; font-size:1.45rem; font-variant-numeric:tabular-nums; }
-  .kpi span { color:var(--muted); font-size:.8rem; }
-  .filters { display:flex; gap:12px; flex-wrap:wrap; margin:0 0 8px; font-size:.86rem; }
-  a { color:var(--bar); }
-  #err { color:#c0392b; }
-  details summary { cursor:pointer; color:var(--muted); }
+  :root {
+    --bg: #f6f7f9;
+    --surface: #ffffff;
+    --surface-alt: #f9fafb;
+    --surface-hover: #f0fdfa;
+    --fg: #111827;
+    --fg-soft: #374151;
+    --muted: #6b7280;
+    --line: #e5e7eb;
+    --line-strong: #d1d5db;
+    --accent: #0f766e;
+    --accent-soft: #ccfbf1;
+    --accent-fg: #115e59;
+    --base: #c2410c;
+    --base-soft: #ffedd5;
+    --good: #15803d;
+    --good-soft: #dcfce7;
+    --warn: #b45309;
+    --warn-soft: #fef3c7;
+    --bar-small: #cbd5e1;
+    --shadow: 0 1px 2px rgba(15, 23, 42, .05), 0 1px 3px rgba(15, 23, 42, .04);
+    --shadow-md: 0 4px 12px rgba(15, 23, 42, .08);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1115;
+      --surface: #171a21;
+      --surface-alt: #1d212a;
+      --surface-hover: #132726;
+      --fg: #f3f4f6;
+      --fg-soft: #d1d5db;
+      --muted: #9ca3af;
+      --line: #272c38;
+      --line-strong: #374151;
+      --accent: #2dd4bf;
+      --accent-soft: rgba(45, 212, 191, .14);
+      --accent-fg: #5eead4;
+      --base: #fb923c;
+      --base-soft: rgba(251, 146, 60, .15);
+      --good: #4ade80;
+      --good-soft: rgba(74, 222, 128, .14);
+      --warn: #fbbf24;
+      --warn-soft: rgba(251, 191, 36, .14);
+      --bar-small: #475569;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .35);
+      --shadow-md: 0 6px 16px rgba(0, 0, 0, .45);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1115;
+    --surface: #171a21;
+    --surface-alt: #1d212a;
+    --surface-hover: #132726;
+    --fg: #f3f4f6;
+    --fg-soft: #d1d5db;
+    --muted: #9ca3af;
+    --line: #272c38;
+    --line-strong: #374151;
+    --accent: #2dd4bf;
+    --accent-soft: rgba(45, 212, 191, .14);
+    --accent-fg: #5eead4;
+    --base: #fb923c;
+    --base-soft: rgba(251, 146, 60, .15);
+    --good: #4ade80;
+    --good-soft: rgba(74, 222, 128, .14);
+    --warn: #fbbf24;
+    --warn-soft: rgba(251, 191, 36, .14);
+    --bar-small: #475569;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .35);
+    --shadow-md: 0 6px 16px rgba(0, 0, 0, .45);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; max-width: 100%; overflow-x: hidden; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font: 14.5px/1.6 "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+
+  .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 20px 16px 72px; }
+
+  /* Top header */
+  header.hero {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 12px;
+    padding-bottom: 14px; border-bottom: 1px solid var(--line);
+  }
+  header.hero > div { min-width: 0; max-width: 100%; }
+  .brand-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .brand-pill {
+    font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-fg);
+  }
+  .status-pill {
+    font-size: .74rem; padding: 2px 9px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--line); color: var(--muted);
+  }
+  h1 { font-size: 1.42rem; line-height: 1.25; margin: 4px 0 4px; letter-spacing: -.02em; word-break: keep-all; }
+  .scope { margin: 0; color: var(--muted); font-size: .84rem; word-break: keep-all; }
+  .top-links { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: .8rem; }
+  .top-links a, .theme-btn {
+    padding: 5px 10px; border-radius: 8px; background: var(--surface);
+    border: 1px solid var(--line); color: var(--fg-soft); transition: border-color .15s; white-space: nowrap;
+  }
+  .top-links a:hover, .theme-btn:hover { border-color: var(--accent); text-decoration: none; }
+  #err { color: var(--base); font-size: .85rem; margin: 8px 0 0; }
+
+  /* KPI cards */
+  .kpis {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px;
+    margin-top: 16px;
+  }
+  @media (max-width: 900px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 520px) { .kpis { grid-template-columns: 1fr; } }
+  .kpi {
+    min-width: 0;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 13px 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 4px;
+  }
+  .kpi-label { font-size: .78rem; color: var(--muted); font-weight: 500; }
+  .kpi-main { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .kpi-val { font-size: 1.55rem; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.15; }
+  .kpi-badge {
+    font-size: .72rem; font-weight: 600; padding: 2px 7px; border-radius: 999px;
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .kpi-badge.up { background: var(--good-soft); color: var(--good); }
+  .kpi-badge.accent { background: var(--accent-soft); color: var(--accent-fg); }
+  .kpi-badge.neutral { background: var(--surface-alt); color: var(--muted); border: 1px solid var(--line); }
+  .kpi-sub { font-size: .77rem; color: var(--muted); line-height: 1.4; }
+
+  /* Top 5 Picks above the fold */
+  .picks-head {
+    display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;
+    margin: 20px 0 10px;
+  }
+  .picks-title { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .picks-title h2 { font-size: 1.05rem; margin: 0; }
+  .eyebrow {
+    font-size: .72rem; font-weight: 700; color: var(--accent-fg);
+    background: var(--accent-soft); padding: 2px 7px; border-radius: 6px; letter-spacing: .02em;
+  }
+  .picks-hint { font-size: .78rem; color: var(--muted); margin: 0; }
+  .picks-grid {
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px;
+  }
+  @media (max-width: 1024px) { .picks-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 640px) { .picks-grid { grid-template-columns: 1fr; } }
+  .pick-card {
+    min-width: 0; width: 100%;
+    text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 13px 13px 12px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 7px; transition: border-color .15s, transform .12s, box-shadow .15s;
+  }
+  .pick-card:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  .pick-card.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+  .pick-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+  .rank-num { font-size: .75rem; font-weight: 700; color: var(--accent-fg); font-variant-numeric: tabular-nums; }
+  .pick-name { font-size: 1.02rem; font-weight: 700; line-height: 1.25; word-break: keep-all; }
+  .pick-why { font-size: .76rem; color: var(--muted); line-height: 1.4; }
+  .pick-foot {
+    margin-top: auto; padding-top: 6px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center; font-size: .74rem; color: var(--accent-fg); font-weight: 600;
+  }
+
+  /* Drawer for Top 5 artist timeline */
+  .drawer {
+    margin-top: 12px; background: var(--surface); border: 1.5px solid var(--accent);
+    border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow-md);
+    display: none;
+  }
+  .drawer.open { display: block; }
+  .drawer-head {
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 12px;
+  }
+  .drawer-close {
+    background: var(--surface-alt); border: 1px solid var(--line); border-radius: 8px;
+    padding: 4px 10px; font-size: .8rem; color: var(--muted);
+  }
+  .drawer-close:hover { border-color: var(--fg-soft); color: var(--fg); }
+
+  /* Badges & chips */
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: .72rem; font-weight: 600; padding: 2px 8px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--surface-alt); color: var(--fg-soft); white-space: nowrap;
+  }
+  .badge.new { background: var(--good-soft); color: var(--good); border-color: transparent; }
+  .badge.est { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+  .badge.unk { background: var(--surface-alt); color: var(--muted); border-color: var(--line); }
+  .badge.genre { background: var(--accent-soft); color: var(--accent-fg); border-color: transparent; }
+  .badge.cand { background: var(--accent); color: #fff; border-color: transparent; }
+  :root[data-theme="dark"] .badge.cand { color: #0b1215; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .badge.cand { color: #0b1215; } }
+  .badge.ok { background: var(--good-soft); color: var(--good); border-color: transparent; }
+  .badge.warn { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+  .badge.info { background: var(--accent-soft); color: var(--accent-fg); border-color: transparent; }
+
+  .branches { display: flex; flex-wrap: wrap; gap: 4px; }
+  .br-pill {
+    font-size: .7rem; padding: 1px 7px; border-radius: 6px; font-weight: 600;
+    background: var(--surface-alt); border: 1px solid var(--line); color: var(--fg-soft); white-space: nowrap;
+  }
+  .br-pill[data-b="공연"] { border-color: rgba(15, 118, 110, .4); color: var(--accent-fg); }
+  .br-pill[data-b="발매"] { border-color: rgba(194, 65, 12, .4); color: var(--base); }
+  .br-pill[data-b="선정·지원"] { border-color: rgba(21, 128, 61, .45); color: var(--good); }
+  .br-pill[data-b="큐레이션"] { border-color: rgba(180, 83, 9, .4); color: var(--warn); }
+
+  /* Sections */
+  section.block { margin-top: 38px; min-width: 0; }
+  .sec-head { margin-bottom: 12px; }
+  .sec-head h2 { font-size: 1.16rem; margin: 0 0 4px; letter-spacing: -.015em; word-break: keep-all; }
+  .def { margin: 0; color: var(--muted); font-size: .86rem; max-width: 82ch; word-break: keep-all; }
+  .card {
+    min-width: 0; max-width: 100%;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 16px 18px; box-shadow: var(--shadow);
+  }
+  @media (max-width: 520px) { .card { padding: 12px 12px; } }
+  .take {
+    margin: 12px 0 2px; padding: 10px 13px; border-radius: var(--radius-sm);
+    background: var(--surface-alt); border-left: 3px solid var(--accent);
+    font-size: .88rem; font-weight: 600; color: var(--fg);
+  }
+  .foot-meta { font-size: .76rem; color: var(--muted); margin: 6px 0 0; }
+  .pager-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+  /* Filter toolbar */
+  .filter-bar {
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 12px 14px; background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); margin-bottom: 12px; max-width: 100%;
+  }
+  .chip-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .chip-label { font-size: .76rem; font-weight: 600; color: var(--muted); min-width: 34px; }
+  .chip {
+    font-size: .78rem; padding: 4px 10px; border-radius: 999px;
+    background: var(--surface-alt); border: 1px solid var(--line); color: var(--fg-soft);
+    transition: all .12s;
+  }
+  .chip:hover { border-color: var(--accent); }
+  .chip.active { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+  :root[data-theme="dark"] .chip.active { color: #0b1215; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .chip.active { color: #0b1215; } }
+  .ctrl-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: .83rem; }
+  .checks { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .checks label { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; color: var(--fg-soft); }
+  .search-input {
+    padding: 6px 11px; border-radius: 8px; border: 1px solid var(--line-strong);
+    background: var(--surface-alt); color: var(--fg); font: inherit; font-size: .84rem;
+    min-width: 0; width: 210px; max-width: 100%;
+  }
+  @media (max-width: 520px) { .search-input { width: 100%; } }
+  .search-input:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+
+  /* Tables */
+  .table-wrap { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { border-collapse: collapse; width: 100%; font-size: .85rem; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); }
+  th {
+    color: var(--muted); font-weight: 600; font-size: .77rem; white-space: nowrap;
+    background: var(--surface-alt); user-select: none;
+  }
+  th.sortable { cursor: pointer; }
+  th.sortable:hover { color: var(--fg); }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td.nowrap { white-space: nowrap; }
+  tbody tr.data-row:nth-child(even) { background: var(--surface-alt); }
+  tbody tr.clickable { cursor: pointer; transition: background .1s; }
+  tbody tr.clickable:hover { background: var(--surface-hover); }
+  tbody tr.clickable.expanded { background: var(--surface-hover); font-weight: 600; }
+  tbody tr.small td { opacity: .62; }
+  .muted-cell { color: var(--muted); font-size: .8rem; }
+  .caret { display: inline-block; width: 14px; color: var(--muted); transition: transform .15s; font-size: .72rem; }
+  tr.expanded .caret { transform: rotate(90deg); color: var(--accent); }
+
+  /* Inline expanded timeline inside table or drawer */
+  tr.detail-row td { background: var(--surface-alt); padding: 14px 16px; border-bottom: 1.5px solid var(--accent); }
+  .tl-meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; font-size: .82rem; color: var(--fg-soft); }
+  .tl-why { font-size: .84rem; font-weight: 600; color: var(--fg); margin: 0 0 10px; }
+  .timeline { list-style: none; margin: 0; padding: 0 0 0 14px; border-left: 2px solid var(--line-strong); display: flex; flex-direction: column; gap: 8px; }
+  .tl-item { position: relative; padding-left: 10px; font-size: .83rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 8px; }
+  .tl-item::before {
+    content: ""; position: absolute; left: -19px; top: 7px; width: 8px; height: 8px;
+    border-radius: 50%; background: var(--accent); border: 2px solid var(--surface);
+  }
+  .tl-date { font-variant-numeric: tabular-nums; font-size: .78rem; color: var(--muted); min-width: 78px; }
+  .tl-src { font-size: .76rem; color: var(--muted); }
+  .tl-title { color: var(--fg); word-break: break-word; }
+  .tl-link { font-size: .76rem; font-weight: 600; white-space: nowrap; }
+
+  /* Press & curator feed */
+  .press-stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px;
+    margin-bottom: 12px;
+  }
+  .pstat {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm);
+    padding: 9px 11px;
+  }
+  .pstat-name { font-size: .76rem; color: var(--muted); font-weight: 600; }
+  .pstat-val { font-size: 1.05rem; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .pstat-sub { font-size: .73rem; color: var(--muted); }
+  .press-grid {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 10px;
+  }
+  @media (max-width: 740px) { .press-grid { grid-template-columns: 1fr; } }
+  .press-item {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm);
+    padding: 11px 13px; display: flex; flex-direction: column; gap: 5px;
+  }
+  .press-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .press-artist { font-weight: 700; font-size: .92rem; }
+  .press-title { font-size: .82rem; color: var(--fg-soft); line-height: 1.45; word-break: break-word; }
+  .press-foot { display: flex; justify-content: space-between; align-items: center; font-size: .76rem; color: var(--muted); margin-top: auto; padding-top: 4px; }
+  .more-btn {
+    margin-top: 12px; padding: 7px 14px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--line-strong); font-size: .83rem; font-weight: 600;
+  }
+  .more-btn:hover { border-color: var(--accent); color: var(--accent-fg); }
+
+  /* Charts */
+  .legend-row { display: flex; gap: 14px; flex-wrap: wrap; font-size: .78rem; color: var(--muted); margin: 0 0 10px; align-items: center; }
+  .leg-item { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+  .swatch-line { width: 16px; height: 0; border-top: 2px dashed var(--base); display: inline-block; }
+  .chart-box { position: relative; height: 270px; width: 100%; }
+  .chart-box.tall { height: 340px; }
+  .chart-box.venue { height: 390px; }
+  .two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 820px) { .two-col { grid-template-columns: 1fr; } }
+
+  details.fold {
+    margin-top: 12px; background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-sm); padding: 10px 14px;
+  }
+  details.fold summary { cursor: pointer; font-weight: 600; font-size: .85rem; color: var(--fg-soft); }
+  details.fold[open] summary { margin-bottom: 10px; }
+  .method-list { margin: 6px 0 0; padding-left: 18px; color: var(--fg-soft); font-size: .85rem; display: flex; flex-direction: column; gap: 6px; }
 </style>
 </head>
 <body>
-<main>
-  <h1>Crate Digger: 국내 신인을 먼저 찾을 수 있나</h1>
-  <p class="def" id="scope">불러오는 중…</p>
-  <p class="src"><a href="./">진행판</a> · <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/sql/README.md">SQL 원문·결과</a> · <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/glossary.md">용어 정리</a></p>
+<main class="wrap">
+  <!-- 0. 헤더 -->
+  <header class="hero">
+    <div>
+      <div class="brand-row">
+        <span class="brand-pill">Crate Digger</span>
+        <span class="status-pill" id="qual-pill">데이터 불러오는 중…</span>
+      </div>
+      <h1>국내 신인 발굴 데이터 대시보드</h1>
+      <p class="scope" id="scope">발매·공연·선정·큐레이션 4갈래 신호를 모으고 검증합니다…</p>
+    </div>
+    <div class="top-links">
+      <a href="./">진행판</a>
+      <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/sql/README.md" target="_blank" rel="noopener">SQL 원문</a>
+      <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/glossary.md" target="_blank" rel="noopener">용어 정리</a>
+      <button type="button" class="theme-btn" id="theme-toggle" aria-label="화면 테마 전환">테마 전환</button>
+    </div>
+  </header>
   <p id="err"></p>
 
-  <!-- 0. 요약 -->
+  <!-- 0-1. 핵심 숫자 4개 (첫 화면) -->
   <div class="kpis" id="kpis"></div>
 
-  <!-- 1. 후보 -->
-  <section>
-    <h2>1. 지금 누구를 지켜봐야 하나?</h2>
-    <p class="def">최근 180일(예정 공연 60일 포함) 안에 2개 이상 갈래(발매·공연·선정·큐레이션)에 나온 팀. 이미 다 아는 팀(멜론 팬 1만 명 이상, 또는 첫 발매 5년 초과 & 팬 1천 명 이상)은 뺐어요. 머리글을 누르면 정렬돼요.</p>
-    <div class="filters"><label><input type="checkbox" id="f-new"> 신인만</label><label><input type="checkbox" id="f-noout" checked> 아직 정답 없는 팀만</label></div>
-    <div class="card"><table id="candidates"></table></div>
-    <p class="take" id="t-cand"></p>
-    <details><summary>유명해서 뺀 팀 보기</summary><div class="card"><table id="famous"></table></div></details>
-  </section>
+  <!-- 0-2. 오늘 먼저 볼 후보 TOP 5 카드 (첫 화면) -->
+  <div class="picks-head">
+    <div class="picks-title">
+      <span class="eyebrow">TODAY'S TOP 5</span>
+      <h2>오늘 먼저 볼 후보 5팀</h2>
+    </div>
+    <p class="picks-hint">아직 신인상·주요 선정 기록이 없는 팀 중 여러 갈래에서 신호가 겹친 상위 5팀 · 카드를 누르면 근거 타임라인이 펼쳐져요</p>
+  </div>
+  <div class="picks-grid" id="top5"></div>
+  <div class="drawer" id="top5-drawer" aria-live="polite"></div>
 
-  <!-- 2. 신호 적중률 -->
-  <section>
-    <h2>2. 어떤 신호가 나중의 성공을 미리 알려 주나?</h2>
-    <p class="def">2020~2024년에 신호를 받은 팀 중 2025년 이후 정답(신인상·주요 신인 프로그램)을 받은 비율. 빨간 선 = 기준선(아무 신호든 있던 팀 전체). 괄호는 (정답 팀/신호 팀), 범위는 95% 신뢰 범위. 10팀 미만은 흐리게.</p>
-    <div class="card"><div class="chart"><canvas id="c-hit"></canvas></div><table id="hit"></table></div>
-    <p class="take" id="t-hit"></p>
-  </section>
-
-  <!-- 3. 중간 → 최종 -->
-  <section>
-    <h2>3. 중간 정답을 받은 팀은 최종 정답까지 가나?</h2>
-    <p class="def">연중 일찍 나오는 중간 정답(슈퍼루키·뮤즈온·인디스땅스 등)을 받은 팀 중, 그 뒤 최종 정답(한대음 신인·올해의 헬로루키·튠업 등)까지 받은 비율. 같은 계열(헬로루키 월간→올해의 헬로루키)은 제외.</p>
-    <div class="card"><div class="chart"><canvas id="c-mid"></canvas></div></div>
-    <p class="take" id="t-mid"></p>
-  </section>
-
-  <!-- 4. 리드타임 -->
-  <section>
-    <h2>4. 정답보다 얼마나 먼저 찾았나?</h2>
-    <p class="def">정답 팀이 첫 정답 몇 개월 전에 우리 신호(어느 갈래든)에 처음 나왔는지. 신호 날짜는 기간의 마지막 날, 정답은 첫날로 비교해 '먼저'를 부풀리지 않았어요.</p>
-    <div class="card"><div class="chart"><canvas id="c-lead"></canvas></div></div>
-    <p class="take" id="t-lead"></p>
-  </section>
-
-  <!-- 5. 연차 -->
-  <section>
-    <h2>5. 정답 받을 때 데뷔 몇 년 차였나?</h2>
-    <p class="def">팀별 첫 정답 시점의 첫 발매 후 연차 (멜론·스포티파이 프로필 기준). 신인 기준(3년 이내)을 정한 근거예요.</p>
-    <div class="card"><div class="chart"><canvas id="c-career"></canvas></div></div>
-    <p class="take" id="t-career"></p>
-  </section>
-
-  <!-- 6. 수집 현황 -->
-  <section>
-    <h2>6. 무엇을 얼마나 모았나?</h2>
-    <p class="def">월별·갈래별 신호 수(2024년 이후, 같은 날 재수집 중복 제거). 공연은 과거 기록을 채운 것, 발매·큐레이션은 2026-11부터 매일 수집이라 아직 짧아요.</p>
-    <div class="card"><div class="chart"><canvas id="c-volume"></canvas></div></div>
-    <details><summary>소스별 표 보기</summary><div class="card"><table id="collection"></table></div></details>
-  </section>
-
-  <!-- 7. 공연장 -->
-  <section>
-    <h2>7. 공연이 가장 많은 곳은?</h2>
-    <p class="def">2025년 이후 공연 행 수 상위 15곳.</p>
-    <div class="card"><div class="chart"><canvas id="c-venue"></canvas></div></div>
-  </section>
-
-  <!-- 8. 품질 -->
-  <section>
-    <h2>8. 데이터는 믿을 만한가?</h2>
-    <p class="def">아티스트 매칭·메타데이터 검수 지표. 자세한 문제 행은 SQL 결과 문서의 검증 SQL에서 볼 수 있어요.</p>
-    <div class="card"><table id="quality"></table></div>
-  </section>
-
-  <!-- 9. 방법과 한계 -->
-  <section>
-    <details><summary><b>9. 방법과 한계</b></summary>
-      <div class="def">
-        <p>· 같은 팀 잇기: 띄어쓰기·기호·끝 괄호 별칭을 지운 이름 키. 동명 팀은 아직 완전히 못 가려요.</p>
-        <p>· 정답: 2025~2026년 발표분만 모았어요. 중간 정답(mid)과 최종 정답(final)으로 나누고, 기성 팀이 섞인 정답(부산록페 본무대·뮤콘)은 첫 발매 5년 이내 팀만 셌어요.</p>
-        <p>· 표본이 작아요(정답 팀 수십 팀). 비율 하나보다 기준선과의 차이·신뢰 범위를 함께 보세요.</p>
-        <p>· 원본은 공개하지 않고 집계·이름·링크만 보여줘요. 수집은 하루 1번.</p>
+  <!-- 1. 전체 후보 탐색 -->
+  <section class="block" id="sec-candidates">
+    <div class="sec-head">
+      <h2>1. 전체 후보 탐색 — 누구를 지켜봐야 하나?</h2>
+      <p class="def">최근 180일(예정 공연 60일 포함) 안에 2개 이상 갈래(발매·공연·선정·큐레이션)에 등장한 팀이에요. 유명 팀은 자동·수동 규칙으로 뺐고, 프로필이 아직 없는 팀은 '확인 안 됨'으로 구분했어요. <b>팀 줄을 누르면 신호 타임라인과 출처 링크가 펼쳐져요.</b></p>
+    </div>
+    <div class="filter-bar">
+      <div class="chip-row" id="genre-chips"></div>
+      <div class="chip-row" id="branch-chips"></div>
+      <div class="ctrl-row">
+        <div class="checks">
+          <label><input type="checkbox" id="f-noout" checked> 아직 정답 없는 팀만</label>
+          <label><input type="checkbox" id="f-new"> 신인 확인된 팀만</label>
+        </div>
+        <input type="search" class="search-input" id="f-search" placeholder="팀 이름 검색…">
       </div>
+    </div>
+    <div class="card">
+      <div class="table-wrap"><table id="candidates"></table></div>
+      <div class="pager-row" id="cand-pager"></div>
+    </div>
+    <p class="take" id="t-cand"></p>
+    <p class="foot-meta" id="m-cand"></p>
+    <details class="fold">
+      <summary id="famous-summary">유명·기성·해외 팀 제외 목록 보기</summary>
+      <div class="table-wrap"><table id="famous"></table></div>
+    </details>
+  </section>
+
+  <!-- 2. 최근 매거진·큐레이터가 언급한 팀 -->
+  <section class="block" id="sec-press">
+    <div class="sec-head">
+      <h2>2. 최근 매거진·큐레이터가 언급한 팀</h2>
+      <p class="def">웹매거진(VISLA·음악취향Y·리드머·weiv), 인스타 큐레이터, 공연장 라인업에서 새로 수집한 언급이에요. 유명·해외 팀과 기관 계정은 제외했어요.</p>
+    </div>
+    <div class="press-stats" id="press-stats"></div>
+    <div class="chip-row" id="press-tabs" style="margin-bottom:8px;"></div>
+    <div class="press-grid" id="press-feed"></div>
+    <button type="button" class="more-btn" id="press-more" style="display:none;">더 보기</button>
+    <p class="take" id="t-press"></p>
+  </section>
+
+  <!-- 3. 어떤 신호가 맞나 (적중률) -->
+  <section class="block" id="sec-hit">
+    <div class="sec-head">
+      <h2>3. 어떤 신호가 나중의 성공을 미리 알려 주나?</h2>
+      <p class="def">2020~2024년에 각 신호를 받은 팀 중 2025~2026년 정답(신인상·주요 신인 프로그램)을 받은 비율이에요. 같은 프로그램끼리의 적중은 빼고 계산했어요.</p>
+    </div>
+    <div class="card">
+      <div class="legend-row">
+        <span class="leg-item"><span class="swatch" style="background:var(--accent)"></span> 표본 10팀 이상 (신뢰 가능)</span>
+        <span class="leg-item"><span class="swatch" style="background:var(--bar-small)"></span> 표본 10팀 미만 (적어서 참고용)</span>
+        <span class="leg-item"><span class="swatch-line"></span> 기준선 (아무 신호 팀 전체 평균)</span>
+      </div>
+      <div class="chart-box"><canvas id="c-hit"></canvas></div>
+      <div class="table-wrap" style="margin-top:14px;"><table id="hit"></table></div>
+    </div>
+    <p class="take" id="t-hit"></p>
+    <p class="foot-meta" id="m-hit"></p>
+  </section>
+
+  <!-- 4. 중간 정답 → 최종 정답 -->
+  <section class="block" id="sec-mid">
+    <div class="sec-head">
+      <h2>4. 중간 정답을 받은 팀은 최종 정답까지 가나?</h2>
+      <p class="def">먼저 발표되는 중간 단계 선정(인디스땅스·뮤즈온·펜타 슈퍼루키 등)을 받은 팀 중, 그 뒤에 최종 신인상(한대음 올해의 신인·올해의 헬로루키·CJ 튠업 등)까지 이어진 비율이에요. 같은 계열(헬로루키 월간→올해의 헬로루키)은 제외했어요.</p>
+    </div>
+    <div class="card">
+      <div class="legend-row">
+        <span class="leg-item"><span class="swatch" style="background:var(--accent)"></span> 표본 10팀 이상</span>
+        <span class="leg-item"><span class="swatch" style="background:var(--bar-small)"></span> 표본 10팀 미만 (표본 적어 참고용)</span>
+      </div>
+      <div class="chart-box tall"><canvas id="c-mid"></canvas></div>
+    </div>
+    <p class="take" id="t-mid"></p>
+    <p class="foot-meta" id="m-mid"></p>
+  </section>
+
+  <!-- 5. 언제 알아챌 수 있나 (리드타임 + 연차) -->
+  <section class="block" id="sec-timing">
+    <div class="sec-head">
+      <h2>5. 얼마나 일찍, 데뷔 몇 년 차에 알아챌 수 있나?</h2>
+      <p class="def">왼쪽은 첫 신호 포착부터 첫 정답까지 앞선 기간(리드타임), 오른쪽은 정답 받을 때의 데뷔 연차 분포예요. 점선은 중앙값이에요.</p>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3 style="margin:0 0 4px;font-size:.98rem;">정답보다 얼마나 먼저 찾았나 (리드타임)</h3>
+        <p class="def" style="margin-bottom:10px;font-size:.8rem;">신호 날짜는 기간 마지막 날, 정답은 첫날로 보수적으로 계산했어요.</p>
+        <div class="chart-box"><canvas id="c-lead"></canvas></div>
+        <p class="take" id="t-lead"></p>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 4px;font-size:.98rem;">정답 받을 때 데뷔 몇 년 차였나</h3>
+        <p class="def" style="margin-bottom:10px;font-size:.8rem;">신인 기준(첫 발매 3년 이내)을 정한 근거예요. 강조색 = 신인 기준 구간.</p>
+        <div class="chart-box"><canvas id="c-career"></canvas></div>
+        <p class="take" id="t-career"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 수집 현황 & 공연장 -->
+  <section class="block" id="sec-volume">
+    <div class="sec-head">
+      <h2>6. 무엇을 얼마나 모았고, 어디서 많이 공연하나?</h2>
+      <p class="def">2024년 이후 월별·갈래별 신호 수집 추이와 2025년 이후 공연이 가장 많은 공연장 15곳이에요.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 4px;font-size:.98rem;">월별·갈래별 신호 수집량</h3>
+      <p class="def" style="margin-bottom:10px;font-size:.8rem;">공연·웹진은 과거 기록을 함께 채웠고, 발매·인스타 큐레이션은 2026-11부터 매일 수집이 시작됐어요.</p>
+      <div class="chart-box"><canvas id="c-volume"></canvas></div>
+      <details class="fold">
+        <summary>소스별 수집 건수 표 보기</summary>
+        <div class="table-wrap"><table id="collection"></table></div>
+      </details>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <h3 style="margin:0 0 4px;font-size:.98rem;">공연이 가장 많은 공연장 TOP 15 (2025년 이후)</h3>
+      <p class="def" style="margin-bottom:10px;font-size:.8rem;">막대 끝 숫자는 전체 공연 건수와 그중 현재 후보(2갈래+) 팀 수예요.</p>
+      <div class="chart-box venue"><canvas id="c-venue"></canvas></div>
+      <p class="take" id="t-venue"></p>
+    </div>
+  </section>
+
+  <!-- 7. 데이터 품질과 한계 -->
+  <section class="block" id="sec-quality">
+    <div class="sec-head">
+      <h2>7. 데이터는 믿을 만한가? (품질 점검)</h2>
+      <p class="def">아티스트 이름 맞추기와 메타데이터 검수 현황이에요. 자세한 문제 행은 SQL 결과 문서의 검증 쿼리에서 확인할 수 있어요.</p>
+    </div>
+    <div class="card">
+      <div class="table-wrap"><table id="quality"></table></div>
+    </div>
+    <details class="fold">
+      <summary>방법과 한계 자세히 보기</summary>
+      <ul class="method-list">
+        <li><b>같은 팀 잇기</b>: 띄어쓰기·기호·끝 괄호 별칭을 정리한 이름 키로 서로 다른 출처를 연결해요. 동명이인·동명 팀은 프로필 수집을 늘려가며 걸러내는 중이에요.</li>
+        <li><b>유명 팀 제외</b>: 멜론 팬 1만 명 이상이거나 첫 발매 5년 초과 &amp; 팬 1천 명 이상인 팀은 자동 제외하고, 프로필이 아직 없는 메이저·베테랑·해외 팀은 수동 제외 목록으로 걸러 '제외 목록'에 투명하게 공개해요.</li>
+        <li><b>정답 2단계 &amp; 시점 누수 방지</b>: 2025~2026년 발표된 정답을 중간(mid)과 최종(final)으로 나누고, 발표일을 연·월까지만 아는 경우 후보는 기간 마지막 날, 정답은 첫날로 잡아 선행 기간을 부풀리지 않았어요.</li>
+        <li><b>표본 크기 주의</b>: 정답 팀 수가 아직 수십 팀 단위예요. 비율 숫자 하나만 보지 말고 기준선 대비 배수·표본 수(k/n)·95% 신뢰 범위를 함께 읽어 주세요.</li>
+        <li><b>공개 범위</b>: 수집 원본 파일은 비공개로 두고, 이 페이지에는 집계 숫자·팀 이름·장르·프로그램·공개 링크만 보여줘요.</li>
+      </ul>
     </details>
   </section>
 </main>
+
 <script>
-const NAMES = {band_discovery:"상상마당 밴드 디스커버리", yoojaeha_finalist:"유재하 본선", muse_sejong:"세종 뮤즈세종",
-  gb_creation:"경북 음반 지원", dmz_lineup:"DMZ 피스트레인 출연", burock_rookies:"부산록페 루키즈",
-  indiestance:"인디스땅스 결선", mucon:"뮤콘", museon_final:"뮤즈온 최종", penta_superrookie:"펜타 슈퍼루키",
-  burock_main:"부산록페 본무대", hello_rookie:"헬로루키 월간", hello_rookie_year:"올해의 헬로루키",
-  kma_rookie:"한대음 올해의 신인", cj_tuneup:"CJ 튠업", izm_rookie:"이즘 올해의 신인", musicy_rookie:"음악취향Y 올해의 신인"};
+const NAMES = {
+  band_discovery: "상상마당 밴드 디스커버리",
+  yoojaeha_finalist: "유재하 음악경연대회 본선",
+  muse_sejong: "세종 뮤즈세종",
+  gb_creation: "경북 음악창작소 음반지원",
+  dmz_lineup: "DMZ 피스트레인 출연",
+  burock_rookies: "부산록페 루키즈",
+  indiestance: "인디스땅스 결선",
+  mucon: "뮤콘(MU:CON)",
+  museon_final: "뮤즈온 최종",
+  penta_superrookie: "펜타포트 슈퍼루키",
+  burock_main: "부산록페 본무대",
+  hello_rookie: "헬로루키 월간",
+  hello_rookie_year: "올해의 헬로루키",
+  kma_rookie: "한대음 올해의 신인",
+  kma_genre: "한대음 장르 부문",
+  khha_rookie: "한국힙합어워즈 신인",
+  cj_tuneup: "CJ 튠업",
+  izm_rookie: "이즘 올해의 신인",
+  musicy_rookie: "음악취향Y 올해의 신인",
+  "(기준선) 아무 신호": "(기준선) 아무 신호 전체",
+};
+const SRC_NAMES = {
+  indistreet: "인디스트릿", indiego: "인디고", sangsangmadang: "상상마당",
+  poclanos: "포크라노스", melon: "멜론", bugs: "벅스", genie: "지니", flo: "FLO",
+  visla: "VISLA", musicy: "음악취향Y", rhythmer: "리드머", weiv: "weiv",
+  instagram: "인스타그램", yjh: "유재하음악경연대회", dmz: "DMZ 피스트레인",
+  sejong: "세종 뮤즈세종", gbsound: "경북 음악창작소", busanrock: "부산록페 루키즈",
+};
+
 const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const nm = p => NAMES[p] || p;
-const pct = r => r == null ? "" : (r * 100).toFixed(1) + "%";
-// 95% 윌슨 신뢰 범위 (표본이 작을 때도 0~100% 안에 머무름)
-function wilson(k, n) { if (!n) return [0, 0]; const z = 1.96, p = k / n, d = 1 + z*z/n,
-  c = (p + z*z/(2*n)) / d, h = z * Math.sqrt(p*(1-p)/n + z*z/(4*n*n)) / d; return [Math.max(0, c - h), Math.min(1, c + h)]; }
-function sortable(id) {
-  const t = document.getElementById(id);
-  t.querySelectorAll("th").forEach((th, i) => th.onclick = () => {
-    const rows = [...t.querySelectorAll("tr")].slice(1), dir = th.dataset.dir = th.dataset.dir === "asc" ? "desc" : "asc";
-    rows.sort((a, b) => { const x = a.children[i].dataset.v ?? a.children[i].textContent, y = b.children[i].dataset.v ?? b.children[i].textContent;
-      const nx = parseFloat(x), ny = parseFloat(y), r = (!isNaN(nx) && !isNaN(ny)) ? nx - ny : x.localeCompare(y, "ko");
-      return dir === "asc" ? r : -r; }).forEach(r => t.appendChild(r)); });
+const nm = (p, fallback) => fallback || NAMES[p] || p || "";
+const srcNm = s => SRC_NAMES[s] || s || "";
+const pct = r => r == null ? "-" : (r * 100).toFixed(1) + "%";
+const safeUrl = u => (typeof u === "string" && /^https?:\/\//i.test(u)) ? u : "";
+
+function wilson(k, n) {
+  if (!n) return [0, 0];
+  const z = 1.96, p = k / n, d = 1 + z*z/n;
+  const c = (p + z*z/(2*n)) / d;
+  const h = z * Math.sqrt(p*(1-p)/n + z*z/(4*n*n)) / d;
+  return [Math.max(0, c - h), Math.min(1, c + h)];
 }
-function table(id, head, rows) {
-  document.getElementById(id).innerHTML = "<tr>" + head.map(h => `<th>${h}</th>`).join("") + "</tr>" +
-    (rows.length ? rows.join("") : `<tr><td colspan="${head.length}">데이터 없음</td></tr>`);
+
+// Theme toggle (supports system preference + ?theme= + manual override + re-renders charts cleanly)
+let CHARTS = [];
+let LAST_DATA = null;
+const initThemeParam = new URLSearchParams(location.search).get("theme");
+if (initThemeParam === "light" || initThemeParam === "dark") {
+  document.documentElement.setAttribute("data-theme", initThemeParam);
 }
-function bars(id, labels, values, opts = {}) {
-  return new Chart(document.getElementById(id), { type: "bar",
-    data: { labels, datasets: opts.datasets || [{ data: values, backgroundColor: opts.colors || css("--bar") }] },
-    options: { indexAxis: opts.horizontal ? "y" : "x", maintainAspectRatio: false, responsive: true,
-      plugins: { legend: { display: !!opts.legend, labels: { color: css("--fg") } }, tooltip: opts.tooltip || {} },
-      scales: { x: { stacked: !!opts.stacked, ticks: { color: css("--muted"), callback: opts.xfmt }, grid: { color: css("--line") } },
-                y: { stacked: !!opts.stacked, ticks: { color: css("--muted") }, grid: { color: css("--line") } } } },
-    plugins: opts.plugins || [] });
+function applyTheme(next) {
+  if (next) document.documentElement.setAttribute("data-theme", next);
+  const dark = document.documentElement.getAttribute("data-theme") === "dark" ||
+    (!document.documentElement.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  document.getElementById("theme-toggle").textContent = dark ? "라이트 모드" : "다크 모드";
+  if (LAST_DATA) renderCharts(LAST_DATA);
 }
-fetch("data/dashboard.json", {cache: "no-store"}).then(r => r.json()).then(d => {
-  const s = d.sections, gen = d.generated.replace("T", " ").slice(0, 16);
-  if (d.errors.length) document.getElementById("err").textContent = "일부 계산 실패: " + d.errors.join(" / ");
-  const sum = (a, k) => a.reduce((x, r) => x + (r[k] || 0), 0);
-  const total = sum(s.collection, "rows"), lt = (s.lead_time_summary || [])[0] || {};
-  const base = s.signal_hit_rates.find(r => String(r.program).startsWith("(기준선)"));
-  document.getElementById("scope").textContent =
-    `발매·공연·선정·큐레이션 4갈래 신호 ${total.toLocaleString()}건과 2025~2026 정답(신인상·신인 프로그램)을 맞춰 봤어요 · 갱신 ${gen}`;
-  document.getElementById("kpis").innerHTML = [
-    [s.candidates.length, "지금 지켜볼 후보 (유명 팀 제외)"],
-    [lt.median_months != null ? lt.median_months + "개월" : "-", `정답보다 먼저 찾은 기간 중앙값 (${lt.with_prior_signal || 0}/${lt.outcome_teams || 0}팀)`],
-    [base ? pct(base.rate) : "-", "기준선: 아무 신호 팀의 정답 비율"],
-    [(s.quality.find(q => q.item.startsWith("같은 팀")) || {}).value ?? "-", "표기가 흔들리는 이름 (자동으로 묶음)"],
-  ].map(([v, l]) => `<div class="kpi"><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join("");
+document.getElementById("theme-toggle").onclick = () => {
+  const cur = document.documentElement.getAttribute("data-theme");
+  const isDark = cur === "dark" || (!cur && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  applyTheme(isDark ? "light" : "dark");
+};
 
-  // 1. 후보 (필터 + 정렬)
-  const drawCand = () => {
-    const onlyNew = document.getElementById("f-new").checked, noOut = document.getElementById("f-noout").checked;
-    const rows = s.candidates.filter(r => (!onlyNew || r.status === "신인") && (!noOut || !r.already_outcome));
-    table("candidates", ["팀", "갈래 수", "갈래", "최근", "신인?", "첫 발매", "멜론 팬", "이미 받은 정답"],
-      rows.map(r => `<tr><td>${esc(r.artist)}</td><td class="n">${r.n_branch}</td><td>${esc(r.branches)}</td><td>${esc(r.last_seen)}</td>
-        <td><span class="tag ${r.status === "신인" ? "new" : ""}">${esc(r.status)}</span></td><td>${esc(r.first_release || "")}</td>
-        <td class="n" data-v="${r.fan_count ?? -1}">${r.fan_count == null ? "" : r.fan_count.toLocaleString()}</td><td>${esc(r.already_outcome ? nm(r.already_outcome) : "")}</td></tr>`));
-    sortable("candidates");
-    const nNew = rows.filter(r => r.status === "신인").length, nUnk = rows.filter(r => r.status === "모름").length;
-    document.getElementById("t-cand").textContent = `${rows.length}팀 중 신인 확인 ${nNew}팀, 프로필이 아직 없어 모르는 팀 ${nUnk}팀.`;
-  };
-  ["f-new", "f-noout"].forEach(id => document.getElementById(id).onchange = drawCand); drawCand();
-  table("famous", ["팀", "멜론 팬", "첫 발매 후 (년)", "뺀 이유"], (s.excluded_famous || []).map(r => `<tr><td>${esc(r.artist)}</td>
-    <td class="n">${r.fan_count == null ? "" : r.fan_count.toLocaleString()}</td><td class="n">${r.years_since_first ?? ""}</td><td>${esc(r.reason)}</td></tr>`));
+function statusBadge(st) {
+  if (st === "신인") return `<span class="badge new" title="첫 발매 3년 이내 & 발매 10개 이하 확인">신인 확인</span>`;
+  if (st === "기성") return `<span class="badge est" title="첫 발매 3년 초과 또는 발매 10개 초과">기성</span>`;
+  return `<span class="badge unk" title="멜론·스포티파이 프로필 수집 전이라 신인 여부를 확인 중이에요">확인 안 됨</span>`;
+}
 
-  // 2. 신호 적중률: 가로 막대 + 기준선 + 신뢰 범위
-  const hits = s.signal_hit_rates.filter(r => r !== base);
-  const baseLine = { id: "base", afterDatasetsDraw(c) { if (!base) return; const x = c.scales.x.getPixelForValue(base.rate * 100), a = c.chartArea, g = c.ctx;
-    g.save(); g.strokeStyle = css("--base"); g.setLineDash([4, 3]); g.beginPath(); g.moveTo(x, a.top); g.lineTo(x, a.bottom); g.stroke(); g.restore(); } };
-  bars("c-hit", hits.map(r => nm(r.program)), hits.map(r => +(r.rate * 100).toFixed(1)), { horizontal: true, plugins: [baseLine],
-    colors: hits.map(r => r.teams < 10 ? css("--line") : css("--bar")), xfmt: v => v + "%",
-    tooltip: { callbacks: { label: c => { const r = hits[c.dataIndex], [lo, hi] = wilson(r.hits, r.teams); return `${pct(r.rate)} (${r.hits}/${r.teams}) · 범위 ${pct(lo)}~${pct(hi)}`; } } } });
-  table("hit", ["신호", "적중", "범위(95%)", "기준선 대비"], s.signal_hit_rates.map(r => { const [lo, hi] = wilson(r.hits, r.teams);
-    return `<tr class="${r.teams < 10 ? "small" : ""}"><td>${esc(nm(r.program))}</td><td class="n">${pct(r.rate)} (${r.hits}/${r.teams})</td>
-      <td class="n">${pct(lo)}~${pct(hi)}</td><td class="n">${base && base.rate ? (r.rate / base.rate).toFixed(1) + "배" : ""}</td></tr>`; }));
-  const best = hits.filter(r => r.teams >= 10).sort((a, b) => b.rate - a.rate)[0];
-  if (best && base) document.getElementById("t-hit").textContent = `${nm(best.program)} 신호를 받은 팀은 ${pct(best.rate)}가 이후 정답을 받아, 기준선(${pct(base.rate)})의 ${(best.rate / base.rate).toFixed(1)}배예요.`;
+function branchPills(branchesStr) {
+  if (!branchesStr) return "";
+  return `<div class="branches">${String(branchesStr).split(/\s+·\s+/).map(b => b.trim()).filter(Boolean)
+    .map(b => `<span class="br-pill" data-b="${esc(b)}">${esc(b)}</span>`).join("")}</div>`;
+}
 
-  // 3. 중간 → 최종
-  bars("c-mid", s.mid_to_final.map(r => nm(r.program)), s.mid_to_final.map(r => +(r.rate * 100).toFixed(1)), { horizontal: true, xfmt: v => v + "%",
-    colors: s.mid_to_final.map(r => r.teams < 10 ? css("--line") : css("--bar")),
-    tooltip: { callbacks: { label: c => { const r = s.mid_to_final[c.dataIndex]; return `${pct(r.rate)} (${r.later_final}/${r.teams})`; } } } });
-  const m1 = [...s.mid_to_final].filter(r => r.teams >= 10).sort((a, b) => b.rate - a.rate)[0];
-  if (m1) document.getElementById("t-mid").textContent = `${nm(m1.program)}을(를) 받은 팀의 ${pct(m1.rate)}(${m1.later_final}/${m1.teams})가 그 뒤 최종 정답까지 갔어요.`;
+function renderTimelineHtml(c) {
+  const sigs = c.signals || [];
+  const metaParts = [
+    statusBadge(c.status),
+    c.primary_genre ? `<span class="badge genre">${esc(c.primary_genre)}</span>` : `<span class="badge unk">장르 수집 중</span>`,
+    c.first_release ? `<span>첫 발매 <b>${esc(c.first_release)}</b></span>` : `<span class="muted-cell">프로필(첫 발매·팬 수) 수집 중</span>`,
+    c.fan_count != null ? `<span>멜론 팬 <b>${c.fan_count.toLocaleString()}명</b></span>` : "",
+    c.already_outcome ? `<span class="badge warn">이미 받은 정답: ${esc(nm(c.already_outcome, c.already_outcome_label))}</span>` : "",
+  ].filter(Boolean).join("");
 
-  // 4. 리드타임 분포
-  bars("c-lead", s.lead_time.map(r => r.bucket), s.lead_time.map(r => r.teams));
-  if (lt.median_months != null) document.getElementById("t-lead").textContent =
-    `정답 팀 ${lt.outcome_teams}팀 중 ${lt.with_prior_signal}팀이 정답 전에 우리 신호에 있었고, 중앙값 ${lt.median_months}개월 먼저 잡혔어요.`;
+  const items = sigs.length ? sigs.map(ev => {
+    const link = safeUrl(ev.url);
+    const titleParts = [];
+    if (ev.title && ev.detail && ev.title !== ev.detail) titleParts.push(`${ev.title} (${ev.detail})`);
+    else titleParts.push(ev.title || ev.detail || ev.source_label || "");
+    return `<li class="tl-item">
+      <span class="tl-date">${esc(ev.date)}</span>
+      <span class="br-pill" data-b="${esc(ev.branch)}">${esc(ev.branch)}</span>
+      <span class="tl-src">${esc(ev.source_label || srcNm(ev.source))}</span>
+      <span class="tl-title">${esc(titleParts.join(" "))}</span>
+      ${link ? `<a class="tl-link" href="${esc(link)}" target="_blank" rel="noopener">출처 ↗</a>` : ""}
+    </li>`;
+  }).join("") : `<li class="tl-item"><span class="muted-cell">상세 신호 기록을 아직 불러오지 못했어요.</span></li>`;
 
-  // 5. 연차 분포
-  bars("c-career", s.career_at_outcome.map(r => r.bucket), s.career_at_outcome.map(r => r.teams));
-  const ct = sum(s.career_at_outcome, "teams"), c3 = s.career_at_outcome.filter(r => ["1년 이내", "1~3년"].includes(r.bucket)).reduce((a, r) => a + r.teams, 0);
-  if (ct) document.getElementById("t-career").textContent = `연차를 아는 정답 팀 ${ct}팀 중 ${c3}팀(${pct(c3 / ct)})이 첫 발매 3년 안에 정답을 받았어요.`;
+  return `<div class="tl-meta">${metaParts}</div>
+    <p class="tl-why">왜 후보인가: ${esc(c.why || (c.n_branch + "개 갈래 포착"))}</p>
+    <ul class="timeline">${items}</ul>`;
+}
 
-  // 6. 월 × 갈래 쌓은 막대
-  const months = [...new Set(s.volume_by_month_branch.map(r => r.month))], branches = [...new Set(s.volume_by_month_branch.map(r => r.branch))];
-  const pal = [css("--bar"), css("--base"), css("--hit"), css("--muted")];
-  bars("c-volume", months, null, { stacked: true, legend: true, datasets: branches.map((b, i) => ({ label: b, backgroundColor: pal[i % pal.length],
-    data: months.map(m => (s.volume_by_month_branch.find(r => r.month === m && r.branch === b) || {}).rows || 0) })) });
-  table("collection", ["갈래", "소스", "행", "팀", "기간"], s.collection.map(r => `<tr><td>${esc(r.branch)}</td><td>${esc(r.source)}</td>
-    <td class="n">${r.rows.toLocaleString()}</td><td class="n">${r.teams.toLocaleString()}</td><td>${esc(r.first_date)} ~ ${esc(r.last_date)}</td></tr>`));
+// Chart.js custom plugins
+const barEndLabelPlugin = {
+  id: "barEndLabel",
+  afterDatasetsDraw(chart, _args, opts) {
+    if (!opts || !opts.labels) return;
+    const { ctx } = chart;
+    const meta = chart.getDatasetMeta(0);
+    ctx.save();
+    ctx.font = '600 11.5px -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif';
+    ctx.fillStyle = css("--fg-soft");
+    ctx.textBaseline = "middle";
+    const isHoriz = chart.options.indexAxis === "y";
+    meta.data.forEach((bar, i) => {
+      const txt = opts.labels[i];
+      if (!txt) return;
+      if (isHoriz) {
+        ctx.textAlign = "left";
+        ctx.fillText(txt, bar.x + 6, bar.y);
+      } else {
+        ctx.textAlign = "center";
+        ctx.fillText(txt, bar.x, bar.y - 8);
+      }
+    });
+    ctx.restore();
+  }
+};
 
-  // 7. 공연장
-  bars("c-venue", s.top_venues.map(r => r.venue), s.top_venues.map(r => r.gigs), { horizontal: true });
-  // 8. 품질
-  table("quality", ["항목", "값"], s.quality.map(r => `<tr><td>${esc(r.item)}</td><td class="n">${r.value}</td></tr>`));
-}).catch(e => { document.getElementById("err").textContent = "데이터를 불러오지 못했어요: " + e; });
+const vLinePlugin = {
+  id: "vLine",
+  afterDatasetsDraw(chart, _args, opts) {
+    if (!opts || opts.value == null) return;
+    const { ctx, chartArea, scales } = chart;
+    const x = scales.x.getPixelForValue(opts.value);
+    if (!isFinite(x) || x < chartArea.left - 4 || x > chartArea.right + 4) return;
+    const color = opts.color || css("--base");
+    ctx.save();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 4]);
+    ctx.beginPath();
+    ctx.moveTo(x, chartArea.top);
+    ctx.lineTo(x, chartArea.bottom);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    if (opts.label) {
+      ctx.font = '700 11px -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif';
+      const w = ctx.measureText(opts.label).width + 12;
+      const boxX = Math.min(Math.max(x - w / 2, chartArea.left + 2), chartArea.right - w - 2);
+      const boxY = Math.max(2, chartArea.top - 24);
+      ctx.fillStyle = css("--surface");
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.roundRect(boxX, boxY, w, 20, 6);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = color;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(opts.label, boxX + w / 2, boxY + 10.5);
+    }
+    ctx.restore();
+  }
+};
+
+function makeChart(id, config) {
+  const el = document.getElementById(id);
+  const existing = Chart.getChart(el);
+  if (existing) existing.destroy();
+  const c = new Chart(el, config);
+  CHARTS.push(c);
+  return c;
+}
+
+function renderCharts(d) {
+  const s = d.sections;
+  const fg = css("--fg"), muted = css("--muted"), line = css("--line");
+  const accent = css("--accent"), baseCol = css("--base"), good = css("--good"), smallCol = css("--bar-small");
+  const warn = css("--warn");
+
+  const base = (s.signal_hit_rates || []).find(r => String(r.program).startsWith("(기준선)"));
+  const hits = (s.signal_hit_rates || []).filter(r => r !== base);
+  const hitMax = Math.max(12, ...hits.map(r => (r.rate || 0) * 100), base ? base.rate * 100 : 0);
+
+  // 3. 신호 적중률
+  makeChart("c-hit", {
+    type: "bar",
+    data: {
+      labels: hits.map(r => nm(r.program, r.program_label)),
+      datasets: [{
+        data: hits.map(r => +((r.rate || 0) * 100).toFixed(1)),
+        backgroundColor: hits.map(r => r.teams < 10 ? smallCol : accent),
+        borderRadius: 5,
+        barThickness: 22,
+      }]
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { right: 88, top: 28 } },
+      plugins: {
+        legend: { display: false },
+        barEndLabel: { labels: hits.map(r => `${pct(r.rate)} (${r.hits}/${r.teams})`) },
+        vLine: base ? { value: +(base.rate * 100).toFixed(2), label: `기준선 ${pct(base.rate)}`, color: baseCol } : {},
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const r = hits[ctx.dataIndex], [lo, hi] = wilson(r.hits, r.teams);
+              const lift = base && base.rate ? ` · 기준선의 ${(r.rate / base.rate).toFixed(1)}배` : "";
+              return `${pct(r.rate)} (${r.hits}/${r.teams}팀) · 95% 범위 ${pct(lo)}~${pct(hi)}${lift}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          suggestedMax: Math.ceil(hitMax * 1.15),
+          ticks: { color: muted, callback: v => v + "%" },
+          grid: { color: line }
+        },
+        y: { ticks: { color: fg, font: { size: 12 } }, grid: { display: false } }
+      }
+    },
+    plugins: [barEndLabelPlugin, vLinePlugin]
+  });
+
+  // 4. 중간 → 최종 정답
+  const mids = s.mid_to_final || [];
+  const midMax = Math.max(50, ...mids.map(r => (r.rate || 0) * 100));
+  makeChart("c-mid", {
+    type: "bar",
+    data: {
+      labels: mids.map(r => nm(r.program, r.program_label)),
+      datasets: [{
+        data: mids.map(r => +((r.rate || 0) * 100).toFixed(1)),
+        backgroundColor: mids.map(r => r.teams < 10 ? smallCol : accent),
+        borderRadius: 5,
+        barThickness: 22,
+      }]
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { right: 92, top: 6 } },
+      plugins: {
+        legend: { display: false },
+        barEndLabel: { labels: mids.map(r => `${pct(r.rate)} (${r.later_final}/${r.teams})`) },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const r = mids[ctx.dataIndex], [lo, hi] = wilson(r.later_final, r.teams);
+              const note = r.teams < 10 ? " (표본 적음)" : "";
+              return `${pct(r.rate)} (${r.later_final}/${r.teams}팀) · 95% 범위 ${pct(lo)}~${pct(hi)}${note}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          suggestedMax: Math.min(100, Math.ceil(midMax * 1.15)),
+          ticks: { color: muted, callback: v => v + "%" },
+          grid: { color: line }
+        },
+        y: { ticks: { color: fg, font: { size: 12 } }, grid: { display: false } }
+      }
+    },
+    plugins: [barEndLabelPlugin]
+  });
+
+  // 5-A. 리드타임 히스토그램 (카테고리 라벨 + 중앙값 세로선)
+  const ltRows = s.lead_time || [];
+  const ltSum = (s.lead_time_summary || [])[0] || {};
+  // 구간 경계: [0,6], [6,12], [12,24], [24,36], [36+] -> 중앙값 12.3개월은 index 1.5~2.5 사이
+  function leadMedianPos(m) {
+    if (m == null) return null;
+    if (m < 6) return -0.5 + (m / 6);
+    if (m < 12) return 0.5 + ((m - 6) / 6);
+    if (m < 24) return 1.5 + ((m - 12) / 12);
+    if (m < 36) return 2.5 + ((m - 24) / 12);
+    return 3.7;
+  }
+  makeChart("c-lead", {
+    type: "bar",
+    data: {
+      labels: ltRows.map(r => r.bucket),
+      datasets: [{
+        data: ltRows.map(r => r.teams),
+        backgroundColor: accent,
+        borderRadius: 6,
+        maxBarThickness: 48,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { top: 28 } },
+      plugins: {
+        legend: { display: false },
+        barEndLabel: { labels: ltRows.map(r => `${r.teams}팀`) },
+        vLine: ltSum.median_months != null ? {
+          value: leadMedianPos(ltSum.median_months),
+          label: `중앙값 ${ltSum.median_months}개월`,
+          color: baseCol,
+        } : {},
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const r = ltRows[ctx.dataIndex];
+              return `${r.teams}팀 (구간 평균 ${r.avg_months}개월 전)`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { color: fg, font: { size: 11.5 } }, grid: { display: false } },
+        y: { beginAtZero: true, grace: "18%", ticks: { color: muted, precision: 0, callback: v => v + "팀" }, grid: { color: line } }
+      }
+    },
+    plugins: [barEndLabelPlugin, vLinePlugin]
+  });
+
+  // 5-B. 데뷔 연차 히스토그램 (카테고리 라벨 + 중앙값 세로선 + 신인 기준 구간 강조)
+  const carRows = s.career_at_outcome || [];
+  const carSum = (s.career_summary || [])[0] || {};
+  function careerMedianPos(y) {
+    if (y == null) return null;
+    if (y <= 1) return -0.5 + y;
+    if (y <= 3) return 0.5 + ((y - 1) / 2);
+    if (y <= 5) return 1.5 + ((y - 3) / 2);
+    return 2.7;
+  }
+  makeChart("c-career", {
+    type: "bar",
+    data: {
+      labels: carRows.map(r => r.bucket),
+      datasets: [{
+        data: carRows.map(r => r.teams),
+        backgroundColor: carRows.map(r => (r.bucket === "1년 차 이내" || r.bucket === "1~3년 차" || r.bucket === "1년 이내" || r.bucket === "1~3년") ? accent : smallCol),
+        borderRadius: 6,
+        maxBarThickness: 54,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { top: 28 } },
+      plugins: {
+        legend: { display: false },
+        barEndLabel: { labels: carRows.map(r => `${r.teams}팀`) },
+        vLine: carSum.median_years != null ? {
+          value: careerMedianPos(carSum.median_years),
+          label: `중앙값 ${carSum.median_years}년`,
+          color: baseCol,
+        } : {},
+        tooltip: {
+          callbacks: { label: ctx => `${carRows[ctx.dataIndex].teams}팀` }
+        }
+      },
+      scales: {
+        x: { ticks: { color: fg, font: { size: 11.5 } }, grid: { display: false } },
+        y: { beginAtZero: true, grace: "18%", ticks: { color: muted, precision: 0, callback: v => v + "팀" }, grid: { color: line } }
+      }
+    },
+    plugins: [barEndLabelPlugin, vLinePlugin]
+  });
+
+  // 6-A. 월 × 갈래 수집량 (쌓은 막대 + 2026-11 수집 확장 표시선)
+  const vol = s.volume_by_month_branch || [];
+  const months = [...new Set(vol.map(r => r.month))];
+  const brOrder = ["공연", "큐레이션", "발매", "선정·지원"].filter(b => vol.some(r => r.branch === b));
+  const brColors = { "공연": accent, "큐레이션": warn, "발매": baseCol, "선정·지원": good };
+  const idxExpand = months.indexOf("2026-11");
+  makeChart("c-volume", {
+    type: "bar",
+    data: {
+      labels: months,
+      datasets: brOrder.map(b => ({
+        label: b,
+        backgroundColor: brColors[b] || smallCol,
+        data: months.map(m => (vol.find(r => r.month === m && r.branch === b) || {}).rows || 0),
+        borderRadius: 2,
+      }))
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { top: 28 } },
+      plugins: {
+        legend: { display: true, position: "bottom", align: "start", labels: { color: fg, boxWidth: 11, font: { size: 12 } } },
+        vLine: idxExpand >= 0 ? { value: idxExpand, label: "매일 수집 확대", color: baseCol } : {},
+      },
+      scales: {
+        x: { stacked: true, ticks: { color: muted, maxRotation: 45, autoSkip: true, maxTicksLimit: 14 }, grid: { display: false } },
+        y: { stacked: true, ticks: { color: muted, callback: v => v.toLocaleString() }, grid: { color: line } }
+      }
+    },
+    plugins: [vLinePlugin]
+  });
+
+  // 6-B. 공연장 TOP 15
+  const venues = s.top_venues || [];
+  const vMax = Math.max(100, ...venues.map(r => r.gigs || 0));
+  makeChart("c-venue", {
+    type: "bar",
+    data: {
+      labels: venues.map(r => r.venue),
+      datasets: [{
+        data: venues.map(r => r.gigs),
+        backgroundColor: accent,
+        borderRadius: 4,
+        barThickness: 17,
+      }]
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { right: 112 } },
+      plugins: {
+        legend: { display: false },
+        barEndLabel: {
+          labels: venues.map(r => {
+            const cTxt = r.candidate_teams != null ? ` · 후보 ${r.candidate_teams}팀` : "";
+            return `${r.gigs.toLocaleString()}건${cTxt}`;
+          })
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const r = venues[ctx.dataIndex];
+              return `공연 ${r.gigs.toLocaleString()}건 · 출연 ${r.teams.toLocaleString()}팀` +
+                (r.candidate_teams != null ? ` · 현재 후보 ${r.candidate_teams}팀` : "");
+            }
+          }
+        }
+      },
+      scales: {
+        x: { suggestedMax: Math.ceil(vMax * 1.15), ticks: { color: muted }, grid: { color: line } },
+        y: { ticks: { color: fg, font: { size: 11.5 } }, grid: { display: false } }
+      }
+    },
+    plugins: [barEndLabelPlugin]
+  });
+}
+
+fetch("data/dashboard.json", { cache: "no-store" })
+  .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+  .then(d => {
+    LAST_DATA = d;
+    const s = d.sections || {};
+    const gen = (d.generated || "").replace("T", " ").slice(0, 16);
+    if ((d.errors || []).length) {
+      document.getElementById("err").textContent = "일부 계산 실패: " + d.errors.join(" / ");
+    }
+
+    const sum = (arr, k) => (arr || []).reduce((a, r) => a + (r[k] || 0), 0);
+    const totalRows = sum(s.collection, "rows");
+    const candsAll = s.candidates || [];
+    const candsUndisc = candsAll.filter(r => !r.already_outcome);
+    const exclAll = s.excluded_famous || [];
+    const lt = (s.lead_time_summary || [])[0] || {};
+    const carSum = (s.career_summary || [])[0] || {};
+    const base = (s.signal_hit_rates || []).find(r => String(r.program).startsWith("(기준선)"));
+    const hits = (s.signal_hit_rates || []).filter(r => r !== base);
+    const bestHit = hits.filter(r => r.teams >= 10).sort((a, b) => b.rate - a.rate)[0];
+    const mids = s.mid_to_final || [];
+    const bestMid = mids.filter(r => r.teams >= 10).sort((a, b) => b.rate - a.rate)[0];
+    const midTotal = sum(mids, "teams"), midFinal = sum(mids, "later_final");
+    const tr = (s.kpi_trends || [])[0] || {};
+    const deltas = d.deltas || {};
+    const profCount = ((s.quality || []).find(q => String(q.item || "").startsWith("멜론 프로필")) || {}).value;
+
+    // Header scope & quality pill
+    document.getElementById("scope").textContent =
+      `4갈래 신호 ${totalRows.toLocaleString()}건 · 2025~2026 정답 ${lt.outcome_teams || 0}팀 대조 · 마지막 갱신 ${gen}`;
+    document.getElementById("qual-pill").textContent =
+      `품질 점검 ${(s.quality || []).length}항목 · 프로필 보유 ${profCount ?? "-"}팀`;
+
+    // 4 KPI Cards with comparison badges & context
+    const sig30Pct = (tr.signals_prev_30d > 0)
+      ? Math.round(((tr.signals_30d - tr.signals_prev_30d) / tr.signals_prev_30d) * 100) : null;
+    const candDeltaBadge = sig30Pct != null
+      ? { cls: sig30Pct >= 0 ? "up" : "neutral", text: `${sig30Pct >= 0 ? "▲" : "▼"} 최근 30일 신호 ${Math.abs(sig30Pct)}%` }
+      : (deltas.candidates != null && deltas.candidates !== 0
+          ? { cls: deltas.candidates > 0 ? "up" : "neutral", text: `지난 실행 대비 ${deltas.candidates > 0 ? "▲+" : "▼"}${deltas.candidates}팀` }
+          : { cls: "neutral", text: `전체 후보 ${candsAll.length}팀` });
+
+    const liftTxt = (bestHit && base && base.rate) ? `▲ 기준선의 ${(bestHit.rate / base.rate).toFixed(1)}배` : "기준선 비교";
+    const priorPct = (lt.outcome_teams > 0) ? ((lt.with_prior_signal / lt.outcome_teams) * 100).toFixed(0) + "%" : "-";
+
+    document.getElementById("kpis").innerHTML = [
+      {
+        label: "지금 주목할 후보 (미수상)",
+        val: `${candsUndisc.length}팀`,
+        badge: candDeltaBadge,
+        sub: `유명·기성·해외 ${exclAll.length}팀 제외 · 전체 ${candsAll.length}팀 중 미수상`
+      },
+      {
+        label: "가장 잘 맞는 조기 신호",
+        val: bestHit ? pct(bestHit.rate) : "-",
+        badge: { cls: "accent", text: liftTxt },
+        sub: bestHit ? `${nm(bestHit.program, bestHit.program_label)} (${bestHit.hits}/${bestHit.teams}팀) · 기준선 ${pct(base?.rate)}` : "표본 10팀 이상 기준"
+      },
+      {
+        label: "중간 정답 → 최종 신인상",
+        val: bestMid ? pct(bestMid.rate) : "-",
+        badge: { cls: "accent", text: midTotal ? `전체 평균 ${pct(midFinal / midTotal)}` : "-" },
+        sub: bestMid ? `${nm(bestMid.program, bestMid.program_label)} ${bestMid.later_final}/${bestMid.teams}팀 최종 도달` : ""
+      },
+      {
+        label: "정답보다 먼저 찾은 기간 (중앙값)",
+        val: lt.median_months != null ? `${lt.median_months}개월` : "-",
+        badge: { cls: "up", text: `선행 포착 ${priorPct}` },
+        sub: `정답 ${lt.outcome_teams || 0}팀 중 ${lt.with_prior_signal || 0}팀을 먼저 포착 · 1년+ 선행 ${lt.over_12m || 0}팀`
+      },
+    ].map(k => `<div class="kpi">
+      <div class="kpi-label">${esc(k.label)}</div>
+      <div class="kpi-main">
+        <span class="kpi-val">${esc(k.val)}</span>
+        <span class="kpi-badge ${k.badge.cls}">${esc(k.badge.text)}</span>
+      </div>
+      <div class="kpi-sub">${esc(k.sub)}</div>
+    </div>`).join("");
+
+    // TOP 5 Cards + Detail Drawer
+    const top5List = (candsUndisc.length >= 5 ? candsUndisc : candsAll).slice(0, 5);
+    let activePickKey = null;
+    const drawer = document.getElementById("top5-drawer");
+    function renderTop5() {
+      document.getElementById("top5").innerHTML = top5List.map((c, idx) => `
+        <button type="button" class="pick-card ${activePickKey === c.artist_key ? "active" : ""}" data-key="${esc(c.artist_key)}">
+          <div class="pick-top">
+            <span class="rank-num">#${idx + 1} · ${c.n_branch}갈래</span>
+            ${c.primary_genre ? `<span class="badge genre">${esc(c.primary_genre)}</span>` : statusBadge(c.status)}
+          </div>
+          <div class="pick-name">${esc(c.artist)}</div>
+          ${branchPills(c.branches)}
+          <div class="pick-why">${esc(c.why || ("최근 " + c.last_seen))}</div>
+          <div class="pick-foot">
+            <span>최근 신호 ${c.n_signals ?? (c.signals || []).length}건</span>
+            <span>${activePickKey === c.artist_key ? "닫기 ↑" : "타임라인 →"}</span>
+          </div>
+        </button>`).join("");
+      document.querySelectorAll(".pick-card").forEach(btn => {
+        btn.onclick = () => {
+          const key = btn.dataset.key;
+          if (activePickKey === key) {
+            activePickKey = null;
+            drawer.classList.remove("open");
+            drawer.innerHTML = "";
+          } else {
+            activePickKey = key;
+            const c = top5List.find(x => x.artist_key === key);
+            if (c) {
+              drawer.innerHTML = `<div class="drawer-head">
+                <div>
+                  <span class="eyebrow">신호 타임라인</span>
+                  <h3 style="margin:4px 0 0;font-size:1.1rem;">${esc(c.artist)}</h3>
+                </div>
+                <button type="button" class="drawer-close" id="close-drawer">닫기 ✕</button>
+              </div>${renderTimelineHtml(c)}`;
+              drawer.classList.add("open");
+              document.getElementById("close-drawer").onclick = () => {
+                activePickKey = null; drawer.classList.remove("open"); drawer.innerHTML = ""; renderTop5();
+              };
+            }
+          }
+          renderTop5();
+        };
+      });
+    }
+    renderTop5();
+
+    // 1. Candidate Table with Genre + Branch + Status + Search + Pagination + Expandable Timeline
+    let selGenre = "전체", selBranch = "전체", sortCol = "default", sortDir = "desc";
+    let expandedKey = null;
+    let candLimit = 15;
+
+    // Build dynamic genre chips
+    const genreCounts = {};
+    candsAll.forEach(c => {
+      const g = c.primary_genre || "미분류";
+      genreCounts[g] = (genreCounts[g] || 0) + 1;
+    });
+    const genreOrder = Object.keys(genreCounts).filter(g => g !== "미분류").sort((a, b) => genreCounts[b] - genreCounts[a]);
+    if (genreCounts["미분류"]) genreOrder.push("미분류");
+    const branchOrder = ["공연", "발매", "선정·지원", "큐레이션"];
+
+    function renderFilterChips() {
+      document.getElementById("genre-chips").innerHTML = `<span class="chip-label">장르</span>` +
+        ["전체", ...genreOrder].map(g => {
+          const cnt = g === "전체" ? candsAll.length : genreCounts[g];
+          return `<button type="button" class="chip ${selGenre === g ? "active" : ""}" data-g="${esc(g)}">${esc(g)} (${cnt})</button>`;
+        }).join("");
+      document.querySelectorAll("#genre-chips .chip").forEach(b => b.onclick = () => {
+        selGenre = b.dataset.g; candLimit = 15; renderFilterChips(); drawCandidates();
+      });
+
+      document.getElementById("branch-chips").innerHTML = `<span class="chip-label">갈래</span>` +
+        ["전체", ...branchOrder].map(br => {
+          const cnt = br === "전체" ? candsAll.length : candsAll.filter(c => String(c.branches || "").includes(br)).length;
+          return `<button type="button" class="chip ${selBranch === br ? "active" : ""}" data-b="${esc(br)}">${esc(br)} (${cnt})</button>`;
+        }).join("");
+      document.querySelectorAll("#branch-chips .chip").forEach(b => b.onclick = () => {
+        selBranch = b.dataset.b; candLimit = 15; renderFilterChips(); drawCandidates();
+      });
+    }
+
+    function drawCandidates() {
+      const onlyNew = document.getElementById("f-new").checked;
+      const noOut = document.getElementById("f-noout").checked;
+      const q = document.getElementById("f-search").value.trim().toLowerCase();
+
+      let rows = candsAll.filter(r => {
+        if (onlyNew && r.status !== "신인") return false;
+        if (noOut && r.already_outcome) return false;
+        if (selGenre !== "전체" && (r.primary_genre || "미분류") !== selGenre) return false;
+        if (selBranch !== "전체" && !String(r.branches || "").includes(selBranch)) return false;
+        if (q && !String(r.artist || "").toLowerCase().includes(q)) return false;
+        return true;
+      });
+
+      if (sortCol !== "default") {
+        rows = [...rows].sort((a, b) => {
+          let x = a[sortCol], y = b[sortCol];
+          if (sortCol === "fan_count") { x = x ?? -1; y = y ?? -1; }
+          if (typeof x === "number" && typeof y === "number") return sortDir === "asc" ? x - y : y - x;
+          const r = String(x ?? "").localeCompare(String(y ?? ""), "ko");
+          return sortDir === "asc" ? r : -r;
+        });
+      }
+
+      const shownRows = rows.slice(0, candLimit);
+
+      // Hide completely empty optional columns!
+      const hasGenre = shownRows.some(r => r.primary_genre);
+      const hasProfile = shownRows.some(r => r.first_release || r.fan_count != null);
+      const hasOutcome = shownRows.some(r => r.already_outcome);
+
+      const cols = [
+        { k: "artist", label: "팀" },
+        ...(hasGenre ? [{ k: "primary_genre", label: "장르" }] : []),
+        { k: "n_branch", label: "갈래", num: false },
+        { k: "n_signals", label: "신호 수", num: true },
+        { k: "last_seen", label: "최근 신호" },
+        { k: "status", label: "신인 여부" },
+        ...(hasProfile ? [{ k: "fan_count", label: "프로필 (첫 발매 · 팬)", num: true }] : []),
+        ...(hasOutcome ? [{ k: "already_outcome", label: "이미 받은 정답" }] : []),
+      ];
+
+      const headHtml = `<thead><tr>${cols.map(c => {
+        const arrow = sortCol === c.k ? (sortDir === "asc" ? " ↑" : " ↓") : "";
+        return `<th class="sortable ${c.num ? "n" : ""}" data-col="${c.k}">${esc(c.label)}${arrow}</th>`;
+      }).join("")}</tr></thead>`;
+
+      const bodyHtml = shownRows.length ? shownRows.map(r => {
+        const isExp = expandedKey === r.artist_key;
+        const profText = r.first_release || r.fan_count != null
+          ? `${r.first_release ? String(r.first_release).slice(0, 7) : ""}${r.first_release && r.fan_count != null ? " · " : ""}${r.fan_count != null ? r.fan_count.toLocaleString() + "명" : ""}`
+          : `<span class="muted-cell">수집 중</span>`;
+
+        const cells = [
+          `<td class="nowrap"><span class="caret">▶</span> <b>${esc(r.artist)}</b></td>`,
+          ...(hasGenre ? [`<td class="nowrap">${r.primary_genre ? `<span class="badge genre">${esc(r.primary_genre)}</span>` : `<span class="muted-cell">—</span>`}</td>`] : []),
+          `<td>${branchPills(r.branches)}</td>`,
+          `<td class="n">${r.n_signals ?? (r.signals || []).length}건</td>`,
+          `<td class="nowrap muted-cell">${esc(r.last_seen || "")}</td>`,
+          `<td class="nowrap">${statusBadge(r.status)}</td>`,
+          ...(hasProfile ? [`<td class="n">${profText}</td>`] : []),
+          ...(hasOutcome ? [`<td class="nowrap">${r.already_outcome ? `<span class="badge warn">${esc(nm(r.already_outcome, r.already_outcome_label))}</span>` : `<span class="muted-cell">—</span>`}</td>`] : []),
+        ];
+        let tr = `<tr class="data-row clickable ${isExp ? "expanded" : ""}" data-key="${esc(r.artist_key)}">${cells.join("")}</tr>`;
+        if (isExp) {
+          tr += `<tr class="detail-row"><td colspan="${cols.length}">${renderTimelineHtml(r)}</td></tr>`;
+        }
+        return tr;
+      }).join("") : `<tr><td colspan="${cols.length}" class="muted-cell" style="text-align:center;padding:24px;">조건에 맞는 후보 팀이 없어요. 필터를 조금 넓혀 보세요.</td></tr>`;
+
+      const tbl = document.getElementById("candidates");
+      tbl.innerHTML = headHtml + `<tbody>${bodyHtml}</tbody>`;
+      tbl.querySelectorAll("th.sortable").forEach(th => {
+        th.onclick = () => {
+          const col = th.dataset.col;
+          if (sortCol === col) sortDir = sortDir === "asc" ? "desc" : "asc";
+          else { sortCol = col; sortDir = (col === "artist") ? "asc" : "desc"; }
+          drawCandidates();
+        };
+      });
+      tbl.querySelectorAll("tr.clickable").forEach(tr => {
+        tr.onclick = () => {
+          const key = tr.dataset.key;
+          expandedKey = (expandedKey === key) ? null : key;
+          drawCandidates();
+        };
+      });
+
+      const pager = document.getElementById("cand-pager");
+      if (rows.length > shownRows.length) {
+        pager.innerHTML = `
+          <button type="button" class="more-btn" id="cand-more" style="margin-top:0;">더 보기 (${shownRows.length}/${rows.length}팀)</button>
+          <button type="button" class="chip" id="cand-all">전체 ${rows.length}팀 펼치기</button>`;
+        document.getElementById("cand-more").onclick = () => { candLimit += 20; drawCandidates(); };
+        document.getElementById("cand-all").onclick = () => { candLimit = rows.length; drawCandidates(); };
+      } else if (rows.length > 15) {
+        pager.innerHTML = `<button type="button" class="chip" id="cand-less">15팀만 보기</button>`;
+        document.getElementById("cand-less").onclick = () => { candLimit = 15; drawCandidates(); };
+      } else {
+        pager.innerHTML = "";
+      }
+
+      const nNew = rows.filter(r => r.status === "신인").length;
+      const nUnk = rows.filter(r => r.status === "확인 안 됨").length;
+      const n3 = rows.filter(r => r.n_branch >= 3).length;
+      document.getElementById("t-cand").textContent =
+        `현재 조건에 맞는 후보 ${rows.length}팀 (3갈래 이상 ${n3}팀 · 신인 확인 ${nNew}팀 · 프로필 수집 중 ${nUnk}팀).`;
+      document.getElementById("m-cand").textContent =
+        `기준: 최근 180일 2갈래 이상 등장 · 유명 팀 ${exclAll.length}팀 제외 · 행을 누르면 신호 타임라인과 출처 링크가 열려요.`;
+    }
+
+    renderFilterChips();
+    ["f-new", "f-noout"].forEach(id => document.getElementById(id).onchange = () => { candLimit = 15; drawCandidates(); });
+    document.getElementById("f-search").oninput = () => { candLimit = 15; drawCandidates(); };
+    drawCandidates();
+
+    // Excluded famous table
+    document.getElementById("famous-summary").textContent = `유명·기성·해외 팀 제외 목록 보기 (${exclAll.length}팀)`;
+    document.getElementById("famous").innerHTML =
+      `<thead><tr><th>팀</th><th class="n">멜론 팬</th><th class="n">첫 발매 후 (년)</th><th>제외 이유</th></tr></thead><tbody>` +
+      (exclAll.length ? exclAll.map(r => `<tr class="data-row">
+        <td><b>${esc(r.artist)}</b></td>
+        <td class="n">${r.fan_count == null ? `<span class="muted-cell">미수집</span>` : r.fan_count.toLocaleString()}</td>
+        <td class="n">${r.years_since_first == null ? `<span class="muted-cell">—</span>` : r.years_since_first + "년"}</td>
+        <td>${esc(r.reason)}</td>
+      </tr>`).join("") : `<tr><td colspan="4" class="muted-cell">제외된 팀 없음</td></tr>`) + `</tbody>`;
+
+    // 2. Recent Press & Curators Section
+    const pSum = s.press_summary || [];
+    const pRows = s.recent_press || [];
+    document.getElementById("press-stats").innerHTML = pSum.map(p => `<div class="pstat">
+      <div class="pstat-name">${esc(p.kind === "웹매거진" ? srcNm(p.source) : p.kind)}</div>
+      <div class="pstat-val">최근 30일 ${p.last_30d}건</div>
+      <div class="pstat-sub">누적 ${p.total.toLocaleString()}건 · ${p.teams.toLocaleString()}팀</div>
+    </div>`).join("");
+
+    let selPressTab = "전체", pressLimit = 10;
+    const pressKinds = ["전체", "웹매거진", "인스타 큐레이터", "공연장 라인업"];
+    function drawPress() {
+      document.getElementById("press-tabs").innerHTML = pressKinds.map(k => {
+        const cnt = k === "전체" ? pRows.length : pRows.filter(r => r.kind === k).length;
+        return `<button type="button" class="chip ${selPressTab === k ? "active" : ""}" data-k="${esc(k)}">${esc(k)} (${cnt})</button>`;
+      }).join("");
+      document.querySelectorAll("#press-tabs .chip").forEach(b => b.onclick = () => {
+        selPressTab = b.dataset.k; pressLimit = 10; drawPress();
+      });
+
+      const filtered = selPressTab === "전체" ? pRows : pRows.filter(r => r.kind === selPressTab);
+      const shown = filtered.slice(0, pressLimit);
+      document.getElementById("press-feed").innerHTML = shown.length ? shown.map(p => {
+        const link = safeUrl(p.url);
+        return `<article class="press-item">
+          <div class="press-top">
+            <span class="press-artist">${esc(p.artist)}</span>
+            <div style="display:flex;gap:4px;flex-wrap:wrap;">
+              ${p.is_candidate ? `<span class="badge cand">후보 2갈래+</span>` : ""}
+              ${p.status === "신인" ? `<span class="badge new">신인 확인</span>` : ""}
+              <span class="badge">${esc(p.outlet || p.source_label)}</span>
+            </div>
+          </div>
+          <div class="press-title">${esc(p.title || "(제목 없음)")}</div>
+          <div class="press-foot">
+            <span>${esc(p.kind)} · ${esc(p.published_at)}</span>
+            ${link ? `<a href="${esc(link)}" target="_blank" rel="noopener">원문 보기 ↗</a>` : ""}
+          </div>
+        </article>`;
+      }).join("") : `<p class="muted-cell">해당 분류의 최근 언급이 아직 없어요.</p>`;
+
+      const moreBtn = document.getElementById("press-more");
+      if (filtered.length > pressLimit) {
+        moreBtn.style.display = "inline-block";
+        moreBtn.textContent = `더 보기 (${shown.length}/${filtered.length}건)`;
+        moreBtn.onclick = () => { pressLimit += 14; drawPress(); };
+      } else {
+        moreBtn.style.display = "none";
+      }
+      const total30 = sum(pSum, "last_30d");
+      const candInPress = pRows.filter(r => r.is_candidate).length;
+      document.getElementById("t-press").textContent =
+        `최근 30일 동안 매거진·큐레이터·공연장 언급 ${total30.toLocaleString()}건을 모았고, 최근 목록 중 ${candInPress}건이 2갈래 이상 후보 팀과 겹쳤어요.`;
+    }
+    drawPress();
+
+    // 3. Signal Hit Rates table & takeaway
+    document.getElementById("hit").innerHTML =
+      `<thead><tr><th>신호 프로그램</th><th class="n">적중률 (정답/신호)</th><th class="n">95% 신뢰 범위</th><th class="n">기준선 대비</th></tr></thead><tbody>` +
+      (s.signal_hit_rates || []).map(r => {
+        const [lo, hi] = wilson(r.hits, r.teams);
+        const lift = (base && base.rate) ? (r.rate / base.rate).toFixed(1) + "배" : "—";
+        return `<tr class="data-row ${r.teams < 10 ? "small" : ""}">
+          <td><b>${esc(nm(r.program, r.program_label))}</b>${r.teams < 10 ? ` <span class="badge unk">표본 적음</span>` : ""}</td>
+          <td class="n">${pct(r.rate)} (${r.hits}/${r.teams})</td>
+          <td class="n">${pct(lo)} ~ ${pct(hi)}</td>
+          <td class="n">${esc(lift)}</td>
+        </tr>`;
+      }).join("") + `</tbody>`;
+    if (bestHit && base) {
+      document.getElementById("t-hit").textContent =
+        `${nm(bestHit.program, bestHit.program_label)} 신호를 받은 팀은 ${pct(bestHit.rate)}(${bestHit.hits}/${bestHit.teams}팀)가 이후 정답을 받아, 아무 신호 기준선(${pct(base.rate)})의 ${(bestHit.rate / base.rate).toFixed(1)}배예요.`;
+      document.getElementById("m-hit").textContent =
+        `출처: 2020~2024년 선정·지원 및 전체 신호(n=${base.teams.toLocaleString()}팀) × 2025~2026년 정답 대조`;
+    }
+
+    // 4. Mid → Final takeaway
+    if (bestMid) {
+      document.getElementById("t-mid").textContent =
+        `표본 10팀 이상 중에서는 ${nm(bestMid.program, bestMid.program_label)} 팀의 ${pct(bestMid.rate)}(${bestMid.later_final}/${bestMid.teams}팀)가 이후 최종 신인상까지 이어졌어요. (표본 10팀 미만 프로그램은 회색 막대로 구분)`;
+      document.getElementById("m-mid").textContent =
+        `출처: 2025~2026년 중간 정답 ${midTotal}팀 중 이후 최종 정답 도달 ${midFinal}팀 (${pct(midTotal ? midFinal / midTotal : 0)})`;
+    }
+
+    // 5. Timing takeaways
+    if (lt.median_months != null) {
+      document.getElementById("t-lead").textContent =
+        `정답 ${lt.outcome_teams}팀 중 ${lt.with_prior_signal}팀(${priorPct})을 수상 전에 포착했고, 절반 이상을 ${lt.median_months}개월 이상 먼저 찾았어요.`;
+    }
+    const ct = sum(s.career_at_outcome, "teams");
+    if (ct) {
+      const c3 = carSum.within_3y ?? (s.career_at_outcome || []).filter(r => r.bucket.includes("1년") || r.bucket.includes("1~3")).reduce((a, r) => a + r.teams, 0);
+      document.getElementById("t-career").textContent =
+        `데뷔 연차가 확인된 정답 팀 ${ct}팀 중 ${c3}팀(${pct(c3 / ct)})이 첫 발매 3년 이내에 정답을 받았어요 (중앙값 ${carSum.median_years ?? "-"}년).`;
+    }
+
+    // 6. Collection table & Venue takeaway
+    document.getElementById("collection").innerHTML =
+      `<thead><tr><th>갈래</th><th>소스</th><th class="n">신호 건수</th><th class="n">팀 수</th><th>수집 기간</th></tr></thead><tbody>` +
+      (s.collection || []).map(r => `<tr class="data-row">
+        <td><span class="br-pill" data-b="${esc(r.branch)}">${esc(r.branch)}</span></td>
+        <td><b>${esc(srcNm(r.source))}</b> <span class="muted-cell">(${esc(r.source)})</span></td>
+        <td class="n">${r.rows.toLocaleString()}</td>
+        <td class="n">${r.teams.toLocaleString()}</td>
+        <td class="nowrap muted-cell">${esc(r.first_date)} ~ ${esc(r.last_date)}</td>
+      </tr>`).join("") + `</tbody>`;
+
+    const venues = s.top_venues || [];
+    if (venues.length) {
+      const topByCand = [...venues].sort((a, b) => (b.candidate_teams || 0) - (a.candidate_teams || 0))[0];
+      document.getElementById("t-venue").textContent =
+        `2025년 이후 공연이 가장 많은 곳은 ${venues[0].venue}(${venues[0].gigs.toLocaleString()}건), 현재 후보 팀이 가장 많이 선 곳은 ${topByCand.venue}(후보 ${topByCand.candidate_teams ?? 0}팀)예요.`;
+    }
+
+    // 7. Quality table
+    const lvlMap = { ok: ["양호", "ok"], warn: ["주의", "warn"], info: ["진행 중", "info"] };
+    document.getElementById("quality").innerHTML =
+      `<thead><tr><th>점검 항목</th><th class="n">건수</th><th>상태</th><th>설명</th></tr></thead><tbody>` +
+      (s.quality || []).map(q => {
+        const [txt, cls] = lvlMap[q.level] || ["참고", "info"];
+        return `<tr class="data-row">
+          <td><b>${esc(q.item)}</b></td>
+          <td class="n">${typeof q.value === "number" ? q.value.toLocaleString() : esc(q.value)}</td>
+          <td class="nowrap"><span class="badge ${cls}">${txt}</span></td>
+          <td class="muted-cell">${esc(q.note || "")}</td>
+        </tr>`;
+      }).join("") + `</tbody>`;
+
+    applyTheme(null);
+  })
+  .catch(e => {
+    document.getElementById("err").textContent = "데이터를 불러오지 못했어요: " + e;
+  });
 </script>
 </body>
 </html>
