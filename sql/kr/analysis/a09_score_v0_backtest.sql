@@ -11,31 +11,25 @@
 --       신인 대용: 멜론 프로필이 대부분 없어서 '우리 데이터에 처음 나온 지 3년 이내' 팀만 후보로 둔다(없으면 이센스·9와숫자들 같은
 --       기성 팀이 DMZ·큐레이션 덕에 상위를 차지함). DMZ 출연은 선정 단계에서 빼고 0.5 가점으로만 센다.
 --       유명 팀 제외는 지금의 멜론 프로필 기준이라 약간의 미래 정보가 섞인다(프로필 없는 팀은 그대로 둔다).
+-- 팀 묶기: core 뷰의 team_key (아티스트 연결표 ref.artist_xref, 없으면 괄호 별칭). 유명 팀 판정도 team_key로 찾는다
+--       (영문 키로 저장된 프로필 — 예: xdinaryheroes — 도 한글 팀 이름에 붙도록).
 --       기준일 뒤 관찰 기간이 2026-11까지로 짧아(17~23개월) 나중에 정답을 받을 팀이 '틀림'으로 세어질 수 있다.
 
 WITH params AS (
     SELECT DATE '2025-01-01' AS cutoff UNION ALL
     SELECT DATE '2025-07-01'
 ),
-alias_map AS (                                        -- 별칭 키 → 대표 키 (예: samui → 사뮈)
-    SELECT alias_key, MIN(artist_key) AS main_key
-    FROM core.v_signal
-    WHERE alias_key IS NOT NULL AND alias_key <> '' AND alias_key <> artist_key
-    GROUP BY alias_key
-),
 sig AS (                                              -- 기준일 전 3년 신호, 팀 키 통일
-    SELECT p.cutoff, COALESCE(am.main_key, s.artist_key) AS team_key,
+    SELECT p.cutoff, s.team_key,                     -- 팀 대표 키 (core 뷰: 연결표 → 괄호 별칭)
            s.branch, s.program, s.stage_rank, s.signal_date, s.detail
     FROM core.v_signal s
     JOIN params p ON s.signal_date <  p.cutoff
                  AND s.signal_date >= p.cutoff - INTERVAL '3 years'
-    LEFT JOIN alias_map am ON am.alias_key = s.artist_key
     WHERE s.artist_key IS NOT NULL AND s.artist_key <> ''
 ),
 outcome AS (                                          -- 센 정답, 팀 키 통일
-    SELECT COALESCE(am.main_key, o.artist_key) AS team_key, MIN(o.announced_start) AS first_outcome
+    SELECT o.team_key, MIN(o.announced_start) AS first_outcome
     FROM core.v_outcome o
-    LEFT JOIN alias_map am ON am.alias_key = o.artist_key
     WHERE o.counted
     GROUP BY 1
 ),
@@ -66,9 +60,8 @@ feat AS (
     GROUP BY s.cutoff, s.team_key
 ),
 first_seen AS (                                       -- 우리 데이터 전체에서 팀이 처음 나온 날 (상상마당 공연은 2010~)
-    SELECT COALESCE(am.main_key, s.artist_key) AS team_key, MIN(s.signal_date) AS first_seen
+    SELECT s.team_key, MIN(s.signal_date) AS first_seen
     FROM core.v_signal s
-    LEFT JOIN alias_map am ON am.alias_key = s.artist_key
     WHERE s.artist_key IS NOT NULL AND s.artist_key <> ''
     GROUP BY 1
 ),
@@ -79,11 +72,11 @@ pool AS (                                             -- 후보: 기준일 전�
     FROM feat f
     LEFT JOIN peer pe ON pe.cutoff = f.cutoff AND pe.team_key = f.team_key
     LEFT JOIN outcome o ON o.team_key = f.team_key
-    LEFT JOIN core.v_artist_status st ON st.artist_key = f.team_key
     JOIN first_seen fs ON fs.team_key = f.team_key
     WHERE fs.first_seen >= f.cutoff - INTERVAL '3 years'
       AND (o.first_outcome IS NULL OR o.first_outcome >= f.cutoff)
-      AND COALESCE(st.status, 'unknown') <> 'famous'
+      AND NOT EXISTS (SELECT 1 FROM core.v_artist_status st             -- 유명 팀 제외 (팀 대표 키로, 프로필 중 하나라도 유명이면)
+                      WHERE st.team_key = f.team_key AND st.status = 'famous')
 ),
 scored AS (
     SELECT p.*,

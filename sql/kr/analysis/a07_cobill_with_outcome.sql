@@ -13,57 +13,53 @@ WITH periods AS (
     SELECT '2025 상반기 공연', DATE '2025-01-01', DATE '2025-06-30'
 ),
 outcome_team AS (                                    -- 팀별 첫 센 정답 날짜
-    SELECT artist_key, alias_key, first_outcome_date
+    SELECT team_key, first_outcome_date
     FROM core.v_outcome_team
 ),
 gig AS (                                             -- 공연 1회 = 날짜 × 공연장, 출연 팀
     SELECT DISTINCT p.period, g.gig_date,
            TRIM(split_part(g.venue_text, ' (', 1)) AS venue,
-           g.artist_key, g.alias_key
+           COALESCE(tm.team_key, g.artist_key) AS team_key   -- 팀 대표 키
     FROM raw.raw_kr_gig g
     JOIN periods p ON g.gig_date BETWEEN p.gig_from AND p.gig_to
+    LEFT JOIN core.v_team_map tm ON tm.variant_key = g.artist_key
     WHERE g.artist_key IS NOT NULL AND g.artist_key <> ''
       AND TRIM(split_part(g.venue_text, ' (', 1)) NOT IN ('', '공연장 미정')
 ),
 gig_with_outcome AS (                                -- 공연 출연 팀에 '첫 정답 날짜' 붙이기
     SELECT gg.*, ot.first_outcome_date
     FROM gig gg
-    LEFT JOIN outcome_team ot
-      ON (gg.artist_key = ot.artist_key
-          OR gg.artist_key = ot.alias_key
-          OR gg.alias_key  = ot.artist_key)
+    LEFT JOIN outcome_team ot ON ot.team_key = gg.team_key
 ),
 cobill AS (                                          -- 팀 A × 같은 무대의 정답 팀 B
-    SELECT a.period, a.artist_key,
+    SELECT a.period, a.team_key,
            MAX(CASE WHEN b.first_outcome_date <= a.gig_date THEN 1 ELSE 0 END) AS with_already,
            MAX(CASE WHEN b.first_outcome_date >  a.gig_date THEN 1 ELSE 0 END) AS with_later
     FROM gig_with_outcome a
     JOIN gig_with_outcome b
       ON b.period = a.period AND b.gig_date = a.gig_date AND b.venue = a.venue
-     AND b.artist_key <> a.artist_key
-     AND COALESCE(b.alias_key, '#') <> a.artist_key
-     AND COALESCE(a.alias_key, '#') <> b.artist_key
+     AND b.team_key <> a.team_key
     WHERE b.first_outcome_date IS NOT NULL
-    GROUP BY a.period, a.artist_key
+    GROUP BY a.period, a.team_key
 ),
 candidate AS (                                       -- 기간 안 출연 팀 (기간 시작 전에 이미 정답 받은 팀 제외)
-    SELECT gw.period, gw.artist_key,
+    SELECT gw.period, gw.team_key,
            MIN(gw.gig_date)            AS first_gig,
            MIN(gw.first_outcome_date)  AS own_outcome_date
     FROM gig_with_outcome gw
     JOIN periods p ON p.period = gw.period
-    GROUP BY gw.period, gw.artist_key, p.gig_from
+    GROUP BY gw.period, gw.team_key, p.gig_from
     HAVING MIN(gw.first_outcome_date) IS NULL OR MIN(gw.first_outcome_date) >= p.gig_from
 ),
 labeled AS (
-    SELECT c.period, c.artist_key,
+    SELECT c.period, c.team_key,
            CASE WHEN cb.with_already = 1 THEN '1) 이미 정답 팀과 같이 섬'
                 WHEN cb.with_later   = 1 THEN '2) 나중 정답 팀과만 같이 섬'
                 ELSE                          '3) 정답 팀과 같이 선 적 없음' END AS peer_type,
            CASE WHEN c.own_outcome_date > c.first_gig
                  AND c.own_outcome_date >= DATE '2025-01-01' THEN 1 ELSE 0 END AS is_hit
     FROM candidate c
-    LEFT JOIN cobill cb ON cb.period = c.period AND cb.artist_key = c.artist_key
+    LEFT JOIN cobill cb ON cb.period = c.period AND cb.team_key = c.team_key
 )
 SELECT period                                       AS 기간,
        peer_type                                    AS 동료_유형,

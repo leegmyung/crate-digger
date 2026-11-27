@@ -1214,6 +1214,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 김상민그는감히전설이라고할수있다,큐레이션,rhythmer,리드머,,2026-01-01,
 김상민그는감히전설이라고할수있다,큐레이션,izm,IZM,,2026-01-23,
 김상민그는감히전설이라고할수있다,공연,indistreet,,,2026-03-08,무신사개러지
+김상민그는감히전설이라고할수있다,공연,indistreet,,,2026-09-05,
 김상희,큐레이션,izm,IZM,,2026-02-11,
 김새녘,선정·지원,sangsangmadang,band_discovery,2,2022-10-05,
 김새녘,선정·지원,sangsangmadang,band_discovery,4,2022-12-12,
@@ -4271,6 +4272,11 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 맹건호,공연,indistreet,,,2026-04-17,프리즘홀
 맹서령,큐레이션,musicy,음악취향Y,,2024-08-19,
 맹서령트리오,공연,indistreet,,,2026-11-19,퍼플노이즈 라이브홀
+머드더스튜던트,큐레이션,overtone,overtone,,2025-12-01,
+머드더스튜던트,큐레이션,musicy,음악취향Y,,2025-12-08,
+머드더스튜던트,공연,indistreet,,,2026-02-20,오방가르드
+머드더스튜던트,공연,indistreet,,,2026-03-01,대구 제임스레코드
+머드더스튜던트,공연,indistreet,,,2026-07-31,
 머디클립,공연,indistreet,,,2024-09-26,Club 빵
 머디클립,공연,indistreet,,,2024-11-07,Club 빵
 머디클립,공연,indistreet,,,2024-12-19,Club 빵
@@ -5883,6 +5889,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 블낫블,공연,indistreet,,,2026-11-06,Club FF
 블낫블,공연,indistreet,,,2026-11-14,살롱문보우
 블낫블,큐레이션,instagram,@muzik.street,,2026-11-26,
+블라,공연,indistreet,,,2026-05-14,롤링홀
 블라세,큐레이션,musicy,음악취향Y,,2023-07-24,
 블라세,큐레이션,izm,IZM,,2024-06-01,
 블라세,큐레이션,izm,IZM,,2025-02-19,
@@ -8293,6 +8300,9 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 아이들,큐레이션,izm,IZM,,2025-05-30,
 아이들,큐레이션,izm,IZM,,2026-02-10,
 아이들,큐레이션,izm,IZM,,2026-06-25,
+아이디얼스,큐레이션,musicy,음악취향Y,,2023-12-26,
+아이디얼스,공연,indistreet,,,2024-04-19,프리즘홀
+아이디얼스,공연,indistreet,,,2025-10-25,Club FF
 아이딧,큐레이션,izm,IZM,,2025-09-23,
 아이딧,큐레이션,izm,IZM,,2026-06-11,
 아이러닉휴,공연,indistreet,,,2025-02-22,오방가르드
@@ -13911,6 +13921,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 투어스,큐레이션,izm,IZM,,2025-10-02,
 투어스,큐레이션,musicy,음악취향Y,,2026-05-11,
 투어스,큐레이션,izm,IZM,,2026-11-14,
+투즈데이비치클럽,큐레이션,musicy,음악취향Y,,2023-09-25,
 투지,공연,indistreet,,,2024-03-01,Club FF
 투지,공연,indistreet,,,2024-03-08,프리즘홀
 투지,공연,indistreet,,,2024-05-05,Club FF
@@ -16170,7 +16181,6 @@ blackraveculture,큐레이션,visla,VISLA,,2023-09-25,
 blackwoodendoor,공연,indistreet,,,2024-11-09,Club 빵
 bladee,큐레이션,visla,VISLA,,2026-05-27,
 blagged,공연,indistreet,,,2026-11-29,Club Victim
-blah,공연,indistreet,,,2026-05-14,롤링홀
 blasphemy9,공연,indistreet,,,2025-08-30,리얼라이즈
 blasterkid,공연,indistreet,,,2026-01-10,클럽 프리버드
 blawan,큐레이션,visla,VISLA,,2025-09-03,
@@ -17265,9 +17275,6 @@ iankah,큐레이션,musicy,음악취향Y,,2023-05-15,
 ianmoon99,발매,bugs,,,2026-11-25,
 icykof,큐레이션,visla,VISLA,,2025-09-30,
 ide,공연,indistreet,,,2026-09-21,아지토 라이브 홀
-idearth,큐레이션,musicy,음악취향Y,,2023-12-26,
-idearth,공연,indistreet,,,2024-04-19,프리즘홀
-idearth,공연,indistreet,,,2025-10-25,Club FF
 identifiedpatient,큐레이션,visla,VISLA,,2023-01-14,
 iganana,공연,indistreet,,,2026-09-05,
 iglooghost,큐레이션,visla,VISLA,,2024-05-14,
@@ -17627,7 +17634,6 @@ koreless,큐레이션,visla,VISLA,,2024-08-19,
 kradness,공연,sangsangmadang,,,2018-09-29,라이브홀
 krankydoodle,공연,indistreet,,,2024-10-05,Club Victim
 krstrangepiper,큐레이션,instagram,@debasermagazine,,2026-11-25,
-ksmartboi,공연,indistreet,,,2026-09-05,
 ksupermotel,공연,indistreet,,,2026-04-25,채널1969
 ksupermotel,공연,indistreet,,,2026-10-09,생기스튜디오
 ksupermotel,공연,indistreet,,,2026-11-21,Club Sharp
@@ -18066,11 +18072,6 @@ mrcoolandsauceman,공연,indistreet,,,2026-04-05,채널1969
 mrcoolsauceman,공연,indistreet,,,2026-07-10,스트레인지 프룻
 mssingno,큐레이션,visla,VISLA,,2025-11-18,
 muban,공연,indistreet,,,2025-09-19,오방가르드
-muddthestudent,큐레이션,overtone,overtone,,2025-12-01,
-muddthestudent,큐레이션,musicy,음악취향Y,,2025-12-08,
-muddthestudent,공연,indistreet,,,2026-02-20,오방가르드
-muddthestudent,공연,indistreet,,,2026-03-01,대구 제임스레코드
-muddthestudent,공연,indistreet,,,2026-07-31,
 muizyu,공연,indistreet,,,2024-12-07,오방가르드
 muizyu,공연,indistreet,,,2026-09-05,
 multiculti,큐레이션,visla,VISLA,,2023-05-11,
@@ -19487,7 +19488,6 @@ truthteller,공연,indistreet,,,2026-04-25,제이에스아트홀&뮤직바
 truthteller,공연,indistreet,,,2026-08-16,Club Victim
 truthteller,공연,indistreet,,,2026-11-08,Club Victim
 ttt,공연,indistreet,,,2024-09-20,SKUNK
-tuesdaybeachclub,큐레이션,musicy,음악취향Y,,2023-09-25,
 tuesdaybeachclub,공연,indistreet,,,2024-12-28,무신사개러지
 tuesdaybeachclub,공연,sangsangmadang,,,2025-01-03,상상마당 부산 3층 라이브홀
 tuesdaybeachclub,공연,indistreet,,,2026-10-04,

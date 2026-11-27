@@ -11,44 +11,42 @@ WITH params AS (
            DATE '2020-01-01' AS lookback_from          -- 정답 기간 시작 5년 전
 ),
 sel_signal AS (                                       -- 기간 안 선정·지원 신호 (팀 × 프로그램, 가장 이른 날짜)
-    SELECT s.program, s.artist_key, s.alias_key, MIN(s.signal_date) AS signal_date
+    SELECT s.program, s.team_key, MIN(s.signal_date) AS signal_date
     FROM core.v_signal s
     CROSS JOIN params p
     WHERE s.branch = '선정·지원'
       AND s.signal_date >= p.lookback_from
       AND s.signal_date <  p.outcome_from
-    GROUP BY s.program, s.artist_key, s.alias_key
+    GROUP BY s.program, s.team_key
 ),
 outcome AS (                                          -- 예측 대상 정답 (센 것만)
-    SELECT o.program AS outcome_program, o.artist_key, o.alias_key, o.announced_start
+    SELECT o.program AS outcome_program, o.team_key, o.announced_start
     FROM core.v_outcome o
     CROSS JOIN params p
     WHERE o.counted
       AND o.announced_start >= p.outcome_from
 ),
 any_signal AS (                                       -- 기준선: 기간 안 아무 갈래 신호 (팀별 가장 이른 날짜)
-    SELECT s.artist_key, s.alias_key, MIN(s.signal_date) AS signal_date
+    SELECT s.team_key, MIN(s.signal_date) AS signal_date
     FROM core.v_signal s
     CROSS JOIN params p
     WHERE s.signal_date >= p.lookback_from
       AND s.signal_date <  p.outcome_from
-    GROUP BY s.artist_key, s.alias_key
+    GROUP BY s.team_key
 ),
 baseline AS (
-    SELECT COUNT(DISTINCT a.artist_key) AS signal_teams,
+    SELECT COUNT(DISTINCT a.team_key) AS signal_teams,
            COUNT(DISTINCT CASE WHEN EXISTS (
                SELECT 1 FROM outcome oc
-               WHERE (a.artist_key = oc.artist_key OR a.artist_key = oc.alias_key OR a.alias_key = oc.artist_key)
-                 AND a.signal_date < oc.announced_start) THEN a.artist_key END) AS hit_teams
+               WHERE a.team_key = oc.team_key
+                 AND a.signal_date < oc.announced_start) THEN a.team_key END) AS hit_teams
     FROM any_signal a
 ),
 hit AS (                                              -- 신호 뒤에 정답이 온 팀 (같은 프로그램 계열 제외)
-    SELECT DISTINCT ss.program, ss.artist_key
+    SELECT DISTINCT ss.program, ss.team_key
     FROM sel_signal ss
     JOIN outcome oc
-      ON (ss.artist_key = oc.artist_key
-          OR ss.artist_key = oc.alias_key
-          OR ss.alias_key  = oc.artist_key)
+      ON ss.team_key = oc.team_key
      AND ss.signal_date < oc.announced_start
     WHERE NOT EXISTS (
         SELECT 1 FROM ref.same_program sp
@@ -58,12 +56,12 @@ hit AS (                                              -- 신호 뒤에 정답이
 ),
 by_program AS (
     SELECT ss.program                                        AS 선정지원_프로그램,
-           COUNT(DISTINCT ss.artist_key)                     AS 신호_팀수,
-           COUNT(DISTINCT h.artist_key)                      AS 정답_팀수,
+           COUNT(DISTINCT ss.team_key)                     AS 신호_팀수,
+           COUNT(DISTINCT h.team_key)                      AS 정답_팀수,
            0                                                 AS sort_group
     FROM sel_signal ss
     LEFT JOIN hit h
-      ON h.program = ss.program AND h.artist_key = ss.artist_key
+      ON h.program = ss.program AND h.team_key = ss.team_key
     GROUP BY ss.program
     UNION ALL
     SELECT '(기준선: 모든 신호 팀)', signal_teams, hit_teams, 1

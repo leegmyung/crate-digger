@@ -569,25 +569,37 @@ def xref_rows(artists: list[dict]) -> list[tuple[str, str, str, str]]:
     return list(rows.values())
 
 
+def pg_load_script(csv_path: str) -> str:
+    """ref.artist_xref 를 비우고 다시 채우는 psql 스크립트 (한 트랜잭션).
+    core 뷰(sql/kr/00_core_views.sql)가 이 표를 참조하므로 DROP 하지 않는다."""
+    return "\n".join([
+        "BEGIN;",
+        "CREATE SCHEMA IF NOT EXISTS ref;",
+        "CREATE TABLE IF NOT EXISTS ref.artist_xref (variant_key text PRIMARY KEY, artist_key text NOT NULL, "
+        "display_name text, confidence text);",
+        "CREATE INDEX IF NOT EXISTS artist_xref_artist_key_idx ON ref.artist_xref (artist_key);",
+        "TRUNCATE ref.artist_xref;",
+        f"\\copy ref.artist_xref FROM '{csv_path}' WITH (FORMAT csv)",
+        "COMMIT;",
+    ]) + "\n"
+
+
 def load_pg(artists: list[dict], psql_path: str = PSQL, db: str = DB) -> str:
-    """ref.artist_xref 표로 넣기. psql·DB가 없으면 건너뛰고 메시지만 돌려준다."""
+    """ref.artist_xref 표로 넣기. psql·DB가 없으면 건너뛰고 메시지만 돌려준다.
+    넣은 뒤 sql/kr/00_core_views.sql 을 다시 실행해야 뷰의 team_key 에 반영된다."""
     if not Path(psql_path).exists():
-        return f"PostgreSQL 적재 건너뜀: psql을 찾을 수 없음 (PSQL 환경변수로 위치 지정 가능)"
-    with tempfile.NamedTemporaryFile("w", suffix=".csv", delete=False, encoding="utf-8", newline="") as tmp:
-        csv.writer(tmp).writerows(xref_rows(artists))
-    sql = ("CREATE SCHEMA IF NOT EXISTS ref; DROP TABLE IF EXISTS ref.artist_xref; "
-           "CREATE TABLE ref.artist_xref (variant_key text PRIMARY KEY, artist_key text NOT NULL, "
-           "display_name text, confidence text);")
-    try:
-        for cmd in (sql, f"\\copy ref.artist_xref FROM '{tmp.name}' WITH (FORMAT csv)",
-                    "CREATE INDEX ON ref.artist_xref (artist_key);"):
-            proc = subprocess.run([psql_path, "-v", "ON_ERROR_STOP=1", "-q", "-d", db, "-c", cmd],
-                                  capture_output=True, text=True)
-            if proc.returncode != 0:
-                return f"PostgreSQL 적재 건너뜀: {proc.stderr.strip()[:300]}"
-    finally:
-        os.unlink(tmp.name)
-    return f"PostgreSQL ref.artist_xref {len(xref_rows(artists)):,}행 적재"
+        return "PostgreSQL 적재 건너뜀: psql을 찾을 수 없음 (PSQL 환경변수로 위치 지정 가능)"
+    rows = xref_rows(artists)
+    with tempfile.TemporaryDirectory() as d:
+        csv_path, sql_path = Path(d) / "artist_xref.csv", Path(d) / "load.sql"
+        with open(csv_path, "w", encoding="utf-8", newline="") as f:
+            csv.writer(f).writerows(rows)
+        sql_path.write_text(pg_load_script(str(csv_path)), encoding="utf-8")
+        proc = subprocess.run([psql_path, "-v", "ON_ERROR_STOP=1", "-q", "-d", db, "-f", str(sql_path)],
+                              capture_output=True, text=True)
+    if proc.returncode != 0:
+        return f"PostgreSQL 적재 건너뜀: {proc.stderr.strip()[:300]}"
+    return f"PostgreSQL ref.artist_xref {len(rows):,}행 적재 (뷰 반영: psql -f sql/kr/00_core_views.sql)"
 
 
 # ---------- 원본 읽기 ----------

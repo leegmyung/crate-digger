@@ -1,7 +1,7 @@
 """랩(docs/lab.html)용 데이터 내보내기: PostgreSQL → docs/lab/data/*.csv + meta.json
 
 브라우저 안 DuckDB가 이 CSV를 읽어 사용자가 고른 설정(가중치·기준일·신인 기준 등)으로 SQL을 다시 돌린다.
-팀 키는 ref.artist_xref(같은 팀 다른 표기 묶음)가 있으면 그걸 쓰고, 없으면 괄호 별칭 키로 묶는다.
+팀 키는 core 뷰의 team_key(연결표 ref.artist_xref 우선, 없으면 괄호 별칭)를 그대로 쓴다.
 
 실행:
     python3 scripts/load_pg.py && psql -d crate_digger -f sql/kr/00_core_views.sql   # 먼저 적재
@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import Callable, Dict, List
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from build_dashboard_data import PROGRAM_NAMES, _has_xref_table, _infer_genres, _team_key_cte, psql_csv  # noqa: E402
+from build_dashboard_data import PROGRAM_NAMES, _has_xref_table, _infer_genres, psql_csv  # noqa: E402
 from csv_schema import OUTCOME_TIER  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -33,29 +33,24 @@ STATUS_PRIORITY = "CASE st.status WHEN 'famous' THEN 4 WHEN 'established' THEN 3
 Run = Callable[[str], str]
 
 
-def _sig_cte(km: str) -> str:
-    return f"""WITH {km},
-    sig AS (
-        SELECT COALESCE(km.main_key, s.artist_key) AS team_key, s.*
-        FROM core.v_signal s
-        LEFT JOIN key_map km ON km.variant_key = s.artist_key
-        WHERE s.artist_key IS NOT NULL AND s.artist_key <> '' AND s.signal_date IS NOT NULL
+SIG_CTE = """WITH sig AS (
+        SELECT * FROM core.v_signal          -- team_key = 연결표(ref.artist_xref) 또는 별칭으로 묶은 대표 키
+        WHERE artist_key IS NOT NULL AND artist_key <> '' AND signal_date IS NOT NULL
     )"""
 
 
 def queries(use_xref: bool) -> Dict[str, str]:
-    km = _team_key_cte(use_xref)
     display = ("(SELECT MIN(display_name) FROM ref.artist_xref x WHERE x.artist_key = t.team_key)"
                if use_xref else "NULL")
     return {
         "signals": f"""-- lab:signals
-            {_sig_cte(km)}
+            {SIG_CTE}
             SELECT DISTINCT team_key, branch, source, COALESCE(program, '') AS program,
                    stage_rank, signal_date,
                    CASE WHEN branch = '공연' THEN COALESCE(detail, '') ELSE '' END AS venue
             FROM sig ORDER BY team_key, signal_date""",
         "teams": f"""-- lab:teams
-            {_sig_cte(km)},
+            {SIG_CTE},
             t AS (
                 SELECT team_key, MIN(artist_text) AS any_name,
                        MIN(signal_date) FILTER (WHERE signal_date <= CURRENT_DATE) AS first_seen,
@@ -64,20 +59,19 @@ def queries(use_xref: bool) -> Dict[str, str]:
                 FROM sig GROUP BY team_key
             ),
             prof AS (
-                SELECT COALESCE(km.main_key, st.artist_key) AS team_key,
+                SELECT st.team_key,
                        MIN(st.first_release) AS first_release, MAX(st.fan_count) AS fan_count,
                        MAX(st.album_count) AS album_count,
                        (ARRAY_AGG(st.status ORDER BY {STATUS_PRIORITY} DESC))[1] AS profile_status
                 FROM core.v_artist_status st
-                LEFT JOIN key_map km ON km.variant_key = st.artist_key
                 GROUP BY 1
             ),
             genres AS (
-                SELECT COALESCE(km.main_key, g.artist_key) AS team_key,
+                SELECT COALESCE(tm.team_key, g.artist_key) AS team_key,
                        string_agg(DISTINCT g.genre, '|') AS raw_genres
                 FROM (SELECT artist_key, genre FROM raw.raw_artist_profile
                       UNION SELECT artist_key, genre FROM raw.raw_kr_release) g
-                LEFT JOIN key_map km ON km.variant_key = g.artist_key
+                LEFT JOIN core.v_team_map tm ON tm.variant_key = g.artist_key
                 WHERE COALESCE(g.genre, '') <> ''
                 GROUP BY 1
             )
@@ -88,13 +82,10 @@ def queries(use_xref: bool) -> Dict[str, str]:
             LEFT JOIN prof p ON p.team_key = t.team_key
             LEFT JOIN genres g ON g.team_key = t.team_key
             ORDER BY t.team_key""",
-        "outcomes": f"""-- lab:outcomes
-            WITH {km}
-            SELECT DISTINCT COALESCE(km.main_key, o.artist_key) AS team_key, o.program, o.tier,
-                   o.announced_start AS announced_date, o.counted
-            FROM core.v_outcome o
-            LEFT JOIN key_map km ON km.variant_key = o.artist_key
-            WHERE o.artist_key IS NOT NULL AND o.artist_key <> '' AND o.announced_start IS NOT NULL
+        "outcomes": """-- lab:outcomes
+            SELECT DISTINCT team_key, program, tier, announced_start AS announced_date, counted
+            FROM core.v_outcome
+            WHERE artist_key IS NOT NULL AND artist_key <> '' AND announced_start IS NOT NULL
             ORDER BY team_key, announced_date""",
     }
 

@@ -3,6 +3,8 @@
     python3 scripts/backtrace.py                     # 보고서 → docs/backtrace.md
     python3 scripts/backtrace.py --window 2025-01-01  # 이 날짜 이후 정답을 '맞힐 대상'으로
 
+같은 팀 판별: 이름 키·괄호 별칭 키에 더해 아티스트 연결표(scripts/artist_xref.py)의 대표 키가 겹치면 같은 팀.
+
 계산하는 것
 1. 정답 팀마다 첫 정답일과, 그보다 앞선 신호(선행 일수). 날짜는 scripts/timing.py 규칙(후보=기간 끝, 정답=기간 첫날)
    으로 비교해 '앞섰다'를 부풀리지 않는다. 같은 프로그램 규칙(SAME_PROGRAM)에 걸리는 신호는 뺀다.
@@ -18,6 +20,7 @@ import sys
 from datetime import date
 from pathlib import Path
 
+from artist_xref import canonical_key, load_xref
 from collect_artists import name_keys
 from csv_schema import CAREER_FILTER_YEARS, CAREER_FILTERED, OUTCOME_SAME_FAMILY, OUTCOME_TIER, excluded_outcomes
 from newcomer import MAX_ALBUMS, MAX_YEARS
@@ -28,6 +31,20 @@ RAW_DIR = ROOT / "data" / "raw"
 REPORT = ROOT / "docs" / "backtrace.md"
 NEWCOMER_YEARS = MAX_YEARS     # 1.5단계 신인 기준과 같은 값 (scripts/newcomer.py)
 NEWCOMER_ALBUMS = MAX_ALBUMS
+_XREF = {"index": None}   # 아티스트 연결표 색인 (report 가 읽음, 테스트는 use_xref 로 지정)
+
+
+def use_xref(index):
+    """같은 팀 묶기에 쓸 연결표 색인(artist_xref.load_xref 결과). None 이면 이름 키·괄호 별칭만 쓴다."""
+    _XREF["index"] = index
+
+
+def _keys(name):
+    """같은 팀 판별용 키: 이름 키 + 괄호 별칭 키 + 연결표 대표 키 (하나라도 겹치면 같은 팀)."""
+    keys = name_keys(name)
+    if _XREF["index"] and keys:
+        keys.add(canonical_key(name, _XREF["index"]))
+    return keys
 
 
 def _rows(pattern, raw_dir=RAW_DIR):
@@ -42,7 +59,7 @@ def first_outcomes(outcomes):
     """{팀 이름: {date, program, round, keys, programs}} — 키(별칭 포함)가 겹치면 같은 팀."""
     teams, by_key = {}, {}
     for r in sorted(outcomes, key=lambda r: outcome_date(r["announced_at"])):
-        keys = name_keys(r["artist_text"])
+        keys = _keys(r["artist_text"])
         name = next((by_key[k] for k in keys if k in by_key), None)
         if name is None:
             name = r["artist_text"]
@@ -62,7 +79,7 @@ def _team_of(keys, teams):
 def prior_signals(selections, teams):
     prior = {n: [] for n in teams}
     for s in selections:
-        name = _team_of(name_keys(s["artist_text"]), teams)
+        name = _team_of(_keys(s["artist_text"]), teams)
         if not name or teams[name]["program"] in excluded_outcomes(s["program"]) \
                 or teams[name]["program"] in OUTCOME_SAME_FAMILY.get(s["program"], ()):
             continue
@@ -75,7 +92,7 @@ def prior_signals(selections, teams):
 def career_at_outcome(profiles, teams):
     out = {}
     for p in profiles:
-        name = _team_of(name_keys(p["artist_text"]), teams)
+        name = _team_of(_keys(p["artist_text"]), teams)
         dates = [outcome_date(d) for d in (p.get("debut_date"), p.get("first_release_date")) if outcome_date(d or "")]
         if not name or not dates:
             continue
@@ -94,7 +111,7 @@ def filter_career(outcomes, profiles):
         if o["program"] not in CAREER_FILTERED:
             out.append(o)
             continue
-        team = {o["artist_text"]: {"date": outcome_date(o["announced_at"]), "keys": name_keys(o["artist_text"])}}
+        team = {o["artist_text"]: {"date": outcome_date(o["announced_at"]), "keys": _keys(o["artist_text"])}}
         car = career_at_outcome(profiles, team).get(o["artist_text"])
         if car and car["years"] <= CAREER_FILTER_YEARS:
             out.append(o)
@@ -116,11 +133,11 @@ def mid_to_final_rates(outcomes, window_start):
         rows = [m for m in mids if m["program"] == prog]
         teams, hits, names = set(), 0, []
         for m in rows:
-            keys = frozenset(name_keys(m["artist_text"]))
+            keys = frozenset(_keys(m["artist_text"]))
             if not keys or keys in teams:
                 continue
             teams.add(keys)
-            later = [f for f in finals if name_keys(f["artist_text"]) & keys
+            later = [f for f in finals if _keys(f["artist_text"]) & keys
                      and f["program"] not in OUTCOME_SAME_FAMILY.get(prog, ())
                      and lead_days(m["announced_at"], f["announced_at"])]
             if later:
@@ -141,7 +158,7 @@ def signal_hit_rates(selections, outcomes, window_start, lookback_years=None):
         if not sd or sd >= window_start or sd < earliest:
             continue
         r = rates.setdefault(s["program"], {"teams": 0, "hits": 0, "hit_names": [], "_seen": set()})
-        keys = frozenset(name_keys(s["artist_text"]))
+        keys = frozenset(_keys(s["artist_text"]))
         if not keys or keys in r["_seen"]:
             continue
         r["_seen"].add(keys)
@@ -156,7 +173,8 @@ def signal_hit_rates(selections, outcomes, window_start, lookback_years=None):
     return rates
 
 
-def report(raw_dir, window, lookback=5):
+def report(raw_dir, window, lookback=5, xref_path=None):
+    use_xref(load_xref(xref_path) if xref_path else load_xref())   # 연결표가 없으면 빈 색인 → 예전 방식
     raw_outcomes, sels, profs = _rows("raw_outcome_*.csv", raw_dir), _rows("raw_kr_selection_*.csv", raw_dir), \
         _rows("raw_artist_profile_*.csv", raw_dir)
     outcomes = filter_career(raw_outcomes, profs)   # 기성 팀이 섞인 정답은 연차로 거름

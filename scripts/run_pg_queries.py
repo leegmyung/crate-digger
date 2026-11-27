@@ -66,7 +66,7 @@ def build():
     now = datetime.now(KST).strftime("%Y-%m-%d %H:%M")
     doc = [f"# SQL 분석·검증 결과 (PostgreSQL)", "",
            f"_자동 생성: `python3 scripts/run_pg_queries.py` · {now} 기준 데이터_", "",
-           "모든 쿼리는 `sql/kr/`에 원문이 있어요. 같은 팀 잇기는 정규화 이름 키(`artist_key`, 괄호 별칭 `alias_key`), "
+           "모든 쿼리는 `sql/kr/`에 원문이 있어요. 같은 팀 잇기는 대표 팀 키(`team_key` — 연결표 `ref.artist_xref` 우선, 없으면 괄호 별칭), "
            "날짜는 후보 신호 = 기간 끝, 정답 = 기간 첫날로 비교해요 (`sql/kr/00_core_views.sql`).", ""]
     failed = []
     for folder, title, desc in SECTIONS:

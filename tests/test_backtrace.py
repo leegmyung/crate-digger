@@ -83,5 +83,31 @@ class TierTest(unittest.TestCase):
         self.assertEqual([p["program"] for p in prior["피치트럭"]], ["penta_superrookie"])   # 첫 최종 정답(한대음 2026-02) 전엔 펜타만
 
 
+class XrefTest(unittest.TestCase):
+    """연결표(artist_xref)로 한영 표기가 다른 같은 팀을 한 팀으로 본다."""
+
+    INDEX = {"by_key": {"confinedwhite": "컨파인드화이트", "컨파인드화이트": "컨파인드화이트"}}
+    OUTS = [{"program": "kma_rookie", "round": "23회", "announced_at": "2026-02-05", "result": "nominee", "artist_text": "컨파인드 화이트"},
+            {"program": "hello_rookie_year", "round": "2026", "announced_at": "2026-11-20", "result": "winner", "artist_text": "Confined White"}]
+
+    def tearDown(self):
+        bt.use_xref(None)
+
+    def test_without_xref_english_spelling_is_separate_team(self):
+        self.assertEqual(len(bt.first_outcomes(self.OUTS)), 2)
+
+    def test_xref_merges_spellings_into_one_team(self):
+        bt.use_xref(self.INDEX)
+        first = bt.first_outcomes(self.OUTS)
+        self.assertEqual(list(first), ["컨파인드 화이트"])
+        self.assertEqual(first["컨파인드 화이트"]["programs"], ["kma_rookie", "hello_rookie_year"])
+
+    def test_xref_links_signal_written_in_english(self):
+        bt.use_xref(self.INDEX)
+        sels = [{"program": "muse_sejong", "round": "2024", "announced_at": "2024-05", "artist_text": "Confined White"}]
+        prior = bt.prior_signals(sels, bt.first_outcomes(self.OUTS[:1]))
+        self.assertEqual([p["program"] for p in prior["컨파인드 화이트"]], ["muse_sejong"])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -11,20 +11,18 @@ WITH params AS (
            DATE '2020-01-01' AS lookback_from
 ),
 outcome_team AS (                                    -- 팀별 첫 정답 (2025년 이후)
-    SELECT t.artist_key, t.alias_key, t.first_program, t.first_outcome_date
+    SELECT t.team_key, t.first_program, t.first_outcome_date
     FROM core.v_outcome_team t
     CROSS JOIN params p
     WHERE t.first_outcome_date >= p.outcome_from
 ),
 first_signal AS (                                    -- 팀 × 갈래별 정답 전 첫 신호
-    SELECT ot.artist_key, s.branch, ot.first_outcome_date,
+    SELECT ot.team_key, s.branch, ot.first_outcome_date,
            MIN(s.signal_date) AS first_signal_date
     FROM outcome_team ot
     CROSS JOIN params p
     JOIN core.v_signal s
-      ON (s.artist_key = ot.artist_key
-          OR s.artist_key = ot.alias_key
-          OR s.alias_key  = ot.artist_key)
+      ON s.team_key = ot.team_key
      AND s.signal_date <  ot.first_outcome_date
      AND s.signal_date >= p.lookback_from
     WHERE NOT EXISTS (
@@ -32,17 +30,17 @@ first_signal AS (                                    -- 팀 × 갈래별 정답 
         WHERE sp.selection_program = s.program
           AND sp.outcome_program   = ot.first_program
     )
-    GROUP BY ot.artist_key, s.branch, ot.first_outcome_date
+    GROUP BY ot.team_key, s.branch, ot.first_outcome_date
 ),
 lead AS (                                            -- 갈래별 + 갈래 무관(전체) 리드타임(개월)
-    SELECT branch, artist_key,
+    SELECT branch, team_key,
            (first_outcome_date - first_signal_date) / 30.44 AS lead_months
     FROM first_signal
     UNION ALL
-    SELECT '(전체)', artist_key,
+    SELECT '(전체)', team_key,
            (MAX(first_outcome_date) - MIN(first_signal_date)) / 30.44
     FROM first_signal
-    GROUP BY artist_key
+    GROUP BY team_key
 )
 SELECT l.branch                                                       AS 갈래,
        COUNT(*)                                                       AS 팀수,

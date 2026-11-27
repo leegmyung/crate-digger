@@ -1,8 +1,8 @@
 # SQL 분석·검증 결과 (PostgreSQL)
 
-_자동 생성: `python3 scripts/run_pg_queries.py` · 2026-11-27 10:07 기준 데이터_
+_자동 생성: `python3 scripts/run_pg_queries.py` · 2026-11-27 10:34 기준 데이터_
 
-모든 쿼리는 `sql/kr/`에 원문이 있어요. 같은 팀 잇기는 정규화 이름 키(`artist_key`, 괄호 별칭 `alias_key`), 날짜는 후보 신호 = 기간 끝, 정답 = 기간 첫날로 비교해요 (`sql/kr/00_core_views.sql`).
+모든 쿼리는 `sql/kr/`에 원문이 있어요. 같은 팀 잇기는 대표 팀 키(`team_key` — 연결표 `ref.artist_xref` 우선, 없으면 괄호 별칭), 날짜는 후보 신호 = 기간 끝, 정답 = 기간 첫날로 비교해요 (`sql/kr/00_core_views.sql`).
 
 ## 분석 SQL
 
@@ -26,44 +26,42 @@ WITH params AS (
            DATE '2020-01-01' AS lookback_from          -- 정답 기간 시작 5년 전
 ),
 sel_signal AS (                                       -- 기간 안 선정·지원 신호 (팀 × 프로그램, 가장 이른 날짜)
-    SELECT s.program, s.artist_key, s.alias_key, MIN(s.signal_date) AS signal_date
+    SELECT s.program, s.team_key, MIN(s.signal_date) AS signal_date
     FROM core.v_signal s
     CROSS JOIN params p
     WHERE s.branch = '선정·지원'
       AND s.signal_date >= p.lookback_from
       AND s.signal_date <  p.outcome_from
-    GROUP BY s.program, s.artist_key, s.alias_key
+    GROUP BY s.program, s.team_key
 ),
 outcome AS (                                          -- 예측 대상 정답 (센 것만)
-    SELECT o.program AS outcome_program, o.artist_key, o.alias_key, o.announced_start
+    SELECT o.program AS outcome_program, o.team_key, o.announced_start
     FROM core.v_outcome o
     CROSS JOIN params p
     WHERE o.counted
       AND o.announced_start >= p.outcome_from
 ),
 any_signal AS (                                       -- 기준선: 기간 안 아무 갈래 신호 (팀별 가장 이른 날짜)
-    SELECT s.artist_key, s.alias_key, MIN(s.signal_date) AS signal_date
+    SELECT s.team_key, MIN(s.signal_date) AS signal_date
     FROM core.v_signal s
     CROSS JOIN params p
     WHERE s.signal_date >= p.lookback_from
       AND s.signal_date <  p.outcome_from
-    GROUP BY s.artist_key, s.alias_key
+    GROUP BY s.team_key
 ),
 baseline AS (
-    SELECT COUNT(DISTINCT a.artist_key) AS signal_teams,
+    SELECT COUNT(DISTINCT a.team_key) AS signal_teams,
            COUNT(DISTINCT CASE WHEN EXISTS (
                SELECT 1 FROM outcome oc
-               WHERE (a.artist_key = oc.artist_key OR a.artist_key = oc.alias_key OR a.alias_key = oc.artist_key)
-                 AND a.signal_date < oc.announced_start) THEN a.artist_key END) AS hit_teams
+               WHERE a.team_key = oc.team_key
+                 AND a.signal_date < oc.announced_start) THEN a.team_key END) AS hit_teams
     FROM any_signal a
 ),
 hit AS (                                              -- 신호 뒤에 정답이 온 팀 (같은 프로그램 계열 제외)
-    SELECT DISTINCT ss.program, ss.artist_key
+    SELECT DISTINCT ss.program, ss.team_key
     FROM sel_signal ss
     JOIN outcome oc
-      ON (ss.artist_key = oc.artist_key
-          OR ss.artist_key = oc.alias_key
-          OR ss.alias_key  = oc.artist_key)
+      ON ss.team_key = oc.team_key
      AND ss.signal_date < oc.announced_start
     WHERE NOT EXISTS (
         SELECT 1 FROM ref.same_program sp
@@ -73,12 +71,12 @@ hit AS (                                              -- 신호 뒤에 정답이
 ),
 by_program AS (
     SELECT ss.program                                        AS 선정지원_프로그램,
-           COUNT(DISTINCT ss.artist_key)                     AS 신호_팀수,
-           COUNT(DISTINCT h.artist_key)                      AS 정답_팀수,
+           COUNT(DISTINCT ss.team_key)                     AS 신호_팀수,
+           COUNT(DISTINCT h.team_key)                      AS 정답_팀수,
            0                                                 AS sort_group
     FROM sel_signal ss
     LEFT JOIN hit h
-      ON h.program = ss.program AND h.artist_key = ss.artist_key
+      ON h.program = ss.program AND h.team_key = ss.team_key
     GROUP BY ss.program
     UNION ALL
     SELECT '(기준선: 모든 신호 팀)', signal_teams, hit_teams, 1
@@ -101,7 +99,7 @@ ORDER BY sort_group, 적중률_pct DESC, 신호_팀수 DESC;
 | muse_sejong | 24 | 1 | 4.2 |
 | dmz_lineup | 52 | 0 | 0.0 |
 | gb_creation | 21 | 0 | 0.0 |
-| (기준선: 모든 신호 팀) | 2871 | 43 | 1.5 |
+| (기준선: 모든 신호 팀) | 2797 | 41 | 1.5 |
 
 ### a02_lead_time
 
@@ -121,20 +119,18 @@ WITH params AS (
            DATE '2020-01-01' AS lookback_from
 ),
 outcome_team AS (                                    -- 팀별 첫 정답 (2025년 이후)
-    SELECT t.artist_key, t.alias_key, t.first_program, t.first_outcome_date
+    SELECT t.team_key, t.first_program, t.first_outcome_date
     FROM core.v_outcome_team t
     CROSS JOIN params p
     WHERE t.first_outcome_date >= p.outcome_from
 ),
 first_signal AS (                                    -- 팀 × 갈래별 정답 전 첫 신호
-    SELECT ot.artist_key, s.branch, ot.first_outcome_date,
+    SELECT ot.team_key, s.branch, ot.first_outcome_date,
            MIN(s.signal_date) AS first_signal_date
     FROM outcome_team ot
     CROSS JOIN params p
     JOIN core.v_signal s
-      ON (s.artist_key = ot.artist_key
-          OR s.artist_key = ot.alias_key
-          OR s.alias_key  = ot.artist_key)
+      ON s.team_key = ot.team_key
      AND s.signal_date <  ot.first_outcome_date
      AND s.signal_date >= p.lookback_from
     WHERE NOT EXISTS (
@@ -142,17 +138,17 @@ first_signal AS (                                    -- 팀 × 갈래별 정답 
         WHERE sp.selection_program = s.program
           AND sp.outcome_program   = ot.first_program
     )
-    GROUP BY ot.artist_key, s.branch, ot.first_outcome_date
+    GROUP BY ot.team_key, s.branch, ot.first_outcome_date
 ),
 lead AS (                                            -- 갈래별 + 갈래 무관(전체) 리드타임(개월)
-    SELECT branch, artist_key,
+    SELECT branch, team_key,
            (first_outcome_date - first_signal_date) / 30.44 AS lead_months
     FROM first_signal
     UNION ALL
-    SELECT '(전체)', artist_key,
+    SELECT '(전체)', team_key,
            (MAX(first_outcome_date) - MIN(first_signal_date)) / 30.44
     FROM first_signal
-    GROUP BY artist_key
+    GROUP BY team_key
 )
 SELECT l.branch                                                       AS 갈래,
        COUNT(*)                                                       AS 팀수,
@@ -174,10 +170,10 @@ ORDER BY CASE WHEN l.branch = '(전체)' THEN 0 ELSE 1 END, 팀수 DESC;
 
 | 갈래 | 팀수 | 정답_팀_전체 | 중앙값_개월 | 최소_개월 | 최대_개월 | 6개월_이상_pct | 12개월_이상_pct | 24개월_이상_pct |
 |---|---|---|---|---|---|---|---|---|
-| (전체) | 71 | 90 | 12.2 | 0.1 | 46.6 | 76.1 | 50.7 | 26.8 |
-| 공연 | 49 | 90 | 11.4 | 0.1 | 44.3 | 71.4 | 49.0 | 16.3 |
-| 큐레이션 | 40 | 90 | 8.3 | 0.1 | 39.8 | 65.0 | 37.5 | 22.5 |
-| 선정·지원 | 8 | 90 | 32.1 | 1.3 | 46.6 | 87.5 | 75.0 | 62.5 |
+| (전체) | 68 | 86 | 13.2 | 0.1 | 46.6 | 76.5 | 54.4 | 27.9 |
+| 공연 | 50 | 86 | 12.4 | 0.1 | 44.3 | 76.0 | 54.0 | 16.0 |
+| 큐레이션 | 36 | 86 | 9.0 | 0.1 | 39.8 | 66.7 | 41.7 | 25.0 |
+| 선정·지원 | 8 | 86 | 32.1 | 1.3 | 46.6 | 87.5 | 75.0 | 62.5 |
 
 ### a03_mid_to_final
 
@@ -191,44 +187,42 @@ ORDER BY CASE WHEN l.branch = '(전체)' THEN 0 ELSE 1 END, 팀수 DESC;
 
 ```sql
 WITH mid AS (                                        -- 팀 × 중간 프로그램 (가장 이른 날짜)
-    SELECT program AS mid_program, artist_key, alias_key,
+    SELECT program AS mid_program, team_key,
            MIN(COALESCE(announced_end, announced_start)) AS mid_date
     FROM core.v_outcome
     WHERE counted AND tier = 'mid'
-    GROUP BY program, artist_key, alias_key
+    GROUP BY program, team_key
 ),
 final_o AS (
-    SELECT program AS final_program, artist_key, alias_key, announced_start AS final_date
+    SELECT program AS final_program, team_key, announced_start AS final_date
     FROM core.v_outcome
     WHERE counted AND tier = 'final'
 ),
 converted AS (                                       -- 중간 뒤에 (다른 계열) 최종을 받은 팀
-    SELECT m.mid_program, m.artist_key,
+    SELECT m.mid_program, m.team_key,
            MIN(f.final_date - m.mid_date) AS days_to_final
     FROM mid m
     JOIN final_o f
-      ON (m.artist_key = f.artist_key
-          OR m.artist_key = f.alias_key
-          OR m.alias_key  = f.artist_key)
+      ON m.team_key = f.team_key
      AND m.mid_date < f.final_date
     WHERE NOT EXISTS (
         SELECT 1 FROM ref.outcome_same_family fam
         WHERE fam.mid_program   = m.mid_program
           AND fam.final_program = f.final_program
     )
-    GROUP BY m.mid_program, m.artist_key
+    GROUP BY m.mid_program, m.team_key
 )
 SELECT m.mid_program                                       AS 중간_프로그램,
-       COUNT(DISTINCT m.artist_key)                        AS 중간_팀수,
-       COUNT(DISTINCT c.artist_key)                        AS 최종까지_팀수,
-       ROUND(100.0 * COUNT(DISTINCT c.artist_key)
-             / NULLIF(COUNT(DISTINCT m.artist_key), 0), 1) AS 최종_전환율_pct,
+       COUNT(DISTINCT m.team_key)                        AS 중간_팀수,
+       COUNT(DISTINCT c.team_key)                        AS 최종까지_팀수,
+       ROUND(100.0 * COUNT(DISTINCT c.team_key)
+             / NULLIF(COUNT(DISTINCT m.team_key), 0), 1) AS 최종_전환율_pct,
        ROUND(AVG(c.days_to_final) / 30.44, 1)              AS 평균_걸린_개월,
        MIN(m.mid_date)                                     AS 중간_첫날짜,
        MAX(m.mid_date)                                     AS 중간_끝날짜
 FROM mid m
 LEFT JOIN converted c
-  ON c.mid_program = m.mid_program AND c.artist_key = m.artist_key
+  ON c.mid_program = m.mid_program AND c.team_key = m.team_key
 GROUP BY m.mid_program
 ORDER BY 최종_전환율_pct DESC, 중간_팀수 DESC;
 ```
@@ -320,7 +314,7 @@ _26행 중 15행만 표시_
 - 질문: 최근 180일 안에 2개 이상 갈래(공연 / 선정·지원 / 발매 / 큐레이션)에 동시에 나온 팀은 누구인가?
 - 왜 중요한가: 여러 갈래에서 동시에 보이는 팀은 '움직이고 있는' 팀이다. 지금 시점의 발굴 후보 미리보기.
 - 읽는 법: 갈래_수가 많고 최근_날짜가 가까울수록 위. 이미_정답 = 이미 센 정답을 받은 팀(발굴 의미가 적음).
-- 기준일은 오늘(CURRENT_DATE). 미래 날짜(예정 공연 등)는 뺀다. 같은 팀은 artist_key/alias_key로 묶는다.
+- 기준일은 오늘(CURRENT_DATE). 미래 날짜(예정 공연 등)는 뺀다. 같은 팀은 team_key(아티스트 연결표, 없으면 괄호 별칭)로 묶는다.
 
 <details><summary>쿼리 보기</summary>
 
@@ -328,18 +322,11 @@ _26행 중 15행만 표시_
 WITH params AS (
     SELECT CURRENT_DATE AS as_of, CURRENT_DATE - 180 AS window_from
 ),
-alias_map AS (                                       -- 별칭 키 → 대표 키 (예: samui → 사뮈)
-    SELECT alias_key, MIN(artist_key) AS main_key
-    FROM core.v_signal
-    WHERE alias_key IS NOT NULL AND alias_key <> artist_key
-    GROUP BY alias_key
-),
 recent AS (
-    SELECT COALESCE(am.main_key, s.artist_key) AS team_key,
+    SELECT s.team_key,                                   -- 팀 대표 키 (core 뷰: 연결표 → 괄호 별칭)
            s.artist_text, s.branch, s.signal_date
     FROM core.v_signal s
     CROSS JOIN params p
-    LEFT JOIN alias_map am ON am.alias_key = s.artist_key
     WHERE s.signal_date >= p.window_from
       AND s.signal_date <= p.as_of
       AND s.artist_key IS NOT NULL AND s.artist_key <> ''
@@ -358,7 +345,7 @@ team AS (
 SELECT t.표시_이름, t.team_key AS 팀_키, t.갈래_수, t.갈래_목록, t.신호_건수, t.최근_날짜,
        CASE WHEN EXISTS (
            SELECT 1 FROM core.v_outcome_team o
-           WHERE o.artist_key = t.team_key OR o.alias_key = t.team_key
+           WHERE o.team_key = t.team_key
        ) THEN 'Y' ELSE '' END                                 AS 이미_정답
 FROM team t
 ORDER BY t.갈래_수 DESC, t.최근_날짜 DESC, t.신호_건수 DESC
@@ -372,10 +359,10 @@ LIMIT 50;
 | 표시_이름 | 팀_키 | 갈래_수 | 갈래_목록 | 신호_건수 | 최근_날짜 | 이미_정답 |
 |---|---|---|---|---|---|---|
 | 다다다 | 다다다 | 3 | 공연, 발매, 선정·지원 | 9 | 2026-11-27 | Y |
-| 신인류 | 신인류 | 3 | 공연, 발매, 큐레이션 | 9 | 2026-11-25 | Y |
+| 신인류 | 신인류 | 3 | 공연, 발매, 큐레이션 | 11 | 2026-11-25 | Y |
 | 혁오 | 혁오 | 3 | 공연, 발매, 큐레이션 | 6 | 2026-11-25 |  |
 | 다브다 | 다브다 | 3 | 공연, 발매, 큐레이션 | 5 | 2026-11-24 |  |
-| 이케이 (EK) | 이케이 | 3 | 공연, 발매, 큐레이션 | 4 | 2026-11-24 |  |
+| 이케이 (EK) | ek | 3 | 공연, 발매, 큐레이션 | 4 | 2026-11-24 |  |
 | 술탄 오브 더 디스코 | 술탄오브더디스코 | 3 | 공연, 발매, 큐레이션 | 5 | 2026-11-23 |  |
 | 피치트럭하이재커스 | 피치트럭하이재커스 | 3 | 공연, 선정·지원, 큐레이션 | 8 | 2026-11-19 | Y |
 | 키라라 | 키라라 | 2 | 공연, 큐레이션 | 8 | 2026-11-27 |  |
@@ -384,8 +371,8 @@ LIMIT 50;
 | 도빛나리 | 도빛나리 | 2 | 공연, 큐레이션 | 3 | 2026-11-27 |  |
 | 킬카이저 | 킬카이저 | 2 | 공연, 큐레이션 | 3 | 2026-11-27 |  |
 | 나이테 | 나이테 | 2 | 공연, 큐레이션 | 14 | 2026-11-26 | Y |
-| 고고학 (Gogohawk) | 고고학 | 2 | 공연, 발매 | 7 | 2026-11-26 | Y |
-| Sign of Elma | signofelma | 2 | 공연, 발매 | 5 | 2026-11-26 |  |
+| 고고학 (Gogohawk) | 고고학 | 2 | 공연, 발매 | 8 | 2026-11-26 | Y |
+| 블낫블 | 블낫블 | 2 | 공연, 큐레이션 | 6 | 2026-11-26 | Y |
 
 _50행 중 15행만 표시_
 
@@ -406,9 +393,10 @@ WITH params AS (
 gig_2024 AS (                                        -- 공연장 × 팀 (2024년)
     SELECT DISTINCT
            TRIM(split_part(g.venue_text, ' (', 1)) AS venue,
-           g.artist_key, g.alias_key
+           COALESCE(tm.team_key, g.artist_key) AS team_key   -- 팀 대표 키
     FROM raw.raw_kr_gig g
     CROSS JOIN params p
+    LEFT JOIN core.v_team_map tm ON tm.variant_key = g.artist_key
     WHERE g.gig_date BETWEEN p.gig_from AND p.gig_to
       AND g.artist_key IS NOT NULL AND g.artist_key <> ''
 ),
@@ -417,32 +405,29 @@ gig_clean AS (
     WHERE venue <> '' AND venue <> '공연장 미정'
 ),
 outcome AS (
-    SELECT o.artist_key, o.alias_key
+    SELECT o.team_key
     FROM core.v_outcome o
     CROSS JOIN params p
     WHERE o.counted AND o.announced_start >= p.outcome_from   -- 2024 공연은 항상 2025+ 정답보다 앞선다
 ),
 team_hit AS (                                        -- 팀별 정답 여부 (같은 팀 규칙)
-    SELECT t.artist_key,
-           MAX(CASE WHEN oc.artist_key IS NOT NULL THEN 1 ELSE 0 END) AS is_hit
-    FROM (SELECT DISTINCT artist_key, alias_key FROM gig_2024) t
-    LEFT JOIN outcome oc
-      ON (t.artist_key = oc.artist_key
-          OR t.artist_key = oc.alias_key
-          OR t.alias_key  = oc.artist_key)
-    GROUP BY t.artist_key
+    SELECT t.team_key,
+           MAX(CASE WHEN oc.team_key IS NOT NULL THEN 1 ELSE 0 END) AS is_hit
+    FROM (SELECT DISTINCT team_key FROM gig_2024) t
+    LEFT JOIN outcome oc ON oc.team_key = t.team_key
+    GROUP BY t.team_key
 ),
 baseline AS (
     SELECT 100.0 * SUM(is_hit) / COUNT(*) AS base_pct FROM team_hit
 ),
 venue_stat AS (
     SELECT gc.venue,
-           COUNT(DISTINCT gc.artist_key)                                    AS team_cnt,
-           COUNT(DISTINCT CASE WHEN th.is_hit = 1 THEN gc.artist_key END)   AS hit_cnt
+           COUNT(DISTINCT gc.team_key)                                      AS team_cnt,
+           COUNT(DISTINCT CASE WHEN th.is_hit = 1 THEN gc.team_key END)     AS hit_cnt
     FROM gig_clean gc
-    JOIN team_hit th ON th.artist_key = gc.artist_key
+    JOIN team_hit th ON th.team_key = gc.team_key
     GROUP BY gc.venue
-    HAVING COUNT(DISTINCT gc.artist_key) >= (SELECT min_teams FROM params)   -- 순위 매기기 전에 거른다
+    HAVING COUNT(DISTINCT gc.team_key) >= (SELECT min_teams FROM params)   -- 순위 매기기 전에 거른다
 )
 SELECT RANK() OVER (ORDER BY 1.0 * v.hit_cnt / v.team_cnt DESC)  AS 순위,
        v.venue                                                    AS 공연장,
@@ -463,21 +448,21 @@ LIMIT 15;
 
 | 순위 | 공연장 | 출연_팀수 | 정답_팀수 | 정답_비율_pct | 기준선_pct | 배수 |
 |---|---|---|---|---|---|---|
-| 1 | 언드 | 52 | 3 | 5.8 | 1.9 | 3.0 |
-| 2 | A.O.R | 72 | 3 | 4.2 | 1.9 | 2.1 |
-| 2 | 무대륙 | 24 | 1 | 4.2 | 1.9 | 2.1 |
-| 4 | 무신사개러지 | 97 | 4 | 4.1 | 1.9 | 2.1 |
-| 5 | Club FF | 316 | 13 | 4.1 | 1.9 | 2.1 |
-| 6 | 석촌호수 아뜰리에 | 26 | 1 | 3.8 | 1.9 | 2.0 |
-| 7 | 오방가르드 | 117 | 4 | 3.4 | 1.9 | 1.8 |
-| 8 | Cafe PPnF | 48 | 1 | 2.1 | 1.9 | 1.1 |
-| 9 | Club 빵 | 291 | 6 | 2.1 | 1.9 | 1.1 |
-| 10 | Bender | 63 | 1 | 1.6 | 1.9 | 0.8 |
-| 11 | Club Victim | 268 | 4 | 1.5 | 1.9 | 0.8 |
-| 12 | 서브라이엇 해방촌 | 61 | 0 | 0.0 | 1.9 | 0.0 |
-| 12 | 롤링홀 | 45 | 0 | 0.0 | 1.9 | 0.0 |
-| 12 | 베이비돌 | 27 | 0 | 0.0 | 1.9 | 0.0 |
-| 12 | 프리즘홀 | 26 | 0 | 0.0 | 1.9 | 0.0 |
+| 1 | 언드 | 52 | 3 | 5.8 | 2.0 | 2.9 |
+| 2 | A.O.R | 72 | 4 | 5.6 | 2.0 | 2.7 |
+| 3 | 무신사개러지 | 97 | 5 | 5.2 | 2.0 | 2.5 |
+| 4 | 무대륙 | 24 | 1 | 4.2 | 2.0 | 2.1 |
+| 5 | Club FF | 315 | 13 | 4.1 | 2.0 | 2.0 |
+| 6 | 석촌호수 아뜰리에 | 26 | 1 | 3.8 | 2.0 | 1.9 |
+| 7 | 오방가르드 | 117 | 4 | 3.4 | 2.0 | 1.7 |
+| 8 | Cafe PPnF | 48 | 1 | 2.1 | 2.0 | 1.0 |
+| 9 | Club 빵 | 291 | 6 | 2.1 | 2.0 | 1.0 |
+| 10 | Bender | 63 | 1 | 1.6 | 2.0 | 0.8 |
+| 11 | Club Victim | 268 | 4 | 1.5 | 2.0 | 0.7 |
+| 12 | 서브라이엇 해방촌 | 61 | 0 | 0.0 | 2.0 | 0.0 |
+| 12 | 롤링홀 | 45 | 0 | 0.0 | 2.0 | 0.0 |
+| 12 | 베이비돌 | 27 | 0 | 0.0 | 2.0 | 0.0 |
+| 12 | 프리즘홀 | 26 | 0 | 0.0 | 2.0 | 0.0 |
 
 ### a07_cobill_with_outcome
 
@@ -499,57 +484,53 @@ WITH periods AS (
     SELECT '2025 상반기 공연', DATE '2025-01-01', DATE '2025-06-30'
 ),
 outcome_team AS (                                    -- 팀별 첫 센 정답 날짜
-    SELECT artist_key, alias_key, first_outcome_date
+    SELECT team_key, first_outcome_date
     FROM core.v_outcome_team
 ),
 gig AS (                                             -- 공연 1회 = 날짜 × 공연장, 출연 팀
     SELECT DISTINCT p.period, g.gig_date,
            TRIM(split_part(g.venue_text, ' (', 1)) AS venue,
-           g.artist_key, g.alias_key
+           COALESCE(tm.team_key, g.artist_key) AS team_key   -- 팀 대표 키
     FROM raw.raw_kr_gig g
     JOIN periods p ON g.gig_date BETWEEN p.gig_from AND p.gig_to
+    LEFT JOIN core.v_team_map tm ON tm.variant_key = g.artist_key
     WHERE g.artist_key IS NOT NULL AND g.artist_key <> ''
       AND TRIM(split_part(g.venue_text, ' (', 1)) NOT IN ('', '공연장 미정')
 ),
 gig_with_outcome AS (                                -- 공연 출연 팀에 '첫 정답 날짜' 붙이기
     SELECT gg.*, ot.first_outcome_date
     FROM gig gg
-    LEFT JOIN outcome_team ot
-      ON (gg.artist_key = ot.artist_key
-          OR gg.artist_key = ot.alias_key
-          OR gg.alias_key  = ot.artist_key)
+    LEFT JOIN outcome_team ot ON ot.team_key = gg.team_key
 ),
 cobill AS (                                          -- 팀 A × 같은 무대의 정답 팀 B
-    SELECT a.period, a.artist_key,
+    SELECT a.period, a.team_key,
            MAX(CASE WHEN b.first_outcome_date <= a.gig_date THEN 1 ELSE 0 END) AS with_already,
            MAX(CASE WHEN b.first_outcome_date >  a.gig_date THEN 1 ELSE 0 END) AS with_later
     FROM gig_with_outcome a
     JOIN gig_with_outcome b
       ON b.period = a.period AND b.gig_date = a.gig_date AND b.venue = a.venue
-     AND b.artist_key <> a.artist_key
-     AND COALESCE(b.alias_key, '#') <> a.artist_key
-     AND COALESCE(a.alias_key, '#') <> b.artist_key
+     AND b.team_key <> a.team_key
     WHERE b.first_outcome_date IS NOT NULL
-    GROUP BY a.period, a.artist_key
+    GROUP BY a.period, a.team_key
 ),
 candidate AS (                                       -- 기간 안 출연 팀 (기간 시작 전에 이미 정답 받은 팀 제외)
-    SELECT gw.period, gw.artist_key,
+    SELECT gw.period, gw.team_key,
            MIN(gw.gig_date)            AS first_gig,
            MIN(gw.first_outcome_date)  AS own_outcome_date
     FROM gig_with_outcome gw
     JOIN periods p ON p.period = gw.period
-    GROUP BY gw.period, gw.artist_key, p.gig_from
+    GROUP BY gw.period, gw.team_key, p.gig_from
     HAVING MIN(gw.first_outcome_date) IS NULL OR MIN(gw.first_outcome_date) >= p.gig_from
 ),
 labeled AS (
-    SELECT c.period, c.artist_key,
+    SELECT c.period, c.team_key,
            CASE WHEN cb.with_already = 1 THEN '1) 이미 정답 팀과 같이 섬'
                 WHEN cb.with_later   = 1 THEN '2) 나중 정답 팀과만 같이 섬'
                 ELSE                          '3) 정답 팀과 같이 선 적 없음' END AS peer_type,
            CASE WHEN c.own_outcome_date > c.first_gig
                  AND c.own_outcome_date >= DATE '2025-01-01' THEN 1 ELSE 0 END AS is_hit
     FROM candidate c
-    LEFT JOIN cobill cb ON cb.period = c.period AND cb.artist_key = c.artist_key
+    LEFT JOIN cobill cb ON cb.period = c.period AND cb.team_key = c.team_key
 )
 SELECT period                                       AS 기간,
        peer_type                                    AS 동료_유형,
@@ -567,11 +548,11 @@ ORDER BY period, peer_type;
 
 | 기간 | 동료_유형 | 팀수 | 이후_정답_팀수 | 정답_비율_pct |
 |---|---|---|---|---|
-| 2024 공연 | 2) 나중 정답 팀과만 같이 섬 | 201 | 14 | 7.0 |
-| 2024 공연 | 3) 정답 팀과 같이 선 적 없음 | 1023 | 11 | 1.1 |
-| 2025 상반기 공연 | 1) 이미 정답 팀과 같이 섬 | 7 | 0 | 0.0 |
-| 2025 상반기 공연 | 2) 나중 정답 팀과만 같이 섬 | 119 | 7 | 5.9 |
-| 2025 상반기 공연 | 3) 정답 팀과 같이 선 적 없음 | 566 | 13 | 2.3 |
+| 2024 공연 | 2) 나중 정답 팀과만 같이 섬 | 217 | 15 | 6.9 |
+| 2024 공연 | 3) 정답 팀과 같이 선 적 없음 | 1001 | 12 | 1.2 |
+| 2025 상반기 공연 | 1) 이미 정답 팀과 같이 섬 | 7 | 1 | 14.3 |
+| 2025 상반기 공연 | 2) 나중 정답 팀과만 같이 섬 | 121 | 10 | 8.3 |
+| 2025 상반기 공연 | 3) 정답 팀과 같이 선 적 없음 | 561 | 12 | 2.1 |
 
 ### a08_platform_presence
 
@@ -677,6 +658,8 @@ ORDER BY 구분, sort_key;
 - 신인 대용: 멜론 프로필이 대부분 없어서 '우리 데이터에 처음 나온 지 3년 이내' 팀만 후보로 둔다(없으면 이센스·9와숫자들 같은
 - 기성 팀이 DMZ·큐레이션 덕에 상위를 차지함). DMZ 출연은 선정 단계에서 빼고 0.5 가점으로만 센다.
 - 유명 팀 제외는 지금의 멜론 프로필 기준이라 약간의 미래 정보가 섞인다(프로필 없는 팀은 그대로 둔다).
+- 팀 묶기: core 뷰의 team_key (아티스트 연결표 ref.artist_xref, 없으면 괄호 별칭). 유명 팀 판정도 team_key로 찾는다
+- (영문 키로 저장된 프로필 — 예: xdinaryheroes — 도 한글 팀 이름에 붙도록).
 - 기준일 뒤 관찰 기간이 2026-11까지로 짧아(17~23개월) 나중에 정답을 받을 팀이 '틀림'으로 세어질 수 있다.
 
 <details><summary>쿼리 보기</summary>
@@ -686,25 +669,17 @@ WITH params AS (
     SELECT DATE '2025-01-01' AS cutoff UNION ALL
     SELECT DATE '2025-07-01'
 ),
-alias_map AS (                                        -- 별칭 키 → 대표 키 (예: samui → 사뮈)
-    SELECT alias_key, MIN(artist_key) AS main_key
-    FROM core.v_signal
-    WHERE alias_key IS NOT NULL AND alias_key <> '' AND alias_key <> artist_key
-    GROUP BY alias_key
-),
 sig AS (                                              -- 기준일 전 3년 신호, 팀 키 통일
-    SELECT p.cutoff, COALESCE(am.main_key, s.artist_key) AS team_key,
+    SELECT p.cutoff, s.team_key,                     -- 팀 대표 키 (core 뷰: 연결표 → 괄호 별칭)
            s.branch, s.program, s.stage_rank, s.signal_date, s.detail
     FROM core.v_signal s
     JOIN params p ON s.signal_date <  p.cutoff
                  AND s.signal_date >= p.cutoff - INTERVAL '3 years'
-    LEFT JOIN alias_map am ON am.alias_key = s.artist_key
     WHERE s.artist_key IS NOT NULL AND s.artist_key <> ''
 ),
 outcome AS (                                          -- 센 정답, 팀 키 통일
-    SELECT COALESCE(am.main_key, o.artist_key) AS team_key, MIN(o.announced_start) AS first_outcome
+    SELECT o.team_key, MIN(o.announced_start) AS first_outcome
     FROM core.v_outcome o
-    LEFT JOIN alias_map am ON am.alias_key = o.artist_key
     WHERE o.counted
     GROUP BY 1
 ),
@@ -735,9 +710,8 @@ feat AS (
     GROUP BY s.cutoff, s.team_key
 ),
 first_seen AS (                                       -- 우리 데이터 전체에서 팀이 처음 나온 날 (상상마당 공연은 2010~)
-    SELECT COALESCE(am.main_key, s.artist_key) AS team_key, MIN(s.signal_date) AS first_seen
+    SELECT s.team_key, MIN(s.signal_date) AS first_seen
     FROM core.v_signal s
-    LEFT JOIN alias_map am ON am.alias_key = s.artist_key
     WHERE s.artist_key IS NOT NULL AND s.artist_key <> ''
     GROUP BY 1
 ),
@@ -748,11 +722,11 @@ pool AS (                                             -- 후보: 기준일 전�
     FROM feat f
     LEFT JOIN peer pe ON pe.cutoff = f.cutoff AND pe.team_key = f.team_key
     LEFT JOIN outcome o ON o.team_key = f.team_key
-    LEFT JOIN core.v_artist_status st ON st.artist_key = f.team_key
     JOIN first_seen fs ON fs.team_key = f.team_key
     WHERE fs.first_seen >= f.cutoff - INTERVAL '3 years'
       AND (o.first_outcome IS NULL OR o.first_outcome >= f.cutoff)
-      AND COALESCE(st.status, 'unknown') <> 'famous'
+      AND NOT EXISTS (SELECT 1 FROM core.v_artist_status st             -- 유명 팀 제외 (팀 대표 키로, 프로필 중 하나라도 유명이면)
+                      WHERE st.team_key = f.team_key AND st.status = 'famous')
 ),
 scored AS (
     SELECT p.*,
@@ -802,21 +776,21 @@ ORDER BY res.cutoff, res.k, res.method;
 
 | 기준일 | 후보_팀수 | 이후_정답_팀수 | 상위_k | 방법 | 맞힌_팀수 | 적중률_pct | 무작위_기대_팀수 | 무작위_대비_배수 |
 |---|---|---|---|---|---|---|---|---|
-| 2025-01-01 | 2583 | 29 | 20 | 갈래 수만 | 1 | 5.0 | 0.2 | 4.5 |
-| 2025-01-01 | 2583 | 29 | 20 | 공연 수만 | 0 | 0.0 | 0.2 | 0.0 |
-| 2025-01-01 | 2583 | 29 | 20 | 점수 v0 | 2 | 10.0 | 0.2 | 8.9 |
-| 2025-01-01 | 2583 | 29 | 50 | 갈래 수만 | 2 | 4.0 | 0.6 | 3.6 |
-| 2025-01-01 | 2583 | 29 | 50 | 공연 수만 | 2 | 4.0 | 0.6 | 3.6 |
-| 2025-01-01 | 2583 | 29 | 50 | 점수 v0 | 2 | 4.0 | 0.6 | 3.6 |
-| 2025-01-01 | 2583 | 29 | 100 | 갈래 수만 | 2 | 2.0 | 1.1 | 1.8 |
-| 2025-01-01 | 2583 | 29 | 100 | 공연 수만 | 4 | 4.0 | 1.1 | 3.6 |
-| 2025-01-01 | 2583 | 29 | 100 | 점수 v0 | 3 | 3.0 | 1.1 | 2.7 |
-| 2025-01-01 | 2583 | 29 | 200 | 갈래 수만 | 6 | 3.0 | 2.2 | 2.7 |
-| 2025-01-01 | 2583 | 29 | 200 | 공연 수만 | 8 | 4.0 | 2.2 | 3.6 |
-| 2025-01-01 | 2583 | 29 | 200 | 점수 v0 | 7 | 3.5 | 2.2 | 3.1 |
-| 2025-07-01 | 3252 | 21 | 20 | 갈래 수만 | 1 | 5.0 | 0.1 | 7.7 |
-| 2025-07-01 | 3252 | 21 | 20 | 공연 수만 | 1 | 5.0 | 0.1 | 7.7 |
-| 2025-07-01 | 3252 | 21 | 20 | 점수 v0 | 1 | 5.0 | 0.1 | 7.7 |
+| 2025-01-01 | 2581 | 25 | 20 | 갈래 수만 | 1 | 5.0 | 0.2 | 5.2 |
+| 2025-01-01 | 2581 | 25 | 20 | 공연 수만 | 0 | 0.0 | 0.2 | 0.0 |
+| 2025-01-01 | 2581 | 25 | 20 | 점수 v0 | 2 | 10.0 | 0.2 | 10.3 |
+| 2025-01-01 | 2581 | 25 | 50 | 갈래 수만 | 2 | 4.0 | 0.5 | 4.1 |
+| 2025-01-01 | 2581 | 25 | 50 | 공연 수만 | 2 | 4.0 | 0.5 | 4.1 |
+| 2025-01-01 | 2581 | 25 | 50 | 점수 v0 | 2 | 4.0 | 0.5 | 4.1 |
+| 2025-01-01 | 2581 | 25 | 100 | 갈래 수만 | 2 | 2.0 | 1.0 | 2.1 |
+| 2025-01-01 | 2581 | 25 | 100 | 공연 수만 | 3 | 3.0 | 1.0 | 3.1 |
+| 2025-01-01 | 2581 | 25 | 100 | 점수 v0 | 3 | 3.0 | 1.0 | 3.1 |
+| 2025-01-01 | 2581 | 25 | 200 | 갈래 수만 | 5 | 2.5 | 1.9 | 2.6 |
+| 2025-01-01 | 2581 | 25 | 200 | 공연 수만 | 6 | 3.0 | 1.9 | 3.1 |
+| 2025-01-01 | 2581 | 25 | 200 | 점수 v0 | 5 | 2.5 | 1.9 | 2.6 |
+| 2025-07-01 | 3255 | 20 | 20 | 갈래 수만 | 1 | 5.0 | 0.1 | 8.1 |
+| 2025-07-01 | 3255 | 20 | 20 | 공연 수만 | 1 | 5.0 | 0.1 | 8.1 |
+| 2025-07-01 | 3255 | 20 | 20 | 점수 v0 | 1 | 5.0 | 0.1 | 8.1 |
 
 _24행 중 15행만 표시_
 

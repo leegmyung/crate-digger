@@ -287,6 +287,16 @@ class PgRowsTest(unittest.TestCase):
         self.assertEqual(rows["peachtruckhijackers"][1], "피치트럭하이재커스")  # load_pg 의 alias_key
         self.assertEqual(len(rows), len(ax.xref_rows(artists)))  # variant_key 중복 없음
 
+    def test_pg_script_refills_without_drop(self):
+        # core 뷰가 ref.artist_xref 를 참조하므로 DROP 대신 비우고 다시 채운다 (한 트랜잭션)
+        script = ax.pg_load_script("/tmp/x.csv")
+        self.assertNotIn("DROP TABLE", script)
+        self.assertIn("CREATE TABLE IF NOT EXISTS ref.artist_xref", script)
+        self.assertIn("TRUNCATE ref.artist_xref", script)
+        self.assertIn("\\copy ref.artist_xref FROM '/tmp/x.csv'", script)
+        self.assertLess(script.index("BEGIN"), script.index("TRUNCATE"))
+        self.assertLess(script.index("\\copy"), script.index("COMMIT"))
+
     def test_load_pg_skips_without_psql(self):
         msg = ax.load_pg([], psql_path="/nonexistent/psql")
         self.assertIn("건너뜀", msg)
