@@ -438,3 +438,4 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `선정·지원:dmz_lineup` | 제외 | 적중 0/103팀 — 이미 알려진 팀이 많은 페스티벌 라인업 |
 | `선정·지원:gb_creation` | 제외 | 적중 0/58팀 |
 | `협업:spotify` | 검증 대기 | 스포티파이 협업(피처링), 2026-11-27부터 수집 — 아직 성적 없음. 점수에는 w_collab(기본 0)로 따로 연결 |
+| `반응:youtube` | 검증 대기 | 무대 영상 조회수 7일 증가량(scripts/collect_video_stats.py) — 2026-11-27부터 기록, 아직 성적 없음 |
