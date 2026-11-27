@@ -211,7 +211,7 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 데이먼스이어,burock_main,부산록페 본무대,mid,selected,2026-09-04,false,B,1,,false
 뎁트,mucon,뮤콘(MU:CON),mid,selected,2025-06-16,false,B,1,,false
 뎁트,mucon,뮤콘(MU:CON),mid,selected,2026-07-13,false,B,1,,false
-도그라스트페이지,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
+도그라스트페이지,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,true,B,1,,false
 동이,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,false
 동이,kma_genre,한대음 장르 부문,mid,winner,2024-02-29,false,B,1,,false
 동이,kma_rookie,한대음 올해의 신인,final,nominee,2024-02-29,true,A,2,,false
@@ -480,7 +480,7 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 스킵잭,burock_main,부산록페 본무대,mid,selected,2023-09-22,false,B,1,,false
 스트릿베이비,khha_rookie,한국힙합어워즈 신인,final,nominee,2024-02-27,true,A,2,큐레이션:hiphople,false
 스프링스,indiestance,인디스땅스 결선,mid,finalist,2021-08-26,true,A,2,,false
-스핏온마이툼,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
+스핏온마이툼,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,true,B,1,,false
 슬롬,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
 슬롬,kma_genre,한대음 장르 부문,mid,winner,2022-03-01,false,B,1,,false
 슬롬,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
@@ -560,7 +560,7 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 아이유,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
 아톰뮤직하트,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,true,B,1,,false
 안녕바다,mucon,뮤콘(MU:CON),mid,selected,2022-08-16,false,B,1,,false
-안예은,mucon,뮤콘(MU:CON),mid,selected,2021-08-10,false,B,1,,false
+안예은,mucon,뮤콘(MU:CON),mid,selected,2021-08-10,true,B,1,,false
 안지원,musicy_rookie,음악취향Y 올해의 신인,final,shortlist,2025-12-29,true,B,1,,false
 알레프,burock_main,부산록페 본무대,mid,selected,2026-09-04,false,B,1,,false
 알렉사,mucon,뮤콘(MU:CON),mid,selected,2021-08-10,false,B,1,,false
@@ -1083,7 +1083,7 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 힙노시스테라피,mucon,뮤콘(MU:CON),mid,selected,2024-05-10,true,B,1,,false
 힙노시스테라피,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,true,B,1,,false
 힙노시스테라피,burock_main,부산록페 본무대,mid,selected,2026-09-04,true,B,1,,false
-품바21,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
+품바21,burock_main,부산록페 본무대,mid,selected,2024-09-13,true,B,1,,false
 250,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
 250,kma_genre,한대음 장르 부문,mid,winner,2023-03-05,false,B,1,,false
 5149,musicy_rookie,음악취향Y 올해의 신인,final,shortlist,2025-12-29,true,B,1,큐레이션:musicy,true
