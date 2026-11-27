@@ -79,7 +79,7 @@ class RowsTest(unittest.TestCase):
 
     def test_config_roles_are_known(self):
         accounts = ci._load_json(ci.CONFIG, {})["accounts"]
-        self.assertTrue(all(a.get("role") in ("magazine", "venue_showcase") for a in accounts))
+        self.assertTrue(all(a.get("role") in ("magazine", "venue_showcase", "artist") for a in accounts))   # artist = 팀 본인 계정(수집 안 함)
         venues = {a["handle"] for a in accounts if a["role"] == "venue_showcase"}
         self.assertTrue({"senggistudio", "hongdaeff", "rollinghall", "liveclubday"} <= venues)
 
@@ -88,6 +88,14 @@ class RowsTest(unittest.TestCase):
         rows, unparsed = ci.to_rows("bdbd.wav", post, AT)
         self.assertEqual(rows, [])
         self.assertEqual(unparsed["url"], "https://www.instagram.com/p/X/")
+
+
+class ArtistRoleTest(unittest.TestCase):
+    def test_artist_accounts_not_collected(self):
+        # 팀 본인 계정(role=artist)의 글을 '매체 큐레이션'으로 모으면 다른 팀에 가짜 신호가 생긴다
+        accounts = [{"handle": "pushplay_mag", "role": "magazine"}, {"handle": "theseosroom", "role": "artist"},
+                    {"handle": "clubbbang", "role": "venue_showcase"}]
+        self.assertEqual([a["handle"] for a in ci.collectable_accounts(accounts)], ["pushplay_mag", "clubbbang"])
 
 
 class DueTest(unittest.TestCase):
@@ -120,3 +128,37 @@ class DueTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CheckpointTest(unittest.TestCase):
+    """중간 저장: 수집이 도중에 멈춰도(2026-11-26 실제 사례) 앞에서 본 계정의 상태·행은 남아야 한다."""
+
+    def test_state_and_rows_saved_every_checkpoint_even_if_later_crash(self):
+        import json as _json
+        import tempfile as _tf
+        accounts = [{"handle": f"acc{i}", "role": "magazine", "every_days": 1} for i in range(5)]
+        row = {c: "" for c in ci.COLUMNS}
+        calls = []
+
+        def fake_collect(handle, seen, collected_at, oldest, role="magazine"):
+            calls.append(handle)
+            if handle == "acc3":
+                raise SystemExit("aside 가 통째로 죽음")              # 계정 하나 실패가 아니라 실행 자체가 끊김
+            return [dict(row, outlet=handle, artist_text="팀", url=f"https://x/{handle}", source="instagram",
+                         published_at="2026-11-27", title="t", is_pick="1")], [], [f"p_{handle}"]
+
+        with _tf.TemporaryDirectory() as d:
+            d = Path(d)
+            cfg, state = d / "cfg.json", d / "state.json"
+            cfg.write_text(_json.dumps({"accounts": accounts}), encoding="utf-8")
+            old = (ci.CONFIG, ci.STATE, ci.RAW_DIR, ci._collect_account, ci.CHECKPOINT_EVERY)
+            ci.CONFIG, ci.STATE, ci.RAW_DIR, ci._collect_account, ci.CHECKPOINT_EVERY = cfg, state, d, fake_collect, 2
+            try:
+                with self.assertRaises(SystemExit):
+                    ci.collect()
+            finally:
+                ci.CONFIG, ci.STATE, ci.RAW_DIR, ci._collect_account, ci.CHECKPOINT_EVERY = old
+            saved = _json.loads(state.read_text(encoding="utf-8"))
+            files = sorted(d.glob("raw_press_*_instagram*.csv"))
+        self.assertEqual(sorted(saved["seen"]), ["acc0", "acc1", "acc2"])   # 2개마다 저장 → acc0·acc1, 그리고 acc2 까지 (멈추기 직전 저장)
+        self.assertTrue(files)

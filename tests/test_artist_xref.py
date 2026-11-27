@@ -193,6 +193,40 @@ class BuildXrefTest(unittest.TestCase):
         self.assertEqual(cw["instagram"][0]["confidence"], "high")
         self.assertTrue(cw["instagram"][0]["evidence"])
 
+    def test_profile_full_name_key_without_separator_joins_team(self):
+        # DB는 인스타 프로필 이름 전체로 키를 만든다('CHUDAHYE_CHAGIS / 추다혜차지스' → chudahyechagis추다혜차지스).
+        # 그 붙은 키도 팀 표기로 넣어야 링크가 팀에 붙는다.
+        names = [{"table": "gig", "name": "추다혜차지스", "count": 5}, {"table": "gig", "name": "플릿", "count": 2},
+                 {"table": "profile", "name": "FLEET(플릿)", "count": 1}]
+        ig = [{"handle": "chudahye_chagis", "name": "CHUDAHYE_CHAGIS / 추다혜차지스", "source": "instagram 프로필 CSV"},
+              {"handle": "fleet_official_", "name": "FLEET • 플릿", "source": "instagram 프로필 CSV"}]
+        artists, _ = ax.build_xref(names, ig, [], [])
+        by_key = {a["artist_key"]: a for a in artists}
+        self.assertIn("chudahyechagis추다혜차지스", by_key["추다혜차지스"]["keys"])
+        self.assertIn("fleet플릿", by_key["플릿"]["keys"])
+        rows = {r[0]: r[1] for r in ax.xref_rows(artists)}
+        self.assertEqual(rows["fleet플릿"], "플릿")
+
+    def test_unseparated_bilingual_signal_name_joins_when_both_parts_are_one_team(self):
+        names = [{"table": "release", "name": "FLEET(플릿)", "count": 3}, {"table": "gig", "name": "FLEET 플릿", "count": 1}]
+        artists, _ = ax.build_xref(names, [], [], [])
+        team = next(a for a in artists if "fleet" in a["keys"])
+        self.assertIn("fleet플릿", team["keys"])
+        self.assertNotEqual(team["artist_key"], "fleet플릿")
+
+    def test_unseparated_bilingual_kept_apart_when_parts_are_different_teams(self):
+        # '10cm 권정열' 같은 합동·멤버 표기: 두 덩어리가 서로 다른 팀이면 묶지 않는다
+        names = [{"table": "gig", "name": "10cm", "count": 5}, {"table": "gig", "name": "권정열", "count": 3},
+                 {"table": "gig", "name": "10cm 권정열", "count": 1}]
+        artists, _ = ax.build_xref(names, [], [], [])
+        combined = next(a for a in artists if "10cm권정열" in a["keys"])
+        self.assertEqual(combined["keys"], ["10cm권정열"])
+
+    def test_unseparated_bilingual_kept_when_only_one_part_known(self):
+        names = [{"table": "gig", "name": "권정열", "count": 3}, {"table": "gig", "name": "Kwon 권정열", "count": 1}]
+        artists, _ = ax.build_xref(names, [], [], [])
+        self.assertFalse(any({"권정열", "kwon권정열"} <= set(a["keys"]) for a in artists))
+
     def test_instagram_only_artist_is_low(self):
         ig_profiles = [{"handle": "wakingsuns.seoul", "name": "Waking Suns", "source": "ig_artist_links"}]
         artists, _ = ax.build_xref(self._names(), ig_profiles, [], [])
@@ -580,6 +614,19 @@ class TrackedAccountsNotArtistsTest(unittest.TestCase):
             with mock.patch.object(ax, "INSTA_ACCOUNTS", acc):
                 _, ig_profiles, _, _ = ax.collect_inputs(raw)
         self.assertEqual([p["handle"] for p in ig_profiles], ["realband"])
+
+
+class ArtistRoleAccountsTest(unittest.TestCase):
+    """insta_accounts.json 의 role=artist(팀 본인 계정)는 '팀 아닌 계정'이 아니다 — 2026-11-27 매체 목록에 섞여 있던 7계정."""
+
+    def test_artist_role_not_in_tracked_non_artists(self):
+        with tempfile.TemporaryDirectory() as d:
+            acc = Path(d) / "acc.json"
+            acc.write_text(json.dumps({"accounts": [{"handle": "pushplay_mag", "role": "magazine"},
+                                                    {"handle": "theseosroom", "role": "artist"}]}), encoding="utf-8")
+            handles = ax.tracked_account_handles(acc)
+        self.assertIn("pushplay_mag", handles)
+        self.assertNotIn("theseosroom", handles)
 
 
 class LoadXrefTest(unittest.TestCase):

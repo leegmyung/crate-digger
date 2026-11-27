@@ -99,5 +99,24 @@ class RefTest(unittest.TestCase):
         self.assertIn("('newcomer_years', 3)", sql)
 
 
+
+class ExpandRowsTest(unittest.TestCase):
+    """원본은 그대로 두고, 적재할 때 오버톤의 '여러 팀 한 칸'을 팀별 행으로 나눈다."""
+
+    def test_overtone_press_row_split(self):
+        row = {"source": "overtone", "artist_text": "SUMIN, Slom", "url": "u"}
+        self.assertEqual([r["artist_text"] for r in lp.expand_rows("raw_press", row)], ["SUMIN", "Slom"])
+
+    def test_other_rows_untouched(self):
+        row = {"source": "izm", "artist_text": "A, B", "url": "u"}
+        self.assertEqual(lp.expand_rows("raw_press", row), [row])
+        gig = {"artist_text": "A, B"}
+        self.assertEqual(lp.expand_rows("raw_kr_gig", gig), [gig])
+
+    def test_name_with_comma_one_row(self):
+        row = {"source": "overtone", "artist_text": "Tyler, The Creator"}
+        self.assertEqual(lp.expand_rows("raw_press", row), [row])
+
+
 if __name__ == "__main__":
     unittest.main()

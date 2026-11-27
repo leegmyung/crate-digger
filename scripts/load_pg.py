@@ -22,7 +22,7 @@ from pathlib import Path
 import validate_csv
 from csv_schema import CAREER_FILTER_YEARS, CAREER_FILTERED, OUTCOME_SAME_FAMILY, OUTCOME_TIER, SAME_PROGRAM, STAGE_RANK, TABLES
 from newcomer import FAME_FANS, FAME_YEARS, FAME_YEARS_MIN_FANS, MAX_ALBUMS, MAX_YEARS
-from normalize import artist_key
+from normalize import artist_key, split_artist_cell
 from timing import outcome_date, signal_date
 from venue_xref import canonical_venue_text
 
@@ -97,6 +97,19 @@ def normalize_row(table, row, source_file):
     return [rec[c] for c in columns(table)]
 
 
+SPLIT_SOURCES = {"overtone"}     # 한 칸에 여러 팀을 쉼표로 적는 출처 — 원본은 두고 적재 때 팀별 행으로 (2026-11-27, 약 25건)
+
+
+def expand_rows(table, row):
+    """원본 한 줄 → 적재할 줄들. raw_press 의 오버톤 행만 'A, B'를 팀별 줄로 나누고 나머지는 그대로."""
+    if table != "raw_press" or row.get("source") not in SPLIT_SOURCES:
+        return [row]
+    names = split_artist_cell(row.get("artist_text", ""))
+    if names == [row.get("artist_text", "")] or not names:
+        return [row]
+    return [dict(row, artist_text=n, artist_key="") for n in names]
+
+
 def ref_sql():
     """분류 규칙(csv_schema)을 SQL에서도 쓰도록 ref 스키마의 작은 표로 만든다."""
     tiers = ", ".join(f"('{p}', '{t}', {'true' if p in CAREER_FILTERED else 'false'})" for p, t in sorted(OUTCOME_TIER.items()))
@@ -143,7 +156,7 @@ def load(raw_dir=RAW_DIR):
                 skipped.append(Path(f).name)
                 continue
             with open(f, encoding="utf-8-sig", newline="") as fh:
-                rows.extend(normalize_row(table, r, Path(f).name) for r in csv.DictReader(fh))
+                rows.extend(normalize_row(table, x, Path(f).name) for r in csv.DictReader(fh) for x in expand_rows(table, r))
         if rows:
             with tempfile.NamedTemporaryFile("w", suffix=".csv", delete=False, encoding="utf-8", newline="") as tmp:
                 csv.writer(tmp).writerows([columns(table)] + rows)

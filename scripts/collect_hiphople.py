@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import re
 import subprocess
@@ -62,13 +63,20 @@ DESC_WORDS = frozenset({"싱글", "EP", "앨범", "정규", "미니", "디지털
                         "데뷔", "정규앨범", "미니앨범", "콜라보", "협업", "공동", "LP", "2nd", "1st", "3rd",
                         "정식", "컴백", "차기", "믹스테입", "디럭스", "버전", "트랙", "솔로", "단독"})
 WITH_PARTNER = re.compile(r"^(?P<name>.+?)(?:과|와)\s*함께한$")   # '경제환과 함께한 싱글' → 경제환
+# 함께한·피처링한 앞의 이름 = 함께한 팀: '로꼬와 문수진 등이 함께한' → 로꼬·문수진, '언텔 피처링한' → 언텔
+PARTNER = re.compile(r"^(?P<names>.+?)\s*(?:과|와)?\s*(?:등이\s*)?함께\s?한$")
+FEATURING = re.compile(r"^(?P<names>.+?)\s*피처링(?:한|의)$")
+# 수식 문구 — 이름 자리에 있으면 그 조각만 버린다 (2026-11-27 점검: 'AOMG 합류 및'·'사운드클라우드를 통해' 등 46개가 팀 표에 섞였음)
+CLAUSE = re.compile(r"합류|입단|영입|이적|개명|통해|만의|트리뷰트|깜짝|커버|일자|피처링|및|와의|과의|에서$|\s후$|함께$")
+POSSESSIVE = re.compile(r"^(?P<name>.*[가-힣A-Za-z0-9)])의$")   # '최유정의 합작' → 최유정, 'EP의 선공개' → (종류 낱말이라 버림)
+AND_SPLIT = re.compile(r"(?<=[가-힣A-Za-z0-9)])(?:과|와)\s+")    # '박찬과 24Oz' → 박찬, 24Oz (함께한·의 꼴에서만)
 DESC_NUM = re.compile(r"^\d+(?:집|번째|월|일|th|st|nd|rd)?$")
 # 이름 자리에 이런 낱말이 있으면 발매 소식이 아니거나 팀 이름이 아니라고 보고 버림 (정밀도 우선)
 GENERIC = re.compile(r"음원|컨셉|포토|티저|무대|영상|채널|기념|본선|전곡|프로듀싱|작사|참여|주년|라이브|공연|콘서트|투어|유명|"
                      r"혐의|대표|신인|멤버|소속|계약|예선|결과|후보|결선|라인업|가요제")
 # 레이블·회사 이름은 팀이 아님 (예: '저스트뮤직, 컴필레이션 앨범 … 공개')
 LABEL_NAME = re.compile(r"(?:뮤직|엔터테인먼트|레코즈|레코드|레이블|records?|music|entertainment|label)$", re.I)
-NAME_SPLIT = re.compile(r"\s+(?:&|x|X|×)\s+|\s*&\s*|\s*×\s*")
+NAME_SPLIT = re.compile(r"\s+(?:&|＆|x|X|×)\s+|\s*[&＆]\s*|\s*×\s*")
 
 
 # ---------- 변환 ----------
@@ -100,6 +108,21 @@ def _ok_name(name: str) -> bool:
             and not GENERIC.search(name) and not name.startswith(("<", "〈")))
 
 
+def _expand_part(part: str) -> List[str]:
+    """이름 자리 조각 하나 → 이름 조각들. 함께한·피처링한 꼴은 앞 이름을 살리고, 수식 문구면 버리고([]), '…의'는 '의'를 뗀다."""
+    part = part.strip()
+    m = PARTNER.match(part) or FEATURING.match(part)
+    if m:
+        return [n for n in AND_SPLIT.split(m.group("names")) if n.strip()]
+    if CLAUSE.search(part):
+        return []
+    m = POSSESSIVE.match(part)
+    if m:
+        name, _ = _strip_desc_suffix(m.group("name"))
+        return [n for n in AND_SPLIT.split(name) if n.strip()] if name else []
+    return [part]
+
+
 def parse_title(title: str) -> Optional[dict]:
     """발매 소식 제목 → {artists, release_title}. 형식이 아니면 None.
     예: '이름, 싱글 “제목” 공개' · '이름, [제목] 공개' · '이름, 새 싱글 "제목" 발표' · '이름, “제목” 뮤직비디오 공개' ·
@@ -119,12 +142,16 @@ def parse_title(title: str) -> Optional[dict]:
     first_q = QUOTED_RE.search(head)
     comma_before_quote = bool(first_q) and head[:first_q.start()].rstrip().endswith(",")   # '이름, [제목] 공개'
     last_name, had_desc = _strip_desc_suffix(pieces[-1])
-    partner_form = bool(release and WITH_PARTNER.match(pieces[-1].strip()))      # '로꼬, 우원재와 함께한 "X" M/V 공개'
+    last = pieces[-1].strip()
+    partner_form = bool(release and (PARTNER.match(last) or FEATURING.match(last)))   # '로꼬, 우원재와 함께한 "X" M/V 공개'
     if not had_desc and not (release and comma_before_quote) and not partner_form:
         return None             # 종류 낱말도, '이름, [제목]' 꼴도 아니면 발매 소식이 아님 (예: '…, 2차 예선 결과 공개')
     name_parts = pieces[:-1] + ([last_name] if last_name else [])
-    name_parts = [WITH_PARTNER.sub(r"\g<name>", p.strip()) for p in name_parts]
-    names = [n.strip() for part in name_parts for n in NAME_SPLIT.split(part) if n and n.strip()]
+    # 'A X B X 벤 에서'처럼 이어 쓴 이름은 먼저 나눠서, 문구인 이름('벤 에서')만 버린다
+    names = [n.strip() for part in name_parts for sub in NAME_SPLIT.split(part) if sub and sub.strip()
+             for n in _expand_part(sub) if n.strip()]
+    names = [n.strip().strip("'\"‘’“”").strip() for n in names]
+    names = [n for n in names if n]
     if not names or not all(_ok_name(n) for n in names):
         return None
     names = [n for n in names if not LABEL_NAME.search(n)]
@@ -286,14 +313,33 @@ def collect(start_page: int, max_pages: int, since: str, state: dict, read=read_
     return fresh_all, page
 
 
-def reparse(path: Path, now: datetime) -> int:
-    """받아 둔 글을 지금 규칙으로 다시 해석해 새 raw_press 파일로 쓴다 (같은 url·팀 줄은 적재 때 하나로 합쳐짐)."""
+def old_hiphople_rows(raw_dir: Path = RAW_DIR) -> List[dict]:
+    """이미 적재 대상인 힙합엘이 원본 행들 (data/raw/raw_press_*_hiphople*.csv)."""
+    rows: List[dict] = []
+    for f in sorted(raw_dir.glob("raw_press_*_hiphople*.csv")):
+        with open(f, encoding="utf-8", newline="") as fh:
+            rows += list(csv.DictReader(fh))
+    return rows
+
+
+def reparse(path: Path, now: datetime, out: Optional[Path] = None, old_rows: Optional[Sequence[dict]] = None) -> dict:
+    """받아 둔 글을 지금 규칙으로 다시 해석해 **새 파일**(기본: data/raw/review/hiphople_reparse_<날짜>.csv)로 쓴다.
+    원본 raw 파일은 건드리지 않는다(적재 폴더 밖이라 바로 섞이지도 않음). 예전 원본 행과 팀 이름을 비교해 사라진·새로 생긴 이름을 돌려준다."""
     items = read_items(path)
     rows, unparsed = items_to_rows(items, now.replace(microsecond=0).isoformat())
-    out = write_rows(rows, RAW_DIR, now.date().isoformat()) if rows else None
-    print(f"✅ 다시 해석: 글 {len(items)}건 → {len(rows)}행" + (f" → {out.relative_to(ROOT)}" if out else "")
-          + f" · 발매 형식 아님 {len(unparsed)}건")
-    return 0
+    out = out or (REVIEW_DIR / f"hiphople_reparse_{now.date().isoformat()}.csv")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with open(out, "w", encoding="utf-8", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=COLUMNS)
+        w.writeheader()
+        w.writerows(rows)
+    old = {r.get("artist_text", "") for r in (old_rows if old_rows is not None else old_hiphople_rows())} - {""}
+    new = {r.get("artist_text", "") for r in rows} - {""}
+    report = {"items": len(items), "rows": len(rows), "unparsed": len(unparsed), "out": str(out),
+              "removed": sorted(old - new), "added": sorted(new - old)}
+    print(f"✅ 다시 해석: 글 {len(items)}건 → {len(rows)}행 → {out}" + f" · 발매 형식 아님 {len(unparsed)}건"
+          + f" · 예전 원본과 비교: 사라진 이름 {len(report['removed'])} · 새 이름 {len(report['added'])}")
+    return report
 
 
 def main(argv: Sequence[str]) -> int:
@@ -302,11 +348,15 @@ def main(argv: Sequence[str]) -> int:
     ap.add_argument("--max-pages", type=int, default=DAILY_PAGES)
     ap.add_argument("--since", default=None, help="이 날짜보다 오래된 글이 나오면 멈춤 (YYYY-MM-DD)")
     ap.add_argument("--no-time-guard", action="store_true", help="21~23시에도 실행 (daily_run 안에서만)")
-    ap.add_argument("--reparse", metavar="FILE", help="받아 둔 글(jsonl·json)을 지금 규칙으로 다시 해석만 (브라우저 안 씀)")
+    ap.add_argument("--reparse", metavar="FILE", help="받아 둔 글(jsonl·json)을 지금 규칙으로 다시 해석만 (브라우저 안 씀, 새 파일로)")
+    ap.add_argument("--out", type=Path, default=None, help="--reparse 결과 파일 (기본 data/raw/review/hiphople_reparse_<날짜>.csv)")
     args = ap.parse_args(argv)
     now = datetime.now(KST)
     if args.reparse:
-        return reparse(Path(args.reparse), now)
+        report = reparse(Path(args.reparse), now, out=args.out)
+        report_path = Path(report["out"]).with_suffix(".json")
+        report_path.write_text(json.dumps(report, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+        return 0
     if in_blocked_window(now) and not args.no_time_guard:
         print("⏸ 21:00~23:00에는 매일 자동 수집과 브라우저가 겹치지 않게 실행하지 않아요. 23시 이후에 다시 실행하세요.",
               file=sys.stderr)

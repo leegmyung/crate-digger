@@ -256,6 +256,14 @@ class OvertoneTest(unittest.TestCase):
         self.assertEqual(got["published_at"], "2026-11-22")   # UTC 17시 → 한국 날짜 다음날
         self.assertEqual(got["pick_label"], "Comment")
 
+    def test_comment_with_several_artists_split(self):
+        page = OT_COMMENT.replace('<p class="line-clamp-1">주영</p>', '<p class="line-clamp-1">SUMIN, Slom</p>')
+        got = cw.parse_overtone_page("https://overtone.kr/comment/c", page)
+        self.assertEqual([a["artist"] for a in got["artists"]], ["SUMIN", "Slom"])
+        page2 = OT_COMMENT.replace('<p class="line-clamp-1">주영</p>', '<p class="line-clamp-1">Tyler, The Creator</p>')
+        self.assertEqual([a["artist"] for a in cw.parse_overtone_page("https://overtone.kr/comment/c", page2)["artists"]],
+                         ["Tyler, The Creator"])
+
     def test_sitemap_filters_sections_and_old(self):
         urls = cw.parse_overtone_sitemap(OT_SITEMAP, ["full-review", "interview", "comment"], since="2023-01-01")
         self.assertEqual(urls, ["https://overtone.kr/comment/%EC%A3%BC%EC%98%81-90s-kids"])

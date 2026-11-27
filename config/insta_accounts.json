@@ -1,5 +1,5 @@
 {
- "_설명": "인스타 음악 매거진·큐레이터·공연장 수집 대상. tier: main=매일, sub=every_days(7)마다, venue=공연장(2일마다). 새 계정은 처음 확인일을 주기 안에서 나눠 배정(collect_insta.stagger), 한 번에 최대 260계정. role: magazine=평론·큐레이션 매체, venue_showcase=공연장·기획 계정(라인업 공지 → 공연 갈래로 셈). 후보 원본·선정 근거는 data/raw/review/instagram_*.json(비공개).",
+ "_설명": "인스타 음악 매거진·큐레이터·공연장 수집 대상. tier: main=매일, sub=every_days(7)마다, venue=공연장(2일마다). 새 계정은 처음 확인일을 주기 안에서 나눠 배정(collect_insta.stagger), 한 번에 최대 260계정. role: magazine=평론·큐레이션 매체, venue_showcase=공연장·기획 계정(라인업 공지 → 공연 갈래로 셈), artist=팀 본인 계정(수집하지 않음 — 그 글을 큐레이션으로 세면 다른 팀에 가짜 신호. '팀 아닌 계정'으로도 보지 않음). 후보 원본·선정 근거는 data/raw/review/instagram_*.json(비공개).",
  "accounts": [
   {
    "handle": "pushplay_mag",
@@ -3187,7 +3187,8 @@
    "name": "박태욱",
    "tier": "sub",
    "every_days": 7,
-   "role": "magazine"
+   "role": "artist",
+   "note": "팀 본인 계정 — 매체(sub) 목록에서 옮김(2026-11-27). 수집하지 않고 팀 계정 연결에만 씀"
   },
   {
    "handle": "fleet_official_",
@@ -3208,14 +3209,16 @@
    "name": "기묘말",
    "tier": "sub",
    "every_days": 7,
-   "role": "magazine"
+   "role": "artist",
+   "note": "팀 본인 계정 — 매체(sub) 목록에서 옮김(2026-11-27). 수집하지 않고 팀 계정 연결에만 씀"
   },
   {
    "handle": "theseosroom",
    "name": "Seo’s Room",
    "tier": "sub",
    "every_days": 7,
-   "role": "magazine"
+   "role": "artist",
+   "note": "팀 본인 계정 — 매체(sub) 목록에서 옮김(2026-11-27). 수집하지 않고 팀 계정 연결에만 씀"
   },
   {
    "handle": "yihayoon___",
@@ -3229,7 +3232,8 @@
    "name": "Waking Suns",
    "tier": "sub",
    "every_days": 7,
-   "role": "magazine"
+   "role": "artist",
+   "note": "팀 본인 계정 — 매체(sub) 목록에서 옮김(2026-11-27). 수집하지 않고 팀 계정 연결에만 씀"
   },
   {
    "handle": "lone_distance_driver",
@@ -3243,7 +3247,8 @@
    "name": "Sarah Julia",
    "tier": "sub",
    "every_days": 7,
-   "role": "magazine"
+   "role": "artist",
+   "note": "팀 본인 계정 — 매체(sub) 목록에서 옮김(2026-11-27). 수집하지 않고 팀 계정 연결에만 씀"
   },
   {
    "handle": "rhythmer",
@@ -3334,14 +3339,16 @@
    "name": "양치기소년단",
    "tier": "sub",
    "every_days": 7,
-   "role": "magazine"
+   "role": "artist",
+   "note": "팀 본인 계정 — 매체(sub) 목록에서 옮김(2026-11-27). 수집하지 않고 팀 계정 연결에만 씀"
   },
   {
    "handle": "julywantsmore",
    "name": "Julywantsmore",
    "tier": "sub",
    "every_days": 7,
-   "role": "magazine"
+   "role": "artist",
+   "note": "팀 본인 계정 — 매체(sub) 목록에서 옮김(2026-11-27). 수집하지 않고 팀 계정 연결에만 씀"
   },
   {
    "handle": "pcitykorea",

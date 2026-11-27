@@ -98,6 +98,65 @@ class TitleParseTest(unittest.TestCase):
         self.assertIsNone(ch.parse_title("올해 가장 주목받는 신인 래퍼들의 합동 무대 프로젝트 팀, 싱글 “X” 공개"))
 
 
+class ClauseTest(unittest.TestCase):
+    """제목 속 수식 문구(합류·입단·통해·피처링한·함께한·와의·및 …)를 팀 이름으로 넣지 않는다 — 2026-11-27 점검에서 46개가 팀 표에 섞였음.
+    문구만 떼고 진짜 팀(쉼표 앞)은 살린다. 함께한·피처링한 앞의 이름은 함께한 팀으로 살린다."""
+
+    def test_clause_pieces_dropped_names_kept(self):
+        cases = {
+            "미노이, AOMG 합류 및 싱글 \"어떨것같애\" 발표": ["미노이"],
+            "칸, 영앤리치 레코즈 입단 및 더블 싱글 [Night In Seoul] 발표": ["칸"],
+            "에이블(장현승), 마인필드 입단 후 첫 싱글 \"Feeling\" 발표": ["에이블(장현승)"],
+            "지용, 마인필드 입단과 함께 새 싱글 “건물주의 아들” 발표": ["지용"],
+            "잠비노, 에잇볼타운 합류와 함께 새 싱글 “24 Close-up” 발표": ["잠비노"],
+            "유스 호스텔, '더 씨드' 프로젝트 통해 첫 정규 앨범 [Youth Hostel] 발표": ["유스 호스텔"],
+            "양홍원, 사운드클라우드를 통해 신곡 “수도” 공개": ["양홍원"],
+            "pH-1, \"BE !\" 데모 벌스 사운드클라우드 통해 공개": ["pH-1"],
+            "김심야, [Dogma] 뮤직비디오 깜짝 공개": ["김심야"],
+            "빈지노, [NOWITZKI] 발매 일자 및 피처링진 공개": ["빈지노"],
+            "식케이 & 김하온, [ALBUM ON THE WAY!] 앨범 커버 및 트랙리스트 공개": ["식케이", "김하온"],
+            "소울커넥션, 14년 만의 싱글 \"제로힙합\" 발표": ["소울커넥션"],
+            "손자 보이 텔럼, 개명 후 첫 싱글 \"Sonza Boy Tell'em\" 발표": ["손자 보이 텔럼"],
+            "커프, 루피와의 협업 싱글 \"Silence\" 발표": ["커프"],
+            "김심야, 패션브랜드 쿠시코크와의 협업 공개": ["김심야"],
+            "DJ 스패로우, EP의 선공개 싱글 “커피” 발표": ["DJ 스패로우"],
+            "안경쟁이, 372, 십 선 비, 일리네어 트리뷰트 앨범 [SILLIM1LLIONAIRE] 발표": ["안경쟁이", "372", "십 선 비"],
+            "말든 X 보 디아코 X 벤 에서, 합작 싱글 \"Qiller\" 발표": ["말든", "보 디아코"],
+            "이그니토, LBNC 합류 후 차붐과의 합작 싱글 “Shocking Asia” 발표": ["이그니토"],
+            "비아이, 드비타 피처링한 솔쟈보이와의 콜라보 트랙 “BTBT” 발표": ["비아이"],
+        }
+        for title, artists in cases.items():
+            with self.subTest(title=title):
+                self.assertEqual(ch.parse_title(title)["artists"], artists)
+
+    def test_partner_and_featuring_names_kept(self):
+        cases = {
+            "스프레이, 로꼬와 문수진 등이 함께한 싱글 \"Love\" 발표": ["스프레이", "로꼬", "문수진"],
+            "NSW 윤, AJ 트레이시와 함께 한 싱글 \"Flip Flap\" 발표": ["NSW 윤", "AJ 트레이시"],
+            "코스믹보이, 쏠과 다운 함께한 신곡 “Alone” 발표": ["코스믹보이", "쏠", "다운"],
+            "노브, 양다일 함께한 새 싱글 “언제까지나” 발표": ["노브", "양다일"],
+            "미카엘, 언텔 피처링한 정규 앨범 선공개 싱글 “SZN 2022” 발표": ["미카엘", "언텔"],
+            "베이스캠프, 죠지 피처링의 새 싱글 “방황” 발표": ["베이스캠프", "죠지"],
+            "박찬과 24Oz의 합작 앨범 [밤고개 블루스] 발매": ["박찬", "24Oz"],
+            "안병웅 X 최유정의 합작 트랙 “어라?” 발표": ["안병웅", "최유정"],
+        }
+        for title, artists in cases.items():
+            with self.subTest(title=title):
+                self.assertEqual(ch.parse_title(title)["artists"], artists)
+
+    def test_fullwidth_ampersand_splits(self):
+        got = ch.parse_title("릴체리＆골드부다, 재키와이 피처링한 “꿈” 뮤직비디오 공개")
+        self.assertEqual(got["artists"], ["릴체리", "골드부다", "재키와이"])
+        self.assertEqual(ch.parse_title("'FLOAT' ＆ 'SOO4', 싱글 “X” 공개")["artists"], ["FLOAT", "SOO4"])   # 이름을 감싼 따옴표는 뗌
+
+    def test_real_names_ending_like_particles_survive(self):
+        self.assertEqual(ch.parse_title("시후, 새 EP [Candid] 발표")["artists"], ["시후"])
+        self.assertEqual(ch.parse_title("나후, 싱글 “밤” 공개")["artists"], ["나후"])
+
+    def test_only_clause_means_not_parsed(self):
+        self.assertIsNone(ch.parse_title("AOMG 합류 및 싱글 \"X\" 발표"))
+
+
 class RowsTest(unittest.TestCase):
     def test_rows_follow_raw_press_columns(self):
         items = ch.parse_list_html(LIST_HTML)
@@ -134,6 +193,26 @@ class ReparseTest(unittest.TestCase):
             merged = ch.read_items(unparsed_path)
         self.assertEqual([i["id"] for i in back], ["33807172", "33807166", "33807100"])
         self.assertEqual(sorted(i["id"] for i in merged), ["33807100", "33807172"])
+
+
+class ReparseOutTest(unittest.TestCase):
+    def test_reparse_writes_new_file_and_compares(self):
+        items = [{"id": "1", "title": "미노이, AOMG 합류 및 싱글 \"어떨것같애\" 발표", "date": "2024-01-01",
+                  "url": "https://hiphople.com/news_kr/1"},
+                 {"id": "2", "title": "다이나믹듀오, 싱글 “하라는 랩” 공개", "date": "2024-01-02",
+                  "url": "https://hiphople.com/news_kr/2"}]
+        old_rows = [{"artist_text": "미노이"}, {"artist_text": "AOMG 합류 및"}, {"artist_text": "다이나믹듀오"}]
+        with tempfile.TemporaryDirectory() as d:
+            log = Path(d) / "items.jsonl"
+            ch.append_items(log, items)
+            out = Path(d) / "reparse.csv"
+            report = ch.reparse(log, datetime(2026, 11, 28, 1, 0), out=out, old_rows=old_rows)
+            self.assertTrue(out.exists())
+            with open(out, encoding="utf-8") as f:
+                names = sorted(r["artist_text"] for r in csv.DictReader(f))
+        self.assertEqual(names, ["다이나믹듀오", "미노이"])
+        self.assertEqual(report["removed"], ["AOMG 합류 및"])
+        self.assertEqual(report["added"], [])
 
 
 class StateTest(unittest.TestCase):

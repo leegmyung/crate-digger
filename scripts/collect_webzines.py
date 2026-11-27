@@ -27,6 +27,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 from csv_schema import TABLES
+from normalize import split_artist_cell
 
 ROOT = Path(__file__).resolve().parent.parent
 CONFIG = ROOT / "config" / "webzines.json"
@@ -306,15 +307,15 @@ def parse_overtone_page(url, page):
         name = squeeze((main.get("itemReviewed") or {}).get("name", ""))
         m = re.match(r"^(.+?)\s*[<〈](.*?)[>〉]?\s*$", name)
         if m:
-            artists, release = [m.group(1).strip()], m.group(2).strip()
+            artists, release = split_artist_cell(m.group(1).strip()), m.group(2).strip()
     elif section == "interview":
         about = main.get("about")
         if isinstance(about, str) and about.strip() and about.strip() != title:
-            artists = [squeeze(about)]
+            artists = split_artist_cell(squeeze(about))
     elif section == "comment":
         m = re.search(r"<p>Artist</p><p>Release</p>.*?</div>\s*<div[^>]*>\s*<p[^>]*>(.*?)</p>", page, re.S)
         if m:
-            artists = [clean(m.group(1))]
+            artists = split_artist_cell(clean(m.group(1)))      # 'SUMIN, Slom' → 팀별 (쉼표가 이름인 팀은 그대로)
         r = re.search(r'<span class="comment-title-measure[^"]*"[^>]*>(.*?)</span>', page, re.S)
         release = clean(r.group(1)) if r else ""
     return article(url, url, published, title, artists, "1", label, release, is_sponsored(title))

@@ -34,6 +34,7 @@ MAX_NEW_POSTS = 6
 MAX_POST_AGE_DAYS = 14
 SEEN_KEEP = 100
 MAX_ACCOUNTS_PER_RUN = 260   # 한 번에 볼 계정 상한 (계정당 10~20초 → 1시간 안팎, 인스타 차단 위험 관리)
+CHECKPOINT_EVERY = 20       # 이만큼 계정을 볼 때마다 행·상태 저장 (2026-11-26 수집이 도중에 멈춰 그날 본 계정이 모두 사라진 일 대비)
 ACCOUNT_PAUSE_SEC = 0   # 일부러 쉬지 않음 (사용자 지시). 로그인 요구 화면으로 막히면 다시 늘린다
 
 MONTHS = {m: i for i, m in enumerate(
@@ -116,6 +117,11 @@ def to_rows(account, post, collected_at, role="magazine"):
     return [dict(base, artist_text=name, artist_handle=handle) for name, handle in found], None
 
 
+def collectable_accounts(accounts):
+    """수집할 계정: 팀 본인 계정(role=artist)은 뺀다 — 그 글을 매체 큐레이션으로 세면 다른 팀에 가짜 신호가 생김."""
+    return [a for a in accounts if a.get("role") != "artist"]
+
+
 def due_accounts(accounts, last_checked, today, limit=None):
     """볼 때가 된 계정. limit이 있으면 가장 오래 밀린 계정부터 limit개 (처음 보는 계정이 맨 앞)."""
     t = date.fromisoformat(today)
@@ -189,39 +195,52 @@ def collect(check_all=False):
     now = datetime.now(KST).replace(microsecond=0)
     today = f"{now:%Y-%m-%d}"
     oldest = (now - timedelta(days=MAX_POST_AGE_DAYS)).date().isoformat()
-    accounts = _load_json(CONFIG, {}).get("accounts", [])
+    accounts = collectable_accounts(_load_json(CONFIG, {}).get("accounts", []))
     state = _load_json(STATE, {"last_checked": {}, "seen": {}})
     if not check_all:
         state["last_checked"] = stagger(accounts, state["last_checked"], today)
     targets = accounts if check_all else due_accounts(accounts, state["last_checked"], today,
                                                       limit=MAX_ACCOUNTS_PER_RUN)
-    rows, review, report = [], [], []
-    for a in targets:
-        handle = a["handle"]
-        seen = state["seen"].get(handle, [])
-        try:
-            result = _collect_account(handle, seen, now.isoformat(), oldest, a.get("role", "magazine"))
-        except (RuntimeError, subprocess.TimeoutExpired, ValueError, KeyError) as e:   # 계정 하나 실패해도 계속
-            report.append(f"⚠️ @{handle}: 읽기 실패 ({e})")
-            continue
-        if result is None:
-            report.append(f"❌ @{handle}: 계정이 없거나 볼 수 없음 → config 확인 필요")
-            continue
-        got, unparsed, ids = result
-        rows.extend(got)
-        review.extend(unparsed)
-        state["seen"][handle] = (seen + ids)[-SEEN_KEEP:]
-        state["last_checked"][handle] = today
-        report.append(f"✅ @{handle}: 새 게시물 {len(ids)}개 → {len(got)}행" + (f", 검수 대기 {len(unparsed)}" if unparsed else ""))
-        time.sleep(ACCOUNT_PAUSE_SEC)
-    path = write_csv(rows, RAW_DIR, today) if rows else None
-    if review:
-        rdir = RAW_DIR / "review"
-        rdir.mkdir(parents=True, exist_ok=True)
-        (rdir / f"insta_unparsed_{today}.json").write_text(json.dumps(review, ensure_ascii=False, indent=1), encoding="utf-8")
-    STATE.parent.mkdir(parents=True, exist_ok=True)
-    STATE.write_text(json.dumps(state, ensure_ascii=False, indent=1), encoding="utf-8")
-    return path, len(rows), len(review), report
+    pending, review, report = [], [], []
+    written = {"path": None, "rows": 0}
+
+    def flush():
+        """모은 행을 파일로, 상태를 state 파일로 (중간 저장). 같은 날 두 번째부터는 시각 붙은 새 파일."""
+        if pending:
+            written["path"] = write_csv(pending, RAW_DIR, today)
+            written["rows"] += len(pending)
+            pending.clear()
+        if review:
+            rdir = RAW_DIR / "review"
+            rdir.mkdir(parents=True, exist_ok=True)
+            (rdir / f"insta_unparsed_{today}.json").write_text(json.dumps(review, ensure_ascii=False, indent=1), encoding="utf-8")
+        STATE.parent.mkdir(parents=True, exist_ok=True)
+        STATE.write_text(json.dumps(state, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    try:
+        for n, a in enumerate(targets, 1):
+            handle = a["handle"]
+            seen = state["seen"].get(handle, [])
+            try:
+                result = _collect_account(handle, seen, now.isoformat(), oldest, a.get("role", "magazine"))
+            except (RuntimeError, subprocess.TimeoutExpired, ValueError, KeyError) as e:   # 계정 하나 실패해도 계속
+                report.append(f"⚠️ @{handle}: 읽기 실패 ({e})")
+                continue
+            if result is None:
+                report.append(f"❌ @{handle}: 계정이 없거나 볼 수 없음 → config 확인 필요")
+                continue
+            got, unparsed, ids = result
+            pending.extend(got)
+            review.extend(unparsed)
+            state["seen"][handle] = (seen + ids)[-SEEN_KEEP:]
+            state["last_checked"][handle] = today
+            report.append(f"✅ @{handle}: 새 게시물 {len(ids)}개 → {len(got)}행" + (f", 검수 대기 {len(unparsed)}" if unparsed else ""))
+            if n % CHECKPOINT_EVERY == 0:
+                flush()
+            time.sleep(ACCOUNT_PAUSE_SEC)
+    finally:
+        flush()                                  # 끝났든 도중에 멈췄든 받은 만큼은 남긴다
+    return written["path"], written["rows"], len(review), report
 
 
 def main(argv):

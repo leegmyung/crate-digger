@@ -59,5 +59,31 @@ class PlatformsSeenTest(unittest.TestCase):
         self.assertEqual(nz.platforms_seen(rows)[("결", "세탁")], ["genie", "poclanos"])
 
 
+
+class SplitArtistCellTest(unittest.TestCase):
+    """한 칸에 쉼표로 이어 쓴 여러 팀(오버톤 'SUMIN, Slom' 등 25건) → 팀별로. 이름 자체에 쉼표가 있는 팀은 그대로."""
+
+    def test_splits_comma_list(self):
+        self.assertEqual(nz.split_artist_cell("SUMIN, Slom"), ["SUMIN", "Slom"])
+        self.assertEqual(nz.split_artist_cell("sokodomo, Loco, Valo"), ["sokodomo", "Loco", "Valo"])
+        self.assertEqual(nz.split_artist_cell("Pendulum, Joey Valence & Brae"), ["Pendulum", "Joey Valence & Brae"])
+        self.assertEqual(nz.split_artist_cell("Sun Gin, 격"), ["Sun Gin", "격"])
+
+    def test_names_with_comma_kept(self):
+        for name in ("Tyler, The Creator", "Mandy, Indiana", "Black Country, New Road", "tyler, the creator"):
+            with self.subTest(name=name):
+                self.assertEqual(nz.split_artist_cell(name), [name])
+
+    def test_single_name_and_parens(self):
+        self.assertEqual(nz.split_artist_cell("주영"), ["주영"])
+        self.assertEqual(nz.split_artist_cell("X33D (씨드, Seed)"), ["X33D (씨드, Seed)"])
+        self.assertEqual(nz.split_artist_cell(""), [])
+
+    def test_headline_phrase_and_label_pieces_dropped(self):
+        self.assertEqual(nz.split_artist_cell("데미지 없이도 끌어올린 타격감, 김도언"), ["김도언"])
+        self.assertEqual(nz.split_artist_cell("ScreaM Records, 서울커뮤니티라디오"), ["서울커뮤니티라디오"])
+        self.assertEqual(nz.split_artist_cell("QM, Fredi Casso"), ["QM", "Fredi Casso"])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -346,7 +346,7 @@ def _ig_candidates(ig_profiles: list[dict], ig_posts: list[dict]) -> dict[str, l
     for p in ig_profiles:
         h = p["handle"].lstrip("@").lower()
         for block in split_script_blocks(p.get("name", "")):
-            cands[h].append({"text": block, "kind": "profile",
+            cands[h].append({"text": block, "kind": "profile", "full": p.get("name", ""),
                              "evidence": f"인스타 프로필 이름 '{clean(p.get('name', ''))}' ({p.get('source', '')})"})
     for post in ig_posts:
         h = post["handle"].lstrip("@").lower()
@@ -382,6 +382,11 @@ def _ig_edges(cands: dict, occ: list[dict], base: set[str], spell: dict) -> list
         prof = [c for c in items if c["kind"] == "profile"]
         keys = [artist_key(parse_name(c["text"])[0]) for c in prof]
         edges += [(keys[0], k, "mid", prof[0]["evidence"]) for k in keys[1:] if k and keys[0] and k != keys[0]]
+        # DB(load_pg)는 프로필 이름 전체로 키를 만든다: 'FLEET • 플릿' → fleet플릿 — 그 붙은 키도 같은 팀 표기로
+        for full in dict.fromkeys(c.get("full", "") for c in prof):
+            whole = artist_key(clean(full))
+            if whole and keys and keys[0] and whole not in keys:
+                edges.append((keys[0], whole, "mid", f"인스타 프로필 이름 전체 '{clean(full)}' (구분자 없는 붙은 키)"))
         for c in items:
             if c["kind"] == "caption" and artist_key(parse_name(c["text"])[0]) in base:
                 edges += _alias_edges([{"text": c["text"], "conf": "mid"}])
@@ -522,6 +527,25 @@ def agency_profiles(raw_dir: Path = RAW_DIR) -> list[dict]:
     return rows
 
 
+def _unseparated_edges(occ: list[dict], g: "_Groups") -> list[tuple[str, str, str]]:
+    """구분자 없는 한영 병기('FLEET 플릿' → 키 fleet플릿): 두 덩어리가 이미 같은 팀일 때만 그 팀에 붙인다.
+    '10cm 권정열'처럼 두 덩어리가 서로 다른 팀(합동·멤버 표기)이거나 한쪽만 아는 이름이면 그대로 둔다."""
+    out = []
+    for o in occ:
+        text = clean(o["text"])
+        if parse_name(text)[1]:
+            continue   # 괄호·슬래시 병기는 _alias_edges가 이미 처리
+        blocks = split_script_blocks(text)
+        if len(blocks) != 2 or not _is_alias_pair(blocks[0], blocks[1]):
+            continue
+        whole, parts = artist_key(text), [artist_key(b) for b in blocks]
+        if not whole or whole in parts or not all(k in g.parent for k in parts):
+            continue
+        if g.find(parts[0]) == g.find(parts[1]) != g.find(whole):
+            out.append((parts[0], whole, f"구분자 없는 한영 병기 '{text}' — 두 덩어리가 이미 같은 팀"))
+    return out
+
+
 def _manual_edges(entries: list[dict]) -> list[tuple]:
     """사람이 확인한 별칭 → (대표 키, 별칭 키, 'high', 근거) 간선. 충돌 검사는 자동 간선과 함께 받는다."""
     edges = []
@@ -567,10 +591,22 @@ def build_xref(names: list[dict], ig_profiles: list[dict], ig_posts: list[dict],
             strong.union(a, b)
         evidence[a].append(ev)
 
+    # 붙은 한영 병기 키(프로필 이름 전체·'FLEET 플릿')는 표기일 뿐 — 대표 키·묶음 확신도 계산에서 뺀다
+    blocks_of: dict[str, set[str]] = defaultdict(set)
+    for items in cands.values():
+        for c in items:
+            if c.get("full"):
+                blocks_of[c["full"]].add(artist_key(parse_name(c["text"])[0]))
+    combined = {w for full, ks in blocks_of.items() if (w := artist_key(clean(full))) and w not in ks} - base
+    for a, b, ev in _unseparated_edges(occ, g):
+        g.union(b, a)
+        evidence[a].append(ev)
+        combined.add(b)
+
     review[:] = [_settle_conflict(r, g) for r in review]   # 다른 근거(사람 확인 별칭 등)로 결국 한 팀이 된 충돌은 해결로
     ig_links = _link_instagram(cands, g, base, count, spell, review)
     ctx = {"g": g, "spell": spell, "tables": tables, "count": count, "base": base,
-           "strong": strong, "evidence": evidence, "ig_links": ig_links}
+           "strong": strong, "evidence": evidence, "ig_links": ig_links, "combined": combined}
     return _assemble(ctx, platform_ids, review)
 
 
@@ -647,7 +683,8 @@ def _record(root: str, keys: list[str], ctx: dict, pid: dict, review: list[dict]
     in_base = [k for k in keys if k in base]
     if not in_base and root not in ctx["ig_links"]:
         return None  # 다른 표기로만 쓰이는 별칭 덩어리는 따로 팀이 아님
-    key = max(in_base or keys, key=lambda k: (count[k], bool(HANGUL.search(k)), -len(k)))
+    combined = ctx.get("combined") or set()   # 붙은 한영 병기 키는 대표 키로 고르지 않는다
+    key = max(in_base or keys, key=lambda k: (k not in combined, count[k], bool(HANGUL.search(k)), -len(k)))
     spellings: Counter = Counter()
     for k in keys:
         spellings.update(spell.get(k, {}))
@@ -672,7 +709,7 @@ def _record(root: str, keys: list[str], ctx: dict, pid: dict, review: list[dict]
     if "outcome" in srcs:  # 정답 팀이 신호와 이어졌나: 같은 키 하나로 / 다른 표기를 묶어서 / 안 이어짐
         same_key = any("outcome" in ctx["tables"][k] and SIGNAL_TABLES & ctx["tables"][k] for k in in_base)
         rec["outcome_link"] = "same_key" if same_key else "merged" if SIGNAL_TABLES & srcs else "none"
-    one_strong = len({ctx["strong"].find(k) for k in keys}) == 1
+    one_strong = len({ctx["strong"].find(k) for k in keys if k not in combined} or {None}) == 1
     rec["confidence"] = ("high" if one_strong else "mid") if in_base else "low"
     if len(keys) > 1:
         rec["merge_evidence"] = sorted({e for k in keys for e in ctx["evidence"].get(k, [])})[:5]
@@ -743,12 +780,13 @@ INSTA_ACCOUNTS = ROOT / "config" / "insta_accounts.json"
 
 
 def tracked_account_handles(path: Path = INSTA_ACCOUNTS) -> list[str]:
-    """우리가 추적하는 매거진·공연장 계정 + 기관 계정 = 팀이 아닌 계정명. 파일이 없으면 기관 계정만."""
+    """우리가 추적하는 매거진·공연장 계정 + 기관 계정 = 팀이 아닌 계정명. 파일이 없으면 기관 계정만.
+    role=artist(팀 본인 계정)는 팀이므로 뺀다."""
     try:
         accounts = json.loads(path.read_text(encoding="utf-8")).get("accounts", [])
     except (OSError, ValueError, AttributeError):
         accounts = []
-    return [a.get("handle", "") for a in accounts if a.get("handle")] + list(ORG_HANDLES)
+    return [a.get("handle", "") for a in accounts if a.get("handle") and a.get("role") != "artist"] + list(ORG_HANDLES)
 
 
 def xref_rows(artists: list[dict], non_artist_handles: list[str] | None = None) -> list[tuple[str, str, str, str]]:

@@ -236,7 +236,7 @@ def collect(limit):
     seen = _load_json(STATE, {})                       # {handle: 결과 상태}
     links = _load_json(LINKS, {})
     links.setdefault("non_artists", {})
-    outlets = [a["handle"] for a in _load_json(OUTLETS, {}).get("accounts", [])]
+    outlets = [a["handle"] for a in _load_json(OUTLETS, {}).get("accounts", []) if a.get("role") != "artist"]   # 팀 본인 계정은 팀 후보로 둠
     tag_counts = _load_json(SNOWBALL, {}).get("artists_tag_counts", {})
     todo = targets(_press_rows(), tag_counts, seen, outlets)[:limit]
     now = datetime.now(KST).replace(microsecond=0)
