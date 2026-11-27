@@ -8,6 +8,15 @@
 ## 0. 재개 지점 (중단되면 여기부터) — 마지막 갱신 2026-11-27 저녁
 사용량 한도·인터넷 끊김으로 멈추면 다음 세션은 이 칸부터 본다. 수집기는 `data/raw/state/*.json`에 '이미 받은 것'을 기록하므로 같은 명령을 다시 돌리면 이어서 받는다.
 
+**코디네이션 상태 (2026-11-27 밤, 대화가 요약돼도 이걸 보고 이어간다)**
+- 운영 방식: 사용자는 "관여 없이 끝까지". 작업자마다 할 일 3~6개를 미리 쌓아 두고, 결과 보고가 오면 코디네이터(Claude 메인 세션)가 검토(테스트·브라우저 확인) → 커밋·push → 다음 일 추가. 작업자는 커밋 금지. 같은 단계 안은 묻지 않고 진행·보고, 방향·틀 변경만 사용자에게 묻기.
+- Orca 실행: `/Applications/Orca.app/Contents/Resources/bin/orca orchestration send --to dispatch:<id> --subject … --body …` (run run_bb3533879a4f). 작업자 목록: `orca orchestration worker-list --environment local --json`. 같은 작업자에게 보낸 후속 메시지는 새 dispatch id로 이어짐.
+  - 안티그래비티(앱 docs/app/**·dashboard.html): 최근 dispatch ctx_2a2d2c2b236f. 남은 목록 ② 팀 활동 흐름 막대 ③ 재분류 제안 알림 점 ④ 후보 줄 펼침 미리보기 ⑤ 전체 화면 점검.
+  - Claude 작업자 A (= 교차 세션 이름 crate-digger-ce): 최근 dispatch ctx_cf01f9a986f9. 남은 목록 ② docs/data_dictionary.md(+생성 스크립트) ③ docs/index.html 안내 띠 ④ scripts/check_links.py → 이어서 유튜브 매일 지표(collect_video_stats·export_video_momentum) → Tableau 추출(docs/tableau/, export_tableau.py) → 사운드 지도(build_scene_map.py, docs/lab/data/scene_map.json) → methods 요약.
+  - Claude 작업자 B: dispatch ctx_4ffe39a8cee1. 목록: 학습 모델 비교(score_model.py, docs/score_model.md) → 장르 편향(genre_bias.py, docs/genre_bias.md) → 리드타임 심화 → 점수 안정성.
+- 21시 자동 실행 끝나면(대기 작업이 깨움, 없으면 records/daily_run.log 확인): 협업 수집 건수 확인 → score_tune(w_collab 포함) 돌려 협업 신호 효과 확인 → 효과 있으면 점수 반영 여부 사용자에게 물음. 인스타 499계정·멜론 100팀·연결표 갱신·출처 재분류 제안이 잘 돌았는지 확인.
+- 작업자 결과 반영 시 daily_run.sh에 넣을 줄은 코디네이터가 넣음(작업자는 알려만 줌).
+
 **2026-11-27 밤 갱신 (재개 시 여기부터 — 아래 '저녁 중단 지점'보다 우선)**
 - ✅ 데이터 역할 정제: `config/source_roles.json`(발굴·맥락·제외·검증 대기 + 정답 등급 S3·A2·B1), 문서 `docs/source_roles.md`, 출처 성적표 `docs/lab/sql/source_scorecard.sql`, 누락 방지 테스트 `tests/test_source_roles.py` + 일일 기록 경고. 검증 대기 출처는 기록 3개월 뒤 재평가.
 - ✅ 점수 v2 (scripts/lab_sql.py DEFAULTS): 갈래1·선정1·발굴 매거진1·공연장 다양성1·수상 팀과 같은 무대2·맥락 매거진0.5. 정제 전후 가중 AUC 0.742 동일, 교차 검증 0.721 > v0 0.692.
