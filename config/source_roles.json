@@ -276,5 +276,54 @@
       "검엑스": "기성 팀(2015년 이전 데뷔) — 첫 발매 기록이 없어 신인으로 잘못 잡힘 (후보 점검 2026-11-27)",
       "생각의여름": "기성 팀(2015년 이전 데뷔) — 첫 발매 기록이 없어 신인으로 잘못 잡힘 (후보 점검 2026-11-27)"
     }
-  }
+  },
+  "same_house": [
+    {
+      "_설명": "'같은 집안' 짝 (2026-11-27 사용자 결정, 근거 docs/same_house.md). 정답 발표 전에 짝 출처에 나온 팀의 짝 정답은 그 출처의 적중으로 세지 않는다(출처 성적표·역할 판정). 점수에 쓰는 출처(discovery·context)의 짝이면 점수 백테스트에서도 적중으로 세지 않는다. apply=false는 표시만."
+    },
+    {
+      "sources": [
+        "큐레이션:hiphople"
+      ],
+      "outcomes": [
+        "khha_rookie"
+      ],
+      "apply": true,
+      "reason": "힙합엘이는 한국힙합어워즈 공동 주최 — 힙합엘이 적중 18팀 중 16팀이 이 짝"
+    },
+    {
+      "sources": [
+        "큐레이션:musicy"
+      ],
+      "outcomes": [
+        "musicy_rookie"
+      ],
+      "apply": true,
+      "reason": "같은 매체(음악취향Y)가 소개도 하고 올해의 신인도 고름"
+    },
+    {
+      "sources": [
+        "선정·지원:burock_rookies"
+      ],
+      "outcomes": [
+        "burock_main"
+      ],
+      "apply": true,
+      "reason": "같은 페스티벌 — 부산록페 루키즈 상위 팀은 다음 해 본무대 기회"
+    },
+    {
+      "sources": [
+        "큐레이션:rhythmer",
+        "큐레이션:musicy",
+        "큐레이션:weiv",
+        "큐레이션:izm"
+      ],
+      "outcomes": [
+        "kma_rookie",
+        "kma_genre"
+      ],
+      "apply": false,
+      "reason": "한대음 선정위원에 평론 웹진 필진 참여(근거가 2011년 명단이라 표시만)"
+    }
+  ]
 }

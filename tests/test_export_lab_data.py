@@ -83,6 +83,31 @@ class OutcomeRowsTest(unittest.TestCase):
         self.assertEqual(row["counted"], "true")
 
 
+class SameHouseTest(unittest.TestCase):
+    ROLES = {"signals": {"큐레이션:musicy": {"role": "discovery"}, "큐레이션:hiphople": {"role": "pending"}},
+             "same_house": [{"sources": ["큐레이션:musicy"], "outcomes": ["musicy_rookie"], "apply": True},
+                            {"sources": ["큐레이션:hiphople"], "outcomes": ["khha_rookie"], "apply": True},
+                            {"sources": ["큐레이션:izm"], "outcomes": ["kma_rookie"], "apply": False}]}
+
+    def _sig(self, team, src, d):
+        branch, name = src.split(":")
+        return {"team_key": team, "branch": branch, "source": name, "program": "", "signal_date": d}
+
+    def test_paired_signal_before_announcement_marks_outcome(self):
+        outs = [{"team_key": "a", "program": "musicy_rookie", "announced_date": "2025-12-01"},
+                {"team_key": "b", "program": "khha_rookie", "announced_date": "2025-12-01"},
+                {"team_key": "c", "program": "musicy_rookie", "announced_date": "2025-12-01"},
+                {"team_key": "d", "program": "kma_rookie", "announced_date": "2025-12-01"}]
+        sigs = [self._sig("a", "큐레이션:musicy", "2025-06-01"), self._sig("b", "큐레이션:hiphople", "2025-06-01"),
+                self._sig("c", "큐레이션:musicy", "2026-01-05"), self._sig("d", "큐레이션:izm", "2025-06-01")]
+        got = {r["team_key"]: (r["same_house_sources"], r["same_house_scored"])
+               for r in ex.same_house_flags(outs, sigs, self.ROLES)}
+        self.assertEqual(got["a"], ("큐레이션:musicy", "true"))      # 점수에 쓰는 출처 → 점수 검증에서도 뺌
+        self.assertEqual(got["b"], ("큐레이션:hiphople", "false"))   # 검증 대기 출처 → 성적표에서만 뺌
+        self.assertEqual(got["c"], ("", "false"))                    # 정답 뒤에 나온 신호는 상관없음
+        self.assertEqual(got["d"], ("", "false"))                    # 표시만 하는 약한 짝은 적용 안 함
+
+
 class LinkRowsTest(unittest.TestCase):
     def test_platform_ids_become_artist_page_urls(self):
         rows = ex.link_rows([

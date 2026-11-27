@@ -78,6 +78,8 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `counted` | 센 정답인지 (기성 팀 연차 규칙 통과) true/false | — |
 | `grade` | 정답 등급 S·A·B | — |
 | `weight` | 정답 등급 가중치 (S=3·A=2·B=1) | — |
+| `same_house_sources` | 정답 발표 전에 이 팀을 실은 같은 집안 출처 (그 출처의 적중으로 안 셈) | — |
+| `same_house_scored` | 같은 집안 출처가 점수에 쓰는 출처면 true — 점수 백테스트 적중에서도 뺌 | — |
 
 ### `programs`
 
@@ -361,6 +363,7 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `signals` | 출처별 역할·근거 |
 | `outcomes` | 정답 등급·가중치 |
 | `outcome_rules` | 정답 정리 규칙 (후보는 한 등급 아래, 제외 팀과 이유) |
+| `same_house` | 같은 집안 짝 (출처 ↔ 정답 프로그램, 적용 여부·이유) |
 | `candidate_rules` | 후보 제외 목록 (팀이 아닌 이름·확인된 기성 팀과 이유) |
 
 ### `docs/data/board.json`

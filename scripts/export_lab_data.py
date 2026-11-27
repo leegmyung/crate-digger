@@ -61,7 +61,9 @@ COLLAB_FIELDS = ["team_key", "partner_key", "partner_name", "release_date", "rol
 # 시점 누수 방지: 모든 비교는 '그 협업 발매일' 기준(그때 이미 기성이었나). 정답·유명 여부도 그 전에 알 수 있던 것만.
 ESTABLISHED_YEARS = 5      # 파트너 첫 발매가 협업보다 5년 이상 앞서면 기성 (신인 기준 3년보다 넉넉히 — 확실한 선배만)
 ESTABLISHED_ALBUMS = 15    # 앨범(싱글 포함) 15개 이상이면 기성 (신인 기준 10개를 확실히 넘는 수준)
-OUTCOME_FIELDS = ["team_key", "program", "program_label", "tier", "result", "announced_date", "counted", "grade", "weight"]
+OUTCOME_FIELDS = ["team_key", "program", "program_label", "tier", "result", "announced_date", "counted", "grade", "weight",
+                  "same_house_sources", "same_house_scored"]
+SCORED_ROLES = ("discovery", "context")   # 점수에 들어가는 출처 역할
 ROLES_FILE = ROOT / "config" / "source_roles.json"
 DEFAULT_GRADE = ("B", 1)
 GRADE_LADDER = [("S", 3), ("A", 2), ("B", 1)]   # 후보(nominee 등)는 한 칸 아래, B 아래는 없음
@@ -212,6 +214,38 @@ def outcome_rows(rows: List[dict], roles: dict | None = None) -> List[dict]:
         if key not in best or int(weight) > int(best[key]["weight"]):
             best[key] = row
     return list(best.values())
+
+
+def _signal_key(row: dict) -> str:
+    branch = row.get("branch", "")
+    return f"{branch}:{row.get('program') if branch == '선정·지원' else row.get('source')}"
+
+
+def same_house_flags(outcomes: List[dict], signals: List[dict], roles: dict | None = None) -> List[dict]:
+    """'같은 집안' 표시: 정답 발표 전에 그 정답과 같은 집안 출처(config same_house, apply=true)에 나온 팀이면
+    same_house_sources = 그 출처 키들(;로 이음) — 출처 성적표에서 그 출처의 적중으로 세지 않음.
+    same_house_scored = 그중 점수에 쓰는 출처(discovery·context)가 있으면 true — 점수 백테스트에서도 적중으로 세지 않음."""
+    roles = roles or {}
+    pairs = [p for p in roles.get("same_house") or [] if p.get("apply")]
+    by_program: Dict[str, set] = {}
+    for p in pairs:
+        for prog in p.get("outcomes", []):
+            by_program.setdefault(prog, set()).update(p.get("sources", []))
+    wanted = set().union(*by_program.values()) if by_program else set()
+    first_seen: Dict[tuple, str] = {}
+    for sg in signals:
+        key = _signal_key(sg)
+        if key in wanted:
+            k = (sg["team_key"], key)
+            first_seen[k] = min(first_seen.get(k, sg["signal_date"]), sg["signal_date"])
+    sig_roles = roles.get("signals") or {}
+    out = []
+    for o in outcomes:
+        srcs = sorted(src for src in by_program.get(o["program"], ())
+                      if first_seen.get((o["team_key"], src), "9999") < o["announced_date"])
+        scored = any((sig_roles.get(src) or {}).get("role") in SCORED_ROLES for src in srcs)
+        out.append({**o, "same_house_sources": ";".join(srcs), "same_house_scored": "true" if scored else "false"})
+    return out
 
 
 def _link_url(platform: str, ref: str) -> str | None:
@@ -430,7 +464,7 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
     roles = load_roles()
     signals = [{**r, "role": signal_role(r, roles)} for r in _records(run(q["signals"]))]
     teams = team_rows(_records(run(q["teams"])), roles)
-    outcomes = outcome_rows(_records(run(q["outcomes"])), roles)
+    outcomes = same_house_flags(outcome_rows(_records(run(q["outcomes"])), roles), signals, roles)
     programs = program_rows(signals, outcomes)
     links = link_rows(_records(run(q["links"])) + (extra_refs() if extra_refs else []))
 

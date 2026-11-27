@@ -59,6 +59,8 @@ def fixture_db():
     con.execute("UPDATE outcomes SET weight = CASE WHEN program = 'kma_rookie' THEN 3 ELSE 1 END")
     con.execute("ALTER TABLE outcomes ADD COLUMN grade VARCHAR")
     con.execute("UPDATE outcomes SET grade = CASE WHEN weight = 3 THEN 'S' ELSE 'B' END")
+    con.execute("ALTER TABLE outcomes ADD COLUMN same_house_sources VARCHAR DEFAULT ''")
+    con.execute("ALTER TABLE outcomes ADD COLUMN same_house_scored BOOLEAN DEFAULT false")
     con.execute(COLLABS_DDL)      # 협업 데이터가 없을 때와 같은 빈 표 (lab_sql.connect·앱과 같은 정의)
     con.execute((SQL_DIR / "features.sql").read_text(encoding="utf-8"))
     return con

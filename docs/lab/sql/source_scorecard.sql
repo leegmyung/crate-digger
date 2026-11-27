@@ -2,6 +2,7 @@
 -- 적중률 = 기준일 {{cutoffs}} 전 3년 안에 이 출처 신호가 있던 후보 팀 중, 기준일 뒤 {{horizon_months}}개월 안에 정답 받은 비율(기준일 합산).
 -- 수상 팀 = {{since}} 이후 첫 정답을 받은 팀: 정답 전에 이 출처에 나온 팀 수 / 가장 먼저 잡은 팀 수 / 이 출처만 잡은 팀 수 / 선행 개월(중앙값).
 -- 현재 역할(role)은 config/source_roles.json 분류. 판정 힌트: 적중률이 기준선 이하이고 유일 기여가 없으면 '맥락'으로 내릴 후보.
+-- '같은 집안' 정답(config same_house: 그 출처와 같은 주최·매체가 준 정답)은 그 출처의 적중·수상 팀으로 세지 않는다.
 -- 정답은 센 정답(counted)만, 등급 무관. 후보 기준은 신인 3년·유명 팀 제외(점수와 같음)이되, 신호 역할과 상관없이 모든 출처의 팀을 센다.
 WITH cuts AS (SELECT * FROM (VALUES {{cutoffs}}) t(c)),
 pool AS (                                       -- 후보군: 역할과 상관없이 기준일 전 3년 안에 신호가 있던 팀 (출처를 공정하게 재려고
@@ -27,7 +28,12 @@ src_pool AS (
 ),
 base AS (SELECT 1.0 * SUM(is_hit) / COUNT(*) AS rate FROM pool),
 precision AS (
-    SELECT sp.src, COUNT(*) AS teams, SUM(p.is_hit) AS hits
+    SELECT sp.src, COUNT(*) AS teams,
+           SUM(CASE WHEN EXISTS (SELECT 1 FROM outcomes o
+                                 WHERE o.team_key = sp.team_key AND o.counted
+                                   AND o.announced_date >= sp.c AND o.announced_date < sp.c + to_months({{horizon_months}})
+                                   AND NOT list_contains(string_split(COALESCE(o.same_house_sources, ''), ';'), sp.src))
+                    THEN 1 ELSE 0 END) AS hits
     FROM src_pool sp JOIN pool p USING (c, team_key)
     GROUP BY sp.src
 ),
@@ -38,6 +44,8 @@ win AS (
 first_src AS (
     SELECT k.team_key, k.src, MIN(k.signal_date) AS d, ANY_VALUE(w.fo) AS fo
     FROM win w JOIN keyed k USING (team_key) WHERE k.signal_date < w.fo
+      AND EXISTS (SELECT 1 FROM outcomes o WHERE o.team_key = k.team_key AND o.counted AND o.announced_date = w.fo
+                    AND NOT list_contains(string_split(COALESCE(o.same_house_sources, ''), ';'), k.src))
     GROUP BY k.team_key, k.src
 ),
 earliest AS (SELECT team_key, MIN(d) AS d, COUNT(*) AS n_src FROM first_src GROUP BY team_key),

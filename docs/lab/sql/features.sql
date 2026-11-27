@@ -90,9 +90,10 @@ feat_all AS (                                   -- 맥락 매체에만 나온 �
     LEFT JOIN context_cnt cc USING (team_key)
     LEFT JOIN collab_cnt cb USING (team_key)
 ),
-outcome_ok AS (                                 -- 센 정답만, 정답 종류 필터
+outcome_ok AS (                                 -- 센 정답만, 정답 종류 필터, '같은 집안' 정답(점수에 쓰는 출처의 짝)은 적중으로 안 셈
     SELECT team_key, announced_date, weight FROM outcomes
     WHERE counted AND (outcome_tier = 'any' OR tier = outcome_tier)
+      AND NOT COALESCE(CAST(same_house_scored AS BOOLEAN), false)
 ),
 before_cut AS (                                 -- 기준일 전에 이미 받은 정답(어떤 종류든)
     SELECT DISTINCT team_key FROM outcomes WHERE counted AND announced_date < cutoff

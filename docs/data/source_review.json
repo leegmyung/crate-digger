@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-27T15:53:09+09:00",
+ "generated_at": "2026-11-27T17:29:29+09:00",
  "data_end": "2026-11-27",
  "cutoffs": [
   "2025-01-01",
@@ -19,18 +19,25 @@
  "suggestions_changed_on": "2026-11-27",
  "suggestions": [
   {
-   "src": "큐레이션:izm",
-   "role": "context",
-   "kind": "promote",
-   "suggestion": "discovery로 올릴 후보",
-   "reason": "후보 1323팀·적중 11·배수 1·유일 기여 3팀"
-  },
-  {
    "src": "큐레이션:rhythmer",
    "role": "context",
    "kind": "promote",
    "suggestion": "discovery로 올릴 후보",
-   "reason": "후보 135팀·적중 3·배수 2.6·유일 기여 1팀"
+   "reason": "후보 74팀·적중 2·배수 3.4·유일 기여 1팀"
+  },
+  {
+   "src": "큐레이션:hiphople",
+   "role": "pending",
+   "kind": "ready",
+   "suggestion": "평가 가능 — 성적표로 판정",
+   "reason": "기록 2155일·후보 1706팀·적중 1·배수 0.1·유일 기여 1팀"
+  },
+  {
+   "src": "선정·지원:superrookie",
+   "role": "pending",
+   "kind": "ready",
+   "suggestion": "평가 가능 — 성적표로 판정",
+   "reason": "기록 806일·후보 116팀·적중 0·배수 0·유일 기여 0팀"
   }
  ],
  "sources": [
@@ -39,10 +46,10 @@
    "role": "discovery",
    "since_date": "2024-01-04",
    "signal_rows": 13836,
-   "teams": 4679,
+   "teams": 4630,
    "hits": 55,
-   "rate": 1.18,
-   "lift": 1.4,
+   "rate": 1.19,
+   "lift": 1.5,
    "winners_seen": 49,
    "first_to_see": 32,
    "only_source": 22
@@ -52,26 +59,26 @@
    "role": "discovery",
    "since_date": "2023-01-02",
    "signal_rows": 1053,
-   "teams": 1607,
-   "hits": 25,
-   "rate": 1.56,
+   "teams": 1507,
+   "hits": 22,
+   "rate": 1.46,
    "lift": 1.8,
-   "winners_seen": 30,
-   "first_to_see": 18,
-   "only_source": 7
+   "winners_seen": 26,
+   "first_to_see": 14,
+   "only_source": 5
   },
   {
    "src": "큐레이션:izm",
    "role": "context",
    "since_date": "2023-01-01",
    "signal_rows": 1322,
-   "teams": 1323,
-   "hits": 11,
-   "rate": 0.83,
+   "teams": 1167,
+   "hits": 9,
+   "rate": 0.77,
    "lift": 1.0,
-   "winners_seen": 13,
-   "first_to_see": 4,
-   "only_source": 3
+   "winners_seen": 10,
+   "first_to_see": 2,
+   "only_source": 1
   },
   {
    "src": "공연:sangsangmadang",
@@ -81,7 +88,7 @@
    "teams": 260,
    "hits": 11,
    "rate": 4.23,
-   "lift": 5.0,
+   "lift": 5.4,
    "winners_seen": 9,
    "first_to_see": 5,
    "only_source": 1
@@ -91,10 +98,10 @@
    "role": "context",
    "since_date": "2023-01-02",
    "signal_rows": 1063,
-   "teams": 1860,
-   "hits": 12,
-   "rate": 0.65,
-   "lift": 0.8,
+   "teams": 1814,
+   "hits": 9,
+   "rate": 0.5,
+   "lift": 0.6,
    "winners_seen": 7,
    "first_to_see": 5,
    "only_source": 3
@@ -104,13 +111,13 @@
    "role": "context",
    "since_date": "2024-07-22",
    "signal_rows": 500,
-   "teams": 613,
-   "hits": 5,
-   "rate": 0.82,
-   "lift": 1.0,
+   "teams": 589,
+   "hits": 3,
+   "rate": 0.51,
+   "lift": 0.6,
    "winners_seen": 6,
-   "first_to_see": 1,
-   "only_source": 0
+   "first_to_see": 2,
+   "only_source": 1
   },
   {
    "src": "선정·지원:band_discovery",
@@ -120,7 +127,7 @@
    "teams": 27,
    "hits": 4,
    "rate": 14.81,
-   "lift": 17.5,
+   "lift": 18.7,
    "winners_seen": 3,
    "first_to_see": 2,
    "only_source": 0
@@ -130,10 +137,10 @@
    "role": "context",
    "since_date": "2023-02-02",
    "signal_rows": 111,
-   "teams": 135,
-   "hits": 3,
-   "rate": 2.22,
-   "lift": 2.6,
+   "teams": 74,
+   "hits": 2,
+   "rate": 2.7,
+   "lift": 3.4,
    "winners_seen": 3,
    "first_to_see": 1,
    "only_source": 1
@@ -146,10 +153,23 @@
    "teams": 86,
    "hits": 3,
    "rate": 3.49,
-   "lift": 4.1,
+   "lift": 4.4,
    "winners_seen": 2,
    "first_to_see": 2,
    "only_source": 0
+  },
+  {
+   "src": "큐레이션:hiphople",
+   "role": "pending",
+   "since_date": "2021-01-02",
+   "signal_rows": 3556,
+   "teams": 1706,
+   "hits": 1,
+   "rate": 0.06,
+   "lift": 0.1,
+   "winners_seen": 2,
+   "first_to_see": 2,
+   "only_source": 1
   },
   {
    "src": "선정·지원:muse_sejong",
@@ -159,7 +179,7 @@
    "teams": 34,
    "hits": 1,
    "rate": 2.94,
-   "lift": 3.5,
+   "lift": 3.7,
    "winners_seen": 1,
    "first_to_see": 0,
    "only_source": 0
@@ -169,7 +189,7 @@
    "role": "excluded",
    "since_date": "2018-06-30",
    "signal_rows": 152,
-   "teams": 100,
+   "teams": 86,
    "hits": 0,
    "rate": 0.0,
    "lift": 0.0,
@@ -183,6 +203,19 @@
    "since_date": "2023-11-11",
    "signal_rows": 16,
    "teams": 20,
+   "hits": 0,
+   "rate": 0.0,
+   "lift": 0.0,
+   "winners_seen": 0,
+   "first_to_see": 0,
+   "only_source": 0
+  },
+  {
+   "src": "선정·지원:superrookie",
+   "role": "pending",
+   "since_date": "2024-09-12",
+   "signal_rows": 104,
+   "teams": 116,
    "hits": 0,
    "rate": 0.0,
    "lift": 0.0,
@@ -259,7 +292,7 @@
    "src": "공연:instagram",
    "role": "pending",
    "since_date": "2026-11-14",
-   "signal_rows": 12,
+   "signal_rows": 13,
    "teams": 0,
    "hits": 0,
    "rate": null,
@@ -295,10 +328,10 @@
    "only_source": 0
   },
   {
-   "src": "발매:genie",
+   "src": "발매:poclanos",
    "role": "pending",
-   "since_date": "2026-11-24",
-   "signal_rows": 46,
+   "since_date": "2026-11-23",
+   "signal_rows": 17,
    "teams": 0,
    "hits": 0,
    "rate": null,
@@ -308,10 +341,10 @@
    "only_source": 0
   },
   {
-   "src": "발매:poclanos",
+   "src": "발매:genie",
    "role": "pending",
-   "since_date": "2026-11-23",
-   "signal_rows": 17,
+   "since_date": "2026-11-24",
+   "signal_rows": 46,
    "teams": 0,
    "hits": 0,
    "rate": null,
