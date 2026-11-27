@@ -8,6 +8,7 @@
 #   docs/lab/data/city_profiles.json · team_cities.csv (도시 층)            · docs/lab/data/lineup_roles.csv (단독·헤드라이너)
 #   docs/lab/data/event_stars.csv (사건 별점·전후 28일)                    · docs/lab/data/festival_profiles.json (국내 페스티벌 회차별 라인업)
 #   docs/lab/data/venue_tiers.csv (공연장 체급 — 앱이 config/ 를 못 읽어서)  · docs/data/alerts.json (오늘 새로 생긴 일)
+#   마지막에 docs/lab/data/meta.json 의 extras·extras_rows 를 갱신 (generated_at 은 그대로)
 set -u
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT" || exit 1
@@ -20,7 +21,8 @@ STEPS=("venue_tiers|scripts/export_venue_tiers.py"
        "festival_profiles|scripts/festival_profiles.py --no-doc"
        "lineup_roles|scripts/lineup_roles.py --data-only"
        "event_stars|scripts/event_stars.py"
-       "build_alerts|scripts/build_alerts.py")
+       "build_alerts|scripts/build_alerts.py"
+       "meta_extras|scripts/update_meta_extras.py")   # 맨 끝: meta.json 에 있는 보조 파일 목록(앱이 404 없이 확인)
 if [ "${1:-}" = "--with-export" ]; then
   STEPS=("export_lab_data|scripts/export_lab_data.py" "${STEPS[@]}")
 fi
