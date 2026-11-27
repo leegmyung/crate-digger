@@ -309,7 +309,7 @@ function resolveFetchUrl(path, bust = true) {
   return `${path}${sep}v=${encodeURIComponent(assetVersion)}`;
 }
 
-async function fetchText(path, optional = false, opts = {}) {
+export async function fetchText(path, optional = false, opts = {}) {
   const { cache, bust = true } = opts;
   const url = resolveFetchUrl(path, bust);
   const init = cache ? { cache } : undefined;
@@ -428,7 +428,7 @@ function parseImagesCsv(text) {
   return { urlMap, metaMap };
 }
 
-function parseCsvObjects(text) {
+export function parseCsvObjects(text) {
   if (!text) return [];
   const rows = [];
   let row = [];
@@ -1006,7 +1006,7 @@ export async function queryDiscoveryStages(overrides = {}) {
 }
 
 /** meta.json(rows 또는 extras)에 보조 파일이 적혀 있는지. 적혀 있지 않으면 받지 않는다. */
-function labExtraListed(name) {
+export function labExtraListed(name) {
   const meta = appState.meta || {};
   const rows = meta.rows && typeof meta.rows === 'object' ? meta.rows : {};
   const extras = Array.isArray(meta.extras) ? meta.extras : [];

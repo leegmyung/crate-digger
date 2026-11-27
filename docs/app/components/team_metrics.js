@@ -86,3 +86,95 @@ export function stageRatio(stage) {
   const n = validCount(stage);
   return n === null ? null : Math.min(n, 4) / 4;
 }
+
+// ---------- 3-4 동료 비교 · 3-6 공연 블록 ----------
+
+const FESTIVAL_MIN_ACTS = 13; // 같은 날 같은 곳 13팀 이상 = 페스티벌(따로 셈, lineup_roles 와 같은 기준)
+const TOP_VENUES = 3;
+const YEAR_DAYS = 365;
+
+/** peer_compare.sql 등급 → 화면 낱말 */
+const GRADE_WORDS = { 탁월: '탁월', 훌륭: '좋음', 평균: '보통', '평균 이하': '아래', '비교군 작음': '비교할 팀이 적음' };
+export function peerGradeWord(grade) {
+  return GRADE_WORDS[String(grade || '')] || '';
+}
+
+/** top_share(0~1, 작을수록 위) → '상위 x%'의 x (최소 1) */
+export function topSharePct(topShare) {
+  const v = validCount(topShare);
+  return v === null ? null : Math.max(1, Math.round(v * 100));
+}
+
+function countBy(items, keyFn) {
+  const m = new Map();
+  for (const it of items) {
+    const k = keyFn(it);
+    m.set(k, (m.get(k) || 0) + 1);
+  }
+  return m;
+}
+
+/**
+ * 공연 블록 요약. tiers/cities 가 null 이면 그 칸은 null(= 자료 없음).
+ * @param {{ gigActs: Array<{date:string, venue:string, acts:number}>, asOf: string,
+ *           tiers?: Map<string,string>|null, cities?: Map<string,string>|null }} p
+ */
+export function gigSummary({ gigActs, asOf, tiers = null, cities = null }) {
+  const yearStart = isoMinusDays(asOf, YEAR_DAYS);
+  if (!yearStart) return null;
+  const rows = (gigActs || []).filter(g => g && DATE_RE.test(String(g.date || '')));
+  const past = rows.filter(g => g.date <= asOf);
+  const last12 = past.filter(g => g.date > yearStart);
+  const regular12 = last12.filter(g => (Number(g.acts) || 1) < FESTIVAL_MIN_ACTS);
+
+  let tierCounts = null;
+  if (tiers) {
+    tierCounts = { S: 0, M: 0, L: 0, XL: 0, unknown: 0 };
+    for (const g of regular12) {
+      const t = tiers.get(g.venue);
+      if (t && t in tierCounts) tierCounts[t] += 1;
+      else tierCounts.unknown += 1;
+    }
+  }
+
+  let cityCounts = null;
+  let cityUnknown = 0;
+  if (cities) {
+    const known = regular12.filter(g => cities.has(g.venue));
+    cityUnknown = regular12.length - known.length;
+    cityCounts = [...countBy(known, g => cities.get(g.venue)).entries()]
+      .map(([city, n]) => ({ city, n }))
+      .sort((a, b) => b.n - a.n || a.city.localeCompare(b.city));
+  }
+
+  const topVenues = [...countBy(past, g => g.venue).entries()]
+    .map(([venue, n]) => ({ venue, n }))
+    .sort((a, b) => b.n - a.n || a.venue.localeCompare(b.venue))
+    .slice(0, TOP_VENUES);
+
+  return {
+    total12: regular12.length,
+    festivals12: last12.length - regular12.length,
+    tierCounts,
+    cityCounts,
+    cityUnknown,
+    topVenues,
+    upcoming: rows.filter(g => g.date > asOf),
+  };
+}
+
+/** lineup_roles.csv 한 줄 → 단독·헤드라이너(여러 팀)·서포트·역할 모름 (headline 은 단독 포함이라 뺌) */
+export function lineupSplit(lr) {
+  if (!lr || !(Number(lr.gigs) > 0)) return null;
+  const solo = Number(lr.solo) || 0;
+  const head = Number(lr.head) || 0;
+  const support = Number(lr.support) || 0;
+  const total = Number(lr.gigs);
+  return {
+    solo,
+    headline: Math.max(0, head - solo),
+    support,
+    unknown: Math.max(0, total - head - support),
+    total,
+  };
+}

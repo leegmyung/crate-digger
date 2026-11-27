@@ -7675,3 +7675,341 @@ table.heat-table {
     font-size: 22px;
   }
 }
+
+/* ================================================================
+   단계 3 — 팀 상세: 점수 근거·동료 비교(3-4) · 사건 기록 별점(3-5) · 공연 블록(3-6)
+   ================================================================ */
+#teamGigsBlock {
+  scroll-margin-top: var(--team-scroll-pad, 120px);
+}
+
+.score-peer {
+  margin-bottom: var(--space-4);
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface-alt);
+}
+
+.score-peer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.score-peer-title {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+}
+
+.score-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.score-item > summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 4px var(--space-2);
+  border-radius: var(--radius);
+  cursor: pointer;
+  list-style: none;
+}
+
+.score-item > summary::-webkit-details-marker {
+  display: none;
+}
+
+.score-item > summary:hover {
+  background: var(--surface-alt);
+}
+
+.score-item > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.score-item > summary .cd-item-bar {
+  flex: 1 1 auto;
+}
+
+.score-item[open] > summary {
+  background: var(--accent-soft);
+}
+
+.score-item-peer {
+  flex: 0 0 auto;
+  min-width: 84px;
+  font-size: var(--text-xs);
+  color: var(--ink-subtle);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.score-evidence {
+  margin: 2px 0 var(--space-2) var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  border-left: 2px solid var(--line-strong);
+  font-size: var(--text-sm);
+}
+
+.score-evidence-list {
+  margin: 0;
+  padding-left: var(--space-4);
+}
+
+.score-items-hint {
+  margin: var(--space-2) 0 0;
+}
+
+/* 3-5 사건 기록 */
+.event-log {
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+.event-log-head {
+  margin-bottom: var(--space-2);
+}
+
+.event-log-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--ink-muted);
+}
+
+.event-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.event-row {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.event-date {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+  padding-top: 2px;
+}
+
+.event-main {
+  min-width: 0;
+}
+
+.event-line {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.event-stars {
+  color: var(--accent);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.event-stars-empty {
+  color: var(--line-strong);
+}
+
+.event-kind {
+  white-space: nowrap;
+}
+
+.event-detail {
+  min-width: 0;
+  color: var(--ink-muted);
+  overflow-wrap: anywhere;
+}
+
+table.event-window {
+  margin-top: var(--space-2);
+  border-collapse: collapse;
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.event-window th,
+.event-window td {
+  padding: 2px 10px;
+  border: 1px solid var(--line);
+  text-align: right;
+}
+
+.event-window thead th {
+  color: var(--ink-subtle);
+  font-weight: var(--weight-semi);
+  background: var(--surface-alt);
+}
+
+.event-window tbody th {
+  text-align: left;
+  color: var(--ink-muted);
+  font-weight: var(--weight-regular);
+}
+
+.timeline-all-title {
+  margin: var(--space-4) 0 var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+}
+
+/* 3-6 공연 블록 */
+.gig-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.gig-cell {
+  min-width: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface-alt);
+  font-size: var(--text-sm);
+}
+
+.gig-cell-title {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--ink-muted);
+}
+
+.gig-big {
+  font-size: 26px;
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.gig-big-unit {
+  margin-left: 2px;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  color: var(--ink-muted);
+}
+
+.gig-stack {
+  display: flex;
+  height: 12px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--na-bg);
+}
+
+.gig-stack-seg {
+  height: 100%;
+}
+
+.gig-stack-seg + .gig-stack-seg {
+  border-left: 1px solid var(--surface);
+}
+
+.gig-stack-seg.lv1,
+.gig-legend-dot.lv1 { background: var(--ramp-1); }
+.gig-stack-seg.lv2,
+.gig-legend-dot.lv2 { background: var(--ramp-2); }
+.gig-stack-seg.lv3,
+.gig-legend-dot.lv3 { background: var(--ramp-3); }
+.gig-stack-seg.lv4,
+.gig-legend-dot.lv4 { background: var(--ramp-4); }
+.gig-stack-seg.lv5,
+.gig-legend-dot.lv5 { background: var(--ramp-5); }
+.gig-stack-seg.is-unknown,
+.gig-legend-dot.is-unknown { background: var(--na-bg); border: 1px dashed var(--line-strong); }
+
+.gig-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px var(--space-3);
+  margin: 6px 0 4px;
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.gig-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gig-legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.gig-venue-list,
+.gig-upcoming-list {
+  margin: 0;
+  padding-left: var(--space-4);
+}
+
+.gig-upcoming-list {
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gig-city-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.gig-city-chip {
+  padding: 1px 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  font-size: var(--text-xs);
+}
+
+@media (max-width: 960px) {
+  .gig-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .gig-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .event-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .score-item > summary {
+    flex-wrap: wrap;
+    gap: 2px var(--space-2);
+  }
+
+  .score-item-peer {
+    min-width: 0;
+    text-align: left;
+  }
+}

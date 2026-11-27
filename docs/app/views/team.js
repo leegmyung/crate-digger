@@ -19,6 +19,13 @@ import { compareButtonHtml, renderTeamFactsHtml, renderTeamTocHtml, wireTeamToc 
 import {
   queryScenePeerWinners, renderChangeRowHtml, renderTeamStatusBarsHtml, wireChangeRow,
 } from './team_pulse.js';
+import { renderScoreBodyHtml, wireScoreBlock } from './team_score.js';
+import { renderEventLogHtml } from './team_events.js';
+import { renderGigBlockHtml } from './team_gigs.js';
+import { queryPeerCompare } from '../db_peer.js';
+import {
+  loadEventStars, loadLineupRoles, loadVenueMeta, queryTeamGigActs,
+} from '../db_team_extras.js';
 
 /**
  * 듣기·보기는 스포티파이·유튜브 두 가지만 (사용자 결정 2026-11-27).
@@ -180,7 +187,8 @@ export async function renderTeamView(root, teamKey) {
   }
 
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
-  const [data, sceneMap, sourceRoles, stageData, alertsData, rankChangeData, sceneWinners] = await Promise.all([
+  const [data, sceneMap, sourceRoles, stageData, alertsData, rankChangeData, sceneWinners,
+    peerStage, eventStarsMap, lineupMap, venueMeta, gigActs] = await Promise.all([
     queryTeamDetail(teamKey),
     loadSceneMap(),
     loadSourceRoles(),
@@ -188,6 +196,11 @@ export async function renderTeamView(root, teamKey) {
     loadAlertsJson().catch(() => null),
     queryRankChange({ as_of: asOf }).catch(() => null),
     queryScenePeerWinners(teamKey, asOf),
+    queryPeerCompare({ as_of: asOf, team_key: teamKey, scope: 'stage' }),
+    loadEventStars(),
+    loadLineupRoles(),
+    loadVenueMeta(),
+    queryTeamGigActs(teamKey),
     ensureTeamCitiesLoaded().catch(() => null),
     loadDashboardJson().catch(() => null),
     ensureD3().catch(() => null),
@@ -285,19 +298,19 @@ export async function renderTeamView(root, teamKey) {
     profileFacts.push(['분류', PROFILE_LABELS[profile.profile_status] || profile.profile_status]);
   }
 
-  const scoreItems = scored ? [
-    ['갈래 수 (' + fmtInt(scored.n_branch) + '개)', scored.pts_branch],
-    ['선정 최고 단계 (' + fmtInt(scored.best_stage) + ')', scored.pts_stage],
-    ['서로 다른 공연장 (' + fmtInt(scored.venues) + '곳)', scored.pts_venues],
-    ['최근 6개월 활동 (' + fmtInt(scored.recent180) + '건)', scored.pts_recent],
-    ['이미 상 받은 팀과 같은 무대', scored.pts_winner],
-    ['발굴 매체 (' + fmtInt(scored.outlets) + '곳)', scored.pts_outlets],
-    ['맥락 매체 (' + fmtInt(scored.context_outlets ?? 0) + '곳)', scored.pts_context],
-    ['협업(기성 아티스트 ' + fmtInt(scored.collab_est ?? 0) + '명)', scored.pts_collab],
-    ['선정 팀과 같은 무대', scored.pts_peer],
-    ['DMZ 출연', scored.pts_dmz],
-    ['최근 1년 공연 (' + fmtInt(scored.gigs_1y) + '일)', scored.pts_gigs],
-  ].filter(([, v]) => Number(v) > 0) : [];
+  // 3-4 점수 근거: 항목 막대 + 동료 비교(같은 발굴 단계 기본, 장르 이웃은 profile·press 장르 팀만)
+  const genreConf = appState.genreConfidenceByTeam?.get(teamKey) || profile?.genre_confidence || '';
+  const genreForPeer = String(scored?.primary_genre || profile?.primary_genre || '').trim();
+  const scoreCtx = {
+    teamKey,
+    scored,
+    peer: peerStage?.byTeam?.get(teamKey) || null,
+    peerError: peerStage?.error || '',
+    genreOk: Boolean(genreForPeer && genreForPeer !== '미분류' && String(genreConf).toLowerCase() !== 'inferred'),
+    timeline,
+    asOf,
+    nameOf: resolveSignalName,
+  };
 
   // Register team timeline CSV with unified export dropdown
   const teamTlCsvSpec = mergedTimeline.length ? {
@@ -406,6 +419,8 @@ export async function renderTeamView(root, teamKey) {
   let showAllVideos = false;
   let showAllPrec = false;
   let showAllTimeline = false;
+  let showAllEvents = false;
+  const teamEvents = eventStarsMap ? (eventStarsMap.get(teamKey) || []) : null;
   let showAllStageRel = false;
 
   // Section 1: 요약
@@ -440,9 +455,7 @@ export async function renderTeamView(root, teamKey) {
       </div>
       ${scored ? `
         <div style="margin-bottom:10px;">${renderScoreBar(scored, Math.max(10, Number(scored.score) || 1))}</div>
-        <dl class="kv-list">
-          ${scoreItems.map(([k, v]) => `<dt>${escapeHtml(k)}</dt><dd>+${fmtNum(v, 2)}</dd>`).join('')}
-        </dl>
+        <div id="teamScoreBody">${renderScoreBodyHtml(scoreCtx)}</div>
       ` : '<p class="muted small" style="margin:0;">현재 필터·기간 조건 안의 점수가 없습니다.</p>'}
       <p class="score-role-note">
         점수에는 발굴 출처만, 맥락 매체는 약하게 반영합니다. 검증 대기·제외 출처는 아래 활동 기록에서 참고용으로만 보여 줍니다.
@@ -535,12 +548,14 @@ export async function renderTeamView(root, teamKey) {
     return `
       <div class="block-head">
         <div>
-          <h2>활동 기록</h2>
-          <span class="block-meta">전체 ${fmtInt(mergedTimeline.length)}건</span>
+          <h2>${teamEvents ? '사건 기록' : '활동 기록'}</h2>
+          <span class="block-meta">전체 활동 ${fmtInt(mergedTimeline.length)}건</span>
         </div>
         ${teamTlCsvSpec ? `<div class="block-head-actions">${renderTableCsvBtn('btnTeamTlCsv', 'CSV 내려받기')}</div>` : ''}
       </div>
       ${monthlyBarsHtml}
+      ${renderEventLogHtml(teamEvents, asOf, showAllEvents)}
+      ${teamEvents ? '<h3 class="timeline-all-title">전체 활동 기록</h3>' : ''}
       ${hasNonDiscovery ? `<p class="timeline-role-legend">${legendText}</p>` : ''}
       ${visibleTl.length ? `
         <ul class="timeline-list">
@@ -648,6 +663,7 @@ export async function renderTeamView(root, teamKey) {
     { id: 'teamScoreBlock', label: '근거' },
     { id: 'teamGraphSection', label: '관계' },
     { id: 'teamActivityBlock', label: '사건' },
+    { id: 'teamGigsBlock', label: '공연' },
     { id: 'teamPrecedentsBlock', label: '선례' },
     ...(videos.length ? [{ id: 'teamVideosBlock', label: '영상' }] : []),
   ]);
@@ -708,6 +724,12 @@ export async function renderTeamView(root, teamKey) {
 
     <section class="block" id="teamActivityBlock"></section>
 
+    <section class="block" id="teamGigsBlock">${renderGigBlockHtml({
+      teamKey, asOf, gigActs, venueMeta, lineupMap,
+      teamCity: appState.teamCitiesByTeam.get(teamKey) || null,
+      upcomingList,
+    })}</section>
+
     <section class="block" id="teamPrecedentsBlock"></section>
 
     ${videos.length ? '<section class="block" id="teamVideosBlock"></section>' : ''}
@@ -721,6 +743,7 @@ export async function renderTeamView(root, teamKey) {
   wireSpotifyButtons(root, root.querySelector('#teamPlayerSlot'));
   wireTeamToc(root);
   wireChangeRow(root, pulseCtx);
+  wireScoreBlock(root, scoreCtx);
 
   function paintRelatedBody() {
     const body = root.querySelector('#teamRelatedBody');
@@ -742,6 +765,10 @@ export async function renderTeamView(root, teamKey) {
     });
     el.querySelector('#btnMoreTimeline')?.addEventListener('click', () => {
       showAllTimeline = true;
+      paintActivity();
+    });
+    el.querySelector('[data-event-more]')?.addEventListener('click', () => {
+      showAllEvents = true;
       paintActivity();
     });
   }
