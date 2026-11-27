@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-28T00:19:21+09:00",
+ "generated": "2026-11-28T00:34:36+09:00",
  "runs": [
   {
    "date": "2026-11-28",
@@ -7,7 +7,23 @@
    "table": "raw_artist_profile",
    "rows": 33,
    "file_ok": true,
-   "prev_rows": 43
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-28",
+   "source": "indiego",
+   "table": "raw_kr_gig",
+   "rows": 344,
+   "file_ok": true,
+   "prev_rows": 240
+  },
+  {
+   "date": "2026-11-28",
+   "source": "busan",
+   "table": "raw_kr_selection",
+   "rows": 13,
+   "file_ok": true,
+   "prev_rows": 3
   },
   {
    "date": "2026-11-27",
@@ -39,7 +55,7 @@
    "table": "raw_kr_release",
    "rows": 5,
    "file_ok": true,
-   "prev_rows": 33
+   "prev_rows": null
   },
   {
    "date": "2026-11-27",
@@ -55,7 +71,7 @@
    "table": "raw_artist_profile",
    "rows": 518,
    "file_ok": true,
-   "prev_rows": 83
+   "prev_rows": null
   },
   {
    "date": "2026-11-27",
@@ -63,7 +79,7 @@
    "table": "raw_kr_release",
    "rows": 11,
    "file_ok": true,
-   "prev_rows": 62
+   "prev_rows": null
   },
   {
    "date": "2026-11-27",
@@ -71,7 +87,7 @@
    "table": "raw_outcome",
    "rows": 1054,
    "file_ok": true,
-   "prev_rows": 240
+   "prev_rows": null
   },
   {
    "date": "2026-11-27",
@@ -79,15 +95,15 @@
    "table": "raw_artist_profile",
    "rows": 19,
    "file_ok": true,
-   "prev_rows": 107
+   "prev_rows": null
   },
   {
    "date": "2026-11-27",
    "source": "instagram",
    "table": "raw_press",
-   "rows": 1745,
+   "rows": 2441,
    "file_ok": false,
-   "prev_rows": 121
+   "prev_rows": null
   },
   {
    "date": "2026-11-27",
@@ -95,7 +111,7 @@
    "table": "raw_kr_gig",
    "rows": 317,
    "file_ok": true,
-   "prev_rows": 14192
+   "prev_rows": null
   },
   {
    "date": "2026-11-27",
@@ -103,7 +119,7 @@
    "table": "raw_kr_gig",
    "rows": 240,
    "file_ok": true,
-   "prev_rows": 427
+   "prev_rows": null
   },
   {
    "date": "2026-11-27",
@@ -119,7 +135,7 @@
    "table": "raw_kr_release",
    "rows": 19,
    "file_ok": true,
-   "prev_rows": 46
+   "prev_rows": null
   },
   {
    "date": "2026-11-27",
@@ -127,7 +143,15 @@
    "table": "raw_kr_release",
    "rows": 5,
    "file_ok": true,
-   "prev_rows": 39
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-27",
+   "source": "busan",
+   "table": "raw_kr_selection",
+   "rows": 3,
+   "file_ok": true,
+   "prev_rows": null
   },
   {
    "date": "2026-11-27",
@@ -135,7 +159,7 @@
    "table": "raw_kr_release",
    "rows": 32,
    "file_ok": true,
-   "prev_rows": 70
+   "prev_rows": null
   },
   {
    "date": "2026-11-26",
@@ -4803,6 +4827,14 @@
    ]
   },
   {
+   "artist": "갤럭시익스프레스",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "게이트플라워즈",
    "branches": [
     "공연",
@@ -5443,6 +5475,14 @@
    ]
   },
   {
+   "artist": "올디 벗 구디",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "와와와",
    "branches": [
     "공연",
@@ -5484,22 +5524,6 @@
   },
   {
    "artist": "이민휘",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "이주영",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "이토마토",
    "branches": [
     "공연",
     "선정·지원",
