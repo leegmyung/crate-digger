@@ -23,6 +23,7 @@ import {
 } from '../components/cand_filters.js';
 import { loadVenueLadder } from '../db_venue.js';
 import { renderChartTabsHtml } from './charts.js';
+import { attachTeamPeek, peekKeyFromHash } from '../components/team_peek.js';
 import { buildHeatRows, nextHeatSort, renderHeatmapHtml } from './candidates_heatmap.js';
 import { queryPeerCompare } from '../db_peer.js';
 import { wireSavedRow } from './cand_saved.js';
@@ -168,6 +169,7 @@ function renderDebutMentionChip(m, debutScorecard) {
 
 async function renderDebutCandidatesView(root) {
   const c = appState.cfg;
+  const initialPeek = peekKeyFromHash();
   const asOf = c.as_of || appState.dataEnd || '2026-11-27';
   const [debutData, debutScorecard] = await Promise.all([
     queryDebutCandidates({ as_of: asOf }),
@@ -259,7 +261,7 @@ async function renderDebutCandidatesView(root) {
       <div class="table-bar">
         <div class="table-bar-left">
           <span class="table-bar-title" id="debutTableBarTitle">첫 발매 뒤 언급 팀</span>
-          <span class="table-kb-hint">↑↓ 이동 · Enter 상세 · → 미리보기</span>
+          <span class="table-kb-hint">↑↓ 이동 · Enter 미리보기 · → 표 안 펼치기</span>
         </div>
         <div class="table-bar-right">
           ${renderTableCsvBtn('btnDebutCsv', 'CSV 내려받기')}
@@ -553,12 +555,12 @@ async function renderDebutCandidatesView(root) {
     }
     if (e.target.closest('button') || e.target.closest('a')) return;
     const tr = e.target.closest('tr[data-nav-row]');
-    if (tr && tr.dataset.teamKey) navigateTo('team', tr.dataset.teamKey);
+    if (tr && tr.dataset.teamKey) openDebutPeek(tr.dataset.teamKey);
   });
 
   wireTableKeyboardNav(tbodyEl, {
     onActivate: (tr) => {
-      if (tr.dataset.teamKey) navigateTo('team', tr.dataset.teamKey);
+      if (tr.dataset.teamKey) openDebutPeek(tr.dataset.teamKey);
     },
     onToggleExpand: (tr, key) => {
       const tk = tr.dataset.teamKey;
@@ -592,12 +594,15 @@ async function renderDebutCandidatesView(root) {
       <div class="rhp-lines">
         <div class="rhp-line"><span class="rhp-lbl">언급 출처</span>${escapeHtml(mTxt || '—')}</div>
       </div>
-      <div class="rhp-foot">클릭 또는 Enter로 팀 상세 · →로 표 안에서 펼치기</div>
+      <div class="rhp-foot">클릭·Enter로 오른쪽 미리보기 · →로 표 안에서 펼치기</div>
     `;
   });
+  // 줄을 누르거나 Enter → 오른쪽 미리보기(▸ 펼침은 그대로), 주소의 ?peek= 도 연다
+  const openDebutPeek = attachTeamPeek(root, { initialKey: initialPeek });
 }
 
 export async function renderCandidatesView(root) {
+  const initialPeek = peekKeyFromHash();
   if (appState.candTab === 'debut') {
     await renderDebutCandidatesView(root);
     return;
@@ -884,7 +889,7 @@ export async function renderCandidatesView(root) {
         <div class="table-bar-left">
           <strong id="candTableBarTitle">신인 후보 목록</strong>
           <span class="small muted" id="candCountText"></span>
-          <span class="table-kb-hint">↑↓ 이동 · Enter 상세 · → 미리보기</span>
+          <span class="table-kb-hint">↑↓ 이동 · Enter 미리보기 · → 표 안 펼치기</span>
         </div>
         <div class="table-bar-right">
           <div class="density-switch" role="group" aria-label="표 밀도">
@@ -1542,7 +1547,7 @@ export async function renderCandidatesView(root) {
       return;
     }
     const tr = target.closest('tr[data-team-key]');
-    if (tr) navigateTo('team', tr.dataset.teamKey);
+    if (tr) openPeekFor(tr.dataset.teamKey);
   };
   heatHostEl?.addEventListener('click', (e) => onHeatActivate(e.target));
   heatHostEl?.addEventListener('keydown', (e) => {
@@ -1597,13 +1602,13 @@ export async function renderCandidatesView(root) {
     if (e.target.closest('button') || e.target.closest('a')) return;
     const tr = e.target.closest('tr[data-nav-row]');
     if (tr && tr.dataset.teamKey) {
-      navigateTo('team', tr.dataset.teamKey);
+      openPeekFor(tr.dataset.teamKey);
     }
   });
 
   wireTableKeyboardNav(tbodyEl, {
     onActivate: (tr) => {
-      if (tr.dataset.teamKey) navigateTo('team', tr.dataset.teamKey);
+      if (tr.dataset.teamKey) openPeekFor(tr.dataset.teamKey);
     },
     onToggleExpand: (tr, key) => {
       const tk = tr.dataset.teamKey;
@@ -1641,7 +1646,9 @@ export async function renderCandidatesView(root) {
         <div class="rhp-line"><span class="rhp-lbl">최근 활동</span>${escapeHtml(act.tooltip)}</div>
         <div class="rhp-line"><span class="rhp-lbl">다음 공연</span>${escapeHtml(nextTxt)}</div>
       </div>
-      <div class="rhp-foot">클릭 또는 Enter로 팀 상세 · →로 표 안에서 펼치기</div>
+      <div class="rhp-foot">클릭·Enter로 오른쪽 미리보기 · →로 표 안에서 펼치기</div>
     `;
   });
+  // 줄을 누르거나 Enter → 오른쪽 미리보기(▸ 펼침은 그대로), 주소의 ?peek= 도 연다
+  const openPeekFor = attachTeamPeek(root, { initialKey: appState.candTab === 'debut' ? '' : initialPeek });
 }

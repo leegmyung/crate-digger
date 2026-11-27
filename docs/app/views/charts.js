@@ -15,6 +15,7 @@ import {
   escapeHtml, fmtInt, fmtNum, genreConfidenceBadgeHtml, INFO_TIPS, infoTip, naCell, plainWhyLine,
   stageBadgeHtml,
 } from '../ui.js';
+import { attachTeamPeek, peekKeyFromHash } from '../components/team_peek.js';
 
 const CHART_SIZE = 50;
 const POOL = 300; // 도시 차트는 전체 상위 300 안에서 고른다
@@ -95,7 +96,7 @@ function rowHtml(r, i, prevPos, stageByTeam, kind) {
     ? `${fmtInt(r.recent_branches)}개 갈래에서 언급`
     : plainWhyLine(r);
   return `
-    <tr>
+    <tr class="clickable" tabindex="0" data-team-key="${escapeHtml(r.team_key)}">
       <td class="num chart-rank" data-label="순위"><strong>${i + 1}</strong></td>
       <td class="nowrap" data-label="지난주 대비">${deltaHtml(i + 1, prevPos)}</td>
       <td data-label="팀"><a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(name)}</strong></a> ${genre}</td>
@@ -109,6 +110,7 @@ function rowHtml(r, i, prevPos, stageByTeam, kind) {
 /** @param {HTMLElement} root */
 export async function renderChartsView(root) {
   const kind = ['all', 'genre', 'city', 'rising'].includes(appState.chartKind) ? appState.chartKind : 'all';
+  const initialPeek = peekKeyFromHash();
   const asOf = appState.dataEnd || appState.cfg.as_of || '2026-11-28';
   const prevAsOf = isoMinusDays(asOf, WEEK);
   const [cp] = await Promise.all([loadCityProfiles(), ensureTeamCitiesLoaded().catch(() => null)]);
@@ -146,6 +148,20 @@ export async function renderChartsView(root) {
         </div>` : `<div style="padding:16px;">${naCell(kind === 'city' && !appState.teamCitiesByTeam.size ? '팀별 활동 도시 자료(team_cities.csv)가 아직 없습니다' : '이 정의에 맞는 팀이 없습니다', { block: true })}</div>`}
     </section>
     <p class="small muted place-evidence">근거: 점수 정의는 <a href="#/verify/backtest">검증 › 점수 신뢰도</a> · 차트는 정의가 고정돼 필터를 바꿀 수 없습니다 — 바꾸려면 '발굴에서 열기'</p>`;
+
+  // 줄을 누르거나 Enter → 오른쪽 미리보기(팀 이름 링크는 그대로 팀 페이지로)
+  const openPeek = attachTeamPeek(root, { initialKey: initialPeek });
+  const tbody = root.querySelector('.chart-table tbody');
+  tbody?.addEventListener('click', (e) => {
+    if (e.target.closest('a, button, .cd-infotip')) return;
+    const tr = e.target.closest('tr[data-team-key]');
+    if (tr) openPeek(tr.dataset.teamKey);
+  });
+  tbody?.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' || !e.target.matches('tr[data-team-key]')) return;
+    e.preventDefault();
+    openPeek(e.target.dataset.teamKey);
+  });
 
   root.querySelector('[data-chart-pick]')?.addEventListener('change', (e) => {
     const v = e.target.value;
