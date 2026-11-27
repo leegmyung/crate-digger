@@ -469,7 +469,9 @@ def build_doc(day: str, table: List[dict], overall: dict, comp: List[dict], rows
             "## 3. 장르는 어떻게 붙나 (해석 전에 꼭 볼 것)", "",
             "팀 표의 장르(`primary_genre`)는 멜론·발매 장르 태그로 정하고, 태그가 없을 때만 확실한 출처로 보완한다"
             "(리드머 소개 → 힙합, 밴드 디스커버리 선정 → 록·밴드; `build_dashboard_data._infer_genres`). "
-            "정답 프로그램은 근거로 쓰지 않는다(2026-11-27 수정 — 그 전 규칙의 '한국힙합어워즈 신인 → 힙합'은 신호 데이터에 해당 프로그램이 없어 실제로 쓰인 적이 없다).", "",
+            "정답 프로그램은 근거로 쓰지 않는다(2026-11-27 수정 — 그 전 규칙의 '한국힙합어워즈 신인 → 힙합'은 신호 데이터에 해당 프로그램이 없어 실제로 쓰인 적이 없다). "
+            "빈칸을 같은 무대 다수결·공연장 성향·약한 출처 힌트로 채운 **추정 장르(genre_confidence = inferred)는 이 분석에서 '미분류'로 센다** "
+            "— 비교·분석은 profile·press 장르만 쓴다(2026-11-27 결정, [장르 빈칸 채우기](genre_fill.md)). 아래 표의 '장르'도 추정을 뺀 수다.", "",
             "| 팀 표 | 팀 수 |", "|---|---|", *[f"| {k} | {v:,} |" for k, v in sorted(note.items())], "",
             *interpret(table, overall, comp, rows, shares, cov)]
 
