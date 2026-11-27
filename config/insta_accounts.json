@@ -3874,6 +3874,105 @@
    "tier": "venue",
    "every_days": 2,
    "role": "venue_showcase"
+  },
+  {
+   "handle": "suwon_musiccamp",
+   "name": "수원음악캠프",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "wav3_gwangan",
+   "name": "WAV3 광안",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "belpos_official",
+   "name": "클럽 벨포스",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "cats_sasang_",
+   "name": "사상인디스테이션 소란동",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "sidekick_production",
+   "name": "사이드킥프로덕션 (창원)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "the4zonelive",
+   "name": "제4지대 (광주)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "moomonk1995",
+   "name": "무몽크 (부산)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "nogada_pub",
+   "name": "문화골목 노가다 (부산)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "the_vine_hall",
+   "name": "더바인홀 (전주)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "dinggingfriends",
+   "name": "딩깅프렌즈 (수원)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "4dcosmosmusiclab",
+   "name": "사차원우주음악연구소 (대구)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "yaman_joint_official",
+   "name": "야만 (부산)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "nurirock",
+   "name": "세종 음악창작소 누리락",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "namon_jeju",
+   "name": "남온 제주 (서귀포)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
   }
  ]
 }

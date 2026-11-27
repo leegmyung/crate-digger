@@ -129,5 +129,86 @@ class DateWindowTest(unittest.TestCase):
         self.assertFalse(cg.in_window("", "2026-11-26", "2026-12-03"))
 
 
+# ---------- 인디고 공연장별 과거 목록 (일반 HTTP, aside 없이) ----------
+
+VENUE_HTML = (
+    '<script>self.__next_f.push([1,"{\\"venue\\":{\\"name\\":\\"가상클럽\\",\\"public_id\\":176,'
+    '\\"comment_count\\":0},\\"events\\":[{\\"id\\":\\"a\\",\\"name\\":\\"지난 공연\\",'
+    '\\"public_id\\":1609,\\"series_id\\":null,\\"start_date\\":\\"2026-11-01\\"},'
+    '{\\"id\\":\\"b\\",\\"public_id\\":1700,\\"start_date\\":\\"2026-12-24\\"},'
+    '{\\"id\\":\\"c\\",\\"public_id\\":1500,\\"start_date\\":\\"2026-10-01\\"}]}"])</script>'
+)
+
+
+def _event_html(pid, date, performers=(("가상밴드", 3388),)):
+    ld = {"@context": "https://schema.org", "@type": "MusicEvent", "name": f"공연 {pid}",
+          "url": f"https://www.indiego.co.kr/events/{pid}-x", "startDate": f"{date}T19:00:00+09:00",
+          "location": {"@type": "Place", "name": "가상클럽",
+                       "address": {"@type": "PostalAddress", "streetAddress": "부산 금정구 가상로 1"}},
+          "performer": [{"@type": "MusicGroup", "name": n, "url": f"https://www.indiego.co.kr/artists/{i}-x"}
+                        for n, i in performers]}
+    return f'<html><script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script></html>'
+
+
+class VenueHistoryParseTest(unittest.TestCase):
+    def test_venue_events_reads_public_id_and_date_but_not_venue_id(self):
+        self.assertEqual(cg.venue_events(VENUE_HTML),
+                         [{"public_id": 1609, "start_date": "2026-11-01"}, {"public_id": 1700, "start_date": "2026-12-24"},
+                          {"public_id": 1500, "start_date": "2026-10-01"}])
+
+    def test_parse_event_page_gives_detail_like_aside(self):
+        d = cg.parse_event_page(_event_html(1609, "2026-11-01"), "https://www.indiego.co.kr/events/1609")
+        self.assertEqual(d["url"], "https://www.indiego.co.kr/events/1609-x")
+        self.assertEqual((d["venue"], d["address"]), ("가상클럽", "부산 금정구 가상로 1"))
+        self.assertEqual(d["performers"], [{"name": "가상밴드", "url": "https://www.indiego.co.kr/artists/3388-x"}])
+        self.assertIsNone(cg.parse_event_page("<html>없음</html>", "u"))
+
+    def test_history_targets_regional_skips_seoul_and_missing_url(self):
+        cfg = {"venues": [{"name": "A", "city": "서울", "indiego_url": "https://www.indiego.co.kr/venues/1-a"},
+                          {"name": "B", "city": "부산", "indiego_url": "https://www.indiego.co.kr/venues/2-b"},
+                          {"name": "C", "city": "광주"}]}
+        self.assertEqual(cg.history_targets(cfg, "regional"), [("B", "https://www.indiego.co.kr/venues/2-b")])
+        self.assertEqual(len(cg.history_targets(cfg, "all")), 2)
+
+
+class VenueHistoryCollectTest(unittest.TestCase):
+    def test_collects_only_past_unseen_events_and_writes_valid_csv(self):
+        pages = {"https://www.indiego.co.kr/venues/2-b": VENUE_HTML,
+                 "https://www.indiego.co.kr/events/1609": _event_html(1609, "2026-11-01", (("가상밴드", 1), ("둘째팀", 2))),
+                 "https://www.indiego.co.kr/events/1500": _event_html(1500, "2026-10-01")}
+        fetched = []
+
+        def fake_fetch(url):
+            fetched.append(url)
+            return pages[url]
+
+        with tempfile.TemporaryDirectory() as d:
+            path, rows, st = cg.collect_venue_history([("B", "https://www.indiego.co.kr/venues/2-b")], Path(d),
+                                                      "2026-11-27", seen={"1500"}, fetch=fake_fetch, delay=0)
+            errs = [i for i in validate_csv.validate_file(path) if i.level == "error"]
+            self.assertEqual(path.name, "raw_kr_gig_2026-11-27_indiego_history.csv")
+        self.assertEqual(errs, [])
+        self.assertNotIn("https://www.indiego.co.kr/events/1700", fetched)   # 예정 공연은 매일 수집이 맡음
+        self.assertNotIn("https://www.indiego.co.kr/events/1500", fetched)   # 이미 받은 공연
+        self.assertEqual([r["artist_text"] for r in rows], ["가상밴드", "둘째팀"])
+        self.assertEqual({(r["source"], r["collector"]) for r in rows}, {("indiego", "script")})
+        self.assertEqual((st["venues"], st["events_past"], st["skipped_seen"], st["fetched"]), (1, 2, 1, 1))
+
+    def test_failed_page_is_counted_not_raised(self):
+        def boom(url):
+            raise OSError("down")
+        with tempfile.TemporaryDirectory() as d:
+            path, rows, st = cg.collect_venue_history([("B", "https://www.indiego.co.kr/venues/2-b")], Path(d),
+                                                      "2026-11-27", seen=set(), fetch=boom, delay=0)
+        self.assertIsNone(path)
+        self.assertEqual(st["failed_venues"], 1)
+
+    def test_seen_ids_read_from_existing_indiego_files(self):
+        with tempfile.TemporaryDirectory() as d:
+            cg.write_csv(cg.to_rows("indiego", INDIEGO_DETAIL, AT), Path(d), "indiego", "2026-11-26")
+            cg.write_csv(cg.to_rows("indistreet", INDISTREET_DETAIL, AT), Path(d), "indistreet", "2026-11-26")
+            self.assertEqual(cg.seen_indiego_ids(Path(d)), {"2001"})
+
+
 if __name__ == "__main__":
     unittest.main()

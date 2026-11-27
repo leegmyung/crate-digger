@@ -2,6 +2,12 @@
 
     python3 scripts/collect_gigs.py                  # 두 곳 모두, 오늘부터 7일
     python3 scripts/collect_gigs.py --site indiego --days 3
+    python3 scripts/collect_gigs.py --venue-history regional   # 인디고 공연장별 지난 공연 (서울 밖, 일반 HTTP)
+    python3 scripts/collect_gigs.py --venue-history all        # 인디고 공연장 전체
+
+공연장별 지난 공연(--venue-history): config/venues_kr.json 의 인디고 공연장 페이지에 실린 공연 목록(번호·날짜)을 읽고,
+아직 안 받은 지난 공연만 공연 페이지의 구조화 데이터(JSON-LD)로 읽는다. 인디고 robots.txt 는 /api/ 만 막고 나머지를
+허용하므로 aside 없이 일반 요청으로 읽는다. → raw_kr_gig_<날짜>_indiego_history.csv (source=indiego, collector=script)
 
 aside 브라우저(aside repl)로 목록 → 상세 페이지를 천천히 읽는다 (상세 사이 2초 쉼, 하루 1번).
 상세 페이지의 구조화 데이터(JSON-LD MusicEvent)와 아티스트 링크에서 출연 팀을 뽑는다.
@@ -15,6 +21,7 @@ import subprocess
 import sys
 import time
 import urllib.parse
+import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -235,12 +242,127 @@ def collect_site(site, days, out_dir):
     return path, len(rows), stats
 
 
+# ---------- 인디고 공연장별 지난 공연 (일반 HTTP) ----------
+
+INDIEGO = "https://www.indiego.co.kr"
+VENUES_KR = ROOT / "config" / "venues_kr.json"
+HTTP_DELAY_SEC = 0.3
+USER_AGENT = "Mozilla/5.0 (compatible; gigle-research-script)"
+VENUE_EVENT = re.compile(r'public_id\\?":(\d+)[^{}]*?start_date\\?":\\?"(\d{4}-\d{2}-\d{2})')
+LD_JSON = re.compile(r'<script type="application/ld\+json">(.*?)</script>', re.S)
+
+
+def http_get(url):
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    with urllib.request.urlopen(req, timeout=20) as resp:
+        return resp.read().decode("utf-8", "replace")
+
+
+def venue_events(html):
+    """인디고 공연장 페이지 → [{public_id, start_date}] (페이지에 실린 공연 순서대로, 공연장 자신의 번호는 날짜가 없어 빠짐)."""
+    out, seen = [], set()
+    for pid, day in VENUE_EVENT.findall(html or ""):
+        if pid not in seen:
+            seen.add(pid)
+            out.append({"public_id": int(pid), "start_date": day})
+    return out
+
+
+def parse_event_page(html, url):
+    """인디고 공연 페이지의 JSON-LD MusicEvent → aside 상세(DETAIL_JS)와 같은 모양. 없으면 None."""
+    for raw in LD_JSON.findall(html or ""):
+        try:
+            data = json.loads(raw)
+        except ValueError:
+            continue
+        for ev in data if isinstance(data, list) else [data]:
+            if not isinstance(ev, dict) or ev.get("@type") != "MusicEvent":
+                continue
+            loc = ev.get("location") or {}
+            addr = loc.get("address") or {}
+            perf = [{"name": (p.get("name") or "").strip(), "url": p.get("url") or ""}
+                    for p in ([ev["performer"]] if isinstance(ev.get("performer"), dict) else ev.get("performer") or [])]
+            return {"url": ev.get("url") or url, "name": ev.get("name", ""), "startDate": ev.get("startDate", ""),
+                    "venue": loc.get("name", ""),
+                    "address": addr.get("streetAddress") or addr.get("addressLocality") or "" if isinstance(addr, dict) else str(addr),
+                    "performers": [p for p in perf if p["name"]]}
+    return None
+
+
+def history_targets(cfg, scope):
+    """config/venues_kr.json → [(공연장 이름, 인디고 공연장 주소)]. scope: regional = 서울 밖만, all = 전부."""
+    return [(v["name"], v["indiego_url"]) for v in cfg.get("venues", [])
+            if v.get("indiego_url") and (scope == "all" or v.get("city") not in ("", "서울"))]
+
+
+def seen_indiego_ids(raw_dir):
+    """이미 받은 인디고 공연 번호 (raw_kr_gig_*indiego*.csv 의 source_id)."""
+    ids = set()
+    for path in sorted(Path(raw_dir).glob("raw_kr_gig_*indiego*.csv")):
+        with open(path, encoding="utf-8", newline="") as fh:
+            ids.update(r["source_id"] for r in csv.DictReader(fh) if r.get("source") == "indiego" and r.get("source_id"))
+    return ids
+
+
+def collect_venue_history(targets, out_dir, today, seen, fetch=http_get, delay=HTTP_DELAY_SEC):
+    """공연장마다 지난 공연(오늘 이전, 아직 안 받은 것)만 공연 페이지로 읽어 한 파일에 쓴다."""
+    collected_at = datetime.now(KST).replace(microsecond=0).isoformat()
+    rows, done = [], set(seen)
+    st = {"venues": 0, "failed_venues": 0, "events_past": 0, "skipped_seen": 0, "fetched": 0, "failed": 0,
+          "no_performer": 0}
+    for name, url in targets:
+        try:
+            events = venue_events(fetch(url))
+        except (OSError, ValueError) as e:
+            st["failed_venues"] += 1
+            print(f"  ⚠️ 공연장 페이지 실패 {name}: {e}", file=sys.stderr)
+            continue
+        st["venues"] += 1
+        for ev in events:
+            pid = str(ev["public_id"])
+            if ev["start_date"] >= today:
+                continue
+            st["events_past"] += 1
+            if pid in done:
+                st["skipped_seen"] += 1
+                continue
+            done.add(pid)
+            try:
+                detail = parse_event_page(fetch(f"{INDIEGO}/events/{pid}"), f"{INDIEGO}/events/{pid}")
+            except (OSError, ValueError):
+                detail = None
+            st["fetched"] += 1
+            if detail is None:
+                st["failed"] += 1
+                continue
+            new = [dict(r, collector="script", collected_at=collected_at) for r in to_rows("indiego", detail, collected_at)]
+            st["no_performer"] += 0 if new else 1
+            rows.extend(new)
+            time.sleep(delay)
+    path = write_csv(rows, Path(out_dir), "indiego_history", today) if rows else None
+    return path, rows, st
+
+
+def run_venue_history(scope, out_dir):
+    cfg = json.loads(VENUES_KR.read_text(encoding="utf-8"))
+    today = f"{datetime.now(KST):%Y-%m-%d}"
+    path, rows, st = collect_venue_history(history_targets(cfg, scope), out_dir, today, seen_indiego_ids(out_dir))
+    print(f"✅ 인디고 공연장별 지난 공연({scope}): 공연장 {st['venues']}곳(실패 {st['failed_venues']}) · 지난 공연 "
+          f"{st['events_past']}건 중 이미 받음 {st['skipped_seen']} · 새로 읽음 {st['fetched']} → {len(rows)}행"
+          f" (출연 팀 없음 {st['no_performer']}, 실패 {st['failed']})" + (f" → {path}" if path else ""))
+    return 0
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description="인디고·인디스트릿 공연 수집 (aside 브라우저)")
     ap.add_argument("--site", choices=["indiego", "indistreet", "all"], default="all")
     ap.add_argument("--days", type=int, default=7, help="오늘부터 며칠 뒤 공연까지 (기본 7)")
     ap.add_argument("--out", default=str(ROOT / "data" / "raw"))
+    ap.add_argument("--venue-history", choices=["regional", "all"],
+                    help="인디고 공연장 페이지로 지난 공연 되짚기 (regional = 서울 밖 공연장만)")
     args = ap.parse_args(argv)
+    if args.venue_history:
+        return run_venue_history(args.venue_history, Path(args.out))
     if not 0 <= args.days <= 14:
         ap.error("--days 는 0~14 사이로 주세요")
     sites = ["indiego", "indistreet"] if args.site == "all" else [args.site]
