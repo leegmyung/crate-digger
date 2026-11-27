@@ -87,6 +87,12 @@ class LabSqlTest(unittest.TestCase):
         self.assertNotIn("d", pool)       # 2010년 첫 등장 → 신인 아님
         self.assertIn("c", self.scored(exclude_famous="false"))
 
+    def test_newcomer_uses_profile_first_release_when_known(self):
+        self.con.execute("UPDATE teams SET first_release = '2015-01-01' WHERE team_key = 'a'")   # 우리 데이터엔 2024 첫 등장이지만 실제 데뷔는 2015
+        self.assertNotIn("a", self.scored())
+        self.con.execute("UPDATE teams SET first_release = '2023-06-01' WHERE team_key = 'a'")
+        self.assertIn("a", self.scored())
+
     def test_score_parts(self):
         a = self.scored()["a"]
         self.assertEqual((a["n_branch"], a["best_stage"], a["outlets"]), (3, 3, 1))

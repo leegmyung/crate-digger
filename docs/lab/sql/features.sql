@@ -103,7 +103,7 @@ pool AS (
     LEFT JOIN peer_winner pw USING (team_key)
     LEFT JOIN after_cut ac USING (team_key)
     LEFT JOIN before_cut bc USING (team_key)
-    WHERE t.first_seen >= cutoff - to_years(CAST(newcomer_years AS INTEGER))
+    WHERE COALESCE(t.first_release, t.first_seen) >= cutoff - to_years(CAST(newcomer_years AS INTEGER))   -- 신인: 프로필 첫 발매일 우선, 없으면 우리 데이터 첫 등장
       AND (NOT exclude_famous OR t.profile_status <> 'famous')
       AND (genre = '' OR t.primary_genre = genre)
 )
