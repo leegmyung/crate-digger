@@ -153,6 +153,19 @@ def stagger(accounts, last_checked, today):
     return out
 
 
+def dedupe_rows(rows, written):
+    """같은 (게시물 주소, 팀)은 한 번만 — 두 계정이 함께 올린 공동 게시물은 양쪽 계정에서 똑같이 읽힌다.
+    written 은 이번 실행에서 이미 쓴 키 모음 (중간 저장 사이에도 유지, 이 함수가 채운다)."""
+    out = []
+    for r in rows:
+        key = (r.get("url", ""), r.get("artist_text", ""))
+        if key in written:
+            continue
+        written.add(key)
+        out.append(r)
+    return out
+
+
 def write_csv(rows, out_dir, day):
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / f"raw_press_{day}_instagram.csv"
@@ -203,13 +216,15 @@ def collect(check_all=False):
                                                       limit=MAX_ACCOUNTS_PER_RUN)
     pending, review, report = [], [], []
     written = {"path": None, "rows": 0}
+    written_keys: set = set()
 
     def flush():
         """모은 행을 파일로, 상태를 state 파일로 (중간 저장). 같은 날 두 번째부터는 시각 붙은 새 파일."""
-        if pending:
-            written["path"] = write_csv(pending, RAW_DIR, today)
-            written["rows"] += len(pending)
-            pending.clear()
+        rows_out = dedupe_rows(pending, written_keys)
+        pending.clear()
+        if rows_out:
+            written["path"] = write_csv(rows_out, RAW_DIR, today)
+            written["rows"] += len(rows_out)
         if review:
             rdir = RAW_DIR / "review"
             rdir.mkdir(parents=True, exist_ok=True)

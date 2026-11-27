@@ -359,6 +359,9 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `uses_artist_xref` | 아티스트 연결표를 썼는지 |
 | `rows` | 표별 행 수 |
 | `scene_communities` | 씬 묶음 수 (scripts/build_scene_map.py가 적음) |
+| `extras` | 있는 보조 데이터 파일 이름 목록 (scripts/update_meta_extras.py) |
+| `extras_rows` | 보조 데이터 파일별 행 수(JSON은 true) |
+| `extras_updated_at` | 보조 데이터 목록을 적은 시각 |
 
 ### `docs/lab/data/source_roles.json`
 

@@ -162,3 +162,17 @@ class CheckpointTest(unittest.TestCase):
             files = sorted(d.glob("raw_press_*_instagram*.csv"))
         self.assertEqual(sorted(saved["seen"]), ["acc0", "acc1", "acc2"])   # 2개마다 저장 → acc0·acc1, 그리고 acc2 까지 (멈추기 직전 저장)
         self.assertTrue(files)
+
+
+class CollabDuplicateTest(unittest.TestCase):
+    """두 계정이 함께 올린 공동 게시물은 같은 (게시물 주소, 팀)이 두 번 나온다 → 한 번만 쓴다 (2026-11-27 형식 검사 실패 3파일)."""
+
+    def test_dedupe_rows_by_url_and_artist_across_run(self):
+        row = {c: "" for c in ci.COLUMNS}
+        a = dict(row, outlet="@acc1", url="https://www.instagram.com/p/X/", artist_text="@team")
+        b = dict(row, outlet="@acc2", url="https://www.instagram.com/p/X/", artist_text="@team")
+        c = dict(row, outlet="@acc2", url="https://www.instagram.com/p/X/", artist_text="@other")
+        written = set()
+        first = ci.dedupe_rows([a, b, c], written)
+        self.assertEqual([r["outlet"] + r["artist_text"] for r in first], ["@acc1@team", "@acc2@other"])
+        self.assertEqual(ci.dedupe_rows([dict(b)], written), [])          # 다음 중간 저장에서도 다시 안 씀
