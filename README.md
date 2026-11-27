@@ -2,7 +2,7 @@
 
 > 공연·선정·발매·매체 소개 데이터를 매일 모아, 나중에 신인상·주요 신인 프로그램(정답)을 받을 팀을 **미리** 골라낼 수 있는지 SQL로 검증하는 프로젝트입니다.
 
-**바로 보기** · [진행판](https://leegmyung.github.io/crate-digger/) · [데이터 대시보드](https://leegmyung.github.io/crate-digger/dashboard.html) · [랩 — 설정형 분석 도구 (제작 중)](https://leegmyung.github.io/crate-digger/lab.html) · [SQL 결과 문서](docs/sql/README.md) · [방법론](docs/methods.md) · [용어집](docs/glossary.md)
+**바로 보기** · [진행판](https://leegmyung.github.io/crate-digger/) · [앱(대시보드)](https://leegmyung.github.io/crate-digger/dashboard.html) · [SQL 결과](docs/sql/README.md) · [방법론](docs/methods.md) · [용어집](docs/glossary.md)
 
 ---
 
@@ -12,66 +12,79 @@
 
 음악 플랫폼·레이블의 발굴 담당자는 작은 공연, 지원사업 선정, 매거진 소개 같은 흩어진 신호를 사람이 직접 훑습니다. 이 프로젝트는 그 신호를 자동으로 모아 한 팀 단위로 묶고, **과거로 돌아가 '그때 알 수 있던 정보만으로' 뽑았다면 맞혔을지**(백테스트)를 숫자로 확인합니다.
 
+## 결과물 한눈에
+
+| 결과물 | 무엇 | 바로 가기 |
+|---|---|---|
+| 앱 (대시보드) | 매주 보는 후보 브리핑·후보 목록·공연장·관심 팀·백테스트 (브라우저 안 DuckDB로 가중치를 바꿔 직접 확인) | [열기](https://leegmyung.github.io/crate-digger/dashboard.html) |
+| 주간 엑셀 | 요약·후보 TOP100·이번 주 변화·다가오는 공연·출처 성적표·점수 검증·정의 7시트 (앱과 같은 숫자) | [docs/report/crate-digger_weekly.xlsx](docs/report/crate-digger_weekly.xlsx) |
+| Tableau 추출 | 바로 올릴 긴 형식 CSV 4개 + 시트·계산 필드 설계서 | [docs/tableau/](docs/tableau/README.md) |
+| 사운드 지도 | 같은 무대 공동 출연으로 나눈 씬 묶음 244개, 묶음별 대표 공연장·상위 후보 | [docs/scene_map.md](docs/scene_map.md) |
+| 서비스 기획 | 음악 스트리밍 서비스에 적용하는 3가지 안, A/B 실험 설계(지표·표본 크기·가드레일) | [docs/service_plan.md](docs/service_plan.md) |
+| SQL (PostgreSQL · BigQuery) | 분석 9개·검증 8개 쿼리와 결과, 같은 쿼리의 BigQuery 문법판 | [결과](docs/sql/README.md) · [sql/kr/](sql/kr/) · [sql/bigquery/](sql/bigquery/) |
+| 데이터 사전 | 모든 표의 칸·단위·출처·갱신 주기 (코드에서 자동 생성) | [docs/data_dictionary.md](docs/data_dictionary.md) |
+| 방법론 | 정의·시점 누수 방지·점수 공식·백테스트·한계 | [docs/methods.md](docs/methods.md) |
+| 출처 분류 | 출처별 성적표와 역할(발굴·맥락·제외·검증 대기), 정답 등급 S·A·B | [docs/source_roles.md](docs/source_roles.md) |
+| 점수 교차 검증 | 기준일을 하나씩 빼고 가중치를 고른 결과 | [docs/score_tuning.md](docs/score_tuning.md) |
+
 ## 데이터 4갈래 + 정답
 
 모든 소스는 **후보 신호**(작고 이른 단계) 또는 **정답**(크고 경쟁이 센 단계) 중 한쪽으로만 씁니다.
 
 | 갈래 | 무엇 | 출처 | 규모 (PostgreSQL, 2026-11-27) |
 |---|---|---|---|
-| 공연 | 라이브 클럽·공연장 출연 | 인디스트릿·인디고·상상마당 공연 목록, 공연장 인스타 라인업 | 14,933행 · 4,959팀 (2010~) |
-| 큐레이션 | 매체가 골라 소개 | 인스타 음악 매거진, 웹진(IZM·음악취향Y·리드머·weiv·VISLA·overtone) | 4,093행 · 2,546팀 (2023~) |
+| 공연 | 라이브 클럽·공연장 출연 | 인디스트릿·인디고·상상마당 공연 목록, 공연장 인스타 라인업 | 14,925행 · 4,947팀 (2010~) |
+| 큐레이션 | 매체가 골라 소개 | 인스타 음악 매거진, 웹진(IZM·음악취향Y·리드머·weiv·VISLA·overtone) | 4,139행 · 2,550팀 (2023~) |
 | 선정·지원 | 지원사업·경연 선정 | 부산 루키즈·뮤즈 인 세종·경북 창작소·유재하 경연·밴드 디스커버리·DMZ | 701행 · 622팀 |
 | 발매 | 신보 | 포크라노스·멜론·벅스·지니·FLO | 214행 · 127팀 (2026-11 수집분부터) |
-| **정답** | 신인상·주요 신인 프로그램 | 한국대중음악상 신인·올해의 헬로루키·CJ 튠업 등 (최종) / 펜타 슈퍼루키·뮤즈온·인디스땅스 등 (중간) | 438행 · 295팀 (2025-01~2026-11) |
+| **정답** | 신인상·주요 신인 프로그램 | 한국대중음악상 신인·올해의 헬로루키·CJ 튠업 등 (S·A·B 등급) | 745행 · 479팀 (2021-02~2026-11), 센 정답 222팀 |
 
-원본 수집 데이터는 공개하지 않습니다(`data/raw/`, 커밋 안 함). 저장소의 `data/`에는 가상 샘플만 있습니다.
+이 밖에 보조 데이터로 스포티파이 협업(피처링)·유튜브 무대 영상 조회수를 매일 모읍니다(기록이 짧아 '검증 대기'). 원본 수집 데이터는 공개하지 않습니다(`data/raw/`, 커밋 안 함). 저장소의 `data/`에는 가상 샘플만 있습니다.
 
 ## 파이프라인
 
 ```
- [소스]  공연 · 큐레이션 · 선정·지원 · 발매          정답(신인상·신인 프로그램)
-    │        │           │           │                   │
-    ▼        ▼           ▼           ▼                   ▼
- ① 수집기 11개 (매일 21:00 자동)  → 원본 CSV (수정 금지) → 형식 검사
+ [소스]  공연 · 큐레이션 · 선정·지원 · 발매 · (협업·영상)     정답(신인상·신인 프로그램)
+    │                                                          │
+    ▼                                                          ▼
+ ① 수집기 15개 (매일 21:00 자동)  → 원본 CSV (수정 금지) → 형식 검사
     │
  ② PostgreSQL 적재 (raw 스키마)
     │
- ③ 아티스트 매칭·메타데이터 검수  scripts/artist_xref.py → ref.artist_xref
-    │   한글/영문 표기·띄어쓰기·여러 명 칸·인스타 계정을 대표 팀 키(team_key) 하나로
+ ③ 아티스트 매칭·메타데이터 검수  팀 표기 묶기(artist_xref) · 공연장 표기 묶기(venue_xref)
     │
  ④ 기초 뷰 (core.v_signal · v_outcome …)  날짜 규칙으로 시점 누수 차단
     │
- ⑤ 분석 SQL 9개 + 검증 SQL 8개 · 거꾸로 따라가기 · 점수 v0 백테스트
+ ⑤ 출처 성적표 → 역할 분류(발굴·맥락·제외·검증 대기) · 정답 등급(S·A·B)
     │
- ⑥ 보여주기: 진행판 · 데이터 대시보드 · 랩 · SQL 결과 문서 (매일 자동 갱신)
+ ⑥ 점수 v2 · 백테스트 · 교차 검증 · 분석/검증 SQL
+    │
+ ⑦ 결과물: 앱 · 주간 엑셀 · Tableau 추출 · 사운드 지도 · SQL 결과 (매일 자동 갱신)
 ```
 
 ## 핵심 결과 (지금까지)
 
-> ⚠️ **표본이 작습니다.** 정답 팀이 86팀(2025년 이후)이고, 2021~2024 정답을 더해도 기준일마다 맞혀야 할 팀은 2~21팀뿐이라 아래 숫자는 '방향'으로만 읽어 주세요. 출처: [SQL 결과](docs/sql/README.md) (2026-11-27 기준), [거꾸로 따라가기](docs/backtrace.md).
+> ⚠️ **표본이 작습니다.** 기준일마다 맞혀야 할 정답 팀이 5~26팀뿐이라 아래 숫자는 '방향'으로만 읽어 주세요. 출처: [SQL 결과](docs/sql/README.md)·[점수 교차 검증](docs/score_tuning.md)·[방법론](docs/methods.md) (2026-11-27 기준).
 
-1. **정답 팀의 79%가 정답 전에 우리 레이더에 먼저 잡혔습니다.** 2025년 이후 센 정답을 받은 86팀 중 68팀이 정답 전에 공연·큐레이션·선정 신호가 있었고, 첫 신호는 정답보다 **중앙값 13.2개월** 먼저였습니다 (a02).
-2. **잘될 팀들은 같은 무대에 모여 있었습니다(씬 근접도).** 2024년 공연 기준, 나중에 정답을 받을 팀과 같은 날·같은 공연장에 섰던 팀은 6.9%(217팀 중 15팀)가 이후 정답을 받았고, 그렇지 않은 팀은 1.2%(1,001팀 중 12팀)였습니다(약 5.8배, a07). 단 '나중에 정답 받을 팀'은 그때는 모르는 정보라 **예측 신호가 아니라 참고 지표**이고, 점수에는 대신 '공연 당시 이미 선정된 팀과 같은 무대'를 씁니다.
-3. **점수 v1은 '처음 보는 시점'에서도 v0보다 나았습니다.** 기준일 6개(2023~2025, 반년 간격) 중 하나를 빼고 나머지로 가중치를 고른 뒤 뺀 기준일로 채점하는 교차 검증에서, 평균 AUC가 v0 0.651 → **v1 0.701**(공연 수만 0.571)로 올랐고 데이터가 충분한 2024년 이후 기준일 4개에서는 모두 v1이 앞섰습니다. 새로 넣은 신호는 **최근 6개월 활동량·서로 다른 공연장 수·이미 상 받은 팀과 같은 무대**이고, 매거진 소개 수는 그 자체로는 예측력이 거의 없었습니다(AUC 0.47). 다만 상위 50팀 적중은 6개 기준일 합계 14팀(v0 13팀)으로 아직 작습니다 ([점수 교차 검증](docs/score_tuning.md), [앱](https://leegmyung.github.io/crate-digger/dashboard.html#/backtest)에서 가중치를 바꿔 직접 확인).
-
-> 데이터는 양보다 쓸모로 나눴습니다: 출처마다 성적표를 재서 **발굴 · 맥락 · 제외 · 검증 대기**로 분류하고, 정답도 **S·A·B 등급**으로 가중합니다. 검증 안 된 출처를 빼도 성능(등급 가중 AUC 0.742)은 그대로였습니다 → [데이터 역할과 정답 등급](docs/source_roles.md)
-
-> 서비스에 쓴다면: 큐레이터용 내부 도구 → 신인 플레이리스트 후보 → 개인화 추천의 신인 탐색 슬롯 순서로, A/B 실험 설계(지표·표본 크기·가드레일)까지 정리했습니다 → [서비스 적용 기획](docs/service_plan.md)
+1. **정답 팀의 74%가 정답 전에 우리 레이더에 먼저 잡혔습니다.** 2025년 이후 센 정답을 받은 92팀 중 68팀이 정답 전에 공연·큐레이션·선정 신호가 있었고, 첫 신호는 정답보다 **중앙값 12.9개월** 먼저였습니다 (a02).
+2. **이미 상 받은 팀과 같은 무대에 선 신인이 더 많이 떴습니다.** 2024년 공연 기준, 공연 당시 이미 정답을 받은 팀과 같은 날·같은 공연장에 섰던 팀은 5.0%(281팀 중 14팀)가 이후 정답을 받았고, 그런 적 없는 팀은 1.3%(789팀 중 10팀)였습니다(약 3.8배, 2025년 상반기 공연은 11.0% 대 1.4%). 공연 당시에도 알 수 있는 정보라 점수 v2에 가장 큰 가중치(2)로 들어갑니다 (a07).
+3. **점수 v2는 '처음 보는 시점'에서도 v0보다 나았습니다.** 기준일 6개 중 하나씩 빼고 나머지로 가중치를 고른 뒤 뺀 기준일로 채점한 교차 검증에서, 정답 등급 가중 AUC가 **v2 0.721** · v0 0.692 · 공연 수만 0.596이었습니다(6개 중 4개 기준일에서 v2 우세). 상위 50팀 적중 합계는 v2·v0 모두 16팀으로 아직 차이가 없습니다.
+4. **검증 안 된 출처를 빼도 성능은 그대로였습니다.** 검증 대기·제외 출처를 빼도 등급 가중 AUC는 0.742로 같았고(그동안 점수에 기여하지 않았다는 뜻), 기준선 수준인 맥락 매체를 완전히 빼면 0.710으로 떨어져 약하게(가중치 0.5) 남겼습니다 ([출처 분류](docs/source_roles.md)).
+5. **관찰 기간을 바꿔도 결론이 같았습니다.** '기준일 뒤 몇 개월 안에 정답을 받으면 맞힘'을 12·18·24·36개월로 바꿔도 v2(0.755·0.738·0.747·0.761)가 v0(0.727·0.704·0.712·0.734)보다 높았습니다. 다만 짧은 기간(12~18개월)의 상위 50 적중은 v0가 2~3팀 많았습니다.
 
 ## 업계 용어로 보면
 
 | 용어 | 이 프로젝트에서 |
 |---|---|
-| **아티스트 매칭 · 메타데이터 검수** | 플랫폼마다 다른 이름 표기('피치 트럭 하이재커스(Peach Truck Hijackers)' / 'Peach Truck Hijackers')를 한 팀으로 묶는 연결표 `artist_xref`. 1,112팀을 새로 묶고, 잘못 합쳐져 있던 팀(예: 멤버 이름 + 괄호 속 소속 팀)을 다시 나눔 → [요약](docs/artist_xref.md) |
+| **아티스트 매칭 · 메타데이터 검수** | 플랫폼마다 다른 이름 표기('피치 트럭 하이재커스(Peach Truck Hijackers)' / 'Peach Truck Hijackers')를 한 팀으로 묶는 연결표 `artist_xref`(1,112팀 새로 묶음), 공연장 표기를 묶는 `venue_xref`(237개 표기 → 205곳) → [요약](docs/artist_xref.md) |
 | **백테스트** | 과거 기준일을 정해 그 전 신호만으로 점수를 매기고, 그 뒤 실제 정답으로 채점 |
+| **교차 검증** | 기준일 하나를 빼고 나머지로 가중치를 고른 뒤, 뺀 기준일로 채점 (고를 때 안 본 시점) |
 | **기준선 대비 배수 (lift)** | 적중률 ÷ 무작위로 뽑았을 때의 기대 적중률. 1보다 커야 쓸모 있음 |
 | **시점 누수 방지** | 날짜를 월·연도까지만 알면 신호는 기간 마지막 날, 정답은 첫날로 계산해 '미리 맞혔다'를 부풀리지 않음 |
 
-정의·공식·한계는 [docs/methods.md](docs/methods.md)에 정리했습니다.
-
 ## AI로 자동화한 방법
 
-수집기 11개(공연·선정·발매·인스타·웹진·플랫폼 프로필 등)는 공개 API나 페이지 구조가 허용하는 곳은 파이썬 스크립트로, 로그인 없이 보이지만 스크립트 접근이 어려운 페이지는 브라우저 자동화로 읽습니다. 맥이 **매일 21:00** `scripts/daily_run.sh`를 실행해 수집 → 형식 검사 → PostgreSQL 적재 → 대시보드·SQL 결과 문서·랩 데이터 갱신 → 일일 기록 → 커밋·push까지 사람 손 없이 돌립니다. 개발은 **여러 AI 에이전트가 분업**했습니다: 코디네이터 에이전트(Claude Code)가 계획·검토·커밋을 맡고, 작업자 에이전트들이 수집·아티스트 매칭·대시보드를 파일 단위로 나눠 동시에 만들었습니다. 새 코드는 테스트를 먼저 쓰고(현재 테스트 360개 이상), 결정과 그 이유는 [PROJECT.md](PROJECT.md)에 남겼습니다.
+수집기 15개(공연·선정·발매·인스타·웹진·플랫폼 프로필·협업·영상 등)는 공개 API나 페이지 구조가 허용하는 곳은 파이썬 스크립트로, 로그인 없이 보이지만 스크립트 접근이 어려운 페이지는 브라우저 자동화로 읽습니다. 맥이 **매일 21:00** `scripts/daily_run.sh`를 실행해 수집부터 결과물 갱신, 커밋·push까지 사람 손 없이 돌립니다. 출처 분류가 성적과 어긋나면 일일 기록에 재분류 제안이 자동으로 붙습니다. 개발은 **여러 AI 에이전트가 분업**했습니다: 코디네이터 에이전트(Claude Code)가 계획·검토·커밋을 맡고, 작업자 에이전트들이 수집·아티스트 매칭·대시보드·결과물을 파일 단위로 나눠 동시에 만들었습니다. 새 코드는 테스트를 먼저 쓰고(현재 테스트 600개 이상, CI 설정 준비됨: `.github/workflows/tests.yml`), 결정과 그 이유는 [PROJECT.md](PROJECT.md)에 남겼습니다.
 
 ---
 
@@ -82,34 +95,41 @@
 ```bash
 python3 -m venv .venv                 # 프로젝트 전용 파이썬 공간 (커밋 안 됨)
 source .venv/bin/activate             # 터미널을 새로 열 때마다 실행
-pip install -r requirements.txt
+pip install -r requirements.txt       # numpy·duckdb·sqlglot·openpyxl 등
+python -m unittest discover -s tests  # 테스트 (비공개 원본 없이도 통과)
 ```
 
-이후 `python3` 명령은 `.venv` 안의 파이썬으로 실행됩니다. 확인한 환경: Python 3.9.6, numpy 2.0.2, voyager 2.2.4.
+PostgreSQL(17)과 `.env`(유튜브·스포티파이 키, 커밋 안 됨)는 수집·적재에만 필요합니다. 공연·인스타 수집은 브라우저 자동화 앱(aside)이 켜져 있어야 합니다.
 
-### 매일 수집 (국내)
+### 매일 21:00 자동 실행 (`scripts/daily_run.sh`)
 
-매일 21:00에 맥이 `scripts/daily_run.sh`를 자동 실행합니다. 설치·시간 변경: `bash scripts/install_daily.sh 21 0`. 공연·인스타 수집은 브라우저 자동화 앱(aside)이 켜져 있어야 합니다.
+설치·시간 변경: `bash scripts/install_daily.sh 21 0`. 단계는 순서대로:
 
-```bash
-python3 scripts/collect_poclanos.py            # 포크라노스 최근 3일 → data/raw/ (비공개)
-python3 scripts/validate_csv.py data/raw/*.csv # 형식 검사
-python3 scripts/collect_gigs.py                # 인디고·인디스트릿 공연 7일
-python3 scripts/build_site_data.py             # 진행판 공개 데이터 docs/data/collect.json
-python3 scripts/daily_note.py                  # 일일 기록 docs/log/
-python3 -m unittest discover -s tests          # 테스트
-```
+| 단계 | 스크립트 | 결과 |
+|---|---|---|
+| 1. 수집 | `collect_poclanos` · `collect_selection` · `collect_gigs` · `collect_insta` · `collect_platforms` · `collect_artists`(+ `melon_names` 보강 명단) · `collect_spotify` · `collect_spotify_collabs` · `collect_videos` | `data/raw/*.csv` (비공개) |
+| 2. 검사 | `validate_csv` | 형식 오류 표시 |
+| 3. 적재·묶기 | `build_site_data` · `load_pg` · `artist_xref --load-pg` · `venue_xref --load-pg` | 진행판 데이터, PostgreSQL |
+| 4. 분석 | `build_dashboard_data` · `run_pg_queries` | 대시보드 숫자, [SQL 결과](docs/sql/README.md) |
+| 5. 랩·결과물 | `collect_artist_images` · `export_lab_data` · `source_review` · `collect_video_stats` · `export_video_momentum` · `export_excel`(월요일) · `lab_snapshot` · `build_scene_map` | `docs/lab/data/`, 주간 엑셀, 사운드 지도 |
+| 6. 기록 | `daily_note` → 커밋·push | `docs/log/<날짜>.md` |
 
-형식은 [docs/csv_spec.md](docs/csv_spec.md).
-
-### 분석 (PostgreSQL)
+### 손으로 다시 만들기
 
 ```bash
 python3 scripts/load_pg.py                     # 원본 CSV → PostgreSQL raw 스키마
-python3 scripts/artist_xref.py --load-pg       # 아티스트 연결표 → ref.artist_xref (+ docs/artist_xref.md)
+python3 scripts/artist_xref.py --load-pg       # 팀 표기 연결표 → ref.artist_xref
+python3 scripts/venue_xref.py --load-pg        # 공연장 표기 연결표 → ref.venue_xref
 python3 scripts/run_pg_queries.py              # 기초 뷰 → 분석·검증 SQL → docs/sql/README.md
-python3 scripts/backtrace.py                   # 거꾸로 따라가기 → docs/backtrace.md
+python3 scripts/export_lab_data.py             # 랩 데이터 → docs/lab/data/
+.venv/bin/python scripts/export_excel.py       # 주간 엑셀 (duckdb·openpyxl)
+.venv/bin/python scripts/export_tableau.py     # Tableau 추출
+.venv/bin/python scripts/score_tune.py         # 점수 교차 검증 → docs/score_tuning.md
+python3 scripts/build_data_dictionary.py       # 데이터 사전
+python3 scripts/check_links.py                 # 문서 링크 검사
 ```
+
+형식 규칙은 [docs/csv_spec.md](docs/csv_spec.md).
 
 ---
 
