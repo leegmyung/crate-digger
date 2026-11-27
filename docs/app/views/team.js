@@ -1,5 +1,5 @@
 import { appState, navigateTo, setExportContext } from '../state.js';
-import { getTeamExternalLinks, queryTeamDetail } from '../db.js';
+import { getTeamExternalLinks, loadSceneMap, queryTeamDetail } from '../db.js';
 import {
   avatarHtml, avatarSourceOf, escapeHtml, fmtInt, fmtNum, formatNextGigText,
   formatSignalDate, gradeBadgeHtml, PROFILE_LABELS, renderActionBanner, renderScoreBar,
@@ -73,8 +73,12 @@ export async function renderTeamView(root, teamKey) {
     return;
   }
 
-  const data = await queryTeamDetail(teamKey);
+  const [data, sceneMap] = await Promise.all([
+    queryTeamDetail(teamKey),
+    loadSceneMap(),
+  ]);
   const { profile, scored, timeline, outcomes, precedents, related, links, videos } = data;
+  const sceneComm = sceneMap?.teamToCommunity?.get(teamKey) || null;
 
   if (!profile && !scored && !timeline.length) {
     root.innerHTML = renderActionBanner({
@@ -505,6 +509,13 @@ export async function renderTeamView(root, teamKey) {
     ? `<p class="team-next-gig"><span class="next-gig-pill">다음 공연 ${escapeHtml(formatNextGigText(nextGig))}${upcomingList.length > 1 ? ` 외 ${upcomingList.length - 1}건` : ''}</span></p>`
     : '';
 
+  const sceneVenuesTxt = sceneComm && Array.isArray(sceneComm.top_venues) && sceneComm.top_venues.length
+    ? sceneComm.top_venues.slice(0, 3).map(v => v.venue).join(' · ')
+    : '';
+  const sceneLineHtml = sceneComm
+    ? `<p class="team-scene-line">속한 씬: <a href="#/venues" class="inline-team-link" data-jump-scene="${sceneComm.id}"><strong>묶음 ${fmtInt(sceneComm.id)}</strong></a>${sceneVenuesTxt ? ` <span class="muted">(${escapeHtml(sceneVenuesTxt)})</span>` : ''}</p>`
+    : '';
+
   function paint() {
     root.innerHTML = `
       <div class="team-back-bar">
@@ -519,6 +530,7 @@ export async function renderTeamView(root, teamKey) {
           <div>
             <h1 class="action-banner-title">${escapeHtml(displayName)}</h1>
             <p class="team-subline">${escapeHtml(metaParts.join(' · ') || '기록된 신호 ' + fmtInt(mergedTimeline.length) + '건')}</p>
+            ${sceneLineHtml}
             ${nextGigHtml}
           </div>
         </div>
@@ -545,6 +557,12 @@ export async function renderTeamView(root, teamKey) {
 
     root.querySelector('#btnTeamBack')?.addEventListener('click', () => {
       navigateTo(backRoute, '');
+    });
+
+    root.querySelector('[data-jump-scene]')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      appState.focusSceneId = Number(e.currentTarget.dataset.jumpScene);
+      navigateTo('venues', '');
     });
 
     root.querySelector('[data-scroll-videos]')?.addEventListener('click', (e) => {

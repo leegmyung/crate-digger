@@ -1,6 +1,6 @@
 import { appState, registerChart, setExportContext } from '../state.js';
 import {
-  buildNextGigByTeam, groupUpcomingEvents, queryCandidates,
+  buildNextGigByTeam, groupUpcomingEvents, loadSceneMap, queryCandidates,
   queryMonthlyNewcomerVenues, queryUpcomingGigs,
 } from '../db.js';
 import {
@@ -11,11 +11,13 @@ import {
 
 export async function renderVenuesView(root) {
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
-  const [candRows, upcomingRaw] = await Promise.all([
+  const [candRows, upcomingRaw, sceneMap] = await Promise.all([
     queryCandidates({ limit: 300 }),
     queryUpcomingGigs({ asOf }),
+    loadSceneMap(),
   ]);
   const monthly = await queryMonthlyNewcomerVenues(candRows, asOf);
+  const sceneCommunities = sceneMap?.communities || [];
 
   const candRankMap = new Map();
   candRows.forEach((r, idx) => {
@@ -60,6 +62,17 @@ export async function renderVenuesView(root) {
 
   let venueLimit = 8;
   let expandedVenue = '';
+  let sceneLimit = 10;
+  let expandedSceneId = null;
+  if (appState.focusSceneId !== undefined && appState.focusSceneId !== null) {
+    const targetId = Number(appState.focusSceneId);
+    const idx = sceneCommunities.findIndex(c => Number(c.id) === targetId);
+    if (idx >= 0) {
+      expandedSceneId = targetId;
+      if (idx + 1 > sceneLimit) sceneLimit = Math.ceil((idx + 1) / 10) * 10;
+    }
+    appState.focusSceneId = null;
+  }
   let calMode = 'cand'; // 'cand' | 'all'
   let calLimit = 8;
   let chartRendered = false;
@@ -243,6 +256,119 @@ export async function renderVenuesView(root) {
     }));
   }
 
+  function renderSceneRow(c) {
+    const isOpen = expandedSceneId === Number(c.id);
+    const topVenues = (c.top_venues || []).slice(0, 3);
+    const venuesTitle = topVenues.length
+      ? topVenues.map(v => v.venue).join(' · ')
+      : `씬 묶음 ${c.id}`;
+    const venuesCounts = topVenues.length
+      ? topVenues.map(v => `${v.venue} ${fmtInt(v.events)}`).join(' · ')
+      : '';
+    const topCands = (c.top_candidates || []).slice(0, 5);
+    const hubs = (c.hubs || []).slice(0, 5);
+    const previewTeams = topCands.length ? topCands.slice(0, 5) : hubs.slice(0, 3);
+
+    return `
+      <li class="venue-acc-item scene-acc-item ${isOpen ? 'is-open' : ''}" data-scene-id="${c.id}">
+        <button type="button" class="venue-acc-head scene-acc-head" data-toggle-scene="${c.id}" aria-expanded="${isOpen ? 'true' : 'false'}">
+          <div class="venue-acc-left">
+            <span class="venue-rank scene-id-tag">묶음 ${fmtInt(c.id)}</span>
+            <div class="venue-acc-title-col">
+              <strong class="venue-name">${escapeHtml(venuesTitle)}</strong>
+              <span class="small muted">${fmtInt(c.size)}팀${topCands.length ? ` · 상위 후보 ${fmtInt(topCands.length)}팀` : ''}</span>
+            </div>
+          </div>
+          <div class="venue-acc-right">
+            ${previewTeams.length ? `
+              <div class="avatar-stack" aria-hidden="true">
+                ${previewTeams.map(t => avatarHtml(t.team_key, t.name || t.team_key, 26, { shape: 'circle' })).join('')}
+              </div>
+            ` : ''}
+            <span class="venue-acc-caret" aria-hidden="true">▸</span>
+          </div>
+        </button>
+        ${isOpen ? `
+          <div class="venue-acc-body scene-acc-body">
+            ${venuesCounts ? `<p class="small muted scene-venues-meta">대표 공연장 (최근 1년 공연 수): ${escapeHtml(venuesCounts)}</p>` : ''}
+            <div class="scene-detail-grid">
+              <div class="scene-detail-col">
+                <h3 class="scene-detail-head">상위 후보</h3>
+                ${topCands.length ? `
+                  <ul class="scene-team-list">
+                    ${topCands.map(t => `
+                      <li>
+                        <a class="scene-team-link" href="#/team/${encodeURIComponent(t.team_key)}">
+                          ${avatarHtml(t.team_key, t.name || t.team_key, 24, { shape: 'circle' })}
+                          <strong>${escapeHtml(t.name || t.team_key)}</strong>
+                          ${t.rank ? `<span class="rank-pill">#${fmtInt(t.rank)}</span>` : ''}
+                        </a>
+                        ${t.score !== null && t.score !== undefined ? `<span class="small muted mono">${fmtNum(t.score, 2)}점</span>` : ''}
+                      </li>
+                    `).join('')}
+                  </ul>
+                ` : '<p class="small muted" style="margin:0;">현재 점수 순위권 후보 없음</p>'}
+              </div>
+              <div class="scene-detail-col">
+                <h3 class="scene-detail-head">허브 팀</h3>
+                ${hubs.length ? `
+                  <ul class="scene-team-list">
+                    ${hubs.map(h => `
+                      <li>
+                        <a class="scene-team-link" href="#/team/${encodeURIComponent(h.team_key)}">
+                          ${avatarHtml(h.team_key, h.name || h.team_key, 24, { shape: 'circle' })}
+                          <strong>${escapeHtml(h.name || h.team_key)}</strong>
+                        </a>
+                        <span class="small muted mono">연결 ${fmtInt(h.links)}</span>
+                      </li>
+                    `).join('')}
+                  </ul>
+                ` : '<p class="small muted" style="margin:0;">허브 팀 정보 없음</p>'}
+              </div>
+            </div>
+          </div>
+        ` : ''}
+      </li>
+    `;
+  }
+
+  function renderSceneSection() {
+    if (!sceneCommunities.length) return '';
+    const vis = sceneCommunities.slice(0, sceneLimit);
+    const rem = sceneCommunities.length - vis.length;
+    const winFrom = sceneMap?.raw?.window?.from || '';
+    const winTo = sceneMap?.raw?.window?.to || '';
+    const metaSub = winFrom && winTo
+      ? `${winFrom} ~ ${winTo} 같은 무대 기준 · 묶음을 누르면 상위 후보와 허브 팀이 펼쳐집니다`
+      : '최근 1년 같은 무대 기준 · 묶음을 누르면 상위 후보와 허브 팀이 펼쳐집니다';
+
+    return `
+      <section class="block" id="sceneCommunitiesBlock">
+        <div class="block-head">
+          <div>
+            <h2>씬 묶음</h2>
+            <span class="block-meta">${escapeHtml(metaSub)}</span>
+          </div>
+          <span class="block-meta">${fmtInt(sceneCommunities.length)}개 묶음 · ${fmtInt(sceneMap?.raw?.n_teams || 0)}팀</span>
+        </div>
+        <ul class="venue-acc-list" id="sceneAccList">
+          ${vis.map(c => renderSceneRow(c)).join('')}
+        </ul>
+        ${rem > 0
+          ? `<div class="more-row" style="margin-top:10px;">
+               <span>상위 ${fmtInt(vis.length)} / ${fmtInt(sceneCommunities.length)}개 묶음</span>
+               <button type="button" class="btn btn-sm" id="btnMoreScenes">${fmtInt(Math.min(10, rem))}개 더 보기</button>
+             </div>`
+          : (sceneLimit > 10 && sceneCommunities.length > 10
+              ? `<div class="more-row" style="margin-top:10px;">
+                   <span>전체 ${fmtInt(sceneCommunities.length)}개 묶음 표시 중</span>
+                   <button type="button" class="btn btn-sm" id="btnLessScenes">접기</button>
+                 </div>`
+              : '')}
+      </section>
+    `;
+  }
+
   function paint() {
     chartRendered = false;
     const visVenues = monthly.venues.slice(0, venueLimit);
@@ -269,6 +395,8 @@ export async function renderVenuesView(root) {
              </div>`
           : ''}
       </section>
+
+      ${renderSceneSection()}
 
       ${renderCalendarSection()}
 
@@ -303,6 +431,24 @@ export async function renderVenuesView(root) {
       paint();
     });
 
+    root.querySelectorAll('[data-toggle-scene]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sid = Number(btn.dataset.toggleScene);
+        expandedSceneId = (expandedSceneId === sid) ? null : sid;
+        paint();
+      });
+    });
+
+    root.querySelector('#btnMoreScenes')?.addEventListener('click', () => {
+      sceneLimit += 10;
+      paint();
+    });
+
+    root.querySelector('#btnLessScenes')?.addEventListener('click', () => {
+      sceneLimit = 10;
+      paint();
+    });
+
     root.querySelectorAll('[data-cal-mode]').forEach(btn => {
       btn.addEventListener('click', () => {
         calMode = btn.dataset.calMode;
@@ -329,4 +475,7 @@ export async function renderVenuesView(root) {
   }
 
   paint();
+  if (expandedSceneId !== null) {
+    root.querySelector(`[data-scene-id="${expandedSceneId}"]`)?.scrollIntoView({ block: 'center' });
+  }
 }

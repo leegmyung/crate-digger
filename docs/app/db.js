@@ -284,7 +284,7 @@ export function pickWeeklyPrevSnapshot(dates, latestDate = null) {
   const targetMs = Date.parse(`${latest}T00:00:00Z`) - 7 * 86400000;
   const targetStr = new Date(targetMs).toISOString().slice(0, 10);
   const atLeast7d = earlier.find(d => d <= targetStr);
-  return { latestDate: latest, prevDate: atLeast7d || earlier[0] };
+  return { latestDate: latest, prevDate: atLeast7d || earlier[earlier.length - 1] };
 }
 
 function parseSnapshotCsv(text) {
@@ -1367,3 +1367,48 @@ export function getTeamExternalLinks(teamKey, displayName = '') {
   }
   return links.slice(0, 12);
 }
+
+let sceneMapCache = undefined;
+let sceneMapPromise = null;
+
+export async function loadSceneMap() {
+  if (sceneMapCache !== undefined) return sceneMapCache;
+  if (sceneMapPromise) return sceneMapPromise;
+  sceneMapPromise = (async () => {
+    const raw = await fetchJson('lab/data/scene_map.json', true);
+    if (!raw || !Array.isArray(raw.communities) || !raw.communities.length) {
+      sceneMapCache = null;
+      return null;
+    }
+    const communities = [...raw.communities].sort(
+      (a, b) => (Number(b.size) || 0) - (Number(a.size) || 0) || (Number(a.id) || 0) - (Number(b.id) || 0)
+    );
+    const communityById = new Map();
+    for (const c of communities) communityById.set(c.id, c);
+    const teamToCommunity = new Map();
+    if (Array.isArray(raw.nodes)) {
+      for (const n of raw.nodes) {
+        if (!n || !n.team_key) continue;
+        const comm = communityById.get(n.community);
+        if (comm) teamToCommunity.set(n.team_key, comm);
+      }
+    }
+    // Also index top_candidates & hubs defensively in case nodes omit anything
+    for (const c of communities) {
+      for (const t of (c.top_candidates || [])) {
+        if (t?.team_key && !teamToCommunity.has(t.team_key)) teamToCommunity.set(t.team_key, c);
+      }
+      for (const h of (c.hubs || [])) {
+        if (h?.team_key && !teamToCommunity.has(h.team_key)) teamToCommunity.set(h.team_key, c);
+      }
+    }
+    sceneMapCache = { raw, communities, communityById, teamToCommunity };
+    return sceneMapCache;
+  })();
+  try {
+    return await sceneMapPromise;
+  } finally {
+    sceneMapPromise = null;
+  }
+}
+
