@@ -30,6 +30,8 @@ ROOT = Path(__file__).resolve().parent.parent
 CONFIG = ROOT / "config" / "venues_kr.json"
 CAPACITY = ROOT / "config" / "venue_capacity.json"
 MANUAL_PREFIX = "수동:"
+RESEARCHED = "이전 조사"
+RESEARCHED_BASIS = "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
 HALL_MIN = 401                  # venue_capacity.json 체급 L 시작 = 홀
 
 # (종류, 낱말 정규식) — 위가 먼저. 대표 이름을 먼저 다 보고, 단서가 없을 때만 별칭을 본다.
@@ -95,8 +97,10 @@ def apply(cfg: dict, capacity_cfg: Optional[dict] = None) -> Tuple[dict, List[Tu
             continue
         kind, basis = classify(e, capacity_cfg)
         old = e.get("type") or ""
-        if not kind and old and old != vk.guess_type(str(e.get("name") or "")) and not e.get("type_basis"):
-            kind, basis = old, "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+        prev_basis = str(e.get("type_basis") or "")
+        researched = (not prev_basis and old != vk.guess_type(str(e.get("name") or ""))) or prev_basis.startswith(RESEARCHED)
+        if not kind and old and researched:
+            kind, basis = old, RESEARCHED_BASIS
         if kind != e.get("type") or basis != e.get("type_basis"):
             changes.append((str(e.get("name")), str(e.get("type") or ""), kind, basis))
         venues.append({**e, "type": kind, "type_basis": basis})

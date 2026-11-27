@@ -79,6 +79,14 @@ class ApplyTest(unittest.TestCase):
         self.assertEqual(len(changes), 2)
         self.assertIn("theater", new["types"])
 
+    def test_apply_twice_is_stable(self):
+        cfg = {"venues": [v("남온 제주", type="cafe", city="서귀포"), v("부산음악창작소", type="live_club", city="부산"),
+                          v("엠피엠지", type="live_club", city="서울")]}
+        once, _ = vt.apply(cfg, CAP)
+        twice, changes = vt.apply(once, CAP)
+        self.assertEqual([e["type"] for e in twice["venues"]], ["cafe", "creation_center", ""])
+        self.assertEqual(changes, [])
+
     def test_manual_type_kept(self):
         cfg = {"venues": [v("엠피엠지", type="cafe", type_basis="수동: 공연장 인스타 소개 '카페 겸 공연장'", city="서울")]}
         new, changes = vt.apply(cfg, CAP)

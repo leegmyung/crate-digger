@@ -379,6 +379,41 @@
         "https://www.believe.com/?p=148533"
       ],
       "checked": "2026-11-27"
+    },
+    {
+      "handle": "gedative",
+      "reason": "인스타 매체 목록(config/insta_accounts.json)에 매체 계정으로 올라 있는 'gedative' — 다른 매체 글에서 언급돼 팀처럼 잡힘",
+      "evidence": [
+        "config/insta_accounts.json role=magazine 'gedative'",
+        "우리 데이터: 신호가 인스타 언급 3건뿐(@pub.mag)"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "handle": "pressworks",
+      "reason": "인스타 매체 목록의 'PRESSWORKS'(매체·프레스 계정) — 팀 아님",
+      "evidence": [
+        "config/insta_accounts.json role=magazine 'PRESSWORKS'",
+        "우리 데이터: 신호가 인스타 언급 1건뿐"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "handle": "wowchristmasexpress",
+      "reason": "크리스마스 행사 계정 'wow.christmas.express' — 팀 아님",
+      "evidence": [
+        "config/insta_accounts.json role=magazine 'wow.christmas.express'",
+        "우리 데이터: 신호가 인스타 공연 언급 1건뿐"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "handle": "koccamusic",
+      "reason": "한국콘텐츠진흥원(KOCCA) 음악 계정 'KOCCA MUSIC(코카뮤직)' — 기관 (candidate_rules.excluded_teams '코카뮤직'과 같은 계정)",
+      "evidence": [
+        "config/insta_accounts.json role=magazine 'KOCCA MUSIC(코카뮤직)'"
+      ],
+      "checked": "2026-11-27"
     }
   ]
 }
