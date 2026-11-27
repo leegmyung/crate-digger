@@ -28,11 +28,14 @@ OUT_DIR = ROOT / "docs" / "lab" / "data"
 SPOTIFY_MATCH = ROOT / "data" / "raw" / "state" / "spotify_match.json"
 XREF_FILE = ROOT / "data" / "raw" / "state" / "artist_xref.json"
 RAW_DIR = ROOT / "data" / "raw"
+IMAGE_CACHE = ROOT / "data" / "raw" / "state" / "artist_images.json"
 
 SIGNAL_FIELDS = ["team_key", "branch", "source", "program", "stage_rank", "signal_date", "venue"]
 TEAM_FIELDS = ["team_key", "display_name", "first_seen", "first_release", "fan_count", "album_count",
                "profile_status", "primary_genre", "agency"]
 LINK_FIELDS = ["team_key", "platform", "url"]
+IMAGE_FIELDS = ["team_key", "url", "source"]
+IMAGE_CACHE_HOSTS = ("i.scdn.co",)
 VIDEO_FIELDS = ["team_key", "video_id", "title", "channel_title", "published_at", "kind"]
 VIDEO_KIND_ORDER = {"stage": 0, "official_live": 1, "official": 2, "search": 3}
 VIDEOS_PER_TEAM = 6
@@ -239,6 +242,24 @@ def video_rows(raw: List[dict], per_team: int = VIDEOS_PER_TEAM) -> List[dict]:
     return out
 
 
+def image_rows(cache: dict) -> List[dict]:
+    """collect_artist_images 캐시 → 팀별 사진 주소 (https + 허용 도메인만)."""
+    out = []
+    for team, v in sorted(cache.items()):
+        url = (v or {}).get("url") or ""
+        p = urlparse(url)
+        if p.scheme == "https" and p.netloc in IMAGE_CACHE_HOSTS:
+            out.append({"team_key": team, "url": url, "source": v.get("source", "")})
+    return out
+
+
+def _image_cache() -> dict:
+    try:
+        return json.loads(IMAGE_CACHE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
 def _raw_videos(raw_dir: Path = RAW_DIR) -> List[dict]:
     rows: List[dict] = []
     for path in sorted(raw_dir.glob("raw_video_*.csv")):
@@ -267,7 +288,8 @@ def _write_csv(path: Path, fields: List[str], rows: List[dict]) -> None:
 
 def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = None,
            extra_refs: Callable[[], List[dict]] | None = _extra_refs,
-           raw_videos: Callable[[], List[dict]] | None = _raw_videos) -> dict:
+           raw_videos: Callable[[], List[dict]] | None = _raw_videos,
+           image_cache: Callable[[], dict] | None = _image_cache) -> dict:
     use_xref = _has_xref_table(run)
     q = queries(use_xref)
     signals = _records(run(q["signals"]))
@@ -284,12 +306,14 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
     _write_csv(out_dir / "links.csv", LINK_FIELDS, links)
     videos = video_rows(raw_videos()) if raw_videos else []
     _write_csv(out_dir / "videos.csv", VIDEO_FIELDS, videos)
+    images = image_rows(image_cache()) if image_cache else []
+    _write_csv(out_dir / "images.csv", IMAGE_FIELDS, images)
     meta = {
         "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "data_end": today or date.today().isoformat(),
         "uses_artist_xref": use_xref,
         "rows": {"signals": len(signals), "teams": len(teams), "outcomes": len(outcomes),
-                 "programs": len(programs), "links": len(links), "videos": len(videos)},
+                 "programs": len(programs), "links": len(links), "videos": len(videos), "images": len(images)},
     }
     (out_dir / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
     return meta

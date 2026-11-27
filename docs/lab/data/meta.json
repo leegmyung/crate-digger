@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-27T12:35:54+09:00",
+  "generated_at": "2026-11-27T13:16:32+09:00",
   "data_end": "2026-11-27",
   "uses_artist_xref": true,
   "rows": {
@@ -8,6 +8,7 @@
     "outcomes": 734,
     "programs": 19,
     "links": 756,
-    "videos": 1736
+    "videos": 1736,
+    "images": 241
   }
 }

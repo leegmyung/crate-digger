@@ -149,10 +149,18 @@ class VideoRowsTest(unittest.TestCase):
         self.assertEqual(rows[0]["published_at"], "2026-01-01")
 
 
+class ImageRowsTest(unittest.TestCase):
+    def test_only_https_scdn_images_with_url(self):
+        rows = ex.image_rows({"a": {"url": "https://i.scdn.co/image/x", "source": "spotify"},
+                              "b": {"url": None, "source": "spotify"},
+                              "c": {"url": "http://i.scdn.co/image/y", "source": "spotify"}})
+        self.assertEqual(rows, [{"team_key": "a", "url": "https://i.scdn.co/image/x", "source": "spotify"}])
+
+
 class ExportTest(unittest.TestCase):
     def test_writes_all_files_with_meta(self):
         with tempfile.TemporaryDirectory() as d:
-            meta = ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=None)
+            meta = ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=None, image_cache=None)
             for name in ("signals.csv", "teams.csv", "outcomes.csv", "programs.csv", "links.csv", "meta.json"):
                 self.assertTrue((Path(d) / name).exists(), name)
             self.assertEqual(meta["rows"]["signals"], 3)
@@ -164,7 +172,7 @@ class ExportTest(unittest.TestCase):
 
     def test_programs_list_marks_outcome_and_signal_kinds(self):
         with tempfile.TemporaryDirectory() as d:
-            ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=None)
+            ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=None, image_cache=None)
             with open(Path(d) / "programs.csv", encoding="utf-8") as f:
                 kinds = {r["program"]: r["kind"] for r in csv.DictReader(f)}
             self.assertEqual(kinds["band_discovery"], "signal")
