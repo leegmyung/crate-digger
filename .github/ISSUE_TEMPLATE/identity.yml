@@ -1,5 +1,5 @@
 name: 팀 정보가 틀려요
-description: 같은 팀이 둘로 나뉘었거나, 다른 팀과 섞였거나, 데뷔일·장르·링크가 틀린 경우 알려 주세요.
+description: 같은 팀이 둘로 나뉘었거나, 다른 팀과 섞였거나, 데뷔일·장르·링크가 틀렸거나, 빠진 공연·해체 소식이 있으면 알려 주세요.
 title: "[팀 정보] "
 labels: ["identity"]
 body:
@@ -8,6 +8,7 @@ body:
       value: |
         Gigle Research 대시보드의 팀 정보 오류를 알려 주셔서 고맙습니다.
         **이메일·전화번호 같은 개인 연락처는 적지 마세요.** (공개 저장소라 누구나 볼 수 있어요)
+        아래 '어떤 오류인가요?'를 고른 뒤, 그 종류에 해당하는 칸만 채우면 돼요. 나머지 칸은 비워 두세요.
   - type: input
     id: team
     attributes:
@@ -33,14 +34,41 @@ body:
         - 데뷔일·첫 발매일이 틀려요
         - 이미 오래 활동한 팀이에요 (신인 아님)
         - 장르가 틀려요
+        - 빠진 공연이 있어요
+        - 해체했거나 활동을 멈췄어요
         - 플랫폼 링크(멜론·스포티파이·인스타)가 다른 사람이에요
         - 기타
     validations:
       required: true
+  - type: input
+    id: genre_correct
+    attributes:
+      label: (장르가 틀릴 때) 맞는 장르
+      description: 예) 록·밴드, 포크·싱어송라이터, 힙합, R&B·소울, 일렉트로닉, 재즈. 여러 장르면 주로 하는 것부터 적어 주세요.
+  - type: input
+    id: gig_date
+    attributes:
+      label: (빠진 공연일 때) 날짜
+      description: 예) 2026-11-27. 여러 공연이면 아래 '자세한 내용'에 한 줄씩 적어 주세요.
+  - type: input
+    id: gig_venue
+    attributes:
+      label: (빠진 공연일 때) 공연장
+      description: 예) 롤링홀, 클럽 FF. 서울이 아니면 도시도 같이 적어 주세요.
+  - type: input
+    id: gig_source
+    attributes:
+      label: (빠진 공연일 때) 출처 링크
+      description: 공연 공지(인스타 게시물·예매 페이지·공연장 일정) 주소
+  - type: input
+    id: status_since
+    attributes:
+      label: (해체·활동 중단일 때) 언제부터
+      description: 예) 2026-08, 또는 마지막 공연 날짜. 공식 공지 링크는 아래 '자세한 내용'에 적어 주세요.
   - type: textarea
     id: detail
     attributes:
       label: 자세한 내용과 근거
-      description: 공식 페이지·기사 링크가 있으면 같이 적어 주세요.
+      description: 공식 페이지·기사·공지 링크가 있으면 같이 적어 주세요.
     validations:
       required: true

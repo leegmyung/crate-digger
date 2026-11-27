@@ -1,0 +1,63 @@
+name: 공연장 정보가 틀려요
+description: 공연장 이름·도시·수용 인원이 틀렸거나, 같은 공연장이 둘로 나뉘었거나, 문을 닫은 곳이면 알려 주세요.
+title: "[공연장] "
+labels: ["venue"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gigle Research 대시보드의 공연장 정보 오류를 알려 주셔서 고맙습니다.
+        **이메일·전화번호 같은 개인 연락처는 적지 마세요.** (공개 저장소라 누구나 볼 수 있어요)
+        공연장 대표 전화·주소처럼 공연장이 공개한 정보는 괜찮아요.
+  - type: input
+    id: venue
+    attributes:
+      label: 공연장 이름
+      description: 대시보드에 보이는 이름
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: 화면 주소
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 어떤 오류인가요?
+      options:
+        - 이름이 틀려요 (공식 이름이 달라요)
+        - 같은 공연장이 둘 이상으로 나뉘어 있어요
+        - 다른 공연장과 섞였어요
+        - 도시·지역이 틀려요
+        - 수용 인원이 틀려요
+        - 문을 닫았거나 옮겼어요
+        - 기타
+    validations:
+      required: true
+  - type: input
+    id: correct_name
+    attributes:
+      label: 맞는 이름
+      description: 공식 이름 (다른 표기가 있으면 같이 적어 주세요. 예) 클럽 FF / Club FF)
+  - type: input
+    id: city
+    attributes:
+      label: 도시
+      description: 예) 서울 마포구, 부산, 대구
+  - type: input
+    id: capacity
+    attributes:
+      label: 수용 인원
+      description: 스탠딩 기준 숫자 (예) 300). 좌석·스탠딩이 다르면 둘 다 적어 주세요.
+  - type: input
+    id: source
+    attributes:
+      label: 근거 링크
+      description: 공연장 공식 홈페이지·인스타·대관 안내·기사 주소
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: 자세한 내용
+      description: 옮겼다면 언제·어디로, 나뉘었다면 어떤 이름들이 같은 곳인지 적어 주세요.
