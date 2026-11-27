@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-28T00:58:33+09:00",
+ "generated_at": "2026-11-28T01:04:46+09:00",
  "as_of": "2026-11-28",
  "baseline": {
   "kind": "state",
@@ -40,7 +40,7 @@
   "peer_winner": 241,
   "spike": 3,
   "new_gig": 365,
-  "rank_jump": 17
+  "rank_jump": 23
  },
  "counts_shown": {
   "new_selection": 10,
@@ -48,7 +48,7 @@
   "stage_up": 20,
   "big_venue_first": 17,
   "peer_winner": 20,
-  "rank_jump": 17,
+  "rank_jump": 20,
   "spike": 3,
   "new_gig": 300
  },
@@ -76,7 +76,7 @@
    ],
    "importance": 90,
    "stage": 3,
-   "rank": 10,
+   "rank": 12,
    "also": [
     "new_selection",
     "new_gig"
@@ -106,7 +106,7 @@
    ],
    "importance": 90,
    "stage": 3,
-   "rank": 20,
+   "rank": 17,
    "also": [
     "new_selection",
     "new_gig"
@@ -126,6 +126,36 @@
      "source": "indistreet",
      "date": "2026-11-21",
      "venue": "Club FF"
+    }
+   ],
+   "importance": 85,
+   "stage": 2,
+   "rank": 46,
+   "also": [
+    "peer_winner",
+    "rank_jump"
+   ],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "stage_up",
+   "type_label": "단계 상승",
+   "team_key": "성하진",
+   "name": "성하진",
+   "date": "2026-11-28",
+   "text": "첫 신호 → 여러 갈래",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indiego",
+     "date": "2026-11-21",
+     "venue": "이디홀"
+    },
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-11-21",
+     "venue": "이디홀"
     }
    ],
    "importance": 85,
@@ -181,17 +211,17 @@
    "team_key": "포스트이너서클",
    "name": "포스트이너서클",
    "date": "2026-11-28",
-   "text": "200위 → 11위 (+189)",
+   "text": "200위 → 10위 (+190)",
    "evidence": [
     {
      "source": "점수 스냅샷",
      "date": "2026-11-20"
     }
    ],
-   "importance": 83,
+   "importance": 84,
    "rank_before": 200,
-   "rank_now": 11,
-   "rank": 11,
+   "rank_now": 10,
+   "rank": 10,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -201,7 +231,7 @@
    "team_key": "스웰시티",
    "name": "스웰시티",
    "date": "2026-11-28",
-   "text": "188위 → 24위 (+164)",
+   "text": "188위 → 21위 (+167)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -210,8 +240,8 @@
    ],
    "importance": 81,
    "rank_before": 188,
-   "rank_now": 24,
-   "rank": 24,
+   "rank_now": 21,
+   "rank": 21,
    "also": [
     "peer_winner",
     "new_gig"
@@ -235,7 +265,7 @@
    ],
    "importance": 80,
    "late": true,
-   "rank": 10,
+   "rank": 12,
    "also": [
     "stage_up",
     "new_gig"
@@ -259,7 +289,7 @@
    ],
    "importance": 80,
    "late": true,
-   "rank": 20,
+   "rank": 17,
    "also": [
     "stage_up",
     "new_gig"
@@ -293,7 +323,7 @@
    "team_key": "seoulspit",
    "name": "SEOUL SPIT",
    "date": "2026-11-28",
-   "text": "168위 → 22위 (+146)",
+   "text": "168위 → 20위 (+148)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -302,8 +332,8 @@
    ],
    "importance": 79,
    "rank_before": 168,
-   "rank_now": 22,
-   "rank": 22,
+   "rank_now": 20,
+   "rank": 20,
    "also": [
     "new_gig"
    ],
@@ -338,39 +368,9 @@
    ],
    "importance": 75,
    "stage": 2,
-   "rank": 269,
+   "rank": 231,
    "also": [
     "new_gig"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "stage_up",
-   "type_label": "단계 상승",
-   "team_key": "성하진",
-   "name": "성하진",
-   "date": "2026-11-28",
-   "text": "첫 신호 → 여러 갈래",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-11-21",
-     "venue": "이디홀"
-    },
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-11-21",
-     "venue": "이디홀"
-    }
-   ],
-   "importance": 75,
-   "stage": 2,
-   "rank": 51,
-   "also": [
-    "peer_winner",
-    "rank_jump"
    ],
    "found_on": "2026-11-28"
   },
@@ -398,7 +398,7 @@
     "향우회",
     "서울부인"
    ],
-   "rank": 13,
+   "rank": 11,
    "also": [
     "new_gig"
    ],
@@ -428,7 +428,7 @@
     "나타샤",
     "구구"
    ],
-   "rank": 19,
+   "rank": 16,
    "also": [
     "new_gig",
     "rank_jump"
@@ -438,32 +438,10 @@
   {
    "type": "rank_jump",
    "type_label": "순위 급상승",
-   "team_key": "9b2",
-   "name": "9B2",
-   "date": "2026-11-28",
-   "text": "117위 → 12위 (+105)",
-   "evidence": [
-    {
-     "source": "점수 스냅샷",
-     "date": "2026-11-20"
-    }
-   ],
-   "importance": 75,
-   "rank_before": 117,
-   "rank_now": 12,
-   "rank": 12,
-   "also": [
-    "peer_winner"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "rank_jump",
-   "type_label": "순위 급상승",
    "team_key": "줄라이원츠모어",
    "name": "줄라이원츠모어",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (19위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (16위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -472,8 +450,8 @@
    ],
    "importance": 75,
    "rank_before": null,
-   "rank_now": 19,
-   "rank": 19,
+   "rank_now": 16,
+   "rank": 16,
    "also": [
     "peer_winner",
     "new_gig"
@@ -485,6 +463,26 @@
    "type_label": "순위 급상승",
    "team_key": "웬즈데이오프",
    "name": "웬즈데이오프",
+   "date": "2026-11-28",
+   "text": "상위 100 새 진입 (27위, 2026-11-20엔 300위 밖)",
+   "evidence": [
+    {
+     "source": "점수 스냅샷",
+     "date": "2026-11-20"
+    }
+   ],
+   "importance": 75,
+   "rank_before": null,
+   "rank_now": 27,
+   "rank": 27,
+   "also": [],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "rank_jump",
+   "type_label": "순위 급상승",
+   "team_key": "닙아카이브",
+   "name": "닙아카이브",
    "date": "2026-11-28",
    "text": "상위 100 새 진입 (32위, 2026-11-20엔 300위 밖)",
    "evidence": [
@@ -503,10 +501,10 @@
   {
    "type": "rank_jump",
    "type_label": "순위 급상승",
-   "team_key": "닙아카이브",
-   "name": "닙아카이브",
+   "team_key": "라이프라디오",
+   "name": "라이프라디오",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (36위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (46위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -515,16 +513,19 @@
    ],
    "importance": 75,
    "rank_before": null,
-   "rank_now": 36,
-   "rank": 36,
-   "also": [],
+   "rank_now": 46,
+   "rank": 46,
+   "also": [
+    "stage_up",
+    "peer_winner"
+   ],
    "found_on": "2026-11-28"
   },
   {
    "type": "rank_jump",
    "type_label": "순위 급상승",
-   "team_key": "라이프라디오",
-   "name": "라이프라디오",
+   "team_key": "성하진",
+   "name": "성하진",
    "date": "2026-11-28",
    "text": "상위 100 새 진입 (49위, 2026-11-20엔 300위 밖)",
    "evidence": [
@@ -546,10 +547,32 @@
   {
    "type": "rank_jump",
    "type_label": "순위 급상승",
+   "team_key": "9b2",
+   "name": "9B2",
+   "date": "2026-11-28",
+   "text": "117위 → 19위 (+98)",
+   "evidence": [
+    {
+     "source": "점수 스냅샷",
+     "date": "2026-11-20"
+    }
+   ],
+   "importance": 74,
+   "rank_before": 117,
+   "rank_now": 19,
+   "rank": 19,
+   "also": [
+    "peer_winner"
+   ],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "rank_jump",
+   "type_label": "순위 급상승",
    "team_key": "선셋온더브릿지",
    "name": "선셋 온 더 브릿지",
    "date": "2026-11-28",
-   "text": "93위 → 5위 (+88)",
+   "text": "93위 → 6위 (+87)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -558,8 +581,8 @@
    ],
    "importance": 73,
    "rank_before": 93,
-   "rank_now": 5,
-   "rank": 5,
+   "rank_now": 6,
+   "rank": 6,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -579,7 +602,7 @@
     }
    ],
    "importance": 70,
-   "rank": 224,
+   "rank": 186,
    "also": [
     "new_gig"
    ],
@@ -603,7 +626,7 @@
    "winners": [
     "해서웨이"
    ],
-   "rank": 24,
+   "rank": 21,
    "also": [
     "new_gig",
     "rank_jump"
@@ -628,7 +651,7 @@
    "winners": [
     "다다다"
    ],
-   "rank": 12,
+   "rank": 19,
    "also": [
     "rank_jump"
    ],
@@ -652,11 +675,56 @@
    "winners": [
     "오이스터즈"
    ],
+   "rank": 46,
+   "also": [
+    "stage_up",
+    "rank_jump"
+   ],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "peer_winner",
+   "type_label": "같은 무대 수상 팀",
+   "team_key": "성하진",
+   "name": "성하진",
+   "date": "2026-11-21",
+   "text": "같은 무대에 선 수상 팀: 몽돌",
+   "evidence": [
+    {
+     "branch": "공연",
+     "date": "2026-11-21",
+     "venue": "이디홀"
+    }
+   ],
+   "importance": 70,
+   "winners": [
+    "몽돌"
+   ],
    "rank": 49,
    "also": [
     "stage_up",
     "rank_jump"
    ],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "rank_jump",
+   "type_label": "순위 급상승",
+   "team_key": "murdermartyr",
+   "name": "Murdermartyr",
+   "date": "2026-11-28",
+   "text": "203위 → 79위 (+124)",
+   "evidence": [
+    {
+     "source": "점수 스냅샷",
+     "date": "2026-11-20"
+    }
+   ],
+   "importance": 67,
+   "rank_before": 203,
+   "rank_now": 79,
+   "rank": 79,
+   "also": [],
    "found_on": "2026-11-28"
   },
   {
@@ -705,9 +773,10 @@
     "우륵과풍각쟁이들",
     "기나이직"
    ],
-   "rank": 93,
+   "rank": 78,
    "also": [
-    "new_gig"
+    "new_gig",
+    "rank_jump"
    ],
    "found_on": "2026-11-28"
   },
@@ -735,7 +804,7 @@
     "우륵과풍각쟁이들",
     "기나이직"
    ],
-   "rank": 171,
+   "rank": 142,
    "also": [
     "new_gig"
    ],
@@ -765,7 +834,7 @@
     "나타샤",
     "구구"
    ],
-   "rank": 119,
+   "rank": 102,
    "also": [
     "new_gig"
    ],
@@ -795,7 +864,7 @@
     "우륵과풍각쟁이들",
     "기나이직"
    ],
-   "rank": 95,
+   "rank": 80,
    "also": [
     "new_gig",
     "rank_jump"
@@ -826,7 +895,7 @@
     "나타샤",
     "구구"
    ],
-   "rank": 193,
+   "rank": 159,
    "also": [
     "new_gig"
    ],
@@ -861,7 +930,7 @@
     "나타샤",
     "구구"
    ],
-   "rank": 136,
+   "rank": 114,
    "also": [
     "new_gig"
    ],
@@ -891,32 +960,9 @@
     "peeppeep",
     "mombrimz"
    ],
-   "rank": 235,
+   "rank": 194,
    "also": [
     "new_gig"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "rank_jump",
-   "type_label": "순위 급상승",
-   "team_key": "성하진",
-   "name": "성하진",
-   "date": "2026-11-28",
-   "text": "상위 100 새 진입 (51위, 2026-11-20엔 300위 밖)",
-   "evidence": [
-    {
-     "source": "점수 스냅샷",
-     "date": "2026-11-20"
-    }
-   ],
-   "importance": 65,
-   "rank_before": null,
-   "rank_now": 51,
-   "rank": 51,
-   "also": [
-    "stage_up",
-    "peer_winner"
    ],
    "found_on": "2026-11-28"
   },
@@ -926,7 +972,7 @@
    "team_key": "노백",
    "name": "노백",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (69위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (60위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -935,8 +981,8 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 69,
-   "rank": 69,
+   "rank_now": 60,
+   "rank": 60,
    "also": [
     "peer_winner",
     "new_gig"
@@ -946,30 +992,10 @@
   {
    "type": "rank_jump",
    "type_label": "순위 급상승",
-   "team_key": "murdermartyr",
-   "name": "Murdermartyr",
-   "date": "2026-11-28",
-   "text": "203위 → 94위 (+109)",
-   "evidence": [
-    {
-     "source": "점수 스냅샷",
-     "date": "2026-11-20"
-    }
-   ],
-   "importance": 65,
-   "rank_before": 203,
-   "rank_now": 94,
-   "rank": 94,
-   "also": [],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "rank_jump",
-   "type_label": "순위 급상승",
    "team_key": "rifffool",
    "name": "Riff Fool",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (95위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (80위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -978,8 +1004,8 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 95,
-   "rank": 95,
+   "rank_now": 80,
+   "rank": 80,
    "also": [
     "peer_winner",
     "new_gig"
@@ -992,7 +1018,7 @@
    "team_key": "공",
    "name": "공",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (100위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (83위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1001,9 +1027,53 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 100,
-   "rank": 100,
+   "rank_now": 83,
+   "rank": 83,
    "also": [],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "rank_jump",
+   "type_label": "순위 급상승",
+   "team_key": "루즌도어즈",
+   "name": "루즌도어즈",
+   "date": "2026-11-28",
+   "text": "상위 100 새 진입 (86위, 2026-11-20엔 300위 밖)",
+   "evidence": [
+    {
+     "source": "점수 스냅샷",
+     "date": "2026-11-20"
+    }
+   ],
+   "importance": 65,
+   "rank_before": null,
+   "rank_now": 86,
+   "rank": 86,
+   "also": [
+    "peer_winner"
+   ],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "rank_jump",
+   "type_label": "순위 급상승",
+   "team_key": "신서울",
+   "name": "신서울",
+   "date": "2026-11-28",
+   "text": "상위 100 새 진입 (90위, 2026-11-20엔 300위 밖)",
+   "evidence": [
+    {
+     "source": "점수 스냅샷",
+     "date": "2026-11-20"
+    }
+   ],
+   "importance": 65,
+   "rank_before": null,
+   "rank_now": 90,
+   "rank": 90,
+   "also": [
+    "peer_winner"
+   ],
    "found_on": "2026-11-28"
   },
   {
@@ -1012,7 +1082,7 @@
    "team_key": "로프리스",
    "name": "로프리스",
    "date": "2026-11-28",
-   "text": "147위 → 62위 (+85)",
+   "text": "147위 → 58위 (+89)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1021,8 +1091,8 @@
    ],
    "importance": 63,
    "rank_before": 147,
-   "rank_now": 62,
-   "rank": 62,
+   "rank_now": 58,
+   "rank": 58,
    "also": [
     "new_gig"
    ],
@@ -1034,18 +1104,62 @@
    "team_key": "세로",
    "name": "세로",
    "date": "2026-11-28",
-   "text": "154위 → 83위 (+71)",
+   "text": "154위 → 88위 (+66)",
    "evidence": [
     {
      "source": "점수 스냅샷",
      "date": "2026-11-20"
     }
    ],
-   "importance": 62,
+   "importance": 61,
    "rank_before": 154,
-   "rank_now": 83,
-   "rank": 83,
+   "rank_now": 88,
+   "rank": 88,
    "also": [],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "rank_jump",
+   "type_label": "순위 급상승",
+   "team_key": "종이유람선",
+   "name": "종이유람선",
+   "date": "2026-11-28",
+   "text": "160위 → 95위 (+65)",
+   "evidence": [
+    {
+     "source": "점수 스냅샷",
+     "date": "2026-11-20"
+    }
+   ],
+   "importance": 61,
+   "rank_before": 160,
+   "rank_now": 95,
+   "rank": 95,
+   "also": [
+    "new_gig"
+   ],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "rank_jump",
+   "type_label": "순위 급상승",
+   "team_key": "ewe",
+   "name": "EWE (Erøtic Wørms Exhibitiøn)",
+   "date": "2026-11-28",
+   "text": "165위 → 100위 (+65)",
+   "evidence": [
+    {
+     "source": "점수 스냅샷",
+     "date": "2026-11-20"
+    }
+   ],
+   "importance": 61,
+   "rank_before": 165,
+   "rank_now": 100,
+   "rank": 100,
+   "also": [
+    "new_gig"
+   ],
    "found_on": "2026-11-28"
   },
   {
@@ -1516,7 +1630,7 @@
    "winners": [
     "오이스터즈"
    ],
-   "rank": 124,
+   "rank": 106,
    "also": [
     "new_gig"
    ],
@@ -1540,31 +1654,9 @@
    "winners": [
     "단편선순간들"
    ],
-   "rank": 81,
+   "rank": 84,
    "also": [
     "new_gig"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "rank_jump",
-   "type_label": "순위 급상승",
-   "team_key": "조이풀스",
-   "name": "조이풀스",
-   "date": "2026-11-28",
-   "text": "114위 → 59위 (+55)",
-   "evidence": [
-    {
-     "source": "점수 스냅샷",
-     "date": "2026-11-20"
-    }
-   ],
-   "importance": 60,
-   "rank_before": 114,
-   "rank_now": 59,
-   "rank": 59,
-   "also": [
-    "peer_winner"
    ],
    "found_on": "2026-11-28"
   },
@@ -1586,7 +1678,7 @@
    "winners": [
     "다다다"
    ],
-   "rank": 69,
+   "rank": 60,
    "also": [
     "new_gig",
     "rank_jump"
@@ -1611,10 +1703,8 @@
    "winners": [
     "다다다"
    ],
-   "rank": 59,
-   "also": [
-    "rank_jump"
-   ],
+   "rank": 66,
+   "also": [],
    "found_on": "2026-11-28"
   },
   {
@@ -1635,7 +1725,7 @@
    "winners": [
     "리프"
    ],
-   "rank": 244,
+   "rank": 202,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -1657,32 +1747,11 @@
    "winners": [
     "다다다"
    ],
-   "rank": 78,
+   "rank": 68,
    "also": [
-    "new_gig"
+    "new_gig",
+    "rank_jump"
    ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "peer_winner",
-   "type_label": "같은 무대 수상 팀",
-   "team_key": "에브리데이먼데이",
-   "name": "에브리데이먼데이",
-   "date": "2026-11-26",
-   "text": "같은 무대에 선 수상 팀: 다다다",
-   "evidence": [
-    {
-     "branch": "공연",
-     "date": "2026-11-26",
-     "venue": "A.O.R"
-    }
-   ],
-   "importance": 60,
-   "winners": [
-    "다다다"
-   ],
-   "rank": 287,
-   "also": [],
    "found_on": "2026-11-28"
   },
   {
@@ -2315,7 +2384,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 22,
+   "rank": 20,
    "also": [
     "rank_jump"
    ],
@@ -2344,7 +2413,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 13,
+   "rank": 11,
    "also": [
     "peer_winner"
    ],
@@ -2425,7 +2494,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 39,
+   "rank": 35,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -2446,7 +2515,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 24,
+   "rank": 21,
    "also": [
     "peer_winner",
     "rank_jump"
@@ -2476,7 +2545,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 19,
+   "rank": 16,
    "also": [
     "peer_winner",
     "rank_jump"
@@ -2506,7 +2575,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 10,
+   "rank": 12,
    "also": [
     "new_selection",
     "stage_up"
@@ -2536,7 +2605,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 20,
+   "rank": 17,
    "also": [
     "new_selection",
     "stage_up"
@@ -2566,7 +2635,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 6,
+   "rank": 5,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -2593,7 +2662,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 6,
+   "rank": 5,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -2614,8 +2683,10 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 117,
-   "also": [],
+   "rank": 100,
+   "also": [
+    "rank_jump"
+   ],
    "found_on": "2026-11-28"
   },
   {
@@ -2635,7 +2706,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 168,
+   "rank": 140,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -2662,9 +2733,10 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 78,
+   "rank": 68,
    "also": [
-    "peer_winner"
+    "peer_winner",
+    "rank_jump"
    ],
    "found_on": "2026-11-28"
   },
@@ -2685,9 +2757,10 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 93,
+   "rank": 78,
    "also": [
-    "peer_winner"
+    "peer_winner",
+    "rank_jump"
    ],
    "found_on": "2026-11-28"
   },
@@ -2708,7 +2781,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 171,
+   "rank": 142,
    "also": [
     "peer_winner"
    ],
@@ -2731,7 +2804,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 119,
+   "rank": 102,
    "also": [
     "peer_winner"
    ],
@@ -2760,7 +2833,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 95,
+   "rank": 80,
    "also": [
     "peer_winner",
     "rank_jump"
@@ -2784,11 +2857,32 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 95,
+   "rank": 80,
    "also": [
     "peer_winner",
     "rank_jump"
    ],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
+   "team_key": "ruru",
+   "name": "Ruru",
+   "date": "2026-11-28",
+   "text": "예정 공연 2026-11-28 롤링홀",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-11-28",
+     "venue": "롤링홀"
+    }
+   ],
+   "importance": 30,
+   "upcoming": true,
+   "rank": 229,
+   "also": [],
    "found_on": "2026-11-28"
   },
   {
@@ -2808,7 +2902,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 269,
+   "rank": 231,
    "also": [
     "stage_up"
    ],
@@ -2837,7 +2931,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 124,
+   "rank": 106,
    "also": [
     "peer_winner"
    ],
@@ -2860,7 +2954,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 81,
+   "rank": 84,
    "also": [
     "peer_winner"
    ],
@@ -2889,7 +2983,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 81,
+   "rank": 84,
    "also": [
     "peer_winner"
    ],
@@ -2918,7 +3012,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 276,
+   "rank": 240,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -2945,7 +3039,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 69,
+   "rank": 60,
    "also": [
     "peer_winner",
     "rank_jump"
@@ -2975,7 +3069,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 191,
+   "rank": 243,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3002,7 +3096,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 193,
+   "rank": 159,
    "also": [
     "peer_winner"
    ],
@@ -3031,7 +3125,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 62,
+   "rank": 58,
    "also": [
     "rank_jump"
    ],
@@ -3054,7 +3148,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 196,
+   "rank": 163,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3081,7 +3175,34 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 130,
+   "rank": 110,
+   "also": [],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
+   "team_key": "셔츠안자켓",
+   "name": "셔츠안자켓",
+   "date": "2026-11-28",
+   "text": "예정 공연 2026-11-28 축제",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indiego",
+     "date": "2026-11-28",
+     "venue": "축제"
+    },
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-11-28",
+     "venue": "축제"
+    }
+   ],
+   "importance": 30,
+   "upcoming": true,
+   "rank": 258,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3102,7 +3223,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 136,
+   "rank": 114,
    "also": [
     "peer_winner"
    ],
@@ -3125,7 +3246,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 290,
+   "rank": 270,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3152,7 +3273,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 58,
+   "rank": 55,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3179,7 +3300,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 141,
+   "rank": 117,
    "also": [
     "peer_winner"
    ],
@@ -3202,7 +3323,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 64,
+   "rank": 75,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3223,7 +3344,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 224,
+   "rank": 186,
    "also": [
     "big_venue_first"
    ],
@@ -3246,7 +3367,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 293,
+   "rank": 283,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3273,8 +3394,10 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 113,
-   "also": [],
+   "rank": 95,
+   "also": [
+    "rank_jump"
+   ],
    "found_on": "2026-11-28"
   },
   {
@@ -3300,7 +3423,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 229,
+   "rank": 287,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3327,7 +3450,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 67,
+   "rank": 98,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3348,7 +3471,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 145,
+   "rank": 192,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3369,7 +3492,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 235,
+   "rank": 194,
    "also": [
     "peer_winner"
    ],
@@ -3398,7 +3521,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 238,
+   "rank": 197,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3425,7 +3548,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 240,
+   "rank": 198,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -3446,7 +3569,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 152,
+   "rank": 299,
    "also": [],
    "found_on": "2026-11-28"
   },
@@ -4744,27 +4867,6 @@
      "source": "indistreet",
      "date": "2026-12-04",
      "venue": "예스24 원더로크홀"
-    }
-   ],
-   "importance": 15,
-   "upcoming": true,
-   "rank": null,
-   "also": [],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "ruru",
-   "name": "Ruru",
-   "date": "2026-11-28",
-   "text": "예정 공연 2026-11-28 롤링홀",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-11-28",
-     "venue": "롤링홀"
     }
    ],
    "importance": 15,
@@ -7669,33 +7771,6 @@
    "also": [
     "peer_winner"
    ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "셔츠안자켓",
-   "name": "셔츠안자켓",
-   "date": "2026-11-28",
-   "text": "예정 공연 2026-11-28 축제",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-11-28",
-     "venue": "축제"
-    },
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-11-28",
-     "venue": "축제"
-    }
-   ],
-   "importance": 15,
-   "upcoming": true,
-   "rank": null,
-   "also": [],
    "found_on": "2026-11-28"
   },
   {

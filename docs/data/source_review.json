@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-28T00:29:08+09:00",
+ "generated_at": "2026-11-28T01:02:27+09:00",
  "data_end": "2026-11-28",
  "cutoffs": [
   "2025-01-01",
@@ -53,13 +53,13 @@
    "role": "discovery",
    "since_date": "2024-01-04",
    "signal_rows": 13914,
-   "teams": 4513,
+   "teams": 4498,
    "hits": 54,
    "rate": 1.2,
    "lift": 1.5,
-   "winners_seen": 49,
-   "first_to_see": 32,
-   "only_source": 21
+   "winners_seen": 50,
+   "first_to_see": 33,
+   "only_source": 19
   },
   {
    "src": "큐레이션:trackzero",
@@ -79,11 +79,11 @@
    "role": "discovery",
    "since_date": "2023-01-02",
    "signal_rows": 1053,
-   "teams": 1465,
+   "teams": 1459,
    "hits": 33,
-   "rate": 2.25,
+   "rate": 2.26,
    "lift": 2.8,
-   "winners_seen": 26,
+   "winners_seen": 27,
    "first_to_see": 11,
    "only_source": 2
   },
@@ -140,6 +140,19 @@
    "only_source": 1
   },
   {
+   "src": "선정·지원:band_discovery",
+   "role": "discovery",
+   "since_date": "2012-07-16",
+   "signal_rows": 118,
+   "teams": 21,
+   "hits": 3,
+   "rate": 14.29,
+   "lift": 17.6,
+   "winners_seen": 3,
+   "first_to_see": 1,
+   "only_source": 0
+  },
+  {
    "src": "큐레이션:rhythmer",
    "role": "context",
    "since_date": "2023-02-02",
@@ -166,19 +179,6 @@
    "only_source": 2
   },
   {
-   "src": "선정·지원:band_discovery",
-   "role": "discovery",
-   "since_date": "2012-07-16",
-   "signal_rows": 118,
-   "teams": 21,
-   "hits": 3,
-   "rate": 14.29,
-   "lift": 17.6,
-   "winners_seen": 2,
-   "first_to_see": 1,
-   "only_source": 0
-  },
-  {
    "src": "선정·지원:yoojaeha_finalist",
    "role": "discovery",
    "since_date": "1989-12-31",
@@ -189,6 +189,19 @@
    "lift": 4.4,
    "winners_seen": 2,
    "first_to_see": 2,
+   "only_source": 0
+  },
+  {
+   "src": "공연:indiego",
+   "role": "pending",
+   "since_date": "2022-07-16",
+   "signal_rows": 611,
+   "teams": 12,
+   "hits": 0,
+   "rate": 0.0,
+   "lift": 0.0,
+   "winners_seen": 2,
+   "first_to_see": 0,
    "only_source": 0
   },
   {
@@ -257,22 +270,9 @@
    "only_source": 0
   },
   {
-   "src": "공연:indiego",
-   "role": "pending",
-   "since_date": "2026-11-26",
-   "signal_rows": 270,
-   "teams": 0,
-   "hits": 0,
-   "rate": null,
-   "lift": null,
-   "winners_seen": 0,
-   "first_to_see": 0,
-   "only_source": 0
-  },
-  {
    "src": "선정·지원:burock_rookies",
    "role": "pending",
-   "since_date": "2026-12-31",
+   "since_date": "2026-08-13",
    "signal_rows": 13,
    "teams": 0,
    "hits": 0,
@@ -312,7 +312,7 @@
    "src": "공연:instagram",
    "role": "pending",
    "since_date": "2026-11-13",
-   "signal_rows": 697,
+   "signal_rows": 1079,
    "teams": 0,
    "hits": 0,
    "rate": null,
@@ -325,7 +325,7 @@
    "src": "큐레이션:instagram",
    "role": "pending",
    "since_date": "2026-11-12",
-   "signal_rows": 307,
+   "signal_rows": 502,
    "teams": 0,
    "hits": 0,
    "rate": null,
