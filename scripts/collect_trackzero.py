@@ -6,7 +6,7 @@
   2026-11 기준 글 262개 — 이달의 아티스트(2023-02~, 월 1팀), 추천 신곡(전문위원이 최근 3~4개월 발매곡을 고른
   플레이리스트, 월 1회), 기획 플레이리스트(주제별), 공연 안내(라이브클럽데이 등).
 - robots.txt: m.live.melon.com 은 빈 파일(= 막지 않음, 2026-11-27 확인)이라 스크립트로 읽는다. www.melon.com 은 막혀 있어 쓰지 않는다.
-  목록은 50개씩(sIdx=1, 51, 101 …), 글 상세는 detail.htm?mstorySeq=<번호>.
+  목록은 50개씩(sIdx=1, 51, 101 …), 글 상세는 detail.htm?mstorySeq=<번호>. 요청 사이 1초씩 쉰다(일시 차단 방지).
 - 팀: 글의 '연관 아티스트'(멜론 아티스트 번호 포함) → 곡 목록의 '아티스트명' 순서. 이달의 아티스트 글은 제목의 팀만 쓴다
   (본문 연관 아티스트에는 함께 작업한 사람이 섞임). 공연 안내·공연 후기 글은 공연 홍보라 넣지 않는다.
 - 형식: raw_press (source='trackzero', outlet='멜론 트랙제로', collector='script', pick_label=글 종류,
@@ -21,6 +21,7 @@ import html
 import json
 import re
 import sys
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Sequence, Tuple
@@ -41,6 +42,7 @@ MAX_PAGES = 40                    # 2,000글 — 안전 상한
 MIN_MELON_ID = 1_000              # 이보다 작은 번호는 실제 아티스트 번호가 아님 (collect_artists 와 같은 기준)
 SOURCE, OUTLET = "trackzero", "멜론 트랙제로"
 PICK_KINDS = {"이달의 아티스트", "추천 신곡"}
+REQUEST_GAP_SEC = 1.0             # 요청 사이 1초 — robots 제한은 없지만 멜론 일시 차단을 피하려고 (코디네이터 결정)
 
 ITEM_RE = re.compile(r"goMstoryDetail\('(\d+)'\);\">\s*<p class=\"title[^>]*>(.*?)</p>.*?"
                      r"class=\"date\">(\d{4})\.(\d{2})\.(\d{2})<", re.S)
@@ -89,8 +91,11 @@ def parse_detail(page_html: str) -> List[Tuple[str, str]]:
         n = _clean(name)
         if _is_name(n) and n not in out:
             out[n] = mid if _valid_id(mid) else ""
+    linked = list(out)
     for name in ARTIST_NAME_RE.findall(page_html):
         n = _clean(name)
+        if any(k in n for k in linked):   # 공동 작업 곡은 이름을 이어 붙여 적음 → 연관 아티스트로 이미 받은 이름이 들어 있으면 버림
+            continue
         if _is_name(n) and n not in out:
             out[n] = ""
     return list(out.items())
@@ -147,13 +152,18 @@ def write_rows(rows: List[dict], out_dir: Path, day: str) -> Path:
 
 # ---------- 네트워크 ----------
 
+def polite_get(url: str) -> str:
+    time.sleep(REQUEST_GAP_SEC)
+    return cw.http_get(url)
+
+
 def fetch_list(state: dict) -> List[dict]:
     """목록을 50개씩 — 이미 본 글이 나오는 쪽까지만 (처음엔 끝까지)."""
     posts: List[dict] = []
     seen = set(state["seen"])
     for page in range(MAX_PAGES):
         url = f"{BASE}/listByTagSeq.htm?tagSeq={TAG_SEQ}" + (f"&sIdx={page * PAGE_SIZE + 1}" if page else "")
-        got = parse_list(cw.http_get(url))
+        got = parse_list(polite_get(url))
         posts += got
         if not got or any(p["seq"] in seen for p in got):
             break
@@ -177,7 +187,7 @@ def main() -> int:
             done.append(p["seq"])
             continue
         try:
-            artists = parse_detail(cw.http_get(f"{BASE}/detail.htm?mstorySeq={p['seq']}"))
+            artists = parse_detail(polite_get(f"{BASE}/detail.htm?mstorySeq={p['seq']}"))
         except (OSError, ValueError, RuntimeError) as e:
             print(f"⚠️ 글 {p['seq']} 읽기 실패 (다음에 다시): {e}", file=sys.stderr)
             continue

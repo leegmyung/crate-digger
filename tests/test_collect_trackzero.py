@@ -70,6 +70,12 @@ class DetailTest(unittest.TestCase):
         html = """<a href="javascript:goDetail('artist', '2018879')"><span class="txt-title">-</span></a>"""
         self.assertEqual(tz.parse_detail(html), [])
 
+    def test_joined_credit_names_skipped_when_parts_are_linked(self):
+        # 곡의 '아티스트명' 칸은 공동 작업이면 이름을 띄어쓰기로 이어 붙인다 → 연관 아티스트에 있는 이름이 들어 있으면 버림
+        html = ("""<a href="javascript:goDetail('artist', '3000001')"><span class="txt-title">짱유 (JJANGYOU)</span></a>"""
+                """<span class="screen-out">아티스트명 : </span><span class="txt-description ellipsis">짱유 (JJANGYOU) Jflow HYPNOSIS THERAPY</span>""")
+        self.assertEqual(tz.parse_detail(html), [("짱유 (JJANGYOU)", "3000001")])
+
     def test_short_ids_dropped(self):
         html = """<a href="javascript:goDetail('artist', '82')"><span class="txt-title">D82</span></a>"""
         self.assertEqual(tz.parse_detail(html), [("D82", "")])
@@ -97,6 +103,18 @@ class RowsTest(unittest.TestCase):
         self.assertEqual(tz.post_rows(theme, [("신중현", "")], "t")[0]["is_pick"], "0")
         gig = {"seq": "2", "title": "제85회 라이브클럽데이", "date": "2026-11-10"}
         self.assertEqual(tz.post_rows(gig, [("A", "")], "t"), [])
+
+
+class PoliteGetTest(unittest.TestCase):
+    def test_waits_between_requests(self):
+        from unittest import mock
+        with mock.patch.object(tz.cw, "http_get", return_value="ok") as get, \
+                mock.patch.object(tz.time, "sleep") as sleep:
+            self.assertEqual(tz.polite_get("u1"), "ok")
+            tz.polite_get("u2")
+        self.assertEqual(get.call_count, 2)
+        self.assertEqual([c.args[0] for c in sleep.call_args_list], [tz.REQUEST_GAP_SEC] * 2)
+        self.assertEqual(tz.REQUEST_GAP_SEC, 1.0)
 
 
 class StateTest(unittest.TestCase):
