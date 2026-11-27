@@ -44,6 +44,7 @@ fi
 "$PY" scripts/export_video_momentum.py || echo "⚠️ 유튜브 7일 증가량 실패"
 if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then "$PY" scripts/export_excel.py || echo "⚠️ 주간 엑셀 실패"; fi   # 월요일만
 "$PY" scripts/lab_snapshot.py || echo "⚠️ 점수 스냅샷 실패 (.venv에 duckdb 필요)"
+"$PY" scripts/build_scene_map.py || echo "⚠️ 사운드 지도 실패"
 "$PY" scripts/daily_note.py "$DAY" || echo "⚠️ 일일 기록 실패"
 
 git add docs/data/collect.json "docs/log/$DAY.md" docs/data/dashboard.json docs/sql/README.md docs/lab/data docs/data/source_review.json docs/report
