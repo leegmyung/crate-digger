@@ -306,16 +306,36 @@ def _alias_edges(occurrences: list[dict]) -> list[tuple[str, str, str, str]]:
     return edges
 
 
+AUTO_KINDS = {"alias_auto"}   # 확인 목록에 기록만 하고 사람 확인 건수에서는 빼는 종류
+MIN_CONTAINED_KEY = 2   # 이보다 짧은 이름은 '품는다'고 보지 않음 (한 글자 이름이 아무 데나 들어가는 것 방지)
+
+
+def _contained_owner(mains: set[str]) -> str | None:
+    """충돌한 대표 키들 중 하나가 나머지 모두에 그대로 들어 있으면 그 키 ('해서웨이' ⊂ '보수동쿨러해서웨이').
+    긴 쪽은 합동 표기('보수동쿨러 해서웨이 (hathaw9y)', '윤석철 세진(Sejin)')라서 별칭은 짧은 쪽(실제 팀)의 것."""
+    short = min(mains, key=len)
+    if len(short) < MIN_CONTAINED_KEY:
+        return None
+    return short if all(short in m for m in mains if m != short) else None
+
+
 def _drop_conflicts(edges: list[tuple], review: list[dict]) -> list[tuple]:
-    """같은 별칭 키를 서로 다른 대표 키 둘 이상이 가지면(동명 위험) 그 연결은 버린다."""
+    """같은 별칭 키를 서로 다른 대표 키 둘 이상이 가지면(동명 위험) 그 연결은 버린다.
+    단 한 대표 키가 나머지를 그대로 품는 경우(합동 표기)는 별칭을 품긴 쪽(짧은 쪽)에만 남긴다."""
     claimed: dict[str, set[str]] = defaultdict(set)
     for mk, ak, *_ in edges:
         claimed[ak].add(mk)
-    bad = {ak for ak, mains in claimed.items() if len(mains) > 1}
+    owner = {ak: _contained_owner(mains) for ak, mains in claimed.items() if len(mains) > 1}
+    bad = {ak for ak, o in owner.items() if o is None}
+    for ak in sorted(set(owner) - bad):
+        others = ", ".join(sorted(claimed[ak] - {owner[ak]}))
+        review.append({"kind": "alias_auto", "detail": f"{ak} → {owner[ak]} (뺌: {others})",
+                       "reason": "자동 해결 — 긴 이름이 짧은 이름을 품음(합동 표기), 별칭은 짧은 쪽", "weight": 0})
     for ak in sorted(bad):
         review.append({"kind": "alias_conflict", "detail": f"{ak} ← {', '.join(sorted(claimed[ak]))}",
-                       "reason": "같은 별칭이 여러 팀에 붙음 (동명 팀일 수 있음)", "weight": len(claimed[ak])})
-    return [e for e in edges if e[1] not in bad]
+                       "reason": "같은 별칭이 여러 팀에 붙음 (동명 팀일 수 있음)", "weight": len(claimed[ak]),
+                       "keys": sorted(claimed[ak])})
+    return [e for e in edges if e[1] not in bad and (e[1] not in owner or e[0] == owner[e[1]])]
 
 
 def _ig_candidates(ig_profiles: list[dict], ig_posts: list[dict]) -> dict[str, list[dict]]:
@@ -408,6 +428,14 @@ def _manual_edges(entries: list[dict]) -> list[tuple]:
     return edges
 
 
+def _settle_conflict(r: dict, g: "_Groups") -> dict:
+    keys = r.get("keys") or []
+    if r["kind"] != "alias_conflict" or len({g.find(k) for k in keys}) != 1:
+        return {k: v for k, v in r.items() if k != "keys"}
+    return {"kind": "alias_auto", "detail": r["detail"], "weight": 0,
+            "reason": "자동 해결 — 충돌한 팀들이 다른 근거(사람 확인 별칭 등)로 한 팀이 됨"}
+
+
 def build_xref(names: list[dict], ig_profiles: list[dict], ig_posts: list[dict],
                platform_ids: list[dict], manual_aliases: list[dict] | None = None) -> tuple[list[dict], list[dict]]:
     """원본 이름·인스타·플랫폼 번호 (+ 사람이 확인한 별칭) → (연결표 artists, 사람 확인 목록 review)."""
@@ -430,6 +458,7 @@ def build_xref(names: list[dict], ig_profiles: list[dict], ig_posts: list[dict],
             strong.union(a, b)
         evidence[a].append(ev)
 
+    review[:] = [_settle_conflict(r, g) for r in review]   # 다른 근거(사람 확인 별칭 등)로 결국 한 팀이 된 충돌은 해결로
     ig_links = _link_instagram(cands, g, base, count, spell, review)
     ctx = {"g": g, "spell": spell, "tables": tables, "count": count, "base": base,
            "strong": strong, "evidence": evidence, "ig_links": ig_links}
@@ -712,6 +741,7 @@ def collect_inputs(raw_dir: Path = RAW_DIR) -> tuple[list, list, list, list]:
     seen = _load_json(raw_dir / "state" / "ig_artists_seen.json", {})
     links = _load_json(raw_dir / "state" / "ig_artist_links.json", {})
     non_artists = {h.lower() for h in links.get("non_artists", {})} | {h.lower() for h, v in seen.items() if v == "non_artist"}
+    non_artists |= {h.lstrip("@").lower() for h in tracked_account_handles(INSTA_ACCOUNTS)}   # 우리가 따라가는 매거진·공연장·기관 계정
     for path in sorted(glob.glob(str(raw_dir / "raw_*.csv"))):
         table = _table_of(path)
         rows = _read_csv(path) if table else []
@@ -749,6 +779,8 @@ def _stats_lines(artists: list[dict], review: list[dict], names: list[dict], ig_
     conf_n = Counter(ig["confidence"] for a in artists for ig in a["instagram"])
     base_linked = conf_n["high"] + conf_n["mid"]
     split_n = sum(1 for r in names if r["table"] == "selection" and split_cell(r["name"])["status"] == "split")
+    auto = [r for r in review if r["kind"] in AUTO_KINDS]
+    review = [r for r in review if r["kind"] not in AUTO_KINDS]
     kinds = Counter(r["kind"] for r in review)
     oc = outcome_signal_link(artists)
     pct = lambda a, b: f"{100 * a / max(b, 1):.1f}%"  # noqa: E731
@@ -765,6 +797,7 @@ def _stats_lines(artists: list[dict], review: list[dict], names: list[dict], ig_
         f"| **정답 팀 중 신호(공연·선정·발매·기사)와 이어진 팀** | {oc['linked_teams']:,} / {oc['outcome_teams']:,}팀 ({pct(oc['linked_teams'], oc['outcome_teams'])}) |",
         f"| └ 그중 연결표로 다른 표기를 묶어서 새로 이어진 팀 | {oc['linked_only_by_xref']:,}팀 |",
         f"| 사람이 확인한 별칭 (`config/artist_aliases.json`) | {len(manual or [])}팀 · 별칭 {sum(len(e['aliases']) for e in manual or [])}개 |",
+        f"| 별칭 충돌 자동 해결 (긴 이름이 짧은 이름을 품는 합동 표기 → 별칭은 짧은 쪽) | {len(auto):,}건 |",
         f"| 사람 확인 필요 | {len(review):,}건 ({', '.join(f'{k} {v}' for k, v in kinds.most_common())}) |",
     ]
 
@@ -793,10 +826,11 @@ def summarize(artists: list[dict], review: list[dict], names: list[dict], ig_han
         ig = ", ".join(f"@{i['handle']}({i['confidence']})" for i in a["instagram"]) or "-"
         lines.append(f"| {a['display_name']} | {' / '.join(a['aliases'][:5])} | {ig} | {', '.join(a['sources'])} |")
     lines += ["", "## 사람 확인이 필요한 애매한 목록 (상위 20)", "", "| 종류 | 내용 | 이유 |", "|---|---|---|"]
-    lines += [f"| {r['kind']} | {r['detail'].replace('|', '/')} | {r['reason']} |" for r in review[:20]]
+    lines += [f"| {r['kind']} | {r['detail'].replace('|', '/')} | {r['reason']} |" for r in [x for x in review if x['kind'] not in AUTO_KINDS][:20]]
     lines += ["", "종류: cell_split = 한 칸 여러 명 중 나누지 않고 둔 것 · alias_conflict = 같은 별칭이 여러 팀에 붙음 · "
               "multiple_platform_ids = 한 팀에 플랫폼 번호 여러 개 · ig_multiple_teams = 한 계정이 여러 팀과 맞음 · "
-              "ig_unmatched = 인스타에만 있는 이름 · platform_namesake = 검색 동명이인.", ""]
+              "ig_unmatched = 인스타에만 있는 이름 · platform_namesake = 검색 동명이인. "
+              "자동 해결(alias_auto)은 확인 목록 파일에만 기록하고 이 표·건수에서는 뺀다.", ""]
     return "\n".join(lines)
 
 
@@ -813,7 +847,8 @@ def main() -> None:
     handles = {h for h in ({p["handle"].lstrip("@").lower() for p in ig_profiles} | {p["handle"].lower() for p in ig_posts})
                if not NOT_A_HANDLE.search(h)}
     SUMMARY_MD.write_text(summarize(artists, review, names, handles, manual), encoding="utf-8")
-    print(f"대표 팀 {len(artists):,} · 확인 필요 {len(review):,} → {DEFAULT_XREF.relative_to(ROOT)}, {SUMMARY_MD.relative_to(ROOT)}")
+    n_auto = sum(r["kind"] in AUTO_KINDS for r in review)
+    print(f"대표 팀 {len(artists):,} · 확인 필요 {len(review) - n_auto:,} (자동 해결 {n_auto}) → {DEFAULT_XREF.relative_to(ROOT)}, {SUMMARY_MD.relative_to(ROOT)}")
     if args.load_pg:
         print(load_pg(artists))
 

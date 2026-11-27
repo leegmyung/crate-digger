@@ -3,37 +3,99 @@
   "aliases": [
     {
       "main": "포스트이너서클",
-      "aliases": ["포스트이너써클"],
+      "aliases": [
+        "포스트이너써클"
+      ],
       "reason": "같은 밴드 Post Inner Circle — 인디스트릿에 철자만 다른 아티스트 페이지가 둘이라 한 공연(2026-11-21 공상온도)에 두 번 올라감. EP 〈Artificial Sun〉(2025-11) 쇼케이스는 '써클', 2026년 공연은 '서클'로 적힘",
-      "evidence": ["https://www.koreanindie.com/2025/11/10/post-inner-circle-artificial-sun/", "docs/candidate_audit.md '확인 결과'"],
+      "evidence": [
+        "https://www.koreanindie.com/2025/11/10/post-inner-circle-artificial-sun/",
+        "docs/candidate_audit.md '확인 결과'"
+      ],
       "checked": "2026-11-27"
     },
     {
       "main": "밴디츠",
-      "aliases": ["bandits"],
+      "aliases": [
+        "bandits"
+      ],
       "reason": "같은 팀 — 부산 2인조 Bandits. 2025-08-15 오방가르드 공연 제목은 '밴디츠', 출연자 칸은 'bandits'. 두 표기 모두 부산·경남 공연장(오방가르드·유기체·언드)에 나옴",
-      "evidence": ["https://www.koreatimes.co.kr/amp/southkorea/globalcommunity/20240914/bandits-rules-southeastern-koreas-underground-music-scene", "https://banditssk.bandcamp.com/", "docs/candidate_audit.md '확인 결과'"],
+      "evidence": [
+        "https://www.koreatimes.co.kr/amp/southkorea/globalcommunity/20240914/bandits-rules-southeastern-koreas-underground-music-scene",
+        "https://banditssk.bandcamp.com/",
+        "docs/candidate_audit.md '확인 결과'"
+      ],
       "checked": "2026-11-27"
     },
     {
       "main": "데킬라올드패션드",
-      "aliases": ["데낄라올드패션드"],
+      "aliases": [
+        "데낄라올드패션드"
+      ],
       "reason": "외래어 표기 차이(데킬라/데낄라, Tequila Old Fashioned)이고 같은 공연장(Club FF)에 나옴",
-      "evidence": ["docs/candidate_audit.md '301~600위 점검' — 우리 공연 기록"],
+      "evidence": [
+        "docs/candidate_audit.md '301~600위 점검' — 우리 공연 기록"
+      ],
       "checked": "2026-11-27"
     },
     {
       "main": "올드카컬렉션",
-      "aliases": ["올드카콜렉션"],
+      "aliases": [
+        "올드카콜렉션"
+      ],
       "reason": "외래어 표기 차이(컬렉션/콜렉션)이고 두 표기의 공연장(거제 언드·부산 오방가르드)이 모두 같음",
-      "evidence": ["docs/candidate_audit.md '301~600위 점검' — 우리 공연 기록"],
+      "evidence": [
+        "docs/candidate_audit.md '301~600위 점검' — 우리 공연 기록"
+      ],
       "checked": "2026-11-27"
     },
     {
       "main": "7번국도",
-      "aliases": ["칠번국도"],
+      "aliases": [
+        "칠번국도"
+      ],
       "reason": "숫자 읽기 차이(7/칠)이고 같은 공연장(부산 오방가르드)에 나옴",
-      "evidence": ["docs/candidate_audit.md '301~600위 점검' — 우리 공연 기록"],
+      "evidence": [
+        "docs/candidate_audit.md '301~600위 점검' — 우리 공연 기록"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "Tuesday Beach Club",
+      "aliases": [
+        "튜즈데이비치클럽",
+        "투즈데이비치클럽"
+      ],
+      "reason": "같은 밴드 Tuesday Beach Club(2022 데뷔 인디 밴드) — 한글 표기 '튜즈데이'·'투즈데이'가 섞여 별칭 tuesdaybeachclub이 두 이름에 붙어 충돌. W코리아 표기는 '튜즈데이 비치 클럽'",
+      "evidence": [
+        "https://www.wkorea.com/?p=321887",
+        "https://thekmeal.com/indie-pick-tuesday-beach-club"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "ODD EYE CIRCLE",
+      "aliases": [
+        "오드아이써클",
+        "오드아이서클"
+      ],
+      "reason": "같은 그룹 — 이달의 소녀 유닛 ODD EYE CIRCLE(김립·진솔·최리). '써클'/'서클' 표기 차이로 별칭 oddeyecircle이 두 이름에 붙어 충돌",
+      "evidence": [
+        "https://www.wikipedia.org/wiki/Odd_Eye_Circle",
+        "https://www.osen.co.kr/article/G1112142454"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "YB",
+      "aliases": [
+        "와이비",
+        "윤도현밴드"
+      ],
+      "reason": "같은 밴드 — YB는 윤도현 밴드의 현재 이름(와이비는 한글 읽기). 별칭 yb가 두 이름에 붙어 충돌",
+      "evidence": [
+        "https://ko.wikipedia.org/wiki/YB",
+        "https://kakaoent.com/pr/detail/215"
+      ],
       "checked": "2026-11-27"
     }
   ]

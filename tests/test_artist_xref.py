@@ -242,6 +242,37 @@ class BuildXrefTest(unittest.TestCase):
         self.assertTrue(any(r["kind"] == "multiple_platform_ids" for r in review))
 
 
+class ContainedConflictTest(unittest.TestCase):
+    """같은 영문 별칭을 두 팀이 가질 때, 한쪽 이름이 다른 쪽을 그대로 품으면(긴 쪽 = 합동 표기 '보수동쿨러 해서웨이')
+    별칭은 짧은 쪽(실제 팀)에 준다. 서로 품지 않는 충돌(멤버 이름 '민기' vs 그룹 '에이티즈')은 그대로 버리고 확인 목록에."""
+
+    def test_alias_goes_to_contained_name(self):
+        names = [{"table": "gig", "name": "해서웨이(hathaw9y)", "count": 5},
+                 {"table": "press", "name": "보수동쿨러 해서웨이 (hathaw9y)", "count": 1}]   # 실제 표기 (띄어쓰기로 이어 붙인 합동)
+        artists, review = ax.build_xref(names, [], [], [])
+        grp = next(a for a in artists if "해서웨이" in a["keys"])
+        self.assertIn("hathaw9y", grp["keys"])
+        self.assertNotIn("보수동쿨러해서웨이", grp["keys"])             # 합동 표기는 따로 남음
+        self.assertFalse(any(r["kind"] == "alias_conflict" for r in review))
+        self.assertTrue(any(r["kind"] == "alias_auto" and "hathaw9y → 해서웨이" in r["detail"] for r in review))
+
+    def test_unrelated_claimants_still_conflict(self):
+        names = [{"table": "release", "name": "민기 (ATEEZ)", "count": 1}, {"table": "release", "name": "에이티즈 (ATEEZ)", "count": 3}]
+        artists, review = ax.build_xref(names, [], [], [])
+        self.assertTrue(any(r["kind"] == "alias_conflict" and "ateez" in r["detail"] for r in review))
+        self.assertFalse(any({"민기", "에이티즈"} <= set(a["keys"]) for a in artists))
+
+
+class ConflictResolvedByManualAliasTest(unittest.TestCase):
+    def test_conflict_whose_claimants_end_up_grouped_is_not_left_for_review(self):
+        names = [{"table": "gig", "name": "와이비 (YB)", "count": 2}, {"table": "outcome", "name": "윤도현밴드 (YB)", "count": 1}]
+        entry = {"main": "YB", "aliases": ["와이비", "윤도현밴드"], "reason": "같은 밴드", "evidence": ["x"], "checked": "2026-11-27"}
+        artists, review = ax.build_xref(names, [], [], [], manual_aliases=[entry])
+        self.assertEqual(sum("yb" in a["keys"] for a in artists), 1)
+        self.assertFalse(any(r["kind"] == "alias_conflict" for r in review))
+        self.assertTrue(any(r["kind"] == "alias_auto" and "yb" in r["detail"] for r in review))
+
+
 class ManualAliasTest(unittest.TestCase):
     """사람이 확인한 별칭(config/artist_aliases.json) → 신뢰도 high 간선. 충돌 검사는 자동 간선과 같이 받는다."""
     ENTRY = {"main": "포스트이너서클", "aliases": ["포스트이너써클"], "reason": "같은 EP, 인디스트릿 페이지 둘",
@@ -393,6 +424,24 @@ class CollectInputsMelonIdTest(unittest.TestCase):
             _, _, _, ids = ax.collect_inputs(raw)
         got = {(r["platform"], r["id"]) for r in ids}
         self.assertEqual(got, {("melon", "3201955"), ("melon", "3000007"), ("spotify", "4abc")})
+
+
+class TrackedAccountsNotArtistsTest(unittest.TestCase):
+    """우리가 따라가는 매거진·공연장 계정(config/insta_accounts.json)과 기관 계정은 팀 후보로 넣지 않는다 ('인스타에만 있는 이름'에서 빠짐)."""
+
+    def test_tracked_handles_dropped_from_ig_profiles(self):
+        from unittest import mock
+        with tempfile.TemporaryDirectory() as d:
+            raw = Path(d)
+            (raw / "state").mkdir()
+            (raw / "raw_artist_profile_2026-11-27_instagram.csv").write_text(
+                "source,artist_source_id,artist_text\ninstagram,clubbbang,클럽빵\ninstagram,realband,리얼밴드\n"
+                "instagram,kocca_official,한국콘텐츠진흥원\n", encoding="utf-8")
+            acc = raw / "acc.json"
+            acc.write_text(json.dumps({"accounts": [{"handle": "clubbbang", "role": "venue_showcase"}]}), encoding="utf-8")
+            with mock.patch.object(ax, "INSTA_ACCOUNTS", acc):
+                _, ig_profiles, _, _ = ax.collect_inputs(raw)
+        self.assertEqual([p["handle"] for p in ig_profiles], ["realband"])
 
 
 class LoadXrefTest(unittest.TestCase):
