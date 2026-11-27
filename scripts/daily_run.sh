@@ -58,6 +58,7 @@ bash scripts/build_app_extras.sh || echo "⚠️ 앱 보조 데이터(공연장�
 "$PY" scripts/build_scene_map.py || echo "⚠️ 사운드 지도 실패"
 "$PY" scripts/daily_note.py "$DAY" || echo "⚠️ 일일 기록 실패"
 "$PY" scripts/data_checks.py || echo "⚠️ 데이터 검사에서 실패 항목 발견 (docs/data_checks.md)"
+if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then bash scripts/e2e_check.sh > records/e2e_check.log 2>&1 || echo "⚠️ 앱 화면 점검 실패 (records/e2e_check.log)"; fi   # 월요일만 (약 5분, 크롬 필요)
 "$PY" scripts/build_status_report.py || echo "⚠️ 진행 점검표 실패"   # 일일 기록까지 끝난 뒤 (최근 기록 링크 포함)
 
 git add docs/data/collect.json "docs/log/$DAY.md" docs/data/dashboard.json docs/sql/README.md docs/lab/data docs/data/source_review.json docs/report docs/status_report.html docs/data/score_review.json docs/score_tuning.md docs/source_roles.md docs/fan_history.md docs/debut_cohort.md docs/missed_analysis.md docs/rule_leakage.md docs/same_house.md docs/genre_bias.md docs/score_model.md docs/candidate_audit.md docs/discovery_stage.md docs/data/alerts.json docs/data_checks.md docs/data/data_checks.json docs/venues_kr.md
