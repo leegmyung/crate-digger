@@ -1,0 +1,20 @@
+program,label,kind
+band_discovery,상상마당 밴드 디스커버리,signal
+burock_main,부산록페 본무대,outcome
+burock_rookies,부산록페 루키즈,signal
+cj_tuneup,CJ 튠업,outcome
+dmz_lineup,DMZ 피스트레인 출연,signal
+gb_creation,경북 음악창작소 음반지원,signal
+hello_rookie,헬로루키 월간,outcome
+hello_rookie_year,올해의 헬로루키,outcome
+indiestance,인디스땅스 결선,outcome
+izm_rookie,이즘 올해의 신인,outcome
+khha_rookie,한국힙합어워즈 신인,outcome
+kma_genre,한대음 장르 부문,outcome
+kma_rookie,한대음 올해의 신인,outcome
+mucon,뮤콘(MU:CON),outcome
+muse_sejong,세종 뮤즈세종,signal
+museon_final,뮤즈온 최종,outcome
+musicy_rookie,음악취향Y 올해의 신인,outcome
+penta_superrookie,펜타포트 슈퍼루키,outcome
+yoojaeha_finalist,유재하 음악경연대회 본선,signal

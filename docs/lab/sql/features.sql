@@ -1,0 +1,83 @@
+-- 랩 공통 계산식 (DuckDB). 페이지가 처음 열릴 때 한 번 실행해서 매크로 lab_scored(...)를 만든다.
+-- 표: signals(team_key, branch, source, program, stage_rank, signal_date, venue)
+--     teams(team_key, display_name, first_seen, first_release, fan_count, album_count, profile_status, primary_genre)
+--     outcomes(team_key, program, program_label, tier, announced_date, counted)
+--
+-- lab_scored(기준일, 신호 보는 기간(년), 신인 기준(첫 등장 N년), 유명 팀 제외, 정답 종류, 관찰 기간(개월), 장르, 갈래 목록,
+--            가중치 6개, 큐레이션 매체 상한)
+--   → 기준일 시점의 후보 팀 1팀 = 1행: 특징·점수 구성·점수, is_hit(기준일 뒤 관찰 기간 안에 정답), had_outcome(기준일 전 정답)
+-- 점수 = w_branch×(갈래 수−1) + w_stage×선정 최고 단계(DMZ 제외, 0~4) + w_peer×이미 선정된 팀과 같은 날·같은 공연장
+--      + w_dmz×DMZ 출연 + w_gigs×ln(1+직전 1년 공연 일수) + w_outlets×min(큐레이션 매체 수, 상한)
+-- 시점 누수 방지: 신호는 기준일 '전'만, 정답은 기준일 '이후'만. 선정 날짜는 기간의 마지막 날로 저장돼 있어 보수적.
+
+CREATE OR REPLACE MACRO lab_scored(cutoff, lookback_years, newcomer_years, exclude_famous, outcome_tier,
+                                   horizon_months, genre, branches,
+                                   w_branch, w_stage, w_peer, w_dmz, w_gigs, w_outlets, outlet_cap) AS TABLE
+WITH sig AS (
+    SELECT * FROM signals
+    WHERE signal_date < cutoff
+      AND signal_date >= cutoff - to_years(CAST(lookback_years AS INTEGER))
+      AND list_contains(branches, branch)
+),
+selected AS (                                   -- 선정(selected 이상) 팀과 처음 선정된 날
+    SELECT team_key, MIN(signal_date) AS selected_on
+    FROM sig WHERE branch = '선정·지원' AND stage_rank >= 3
+    GROUP BY team_key
+),
+gig AS (
+    SELECT DISTINCT team_key, signal_date AS gig_date, venue
+    FROM sig WHERE branch = '공연' AND COALESCE(venue, '') NOT IN ('', '공연장 미정')
+),
+peer AS (                                       -- 공연 당시 이미 선정된 다른 팀과 같은 무대
+    SELECT DISTINCT a.team_key
+    FROM gig a
+    JOIN gig b ON b.gig_date = a.gig_date AND b.venue = a.venue AND b.team_key <> a.team_key
+    JOIN selected st ON st.team_key = b.team_key AND st.selected_on <= a.gig_date
+),
+feat AS (
+    SELECT team_key,
+           COUNT(DISTINCT branch)                                                         AS n_branch,
+           COALESCE(MAX(CASE WHEN program <> 'dmz_lineup' THEN stage_rank END), 0)        AS best_stage,
+           MAX(CASE WHEN program = 'dmz_lineup' THEN 1 ELSE 0 END)                        AS dmz,
+           COUNT(DISTINCT CASE WHEN branch = '공연' AND signal_date >= cutoff - INTERVAL 1 YEAR
+                               THEN signal_date END)                                      AS gigs_1y,
+           COUNT(DISTINCT CASE WHEN branch = '큐레이션' THEN program END)                  AS outlets,
+           MAX(signal_date)                                                               AS last_seen
+    FROM sig GROUP BY team_key
+),
+outcome_ok AS (                                 -- 센 정답만, 정답 종류 필터
+    SELECT team_key, announced_date FROM outcomes
+    WHERE counted AND (outcome_tier = 'any' OR tier = outcome_tier)
+),
+before_cut AS (                                 -- 기준일 전에 이미 받은 정답(어떤 종류든)
+    SELECT DISTINCT team_key FROM outcomes WHERE counted AND announced_date < cutoff
+),
+after_cut AS (
+    SELECT DISTINCT team_key FROM outcome_ok
+    WHERE announced_date >= cutoff
+      AND announced_date < cutoff + to_months(CAST(horizon_months AS INTEGER))
+),
+pool AS (
+    SELECT f.*, t.display_name, t.first_seen, t.primary_genre, t.profile_status,
+           CASE WHEN pe.team_key IS NOT NULL THEN 1 ELSE 0 END                            AS peer_selected,
+           CASE WHEN ac.team_key IS NOT NULL THEN 1 ELSE 0 END                            AS is_hit,
+           bc.team_key IS NOT NULL                                                        AS had_outcome
+    FROM feat f
+    JOIN teams t USING (team_key)
+    LEFT JOIN peer pe USING (team_key)
+    LEFT JOIN after_cut ac USING (team_key)
+    LEFT JOIN before_cut bc USING (team_key)
+    WHERE t.first_seen >= cutoff - to_years(CAST(newcomer_years AS INTEGER))
+      AND (NOT exclude_famous OR t.profile_status <> 'famous')
+      AND (genre = '' OR t.primary_genre = genre)
+)
+SELECT *,
+       w_branch  * (n_branch - 1)                AS pts_branch,
+       w_stage   * best_stage                    AS pts_stage,
+       w_peer    * peer_selected                 AS pts_peer,
+       w_dmz     * dmz                           AS pts_dmz,
+       w_gigs    * LN(1 + gigs_1y)               AS pts_gigs,
+       w_outlets * LEAST(outlets, outlet_cap)    AS pts_outlets,
+       w_branch * (n_branch - 1) + w_stage * best_stage + w_peer * peer_selected + w_dmz * dmz
+       + w_gigs * LN(1 + gigs_1y) + w_outlets * LEAST(outlets, outlet_cap) AS score
+FROM pool;

@@ -32,6 +32,6 @@
 
 ## 기록
 
-- **매일 21:00 자동 실행** (`scripts/daily_run.sh`, launchd): 수집 → 진행판 → 일일 기록 `docs/log/<날짜>.md` → 커밋·push. 자동 커밋은 `docs/data/collect.json`, `docs/log/`만 올린다.
+- **매일 21:00 자동 실행** (`scripts/daily_run.sh`, launchd): 수집 → 진행판 → 일일 기록 `docs/log/<날짜>.md` → 커밋·push. 자동 커밋은 `docs/data/collect.json`, `docs/log/`, 대시보드·SQL 결과·랩 데이터(`docs/data/dashboard.json`, `docs/sql/README.md`, `docs/lab/data/`)만 올린다.
 - **대화 기반 누적 기록은 엑셀** `records/crate-digger_작업기록.xlsx` (시트: 작업기록, 결정사항, 지침, 직무참고). 작업을 마칠 때 그날 대화에서 나온 한 일·결정과 이유·지침·직무 참고를 `records/entries/<날짜>.json`으로 쓰고 `python3 scripts/worklog.py records/entries/<날짜>.json`으로 붙인다.
 - `records/`와 `data/raw/`는 커밋하지 않는다 (개인 기록, 실제 수집 원본). 지원하는 회사 이름 같은 구직 정보는 공개 저장소에 쓰지 않고 `records/`에만 둔다.
