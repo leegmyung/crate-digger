@@ -12,6 +12,7 @@
 import csv
 import glob
 import html
+import json
 import os
 import re
 import subprocess
@@ -110,15 +111,46 @@ def expand_rows(table, row):
     return [dict(row, artist_text=n, artist_key="") for n in names]
 
 
-def ref_sql():
-    """분류 규칙(csv_schema)을 SQL에서도 쓰도록 ref 스키마의 작은 표로 만든다."""
+DEBUT_OVERRIDES = ROOT / "config" / "debut_overrides.json"   # 사람이 확인한 데뷔일 (export_lab_data.py 와 같은 파일)
+FULL_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def load_debut_overrides(path=DEBUT_OVERRIDES):
+    """config/debut_overrides.json → {팀 키: 항목}. 파일이 없거나 깨졌으면 빈 dict (항목 검사는 export_lab_data.py 가 함)."""
+    try:
+        teams = json.loads(Path(path).read_text(encoding="utf-8")).get("teams")
+    except (OSError, ValueError, AttributeError):
+        return {}
+    return teams if isinstance(teams, dict) else {}
+
+
+def _sql_text(text):
+    return "'" + str(text).replace("'", "''") + "'"
+
+
+def _debut_values(overrides):
+    """(팀 키, DATE '데뷔일') 목록 — 날짜 모양이 YYYY-MM-DD 가 아니면 건너뛴다."""
+    vals = []
+    for key, e in sorted((overrides or {}).items()):
+        debut = (e or {}).get("debut", "") if isinstance(e, dict) else ""
+        if key and FULL_DATE.match(debut or ""):
+            vals.append(f"({_sql_text(key)}, DATE '{debut}')")
+    return ", ".join(vals)
+
+
+def ref_sql(debut_overrides=None):
+    """분류 규칙(csv_schema)을 SQL에서도 쓰도록 ref 스키마의 작은 표로 만든다.
+    ref.debut_overrides: 사람이 확인한 데뷔일 — core.v_team_profile 이 프로필 첫 발매와 비교해 이른 쪽을 쓴다
+    (랩 팀 표 export_lab_data.py 와 같은 규칙이라 정답 '셈' 판정이 두 곳에서 같아진다)."""
+    debuts = _debut_values(load_debut_overrides() if debut_overrides is None else debut_overrides)
     tiers = ", ".join(f"('{p}', '{t}', {'true' if p in CAREER_FILTERED else 'false'})" for p, t in sorted(OUTCOME_TIER.items()))
     ranks = ", ".join(f"('{s}', {r})" for s, r in sorted(STAGE_RANK.items(), key=lambda x: x[1]))
     fam = ", ".join(f"('{a}', '{b}')" for a, bs in sorted(OUTCOME_SAME_FAMILY.items()) for b in sorted(bs)) or None
     same = ", ".join(f"('{a}', '{b}')" for a, bs in sorted(SAME_PROGRAM.items()) for b in sorted(bs))
     parts = [
         "CREATE SCHEMA IF NOT EXISTS ref;",
-        "DROP TABLE IF EXISTS ref.outcome_tier, ref.stage_rank, ref.outcome_same_family, ref.same_program, ref.settings CASCADE;",
+        "DROP TABLE IF EXISTS ref.outcome_tier, ref.stage_rank, ref.outcome_same_family, ref.same_program, ref.settings, "
+        "ref.debut_overrides CASCADE;",
         "CREATE TABLE ref.outcome_tier (program text PRIMARY KEY, tier text, career_filtered boolean);",
         f"INSERT INTO ref.outcome_tier VALUES {tiers};",
         "CREATE TABLE ref.stage_rank (stage text PRIMARY KEY, rank integer);",
@@ -130,6 +162,8 @@ def ref_sql():
         "CREATE TABLE ref.settings (name text PRIMARY KEY, value numeric);",
         f"INSERT INTO ref.settings VALUES ('career_filter_years', {CAREER_FILTER_YEARS}), ('fame_fans', {FAME_FANS}), "
         f"('fame_years', {FAME_YEARS}), ('fame_years_min_fans', {FAME_YEARS_MIN_FANS}), ('newcomer_years', {MAX_YEARS}), ('newcomer_albums', {MAX_ALBUMS});",
+        "CREATE TABLE ref.debut_overrides (team_key text PRIMARY KEY, debut date);",
+        f"INSERT INTO ref.debut_overrides VALUES {debuts};" if debuts else "",
     ]
     return "\n".join(p for p in parts if p)
 

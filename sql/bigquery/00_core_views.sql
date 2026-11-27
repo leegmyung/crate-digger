@@ -164,17 +164,29 @@ GROUP BY
 
 /* 2-1) 팀 단위 프로필: 한 팀(team_key)에 걸린 이름 키들의 프로필을 합친다 (가장 이른 첫 발매·가장 많은 팬 — */
 /*      랩 팀 표 scripts/export_lab_data.py 와 같은 규칙). 정답 표기('나이테')와 프로필 표기('Nyteh')가 달라도 이어진다. */
+/*      사람이 확인한 데뷔일(ref.debut_overrides — load_pg.py 가 config/debut_overrides.json 으로 채움)이 더 이르면 그 날짜. */
+/*      프로필이 없는 팀(예: 안예은)도 덮어쓴 데뷔일로 들어간다 (FULL JOIN). 표가 없으면 빈 표로 만든다. */
 CREATE VIEW core.v_team_profile AS
+WITH prof AS (
+  SELECT
+    COALESCE(tm.team_key, p.artist_key) AS team_key,
+    MIN(first_release) AS first_release,
+    MAX(album_count) AS album_count,
+    MAX(fan_count) AS fan_count
+  FROM core.v_artist_profile AS p
+  LEFT JOIN core.v_team_map AS tm
+    ON tm.variant_key = p.artist_key
+  GROUP BY
+    1
+)
 SELECT
-  COALESCE(tm.team_key, p.artist_key) AS team_key,
-  MIN(first_release) AS first_release,
-  MAX(album_count) AS album_count,
-  MAX(fan_count) AS fan_count
-FROM core.v_artist_profile AS p
-LEFT JOIN core.v_team_map AS tm
-  ON tm.variant_key = p.artist_key
-GROUP BY
-  1;
+  COALESCE(prof.team_key, d.team_key) AS team_key,
+  LEAST(COALESCE(prof.first_release, d.debut), COALESCE(d.debut, prof.first_release)) AS first_release,
+  prof.album_count,
+  prof.fan_count
+FROM prof
+FULL JOIN ref.debut_overrides AS d
+  ON d.team_key = prof.team_key;
 
 /* 3) 정답 + 등급 + 정답 당시 연차 + 셀지 여부(기성 팀이 섞인 정답은 첫 발매 N년 이내만) */
 /*    첫 발매는 팀 단위 프로필(v_team_profile)에서 — 정답의 이름 키로 이으면 표기가 다른 팀은 첫 발매를 못 찾아 '안 셈'이 된다 */

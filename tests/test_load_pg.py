@@ -99,6 +99,37 @@ class RefTest(unittest.TestCase):
         self.assertIn("('newcomer_years', 3)", sql)
 
 
+class DebutOverridesTest(unittest.TestCase):
+    """사람이 확인한 데뷔일(config/debut_overrides.json)을 DB에도 — 랩 팀 표와 정답 '셈' 판정이 같아지게."""
+
+    def test_ref_sql_builds_debut_override_table(self):
+        sql = lp.ref_sql(debut_overrides={"안예은": {"debut": "2016-11-28"}, "it's": {"debut": "2015-01-01"}})
+        self.assertIn("CREATE TABLE ref.debut_overrides", sql)
+        self.assertIn("('안예은', DATE '2016-11-28')", sql)
+        self.assertIn("('it''s', DATE '2015-01-01')", sql)       # 작은따옴표는 두 번
+        self.assertIn("ref.debut_overrides", sql[sql.index("DROP TABLE"):sql.index(";", sql.index("DROP TABLE"))])
+
+    def test_ref_sql_without_overrides_makes_empty_table(self):
+        sql = lp.ref_sql(debut_overrides={})
+        self.assertIn("CREATE TABLE ref.debut_overrides", sql)
+        self.assertNotIn("INSERT INTO ref.debut_overrides", sql)
+
+    def test_bad_debut_dates_are_skipped(self):
+        sql = lp.ref_sql(debut_overrides={"a": {"debut": "2016"}, "b": {}, "c": {"debut": "2016-02-30x"}})
+        self.assertNotIn("INSERT INTO ref.debut_overrides", sql)
+
+    def test_default_reads_config_file(self):
+        sql = lp.ref_sql()
+        self.assertIn("('안예은', DATE '2016-11-28')", sql)
+
+    def test_team_profile_view_takes_earlier_of_profile_and_override(self):
+        sql = (ROOT / "sql" / "kr" / "00_core_views.sql").read_text(encoding="utf-8")
+        view = sql[sql.index("CREATE VIEW core.v_team_profile"):sql.index("CREATE VIEW core.v_outcome ")]
+        self.assertIn("ref.debut_overrides", view)
+        self.assertIn("FULL JOIN", view)          # 프로필이 없는 팀(안예은)도 덮어쓴 데뷔일로
+        self.assertIn("least(", view.lower())
+        self.assertLess(sql.index("CREATE TABLE IF NOT EXISTS ref.debut_overrides"), sql.index("CREATE VIEW core.v_team_profile"))
+
 
 class ExpandRowsTest(unittest.TestCase):
     """원본은 그대로 두고, 적재할 때 오버톤의 '여러 팀 한 칸'을 팀별 행으로 나눈다."""
