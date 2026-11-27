@@ -12,6 +12,7 @@ Chartmetric '도시(City)' 페이지처럼, 공연장을 도시로 묶어 본다
 읽기만: 랩 CSV·config. 쓰기: 위 세 파일 (21~23시엔 docs/lab/data 에 쓰지 말 것 — --out-dir 로 다른 곳에).
 
 실행: .venv/bin/python scripts/city_profiles.py [--out-dir 폴더] [--no-eval]
+      .venv/bin/python scripts/city_profiles.py --data-only   # 앱 데이터만 (매일 실행용, scripts/build_app_extras.sh)
 """
 from __future__ import annotations
 
@@ -347,13 +348,22 @@ def _eval_section(ev: dict) -> List[str]:
     return lines + [""]
 
 
-def main(argv: Optional[Sequence[str]] = None) -> int:
+def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     ap = argparse.ArgumentParser(description="도시 층 → city_profiles.json · team_cities.csv · docs/city_profiles.md")
     ap.add_argument("--data-dir", type=Path, default=lab_sql.DATA_DIR)
     ap.add_argument("--out-dir", type=Path, default=lab_sql.DATA_DIR, help="JSON·CSV 쓸 폴더 (21~23시엔 다른 곳으로)")
     ap.add_argument("--doc", type=Path, default=DOC)
     ap.add_argument("--no-eval", action="store_true")
+    ap.add_argument("--data-only", action="store_true",
+                    help="앱 데이터(JSON·CSV)만 — 문서·교차 검증 없이 (매일 실행용, 커밋된 문서를 덮지 않음)")
     args = ap.parse_args(argv)
+    if args.data_only:
+        args.no_eval, args.doc = True, None
+    return args
+
+
+def main(argv: Optional[Sequence[str]] = None) -> int:
+    args = parse_args(argv)
     gigs, teams, outcomes, snap, as_of = vp.load_lab(args.data_dir)
     city_of, master = load_city_map(v for _, _, v in gigs)
     team_rows = team_cities(gigs, city_of, as_of)
@@ -368,9 +378,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     (args.out_dir / "city_profiles.json").write_text(
         json.dumps(payload(profiles, flow, as_of), ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     write_team_cities(team_rows, args.out_dir / "team_cities.csv")
-    args.doc.write_text(render(profiles, flow, team_rows, cov, ev, as_of), encoding="utf-8")
+    if args.doc:
+        args.doc.write_text(render(profiles, flow, team_rows, cov, ev, as_of), encoding="utf-8")
     print(f"도시 {len(profiles)}곳 · 팀 {len(team_rows):,} · 도시 아는 공연 날짜 {cov['nights_known'] / cov['nights']:.1%}")
-    print(f"✅ → {args.out_dir / 'city_profiles.json'}, {args.out_dir / 'team_cities.csv'}, {args.doc}")
+    print(f"✅ → {args.out_dir / 'city_profiles.json'}, {args.out_dir / 'team_cities.csv'}" + (f", {args.doc}" if args.doc else ""))
     return 0
 
 

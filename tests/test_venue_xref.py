@@ -199,6 +199,33 @@ class BranchInParenTest(unittest.TestCase):
         self.assertNotEqual(mapping["KT&G 상상마당 춘천 사운드홀 로비"], mapping["KT&G 상상마당 춘천 사운드홀"])
 
 
+class ChuncheonSpacesTest(unittest.TestCase):
+    """상상마당 춘천 세부 공간을 공연장 목록(config/venues_kr.json)의 세 곳 — 사운드홀 · 야외공연장 · 건물(그 밖의 공간) — 으로."""
+
+    NAMES = {"KT&G 상상마당 춘천 사운드홀": 51, "상상마당 춘천 사운드홀": 8, "KT&G 상상마당 춘천 아트센터 사운드홀": 5,
+             "상상마당춘천 아트센터 사운드홀": 1,
+             "KT&G 상상마당 춘천 야외공연장": 6, "KT&G 상상마당 춘천 아트센터 야외무대 일대": 1,
+             "KT&G 상상마당 춘천": 12, "KT&G 상상마당 춘천 사운드홀 로비": 38, "KT&G 상상마당 춘천 구름다리": 6,
+             "KT&G 상상마당 춘천 A동 로비": 1, "KT&G 상상마당 춘천 아트센터 B동": 1,
+             "KT&G 상상마당 춘천아트센터 라이브 스튜디오": 3, "KT&G 상상마당 춘천 라이브스튜디오": 1,
+             "KT&G 상상마당 춘천 아트센터&스테이": 1}
+
+    def test_three_places(self):
+        mapping, _ = vx.build_venue_xref(self.NAMES, vx.load_aliases())
+        groups = {}
+        for name, rep in mapping.items():
+            groups.setdefault(rep, set()).add(name)
+        self.assertEqual(set(groups), {"KT&G 상상마당 춘천 사운드홀", "KT&G 상상마당 춘천 야외공연장", "KT&G 상상마당 춘천"})
+        self.assertIn("KT&G 상상마당 춘천 사운드홀 로비", groups["KT&G 상상마당 춘천"])      # 로비는 사운드홀이 아님
+        self.assertIn("KT&G 상상마당 춘천 아트센터 야외무대 일대", groups["KT&G 상상마당 춘천 야외공연장"])
+
+    def test_other_branches_untouched(self):
+        names = {**self.NAMES, "KT&G 상상마당 홍대 라이브홀": 400, "KT&G 상상마당 부산 3층 라이브홀": 80}
+        mapping, _ = vx.build_venue_xref(names, vx.load_aliases())
+        self.assertEqual(mapping["KT&G 상상마당 홍대 라이브홀"], "KT&G 상상마당 홍대 라이브홀")
+        self.assertEqual(mapping["KT&G 상상마당 부산 3층 라이브홀"], "KT&G 상상마당 부산 3층 라이브홀")
+
+
 class DetailTest(unittest.TestCase):
     def test_detail_like_sql(self):
         # SQL: TRIM(split_part(venue_text, ' (', 1)) 과 같은 값

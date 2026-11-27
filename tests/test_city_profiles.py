@@ -108,6 +108,16 @@ class FlowTest(unittest.TestCase):
         self.assertEqual(flow["by_first_city"]["부산"], {"teams": 2, "reached": 2, "median_months": 5})
 
 
+class ArgsTest(unittest.TestCase):
+    def test_data_only_skips_doc_and_eval(self):
+        args = cp.parse_args(["--data-only"])
+        self.assertTrue(args.no_eval)
+        self.assertIsNone(args.doc)
+
+    def test_default_writes_doc(self):
+        self.assertEqual(cp.parse_args([]).doc, cp.DOC)
+
+
 class FeaturesTest(unittest.TestCase):
     def test_features_use_only_gigs_before_cutoff(self):
         f = cp.city_features(_gigs(), CITY, date(2024, 3, 1), lookback_years=3)
