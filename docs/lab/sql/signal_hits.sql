@@ -4,7 +4,7 @@
 WITH pool AS (
     SELECT team_key, is_hit
     FROM lab_scored(DATE {{cutoff}}, {{lookback_years}}, {{newcomer_years}}, {{exclude_famous}},
-                    {{outcome_tier}}, {{horizon_months}}, {{genre}}, {{branches}}, 0, 0, 0, 0, 0, 0, 0)
+                    {{outcome_tier}}, {{horizon_months}}, {{genre}}, {{branches}}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
     WHERE NOT had_outcome
 ),
 prog AS (

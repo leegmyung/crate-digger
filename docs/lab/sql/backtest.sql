@@ -2,11 +2,12 @@
 -- 비교: 점수 / 공연 수만 / 갈래 수만 / 무작위(= 기준율 × K). 기준일 전에 이미 정답 받은 팀은 후보에서 뺀다.
 -- 자리표시자: {{cutoff}} 'YYYY-MM-DD' · {{lookback_years}} · {{newcomer_years}} · {{exclude_famous}} true|false
 --   {{outcome_tier}} 'any'|'final'|'mid' · {{horizon_months}} · {{genre}} '' 또는 장르 · {{branches}} ['공연','선정·지원',...]
---   {{w_branch}} {{w_stage}} {{w_peer}} {{w_dmz}} {{w_gigs}} {{w_outlets}} {{outlet_cap}} · {{k_list}} [20,50,100,200]
+--   {{w_branch}} {{w_stage}} {{w_peer}} {{w_dmz}} {{w_gigs}} {{w_outlets}} {{outlet_cap}} {{w_recent}} {{w_venues}} {{w_winner}} · {{k_list}} [20,50,100,200]
 WITH scored AS (
     SELECT * FROM lab_scored(DATE {{cutoff}}, {{lookback_years}}, {{newcomer_years}}, {{exclude_famous}},
                              {{outcome_tier}}, {{horizon_months}}, {{genre}}, {{branches}},
-                             {{w_branch}}, {{w_stage}}, {{w_peer}}, {{w_dmz}}, {{w_gigs}}, {{w_outlets}}, {{outlet_cap}})
+                             {{w_branch}}, {{w_stage}}, {{w_peer}}, {{w_dmz}}, {{w_gigs}}, {{w_outlets}}, {{outlet_cap}},
+                {{w_recent}}, {{w_venues}}, {{w_winner}})
     WHERE NOT had_outcome
 ),
 ranked AS (                                     -- 동점은 팀 키 해시로 고정(매번 같은 결과)

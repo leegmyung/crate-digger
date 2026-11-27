@@ -13,7 +13,7 @@ except ImportError:  # 시스템 파이썬에는 없을 수 있음
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from lab_sql import DEFAULTS, SQL_DIR, fill  # noqa: E402
+from lab_sql import DEFAULTS, SQL_DIR, V0_WEIGHTS, fill  # noqa: E402
 
 
 def fixture_db():
@@ -58,7 +58,7 @@ def fixture_db():
 
 
 def rows(con, name, **params):
-    cur = con.execute(fill((SQL_DIR / name).read_text(encoding="utf-8"), **params))
+    cur = con.execute(fill((SQL_DIR / name).read_text(encoding="utf-8"), **{**V0_WEIGHTS, **params}))
     cols = [d[0] for d in cur.description]
     return [dict(zip(cols, r)) for r in cur.fetchall()]
 
@@ -71,8 +71,8 @@ class LabSqlTest(unittest.TestCase):
     def scored(self, cutoff="2025-01-01", **p):
         q = ("SELECT * FROM lab_scored(DATE '{c}', {lookback_years}, {newcomer_years}, {exclude_famous}, "
              "{outcome_tier}, {horizon_months}, {genre}, {branches}, {w_branch}, {w_stage}, {w_peer}, {w_dmz}, "
-             "{w_gigs}, {w_outlets}, {outlet_cap}) ORDER BY team_key")
-        args = {**DEFAULTS, **p}
+             "{w_gigs}, {w_outlets}, {outlet_cap}, {w_recent}, {w_venues}, {w_winner}) ORDER BY team_key")
+        args = {**DEFAULTS, **V0_WEIGHTS, **p}
         cur = self.con.execute(q.format(c=cutoff, **args))
         cols = [d[0] for d in cur.description]
         return {r[0]: dict(zip(cols, r)) for r in cur.fetchall()}
@@ -100,6 +100,16 @@ class LabSqlTest(unittest.TestCase):
         self.assertTrue(pool["f"]["had_outcome"])
         self.assertEqual(pool["a"]["is_hit"], 1)
         self.assertEqual(self.scored(outcome_tier="'final'")["b"]["is_hit"], 0)
+
+    def test_v1_features_recent_venues_and_peer_winner(self):
+        # f는 2024-12-01에 정답 → 2024-12-15 클럽3에서 f와 같이 선 h는 '수상 팀과 같은 무대'
+        self.con.execute("""INSERT INTO signals VALUES ('f','공연','x','',NULL,'2024-12-15','클럽3'),
+                                                       ('h','공연','x','',NULL,'2024-12-15','클럽3'),
+                                                       ('h','공연','x','',NULL,'2024-11-01','클럽2')""")
+        self.con.execute("INSERT INTO teams VALUES ('h','에이치','2024-11-01',NULL,NULL,NULL,'unknown','')")
+        h = self.scored()["h"]
+        self.assertEqual((h["peer_winner"], h["venues"], h["recent180"]), (1, 2, 2))
+        self.assertEqual(self.scored()["a"]["recent180"], 0)   # a의 마지막 신호 2024-07-01은 180일 밖
 
     def test_backtest_counts_hits_and_random_baseline(self):
         res = {(r["k"], r["method"]): r for r in rows(self.con, "backtest.sql", cutoff="'2025-01-01'", k_list="[1,2,3]")}
