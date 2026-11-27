@@ -54,5 +54,44 @@ class SummaryTest(unittest.TestCase):
         self.assertEqual(cov["video_ebs_space"]["first"], "2025-11-02")
 
 
+
+class StageVideosTest(unittest.TestCase):
+    def test_all_stage_videos_not_capped_per_team(self):
+        # 앱용 videos.csv 는 팀당 6개(최신순)라 옛 출연이 잘린다 — 평가는 원본 전체를 같은 거르기 규칙으로
+        raw = [{"team_key": "실리카겔", "display_name": "실리카겔", "video_id": f"{i:011d}", "kind": "stage",
+                "title": f"실리카겔 - 노래{i}", "channel_title": "스페이스 공감", "published_at": f"20{21 + i // 4}-01-0{1 + i % 4}T00:00:00Z"}
+               for i in range(10)]
+        raw.append({"team_key": "글로벌", "display_name": "글로벌", "video_id": "GLOBALVIDEO", "kind": "stage",
+                    "title": "원호 │ 글로벌 대세", "channel_title": "it's Live", "published_at": "2024-01-01T00:00:00Z"})
+        out = ls.stage_videos(raw)
+        self.assertEqual(len(out), 10)                          # 10개 모두, 흔한 낱말 팀(글로벌)은 빠짐
+        self.assertEqual(min(v["published_at"] for v in out), "2021-01-01")
+
+
+class VideoFeatureTest(unittest.TestCase):
+    SIG = [{"team_key": "a", "source": "video_ebs_space", "signal_date": "2022-05-01"},
+           {"team_key": "a", "source": "video_its_live", "signal_date": "2022-06-01"},
+           {"team_key": "a", "source": "video_its_live", "signal_date": "2022-07-01"},
+           {"team_key": "a", "source": "video_dingo", "signal_date": "2023-02-01"},      # 기준일 뒤 → 안 셈
+           {"team_key": "b", "source": "video_kbs_kpop", "signal_date": "2018-01-01"}]   # 3년보다 전 → 안 셈
+
+    def test_distinct_channels_in_lookback_before_cutoff(self):
+        self.assertEqual(ls.video_feature(self.SIG, "2023-01-01"), {"a": 2.0})
+
+    def test_source_subset(self):
+        self.assertEqual(ls.video_feature(self.SIG, "2023-01-01", sources={"video_its_live"}), {"a": 1.0})
+
+
+class JudgeTest(unittest.TestCase):
+    def test_role_rules(self):
+        j = lambda **r: ls.judge_channel({"teams": 50, "hits": 5, "lift": 1.0, "only_source": 0, "first_to_see": 0, **r})[0]
+        self.assertEqual(j(teams=12), "pending")                # 표본 부족
+        self.assertEqual(j(lift=2.3), "discovery")
+        self.assertEqual(j(lift=1.1, only_source=3), "discovery")
+        self.assertEqual(j(lift=1.2), "context")
+        self.assertEqual(j(lift=0.6, only_source=0), "excluded")
+        self.assertEqual(j(lift=0.6, only_source=1), "context")
+
+
 if __name__ == "__main__":
     unittest.main()
