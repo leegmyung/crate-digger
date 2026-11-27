@@ -115,5 +115,72 @@ class ResilienceTest(unittest.TestCase):
         self.assertEqual(failed, ["팀2"])
 
 
+class RetryTest(unittest.TestCase):
+    """멜론 검색 시도 날짜 기록과 '못 찾음' 이름의 30일 뒤 재검색 (aside 없이 가짜 검색)."""
+
+    def run_collect(self, names, matches, attempts, today, results=None, failed=()):
+        import json
+        from unittest import mock
+        self.searched = []
+
+        def fake_search(qs):
+            self.searched.extend(qs)
+            return ({q: (results or {}).get(q, []) for q in qs if q not in failed}, [q for q in qs if q in failed])
+        with tempfile.TemporaryDirectory() as d:
+            m, a, st = Path(d) / "m.json", Path(d) / "a.json", Path(d) / "seen.json"
+            m.write_text(json.dumps(matches, ensure_ascii=False), encoding="utf-8")
+            if attempts is not None:
+                a.write_text(json.dumps(attempts, ensure_ascii=False), encoding="utf-8")
+            with mock.patch.object(ca, "MATCH_STATE", m), mock.patch.object(ca, "ATTEMPTS_STATE", a), \
+                    mock.patch.object(ca, "STATE", st), mock.patch.object(ca, "search_artists", side_effect=fake_search), \
+                    mock.patch.object(ca, "fetch_profiles", return_value={}):
+                ca.collect_from_outcomes(10, names, today=today)
+            return json.loads(m.read_text(encoding="utf-8")), json.loads(a.read_text(encoding="utf-8"))
+
+    def test_new_names_are_searched_and_attempt_dates_recorded(self):
+        matches, attempts = self.run_collect(["새팀"], {}, None, "2026-11-28", results={"새팀": [["7", "새팀", ""]]})
+        self.assertEqual(self.searched, ["새팀"])
+        self.assertEqual(matches["새팀"]["id"], "7")
+        self.assertEqual(attempts, {"새팀": "2026-11-28"})
+
+    def test_existing_null_without_date_is_only_dated_on_first_run(self):
+        # 기록 없는 '못 찾음'은 오늘 날짜만 남기고 검색하지 않음 → 30일 뒤부터 나눠서 재시도
+        matches, attempts = self.run_collect(["옛팀"], {"옛팀": None}, None, "2026-11-28")
+        self.assertEqual(self.searched, [])
+        self.assertEqual(attempts["옛팀"], "2026-11-28")
+        self.assertIsNone(matches["옛팀"])
+
+    def test_null_retried_after_retry_days_and_found(self):
+        matches, attempts = self.run_collect(["옛팀"], {"옛팀": None}, {"옛팀": "2026-10-20"}, "2026-11-28",
+                                             results={"옛팀": [["9", "옛팀", ""]]})
+        self.assertEqual(self.searched, ["옛팀"])
+        self.assertEqual(matches["옛팀"]["id"], "9")
+        self.assertEqual(attempts["옛팀"], "2026-11-28")
+
+    def test_null_not_retried_within_retry_days_and_found_never_retried(self):
+        self.run_collect(["옛팀", "찾은팀"], {"옛팀": None, "찾은팀": {"id": "5", "name": "찾은팀"}},
+                         {"옛팀": "2026-11-10", "찾은팀": "2020-01-01"}, "2026-11-28")
+        self.assertEqual(self.searched, [])
+
+    def test_failed_search_is_not_an_attempt(self):
+        # aside 가 바빠 검색 자체가 실패하면 시도로 치지 않음 → 다음 실행에 바로 다시
+        matches, attempts = self.run_collect(["새팀"], {}, None, "2026-11-28", failed=("새팀",))
+        self.assertNotIn("새팀", matches)
+        self.assertNotIn("새팀", attempts)
+
+    def test_alias_search_also_records_attempt(self):
+        matches, attempts = self.run_collect(["피치트럭(Peach Truck)"], {}, None, "2026-11-28",
+                                             results={"Peach Truck": [["3", "Peach Truck", ""]]})
+        self.assertEqual(self.searched, ["피치트럭", "Peach Truck"])
+        self.assertEqual(matches["피치트럭(Peach Truck)"]["id"], "3")
+        self.assertEqual(attempts["피치트럭(Peach Truck)"], "2026-11-28")
+
+    def test_shares_constants_with_melon_names(self):
+        import melon_names
+        self.assertIs(ca.due_for_search, melon_names.due_for_search)
+        self.assertEqual(ca.ATTEMPTS_STATE, melon_names.ATTEMPTS)
+        self.assertEqual(ca.MATCH_STATE, melon_names.MATCHES)
+
+
 if __name__ == "__main__":
     unittest.main()

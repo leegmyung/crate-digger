@@ -24,6 +24,9 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from collect_gigs import parse_repl_output
+from melon_names import ATTEMPTS as ATTEMPTS_STATE  # {이름: 마지막 검색 날짜} — 명단(melon_names.py)과 같은 파일
+from melon_names import MATCHES as MATCH_STATE
+from melon_names import due_for_search             # 검색할 이름 고르기: 처음 보는 이름 + 못 찾고 RETRY_DAYS 지난 이름
 from csv_schema import TABLES
 from normalize import artist_key
 
@@ -238,23 +241,31 @@ def collect(limit):
     return path, len(ids), len(rows)
 
 
-MATCH_STATE = RAW_DIR / "state" / "outcome_melon_match.json"
+def _load_json(path, default):
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return default
 
 
-def collect_from_outcomes(limit, names=None):
+def collect_from_outcomes(limit, names=None, today=None):
     """팀 이름 목록 → 멜론 검색으로 번호 찾기 → 프로필. names가 없으면 정답(raw_outcome) 팀 (백테스트용).
     후보 팀의 유명도(팬 수·연차) 판별에도 쓴다 (--names-file).
-    짝 맞춘 결과(동명 팀 수 포함)는 data/raw/state/outcome_melon_match.json 에 남겨 2단계 검수에서 확인한다."""
+    짝 맞춘 결과(동명 팀 수 포함)는 data/raw/state/outcome_melon_match.json 에 남겨 2단계 검수에서 확인한다.
+    검색할 때마다 data/raw/state/melon_match_attempts.json 에 {이름: 마지막 시도 날짜}를 남기고, 못 찾은 이름(null)은
+    melon_names.RETRY_DAYS(30일) 지나면 다시 검색한다 (멜론에 새로 등록됐을 수 있음). 검색 자체가 실패하면 시도로 안 침."""
     if names is None:
         names = []
         for f in sorted(glob.glob(str(RAW_DIR / "raw_outcome_*.csv"))):
             with open(f, encoding="utf-8") as fh:
                 names.extend(r["artist_text"] for r in csv.DictReader(fh))
-    try:
-        matches = json.loads(MATCH_STATE.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        matches = {}
-    todo = [n for n in dict.fromkeys(names) if n and n not in matches][:limit]
+    today = today or f"{datetime.now(KST):%Y-%m-%d}"
+    matches = _load_json(MATCH_STATE, {})
+    attempts = _load_json(ATTEMPTS_STATE, {})
+    for n, m in matches.items():          # 날짜 기록 전의 '못 찾음'은 오늘로만 적고 30일 뒤부터 재시도 (한꺼번에 몰리지 않게)
+        if m is None and n not in attempts:
+            attempts[n] = today
+    todo = [n for n in dict.fromkeys(names) if n and due_for_search(n, matches, attempts, today)][:limit]
     # 1차: 괄호 앞 이름으로, 2차: 못 찾은 팀은 괄호 속 별칭으로 검색 ('피치트럭 하이재커스(Peach Truck Hijackers)')
     first = {n: re.sub(r"\s*[\(\[][^\)\]]*[\)\]]\s*$", "", n) or n for n in todo}
     found, failed = search_artists(sorted(set(first.values()))) if todo else ({}, [])
@@ -262,6 +273,7 @@ def collect_from_outcomes(limit, names=None):
     for n in todo:
         if first[n] not in failed:               # 검색이 실패한 이름은 '못 찾음'으로 남기지 않음 → 다음에 다시
             matches[n] = match_candidate(n, found.get(first[n], []))
+            attempts[n] = today
     alias = {n: m.group(1) for n in todo if n in matches and not matches[n]
              and (m := re.search(r"[\(\[]([^\)\]]+)[\)\]]\s*$", n))}
     found2, failed2 = search_artists(sorted(set(alias.values()))) if alias else ({}, [])
@@ -270,6 +282,7 @@ def collect_from_outcomes(limit, names=None):
             matches[n] = match_candidate(n, found2.get(a, []))
     MATCH_STATE.parent.mkdir(parents=True, exist_ok=True)
     MATCH_STATE.write_text(json.dumps(matches, ensure_ascii=False, indent=1), encoding="utf-8")
+    ATTEMPTS_STATE.write_text(json.dumps(attempts, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
     try:
         seen = set(json.loads(STATE.read_text(encoding="utf-8")))
     except (OSError, json.JSONDecodeError):

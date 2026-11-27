@@ -32,7 +32,9 @@ RETRY_DAYS = 30        # 못 찾았던 이름은 30일 뒤 다시 (멜론에 새
 KEEP_FILES = 7         # 명단 파일은 최근 7개만
 
 
-def _ok_to_try(name: str, matches: dict, attempts: dict, today: str) -> bool:
+def due_for_search(name: str, matches: dict, attempts: dict, today: str) -> bool:
+    """멜론에서 (다시) 찾아볼 이름인가: 처음 보는 이름, 또는 못 찾았고(null) 마지막 시도가 RETRY_DAYS 지난 이름.
+    collect_artists.py 도 이 함수로 검색할 이름을 고른다 (명단과 수집기가 같은 규칙)."""
     if name not in matches:
         return True
     if matches[name] is not None:          # 이미 찾음
@@ -72,7 +74,7 @@ def build_names(snapshot: List[dict], teams: List[dict], outcomes: List[dict], s
         if not t or t.get("profile_status") != "unknown" or not name or name in seen:
             continue
         seen.add(name)
-        if _ok_to_try(name, matches, attempts, today):
+        if due_for_search(name, matches, attempts, today):
             out.append(name)
         if len(out) >= limit:
             break
