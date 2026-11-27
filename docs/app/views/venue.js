@@ -6,7 +6,7 @@ import { loadVenueLadder, queryVenueTeams } from '../db_venue.js';
 import { buildVenueFlow } from '../components/venue_flow.js';
 import { mountVenueTables } from './venue_tables.js';
 import { isVenueSubscribed, toggleVenueSub } from '../venue_subs.js';
-import { confidenceLabel, venueTypeLabel } from '../components/venue_info.js';
+import { confidenceLabel, venueStatusBadge, venueTypeLabel } from '../components/venue_info.js';
 import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, gradeBadgeHtml,
   INFO_TIPS, infoTip, renderActionBanner, spotifyButtonHtml,
@@ -440,6 +440,7 @@ export async function renderVenueView(root, venueName) {
         <h1 class="venue-name">${escapeHtml(cleanVenue)}</h1>
         ${profile ? renderTierBadge(profile.tier) : '<span class="venue-prep-pill">프로필 준비 중</span>'}
         ${profile ? `<span class="venue-type-chip${profile.type ? '' : ' is-unknown'}" title="${escapeHtml(profile.type_basis || '종류 근거 없음')}">${escapeHtml(venueTypeLabel(profile))}</span>` : ''}
+        ${profile ? venueStatusBadge(profile, escapeHtml) : ''}
         ${Number(profile?.upcoming_nights || 0) > 0 ? `<span class="venue-upcoming-pill">예정 ${fmtInt(profile.upcoming_nights)}일</span>` : ''}
       </div>
       ${tabsHtml}

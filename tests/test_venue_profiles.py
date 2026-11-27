@@ -190,7 +190,12 @@ class MasterMetaTest(unittest.TestCase):
     MASTER = {"types": {"live_club": "라이브클럽", "hall": "홀·공연장"},
               "venues": [{"name": "큰 홀 서교", "aliases": ["Big Hall"], "our_names": ["큰홀"], "type": "hall",
                           "type_basis": "수동: 공식 소개"},
-                         {"name": "작은클럽", "aliases": [], "type": "", "instagram": "smallclub"}]}
+                         {"name": "작은클럽", "aliases": [], "type": "", "instagram": "smallclub"},
+                         {"name": "닫은클럽", "aliases": [], "type": "live_club", "status": "closed",
+                          "status_note": "2021 영업 종료", "moved_to": None},
+                         {"name": "옮긴곳", "aliases": [], "type": "cafe", "status": "unknown",
+                          "status_note": "둔산점으로 옮긴 듯", "moved_to": "대전 서구 대덕대로 244"}],
+              "statuses": {"open": "운영", "unknown": "확인 필요", "closed": "폐업", "paused": "휴업"}}
     ALIASES = {"aliases": [{"venue": "큰홀", "variants": ["큰 홀(BIG HALL)", "@bighall"], "reason": "같은 곳"}],
                "_묶지_않음": [{"names": ["큰홀", "큰홀 2관"], "reason": "주소가 다름"}]}
 
@@ -209,6 +214,19 @@ class MasterMetaTest(unittest.TestCase):
         self.assertIsNone(meta["작은클럽"]["type"])                                # 빈 type 은 None(유형 미정)
         self.assertIsNone(meta["작은클럽"]["type_label"])
         self.assertNotIn("없는곳", meta)
+
+    def test_master_meta_carries_operating_status(self):
+        # 앱 공연장 목록·상세에 '폐업'·'이전' 표시를 하려면 운영 상태가 앱 데이터까지 와야 한다
+        with tempfile.TemporaryDirectory() as d:
+            meta = vp.load_master_meta(["닫은클럽", "옮긴곳", "작은클럽"], self._write(d, "v.json", self.MASTER))
+        self.assertEqual((meta["닫은클럽"]["status"], meta["닫은클럽"]["status_label"]), ("closed", "폐업"))
+        self.assertEqual(meta["닫은클럽"]["status_note"], "2021 영업 종료")
+        self.assertEqual(meta["옮긴곳"]["moved_to"], "대전 서구 대덕대로 244")
+        self.assertIsNone(meta["작은클럽"]["status"])                              # 상태 칸이 없으면 None
+        p = vp.build_profiles(_gigs(), TEAMS, OUTCOMES, SNAPSHOT, CFG, {}, AS_OF,
+                              meta={"작은클럽": meta["닫은클럽"]}, alias_notes={})
+        self.assertEqual((p["작은클럽"]["status"], p["작은클럽"]["status_label"]), ("closed", "폐업"))
+        self.assertEqual(p["작은클럽"]["status_note"], "2021 영업 종료")
 
     def test_alias_notes_skip_insta_handles_and_keep_not_merged(self):
         with tempfile.TemporaryDirectory() as d:

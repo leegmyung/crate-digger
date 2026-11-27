@@ -4,9 +4,7 @@
  * 자료: venue_profiles.json (scripts/venue_profiles.py)
  */
 import { appState } from '../state.js';
-import {
-  isInstaAccountName, matchesVenueQuery, UNKNOWN_TYPE, venueTypeLabel, venueTypeOptions,
-} from '../components/venue_info.js';
+import { isInstaAccountName, matchesVenueQuery, UNKNOWN_TYPE, venueTypeLabel, venueTypeOptions, venueStatusBadge } from '../components/venue_info.js';
 import { loadVenueProfiles } from '../db.js';
 import {
   escapeHtml, fmtInt, fmtNum, INFO_TIPS, infoTip, naCell,
@@ -170,7 +168,7 @@ function cardHtml(v, months) {
   return `
     <li class="vl-card">
       <div class="vl-card-head">
-        <a class="vl-card-name" href="#/venue/${encodeURIComponent(v.name)}">${escapeHtml(v.name)}</a>
+        <a class="vl-card-name" href="#/venue/${encodeURIComponent(v.name)}">${escapeHtml(v.name)}</a>${venueStatusBadge(v, escapeHtml)}
         <span class="vl-card-disc" title="발굴 주목도 0~100">${disc !== undefined && disc !== null ? fmtNum(disc, 1) : '—'}</span>
       </div>
       <div class="vl-card-meta small muted">
@@ -191,7 +189,7 @@ function rowHtml(v, months) {
   const disc = v.discovery?.score;
   return `
     <tr>
-      <td data-label="공연장"><a href="#/venue/${encodeURIComponent(v.name)}"><strong>${escapeHtml(v.name)}</strong></a>${Number(v.upcoming_nights) > 0 ? ` <span class="venue-upcoming-pill">예정 ${fmtInt(v.upcoming_nights)}일</span>` : ''}</td>
+      <td data-label="공연장"><a href="#/venue/${encodeURIComponent(v.name)}"><strong>${escapeHtml(v.name)}</strong></a> ${venueStatusBadge(v, escapeHtml)}${Number(v.upcoming_nights) > 0 ? ` <span class="venue-upcoming-pill">예정 ${fmtInt(v.upcoming_nights)}일</span>` : ''}</td>
       <td data-label="도시">${escapeHtml(v.city || '모름')}</td>
       <td data-label="종류"><span title="${escapeHtml(v.type_basis || '종류 근거 없음')}">${escapeHtml(venueTypeLabel(v))}</span></td>
       <td data-label="체급">${TIER_LABEL[tierKey(v)]}${v.capacity ? ` <span class="small muted">~${fmtInt(v.capacity)}명</span>` : ''}</td>

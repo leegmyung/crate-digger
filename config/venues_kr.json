@@ -1,5 +1,5 @@
 {
- "_설명": "한국 대중음악 공연장 마스터 목록 (scripts/venues_kr.py 가 읽어 docs/venues_kr.md 를 만듦). name = 대표 이름, aliases = 다른 표기(영문·옛 이름), our_names = 우리 공연 데이터(venue_xref 대표 이름) 중 규칙으로 못 잇는 이름('라이브홀' 같은 지점 없는 이름·건물 안 작은 공간), province/city/district = 시·도/도시/구·군, type = live_club·hall·theater·creation_center·cafe·festival(빈칸 = 공개 근거 없어 미정), type_basis = 종류를 정한 근거(이름·확인된 수용 인원·근거 메모, '수동:'으로 시작하면 사람이 정한 것 — scripts/venue_types.py), capacity = 스탠딩 최대(없으면 좌석, 모르면 null — venue_capacity.json 과 같은 기준), status = open(1년 안 공연 확인)·unknown(확인 필요)·paused(휴업)·closed(폐업), sources = 근거 링크, checked = 확인일, mainstream = 대형·공공 공연장(출처 공백 목록에서 뺌), instagram·indiego_url·indiego_past = 공연장 계정·인디고 공연장 페이지·인디고 지난 공연 수, merge_note = 두 항목을 하나로 합친 근거, genre_focus = 특정 장르 위주 공연장(예: hiphop), our_venue·in_our_data = 우리 공연 데이터와 짝(--update-config 가 갱신).",
+ "_설명": "한국 대중음악 공연장 마스터 목록 (scripts/venues_kr.py 가 읽어 docs/venues_kr.md 를 만듦). name = 대표 이름, aliases = 다른 표기(영문·옛 이름), our_names = 우리 공연 데이터(venue_xref 대표 이름) 중 규칙으로 못 잇는 이름('라이브홀' 같은 지점 없는 이름·건물 안 작은 공간), province/city/district = 시·도/도시/구·군, type = live_club·hall·theater·creation_center·cafe·festival(빈칸 = 공개 근거 없어 미정), type_basis = 종류를 정한 근거(이름·확인된 수용 인원·근거 메모, '수동:'으로 시작하면 사람이 정한 것 — scripts/venue_types.py), capacity = 스탠딩 최대(없으면 좌석, 모르면 null — venue_capacity.json 과 같은 기준), status = open(1년 안 공연 확인)·unknown(확인 필요)·paused(휴업)·closed(폐업), sources = 근거 링크, checked = 확인일, mainstream = 대형·공공 공연장(출처 공백 목록에서 뺌), instagram·indiego_url·indiego_past = 공연장 계정·인디고 공연장 페이지·인디고 지난 공연 수, merge_note = 두 항목을 하나로 합친 근거, moved_to = 옮긴 곳(이전 확인 시), genre_focus = 특정 장르 위주 공연장(예: hiphop), our_venue·in_our_data = 우리 공연 데이터와 짝(--update-config 가 갱신).",
  "types": {
   "live_club": "라이브클럽",
   "hall": "홀·공연장",
@@ -272,10 +272,14 @@
     {
      "url": "https://indistreet.com/gigs/qlyje3c1eq06a5pb69dnpcs1",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=Cafe%20PPnF%20%EC%A2%85%EB%A1%9C%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 마지막 글 2025-09, 공연시설 정보(30석)만 있음"
     }
    ],
    "our_names": [],
-   "status_note": "우리 공연 데이터 마지막 공연 2025-09-26",
+   "status_note": "마지막 글 2025-09, 공연시설 정보(30석)만 있음 (2026-11-28 네이버 검색 확인)",
    "checked": "2026-11-27",
    "our_venue": "Cafe PPnF",
    "in_our_data": true,
@@ -530,15 +534,19 @@
    "address": "서울 마포구 독막로 308",
    "type": "hall",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://indistreet.com/gigs/vcnt9fr46sgzc6xzn6jl5xal",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=DGT%EC%95%84%ED%8A%B8%EC%84%BC%ED%84%B0%20%EB%A7%88%ED%8F%AC%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 네이버 플레이스 '운영 중', 2026-03 글"
     }
    ],
    "our_names": [],
-   "status_note": "우리 공연 데이터 마지막 공연 2024-01-20",
+   "status_note": "네이버 플레이스 '운영 중', 2026-03 글 (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": "DGT아트센터",
    "in_our_data": true,
@@ -708,15 +716,19 @@
    "address": "서울 마포구 와우산로 97 지하2층",
    "type": "live_club",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://indistreet.com/gigs/anwj3iepeucnuyg6wvqy9kob",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=H%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80%20%EB%A7%88%ED%8F%AC%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 2026-10-30 공연(YONU THE RETURN) 안내"
     }
    ],
    "our_names": [],
-   "status_note": "우리 공연 데이터 마지막 공연 2024-04-10",
+   "status_note": "2026-10-30 공연(YONU THE RETURN) 안내 (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": "H스테이지",
    "in_our_data": true,
@@ -1485,14 +1497,18 @@
    "address": "",
    "type": "live_club",
    "capacity": null,
-   "status": "unknown",
+   "status": "closed",
    "sources": [
     {
      "url": "https://www.timeout.com/seoul/nightlife/the-glorious-return-of-live-club-day",
      "note": "Time Out 라이브클럽데이 참여 클럽 (2016-02)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EA%B3%A0%EA%B3%A0%EC%8A%A42%20%EB%A7%88%ED%8F%AC%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 공연시설 정보에 '클럽 고고스2 (폐관)', 글에 '고고스 폐업'"
     }
    ],
-   "status_note": "2016 기사(라이브클럽데이) — 지금 운영 여부 확인 필요",
+   "status_note": "공연시설 정보에 '클럽 고고스2 (폐관)', 글에 '고고스 폐업' (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
@@ -1962,15 +1978,19 @@
    "address": "서울 용산구 이태원로 243 지하1층",
    "type": "cafe",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://indistreet.com/gigs/wl3q0x9blyvmaecw1onbwjfd",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EB%8D%94%EB%B9%84%ED%8B%80%EC%A6%88%20%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%8E%8D%20%EC%9A%A9%EC%82%B0%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 2025-10~2026-10 글"
     }
    ],
    "our_names": [],
-   "status_note": "우리 공연 데이터 마지막 공연 2024-05-06",
+   "status_note": "2025-10~2026-10 글 (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": "더비틀즈 라이브펍",
    "in_our_data": true,
@@ -2054,7 +2074,7 @@
    "address": "서울 마포구 양화로 64 서교제일빌딩 지하 201호",
    "type": "hall",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://indistreet.com/gigs/d4z24l4q4e3kxvwx0p5jl2bm",
@@ -2063,10 +2083,14 @@
     {
      "url": "https://www.instagram.com/dream_live_hall/",
      "note": "공연장 공식 인스타그램"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EB%93%9C%EB%A6%BC%ED%99%80%20%EB%A7%88%ED%8F%AC%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 예정 공연 2026-12-25(분리수거밴드 크리스마스 콘서트)"
     }
    ],
    "our_names": [],
-   "status_note": "우리 공연 데이터 마지막 공연 2025-11-01 · 인스타 마지막 글 2023-05-21 — 공연을 멈췄을 수 있음",
+   "status_note": "예정 공연 2026-12-25(분리수거밴드 크리스마스 콘서트) (2026-11-28 확인)",
    "instagram": "dream_live_hall",
    "checked": "2026-11-27",
    "our_venue": "드림홀",
@@ -2278,9 +2302,13 @@
     {
      "url": "https://www.timeout.com/seoul/nightlife/the-glorious-return-of-live-club-day",
      "note": "Time Out 라이브클럽데이 참여 클럽 (2016-02)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EB%A0%88%EC%A7%84%EC%BD%94%EB%AF%B9%EC%8A%A4%20%EB%B8%8C%EC%9D%B4%ED%99%80%20%EB%A7%88%ED%8F%AC%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 업체 정보만, 최근 근거 없음"
     }
    ],
-   "status_note": "2016 기사(라이브클럽데이) — 지금 운영 여부 확인 필요",
+   "status_note": "업체 정보만, 최근 근거 없음 (2026-11-28 네이버 검색 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
@@ -2561,15 +2589,19 @@
    "address": "서울 강동구 양재대로 1466 광동빌딩 지하1층",
    "type": "",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://indistreet.com/gigs/ngcql8xeskmz4ifm1wdn68fu",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EB%AA%A8%EB%B9%84%EB%94%95%20%EA%B0%95%EB%8F%99%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 네이버 플레이스 'LP 뮤직바 모비딕' 영업시간 표시(강동구 길동)"
     }
    ],
    "our_names": [],
-   "status_note": "우리 공연 데이터 마지막 공연 2025-03-29",
+   "status_note": "네이버 플레이스 'LP 뮤직바 모비딕' 영업시간 표시(강동구 길동) (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": "모비딕",
    "in_our_data": true,
@@ -2802,26 +2834,31 @@
    "aliases": [],
    "province": "서울",
    "city": "서울",
-   "district": "",
-   "address": "",
+   "district": "송파구",
+   "address": "서울 송파구 올림픽로 424 (올림픽공원 올림픽홀)",
    "type": "hall",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
      "note": "나무위키 '공연장' 좌석 수 표 (2026-11 열람)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EB%AE%A4%EC%A6%88%EB%9D%BC%EC%9D%B4%EB%B8%8C%20%EC%84%9C%EC%9A%B8",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 네이버 플레이스 '올림픽홀 뮤즈라이브' 공연 중(2026-04~12)"
     }
    ],
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
    "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
-   "geo_checked": "2026-11-27",
-   "lat": 37.57015,
-   "lon": 127.069565,
-   "geo_confidence": "low",
-   "geo_method": "name"
+   "status_note": "네이버 플레이스 '올림픽홀 뮤즈라이브' 공연 중(2026-04~12) (2026-11-28 확인)",
+   "lat": 37.522741,
+   "lon": 127.118711,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "바이너리 스튜디오",
@@ -3082,7 +3119,7 @@
    "address": "",
    "type": "cafe",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://www.koreatimes.co.kr/www/nation/2024/06/113_370291.html",
@@ -3091,9 +3128,13 @@
     {
      "url": "https://mediahub.seoul.go.kr/archives/2006764",
      "note": "서울시 미디어허브 — 후암시장 재즈 바 사운드독"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%82%AC%EC%9A%B4%EB%93%9C%EB%8F%85%20%EC%9E%AC%EC%A6%88%20%EC%9A%A9%EC%82%B0%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 재즈피플 공간 소개 '매일 8~10시 재즈 라이브', 2026 글·영업시간"
     }
    ],
-   "status_note": "2017-02 개업, 봄·가을 시즌 공연(2024 기사). 2026년 활동은 못 찾음",
+   "status_note": "재즈피플 공간 소개 '매일 8~10시 재즈 라이브', 2026 글·영업시간 (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
@@ -3281,15 +3322,19 @@
    "address": "서울 마포구 백범로 35",
    "type": "hall",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://indistreet.com/gigs/gom4q9w6ruxmldyc6eibes7e",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%84%9C%EA%B0%95%EB%8C%80%ED%95%99%EA%B5%90%20%EB%A9%94%EB%A6%AC%ED%99%80%20%EB%8C%80%EA%B7%B9%EC%9E%A5%20%EB%A7%88%ED%8F%AC%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 네이버 플레이스 공연 2026-11-28~ 표시"
     }
    ],
    "our_names": [],
-   "status_note": "우리 공연 데이터 마지막 공연 2024-06-29",
+   "status_note": "네이버 플레이스 공연 2026-11-28~ 표시 (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": "서강대학교 메리홀 대극장",
    "in_our_data": true,
@@ -3505,10 +3550,14 @@
     {
      "url": "https://www.instagram.com/sungwooleatherstage/",
      "note": "공연장 공식 인스타그램"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%84%B1%EC%9A%B0%EB%A0%88%EB%8D%94%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80%20%EC%84%B1%EB%8F%99%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 검색 결과가 '성우(목소리)'와 섞여 확인 못 함"
     }
    ],
    "our_names": [],
-   "status_note": "우리 공연 데이터 마지막 공연 2024-09-07 · 인스타 마지막 글 2025-03-29 — 공연을 멈췄을 수 있음",
+   "status_note": "검색 결과가 '성우(목소리)'와 섞여 확인 못 함 (2026-11-28 네이버 검색 확인)",
    "instagram": "sungwooleatherstage",
    "checked": "2026-11-27",
    "our_venue": "성우레더스테이지",
@@ -3689,7 +3738,7 @@
    "address": "서울 중구 신당동 140-30 지하",
    "type": "cafe",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://www.koreatimes.co.kr/www/nation/2024/06/113_370291.html",
@@ -3698,9 +3747,13 @@
     {
      "url": "https://indistreet.com/gigs/x9mze4vu7bjzy6w2herbrk8a",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%8A%A4%EC%BB%B9%ED%81%AC%20%EC%8B%A0%EB%8B%B9%20%EC%A4%91%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 리뷰 '인스타 보니 공연도 자주', 2026 글"
     }
    ],
-   "status_note": "2024-04 기사는 '공연 중단, 바로만 운영'이라 했으나 인디스트릿에 2024-09-20까지 공연 기록, 그 뒤 기록 없음 — 공연을 계속하는지 확인 필요",
+   "status_note": "리뷰 '인스타 보니 공연도 자주', 2026 글 (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": "SKUNK",
    "in_our_data": true,
@@ -4642,9 +4695,13 @@
     {
      "url": "https://www.koreatimes.co.kr/www/nation/2024/06/113_370291.html",
      "note": "Korea Times Finding the Scene 1 서울 (2024-04)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%9C%A0%ED%82%AC%EB%B4%89%20%EC%A4%91%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 검색 결과 없음"
     }
    ],
-   "status_note": "을지로(2024 기사)",
+   "status_note": "검색 결과 없음 (2026-11-28 네이버 검색 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
@@ -4665,10 +4722,14 @@
     {
      "url": "https://indistreet.com/gigs/j8nvno43k2fy9sbnwobxznqw",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%9C%A1%EC%9D%BC%EB%B4%89%20%EC%A4%91%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 마지막 글 2025-11-28(복합문화공간 소개)"
     }
    ],
    "our_names": [],
-   "status_note": "우리 공연 데이터 마지막 공연 2024-02-03",
+   "status_note": "마지막 글 2025-11-28(복합문화공간 소개) (2026-11-28 네이버 검색 확인)",
    "checked": "2026-11-27",
    "our_venue": "육일봉",
    "in_our_data": true,
@@ -4693,12 +4754,16 @@
     {
      "url": "https://news.seoul.go.kr/economy/archives/69347",
      "note": "서울시 — 은평 음악창작지원센터 (수색로 261)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%9D%80%ED%8F%89%20%EC%9D%8C%EC%95%85%EC%B0%BD%EC%9E%91%EC%A7%80%EC%9B%90%EC%84%BC%ED%84%B0%20%EC%9D%80%ED%8F%89%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 관광 안내에 시설 정보만(2026 소식 못 찾음)"
     }
    ],
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "서울시 안내에 대관·프로그램 정보(수색역 광장) — 2026년 소식은 못 찾음",
+   "status_note": "관광 안내에 시설 정보만(2026 소식 못 찾음) (2026-11-28 네이버 검색 확인)",
    "type_basis": "이름 '은평 음악창작지원센터'에 '창작지원' → 창작소·지원 시설",
    "geo_checked": "2026-11-27",
    "lat": 37.589155,
@@ -4882,11 +4947,15 @@
    "address": "서울 영등포구 선유로24길 10 2층",
    "type": "",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://www.indiego.co.kr/venues/172-%EC%9E%AC%EB%AF%B8%EA%B3%B5%EC%9E%91%EC%86%8C",
      "note": "인디고 공연장 페이지"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%9E%AC%EB%AF%B8%EA%B3%B5%EC%9E%91%EC%86%8C%20%EC%98%81%EB%93%B1%ED%8F%AC%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 재미공작소 블로그 2026-12 행사 공지"
     }
    ],
    "indiego_url": "https://www.indiego.co.kr/venues/172-%EC%9E%AC%EB%AF%B8%EA%B3%B5%EC%9E%91%EC%86%8C",
@@ -4898,7 +4967,8 @@
    "lat": 37.522548,
    "lon": 126.891177,
    "geo_confidence": "high",
-   "geo_method": "address"
+   "geo_method": "address",
+   "status_note": "재미공작소 블로그 2026-12 행사 공지 (2026-11-28 확인)"
   },
   {
    "name": "재즈클럽 그루브",
@@ -5226,10 +5296,14 @@
     {
      "url": "https://indistreet.com/gigs/wqf70bus8pow7jk31h94dees",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%BB%A8%EB%B2%A4%ED%8A%B8%20%EB%A7%88%ED%8F%AC%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 공연시설 정보(컨벤트펍)만, 최근 공연 근거 못 찾음"
     }
    ],
    "our_names": [],
-   "status_note": "우리 공연 데이터 마지막 공연 2025-07-04",
+   "status_note": "공연시설 정보(컨벤트펍)만, 최근 공연 근거 못 찾음 (2026-11-28 네이버 검색 확인)",
    "checked": "2026-11-27",
    "our_venue": "컨벤트",
    "in_our_data": true,
@@ -5325,14 +5399,18 @@
    "address": "",
    "type": "live_club",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://www.koreatimes.co.kr/www/nation/2024/06/113_370291.html",
      "note": "Korea Times Finding the Scene 1 서울 (2024-04)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%ED%81%B4%EB%9F%BD%20%EC%8A%A4%ED%8B%B8%ED%8E%98%EC%9D%B4%EC%8A%A4%20%EB%A7%88%ED%8F%AC%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 2026-06-07 STEEL FACES 공연 예매 공지"
     }
    ],
-   "status_note": "2024 기사",
+   "status_note": "2026-06-07 STEEL FACES 공연 예매 공지 (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
@@ -5501,7 +5579,7 @@
    "address": "서울 마포구 포은로 75",
    "type": "live_club",
    "capacity": null,
-   "status": "unknown",
+   "status": "closed",
    "sources": [
     {
      "url": "https://indistreet.com/gigs/dcbfh0qtz7raxh9hcgxmelz6",
@@ -5510,10 +5588,14 @@
     {
      "url": "https://www.instagram.com/club_ilmare/",
      "note": "공연장 공식 인스타그램"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%ED%81%B4%EB%9F%BD%EC%9D%BC%EB%A7%88%EB%A0%88%20%EB%A7%88%ED%8F%AC%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 사업자 정보 '폐업자'(2023 개업, 기타 주점업)"
     }
    ],
    "our_names": [],
-   "status_note": "우리 공연 데이터 마지막 공연 2024-07-13 · 인스타 마지막 글 2025-11-13 — 공연을 멈췄을 수 있음",
+   "status_note": "사업자 정보 '폐업자'(2023 개업, 기타 주점업) (2026-11-28 확인)",
    "instagram": "club_ilmare",
    "checked": "2026-11-27",
    "our_venue": "클럽일마레",
@@ -5903,6 +5985,10 @@
     {
      "url": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
      "note": "나무위키 '공연장' 좌석 수 표 (2026-11 열람)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%ED%99%8D%EB%8C%80%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80%20%EB%A7%88%ED%8F%AC%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 검색 결과가 다른 곳과 섞임"
     }
    ],
    "checked": "2026-11-27",
@@ -5913,7 +5999,8 @@
    "lat": 37.551114,
    "lon": 126.921501,
    "geo_confidence": "low",
-   "geo_method": "name"
+   "geo_method": "name",
+   "status_note": "검색 결과가 다른 곳과 섞임 (2026-11-28 네이버 검색 확인)"
   },
   {
    "name": "휘슬",
@@ -6261,22 +6348,26 @@
    "province": "경기",
    "city": "수원",
    "district": "팔달구",
-   "address": "",
+   "address": "경기 수원시 팔달구 정조로 751-11",
    "type": "cafe",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://www.koreatimes.co.kr/southkorea/globalcommunity/20240616/finding-the-scene-4-live-music-venues-all-around-korea",
      "note": "Korea Times Finding the Scene 4 전국 (2024-06)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%95%A8%EB%A6%AC%EC%9B%A8%EC%9D%B4%20%ED%83%AD%ED%95%98%EC%9A%B0%EC%8A%A4%20%EC%88%98%EC%9B%90",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 네이버 플레이스 영업시간(수원 팔달구 정조로 751-11)"
     }
    ],
-   "status_note": "2024 기사",
+   "status_note": "네이버 플레이스 영업시간(수원 팔달구 정조로 751-11) (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
    "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
-   "geo_checked": "2026-11-27"
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "퍼플홀",
@@ -6554,9 +6645,13 @@
     {
      "url": "https://gwangjunewsgic.com/community/gwangju-plays/korean-indie-music-venues-in-gwangju",
      "note": "Gwangju News 광주 인디 공연장 정리 (2018-01)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EB%A1%A4%EB%A7%81%EC%8A%A4%ED%86%A4%EC%A6%88%20%EA%B4%91%EC%A3%BC%20%EA%B4%91%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 114·스테이지픽에 '클럽롤링스톤즈(종합공연장)'로 남아 있으나 최근 공연 근거 못 찾음"
     }
    ],
-   "status_note": "2018 기사",
+   "status_note": "114·스테이지픽에 '클럽롤링스톤즈(종합공연장)'로 남아 있으나 최근 공연 근거 못 찾음 (2026-11-28 네이버 검색 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
@@ -6694,22 +6789,30 @@
    "province": "광주",
    "city": "광주",
    "district": "광산구",
-   "address": "",
+   "address": "광주 광산구 소촌로85번길 14-9",
    "type": "creation_center",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://gwangjunewsgic.com/community/gwangju-plays/korean-indie-music-venues-in-gwangju",
      "note": "Gwangju News 광주 인디 공연장 정리 (2018-01)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%86%8C%EC%B4%8C%EC%95%84%ED%8A%B8%ED%8C%A9%ED%86%A0%EB%A6%AC%20%EA%B4%91%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 네이버 플레이스 운영시간, 전시 2026-11-26~12-03"
     }
    ],
-   "status_note": "2018 기사",
+   "status_note": "네이버 플레이스 운영시간, 전시 2026-11-26~12-03 (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
    "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
-   "geo_checked": "2026-11-27"
+   "lat": 35.151649,
+   "lon": 126.790177,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "스피크이지 광주",
@@ -6727,9 +6830,13 @@
     {
      "url": "https://gwangjunewsgic.com/community/gwangju-plays/korean-indie-music-venues-in-gwangju",
      "note": "Gwangju News 광주 인디 공연장 정리 (2018-01)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%8A%A4%ED%94%BC%ED%81%AC%EC%9D%B4%EC%A7%80%20%EA%B4%91%EC%A3%BC%20%EA%B4%91%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 검색 결과가 다른 곳과 섞임"
     }
    ],
-   "status_note": "2018 기사",
+   "status_note": "검색 결과가 다른 곳과 섞임 (2026-11-28 네이버 검색 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
@@ -6752,9 +6859,13 @@
     {
      "url": "https://gwangjunewsgic.com/community/gwangju-plays/korean-indie-music-venues-in-gwangju",
      "note": "Gwangju News 광주 인디 공연장 정리 (2018-01)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%97%90%ED%8F%AC%EC%BC%80%20%EA%B4%91%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 검색 결과가 다른 곳과 섞임"
     }
    ],
-   "status_note": "2018 기사",
+   "status_note": "검색 결과가 다른 곳과 섞임 (2026-11-28 네이버 검색 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
@@ -6799,7 +6910,7 @@
    "address": "전남광주통합특별시 동구 문화전당로 29-1 1층",
    "type": "",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://www.indiego.co.kr/venues/214-%EC%A0%9C4%EC%A7%80%EB%8C%80",
@@ -6808,6 +6919,10 @@
     {
      "url": "https://www.instagram.com/the4zonelive/",
      "note": "공연장 공식 인스타그램 (인디고 공연장 페이지에 공개된 링크)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%A0%9C4%EC%A7%80%EB%8C%80%20%EA%B4%91%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 네이버 플레이스 영업시간(광주 동구 문화전당로 29-1)"
     }
    ],
    "indiego_url": "https://www.indiego.co.kr/venues/214-%EC%A0%9C4%EC%A7%80%EB%8C%80",
@@ -6820,7 +6935,8 @@
    "lat": 35.143651,
    "lon": 126.919978,
    "geo_confidence": "medium",
-   "geo_method": "address"
+   "geo_method": "address",
+   "status_note": "네이버 플레이스 영업시간(광주 동구 문화전당로 29-1) (2026-11-28 확인)"
   },
   {
    "name": "프렌즈 광주",
@@ -6838,9 +6954,13 @@
     {
      "url": "https://www.koreatimes.co.kr/southkorea/globalcommunity/20240616/finding-the-scene-4-live-music-venues-all-around-korea",
      "note": "Korea Times Finding the Scene 4 전국 (2024-06)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%ED%94%84%EB%A0%8C%EC%A6%88%20%EA%B4%91%EC%A3%BC%20%EA%B4%91%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 검색 결과가 다른 곳과 섞임"
     }
    ],
-   "status_note": "2023년 말 개업(2024 기사), 한글 이름 미확인",
+   "status_note": "검색 결과가 다른 곳과 섞임 (2026-11-28 네이버 검색 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
@@ -6865,9 +6985,13 @@
     {
      "url": "https://indistreet.com/gigs/izbc4c2pske8irmj4utthy0k",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%ED%95%98%EB%A9%9C%EC%95%84%ED%8A%B8%ED%99%80%20%EA%B4%91%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 예매처 공연장 정보(100석)만"
     }
    ],
-   "status_note": "2018 기사",
+   "status_note": "예매처 공연장 정보(100석)만 (2026-11-28 네이버 검색 확인)",
    "our_names": [],
    "checked": "2026-11-27",
    "our_venue": "하멜아트홀",
@@ -6924,11 +7048,11 @@
    "aliases": [],
    "province": "대구",
    "city": "대구",
-   "district": "",
-   "address": "",
+   "district": "남구",
+   "address": "대구 남구 중앙대로45길 53",
    "type": "creation_center",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://www.mcst.go.kr/site/s_policy/comm/studentNews/studentNewsView.jsp?pSeq=5266",
@@ -6937,14 +7061,22 @@
     {
      "url": "https://www.imaeil.com/page/view/2022040611063353856",
      "note": "매일신문 2022-04 대구음악창작소"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EB%8C%80%EA%B5%AC%EC%9D%8C%EC%95%85%EC%B0%BD%EC%9E%91%EC%86%8C%20%EB%8C%80%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 2026-04-19 세미나 공지, 운영시간"
     }
    ],
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "status_note": "2022 기사: 개소 7년차, 앨범 제작 지원 44팀 — 2026년 공지는 못 찾음",
+   "status_note": "2026-04-19 세미나 공지, 운영시간 (2026-11-28 확인)",
    "type_basis": "이름 '대구음악창작소'에 '창작소' → 창작소·지원 시설",
-   "geo_checked": "2026-11-27"
+   "lat": 35.853701,
+   "lon": 128.589381,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "라이브소극장 락왕",
@@ -7148,22 +7280,30 @@
    "province": "대구",
    "city": "대구",
    "district": "북구",
-   "address": "",
+   "address": "대구 북구 대학로 59 지하1층",
    "type": "cafe",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://www.koreatimes.co.kr/www/nation/2024/05/177_374451.html",
      "note": "Korea Times Finding the Scene 3 대구 (2024-05)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%8A%88%EA%B0%80%EC%A1%B0%EC%8A%A4%20%EB%8C%80%EA%B5%AC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 네이버 플레이스 영업시간(대구 북구 대학로 59 지하1층)"
     }
    ],
-   "status_note": "경북대 앞 바(2024 기사)",
+   "status_note": "네이버 플레이스 영업시간(대구 북구 대학로 59 지하1층) (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
    "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
-   "geo_checked": "2026-11-27"
+   "lat": 35.896624,
+   "lon": 128.613973,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "에이치아츠 콘서트홀&스튜디오",
@@ -7478,14 +7618,19 @@
     {
      "url": "https://polle.com/place/5qf37h/%EC%B2%98%EC%B9%98%20%EC%95%A4%20%EB%8C%84%EC%8A%A4%ED%99%80",
      "note": "장소 정보·리뷰 (마지막 영업 안내 글 있음)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%B2%98%EC%B9%98%20%EC%95%A4%20%EB%8C%84%EC%8A%A4%ED%99%80%20%EB%8C%80%EC%A0%84",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — '처치앤댄스홀 둔산점' 카페(대덕대로 244)"
     }
    ],
-   "status_note": "2017 개업 카페·공연 공간. 리뷰에 '7월 31일까지 영업' 안내(연도 미확인) — 폐업 가능성 높음, 확인 필요",
+   "status_note": "대흥동 자리는 '7월 31일까지 영업' 안내 뒤 영업 종료로 보임, 같은 이름의 둔산점 카페가 네이버 플레이스에 있음 — 둔산점에서 공연하는지는 확인 못 함 (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
    "type_basis": "이름 '처치 앤 댄스홀'에 '홀' → 홀·공연장",
-   "geo_checked": "2026-11-27"
+   "geo_checked": "2026-11-27",
+   "moved_to": "대전 서구 대덕대로 244 101호 (처치앤댄스홀 둔산점, 카페)"
   },
   {
    "name": "CLUB NASUB",
@@ -7701,11 +7846,15 @@
    "type_basis": "수동: 소개글 '대관, 공연 문의' — 부산 힙합 클럽",
    "capacity": null,
    "status": "unknown",
-   "status_note": "인스타 마지막 글 2025-03 — 운영 중단 가능, 수집 계정에는 안 넣음",
+   "status_note": "2025-08 '반년간 운영, 무료 공연' 글이 마지막 (2026-11-28 네이버 검색 확인)",
    "sources": [
     {
      "url": "https://www.instagram.com/under_busan/",
      "note": "공연장 인스타 소개글(공개 프로필, 2026-11 힙합·R&B 계정 후보 조사 기록)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=UNDER%20%ED%9E%99%ED%95%A9%20%ED%81%B4%EB%9F%BD%20%EB%B6%80%EC%82%B0",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 2025-08 '반년간 운영, 무료 공연' 글이 마지막"
     }
    ],
    "genre_focus": "hiphop",
@@ -7953,9 +8102,13 @@
     {
      "url": "https://www.koreatimes.co.kr/www/nation/2024/05/177_373661.html",
      "note": "Korea Times Finding the Scene 2 부산 (2024-05)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EB%B2%A0%EC%9D%B4%EC%8A%A4%EB%A8%BC%ED%8A%B8%20%EB%B6%80%EC%82%B0%20%EB%B6%80%EC%82%B0",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 검색 결과가 다른 곳과 섞임"
     }
    ],
-   "status_note": "2023 재개장(2024 기사)",
+   "status_note": "검색 결과가 다른 곳과 섞임 (2026-11-28 네이버 검색 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
@@ -7967,11 +8120,11 @@
    "aliases": [],
    "province": "부산",
    "city": "부산",
-   "district": "",
-   "address": "",
+   "district": "금정구",
+   "address": "부산 금정구 동부곡로27번길 64 한울관 B1",
    "type": "creation_center",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://www.mcst.go.kr/site/s_culture/culture/cultureView.jsp?pSeq=70188",
@@ -7980,14 +8133,23 @@
     {
      "url": "https://www.instagram.com/musiclab_busan/",
      "note": "공연장 인스타 소개글(공개 프로필, 2026-11 계정 후보 조사 기록)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EB%B6%80%EC%82%B0%EC%9D%8C%EC%95%85%EC%B0%BD%EC%9E%91%EC%86%8C%20%EB%B6%80%EC%82%B0",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 2026-01-30 공지, 운영시간(금정구 동부곡로27번길 64 한울관 B1)"
     }
    ],
    "checked": "2026-11-27",
    "our_venue": "부산음악창작소",
    "in_our_data": true,
    "type_basis": "이름 '부산음악창작소'에 '창작소' → 창작소·지원 시설",
-   "geo_checked": "2026-11-27",
-   "instagram": "musiclab_busan"
+   "instagram": "musiclab_busan",
+   "status_note": "2026-01-30 공지, 운영시간(금정구 동부곡로27번길 64 한울관 B1) (2026-11-28 확인)",
+   "lat": 35.226881,
+   "lon": 129.094941,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "북두칠성도서관 아트훌",
@@ -8187,23 +8349,31 @@
    ],
    "province": "부산",
    "city": "부산",
-   "district": "",
-   "address": "",
+   "district": "금정구",
+   "address": "부산 금정구 금정로 89",
    "type": "",
-   "capacity": null,
-   "status": "unknown",
+   "capacity": 100,
+   "status": "open",
    "sources": [
     {
      "url": "https://www.koreatimes.co.kr/www/nation/2024/05/177_373661.html",
      "note": "Korea Times Finding the Scene 2 부산 (2024-05)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%9D%B8%ED%84%B0%ED%94%8C%EB%A0%88%EC%9D%B4%20%EB%B6%80%EC%82%B0%20%EB%B6%80%EC%82%B0",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 공연시설 정보 '금정구 금정로 89, 수용 100명', 운영시간"
     }
    ],
-   "status_note": "Korea Times 2024 부산 편: 1993년에 생긴 오래된 공연장으로 짧게 언급, 동네·주소는 없음. 대전 '인터플레이'(대덕대로162번길, @interplay_livemusic)는 다른 도시의 다른 곳으로 보고 합치지 않음",
+   "status_note": "공연시설 정보 '금정구 금정로 89, 수용 100명', 운영시간 (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
    "type_basis": "",
-   "geo_checked": "2026-11-27"
+   "lat": 35.242476,
+   "lon": 129.088931,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "재즈프레소 레코드 바",
@@ -8476,10 +8646,14 @@
     {
      "url": "https://indistreet.com/gigs/xr2axa7s93l11gak2gdils04",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%98%AC%EB%9E%98%EA%B3%B5%EC%97%B0%EC%9E%A5%20%EC%9D%B8%EC%B2%9C",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 근거 못 찾음"
     }
    ],
    "our_names": [],
-   "status_note": "우리 공연 데이터 마지막 공연 2024-04-27",
+   "status_note": "근거 못 찾음 (2026-11-28 네이버 검색 확인)",
    "checked": "2026-11-27",
    "our_venue": "올래공연장",
    "in_our_data": true,
@@ -8639,7 +8813,9 @@
   {
    "name": "클럽 낙",
    "aliases": [
-    "Club Knock"
+    "Club Knock",
+    "클럽 노크",
+    "클럽노크"
    ],
    "province": "인천",
    "city": "인천",
@@ -8647,14 +8823,18 @@
    "address": "",
    "type": "live_club",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://www.koreatimes.co.kr/southkorea/globalcommunity/20240616/finding-the-scene-4-live-music-venues-all-around-korea",
      "note": "Korea Times Finding the Scene 4 전국 (2024-06)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%ED%81%B4%EB%9F%BD%20%EB%82%99%20%EC%9D%B8%EC%B2%9C",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — '클럽노크(Club Knock)' 공연 후기·유튜브 채널, 2026 글"
     }
    ],
-   "status_note": "제물포역 북쪽(2024 기사), 한글 이름 미확인",
+   "status_note": "'클럽노크(Club Knock)' 공연 후기·유튜브 채널, 2026 글 (2026-11-28 확인) — 한글 이름은 '클럽노크'",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
@@ -8670,15 +8850,19 @@
    "address": "인천 연수구 송도동 24-6",
    "type": "hall",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://indistreet.com/gigs/2025-07-26-2025-peppertones-club-tour-%EC%9D%B8%EC%B2%9C-vtig07zfrgmfyx5h2c7an32e",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%ED%8A%B8%EB%9D%BC%EC%9D%B4%EB%B3%B4%EC%9A%B8%20%EC%9D%B8%EC%B2%9C",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 2026 송도 트라이보울 재즈 페스티벌(09-19~20) 등 2026 프로그램"
     }
    ],
    "our_names": [],
-   "status_note": "우리 공연 데이터 마지막 공연 2025-07-27",
+   "status_note": "2026 송도 트라이보울 재즈 페스티벌(09-19~20) 등 2026 프로그램 (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": "트라이보울",
    "in_our_data": true,
@@ -8780,9 +8964,13 @@
     {
      "url": "https://indistreet.com/gigs/l2ub92noz6cuws59wnv0jpwr",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=Club%20GP%20%EC%A0%84%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 인디스트릿 공연장 페이지만"
     }
    ],
-   "status_note": "2024 기사",
+   "status_note": "인디스트릿 공연장 페이지만 (2026-11-28 네이버 검색 확인)",
    "our_names": [],
    "checked": "2026-11-27",
    "our_venue": "Club GP",
@@ -8873,14 +9061,18 @@
    "address": "",
    "type": "live_club",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://www.koreatimes.co.kr/southkorea/globalcommunity/20240616/finding-the-scene-4-live-music-venues-all-around-korea",
      "note": "Korea Times Finding the Scene 4 전국 (2024-06)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EB%9D%BC%EB%94%94%EC%98%A4%EA%B0%80%EB%93%A0%20%EC%A0%84%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 네이버 플레이스 '라디오가든 맥주,호프'(전주 완산구 남노송동) 영업시간"
     }
    ],
-   "status_note": "2024 기사",
+   "status_note": "네이버 플레이스 '라디오가든 맥주,호프'(전주 완산구 남노송동) 영업시간 (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
@@ -8899,18 +9091,23 @@
    "address": "",
    "type": "creation_center",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://www.jjan.kr/1120843",
      "note": "전북일보 전북 음악창작소 레드콘"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EB%A0%88%EB%93%9C%EC%BD%98%20%EC%A0%84%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 2026-11-08 전북 뮤지션 라이브 공연 안내"
     }
    ],
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
    "type_basis": "이름 '레드콘 (전북 음악창작소)'에 '창작소' → 창작소·지원 시설",
-   "geo_checked": "2026-11-27"
+   "geo_checked": "2026-11-27",
+   "status_note": "2026-11-08 전북 뮤지션 라이브 공연 안내 (2026-11-28 확인)"
   },
   {
    "name": "남온 제주",
@@ -8965,15 +9162,19 @@
    "district": "",
    "address": "",
    "type": "theater",
-   "capacity": null,
+   "capacity": 80,
    "status": "unknown",
    "sources": [
     {
      "url": "https://www.tenasia.co.kr/article/2014080461584",
      "note": "텐아시아 제주 음악 현장 (2014)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EB%AF%B8%EC%98%88%EB%9E%91%EC%86%8C%EA%B7%B9%EC%9E%A5%20%EC%A0%9C%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 공연시설 정보(2007 개관, 80석)만"
     }
    ],
-   "status_note": "2014 기사",
+   "status_note": "공연시설 정보(2007 개관, 80석)만 (2026-11-28 네이버 검색 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
@@ -9031,13 +9232,18 @@
     {
      "url": "https://au.trip.com/restaurant/south%20korea/jeju/detail/Club%20Indie-143655514",
      "note": "여행 사이트 장소 정보 — 제주시 이도2동"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%ED%81%B4%EB%9F%BD%20%EC%9D%B8%EB%94%94%20%EC%A0%9C%EC%A3%BC%20%EC%A0%9C%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 근거 못 찾음"
     }
    ],
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
    "type_basis": "이름 '클럽 인디 제주'에 '클럽' → 라이브클럽",
-   "geo_checked": "2026-11-27"
+   "geo_checked": "2026-11-27",
+   "status_note": "근거 못 찾음 (2026-11-28 네이버 검색 확인)"
   },
   {
    "name": "골목다방",
@@ -9046,23 +9252,31 @@
    ],
    "province": "충북",
    "city": "청주",
-   "district": "",
-   "address": "",
+   "district": "상당구",
+   "address": "충북 청주시 상당구 사직대로361번길 8-14 1층",
    "type": "cafe",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://www.koreatimes.co.kr/southkorea/globalcommunity/20240616/finding-the-scene-4-live-music-venues-all-around-korea",
      "note": "Korea Times Finding the Scene 4 전국 (2024-06)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EA%B3%A8%EB%AA%A9%EB%8B%A4%EB%B0%A9%20%EC%B2%AD%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 네이버 플레이스 라이브카페(청주 상당구 사직대로361번길 8-14)"
     }
    ],
-   "status_note": "2024 기사",
+   "status_note": "네이버 플레이스 라이브카페(청주 상당구 사직대로361번길 8-14) (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
    "type_basis": "이름 '골목다방'에 '다방' → 카페·바",
-   "geo_checked": "2026-11-27"
+   "lat": 36.63932,
+   "lon": 127.487494,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "로드킹 (청주)",
@@ -9071,23 +9285,31 @@
    ],
    "province": "충북",
    "city": "청주",
-   "district": "",
-   "address": "",
+   "district": "서원구",
+   "address": "충북 청주시 서원구 1순환로672번길 6",
    "type": "",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://www.koreatimes.co.kr/southkorea/globalcommunity/20240616/finding-the-scene-4-live-music-venues-all-around-korea",
      "note": "Korea Times Finding the Scene 4 전국 (2024-06)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EB%A1%9C%EB%93%9C%ED%82%B9%20%EC%B2%AD%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 네이버 플레이스(청주 서원구 1순환로672번길 6), 2026 글"
     }
    ],
-   "status_note": "2024 기사 영문 표기 Road King",
+   "status_note": "네이버 플레이스(청주 서원구 1순환로672번길 6), 2026 글 (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
    "type_basis": "",
-   "geo_checked": "2026-11-27"
+   "lat": 36.633185,
+   "lon": 127.458194,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "지직",
@@ -9101,7 +9323,7 @@
    "address": "충북 청주시 상당구 사직대로 338 지하1층",
    "type": "",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://indistreet.com/gigs/r0otv3nxfapfy4a336f6v48h",
@@ -9110,10 +9332,14 @@
     {
      "url": "https://www.koreatimes.co.kr/southkorea/globalcommunity/20240616/finding-the-scene-4-live-music-venues-all-around-korea",
      "note": "Korea Times Finding the Scene 4 전국 (2024-06)"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EC%A7%80%EC%A7%81%20%EC%B2%AD%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 2026-04 공연 글, 공연장 정보"
     }
    ],
    "our_names": [],
-   "status_note": "우리 공연 데이터 마지막 공연 2024-01-19",
+   "status_note": "2026-04 공연 글, 공연장 정보 (2026-11-28 확인)",
    "checked": "2026-11-27",
    "our_venue": "지직",
    "in_our_data": true,
@@ -9133,21 +9359,30 @@
    "province": "충북",
    "city": "충주",
    "district": "",
-   "address": "",
+   "address": "충북 충주시 사직로 140",
    "type": "creation_center",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://www.mcst.go.kr/site/s_policy/comm/studentNews/studentNewsView.jsp?pSeq=4645",
      "note": "문체부 대학생기자단 — 지역 음악창작소"
+    },
+    {
+     "url": "https://m.search.naver.com/search.naver?query=%EB%AE%A4%EC%A7%80%ED%8A%B8%20%EC%B6%A9%EC%A3%BC",
+     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 충주시 블로그 2026-11 방문 후기(충주 사직로 140)"
     }
    ],
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
    "type_basis": "이름 '뮤지트 (충주 음악창작소)'에 '창작소' → 창작소·지원 시설",
-   "geo_checked": "2026-11-27"
+   "status_note": "충주시 블로그 2026-11 방문 후기(충주 사직로 140) (2026-11-28 확인)",
+   "lat": 36.96897,
+   "lon": 127.940051,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   }
  ]
 }

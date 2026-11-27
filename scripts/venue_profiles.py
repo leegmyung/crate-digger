@@ -138,6 +138,7 @@ def load_master_meta(names: Iterable[str], path: Path = CITIES) -> Dict[str, dic
     if not isinstance(master, list):
         return {}
     labels = raw.get("types") if isinstance(raw.get("types"), dict) else {}
+    status_labels = raw.get("statuses") if isinstance(raw.get("statuses"), dict) else {}
     out = {}
     for n, i in vk.match_our_venues(master, list(names)).items():
         e = master[i]
@@ -145,8 +146,11 @@ def load_master_meta(names: Iterable[str], path: Path = CITIES) -> Dict[str, dic
         alias = {a for a in (e.get("aliases") or []) if isinstance(a, str) and a.strip()}
         if e.get("name") and e["name"] != n:
             alias.add(e["name"])
+        status = str(e.get("status") or "").strip() or None
         out[n] = {"type": code, "type_label": labels.get(code) if code else None,
-                  "type_basis": e.get("type_basis") or None, "aliases": sorted(alias - {n})}
+                  "type_basis": e.get("type_basis") or None, "aliases": sorted(alias - {n}),
+                  "status": status, "status_label": status_labels.get(status) if status else None,
+                  "status_note": e.get("status_note") or None, "moved_to": e.get("moved_to") or None}
     return out
 
 
@@ -174,6 +178,8 @@ def _extra_fields(v: str, cap: dict, meta: dict, notes: dict) -> dict:
     """종류·별칭·'묶지 않음'·수용 인원 출처 칸 (없으면 None·빈 목록)."""
     aliases = sorted((set(meta.get("aliases", [])) | set(notes.get("variants", []))) - {v})
     return {"type": meta.get("type"), "type_label": meta.get("type_label"), "type_basis": meta.get("type_basis"),
+            "status": meta.get("status"), "status_label": meta.get("status_label"),
+            "status_note": meta.get("status_note"), "moved_to": meta.get("moved_to"),
             "aliases": aliases, "not_merged": notes.get("not_merged", []),
             "capacity_source": cap.get("source") or None, "capacity_note": cap.get("source_note") or None,
             "capacity_confidence": cap.get("confidence") or None, "capacity_checked": cap.get("checked") or None}
@@ -300,6 +306,8 @@ def payload(profiles: Dict[str, dict], as_of: date) -> dict:
                                    "최근 12개월 공연이 없으면 빈칸. docs/methods.md '공연장 발굴 주목도'",
                       "type": "type·type_label·type_basis = config/venues_kr.json 공연장 종류(라이브클럽·홀·소극장·창작소·카페·페스티벌)와 근거. "
                               "없으면 null(앱 '유형 미정')",
+                      "status": "status·status_label·status_note·moved_to = config/venues_kr.json 운영 상태(open 운영·unknown 확인 필요·"
+                                "paused 휴업·closed 폐업)·근거 메모·옮긴 곳. 마스터에 없으면 null",
                       "aliases": "aliases = 마스터 목록 별칭·대표 이름 + config/venue_aliases.json 묶인 표기('@계정' 제외), "
                                  "not_merged = 묶지 않은 비슷한 이름과 근거",
                       "capacity_source": "capacity_source·note·confidence·checked = config/venue_capacity.json 수용 인원 출처·"

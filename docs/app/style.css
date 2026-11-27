@@ -9134,3 +9134,21 @@ table.event-window {
 .venue-basis-fold p {
   margin: 4px 0;
 }
+
+/* 공연장 운영 상태 배지(폐업·휴업·이전) — components/venue_info.js venueStatusBadge */
+.venue-status-pill {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-strong);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
+  vertical-align: middle;
+  color: var(--ink-muted);
+}
+.venue-status-pill.is-closed { color: var(--err-ink); background: var(--err-bg); border-color: var(--err-line); }
+.venue-status-pill.is-paused { color: var(--warn-ink); background: var(--warn-bg); border-color: var(--warn-line); }
+.venue-status-pill.is-moved { color: var(--accent); border-color: currentColor; }
