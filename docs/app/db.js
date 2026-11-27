@@ -577,6 +577,7 @@ export async function bootstrapData(onStatus = () => {}) {
     snapIdx,
     dashJson,
     collectJson,
+    sourceReviewJson,
   ] = await Promise.all([
     fetchText('lab/data/signals.csv'),
     fetchText('lab/data/teams.csv'),
@@ -593,6 +594,7 @@ export async function bootstrapData(onStatus = () => {}) {
     fetchJson('lab/data/snapshots/index.json', true),
     fetchJson('data/dashboard.json', true),
     fetchJson('data/collect.json', true),
+    fetchJson('data/source_review.json', true),
     enginePromise,
   ]);
 
@@ -600,6 +602,7 @@ export async function bootstrapData(onStatus = () => {}) {
   appState.dataEnd = meta?.data_end || '2026-11-27';
   appState.dashboardJson = dashJson;
   appState.collectJson = collectJson;
+  appState.sourceReviewJson = sourceReviewJson;
   appState.dataHealth = computeDataHealth(meta, collectJson, dashJson);
   appState.sqlTemplates = {
     features: featSql || '',

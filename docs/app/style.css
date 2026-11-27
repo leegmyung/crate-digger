@@ -3177,5 +3177,25 @@ tr.player-expand-row td {
   }
 }
 
+/* ---------- Quiet source review dot on Advanced nav ---------- */
+.nav-adv-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-review-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: none;
+}
+
+.nav-review-dot[hidden] {
+  display: none;
+}
+
 
 

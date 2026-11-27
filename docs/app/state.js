@@ -149,6 +149,7 @@ export const appState = {
   meta: null,
   dashboardJson: null,
   collectJson: null,
+  sourceReviewJson: null,
   dataHealth: { ok: true, severity: 'ok', issues: [], totalSources: 0, okSources: 0, lastCollectedDate: '', summaryLabel: '수집 정상' },
   weeklyDigestText: '',
   exportCtx: {

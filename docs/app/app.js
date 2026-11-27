@@ -116,6 +116,20 @@ function updateNavActive() {
   if (advBadge) {
     advBadge.textContent = hasIssue ? '!' : (customW ? '수정' : '');
   }
+
+  const reviewSuggestions = Array.isArray(appState.sourceReviewJson?.suggestions)
+    ? appState.sourceReviewJson.suggestions
+    : [];
+  const reviewDot = document.getElementById('navReviewDot');
+  if (reviewDot) {
+    const hasReview = reviewSuggestions.length > 0;
+    reviewDot.hidden = !hasReview;
+    if (hasReview) {
+      const tip = `출처 재분류 검토 제안 ${reviewSuggestions.length}건`;
+      reviewDot.title = tip;
+      reviewDot.setAttribute('aria-label', tip);
+    }
+  }
 }
 
 function updateExportMenuUI() {
