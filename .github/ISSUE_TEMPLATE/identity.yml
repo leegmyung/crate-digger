@@ -1,0 +1,46 @@
+name: 팀 정보가 틀려요
+description: 같은 팀이 둘로 나뉘었거나, 다른 팀과 섞였거나, 데뷔일·장르·링크가 틀린 경우 알려 주세요.
+title: "[팀 정보] "
+labels: ["identity"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gigle Research 대시보드의 팀 정보 오류를 알려 주셔서 고맙습니다.
+        **이메일·전화번호 같은 개인 연락처는 적지 마세요.** (공개 저장소라 누구나 볼 수 있어요)
+  - type: input
+    id: team
+    attributes:
+      label: 팀 이름
+      description: 대시보드에 보이는 이름
+    validations:
+      required: true
+  - type: input
+    id: team_key
+    attributes:
+      label: 대표 키 (자동으로 채워져 있으면 그대로)
+  - type: input
+    id: page
+    attributes:
+      label: 화면 주소
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 어떤 오류인가요?
+      options:
+        - 같은 팀이 둘 이상으로 나뉘어 있어요
+        - 다른 팀(동명이인)과 섞였어요
+        - 데뷔일·첫 발매일이 틀려요
+        - 이미 오래 활동한 팀이에요 (신인 아님)
+        - 장르가 틀려요
+        - 플랫폼 링크(멜론·스포티파이·인스타)가 다른 사람이에요
+        - 기타
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: 자세한 내용과 근거
+      description: 공식 페이지·기사 링크가 있으면 같이 적어 주세요.
+    validations:
+      required: true
