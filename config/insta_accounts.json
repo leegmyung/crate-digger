@@ -1876,9 +1876,9 @@
   {
    "handle": "technoeden_official",
    "name": "테크노동산 technoeden",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -2972,9 +2972,9 @@
   {
    "handle": "hiphopplayashow",
    "name": "HIPHOPPLAYA SHOW 힙플쇼",
-   "tier": "venue",
-   "every_days": 4,
-   "role": "venue_showcase",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "event_showcase",
    "genre": "hiphop"
   },
   {

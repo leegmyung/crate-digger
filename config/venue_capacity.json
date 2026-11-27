@@ -1136,6 +1136,207 @@
    "confidence": "low",
    "checked": "2026-11-27",
    "note": "등록 객석(좌석) 수라 스탠딩은 보통 1.5~2배 — 체급이 한 칸 낮게 잡혔을 수 있음"
+  },
+  "BOLERO": {
+   "rank": 83,
+   "events": 5,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "Blank Site Seoul": {
+   "rank": 171,
+   "events": 2,
+   "checked": "2026-11-28",
+   "capacity": 450,
+   "tier": "L",
+   "standing": 450,
+   "seats": 200,
+   "source": "https://www.instagram.com/blanksite_seoul/",
+   "source_note": "공연장 인스타 소개글 'Standing 450 / Seated 200' (2026-11 후보 조사 기록)",
+   "confidence": "mid",
+   "note": "공연장이 스스로 밝힌 값(대관 안내)"
+  },
+  "Cakeshop": {
+   "rank": 121,
+   "events": 3,
+   "checked": "2026-11-28",
+   "capacity": 200,
+   "tier": "M",
+   "standing": 200,
+   "source": "https://www.fodors.com/world/asia/south-korea/seoul/things-to-do/nightlife/reviews/cakeshop-s894952",
+   "source_note": "Fodor's — 지하, 최대 약 200명. RA 공연장 소개도 '200-capacity club'",
+   "confidence": "mid",
+   "note": "공식 정원이 아니라 안내 사이트들의 '약 200명'"
+  },
+  "Dive Records": {
+   "rank": 166,
+   "events": 2,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "H.O.Ë": {
+   "rank": 164,
+   "events": 2,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "Lit Lounge Itaewon": {
+   "rank": 163,
+   "events": 2,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "LoveHaus": {
+   "rank": 255,
+   "events": 1,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "Paper Seoul": {
+   "rank": 123,
+   "events": 3,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "TOOL Records & Bar": {
+   "rank": 256,
+   "events": 1,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "Teller": {
+   "rank": 100,
+   "events": 4,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "그래픽 한강": {
+   "rank": 175,
+   "events": 2,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "누에 nué": {
+   "rank": 165,
+   "events": 2,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "무대륙B": {
+   "rank": 269,
+   "events": 1,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "잼라운지 홍대": {
+   "rank": 263,
+   "events": 1,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "축제 (을지로)": {
+   "rank": 57,
+   "events": 10,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "플랫나인": {
+   "rank": 252,
+   "events": 1,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "VINTA": {
+   "rank": 168,
+   "events": 2,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "CLUB NASUB": {
+   "rank": 128,
+   "events": 3,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "인천음악창작소 Portrock": {
+   "rank": 270,
+   "events": 1,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "Pistil": {
+   "rank": null,
+   "events": 0,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "ROSSO": {
+   "rank": null,
+   "events": 0,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "MODECi": {
+   "rank": null,
+   "events": 0,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "TCC Seoul (TechnoCoffeeClub)": {
+   "rank": null,
+   "events": 0,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
+  },
+  "러스틱재즈": {
+   "rank": null,
+   "events": 0,
+   "checked": "2026-11-28",
+   "capacity": null,
+   "tier": null,
+   "note": "공개 자료(인스타 소개글·클럽 안내·기사)에서 수용 인원을 찾지 못함"
   }
  }
 }

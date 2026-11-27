@@ -144,7 +144,12 @@
    "instagram": "boleroseoul",
    "checked": "2026-11-28",
    "our_venue": "BOLERO",
-   "in_our_data": true
+   "in_our_data": true,
+   "lat": 37.534814,
+   "lon": 126.998479,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "Bender",
@@ -202,7 +207,12 @@
    "instagram": "blanksite_seoul",
    "checked": "2026-11-28",
    "our_venue": "Blank Site Seoul",
-   "in_our_data": true
+   "in_our_data": true,
+   "lat": 37.53398,
+   "lon": 126.994864,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "CJ아지트 광흥창",
@@ -284,22 +294,31 @@
    "province": "서울",
    "city": "서울",
    "district": "용산구",
-   "address": "",
+   "address": "서울 용산구 이태원로 134",
    "type": "live_club",
    "type_basis": "수동: 후보 조사 메모 — 이태원 대표 DJ 클럽",
-   "capacity": null,
+   "capacity": 200,
    "status": "open",
    "status_note": "공연장 인스타 라인업 글 최근 2026-11-26 (2026-11-28 확인)",
    "sources": [
     {
      "url": "https://www.instagram.com/cakeshopseoul/",
      "note": "공연장 인스타 소개·후보 조사 기록(이태원 클럽)"
+    },
+    {
+     "url": "https://www.fodors.com/world/asia/south-korea/seoul/things-to-do/nightlife/reviews/cakeshop-s894952",
+     "note": "Fodor's — 지하, 최대 약 200명"
     }
    ],
    "instagram": "cakeshopseoul",
    "checked": "2026-11-28",
    "our_venue": "Cakeshop",
-   "in_our_data": true
+   "in_our_data": true,
+   "lat": 37.539767,
+   "lon": 127.002377,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "Club FF",
@@ -553,7 +572,8 @@
    "instagram": "diverecords_seoul",
    "checked": "2026-11-28",
    "our_venue": "Dive Records",
-   "in_our_data": true
+   "in_our_data": true,
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "GB가빈아트홀",
@@ -611,7 +631,12 @@
    "instagram": "h.o.e.seoul",
    "checked": "2026-11-28",
    "our_venue": "H.O.Ë",
-   "in_our_data": true
+   "in_our_data": true,
+   "lat": 37.550236,
+   "lon": 126.922334,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "Hukez",
@@ -816,7 +841,8 @@
    "instagram": "litlounge_itw",
    "checked": "2026-11-28",
    "our_venue": "Lit Lounge Itaewon",
-   "in_our_data": true
+   "in_our_data": true,
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "LoveHaus",
@@ -841,7 +867,47 @@
    "instagram": "lvhs.kr",
    "checked": "2026-11-28",
    "our_venue": "LoveHaus",
-   "in_our_data": true
+   "in_our_data": true,
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "MODECi",
+   "aliases": [
+    "모데시",
+    "Modeci"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 와우산로 64 5층",
+   "type": "live_club",
+   "type_basis": "수동: RA·Mixmag — 홍대 DJ 클럽",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-25 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://de.ra.co/events/2580478",
+     "note": "RA Modeci 9주년 행사 안내 — 5F 64, Wausan-ro, Mapo-gu"
+    },
+    {
+     "url": "https://mixmag.asia/feature/the-mixmag-asia-clubbing-guide-seoul",
+     "note": "Mixmag Asia 서울 클럽 안내"
+    },
+    {
+     "url": "https://www.instagram.com/modeci_seoul/",
+     "note": "공연장 공식 인스타그램"
+    }
+   ],
+   "instagram": "modeci_seoul",
+   "checked": "2026-11-28",
+   "our_venue": "MODECi",
+   "in_our_data": true,
+   "lat": 37.550211,
+   "lon": 126.923236,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "NOL 씨어터 합정",
@@ -907,7 +973,88 @@
    "instagram": "paper.seoul",
    "checked": "2026-11-28",
    "our_venue": "Paper Seoul",
-   "in_our_data": true
+   "in_our_data": true,
+   "lat": 37.534875,
+   "lon": 126.993098,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "Pistil",
+   "aliases": [
+    "피스틸"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "용산구",
+   "address": "서울 용산구 보광로59길 9 B1",
+   "type": "live_club",
+   "type_basis": "수동: 클럽 안내 사이트 — 이태원 소형 DJ 클럽·라운지",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-24 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://www.technoairlines.com/club/pistil-seoul",
+     "note": "클럽 안내 — 보광로59길 9 (다른 자료는 이태원동 130-5 표기)"
+    },
+    {
+     "url": "https://www.timeout.com/seoul/pistil",
+     "note": "Time Out 서울 장소 안내"
+    },
+    {
+     "url": "https://www.instagram.com/pistilseoul/",
+     "note": "공연장 공식 인스타그램"
+    }
+   ],
+   "instagram": "pistilseoul",
+   "checked": "2026-11-28",
+   "our_venue": "Pistil",
+   "in_our_data": true,
+   "lat": 37.533866,
+   "lon": 126.993487,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "ROSSO",
+   "aliases": [
+    "로쏘"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "용산구",
+   "address": "서울 용산구 대사관로31길",
+   "type": "live_club",
+   "type_basis": "수동: RA 행사 안내 — DJ 바·클럽",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-22 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://ra.co/events/2425320",
+     "note": "RA 2026-04 행사 안내 — Daesagwan-ro 31-gil, Yongsan-gu"
+    },
+    {
+     "url": "https://edmdancedirectory.com/venues/rosso-seoul",
+     "note": "전자음악 공연장 안내"
+    },
+    {
+     "url": "https://www.instagram.com/rosso_seoul/",
+     "note": "공연장 공식 인스타그램"
+    }
+   ],
+   "instagram": "rosso_seoul",
+   "checked": "2026-11-28",
+   "our_venue": "ROSSO",
+   "in_our_data": true,
+   "lat": 37.533857,
+   "lon": 127.004786,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "SMALL FRY",
@@ -1006,6 +1153,46 @@
    "geo_method": "address"
   },
   {
+   "name": "TCC Seoul (TechnoCoffeeClub)",
+   "aliases": [
+    "TCC",
+    "TechnoCoffeeClub",
+    "테크노커피클럽"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "성동구",
+   "address": "서울 성동구 광나루로 302",
+   "type": "cafe",
+   "type_basis": "수동: RA·전자음악 공연장 안내 — 주말 전자음악 바",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-19 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://edmdancedirectory.com/venues/tcc-seoul-seoul",
+     "note": "전자음악 공연장 안내 — 302 Gwangnaru-ro, Seongdong-gu"
+    },
+    {
+     "url": "https://de.ra.co/events/2268285",
+     "note": "RA 행사 안내"
+    },
+    {
+     "url": "https://www.instagram.com/tcc_seoul/",
+     "note": "공연장 공식 인스타그램"
+    }
+   ],
+   "instagram": "tcc_seoul",
+   "checked": "2026-11-28",
+   "our_venue": "TCC Seoul (TechnoCoffeeClub)",
+   "in_our_data": true,
+   "lat": 37.547945,
+   "lon": 127.063356,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
    "name": "THILA",
    "aliases": [],
    "province": "서울",
@@ -1089,7 +1276,8 @@
    "instagram": "tool.seoul",
    "checked": "2026-11-28",
    "our_venue": "TOOL Records & Bar",
-   "in_our_data": true
+   "in_our_data": true,
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "Teller",
@@ -1114,7 +1302,12 @@
    "instagram": "teller.seoul",
    "checked": "2026-11-28",
    "our_venue": "Teller",
-   "in_our_data": true
+   "in_our_data": true,
+   "lat": 37.5337,
+   "lon": 126.995447,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "XSCALA(엑스칼라)",
@@ -1488,7 +1681,8 @@
    "instagram": "graphic.hangang",
    "checked": "2026-11-28",
    "our_venue": "그래픽 한강",
-   "in_our_data": true
+   "in_our_data": true,
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "그림라이브하우스",
@@ -1646,7 +1840,9 @@
    "instagram": "nue.seoul",
    "checked": "2026-11-28",
    "our_venue": "누에 nué",
-   "in_our_data": true
+   "in_our_data": true,
+   "geo_checked": "2026-11-28",
+   "geo_note": "이름 검색 결과(서울 동남부)가 다른 곳일 가능성이 커서 지움 — 주소 확인 필요"
   },
   {
    "name": "더 마스카니",
@@ -1916,6 +2112,40 @@
    "geo_method": "address"
   },
   {
+   "name": "러스틱재즈",
+   "aliases": [
+    "RUSTIC JAZZ"
+   ],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 망원동",
+   "type": "cafe",
+   "type_basis": "수동: 소개글 'JAZZ LIVE' — 재즈바",
+   "capacity": null,
+   "status": "open",
+   "status_note": "공연장 인스타 라인업 글 최근 2026-11-26 (2026-11-28 확인)",
+   "sources": [
+    {
+     "url": "https://daangn.com/kr/local-profile/%EB%9F%AC%EC%8A%A4%ED%8B%B1%EC%9E%AC%EC%A6%88-qto48o2yisbo/",
+     "note": "당근 업체 페이지 — 마포구 망원동, 정규 공연 시간 안내"
+    },
+    {
+     "url": "https://www.instagram.com/rustic_jazz/",
+     "note": "공연장 공식 인스타그램"
+    }
+   ],
+   "instagram": "rustic_jazz",
+   "checked": "2026-11-28",
+   "our_venue": "러스틱재즈",
+   "in_our_data": true,
+   "lat": 37.557226,
+   "lon": 126.90498,
+   "geo_confidence": "low",
+   "geo_method": "name",
+   "geo_checked": "2026-11-28"
+  },
+  {
    "name": "레드포인트",
    "aliases": [],
    "province": "서울",
@@ -2002,7 +2232,12 @@
    "instagram": "rock._.zip",
    "checked": "2026-11-28",
    "our_venue": "록집",
-   "in_our_data": true
+   "in_our_data": true,
+   "lat": 37.548494,
+   "lon": 126.919887,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "롤러코스터",
@@ -2402,7 +2637,12 @@
    "instagram": "mudaeruk_b",
    "checked": "2026-11-28",
    "our_venue": "무대륙B",
-   "in_our_data": true
+   "in_our_data": true,
+   "lat": 37.546374,
+   "lon": 126.918429,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "무신사 개러지",
@@ -3126,7 +3366,8 @@
    "instagram": "seongsuyulmusic",
    "checked": "2026-11-28",
    "our_venue": "성수율 뮤직 3F",
-   "in_our_data": true
+   "in_our_data": true,
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "성우레더스테이지",
@@ -4592,7 +4833,8 @@
    "instagram": "_jam_lounge_hongdae",
    "checked": "2026-11-28",
    "our_venue": "잼라운지 홍대",
-   "in_our_data": true
+   "in_our_data": true,
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "제비다방",
@@ -4749,8 +4991,13 @@
    ],
    "instagram": "festivalfestivalseoul",
    "checked": "2026-11-28",
-   "our_venue": "축제 (을지로)",
-   "in_our_data": true
+   "our_venue": null,
+   "in_our_data": false,
+   "lat": 37.562687,
+   "lon": 126.990521,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "카페 아이다호",
@@ -5417,7 +5664,12 @@
    "instagram": "flatnine_jazzbar",
    "checked": "2026-11-28",
    "our_venue": "플랫나인",
-   "in_our_data": true
+   "in_our_data": true,
+   "lat": 37.500415,
+   "lon": 127.024962,
+   "geo_confidence": "low",
+   "geo_method": "name",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "허밋",
@@ -5770,7 +6022,12 @@
    "instagram": "vinta_suwon",
    "checked": "2026-11-28",
    "our_venue": "VINTA",
-   "in_our_data": true
+   "in_our_data": true,
+   "lat": 37.275963,
+   "lon": 127.003019,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "딩깅프렌즈",
@@ -7093,7 +7350,8 @@
    "instagram": "clubnasub",
    "checked": "2026-11-28",
    "our_venue": "CLUB NASUB",
-   "in_our_data": true
+   "in_our_data": true,
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "HQ광안",
@@ -8144,7 +8402,8 @@
    "instagram": "portrock_incheon",
    "checked": "2026-11-28",
    "our_venue": "인천음악창작소 Portrock",
-   "in_our_data": true
+   "in_our_data": true,
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "클럽 낙",
