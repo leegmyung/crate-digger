@@ -21,6 +21,11 @@ class FameTest(unittest.TestCase):
         self.assertTrue(rl.FAME["current"](team(profile_status="famous"), C))
         self.assertFalse(rl.FAME["off"](team(profile_status="famous"), C))
 
+    def test_applied_rule_only_from_fame_known_date(self):
+        famous = team(profile_status="famous")
+        self.assertFalse(rl.FAME["applied"](famous, C))                       # 과거 기준일: 지금 팬 수로 안 뺌
+        self.assertTrue(rl.FAME["applied"](famous, rl.FAME_KNOWN_FROM))       # 판정 가능한 날부터는 뺌
+
     def test_tenure_and_signals_at_cutoff(self):
         old_busy = team(first_release=date(2018, 1, 1), signals_before=rl.TENURE_MIN_SIGNALS)
         old_quiet = team(first_release=date(2018, 1, 1), signals_before=1)

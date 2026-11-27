@@ -28,6 +28,8 @@ import score_tune as st  # noqa: E402
 OUT = lab_sql.ROOT / "docs" / "same_house.md"
 CARD_CUTOFFS = ("2024-07-01", "2025-01-01", "2025-07-01")   # 출처 성적표(docs/source_roles.md)와 같은 기준일
 LOOKBACK_YEARS = 3
+NONE_LABEL = "규칙 없음 (모든 정답)"
+LAB_LABEL = "지금 랩 데이터 (2026-11-27 적용된 규칙)"
 SCORED_LABEL = "점수에 쓰는 출처의 짝만 (음악취향Y·평론 웹진)"
 ALL_LABEL = "짝 4개 모두 적용"
 SRC_KEY = "branch || ':' || CASE WHEN branch = '선정·지원' THEN program ELSE source END"
@@ -124,7 +126,8 @@ def card_pool(con, cutoffs: Sequence[str]) -> List[dict]:
     for c in cutoffs:
         q = f"""SELECT DISTINCT t.team_key FROM signals s JOIN teams t USING (team_key)
                 WHERE s.signal_date < DATE '{c}' AND s.signal_date >= DATE '{c}' - INTERVAL {LOOKBACK_YEARS} YEAR
-                  AND t.first_seen >= DATE '{c}' - INTERVAL {LOOKBACK_YEARS} YEAR AND t.profile_status <> 'famous'
+                  AND t.first_seen >= DATE '{c}' - INTERVAL {LOOKBACK_YEARS} YEAR
+                  AND (DATE '{c}' < fame_known_from() OR t.profile_status <> 'famous')
                   AND NOT EXISTS (SELECT 1 FROM outcomes b WHERE b.team_key = t.team_key AND b.counted
                                   AND b.announced_date < DATE '{c}')"""
         cd = date.fromisoformat(c)
@@ -181,12 +184,15 @@ def build(con) -> List[str]:
 
     data = {c: st.features(con, c) for c in st.CUTOFFS}
     asrcs = load_sources(con, st.CUTOFFS)
-    same_as_lab = all(r0["is_hit"] == r1["is_hit"] for c in st.CUTOFFS
-                      for r0, r1 in zip(data[c], relabel(data, outcomes, asrcs, [])[c]))
     scored = [p for p in PAIRS if any(roles.get(x) in ("discovery", "context") for x in p["sources"])]
-    variants = ([("그대로 (지금)", [])] + [(p["name"], [p]) for p in PAIRS]
-                + [(SCORED_LABEL, scored), (ALL_LABEL, PAIRS)])
-    aucs = [(name, auc_summary(relabel(data, outcomes, asrcs, prs) if prs else data)) for name, prs in variants]
+    # 같은 집안 규칙은 2026-11-27 랩 데이터에 적용됐다(outcomes.csv same_house_scored) → 비교 기준은 '규칙 없음(모든 정답)'으로 다시 매긴다
+    applied = [p for p in scored if p["strength"] == "강함"]   # 랩에 적용된 것: 강한 짝 중 점수에 쓰는 출처의 짝
+    rel_applied = relabel(data, outcomes, asrcs, applied)
+    rows_all = [(a, b) for c in st.CUTOFFS for a, b in zip(data[c], rel_applied[c])]
+    n_diff = sum(1 for a, b in rows_all if a["is_hit"] != b["is_hit"])
+    variants = ([(NONE_LABEL, [])] + [(p["name"], [p]) for p in PAIRS]
+                + [(SCORED_LABEL, scored), (ALL_LABEL, PAIRS), (LAB_LABEL, None)])
+    aucs = [(name, auc_summary(data if prs is None else relabel(data, outcomes, asrcs, prs))) for name, prs in variants]
 
     lines = ["# 같은 집안 점검 — 신호 출처와 정답 프로그램이 같은 주최일 때", "",
              "_자동 생성: `.venv/bin/python scripts/same_house.py`_", "",
@@ -195,7 +201,10 @@ def build(con) -> List[str]:
              "이 문서는 그런 짝을 전부 찾아, 짝 정답을 빼면 성적이 얼마나 바뀌는지 잰다.", "",
              "**잰 방법**: 그 팀이 짝 출처에 (기준일 전 3년 안에) 나왔으면, 짝 정답은 그 팀의 적중으로 세지 않는다 — 선정 프로그램의 앞 단계와 "
              "다음 단계를 잇는 기존 규칙(`SAME_PROGRAM`)을 출처까지 넓힌 것. 설정·계산식(config, features.sql)은 고치지 않고 이 스크립트 안에서만 "
-             "정답 라벨을 다시 매겼다" + ("(규칙을 안 쓰면 랩 계산과 라벨이 똑같음을 확인)." if same_as_lab else "(⚠️ 규칙 없이도 랩 라벨과 달라 확인 필요)."), "",
+             "정답 라벨을 다시 매겼다. **이 규칙은 2026-11-27 랩 데이터에 적용됐다**(`outcomes.csv`의 `same_house_scored`, 점수에 쓰는 출처의 짝) — "
+             f"점수 검증에 적용된 것은 강한 짝 중 점수에 쓰는 출처의 짝({', '.join(p['name'] for p in applied)})이고, 평론 웹진↔한대음은 표시만 한다. "
+             f"그래서 아래 비교의 기준은 '규칙 없음(모든 정답)'이고, 이 스크립트로 같은 짝을 적용한 라벨은 랩 라벨과 {len(rows_all):,}행 중 "
+             f"{len(rows_all) - n_diff:,}행에서 같다" + (f"(다른 {n_diff}행은 짝 출처를 보는 기간 차이 — 랩은 정답 전 아무 때나, 이 스크립트는 기준일 전 3년)." if n_diff else "."), "",
              "## 1. 짝 목록", "",
              "| 짝 | 신호 출처 (지금 역할) | 정답 프로그램 | 관계 | 강도 |", "|---|---|---|---|---|"]
     for p in PAIRS:

@@ -15,8 +15,10 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from lab_sql import fill, read_sql  # noqa: E402
 
 
-def fixture():
+def fixture(fame_from="2024-01-01"):
+    """fame_from = 유명 판정(지금 팬 수)을 쓸 수 있는 가장 이른 기준일 (features.sql 의 fame_known_from 매크로 흉내)."""
     con = duckdb.connect()
+    con.execute(f"CREATE MACRO fame_known_from() AS DATE '{fame_from}'")
     con.execute("""
         CREATE TABLE teams(team_key VARCHAR, display_name VARCHAR, first_seen DATE, first_release DATE,
                            fan_count INTEGER, album_count INTEGER, profile_status VARCHAR, primary_genre VARCHAR);
@@ -62,6 +64,12 @@ def run(con, **params):
 class DebutScorecardTest(unittest.TestCase):
     def setUp(self):
         self.con = fixture()
+
+    def test_famous_not_excluded_before_fame_known_from(self):
+        # 유명 판정은 지금 팬 수라 그보다 이른 기준일에는 쓰지 않는다 → 'fam' 이 코호트에 들어옴
+        out = run(fixture(fame_from="2026-11-26"))
+        self.assertEqual(next(iter(out.values()))["cohort_teams"], 4)
+        self.assertEqual(out["큐레이션:musicy"]["teams"], 3)
 
     def test_cohort_is_blank_slate_debuts_with_window_before_cutoff(self):
         # 6개월 창: 코호트 = 첫 발매가 기준일 12~6개월 전 (2024-01-01 ~ 2024-07-01) → 언급 창이 기준일 전에 끝남

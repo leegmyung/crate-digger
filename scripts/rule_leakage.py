@@ -31,6 +31,7 @@ WIDE_NEWCOMER_YEARS = 60          # 신인 규칙을 사실상 끈 넓은 후보
 TENURE_YEARS = 5                  # 대안 '연차+신호 수': 기준일에 첫 발매 후 이 해 수를 넘고
 TENURE_MIN_SIGNALS = 10           # 기준일 전 신호(모든 출처)가 이만큼 이상이면 '이미 알려진 팀'
 TOP = 100
+FAME_KNOWN_FROM = date(2026, 11, 26)   # features.sql 의 fame_known_from() 과 같아야 함 (build 에서 확인)
 FEATURE_COLS = ("team_key, n_branch, best_stage, peer_selected, dmz, gigs_1y, outlets, recent180, venues, "
                 "peer_winner, context_outlets, collab_est, is_hit, hit_weight")
 
@@ -54,13 +55,14 @@ def _prior_record(t: dict, c: date) -> bool:
 
 
 FAME: Dict[str, Callable[[dict, date], bool]] = {
-    "current": lambda t, c: t.get("profile_status") == "famous",          # 지금 규칙 (지금 팬 수·오늘 날짜)
+    "applied": lambda t, c: c >= FAME_KNOWN_FROM and t.get("profile_status") == "famous",   # 적용된 규칙 (2026-11-27~)
+    "current": lambda t, c: t.get("profile_status") == "famous",          # 옛 규칙 (지금 팬 수를 과거 기준일에도)
     "off": lambda t, c: False,                                              # 유명 제외 끔
     "tenure_signals": _tenure_signals,                                      # 기준일 시점: 첫 발매 5년 초과 & 신호 10개 이상
     "prior_record": _prior_record,                                          # 기준일 전 정답(기성 팀이라 안 센 것 포함)·DMZ 출연
     "combo": lambda t, c: _tenure_signals(t, c) or _prior_record(t, c),
 }
-FAME_LABEL = {"current": "지금 규칙 (지금 팬 수)", "off": "유명 제외 끔", "tenure_signals": "기준일 시점 연차+신호 수",
+FAME_LABEL = {"applied": "적용된 규칙 (판정 가능한 날부터만)", "current": "옛 규칙 (지금 팬 수를 과거에도)", "off": "유명 제외 끔", "tenure_signals": "기준일 시점 연차+신호 수",
               "prior_record": "기준일 전 정답·DMZ 출연", "combo": "연차+신호 수 또는 정답·DMZ"}
 
 
@@ -74,15 +76,16 @@ def newcomer_ok(t: dict, c: date, years: int, mode: str) -> bool:
 NEW_LABEL = {"release_first": "첫 발매 우선", "signal_first": "첫 신호(우리 데이터 첫 등장)", "none": "신인 규칙 끔"}
 
 VARIANTS: List[dict] = [
-    {"key": "base", "fame": "current", "new_years": 3, "new_mode": "release_first"},
+    {"key": "base", "fame": "applied", "new_years": 3, "new_mode": "release_first"},
+    {"key": "old", "fame": "current", "new_years": 3, "new_mode": "release_first"},
     {"key": "fame_off", "fame": "off", "new_years": 3, "new_mode": "release_first"},
     {"key": "fame_tenure", "fame": "tenure_signals", "new_years": 3, "new_mode": "release_first"},
     {"key": "fame_prior", "fame": "prior_record", "new_years": 3, "new_mode": "release_first"},
     {"key": "fame_combo", "fame": "combo", "new_years": 3, "new_mode": "release_first"},
-    {"key": "new4", "fame": "current", "new_years": 4, "new_mode": "release_first"},
-    {"key": "new5", "fame": "current", "new_years": 5, "new_mode": "release_first"},
-    {"key": "new_signal3", "fame": "current", "new_years": 3, "new_mode": "signal_first"},
-    {"key": "new_off", "fame": "current", "new_years": 3, "new_mode": "none"},
+    {"key": "new4", "fame": "applied", "new_years": 4, "new_mode": "release_first"},
+    {"key": "new5", "fame": "applied", "new_years": 5, "new_mode": "release_first"},
+    {"key": "new_signal3", "fame": "applied", "new_years": 3, "new_mode": "signal_first"},
+    {"key": "new_off", "fame": "applied", "new_years": 3, "new_mode": "none"},
     {"key": "pit3", "fame": "combo", "new_years": 3, "new_mode": "release_first"},
     {"key": "pit4", "fame": "combo", "new_years": 4, "new_mode": "release_first"},
 ]
@@ -162,6 +165,9 @@ def ranked_keys(rows: Sequence[dict]) -> List[str]:
 # ---------- 문서 ----------
 
 def build(con) -> List[str]:
+    macro = con.execute("SELECT fame_known_from()").fetchone()[0]
+    if macro != FAME_KNOWN_FROM:
+        raise SystemExit(f"FAME_KNOWN_FROM({FAME_KNOWN_FROM})이 features.sql fame_known_from()({macro})과 다름 — 맞춰 주세요")
     wide, attrs = load(con, st.CUTOFFS)
     base_v = VARIANTS[0]
     same = all({r["team_key"] for r in apply_variant(wide[c], attrs[c], date.fromisoformat(c), base_v)}
@@ -190,7 +196,12 @@ def build(con) -> List[str]:
 
     lines = ["# 후보 규칙의 시점 누수 점검 — 유명 팀 제외·신인 규칙", "",
              "_자동 생성: `.venv/bin/python scripts/rule_leakage.py` (멜론 프로필이 늘면 결과가 바뀌니 다시 돌림)_", "",
-             "## 1. 지금 유명 판정은 무엇으로 정해지나", "",
+             "## 0. 적용함 (2026-11-27, 사용자 결정 '검증만 기준일 시점으로')", "",
+             f"- 랩 계산식(`docs/lab/sql/features.sql`)에 `fame_known_from()` = **{FAME_KNOWN_FROM}**(멜론 팬 수를 처음 모은 날)을 두고, "
+             "그보다 이른 기준일에는 '지금 팬 수' 유명 판정으로 후보를 빼지 않는다. 출처 성적표(`source_scorecard.sql`)·데뷔 코호트 성적표도 같은 조건.",
+             "- **앱의 오늘 후보 목록은 그대로**다(오늘은 그 날짜 뒤라 유명 팀을 계속 뺀다).",
+             "- 아래 표에서 '적용된 규칙'이 지금 쓰는 규칙이고, '옛 규칙'은 비교용이다. 교차 검증 숫자는 [점수 교차 검증](score_tuning.md)·[방법론](methods.md) 참고.", "",
+             "## 1. 유명 판정은 무엇으로 정해지나", "",
              "- 규칙(`sql/kr/00_core_views.sql`의 `core.v_artist_status`, 기준값 `ref.settings`): **멜론 팬 1만 명 이상**, 또는 "
              "**첫 발매가 '오늘'보다 5년 넘게 전 & 팬 1천 명 이상**이면 `famous`. 프로필이 없으면 `unknown`(제외 안 함).",
              "- 팬 수는 멜론 프로필을 **수집한 날(2026-11-26~27)의 값**이고, 연차도 '오늘' 기준이다. 그래서 과거 기준일(2023~2025) 백테스트에 쓰면 "
@@ -201,7 +212,7 @@ def build(con) -> List[str]:
              f"- 연차+신호 수: 기준일에 첫 발매 후 {TENURE_YEARS}년 초과 **그리고** 기준일 전 우리 신호 {TENURE_MIN_SIGNALS}개 이상 → 이미 알려진 팀으로 제외.",
              "- 정답·DMZ: 기준일 전에 정답(기성 팀이라 '센 정답'으로 안 친 것 포함)을 받았거나 DMZ 피스트레인(기성 팀이 많이 서는 페스티벌)에 섰으면 제외.",
              "- 둘 중 하나(합침). 그리고 아예 끄기.", "",
-             "확인: 지금 규칙으로 넓은 후보군을 거르면 `score_tune.features`와 " + ("**똑같은 후보군**이 나온다." if same else "⚠️ 다른 후보군이 나온다 — 확인 필요."), "",
+             "확인: 적용된 규칙으로 넓은 후보군을 거르면 `score_tune.features`와 " + ("**똑같은 후보군**이 나온다." if same else "⚠️ 다른 후보군이 나온다 — 확인 필요."), "",
              f"## 2. 교차 검증 비교 (기준일 {len(st.CUTOFFS)}개 합산, 관찰 {st.HORIZON_MONTHS}개월, 점수 v2)", "",
              "| 규칙 | 후보 (행) | 정답 | v2 평균 AUC | 상위20 | 상위50 | 상위50 ÷ 정답 | 교차 검증 AUC | 놓친 (c)(d) 팀 중 후보로 돌아옴 / 상위 100 |",
              "|---|---|---|---|---|---|---|---|---|"]
@@ -231,33 +242,29 @@ def build(con) -> List[str]:
 
 def interpret(results, rescue) -> List[str]:
     r = {v["key"]: x for v, x in results}
-    b = r["base"]
-    best_pit = max(("fame_tenure", "fame_prior", "fame_combo", "pit3", "pit4"), key=lambda k: r[k]["cv_auc"])
+    b, old = r["base"], r["old"]
+    best_pit = max(("fame_prior", "fame_combo", "pit3", "pit4"), key=lambda k: r[k]["cv_auc"])
     lbl = {v["key"]: variant_label(v) for v, _ in results}
-    famous_rows, famous_pos = r["fame_off"]["n"] - b["n"], r["fame_off"]["pos"] - b["pos"]
+    famous_rows, famous_pos = b["n"] - old["n"], b["pos"] - old["pos"]
     lines = ["## 4. 해석", "",
-             f"- **지금 유명 판정으로 빠지던 후보는 기준일 6개 합쳐 {famous_rows}행뿐인데, 그중 {famous_pos}행이 나중에 정답을 받은 팀이다.** "
-             "유명 판정이 '정답을 받아 커진 팀'을 골라서 빼고 있었다는 뜻이다(미래 정보 누수).",
-             f"- **유명 제외를 끄면** 후보가 {b['n']:,} → {r['fame_off']['n']:,}행, 정답이 {b['pos']} → {r['fame_off']['pos']}행으로 늘고, "
-             f"교차 검증 AUC는 {b['cv_auc']:.3f} → {r['fame_off']['cv_auc']:.3f}, 상위 50 적중은 {b['hits50']} → {r['fame_off']['hits50']}. "
-             "지금 규칙이 빼던 정답 팀이 돌아오는 대신, 진짜 유명 팀도 같이 들어와 상위가 붐빈다.",
-             ("- '기준일 시점 연차+신호 수'는 지금 신인 규칙(첫 발매 3년)과 함께 쓰면 '끔'과 결과가 같다 — 첫 발매 5년 넘은 팀은 신인 규칙이 이미 빼서, "
-              "이 대안이 걸러낼 팀이 남지 않는다. 신인 기간을 늘릴 때(4·5년) 의미가 생긴다." if r["fame_tenure"] == r["fame_off"] else None),
-             f"- 기준일 시점 정보만 쓰는 대안 중 교차 검증 AUC가 가장 높은 것: **{lbl[best_pit]}** ({r[best_pit]['cv_auc']:.3f}, 상위 50 {r[best_pit]['hits50']}).",
+             f"- **옛 규칙(지금 팬 수를 과거에도)이 빼던 후보는 기준일 6개 합쳐 {famous_rows}행뿐인데, 그중 {famous_pos}행이 나중에 정답을 받은 팀이었다.** "
+             "유명 판정이 '정답을 받아 커진 팀'을 골라서 빼고 있었다는 뜻이다(미래 정보 누수). 적용된 규칙은 과거 기준일에 이 판정을 쓰지 않는다.",
+             f"- 옛 규칙 → 적용된 규칙: 후보 {old['n']:,} → {b['n']:,}행, 정답 {old['pos']} → {b['pos']}행, 교차 검증 AUC {old['cv_auc']:.3f} → {b['cv_auc']:.3f}, "
+             f"상위 50 적중 {old['hits50']} → {b['hits50']}(정답 중 {old['hits50'] / old['pos'] * 100:.0f}% → {b['hits50'] / b['pos'] * 100:.0f}%).",
+             f"- 기준일 시점 정보로 유명 팀을 따로 거르는 대안 중 교차 검증 AUC가 가장 높은 것: **{lbl[best_pit]}** ({r[best_pit]['cv_auc']:.3f}, 상위 50 {r[best_pit]['hits50']}). "
+             "다만 정답 수가 달라(아래 표) 적용된 규칙과 바로 우열을 가리기 어렵다.",
+             ("- '기준일 시점 연차+신호 수'는 신인 3년 규칙과 함께 쓰면 '끔'과 결과가 같다 — 첫 발매 5년 넘은 팀은 신인 규칙이 이미 뺀다."
+              if r["fame_tenure"] == r["fame_off"] else None),
              f"- 신인 기간을 늘리면(4년 {r['new4']['cv_auc']:.3f}·5년 {r['new5']['cv_auc']:.3f}) 후보가 {r['new4']['n']:,}·{r['new5']['n']:,}행으로 늘고 "
              f"(c) 늦게 뜬 팀이 돌아온다. 첫 신호 기준은 {r['new_signal3']['cv_auc']:.3f}, 신인 규칙을 끄면 {r['new_off']['cv_auc']:.3f}.",
-             "- 숫자를 비교할 때: 후보군·정답 수가 규칙마다 달라 AUC만으로 우열을 가리기 어렵다. '상위50 ÷ 정답'(정답 중 상위 50에 든 비율)과 "
-             "놓친 (c)(d) 팀이 상위 100에 돌아오는지를 같이 본다.",
-             "- **오늘 후보 목록에는 유명 규칙이 거의 영향이 없다**(3절: 유명 제외를 꺼도 상위 100이 그대로). 유명 판정 문제는 앱보다 백테스트 숫자의 문제다.", "",
-             "## 5. 권고 (적용은 사용자 확인 뒤)", "",
-             "1. **백테스트(교차 검증·성적표)에서는 '지금 팬 수' 유명 판정을 쓰지 않는다** — 미래 정보라 정답 팀을 골라서 뺀다. "
-             f"대신 기준일 시점 정보만 쓰는 대안(위 표에서 고른 **{lbl[best_pit]}**)을 쓴다.",
-             "2. **오늘 후보 목록(앱)에서는 지금 규칙을 유지해도 된다** — 오늘 기준으로는 '지금 팬 수'가 미래 정보가 아니다. 다만 백테스트와 규칙이 달라지므로 "
-             "방법론에 두 규칙을 같이 적는다.",
-             "3. **팬 수를 날짜별로 쌓기**(이미 시작) → 1년 뒤부터는 '기준일 당시 팬 수'로 판정할 수 있다. 그때 이 대안들과 다시 비교한다.",
-             "4. 신인 기간은 표의 상위 50 적중·교차 검증을 보고 정한다. 늘리면 (c) 늦게 뜬 팀이 돌아오지만 후보가 많아져 상위가 붐빈다.",
-             "5. 적용하려면 lab_scored 에 인자 추가가 필요하다(요청): `fame_rule`('current'|'off'|'pit'), `newcomer_mode`('release_first'|'signal_first'|'none'). "
-             "지금은 이 스크립트가 넓은 후보군을 받아 흉내 낸다.", ""]
+             "- 숫자를 비교할 때: 후보군·정답 수가 규칙마다 달라 AUC만으로 우열을 가리기 어렵다. '상위50 ÷ 정답'과 놓친 (c)(d) 팀이 돌아오는지를 같이 본다.",
+             "- **오늘 후보 목록에는 영향이 없다** — 오늘은 판정 가능한 날 뒤라 적용된 규칙도 지금 팬 수로 유명 팀을 뺀다(3절의 첫 줄과 '옛 규칙' 줄이 같음).", "",
+             "## 5. 남은 권고", "",
+             "1. **팬 수를 날짜별로 쌓기**(이미 시작) → 1년 뒤부터는 '기준일 당시 팬 수'로 판정할 수 있다. 그때 `fame_known_from()`을 그 날짜로 두면 된다.",
+             f"2. 신인 기간(3년)은 지금은 그대로 둔다 — 4·5년으로 늘리면 정답이 {b['pos']} → {r['new4']['pos']}·{r['new5']['pos']}행으로 늘어 상위 50 적중 수도 늘지만, "
+             f"정답 중 상위 50에 든 비율은 {b['hits50'] / b['pos'] * 100:.0f}% → {r['new4']['hits50'] / r['new4']['pos'] * 100:.0f}%·{r['new5']['hits50'] / r['new5']['pos'] * 100:.0f}%로 "
+             "거의 그대로라 뚜렷한 개선은 아니다(늘어난 정답은 '늦게 뜬 팀'이라는 정의 변경 몫). 멜론 프로필 수집이 끝나면 다시 잰다.",
+             "3. 멜론 프로필 수집이 끝나면 이 스크립트를 다시 돌린다(첫 발매일이 늘면 신인 규칙 결과가 바뀜).", ""]
     return [ln for ln in lines if ln is not None]
 
 

@@ -2,7 +2,7 @@
 
 2025-01-01 이후 S·A 정답(정리 규칙이 적용된 outcomes.csv)을 받은 팀마다, 첫 S·A 정답 6·12개월 전 기준일에서
 점수 v2 후보 순위가 어땠는지 본다. 상위 100 안이면 '잡음', 아니면 원인을 하나 고른다(아래 순서대로 먼저 걸리는 것).
-  f 다른 정답을 먼저 받아 후보에서 빠짐 · d 유명 팀 제외 · c 신인 규칙(첫 발매·첫 등장 3년 넘음)
+  f 다른 정답을 먼저 받아 후보에서 빠짐 · d 유명 팀 제외(판정 가능한 날 fame_known_from() 이후만) · c 신인 규칙(첫 발매·첫 등장 3년 넘음)
   a 기준일 전 3년 안에 어느 출처에도 신호 없음 · b 신호는 있지만 검증 대기·제외 출처뿐 → 그 출처를 발굴로 넣었으면 몇 위였나
   e 점수는 있었지만 순위가 낮음 → 상위 100 팀들은 흔히 있는데 이 팀엔 없던 특징
 후보군·점수·순위 규칙은 score_tune.features()·score()·hits_at_k()와 같다(동점은 팀 키 순).
@@ -160,7 +160,7 @@ def team_info(con, k: str, cutoff: date, outcome_date: Optional[date] = None) ->
     row = con.execute(f"""
         SELECT
           EXISTS (SELECT 1 FROM outcomes o WHERE o.team_key = t.team_key AND o.counted AND o.announced_date < DATE '{c}'),
-          t.profile_status = 'famous',
+          t.profile_status = 'famous' AND DATE '{c}' >= fame_known_from(),   -- 유명 판정은 판정 가능한 날부터만 (features.sql)
           COALESCE(t.first_release, t.first_seen) < DATE '{c}' - INTERVAL {LOOKBACK_YEARS} YEAR,
           (SELECT COUNT(*) FROM signals s WHERE s.team_key = t.team_key AND s.signal_date < DATE '{c}'
              AND s.signal_date >= DATE '{c}' - INTERVAL {LOOKBACK_YEARS} YEAR),
@@ -324,9 +324,11 @@ def interpret(results: List[dict]) -> List[str]:
         lines.append("- 순위가 낮았던 팀(e)은 주로 " + ", ".join(FEATURE_LABELS[w] for w, _ in e6.most_common(3))
                      + "이 없었다 — 상위 팀은 여러 갈래·매거진·수상 팀과 같은 무대를 갖췄는데, 이 팀들은 한 갈래(주로 공연 하나 또는 매거진 하나)에만 나왔다.")
     lines += ["- (c) 신인 규칙에 걸린 팀은 첫 발매가 3년보다 오래된 '늦게 뜬 팀'이다. 신인 기준을 바꿀지는 이 팀들의 정답 비중을 보고 정한다(방법론 1절).",
-              "- **(d) 유명 팀 제외는 미래 정보 문제일 가능성이 크다.** 유명 판정은 '지금' 멜론 팬 수로 하는데, 정답을 받은 뒤 팬이 늘어난 팀이 "
-              "과거 기준일에서도 빠진다(방법론 5절 '유명 팀 판정에 미래 정보'). 팬 수를 날짜별로 쌓기 시작했으니, 기준일 당시 팬 수로 판정하도록 바꾸면 "
-              "이 팀들이 후보로 돌아온다. 그 전까지 이 숫자는 점수의 실패가 아니라 판정 규칙의 한계로 읽는다.",
+              ("- (d) 유명 팀 제외: 2026-11-27부터 점수 검증에서는 '지금 팬 수' 유명 판정을 과거 기준일에 쓰지 않는다(미래 정보 — "
+               "[규칙 시점 점검](rule_leakage.md)). 그래서 과거 기준일에서 (d)로 놓친 팀은 없고, 예전에 (d)였던 팀은 이제 후보로 들어와 "
+               "순위(e)나 신인 규칙(c)으로 다시 분류된다." if not c6.get("d_famous") else
+               "- **(d) 유명 팀 제외는 미래 정보 문제일 가능성이 크다.** 유명 판정은 '지금' 멜론 팬 수로 하는데, 정답을 받은 뒤 팬이 늘어난 팀이 "
+               "과거 기준일에서도 빠진다. 기준일 당시 팬 수로 판정하면 이 팀들이 후보로 돌아온다."),
               "- (f) 다른 정답을 먼저 받은 팀은 이미 '찾은 팀'이라 놓친 것이 아니다(중간 단계 정답 → 큰 상).", ""]
     return lines + [""]
 

@@ -2,7 +2,8 @@
 -- → 그 팀이 기준일 뒤 {{horizon_months}}개월 안에 정답을 받았나. (출처 성적표 source_scorecard.sql 의 '데뷔 시점' 버전)
 --
 -- 코호트(기준일 {{cutoffs}}마다): teams.first_release 가 [기준일 − (N+6)개월, 기준일 − N개월) 안이고 (N = {{mention_months}}),
---   첫 발매 '이전' 신호가 하나도 없고(백지), 유명 팀이 아니고, 기준일 전에 정답을 받지 않은 팀.
+--   첫 발매 '이전' 신호가 하나도 없고(백지), 유명 팀이 아니고(유명 판정은 fame_known_from() 이후 기준일에만 — features.sql),
+--   기준일 전에 정답을 받지 않은 팀.
 --   → 언급 창 [첫 발매, 첫 발매 + N개월)이 늘 기준일 전에 끝나서 미래 정보가 섞이지 않는다.
 --   → 기준일을 6개월 간격으로 두면 한 팀이 두 기준일에 겹쳐 들어가지 않는다(N=6 이면 '기준일 전 1년 안 첫 발매').
 -- 출처별: 언급한 코호트 팀 수(teams)·그중 정답(hits)·적중률·배수(코호트 전체 기준율 대비)·
@@ -18,7 +19,7 @@ cohort AS (
     JOIN teams t ON t.first_release >= c.c - to_months({{mention_months}} + 6)
                 AND t.first_release <  c.c - to_months({{mention_months}})
     LEFT JOIN outcomes o ON o.team_key = t.team_key AND o.counted
-    WHERE COALESCE(t.profile_status, '') <> 'famous'
+    WHERE (c.c < fame_known_from() OR COALESCE(t.profile_status, '') <> 'famous')   -- 유명 판정은 지금 팬 수라 과거 기준일엔 안 씀
       AND NOT EXISTS (SELECT 1 FROM signals s WHERE s.team_key = t.team_key AND s.signal_date < t.first_release)
       AND NOT EXISTS (SELECT 1 FROM outcomes b WHERE b.team_key = t.team_key AND b.counted AND b.announced_date < c.c)
     GROUP BY c.c, t.team_key, t.first_release
