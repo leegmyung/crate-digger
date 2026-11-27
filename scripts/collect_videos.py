@@ -126,7 +126,10 @@ class QuotaExceeded(RuntimeError):
 
 
 class YouTubeError(RuntimeError):
-    pass
+    def __init__(self, message="", status=None, reason=""):
+        super().__init__(message)
+        self.status = status
+        self.reason = reason
 
 
 # ---------- 설정 ----------
@@ -214,7 +217,7 @@ class YouTubeClient:
         reason = _error_reason(body)
         if status == 403 and reason in ("quotaExceeded", "dailyLimitExceeded", "rateLimitExceeded"):
             raise QuotaExceeded(f"API 하루 한도 초과 ({reason})")
-        raise YouTubeError(f"{endpoint} 실패 (HTTP {status} {reason})")   # 주소에 열쇠가 있어 주소는 안 적는다
+        raise YouTubeError(f"{endpoint} 실패 (HTTP {status} {reason})", status, reason)   # 주소에 열쇠가 있어 주소는 안 적는다
 
 
 # ---------- 주소·이름 ----------
@@ -531,8 +534,13 @@ def official_videos(client, team_key, display_name, url, state, now):
     uploads = resolve_uploads(client, url, state)
     if not uploads:
         return []
-    body = client.get("playlistItems", {"part": "snippet,contentDetails", "playlistId": uploads,
-                                        "maxResults": OFFICIAL_LATEST}, COST_LIST)
+    try:
+        body = client.get("playlistItems", {"part": "snippet,contentDetails", "playlistId": uploads,
+                                            "maxResults": OFFICIAL_LATEST}, COST_LIST)
+    except YouTubeError as e:
+        if e.status == 404 and e.reason == "playlistNotFound":
+            state.setdefault("resolved", {})[url] = ""   # 업로드 목록이 없는 채널 → 다음부터 건너뜀
+        raise
     handle = (parse_youtube_url(url) or ("", ""))[1]
     rows = []
     for item in body.get("items", []):

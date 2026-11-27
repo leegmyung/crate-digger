@@ -9,6 +9,7 @@
 """
 import csv
 import json
+import statistics
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -27,6 +28,8 @@ CROSS_LIMIT = 100
 BRANCH = {"raw_kr_release": "발매", "raw_kr_gig": "공연", "raw_kr_selection": "선정·지원", "raw_press": "큐레이션"}
 NAME_PRIORITY = ["선정·지원", "큐레이션", "발매", "공연"]   # 겹침 표에 보일 이름: 공식 명단 표기 우선
 KST = timezone(timedelta(hours=9))
+BASELINE_DAYS = 7                                          # 급감 비교 기준: 최근 7일 같은 수집기 하루치 중앙값
+BACKFILL_TAGS = {"history", "backfill"}                    # 과거 기록을 한꺼번에 받은 파일 표시 (…_indistreet_history.csv)
 
 
 def _file_meta(path):
@@ -34,6 +37,12 @@ def _file_meta(path):
     rest = path.stem[len(table) + 1:]                      # 2026-11-26_poclanos(_153000)
     day, _, source = rest.partition("_")
     return table, day, source.split("_")[0]
+
+
+def _is_backfill(path):
+    """파일 이름의 소스 뒤에 _history·_backfill 이 붙으면 평소 하루 수집이 아닌 과거 기록 일괄 수집."""
+    table = validate_csv.table_for(path) or ""
+    return bool(BACKFILL_TAGS & set(path.stem[len(table) + 1:].split("_")[2:]))
 
 
 def _read(path):
@@ -85,19 +94,33 @@ def _cross_summary(cross, limit):
     return out[:limit]
 
 
+def _baseline(history, day):
+    """day 이전 BASELINE_DAYS 일 안의 평소 하루치 행 수 중앙값 (없으면 None)."""
+    start = (datetime.fromisoformat(day) - timedelta(days=BASELINE_DAYS)).date().isoformat()
+    window = [n for d, n in history if start <= d < day]
+    return int(round(statistics.median(window))) if window else None
+
+
 def _merge_runs(runs):
-    """같은 날 다시 돌려 생긴 파일(…_201156.csv)은 (날짜, 표, 소스) 하나로 합친다."""
-    merged = {}
+    """같은 날 다시 돌려 생긴 파일(…_201156.csv)은 (날짜, 표, 소스) 하나로 합친다.
+    prev_rows(수집량 급감 감지 기준) = 최근 7일 같은 수집기 평소 하루치 중앙값.
+    과거 기록 일괄 파일(_history·_backfill)과 수집기 첫 실행일(밀린 기간을 한꺼번에 받는 날)은 기준에서 뺀다."""
+    merged, daily = {}, {}
     for r in runs:
         key = (r["date"], r["table"], r["source"])
-        m = merged.setdefault(key, dict(r, rows=0, file_ok=True))
+        m = merged.setdefault(key, {k: v for k, v in r.items() if k != "backfill"} | {"rows": 0, "file_ok": True})
         m["rows"] += r["rows"]
         m["file_ok"] = m["file_ok"] and r["file_ok"]
-    last = {}                                    # (표, 소스) → 직전 실행 행 수 (수집량 급감 감지용)
+        if not r.get("backfill"):
+            daily[key] = daily.get(key, 0) + r["rows"]
+    history = {}                                 # (표, 소스) → [(날짜, 평소 하루치 행 수)]
     for key in sorted(merged):
-        run = merged[key]
-        run["prev_rows"] = last.get((run["table"], run["source"]))
-        last[(run["table"], run["source"])] = run["rows"]
+        day, table, source = key
+        first = (table, source) not in history
+        past = history.setdefault((table, source), [])
+        merged[key]["prev_rows"] = _baseline(past, day)
+        if key in daily and not first:
+            past.append((day, daily[key]))
     return sorted(merged.values(), key=lambda x: (x["date"], x["source"]), reverse=True)
 
 
@@ -109,7 +132,8 @@ def build(raw_dir, recent_limit=RECENT_LIMIT, today=None, gig_limit=GIG_LIMIT):
         table, day, source = _file_meta(path)
         ok = not [i for i in validate_csv.validate_file(path) if i.level == "error"]
         rows = _read(path)
-        runs.append({"date": day, "source": source, "table": table, "rows": len(rows), "file_ok": ok})
+        runs.append({"date": day, "source": source, "table": table, "rows": len(rows), "file_ok": ok,
+                     "backfill": _is_backfill(path)})
         if not ok:
             continue
         _add_cross(cross, table, rows)

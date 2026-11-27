@@ -303,6 +303,34 @@ class OfficialTest(unittest.TestCase):
         self.assertFalse(any("channels?" in c for c in http.calls))
         self.assertIn("playlistId=UU2KmG_o7JZcPr052P87GdsQ", http.calls[0])
 
+    def test_playlist_not_found_cached_as_empty_and_skipped(self):
+        """업로드 목록이 없는 채널(playlistNotFound 404)은 ''로 저장해 다음부터 요청하지 않는다."""
+        calls = []
+
+        def http(url):
+            calls.append(url)
+            return 404, {"error": {"errors": [{"reason": "playlistNotFound"}]}}
+
+        yt = cv.YouTubeClient("테스트키", http=http, quota=cv.Quota(5000))
+        url = "https://www.youtube.com/channel/UC2KmG_o7JZcPr052P87GdsQ"
+        state = {}
+        with self.assertRaises(cv.YouTubeError):                      # 그날은 경고로 한 번 알린다
+            cv.official_videos(yt, "x", "x", url, state, NOW)
+        self.assertEqual(state["resolved"][url], "")
+        self.assertEqual(cv.official_videos(yt, "x", "x", url, state, NOW), [])
+        self.assertEqual(len(calls), 1)                               # 두 번째는 요청 없음
+
+    def test_other_errors_not_cached(self):
+        def http(url):
+            return 500, {"error": {"errors": [{"reason": "backendError"}]}}
+
+        yt = cv.YouTubeClient("테스트키", http=http, quota=cv.Quota(5000))
+        url = "https://www.youtube.com/channel/UC2KmG_o7JZcPr052P87GdsQ"
+        state = {}
+        with self.assertRaises(cv.YouTubeError):
+            cv.official_videos(yt, "x", "x", url, state, NOW)
+        self.assertEqual(state["resolved"][url], "UU2KmG_o7JZcPr052P87GdsQ")   # 일시 오류는 다음에 다시 시도
+
 
 class CsvTest(unittest.TestCase):
     def row(self, team, vid, kind="stage"):

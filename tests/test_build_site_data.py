@@ -50,7 +50,7 @@ class BuildTest(unittest.TestCase):
             data = bsd.build(Path(d), recent_limit=10)
         self.assertEqual(data["runs"], [
             {"date": "2026-11-26", "source": "poclanos", "table": "raw_kr_release", "rows": 2, "file_ok": True,
-             "prev_rows": 1},
+             "prev_rows": None},                                                  # 11-25는 첫 실행이라 기준에서 뺌
             {"date": "2026-11-25", "source": "poclanos", "table": "raw_kr_release", "rows": 1, "file_ok": True,
              "prev_rows": None},
         ])
@@ -136,6 +136,7 @@ class BuildTest(unittest.TestCase):
 class PrevRowsTest(unittest.TestCase):
     def test_each_run_gets_previous_run_rows_of_same_source(self):
         runs = bsd._merge_runs([
+            {"date": "2026-11-24", "table": "raw_kr_gig", "source": "x", "rows": 999, "file_ok": True},   # 첫 실행 (기준 제외)
             {"date": "2026-11-25", "table": "raw_kr_gig", "source": "x", "rows": 100, "file_ok": True},
             {"date": "2026-11-26", "table": "raw_kr_gig", "source": "x", "rows": 10, "file_ok": True},
             {"date": "2026-11-26", "table": "raw_press", "source": "y", "rows": 5, "file_ok": True},
@@ -144,6 +145,52 @@ class PrevRowsTest(unittest.TestCase):
         self.assertEqual(by[("2026-11-26", "x")]["prev_rows"], 100)
         self.assertIsNone(by[("2026-11-25", "x")]["prev_rows"])
         self.assertIsNone(by[("2026-11-26", "y")]["prev_rows"])
+
+    def test_backfill_files_not_used_as_baseline(self):
+        """첫날 과거 기록을 한꺼번에 받은 파일(_history·_backfill)은 비교 기준에서 뺀다 — 14192→317 같은 잘못된 급감 방지."""
+        runs = bsd._merge_runs([
+            {"date": "2026-11-25", "table": "raw_kr_gig", "source": "x", "rows": 999, "file_ok": True},   # 첫 실행 (기준 제외)
+            {"date": "2026-11-26", "table": "raw_kr_gig", "source": "x", "rows": 300, "file_ok": True, "backfill": False},
+            {"date": "2026-11-26", "table": "raw_kr_gig", "source": "x", "rows": 13900, "file_ok": True, "backfill": True},
+            {"date": "2026-11-27", "table": "raw_kr_gig", "source": "x", "rows": 317, "file_ok": True, "backfill": False},
+        ])
+        by = {r["date"]: r for r in runs}
+        self.assertEqual(by["2026-11-26"]["rows"], 14200)              # 화면의 행 수는 그대로 합친 값
+        self.assertEqual(by["2026-11-27"]["prev_rows"], 300)           # 기준은 평소 하루치만
+        self.assertNotIn("backfill", by["2026-11-27"])                 # 공개 데이터 모양은 그대로
+
+    def test_baseline_is_median_of_last_7_days(self):
+        rows = {"2026-11-10": 1, "2026-11-18": 1000, "2026-11-20": 100, "2026-11-21": 5000, "2026-11-22": 110,
+                "2026-11-24": 90, "2026-11-25": 120}
+        runs = bsd._merge_runs([{"date": d, "table": "raw_kr_gig", "source": "x", "rows": n, "file_ok": True}
+                                for d, n in rows.items()]
+                               + [{"date": "2026-11-27", "table": "raw_kr_gig", "source": "x", "rows": 30, "file_ok": True}])
+        by = {r["date"]: r for r in runs}
+        self.assertEqual(by["2026-11-27"]["prev_rows"], 110)           # 11-20~11-25 다섯 날 중앙값 (11-18은 7일 밖)
+
+    def test_first_run_of_collector_not_used_as_baseline(self):
+        """새것만 받는 수집기(발매 등)의 첫 실행은 밀린 기간을 한꺼번에 받는 날이라 기준에서 뺀다 (flo 39→5 같은 오경고 방지)."""
+        runs = bsd._merge_runs([
+            {"date": "2026-11-26", "table": "raw_kr_release", "source": "x", "rows": 39, "file_ok": True},
+            {"date": "2026-11-27", "table": "raw_kr_release", "source": "x", "rows": 5, "file_ok": True},
+            {"date": "2026-11-28", "table": "raw_kr_release", "source": "x", "rows": 7, "file_ok": True},
+        ])
+        by = {r["date"]: r for r in runs}
+        self.assertIsNone(by["2026-11-27"]["prev_rows"])
+        self.assertEqual(by["2026-11-28"]["prev_rows"], 5)
+
+    def test_backfill_only_day_has_no_baseline(self):
+        runs = bsd._merge_runs([
+            {"date": "2026-11-26", "table": "raw_kr_gig", "source": "x", "rows": 9000, "file_ok": True, "backfill": True},
+            {"date": "2026-11-27", "table": "raw_kr_gig", "source": "x", "rows": 40, "file_ok": True, "backfill": False},
+        ])
+        self.assertIsNone({r["date"]: r for r in runs}["2026-11-27"]["prev_rows"])
+
+    def test_build_marks_history_and_backfill_files(self):
+        self.assertTrue(bsd._is_backfill(Path("raw_kr_gig_2026-11-26_indistreet_history.csv")))
+        self.assertTrue(bsd._is_backfill(Path("raw_kr_gig_2026-11-26_indistreet_history_221337.csv")))
+        self.assertTrue(bsd._is_backfill(Path("raw_outcome_2026-11-27_manual_backfill.csv")))
+        self.assertFalse(bsd._is_backfill(Path("raw_kr_gig_2026-11-27_indistreet_212810.csv")))
 
 
 if __name__ == "__main__":
