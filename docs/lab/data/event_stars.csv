@@ -63,7 +63,7 @@ team_key,date,kind,stars,reason,kind_label,stage_at,detail,gigs_before_28,gigs_a
 250,2022-07-28,magazine,2,매체 첫 소개 — trackzero 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,trackzero 첫 소개,0,0,0,0,28
 250,2023-04-14,magazine,2,매체 첫 소개 — visla 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,visla 첫 소개,0,0,0,0,28
 250,2026-07-02,magazine,2,매체 첫 소개 — izm 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,izm 첫 소개,0,0,0,0,28
-261band,2026-11-25,first_mention,3,첫 언급 — 공연: @unplugged.lounge · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @unplugged.lounge,0,0,0,0,3
+261band,2026-11-25,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,3
 27ring,2021-10-08,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
 28av,2021-03-22,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
 2d,2021-06-04,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
@@ -155,7 +155,7 @@ team_key,date,kind,stars,reason,kind_label,stage_at,detail,gigs_before_28,gigs_a
 9duck,2026-08-22,first_mention,3,첫 언급 — 공연: 살롱문보우 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 살롱문보우,0,0,0,0,28
 9ja3m1n,2026-11-24,first_mention,3,첫 언급 — 공연: @h.o.e.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @h.o.e.seoul,0,0,0,0,4
 9m88,2026-01-08,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
-9sy9,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+9sy9,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 9와숫자들,2016-12-10,first_mention,3,첫 언급 — 공연: KT&G 상상마당 춘천 사운드홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 춘천 사운드홀,0,0,0,0,28
 9와숫자들,2016-12-10,big_venue_first,3,큰 공연장 첫 출연 — KT&G 상상마당 춘천 사운드홀 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,KT&G 상상마당 춘천 사운드홀 (L급),0,0,0,0,28
 9와숫자들,2017-12-16,first_seoul_gig,4,처음 서울 공연 — KT&G 상상마당 홍대 라이브홀 (그 전엔 지방 무대) · 기본 3 · 그때 '첫 신호' +1 → 4,처음 서울 공연,1,KT&G 상상마당 홍대 라이브홀 (그 전엔 지방 무대),0,1,0,0,28
@@ -225,7 +225,7 @@ akaiforehead,2026-11-16,first_mention,3,첫 언급 — 공연: @hai_info · 기�
 akaneyonezawa,2026-11-07,first_mention,3,첫 언급 — 공연: 예스24 원더로크홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 예스24 원더로크홀,0,0,0,0,21
 akaneyonezawa,2026-11-07,big_venue_first,3,큰 공연장 첫 출연 — 예스24 원더로크홀 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,예스24 원더로크홀 (L급),0,0,0,0,21
 akasa,2025-12-26,first_mention,3,첫 언급 — 공연: 스페이스 한강 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 스페이스 한강,0,0,0,0,28
-akawesomekorean,2026-11-23,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,2,0,0,5
+akawesomekorean,2026-11-23,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,2,0,0,5
 akiiro,2026-04-30,first_mention,3,첫 언급 — 공연: Club FF · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club FF,0,0,0,0,28
 akijun,2026-11-17,first_mention,3,첫 언급 — 공연: @boleroseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @boleroseoul,0,0,0,0,11
 akmu,2023-08-01,first_mention,3,첫 언급 — 큐레이션: IZM · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: IZM,0,0,0,0,28
@@ -284,7 +284,7 @@ anni,2025-08-07,selection,4,선정·지원 — superrookie 라인업·쇼케이�
 annoyingbox,2025-01-23,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 annoyingbox,2026-05-25,magazine,3,매체 첫 소개 — musicy 첫 소개 · 기본 2 · 그때 '첫 신호' +1 → 3,매체 첫 소개,1,musicy 첫 소개,0,0,0,0,28
 anonymous,2025-06-28,first_mention,3,첫 언급 — 공연: 리얼라이즈 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 리얼라이즈,0,0,0,0,28
-anrockband,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+anrockband,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 antimizmo,2025-08-15,first_mention,3,첫 언급 — 공연: 꼬뮨 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 꼬뮨,0,0,0,0,28
 anyasiii,2026-08-30,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 anysiakym,2024-06-14,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
@@ -301,7 +301,7 @@ april창의예술,2017-10-29,big_venue_first,3,큰 공연장 첫 출연 — KT&G
 aptx,2026-08-28,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 ap알케미,2023-02-18,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,2,28
 aran,2026-11-26,first_mention,3,첫 언급 — 공연: @tool.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @tool.seoul,0,0,0,0,2
-aranggayageum,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+aranggayageum,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 arasasa,2026-11-14,first_mention,3,첫 언급 — 큐레이션: @aabyselects · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @aabyselects,0,0,0,2,14
 arb,2026-02-21,first_mention,3,첫 언급 — 공연: 스트레인지 프룻 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 스트레인지 프룻,0,0,0,0,28
 arca,2023-10-26,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
@@ -333,7 +333,7 @@ ashyeon,2026-11-23,first_mention,3,첫 언급 — 공연: 아지토 라이브 �
 asianalittles,2026-06-28,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,1,0,0,28
 asianglow,2025-01-20,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 asianmodrevival,2024-01-25,first_mention,3,첫 언급 — 공연: Club FF · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club FF,0,1,0,0,28
-asianpopfestivalkr,2026-11-19,first_mention,3,첫 언급 — 공연: @cafeveloso · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cafeveloso,0,0,0,0,9
+asianpopfestivalkr,2026-11-19,first_mention,3,첫 언급 — 공연: 벨로주 홍대 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 벨로주 홍대,0,0,0,0,9
 asic,2026-07-31,first_mention,3,첫 언급 — 공연: 오방가르드 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 오방가르드,0,0,0,0,28
 asraiiofficial,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
 asteria,2026-11-24,first_mention,3,첫 언급 — 공연: 감마홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 감마홀,0,1,0,0,4
@@ -343,7 +343,7 @@ atarayo,2026-09-05,first_mention,3,첫 언급 — 공연: indistreet · 기본 1
 atashisakuranb0,2026-11-14,first_mention,3,첫 언급 — 큐레이션: @aabyselects · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @aabyselects,0,0,0,2,14
 ateezofficial,2026-11-25,first_mention,3,첫 언급 — 큐레이션: @webzineizm · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @webzineizm,0,0,0,0,3
 atismia,2026-10-24,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
-attitudeseoul,2026-11-24,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,4
+attitudeseoul,2026-11-24,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,4
 audiodise,2026-11-23,first_mention,3,첫 언급 — 공연: @paper.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @paper.seoul,0,1,0,0,5
 augmentsdnb,2026-11-26,first_mention,3,첫 언급 — 공연: @dnb.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @dnb.seoul,0,0,0,0,2
 august,2025-10-17,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
@@ -365,7 +365,7 @@ axmxp,2026-09-04,outcome,2,정답 — 부산록페 본무대 (B) · 기본 3 · 
 aya,2025-04-09,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 ayatsunoyuni,2024-02-01,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 aylist,2026-10-21,first_mention,3,첫 언급 — 공연: 스페이스 한강 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 스페이스 한강,0,1,0,0,28
-ayunivn,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+ayunivn,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 azikazinmagicworld,2023-02-01,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 azikazinmagicworld,2026-02-09,magazine,3,매체 첫 소개 — musicy 첫 소개 · 기본 2 · 그때 '첫 신호' +1 → 3,매체 첫 소개,1,musicy 첫 소개,0,0,0,0,28
 azincatering,2026-11-24,first_mention,3,첫 언급 — 공연: @musiclab_busan · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @musiclab_busan,0,0,0,0,4
@@ -374,7 +374,7 @@ azrel,2026-11-23,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 
 b0jeongofficial,2026-11-25,first_mention,3,첫 언급 — 공연: @gyeonggimusic · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @gyeonggimusic,0,0,0,0,3
 b0o0o0o,2026-11-16,first_mention,3,첫 언급 — 공연: @hai_info · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @hai_info,0,0,0,0,12
 b123,2026-07-02,first_mention,3,첫 언급 — 공연: 우주정거장 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 우주정거장,0,0,0,0,28
-b3bq,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+b3bq,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 b501,2026-10-24,first_mention,3,첫 언급 — 공연: 락클럽 Bar 레드제플린 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 락클럽 Bar 레드제플린,0,0,0,0,28
 b9,2026-05-17,first_mention,3,첫 언급 — 공연: 프리즘홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 프리즘홀,0,0,0,0,28
 ba,2026-11-26,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,2
@@ -395,7 +395,7 @@ backlift,2026-10-10,first_mention,3,첫 언급 — 공연: 아지토 라이브 �
 bada,2025-12-13,first_mention,3,첫 언급 — 공연: 인천여관X루비살롱 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 인천여관X루비살롱,0,0,0,0,28
 badbadnotgood,2024-06-05,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 baddiction,2024-01-19,first_mention,3,첫 언급 — 공연: 지직 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 지직,0,0,0,0,28
-badhandstattoo,2026-11-24,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,4
+badhandstattoo,2026-11-24,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,4
 badnasty,2026-10-03,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,1,0,0,28
 badult,2025-11-30,first_mention,3,첫 언급 — 공연: 몽향 라이브홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 몽향 라이브홀,0,0,0,0,28
 baeminhyuk6,2026-11-24,first_mention,3,첫 언급 — 공연: @flatnine_jazzbar · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @flatnine_jazzbar,0,1,0,0,4
@@ -416,33 +416,33 @@ bandbabo,2026-11-24,first_mention,3,첫 언급 — 큐레이션: @k_indie_chart 
 bandcinnamonjam,2026-11-23,first_mention,3,첫 언급 — 공연: 클럽헤비 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 클럽헤비,0,0,0,0,5
 bandcotoba,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
 banddaydream,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
-banddim,2026-11-25,first_mention,3,첫 언급 — 공연: @purple_hall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @purple_hall,0,0,0,0,3
+banddim,2026-11-25,first_mention,3,첫 언급 — 공연: 퍼플홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 퍼플홀,0,0,0,0,3
 bandevpn,2026-11-27,first_mention,3,첫 언급 — 큐레이션: @artist_in_jeju · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @artist_in_jeju,0,0,0,0,1
 bandfivemonth,2026-11-18,first_mention,3,첫 언급 — 공연: @vinta_suwon · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @vinta_suwon,0,0,0,0,10
-bandflydaze,2026-11-23,first_mention,3,첫 언급 — 공연: @cosmosruby_ · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cosmosruby_,0,0,0,0,5
+bandflydaze,2026-11-23,first_mention,3,첫 언급 — 공연: 코스모스루비 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 코스모스루비,0,0,0,0,5
 bandheemee,2026-11-18,first_mention,3,첫 언급 — 공연: @vinta_suwon · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @vinta_suwon,0,0,0,0,10
 bandhuckleberryfinn,2026-11-14,first_mention,3,첫 언급 — 큐레이션: @k_indie_chart · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @k_indie_chart,0,0,0,0,14
 bandironpig,2026-11-27,first_mention,3,첫 언급 — 큐레이션: @artist_in_jeju · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @artist_in_jeju,0,0,0,0,1
 banditsbusan,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
-bandjudeofficial,2026-11-23,first_mention,3,첫 언급 — 공연: @cosmosruby_ · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cosmosruby_,0,0,0,0,5
+bandjudeofficial,2026-11-23,first_mention,3,첫 언급 — 공연: 코스모스루비 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 코스모스루비,0,0,0,0,5
 bandkay,2024-12-21,first_mention,3,첫 언급 — 공연: Club 빵 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club 빵,0,0,0,0,28
 bandlandinggear,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
 bandmaroo,2026-08-07,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 bandmeaningless,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
-bandmiji,2026-11-23,first_mention,3,첫 언급 — 공연: @cosmosruby_ · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cosmosruby_,0,0,0,0,5
+bandmiji,2026-11-23,first_mention,3,첫 언급 — 공연: 코스모스루비 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 코스모스루비,0,0,0,0,5
 bandmonotheism,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
 bandnines,2026-11-24,first_mention,3,첫 언급 — 공연: @musiclab_busan · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @musiclab_busan,0,0,0,0,4
 bandnok,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
 bandoftheday,2026-11-27,first_mention,3,첫 언급 — 큐레이션: @artist_in_jeju · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @artist_in_jeju,0,0,0,0,1
 bandpeep,2026-11-27,first_mention,3,첫 언급 — 큐레이션: @artist_in_jeju · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @artist_in_jeju,0,0,0,0,1
 bandrizz,2026-11-16,first_mention,3,첫 언급 — 공연: 클럽헤비 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 클럽헤비,0,0,0,0,12
-bandrovers,2026-11-23,first_mention,3,첫 언급 — 공연: @cosmosruby_ · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cosmosruby_,0,0,0,0,5
+bandrovers,2026-11-23,first_mention,3,첫 언급 — 공연: 코스모스루비 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 코스모스루비,0,0,0,0,5
 bandsinope,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
 bandsonorous,2026-11-16,first_mention,3,첫 언급 — 공연: 클럽헤비 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 클럽헤비,0,0,0,0,12
 bandsrg,2026-03-26,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
 bandthemooii,2026-11-27,first_mention,3,첫 언급 — 공연: @rock._.zip · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @rock._.zip,0,0,0,0,1
 bandthesongbird,2026-11-27,first_mention,3,첫 언급 — 큐레이션: @artist_in_jeju · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @artist_in_jeju,0,0,0,0,1
-bandtwomyung,2026-11-23,first_mention,3,첫 언급 — 공연: @cosmosruby_ · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cosmosruby_,0,0,0,0,5
+bandtwomyung,2026-11-23,first_mention,3,첫 언급 — 공연: 코스모스루비 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 코스모스루비,0,0,0,0,5
 bandwednesday,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
 bandyato,2026-11-24,first_mention,3,첫 언급 — 공연: @vinta_suwon · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @vinta_suwon,0,0,0,0,4
 banger,2026-09-21,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,28
@@ -451,7 +451,7 @@ bard,2022-09-01,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로
 baritalia,2024-06-17,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 baritalia,2026-01-24,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '첫 신호' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,1,무신사개러지 (L급),0,0,0,0,28
 barry2gan,2026-11-17,first_mention,3,첫 언급 — 공연: @foreignbody.life · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @foreignbody.life,0,0,0,0,11
-bartigerdisco,2026-11-25,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,3
+bartigerdisco,2026-11-25,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,3
 bartskils,2026-10-16,first_mention,3,첫 언급 — 공연: 언더시티 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언더시티,0,0,0,0,28
 baseck,2023-07-11,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 basementzero,2026-09-19,first_mention,3,첫 언급 — 공연: 클럽헤비 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 클럽헤비,0,0,0,0,28
@@ -480,7 +480,7 @@ bela,2024-03-20,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 �
 belaver,2025-04-18,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 bellahm,2026-10-08,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
 belmontgirl,2025-08-08,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-belodia,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+belodia,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 benbliss,2025-01-09,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 bendersea,2026-09-11,first_mention,3,첫 언급 — 공연: 생기스튜디오 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 생기스튜디오,0,1,0,0,28
 bennie,2025-01-24,first_mention,3,첫 언급 — 공연: Cafe PPnF · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Cafe PPnF,0,0,0,0,28
@@ -494,7 +494,7 @@ beyondthesecret,2008-12-31,selection,5,선정·지원 — yoojaeha_finalist 선�
 bffseoul,2026-11-26,first_mention,3,첫 언급 — 큐레이션: @mondayprojectkr · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @mondayprojectkr,0,0,0,0,2
 bfm,2022-07-28,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
 bgmaron,2026-10-04,first_mention,3,첫 언급 — 공연: 스트레인지 프룻 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 스트레인지 프룻,0,0,0,0,28
-bhyeonm,2026-11-25,first_mention,3,첫 언급 — 공연: @unplugged.lounge · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @unplugged.lounge,0,0,0,0,3
+bhyeonm,2026-11-25,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,3
 bigbabycam,2026-09-12,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 bigbabydriver,2024-07-18,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 bigbet,2026-02-14,first_mention,3,첫 언급 — 공연: Club Sharp · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Sharp,0,0,0,0,28
@@ -576,7 +576,7 @@ bojvck2002,2026-11-22,first_mention,3,첫 언급 — 공연: @boleroseoul · 기
 bokchoiiii,2026-11-26,first_mention,3,첫 언급 — 공연: @dnb.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @dnb.seoul,0,0,0,0,2
 bombaclartbass,2026-11-18,first_mention,3,첫 언급 — 공연: @unbornsounds · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @unbornsounds,0,1,0,0,10
 boniver,2023-06-06,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-bookcafeemu,2026-11-13,first_mention,3,첫 언급 — 공연: @panta.emu · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @panta.emu,0,0,0,0,15
+bookcafeemu,2026-11-13,first_mention,3,첫 언급 — 공연: 팡타 개라지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 팡타 개라지,0,0,0,0,15
 bootsycollins,2023-01-09,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 boredapedonutshop,2023-03-30,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 boysnoize,2023-02-07,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
@@ -629,7 +629,7 @@ burial,2024-01-24,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1
 burningmonkeys,2026-09-19,first_mention,3,첫 언급 — 공연: Club Sharp · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Sharp,0,0,0,0,28
 bussytemple,2026-11-14,first_mention,3,첫 언급 — 공연: @blanksite_seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @blanksite_seoul,0,0,0,0,14
 bustabomb,2023-08-17,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
-busynessmane,2026-11-24,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,4
+busynessmane,2026-11-24,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,4
 butterflyfish0000,2026-11-21,first_mention,3,첫 언급 — 공연: @subriot_hbc · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @subriot_hbc,0,0,0,0,7
 byebyebadman,2018-01-05,first_mention,3,첫 언급 — 공연: KT&G 상상마당 홍대 라이브홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 홍대 라이브홀,0,0,0,0,28
 byebyebadman,2022-05-12,magazine,2,매체 첫 소개 — trackzero 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,trackzero 첫 소개,0,0,0,0,28
@@ -664,7 +664,7 @@ carseatheadrest,2025-05-08,first_mention,3,첫 언급 — 큐레이션: VISLA ·
 carusdailypvt,2026-11-21,first_mention,3,첫 언급 — 공연: @unbornsounds · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @unbornsounds,0,0,0,0,7
 cassetteschwarzenegger,2022-06-09,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 castlezane,2026-11-23,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,5
-catchthespring,2026-11-20,first_mention,3,첫 언급 — 공연: @unplugged_stage · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @unplugged_stage,0,0,0,0,8
+catchthespring,2026-11-20,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,8
 catchthespring,2026-11-20,magazine,3,매체 첫 소개 — instagram 첫 소개 · 기본 1 · 그때 '백지' +2 → 3,매체 첫 소개,0,instagram 첫 소개,0,0,0,0,8
 catdogchildren,2026-10-30,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 catnotesync,2026-11-23,first_mention,3,첫 언급 — 공연: @pistilseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @pistilseoul,0,0,0,0,5
@@ -728,18 +728,19 @@ choijiji,2026-10-15,selection,4,선정·지원 — superrookie 라인업·쇼케
 choisonar,2026-10-18,first_mention,3,첫 언급 — 공연: 스페이스 한강 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 스페이스 한강,0,0,0,0,28
 choiza11,2026-11-25,first_mention,3,첫 언급 — 큐레이션: @webzineizm · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @webzineizm,0,0,0,0,3
 choo,2026-11-13,first_mention,3,첫 언급 — 큐레이션: @theseosroom · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @theseosroom,0,1,0,0,15
+choo,2026-11-18,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '첫 신호' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,1,무신사개러지 (L급),0,0,1,0,10
 choroom,2026-11-13,first_mention,3,첫 언급 — 공연: @pistilseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @pistilseoul,0,1,0,0,15
 choysaucecares,2021-05-24,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
 chs,2022-06-30,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 chs,2024-08-16,magazine,2,매체 첫 소개 — visla 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,visla 첫 소개,0,0,1,0,28
 chs,2025-01-06,magazine,3,매체 첫 소개 — musicy 첫 소개 · 기본 2 · 그때 '첫 신호' +1 → 3,매체 첫 소개,1,musicy 첫 소개,0,0,0,0,28
-chsveryhigh,2026-11-25,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,3
-chungmurocpr,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+chsveryhigh,2026-11-25,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,3
+chungmurocpr,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 chungyoile,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
 chunkyandthepinknoise,2026-10-31,first_mention,3,첫 언급 — 공연: 신촌 SPIN & GRIND · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 신촌 SPIN & GRIND,0,1,0,0,28
 chupas,2026-11-01,first_mention,3,첫 언급 — 공연: 채널1969 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 채널1969,0,1,0,0,27
 chwvin,2024-07-31,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-chwyanu,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+chwyanu,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 cicadaandmayfly,2026-10-09,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 cielo,2026-04-17,first_mention,3,첫 언급 — 공연: 프리즘홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 프리즘홀,0,0,0,0,28
 cifika,2023-03-16,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
@@ -804,7 +805,7 @@ compello,2022-09-23,first_mention,3,첫 언급 — 공연: KT&G 상상마당 부
 completedexposition,2026-11-15,first_mention,3,첫 언급 — 공연: Club Sharp · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Sharp,0,2,0,0,13
 contoncandy,2026-11-20,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,8
 contraworms,2026-11-26,first_mention,3,첫 언급 — 공연: @rustic_jazz · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @rustic_jazz,0,0,0,0,2
-conutb,2026-11-23,first_mention,3,첫 언급 — 공연: @cosmosruby_ · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cosmosruby_,0,0,0,0,5
+conutb,2026-11-23,first_mention,3,첫 언급 — 공연: 코스모스루비 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 코스모스루비,0,0,0,0,5
 convectis,2026-11-25,first_mention,3,첫 언급 — 공연: @basscamp_crew · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @basscamp_crew,0,0,0,0,3
 coolrnch,2023-03-10,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 coospida,2026-03-30,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
@@ -839,7 +840,7 @@ cultgazer,2025-07-17,first_mention,3,첫 언급 — 큐레이션: VISLA · 기�
 cusehacker,2026-08-31,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,28
 cutty,2025-03-15,first_mention,3,첫 언급 — 공연: Club FF · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club FF,0,0,0,0,28
 cyan,2026-04-30,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
-cyanlive,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+cyanlive,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 cybercampuscasualty,2026-11-20,first_mention,3,첫 언급 — 공연: SPIN AND GRIND · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: SPIN AND GRIND,0,0,0,0,8
 cyoonseung,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
 cyrrca,2023-08-04,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
@@ -871,7 +872,7 @@ danielmelero,2023-04-10,first_mention,3,첫 언급 — 큐레이션: VISLA · �
 danii,2026-11-23,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,5
 daniinme,2026-11-21,first_mention,3,첫 언급 — 공연: @soar.wav · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @soar.wav,0,0,0,0,7
 danjjingkeys,2026-11-24,first_mention,3,첫 언급 — 공연: @flatnine_jazzbar · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @flatnine_jazzbar,0,0,0,0,4
-dankookuniv,2026-11-19,first_mention,3,첫 언급 — 공연: @purple_hall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @purple_hall,0,0,0,0,9
+dankookuniv,2026-11-19,first_mention,3,첫 언급 — 공연: 퍼플홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 퍼플홀,0,0,0,0,9
 dannybrown,2023-04-03,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 dannykim,2024-09-21,first_mention,3,첫 언급 — 공연: 서브라이엇 해방촌 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 서브라이엇 해방촌,0,0,0,0,28
 dano,2025-07-26,first_mention,3,첫 언급 — 공연: 공연장 미정 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 공연장 미정,0,0,0,0,28
@@ -925,7 +926,7 @@ delaycat,2024-10-26,first_mention,3,첫 언급 — 공연: 오방가르드 · �
 delusionstudycenter,2026-11-16,first_mention,3,첫 언급 — 공연: @hai_info · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @hai_info,0,0,0,0,12
 demiriqusimo,2024-02-20,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 dennounoko,2026-11-16,first_mention,3,첫 언급 — 공연: @hai_info · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @hai_info,0,0,0,0,12
-dennyphantom,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+dennyphantom,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 deny,2026-04-04,first_mention,3,첫 언급 — 공연: 옥타바리움 라이브홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 옥타바리움 라이브홀,0,0,0,0,28
 depechemode,2023-02-14,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 depicttk,2026-11-26,first_mention,3,첫 언급 — 큐레이션: @seoulexperimental · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @seoulexperimental,0,0,0,0,2
@@ -937,7 +938,7 @@ deul,2021-09-07,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 
 dewpoint,2026-10-11,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,28
 deyarmondedison,2023-06-06,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 dgr,2026-04-23,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
-dheogks,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+dheogks,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 dhmp,2013-07-30,first_mention,3,첫 언급 — 선정·지원: band_discovery · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,선정·지원: band_discovery,0,0,0,0,28
 dhmp,2013-07-30,selection,4,선정·지원 — band_discovery 라인업·쇼케이스 · 기본 2 · 그때 '백지' +2 → 4,선정·지원,0,band_discovery 라인업·쇼케이스,0,0,0,0,28
 di,2026-11-25,first_mention,3,첫 언급 — 큐레이션: @mondayprojectkr · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @mondayprojectkr,0,0,0,0,3
@@ -1028,7 +1029,7 @@ dj티즈,2021-03-02,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기
 dj호도리,2024-07-19,first_mention,3,첫 언급 — 공연: 공연장 미정 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 공연장 미정,0,0,0,0,28
 dkbassmusic,2026-11-25,first_mention,3,첫 언급 — 공연: @jazzpresso_record · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @jazzpresso_record,0,0,0,0,3
 dkhwn,2026-11-25,first_mention,3,첫 언급 — 공연: @subriot_hbc · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @subriot_hbc,0,0,0,0,3
-dku42ndmyeongwol,2026-11-19,first_mention,3,첫 언급 — 공연: @purple_hall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @purple_hall,0,0,0,0,9
+dku42ndmyeongwol,2026-11-19,first_mention,3,첫 언급 — 공연: 퍼플홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 퍼플홀,0,0,0,0,9
 dloelna,2026-11-23,first_mention,3,첫 언급 — 공연: @pistilseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @pistilseoul,0,0,0,0,5
 dmute,2025-11-30,first_mention,3,첫 언급 — 공연: 몽향 라이브홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 몽향 라이브홀,0,0,0,0,28
 dobermankr,2026-11-16,first_mention,3,첫 언급 — 공연: @cakeshopseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cakeshopseoul,0,1,0,0,12
@@ -1043,19 +1044,19 @@ dokgomansu,2026-11-23,first_mention,3,첫 언급 — 공연: @boleroseoul · 기
 dokkaebi,2025-09-22,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 dokkaebi,2026-02-14,magazine,2,매체 첫 소개 — overtone 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,overtone 첫 소개,0,0,0,0,28
 domaahn,2026-11-20,first_mention,3,첫 언급 — 공연: @nue.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @nue.seoul,0,1,0,0,8
-domarher,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+domarher,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 dominicfike,2023-04-27,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-donggukuniversity,2026-11-19,first_mention,3,첫 언급 — 공연: @purple_hall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @purple_hall,0,0,0,0,9
+donggukuniversity,2026-11-19,first_mention,3,첫 언급 — 공연: 퍼플홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 퍼플홀,0,0,0,0,9
 dongheoni,2026-11-18,first_mention,3,첫 언급 — 공연: @hai_info · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @hai_info,0,0,0,0,10
 dongpang,2026-10-21,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,28
 donmalik,2026-09-05,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 donnassong,2026-11-24,first_mention,3,첫 언급 — 공연: @flatnine_jazzbar · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @flatnine_jazzbar,0,0,0,0,4
-dontforgetimfrom054,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+dontforgetimfrom054,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 dontpanc,2021-07-23,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
 dontworryanu,2024-04-08,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 doomdadadoomkat,2026-11-15,first_mention,3,첫 언급 — 공연: @nue.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @nue.seoul,0,0,0,0,13
 doonkanda,2024-07-30,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-dooriechoi,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+dooriechoi,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 dopein,2024-12-20,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,1,28
 dopein,2025-01-09,magazine,2,매체 첫 소개 — trackzero 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,trackzero 첫 소개,0,0,1,0,28
 dopejazzradio,2025-03-26,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
@@ -1140,7 +1141,7 @@ eikoishibashi,2025-03-28,first_mention,3,첫 언급 — 큐레이션: VISLA · �
 eill,2024-11-23,first_mention,3,첫 언급 — 공연: 무신사개러지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 무신사개러지,0,0,0,0,28
 eill,2024-11-23,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,무신사개러지 (L급),0,0,0,0,28
 eitetsutakamiya,2026-11-19,first_mention,3,첫 언급 — 큐레이션: @mixmixtv · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @mixmixtv,0,0,0,0,9
-ejaegyu,2026-11-15,first_mention,3,첫 언급 — 공연: @the_vinyl_underground · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @the_vinyl_underground,0,0,0,0,13
+ejaegyu,2026-11-15,first_mention,3,첫 언급 — 공연: 바이널 언더그라운드 소극장 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 바이널 언더그라운드 소극장,0,0,0,0,13
 ek,2021-02-15,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
 ek,2024-04-25,magazine,2,매체 첫 소개 — trackzero 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,trackzero 첫 소개,0,0,0,0,28
 ek,2024-05-29,magazine,2,매체 첫 소개 — rhythmer 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,rhythmer 첫 소개,0,0,0,0,28
@@ -1148,7 +1149,7 @@ ek,2026-01-27,magazine,2,매체 첫 소개 — overtone 첫 소개 · 기본 1 �
 ek,2026-11-06,big_venue_first,3,큰 공연장 첫 출연 — 예스24 원더로크홀 (L급) · 기본 3 · 그때 '여러 갈래' +0 → 3,큰 공연장 첫 출연,2,예스24 원더로크홀 (L급),0,0,1,0,22
 ekd,2026-10-04,first_mention,3,첫 언급 — 공연: 스트레인지 프룻 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 스트레인지 프룻,0,0,0,0,28
 ekdyloschangaras,2026-10-02,first_mention,3,첫 언급 — 공연: 스트레인지 프룻 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 스트레인지 프룻,0,1,0,0,28
-ekudn4s,2026-11-23,first_mention,3,첫 언급 — 공연: @goyoroom · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @goyoroom,0,0,0,0,5
+ekudn4s,2026-11-23,first_mention,3,첫 언급 — 공연: 고요의 방 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 고요의 방,0,0,0,0,5
 elaminus,2025-01-28,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 eldon,2025-05-03,first_mention,3,첫 언급 — 공연: 무신사개러지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 무신사개러지,0,0,0,0,28
 eldon,2025-05-03,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,무신사개러지 (L급),0,0,0,0,28
@@ -1233,7 +1234,7 @@ exn,2021-03-12,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1
 exn,2022-05-05,magazine,2,매체 첫 소개 — trackzero 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,trackzero 첫 소개,0,0,0,0,28
 express,2026-09-12,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 extrasmall,2025-07-23,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-exvava,2026-11-25,first_mention,3,첫 언급 — 공연: @goyoroom · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @goyoroom,0,0,0,0,3
+exvava,2026-11-25,first_mention,3,첫 언급 — 공연: 고요의 방 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 고요의 방,0,0,0,0,3
 eyedress,2023-08-22,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 f8kechemicalclub,2026-11-16,first_mention,3,첫 언급 — 공연: @litlounge_itw · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @litlounge_itw,0,0,0,0,12
 fabianapalladino,2024-04-01,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
@@ -1252,7 +1253,7 @@ favemotive,2026-10-08,first_mention,3,첫 언급 — 공연: 카페 언플러그
 fayewebster,2025-07-23,first_mention,3,첫 언급 — 공연: 무신사개러지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 무신사개러지,0,0,0,0,28
 fayewebster,2025-07-23,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,무신사개러지 (L급),0,0,0,0,28
 fcukers,2025-07-29,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-fearlessdawn,2026-11-19,first_mention,3,첫 언급 — 공연: @purple_hall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @purple_hall,0,0,0,0,9
+fearlessdawn,2026-11-19,first_mention,3,첫 언급 — 공연: 퍼플홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 퍼플홀,0,0,0,0,9
 fearozzles,2026-11-19,first_mention,3,첫 언급 — 공연: @boleroseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @boleroseoul,0,0,0,0,9
 ferociousx,2026-11-06,first_mention,3,첫 언급 — 공연: 베이비돌 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 베이비돌,0,1,0,0,22
 festerdecay,2024-01-07,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
@@ -1270,7 +1271,7 @@ findthespot,2026-04-18,first_mention,3,첫 언급 — 공연: Club Sharp · 기�
 finfior,2025-06-02,first_mention,3,첫 언급 — 큐레이션: 음악취향Y · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 음악취향Y,0,0,0,0,28
 fireflies,2025-03-27,first_mention,3,첫 언급 — 공연: Club FF · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club FF,0,0,0,0,28
 firr,2026-08-08,first_mention,3,첫 언급 — 공연: Hukez · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Hukez,0,0,0,0,28
-firrofficial,2026-11-23,first_mention,3,첫 언급 — 공연: @cosmosruby_ · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cosmosruby_,0,0,0,0,5
+firrofficial,2026-11-23,first_mention,3,첫 언급 — 공연: 코스모스루비 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 코스모스루비,0,0,0,0,5
 fisherman,2022-05-05,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 fisherman구원찬,2022-05-05,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 fkatwigs,2024-03-25,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
@@ -1410,7 +1411,7 @@ glowmoss,2026-10-29,first_mention,3,첫 언급 — 공연: 카페 언플러그�
 gnaynueeat,2026-11-24,first_mention,3,첫 언급 — 공연: @subriot_hbc · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @subriot_hbc,0,0,0,0,4
 gnbchili,2023-12-14,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 gnncjegrgr,2026-11-25,first_mention,3,첫 언급 — 공연: @daeguhiphopfestival · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @daeguhiphopfestival,0,0,0,0,3
-gnnixx,2026-11-26,first_mention,3,첫 언급 — 공연: @goyoroom · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @goyoroom,0,0,0,0,2
+gnnixx,2026-11-26,first_mention,3,첫 언급 — 공연: 고요의 방 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 고요의 방,0,0,0,0,2
 godfreeho,2024-04-13,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 godtrippydog,2026-11-24,first_mention,3,첫 언급 — 공연: @beatology_seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @beatology_seoul,0,0,0,0,4
 goetheinstitutkorea,2026-11-26,first_mention,3,첫 언급 — 큐레이션: @seoulexperimental · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @seoulexperimental,0,0,0,0,2
@@ -1426,7 +1427,7 @@ goooohaaaaannnn,2026-11-26,first_mention,3,첫 언급 — 공연: @diverecords_s
 gordyharmon,2023-01-11,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 gorgeousgorgeous,2025-11-14,first_mention,3,첫 언급 — 공연: 오방가르드 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 오방가르드,0,0,0,0,28
 gori2llaa,2026-11-18,first_mention,3,첫 언급 — 공연: @hai_info · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @hai_info,0,0,0,0,10
-goyoinryeok,2026-11-25,first_mention,3,첫 언급 — 공연: @goyoroom · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @goyoroom,0,0,0,0,3
+goyoinryeok,2026-11-25,first_mention,3,첫 언급 — 공연: 고요의 방 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 고요의 방,0,0,0,0,3
 gps크루,2022-12-08,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,1,28
 gr2n,2024-03-15,first_mention,3,첫 언급 — 공연: 락클럽 Bar 레드제플린 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 락클럽 Bar 레드제플린,0,0,0,0,28
 gr2n,2025-11-09,first_seoul_gig,4,처음 서울 공연 — 제이에스아트홀&뮤직바 (그 전엔 지방 무대) · 기본 3 · 그때 '첫 신호' +1 → 4,처음 서울 공연,1,제이에스아트홀&뮤직바 (그 전엔 지방 무대),0,0,0,0,28
@@ -1476,13 +1477,13 @@ hakaze,2026-11-21,first_mention,3,첫 언급 — 공연: 웨스트브릿지 라�
 haklo,2025-11-29,first_mention,3,첫 언급 — 공연: 스트레인지 프룻 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 스트레인지 프룻,0,0,0,0,28
 haku,2025-07-16,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 hakushihasegawa,2024-07-26,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-hale1ne,2026-11-15,first_mention,3,첫 언급 — 공연: @the_vinyl_underground · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @the_vinyl_underground,0,0,0,0,13
+hale1ne,2026-11-15,first_mention,3,첫 언급 — 공연: 바이널 언더그라운드 소극장 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 바이널 언더그라운드 소극장,0,0,0,0,13
 halleyellahofficial,2026-11-17,first_mention,3,첫 언급 — 큐레이션: @cham.mag · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @cham.mag,0,0,0,0,11
 halluci,2026-04-30,first_mention,3,첫 언급 — 공연: Club FF · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club FF,0,0,0,0,28
 ham259,2026-11-22,first_mention,3,첫 언급 — 공연: @lvhs.kr · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @lvhs.kr,0,0,0,0,6
 hammerdrive,2026-07-12,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 hammering,2026-06-18,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
-han0ae,2026-11-23,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,5
+han0ae,2026-11-23,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,5
 hana,2026-08-02,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 hanabie,2026-10-04,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 hanash,2025-03-01,first_mention,3,첫 언급 — 공연: 오방가르드 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 오방가르드,0,0,0,0,28
@@ -1492,7 +1493,7 @@ hangyeol,2026-10-04,first_mention,3,첫 언급 — 공연: 스페이스 한강 �
 hannaraectomy,2024-05-12,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 hansy,2026-11-26,first_mention,3,첫 언급 — 공연: @tool.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @tool.seoul,0,0,0,0,2
 hanumankind,2025-03-12,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-happychaesol,2026-11-27,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,1
+happychaesol,2026-11-27,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,1
 happyholidaybrother,2026-11-22,first_mention,3,첫 언급 — 공연: @rosso_seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @rosso_seoul,0,0,0,0,6
 hardons,2026-09-12,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,2,0,0,28
 hardons,2026-09-19,first_seoul_gig,4,처음 서울 공연 — 베이비돌 (그 전엔 지방 무대) · 기본 3 · 그때 '첫 신호' +1 → 4,처음 서울 공연,1,베이비돌 (그 전엔 지방 무대),2,0,0,0,28
@@ -1572,7 +1573,7 @@ hiroshiyoshimura,2025-01-28,first_mention,3,첫 언급 — 큐레이션: VISLA �
 hitech,2024-10-04,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 hitem,2024-11-21,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 hitgs,2025-06-11,first_mention,3,첫 언급 — 큐레이션: IZM · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: IZM,0,0,0,0,28
-hititdown,2026-11-25,first_mention,3,첫 언급 — 공연: @goyoroom · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @goyoroom,0,0,0,0,3
+hititdown,2026-11-25,first_mention,3,첫 언급 — 공연: 고요의 방 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 고요의 방,0,0,0,0,3
 hitsujibungaku,2025-10-14,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
 hitsujibungaku,2025-12-11,magazine,2,매체 첫 소개 — visla 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,visla 첫 소개,0,0,0,0,28
 hiveparkkr,2026-11-17,first_mention,3,첫 언급 — 공연: @foreignbody.life · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @foreignbody.life,0,1,0,0,11
@@ -1583,7 +1584,7 @@ ho99o9,2025-09-17,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1
 hofe,2026-09-03,first_mention,3,첫 언급 — 공연: 스트레인지 프룻 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 스트레인지 프룻,0,0,0,0,28
 hoff,2026-09-05,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 hogi,2026-11-23,first_mention,3,첫 언급 — 공연: @pistilseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @pistilseoul,0,0,0,0,5
-hojuntp,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+hojuntp,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 hollowataraxia,2026-11-21,first_mention,3,첫 언급 — 공연: 베이비돌 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 베이비돌,0,0,0,0,7
 holybear,2026-08-06,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
 holymountain,2024-02-18,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
@@ -1594,7 +1595,7 @@ homezone,2025-01-17,big_venue_first,3,큰 공연장 첫 출연 — 무신사개�
 homoludensofficial,2026-11-22,first_mention,3,첫 언급 — 공연: @clubnasub · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @clubnasub,0,0,0,0,6
 homs,2026-11-23,first_mention,3,첫 언급 — 큐레이션: 음악취향Y · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 음악취향Y,0,0,0,0,5
 honbaek,2026-07-11,first_mention,3,첫 언급 — 공연: Hukez · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Hukez,0,0,0,0,28
-honbaekofficial,2026-11-19,first_mention,3,첫 언급 — 공연: @purple_hall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @purple_hall,0,0,0,0,9
+honbaekofficial,2026-11-19,first_mention,3,첫 언급 — 공연: 퍼플홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 퍼플홀,0,0,0,0,9
 honeyglaze,2024-09-30,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 honeyjamsam,2026-09-12,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 hongisaacofficial,2026-11-24,first_mention,3,첫 언급 — 큐레이션: @magazine_muve · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @magazine_muve,0,0,0,0,4
@@ -1612,7 +1613,7 @@ hooon,2025-03-14,first_mention,3,첫 언급 — 공연: Cafe PPnF · 기본 1 ·
 horimshin,2026-11-24,first_mention,3,첫 언급 — 공연: @flatnine_jazzbar · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @flatnine_jazzbar,0,0,0,0,4
 horsemans,2026-10-09,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 hortensia,2024-03-08,first_mention,3,첫 언급 — 공연: Club 빵 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club 빵,0,1,0,0,28
-hoseouniv,2026-11-19,first_mention,3,첫 언급 — 공연: @purple_hall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @purple_hall,0,0,0,0,9
+hoseouniv,2026-11-19,first_mention,3,첫 언급 — 공연: 퍼플홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 퍼플홀,0,0,0,0,9
 hoshimachisuisei,2026-11-20,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,8
 hoso,2026-07-23,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 hosoterratoma,2026-04-25,first_mention,3,첫 언급 — 공연: 채널1969 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 채널1969,0,0,0,0,28
@@ -1634,7 +1635,7 @@ hukkyshibaseki,2024-07-04,first_mention,3,첫 언급 — 큐레이션: VISLA · 
 hukkyshibaseki,2024-12-19,magazine,2,매체 첫 소개 — trackzero 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,trackzero 첫 소개,0,0,0,0,28
 hukkyshibaseki,2026-01-27,magazine,2,매체 첫 소개 — izm 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,izm 첫 소개,0,0,0,0,28
 hukkyshibaseki,2026-08-28,magazine,2,매체 첫 소개 — hiphople 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,hiphople 첫 소개,0,1,0,0,28
-huladanghouseofhula,2026-11-23,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,5
+huladanghouseofhula,2026-11-23,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,5
 humaninfrastructure,2026-02-15,first_mention,3,첫 언급 — 공연: 생기스튜디오 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 생기스튜디오,0,0,0,0,28
 humbreaders,2026-11-22,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,6
 humchitchi,2026-11-22,first_mention,3,첫 언급 — 공연: @soar.wav · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @soar.wav,0,0,0,0,6
@@ -1648,7 +1649,7 @@ huqueymsaw,2026-11-19,magazine,2,매체 첫 소개 — instagram 첫 소개 · �
 huremic,2025-03-26,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 huskingbee,2025-10-18,first_mention,3,첫 언급 — 공연: Bender · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Bender,0,0,0,0,28
 hwangdaldemosandthoughts,2026-11-23,first_mention,3,첫 언급 — 공연: 클럽헤비 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 클럽헤비,0,0,0,0,5
-hwendaaa,2026-11-23,first_mention,3,첫 언급 — 공연: @goyoroom · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @goyoroom,0,0,0,0,5
+hwendaaa,2026-11-23,first_mention,3,첫 언급 — 공연: 고요의 방 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 고요의 방,0,0,0,0,5
 hwhwi,2026-11-20,first_mention,3,첫 언급 — 공연: @younggiftedwack · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @younggiftedwack,0,0,0,1,8
 hwhwi,2026-11-21,magazine,2,매체 첫 소개 — instagram 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,instagram 첫 소개,1,0,0,0,7
 hwi,2024-07-25,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
@@ -1669,7 +1670,7 @@ hypnotizyou,2017-12-19,first_mention,3,첫 언급 — 공연: KT&G 상상마당 
 hysterics,2026-11-24,first_mention,3,첫 언급 — 큐레이션: @omichive7 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @omichive7,0,0,0,0,4
 hyukoh2000,2026-11-24,first_mention,3,첫 언급 — 큐레이션: @ystrdy.tdy.tmrrw · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @ystrdy.tdy.tmrrw,0,0,0,0,4
 hyunjxni,2026-11-24,first_mention,3,첫 언급 — 공연: @subriot_hbc · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @subriot_hbc,0,0,0,0,4
-hyunsengoh,2026-11-26,first_mention,3,첫 언급 — 공연: @goyoroom · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @goyoroom,0,0,0,0,2
+hyunsengoh,2026-11-26,first_mention,3,첫 언급 — 공연: 고요의 방 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 고요의 방,0,0,0,0,2
 i0i0i,2025-11-14,first_mention,3,첫 언급 — 공연: 오방가르드 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 오방가르드,0,0,0,0,28
 i2ialive,2026-05-22,first_mention,3,첫 언급 — 공연: 프리즘홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 프리즘홀,0,0,0,0,28
 iamnotymayer,2026-11-26,first_mention,3,첫 언급 — 공연: @subriot_hbc · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @subriot_hbc,0,0,0,0,2
@@ -1681,7 +1682,7 @@ id,2022-09-20,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 
 ide,2026-09-21,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,28
 ideal,2026-02-12,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 identifiedpatient,2023-01-14,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-idongjin7285,2026-11-15,first_mention,3,첫 언급 — 공연: @the_vinyl_underground · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @the_vinyl_underground,0,0,0,0,13
+idongjin7285,2026-11-15,first_mention,3,첫 언급 — 공연: 바이널 언더그라운드 소극장 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 바이널 언더그라운드 소극장,0,0,0,0,13
 idontlikerealgirls,2026-11-25,first_mention,3,첫 언급 — 공연: @cakeshopseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cakeshopseoul,0,0,0,0,3
 ifightrabbit,2026-11-25,first_mention,3,첫 언급 — 공연: @basscamp_crew · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @basscamp_crew,0,0,0,0,3
 iganana,2026-09-05,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
@@ -1692,7 +1693,7 @@ ihatemodels,2024-11-15,first_mention,3,첫 언급 — 큐레이션: VISLA · 기
 iiinacupoffftea,2026-11-22,first_mention,3,첫 언급 — 공연: @lvhs.kr · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @lvhs.kr,0,0,0,0,6
 ijdsquintet,2024-06-20,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 ikas,2026-11-22,first_mention,3,첫 언급 — 공연: 웨스트브릿지 라이브홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 웨스트브릿지 라이브홀,0,0,0,0,6
-ikbuckjtong,2026-11-24,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,4
+ikbuckjtong,2026-11-24,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,4
 ikigusare,2026-01-05,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 ikkyunakajima,2026-07-26,first_mention,3,첫 언급 — 공연: 롤링홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 롤링홀,0,0,0,0,28
 ikkyunakajima,2026-07-26,big_venue_first,3,큰 공연장 첫 출연 — 롤링홀 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,롤링홀 (L급),0,0,0,0,28
@@ -1700,7 +1701,7 @@ ikyo,2021-04-28,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 
 illgot,2025-03-31,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,28
 imam3ss,2026-11-19,first_mention,3,첫 언급 — 공연: @boleroseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @boleroseoul,0,0,0,0,9
 imansleague,2024-06-14,first_mention,3,첫 언급 — 공연: 공연장 미정 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 공연장 미정,0,1,0,0,28
-imdamdam,2026-11-23,first_mention,3,첫 언급 — 공연: @cosmosruby_ · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cosmosruby_,0,0,0,0,5
+imdamdam,2026-11-23,first_mention,3,첫 언급 — 공연: 코스모스루비 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 코스모스루비,0,0,0,0,5
 imdiafter6,2026-11-25,first_mention,3,첫 언급 — 공연: @basscamp_crew · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @basscamp_crew,0,0,0,0,3
 imeanfosho,2026-07-08,first_mention,3,첫 언급 — 공연: 우주정거장 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 우주정거장,0,0,0,0,28
 imeanus,2026-01-08,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
@@ -1711,7 +1712,7 @@ imf,2026-08-05,magazine,1,매체 첫 소개 — visla 첫 소개 · 기본 1 · 
 imkaka,2026-11-21,first_mention,3,첫 언급 — 공연: @soar.wav · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @soar.wav,0,0,0,0,7
 imlay,2022-06-09,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 immanuelwilkins,2024-10-21,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-imsoseyata,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+imsoseyata,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 incense,2026-09-17,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,1,0,0,28
 inchesjpn,2026-11-23,first_mention,3,첫 언급 — 큐레이션: @pushplay_mag · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @pushplay_mag,0,0,0,0,5
 indegoaid,2026-09-20,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,28
@@ -1719,7 +1720,7 @@ indigolaend,2024-11-16,first_mention,3,첫 언급 — 공연: 무신사개러지
 indigolaend,2024-11-16,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,무신사개러지 (L급),0,0,0,0,28
 infission,2025-12-20,first_mention,3,첫 언급 — 공연: 리얼라이즈 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 리얼라이즈,0,0,0,0,28
 inity,2026-11-20,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,8
-inmateproject,2026-11-27,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,1
+inmateproject,2026-11-27,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,1
 insookim,2024-02-12,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 insoulmusic,2026-11-26,first_mention,3,첫 언급 — 공연: @diverecords_seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @diverecords_seoul,0,0,0,0,2
 intercityfunkensemble,2026-05-16,first_mention,3,첫 언급 — 공연: OL'55 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: OL'55,0,0,0,0,28
@@ -1772,7 +1773,7 @@ jaehan62,2026-11-24,first_mention,3,첫 언급 — 공연: @paper.seoul · 기�
 jaeho111111,2026-11-14,first_mention,3,첫 언급 — 공연: @blanksite_seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @blanksite_seoul,0,0,0,0,14
 jaekonjeon,2026-11-24,first_mention,3,첫 언급 — 공연: @flatnine_jazzbar · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @flatnine_jazzbar,0,0,0,0,4
 jaeminbass,2026-11-26,first_mention,3,첫 언급 — 공연: @rustic_jazz · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @rustic_jazz,0,0,0,0,2
-jaeyoungeye,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+jaeyoungeye,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 jaezze,2018-11-16,first_mention,3,첫 언급 — 공연: KT&G 상상마당 홍대 라이브홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 홍대 라이브홀,0,0,0,0,28
 jagger,2024-06-14,first_mention,3,첫 언급 — 공연: 공연장 미정 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 공연장 미정,0,0,0,0,28
 jakemiller,2025-09-27,first_mention,3,첫 언급 — 공연: 무신사개러지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 무신사개러지,0,0,0,0,28
@@ -1826,11 +1827,11 @@ jazzerej,2026-11-22,first_mention,3,첫 언급 — 공연: @jazzpresso_record ·
 jazzieon,2023-11-16,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 jazzloft2018,2026-11-19,first_mention,3,첫 언급 — 공연: @jazzpresso_record · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @jazzpresso_record,0,0,0,0,9
 jazzman,2026-10-10,first_mention,3,첫 언급 — 공연: 채널1969 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 채널1969,0,0,0,0,28
-jazzphai,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+jazzphai,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 jazzpocket,2026-05-16,first_mention,3,첫 언급 — 공연: 로컬다움 롴돰 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 로컬다움 롴돰,0,0,0,0,28
 jazzrefreshed,2025-03-26,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 jazzwoman,2025-10-16,first_mention,3,첫 언급 — 공연: 스트레인지 프룻 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 스트레인지 프룻,0,0,0,0,28
-jbclassic,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+jbclassic,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 jd1,2024-06-01,first_mention,3,첫 언급 — 큐레이션: IZM · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: IZM,0,0,0,0,28
 jdc,2021-02-03,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
 jdilla,2025-02-10,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
@@ -1886,7 +1887,7 @@ jjk,2022-08-19,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1
 jk,2026-06-20,first_mention,3,첫 언급 — 공연: 로컬다움 롴돰 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 로컬다움 롴돰,0,0,0,0,28
 jkimholidayhvre,2025-08-07,first_mention,3,첫 언급 — 선정·지원: superrookie · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,선정·지원: superrookie,0,0,0,0,28
 jkimholidayhvre,2025-08-07,selection,4,선정·지원 — superrookie 라인업·쇼케이스 · 기본 2 · 그때 '백지' +2 → 4,선정·지원,0,superrookie 라인업·쇼케이스,0,0,0,0,28
-jkl530,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+jkl530,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 jlin,2024-03-28,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 jlrang,2026-11-21,first_mention,3,첫 언급 — 공연: @_jam_lounge_hongdae · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @_jam_lounge_hongdae,0,0,0,0,7
 jluke,2026-08-04,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,28
@@ -1907,7 +1908,7 @@ jonesworks,2026-11-27,first_mention,3,첫 언급 — 큐레이션: @complexkorea
 jonnynash,2023-06-01,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 jonrafman,2024-01-24,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 jontarry,2026-11-26,first_mention,3,첫 언급 — 큐레이션: @seoulexperimental · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @seoulexperimental,0,0,0,0,2
-joori0,2026-11-25,first_mention,3,첫 언급 — 공연: @unplugged.lounge · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @unplugged.lounge,0,0,0,0,3
+joori0,2026-11-25,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,3
 jordangardner,2024-11-28,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 josebaagirrezabalaga,2023-01-30,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 joya,2024-03-24,first_mention,3,첫 언급 — 공연: Club 빵 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club 빵,0,0,0,0,28
@@ -1939,7 +1940,7 @@ juno,2026-11-21,first_mention,3,첫 언급 — 공연: @subriot_hbc · 기본 1 
 juno3436,2026-11-18,first_mention,3,첫 언급 — 공연: @hai_info · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @hai_info,0,0,0,0,10
 juo,2025-09-10,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,28
 jusinmin,2026-11-25,first_mention,3,첫 언급 — 공연: @jazzpresso_record · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @jazzpresso_record,0,0,0,0,3
-justborntochill,2026-11-24,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,4
+justborntochill,2026-11-24,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,4
 justice,2024-01-25,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,1,28
 justmusic,2026-11-24,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,4
 juuihatsu,2026-10-19,first_mention,3,첫 언급 — 공연: 스트레인지 프룻 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 스트레인지 프룻,0,0,0,0,28
@@ -1948,7 +1949,7 @@ jw,2026-10-04,first_mention,3,첫 언급 — 공연: 스페이스 한강 · 기�
 jwaxmusic,2026-11-13,first_mention,3,첫 언급 — 큐레이션: @visla.fm · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @visla.fm,0,0,0,0,15
 jynjoue,2026-11-23,first_mention,3,첫 언급 — 공연: @pistilseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @pistilseoul,0,0,0,0,5
 jy밴드,2026-05-08,first_mention,3,첫 언급 — 공연: 우무지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 우무지,0,0,0,0,28
-k1m423,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+k1m423,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 k2,2018-04-22,first_mention,3,첫 언급 — 공연: KT&G 상상마당 홍대 라이브홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 홍대 라이브홀,0,0,0,0,28
 k5theseriousjoke,2024-10-05,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 kachisan,2026-09-06,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
@@ -1982,7 +1983,7 @@ kcitymarket,2025-06-02,first_mention,3,첫 언급 — 큐레이션: VISLA · 기
 kcm,2024-12-22,first_mention,3,첫 언급 — 공연: KT&G 상상마당 부산 3층 라이브홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 부산 3층 라이브홀,0,0,0,0,28
 kcm,2024-12-22,big_venue_first,3,큰 공연장 첫 출연 — KT&G 상상마당 부산 3층 라이브홀 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,KT&G 상상마당 부산 3층 라이브홀 (L급),0,0,0,0,28
 kebin,2025-10-22,first_mention,3,첫 언급 — 공연: Club 빵 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club 빵,0,0,0,0,28
-keeboco,2026-11-23,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,5
+keeboco,2026-11-23,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,5
 keemhyoeun,2026-09-05,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 keemtehwan,2026-11-22,first_mention,3,첫 언급 — 공연: @paper.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @paper.seoul,0,0,0,0,6
 keepyourbluemind,2026-11-25,first_mention,3,첫 언급 — 큐레이션: @indieroad.official · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @indieroad.official,0,0,0,0,3
@@ -2026,7 +2027,7 @@ kimdan,2026-07-11,first_mention,3,첫 언급 — 공연: 스페이스브릭 · �
 kimderalte,2026-11-20,first_mention,3,첫 언급 — 공연: @nue.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @nue.seoul,0,0,0,0,8
 kimgordon,2026-02-19,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 kimhanjoo,2024-06-20,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
-kimhyewonmusic,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+kimhyewonmusic,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 kimj,2024-09-12,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 kimjeonkangsan,2026-11-26,first_mention,3,첫 언급 — 공연: @newwaveseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @newwaveseoul,0,0,0,0,2
 kimjonghyeon,2026-09-05,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
@@ -2036,7 +2037,7 @@ kimleohyun,2026-11-26,first_mention,3,첫 언급 — 공연: @rustic_jazz · 기
 kimmyking,2026-05-22,first_mention,3,첫 언급 — 공연: 프리즘홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 프리즘홀,0,0,0,0,28
 kimnayoung,2026-09-06,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 kimqna,2026-11-15,first_mention,3,첫 언급 — 공연: @clubnasub · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @clubnasub,0,2,0,0,13
-kimvalelog,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+kimvalelog,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 kimyujin,2023-03-05,outcome,5,정답 — 한대음 올해의 신인 (A) · 기본 4 · 그때 '백지' +2 → 5,정답,0,한대음 올해의 신인 (A),0,0,0,0,28
 kinemasbeatnik,2024-11-02,first_mention,3,첫 언급 — 공연: 무대륙 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 무대륙,0,0,0,0,28
 kingbee,2026-04-21,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,28
@@ -2066,7 +2067,7 @@ kitamp3,2026-11-27,first_mention,3,첫 언급 — 큐레이션: @artist_in_jeju 
 kittymoon,2026-06-22,first_mention,3,첫 언급 — 큐레이션: 음악취향Y · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 음악취향Y,0,0,0,0,28
 kitzi5fficial,2026-11-26,first_mention,3,첫 언급 — 공연: @mirrorballmusic_official · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @mirrorballmusic_official,0,0,0,0,2
 kiwookmusic,2026-11-27,first_mention,3,첫 언급 — 공연: @harts.music.studio · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @harts.music.studio,0,0,0,0,1
-klaffv,2026-11-23,first_mention,3,첫 언급 — 공연: @cosmosruby_ · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cosmosruby_,0,0,0,0,5
+klaffv,2026-11-23,first_mention,3,첫 언급 — 공연: 코스모스루비 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 코스모스루비,0,0,0,0,5
 klama,2025-03-13,first_mention,3,첫 언급 — 선정·지원: superrookie · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,선정·지원: superrookie,0,0,0,0,28
 klama,2025-03-13,selection,4,선정·지원 — superrookie 라인업·쇼케이스 · 기본 2 · 그때 '백지' +2 → 4,선정·지원,0,superrookie 라인업·쇼케이스,0,0,0,0,28
 klama,2026-03-24,selection,3,선정·지원 — superrookie 라인업·쇼케이스 · 기본 2 · 그때 '첫 신호' +1 → 3,선정·지원,1,superrookie 라인업·쇼케이스,0,1,0,0,28
@@ -2098,7 +2099,7 @@ koreless,2024-08-19,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본
 korgofficial,2026-11-24,first_mention,3,첫 언급 — 공연: @seoul_recordfair · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @seoul_recordfair,0,0,0,0,4
 koshin,2026-11-15,first_mention,3,첫 언급 — 공연: @nue.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @nue.seoul,0,0,0,0,13
 kostyapya,2026-11-22,first_mention,3,첫 언급 — 공연: @boleroseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @boleroseoul,0,0,0,0,6
-koyoung,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+koyoung,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 kradness,2018-09-29,first_mention,3,첫 언급 — 공연: KT&G 상상마당 홍대 라이브홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 홍대 라이브홀,0,0,0,0,28
 krankydoodle,2024-10-05,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 krijka,2026-11-22,first_mention,3,첫 언급 — 공연: @clubnasub · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @clubnasub,0,0,0,0,6
@@ -2181,7 +2182,7 @@ letmeknow,2026-04-11,big_venue_first,4,큰 공연장 첫 출연 — 예스24 라
 leverseoul,2026-11-15,first_mention,3,첫 언급 — 공연: @clubnasub · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @clubnasub,0,0,0,0,13
 ley,2022-10-31,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
 lgdnr홈보이,2022-08-24,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
-lghopperyohei,2026-11-25,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,3
+lghopperyohei,2026-11-25,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,3
 lialia,2023-12-01,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 liberalia,2026-04-25,first_mention,3,첫 언급 — 공연: 제이에스아트홀&뮤직바 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 제이에스아트홀&뮤직바,0,0,0,0,28
 liberamente,2026-11-15,first_mention,3,첫 언급 — 공연: @jazzpresso_record · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @jazzpresso_record,0,0,0,0,13
@@ -2211,7 +2212,7 @@ liveforever,2026-09-13,first_mention,3,첫 언급 — 공연: Club Victim · 기
 livershot,2025-07-19,first_mention,3,첫 언급 — 공연: A.O.R · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: A.O.R,0,0,0,0,28
 livigesh,2023-09-22,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 lizkim,2026-08-13,first_mention,3,첫 언급 — 공연: 우주정거장 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 우주정거장,0,0,0,0,28
-lluucccaas,2026-11-24,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,4
+lluucccaas,2026-11-24,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,4
 lobotomethebrains,2026-09-27,first_mention,3,첫 언급 — 공연: 신도시 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 신도시,0,0,0,0,28
 lockwing,2026-11-26,first_mention,3,첫 언급 — 공연: @diverecords_seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @diverecords_seoul,0,0,0,0,2
 loeshimmy,2026-11-25,first_mention,3,첫 언급 — 큐레이션: @webzineizm · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @webzineizm,0,0,0,0,3
@@ -2290,7 +2291,7 @@ magnoliacacophony,2026-11-20,first_mention,3,첫 언급 — 공연: 을지로 H.
 mahaiping,2026-09-11,first_mention,3,첫 언급 — 공연: 언더시티 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언더시티,0,0,0,0,28
 mainaccessdoor,2026-11-18,first_mention,3,첫 언급 — 공연: @260asia_official · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @260asia_official,0,0,0,0,10
 makarath,2026-09-05,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
-makersmarkkr,2026-11-23,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,2,0,0,5
+makersmarkkr,2026-11-23,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,2,0,0,5
 makspabst,2026-08-15,first_mention,3,첫 언급 — 공연: 오방가르드 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 오방가르드,0,0,0,0,28
 makuta,2026-10-09,first_mention,3,첫 언급 — 공연: 언드 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언드,0,1,0,0,28
 makuta,2026-10-11,first_seoul_gig,4,처음 서울 공연 — Club Victim (그 전엔 지방 무대) · 기본 3 · 그때 '첫 신호' +1 → 4,처음 서울 공연,1,Club Victim (그 전엔 지방 무대),1,0,0,0,28
@@ -2302,7 +2303,7 @@ man,2014-08-08,first_mention,3,첫 언급 — 선정·지원: band_discovery · 
 man,2014-08-08,selection,4,선정·지원 — band_discovery 라인업·쇼케이스 · 기본 2 · 그때 '백지' +2 → 4,선정·지원,0,band_discovery 라인업·쇼케이스,0,0,0,1,28
 man,2014-08-23,selection,5,선정·지원 — band_discovery 최종 · 기본 4 · 그때 '첫 신호' +1 → 5,선정·지원,1,band_discovery 최종,0,0,1,0,28
 manami,2024-02-20,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-manchunbs,2026-11-15,first_mention,3,첫 언급 — 공연: @cafeveloso · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cafeveloso,0,0,0,0,13
+manchunbs,2026-11-15,first_mention,3,첫 언급 — 공연: 벨로주 홍대 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 벨로주 홍대,0,0,0,0,13
 mandarinjuice,2026-08-03,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
 mandyindiana,2026-02-20,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,1,28
 mangogirl,2026-10-24,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
@@ -2318,7 +2319,7 @@ marcin,2024-08-23,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러
 mardimercrediofficial,2026-11-16,first_mention,3,첫 언급 — 큐레이션: @noir_mardi_mercredi · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @noir_mardi_mercredi,0,0,0,1,12
 mariahthescientist,2025-08-22,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 mariedelta,2026-05-08,first_mention,3,첫 언급 — 공연: 채널1969 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 채널1969,0,0,0,0,28
-mariko1109,2026-11-25,first_mention,3,첫 언급 — 공연: @purple_hall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @purple_hall,0,0,0,0,3
+mariko1109,2026-11-25,first_mention,3,첫 언급 — 공연: 퍼플홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 퍼플홀,0,0,0,0,3
 marinasatti,2025-05-06,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
 marinasena,2025-04-20,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
 marineblacknoodle,2024-08-27,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,1,0,0,28
@@ -2346,7 +2347,7 @@ marvista,2025-07-17,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙�
 maryinthejunkyard,2024-05-31,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 maryinthejunkyard,2026-07-26,magazine,2,매체 첫 소개 — overtone 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,overtone 첫 소개,0,0,0,0,28
 marylily,2025-09-12,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-masaru13579,2026-11-25,first_mention,3,첫 언급 — 공연: @purple_hall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @purple_hall,0,0,0,0,3
+masaru13579,2026-11-25,first_mention,3,첫 언급 — 공연: 퍼플홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 퍼플홀,0,0,0,0,3
 massiveattack,2026-08-01,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 masumotokota,2024-08-25,first_mention,3,첫 언급 — 공연: 오방가르드 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 오방가르드,0,0,0,0,28
 materialspound,2024-11-04,first_mention,3,첫 언급 — 큐레이션: 음악취향Y · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 음악취향Y,0,0,0,0,28
@@ -2441,7 +2442,7 @@ mikantetto,2026-09-10,first_mention,3,첫 언급 — 공연: 아지토 라이브
 mike,2023-10-02,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 mike,2025-02-07,magazine,2,매체 첫 소개 — overtone 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,overtone 첫 소개,0,0,1,0,28
 mikelvega,2023-01-30,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-mikikim,2026-11-23,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,2,0,0,5
+mikikim,2026-11-23,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,2,0,0,5
 mileycyrus,2025-06-03,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
 milimax,2026-09-05,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 mina,2026-04-25,first_mention,3,첫 언급 — 공연: 오방가르드 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 오방가르드,0,0,0,0,28
@@ -2450,11 +2451,11 @@ minaokabe,2024-08-22,big_venue_first,3,큰 공연장 첫 출연 — 무신사개
 minbroskii,2026-09-20,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,28
 mindfreakkk,2025-07-16,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 mineokawasaki,2026-09-13,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
-mingelsomina,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+mingelsomina,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 minimonstermm,2026-11-25,first_mention,3,첫 언급 — 공연: @basscore.kr · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @basscore.kr,0,0,0,0,3
 minjeong,2026-10-15,first_mention,3,첫 언급 — 선정·지원: superrookie · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,선정·지원: superrookie,0,0,0,0,28
 minjeong,2026-10-15,selection,4,선정·지원 — superrookie 라인업·쇼케이스 · 기본 2 · 그때 '백지' +2 → 4,선정·지원,0,superrookie 라인업·쇼케이스,0,0,0,0,28
-minmulmermaid,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+minmulmermaid,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 minoh,2026-10-09,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 miosi,2022-07-28,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 mirabelle,2025-05-31,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
@@ -2537,7 +2538,7 @@ moodshame,2026-07-19,first_mention,3,첫 언급 — 공연: Club Victim · 기�
 moodymann,2023-11-27,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 mooe,2026-04-20,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
 moonberry,2026-11-21,first_mention,3,첫 언급 — 공연: @subriot_hbc · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @subriot_hbc,0,0,0,0,7
-moondeukee,2026-11-25,first_mention,3,첫 언급 — 공연: @unplugged.lounge · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @unplugged.lounge,0,0,0,0,3
+moondeukee,2026-11-25,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,3
 moongoamerica,2026-11-16,first_mention,3,첫 언급 — 공연: @younggiftedwack · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @younggiftedwack,0,3,0,1,12
 moongoamerica,2026-11-21,magazine,2,매체 첫 소개 — instagram 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,instagram 첫 소개,2,1,0,0,7
 moonice,2026-11-17,first_mention,3,첫 언급 — 공연: @more_breaks_kr · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @more_breaks_kr,0,0,0,0,11
@@ -2625,7 +2626,7 @@ namikai,2026-10-17,first_mention,3,첫 언급 — 공연: 베이비돌 · 기본
 namsansubworks,2026-11-25,first_mention,3,첫 언급 — 공연: @basscamp_crew · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @basscamp_crew,0,0,0,0,3
 nanatranquillo,2026-11-13,first_mention,3,첫 언급 — 공연: @pistilseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @pistilseoul,0,1,0,0,15
 nanoooook,2026-11-13,first_mention,3,첫 언급 — 큐레이션: @visla.fm · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @visla.fm,0,0,0,0,15
-nanunnaun,2026-11-23,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,5
+nanunnaun,2026-11-23,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,5
 naokosatoupercussion,2026-11-26,first_mention,3,첫 언급 — 큐레이션: @seoulexperimental · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @seoulexperimental,0,0,0,0,2
 nar0tic,2026-11-20,first_mention,3,첫 언급 — 큐레이션: @muscat_mag · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @muscat_mag,0,1,0,0,8
 nas,2023-07-23,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
@@ -2758,9 +2759,9 @@ nopartyforseoul,2026-04-11,first_mention,3,첫 언급 — 공연: 언플러그�
 norespectforbeauty,2025-01-16,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 normaetregula,2026-11-26,first_mention,3,첫 언급 — 큐레이션: @seoulexperimental · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @seoulexperimental,0,0,0,0,2
 northern19,2025-08-09,first_mention,3,첫 언급 — 공연: Bender · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Bender,0,0,0,0,28
-northfacegawd,2026-11-24,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,4
+northfacegawd,2026-11-24,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,4
 nosajthing,2025-07-28,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-noseulwav,2026-11-27,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,1
+noseulwav,2026-11-27,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,1
 noshelter,2026-10-10,first_mention,3,첫 언급 — 공연: Club Sharp · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Sharp,0,1,0,0,28
 noteofshoes,2026-11-20,first_mention,3,첫 언급 — 큐레이션: @omichive7 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @omichive7,0,0,0,0,8
 nothingscarvedinstone,2024-04-14,first_mention,3,첫 언급 — 공연: 예스24 라이브홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 예스24 라이브홀,0,0,0,0,28
@@ -2808,7 +2809,8 @@ nxworries,2023-05-20,first_mention,3,첫 언급 — 큐레이션: VISLA · 기�
 nyc,2023-12-21,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 nyokki,2025-09-07,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,28
 ny물고기,2022-07-07,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
-oahofficial,2026-11-26,first_mention,3,첫 언급 — 공연: @ssmadang.official · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @ssmadang.official,0,0,0,0,2
+oahofficial,2026-11-26,first_mention,3,첫 언급 — 공연: KT&G 상상마당 대치 아트홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 대치 아트홀,0,0,0,0,2
+oahofficial,2026-11-26,big_venue_first,3,큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,KT&G 상상마당 대치 아트홀 (L급),0,0,0,0,2
 oait,2024-05-11,first_mention,3,첫 언급 — 공연: 무신사개러지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 무신사개러지,0,0,0,0,28
 oait,2024-05-11,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,무신사개러지 (L급),0,0,0,0,28
 oathean,2026-09-12,first_mention,3,첫 언급 — 공연: 제이에스아트홀&뮤직바 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 제이에스아트홀&뮤직바,0,0,0,0,28
@@ -2839,7 +2841,7 @@ ogeow,2026-11-22,first_mention,3,첫 언급 — 공연: @boleroseoul · 기본 1
 ohail,2026-04-17,first_mention,3,첫 언급 — 공연: 프리즘홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 프리즘홀,0,0,0,0,28
 ohdirtyfingers,2026-10-30,first_mention,3,첫 언급 — 공연: 스트레인지 프룻 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 스트레인지 프룻,0,1,0,0,28
 ohiobluetipofficial,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
-ohjifl,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+ohjifl,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 ohno,2023-05-09,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 oibro,2026-10-16,first_mention,3,첫 언급 — 공연: 언더시티 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언더시티,0,0,0,0,28
 oiseum,2026-08-16,first_mention,3,첫 언급 — 공연: 베이비돌 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 베이비돌,0,0,0,0,28
@@ -2875,7 +2877,7 @@ onepact,2026-11-28,first_mention,3,첫 언급 — 공연: 예림당아트홀 · 
 onetoonetoone,2026-11-23,first_mention,3,첫 언급 — 큐레이션: @underadio_ · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @underadio_,0,0,0,0,5
 onhimasia,2026-11-27,first_mention,3,첫 언급 — 큐레이션: @hausofmatters · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @hausofmatters,0,0,0,0,1
 onhyo,2026-06-29,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
-onihiiino,2026-11-25,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,3
+onihiiino,2026-11-25,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,3
 onlyy,2026-11-22,first_mention,3,첫 언급 — 공연: @boleroseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @boleroseoul,0,0,0,0,6
 onthedal,2022-06-07,outcome,5,정답 — 뮤즈온 최종 (A) · 기본 4 · 그때 '백지' +2 → 5,정답,0,뮤즈온 최종 (A),0,0,0,0,28
 onthedal,2022-07-21,first_mention,1,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '졸업' -2 → 1,첫 언급,4,큐레이션: 멜론 트랙제로,0,0,0,0,28
@@ -2909,7 +2911,7 @@ otb,2022-11-11,first_mention,3,첫 언급 — 공연: KT&G 상상마당 부산 1
 othersmayforgetyoubutnoti,2026-09-12,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 otter,2023-03-17,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 otwo,2024-02-11,first_mention,3,첫 언급 — 공연: 공연장 미정 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 공연장 미정,0,0,0,0,28
-ouidaehan,2026-11-24,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,4
+ouidaehan,2026-11-24,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,4
 ourage,2023-02-16,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 ourage,2023-07-20,magazine,2,매체 첫 소개 — visla 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,visla 첫 소개,0,0,0,0,28
 ouri,2025-10-16,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
@@ -2963,7 +2965,7 @@ paperpickle,2026-07-25,first_mention,3,첫 언급 — 공연: 인천여관X루�
 par,2024-04-09,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 par,2026-07-23,magazine,2,매체 첫 소개 — trackzero 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,trackzero 첫 소개,0,0,0,0,28
 paradisecornerseoul,2026-11-25,first_mention,3,첫 언급 — 공연: @mirrorballmusic_official · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @mirrorballmusic_official,0,0,0,0,3
-paradiseculturalfoundation,2026-11-19,first_mention,3,첫 언급 — 공연: @cafeveloso · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cafeveloso,0,0,0,0,9
+paradiseculturalfoundation,2026-11-19,first_mention,3,첫 언급 — 공연: 벨로주 홍대 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 벨로주 홍대,0,0,0,0,9
 paragons,2025-01-28,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
 paramore,2024-02-07,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 parkhwino,2026-11-07,first_mention,3,첫 언급 — 공연: 생기스튜디오 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 생기스튜디오,0,1,0,0,21
@@ -2988,7 +2990,7 @@ pcr,2025-07-09,magazine,1,매체 첫 소개 — visla 첫 소개 · 기본 1 · 
 pcr,2025-08-05,magazine,1,매체 첫 소개 — overtone 첫 소개 · 기본 1 · 그때 '여러 갈래' +0 → 1,매체 첫 소개,2,overtone 첫 소개,0,0,1,1,28
 pcr,2025-09-17,magazine,1,매체 첫 소개 — trackzero 첫 소개 · 기본 1 · 그때 '여러 갈래' +0 → 1,매체 첫 소개,2,trackzero 첫 소개,0,0,1,0,28
 peaceandromance,2025-12-11,first_mention,3,첫 언급 — 공연: Club FF · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club FF,0,0,0,0,28
-peacepizzapiece,2026-11-24,first_mention,3,첫 언급 — 공연: @bender_hongdae · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @bender_hongdae,0,0,0,0,4
+peacepizzapiece,2026-11-24,first_mention,3,첫 언급 — 공연: Bender · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Bender,0,0,0,0,4
 peach3slash7pitch,2026-11-19,first_mention,3,첫 언급 — 큐레이션: @bcc_session · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @bcc_session,0,1,0,2,9
 peachslammer,2026-02-28,first_mention,3,첫 언급 — 공연: Club Sharp · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Sharp,0,0,0,0,28
 peachtreekr,2026-11-25,first_mention,3,첫 언급 — 공연: @seongsuyulmusic · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @seongsuyulmusic,0,0,0,0,3
@@ -3013,7 +3015,7 @@ peppertones,2025-06-28,big_venue_first,3,큰 공연장 첫 출연 — 무신사�
 percent,2023-06-22,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 percobain40,2026-11-14,first_mention,3,첫 언급 — 큐레이션: @aabyselects · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @aabyselects,0,0,0,2,14
 perfomaxofficial,2026-11-13,first_mention,3,첫 언급 — 큐레이션: @muzik.street · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @muzik.street,0,0,0,0,15
-performancelats,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+performancelats,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 perfume,2024-09-23,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
 perfumegenius,2025-01-17,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,1,28
 perfumegenius,2025-01-27,magazine,2,매체 첫 소개 — visla 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,visla 첫 소개,0,0,1,0,28
@@ -3030,7 +3032,7 @@ pharmacy파마씨,2017-02-11,first_mention,3,첫 언급 — 공연: KT&G 상상�
 phaseshifter,2026-07-19,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 phaseshifter,2026-11-09,magazine,3,매체 첫 소개 — musicy 첫 소개 · 기본 2 · 그때 '첫 신호' +1 → 3,매체 첫 소개,1,musicy 첫 소개,0,0,0,0,19
 philiphelmer,2026-05-16,first_mention,3,첫 언급 — 공연: OL'55 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: OL'55,0,0,0,0,28
-philipppss,2026-11-26,first_mention,3,첫 언급 — 공연: @goyoroom · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @goyoroom,0,0,0,0,2
+philipppss,2026-11-26,first_mention,3,첫 언급 — 공연: 고요의 방 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 고요의 방,0,0,0,0,2
 philldj티즈,2021-11-18,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
 philsphunkphrenzy,2024-12-31,first_mention,3,첫 언급 — 공연: 꼬뮨 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 꼬뮨,0,0,0,0,28
 phoebebridgers,2026-08-13,first_mention,3,첫 언급 — 공연: 제임스레코드 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 제임스레코드,0,0,0,1,28
@@ -3061,8 +3063,8 @@ pixey,2024-08-07,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 
 pixies,2026-08-02,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 pjmorton,2024-03-15,first_mention,3,첫 언급 — 공연: 무신사개러지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 무신사개러지,0,0,0,0,28
 pjmorton,2024-03-15,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,무신사개러지 (L급),0,0,0,0,28
-planeonmars,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
-planningbadger,2026-11-22,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,6
+planeonmars,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
+planningbadger,2026-11-22,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,6
 platecy,2026-11-24,first_mention,3,첫 언급 — 공연: @h.o.e.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @h.o.e.seoul,0,0,0,0,4
 platinumdisk,2026-11-21,first_mention,3,첫 언급 — 공연: @_jam_lounge_hongdae · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @_jam_lounge_hongdae,0,0,0,0,7
 playboicarti,2024-09-16,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,2,28
@@ -3154,7 +3156,7 @@ qm,2024-10-01,magazine,2,매체 첫 소개 — overtone 첫 소개 · 기본 1 �
 qthetrumpet,2023-05-18,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 qu,2025-11-29,first_mention,3,첫 언급 — 공연: 스트레인지 프룻 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 스트레인지 프룻,0,0,0,0,28
 quadeca,2025-08-02,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
-quandol,2026-11-24,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,4
+quandol,2026-11-24,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,4
 queenchubby,2026-09-05,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 queensofthestoneage,2025-05-30,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 quentincholet,2026-08-16,first_mention,3,첫 언급 — 공연: 아메노히커피점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아메노히커피점,0,0,0,0,28
@@ -3215,7 +3217,7 @@ redc,2023-06-14,selection,1,선정·지원 — band_discovery 라인업·쇼케�
 redc,2023-09-22,outcome,2,정답 — 부산록페 본무대 (B) · 기본 3 · 그때 '선정·중간 정답' -1 → 2,정답,3,부산록페 본무대 (B),0,0,0,0,28
 redc,2024-06-03,outcome,3,정답 — 뮤즈온 최종 (A) · 기본 4 · 그때 '선정·중간 정답' -1 → 3,정답,3,뮤즈온 최종 (A),0,0,0,0,28
 redc,2024-09-04,big_venue_first,1,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '졸업' -2 → 1,큰 공연장 첫 출연,4,무신사개러지 (L급),3,1,0,0,28
-redcollarrescuekorea,2026-11-22,first_mention,3,첫 언급 — 공연: @hqbar_busan · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @hqbar_busan,0,0,0,0,6
+redcollarrescuekorea,2026-11-22,first_mention,3,첫 언급 — 공연: HQ광안 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: HQ광안,0,0,0,0,6
 redconmusicstudio,2026-11-22,first_mention,3,첫 언급 — 공연: @gj__peakmusic · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @gj__peakmusic,0,1,0,0,6
 redhotchilihotsauce,2026-11-19,first_mention,3,첫 언급 — 공연: @260asia_official · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @260asia_official,0,0,0,0,9
 reduktion,2026-10-25,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
@@ -3366,7 +3368,8 @@ sanchoikr,2026-11-27,first_mention,3,첫 언급 — 큐레이션: @vislamag · �
 sandontmiss,2026-11-26,first_mention,3,첫 언급 — 큐레이션: @complexkorea · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @complexkorea,0,0,0,0,2
 sangbeom35,2026-11-26,first_mention,3,첫 언급 — 큐레이션: @seoulexperimental · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @seoulexperimental,0,0,0,0,2
 sangichaelleague,2026-11-24,first_mention,3,첫 언급 — 공연: @subriot_hbc · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @subriot_hbc,0,0,0,0,4
-sangsangcinema,2026-11-18,first_mention,3,첫 언급 — 공연: @ssmadang.official · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @ssmadang.official,0,0,0,0,10
+sangsangcinema,2026-11-18,first_mention,3,첫 언급 — 공연: KT&G 상상마당 대치 아트홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 대치 아트홀,0,0,0,0,10
+sangsangcinema,2026-11-18,big_venue_first,3,큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,KT&G 상상마당 대치 아트홀 (L급),0,0,0,0,10
 sangwookimswoom,2026-11-27,first_mention,3,첫 언급 — 공연: @unbornsounds · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @unbornsounds,0,0,0,0,1
 sanjay,2025-08-31,first_mention,3,첫 언급 — 공연: Club 빵 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club 빵,0,0,0,0,28
 sannie,2025-09-25,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
@@ -3383,12 +3386,12 @@ sarapersico,2025-02-04,first_mention,3,첫 언급 — 큐레이션: VISLA · 기
 sasami,2025-03-22,first_mention,3,첫 언급 — 공연: 오방가르드 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 오방가르드,0,0,0,0,28
 sashasnow,2025-01-09,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 satoshitomiie,2026-11-25,first_mention,3,첫 언급 — 큐레이션: @mixmixtv · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @mixmixtv,0,0,0,0,3
-satoyukierock,2026-11-25,first_mention,3,첫 언급 — 공연: @purple_hall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @purple_hall,0,0,0,0,3
+satoyukierock,2026-11-25,first_mention,3,첫 언급 — 공연: 퍼플홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 퍼플홀,0,0,0,0,3
 sault,2024-07-08,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 saya,2026-05-27,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
 sayagray,2025-02-24,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
 saymynamehan,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
-saytouche,2026-11-23,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,2,0,0,5
+saytouche,2026-11-23,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,2,0,0,5
 sazaband,2026-10-01,first_mention,3,첫 언급 — 공연: 로컬다움 롴돰 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 로컬다움 롴돰,0,0,0,0,28
 saza최우준,2026-09-10,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 scandal,2024-06-15,first_mention,3,첫 언급 — 공연: 무신사개러지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 무신사개러지,0,0,0,0,28
@@ -3396,7 +3399,7 @@ scandal,2024-06-15,big_venue_first,3,큰 공연장 첫 출연 — 무신사개�
 scarletkimband,2024-01-25,first_mention,3,첫 언급 — 공연: Club 빵 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club 빵,0,0,0,0,28
 sccreation,2026-11-24,first_mention,3,첫 언급 — 공연: @flatnine_jazzbar · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @flatnine_jazzbar,0,0,0,0,4
 schmy,2026-04-17,first_mention,3,첫 언급 — 공연: 프리즘홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 프리즘홀,0,0,0,0,28
-sckatt528,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+sckatt528,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 scopvik,2023-02-01,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 scorchedevrth,2024-07-08,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 screamrecords,2026-11-13,first_mention,3,첫 언급 — 공연: @net_taskforce · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @net_taskforce,0,0,0,0,15
@@ -3420,12 +3423,12 @@ seomalone,2025-08-07,first_mention,3,첫 언급 — 선정·지원: superrookie 
 seomalone,2025-08-07,selection,4,선정·지원 — superrookie 라인업·쇼케이스 · 기본 2 · 그때 '백지' +2 → 4,선정·지원,0,superrookie 라인업·쇼케이스,0,0,0,0,28
 seonhomoon,2026-11-26,first_mention,3,첫 언급 — 공연: @newwaveseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @newwaveseoul,0,0,0,0,2
 seonhyul,2023-12-28,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
-seonoey,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+seonoey,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 seoseoseoseoseo,2026-11-16,first_mention,3,첫 언급 — 공연: @h.o.e.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @h.o.e.seoul,0,1,0,0,12
 seosroom,2025-05-18,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
 seosroom,2026-10-26,magazine,2,매체 첫 소개 — musicy 첫 소개 · 기본 2 · 그때 '여러 갈래' +0 → 2,매체 첫 소개,2,musicy 첫 소개,0,1,0,0,28
 seoul,2026-11-17,first_mention,3,첫 언급 — 공연: @darklight_seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @darklight_seoul,0,0,0,0,11
-seoulfermentary,2026-11-22,first_mention,3,첫 언급 — 공연: @hqbar_busan · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @hqbar_busan,0,0,0,0,6
+seoulfermentary,2026-11-22,first_mention,3,첫 언급 — 공연: HQ광안 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: HQ광안,0,0,0,0,6
 seoulspit,2024-03-23,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 seoulspit,2024-11-17,magazine,3,매체 첫 소개 — musicy 첫 소개 · 기본 2 · 그때 '첫 신호' +1 → 3,매체 첫 소개,1,musicy 첫 소개,0,0,0,0,28
 seoulswan,2026-11-21,first_mention,3,첫 언급 — 공연: @_jam_lounge_hongdae · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @_jam_lounge_hongdae,0,0,0,0,7
@@ -3528,7 +3531,7 @@ sinahill,2024-04-19,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본
 sinch3k,2026-11-25,first_mention,3,첫 언급 — 공연: @cakeshopseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cakeshopseoul,0,0,0,0,3
 sinndavin,2026-09-27,first_mention,3,첫 언급 — 공연: 신도시 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 신도시,0,0,0,0,28
 sinsae0,2026-11-15,first_mention,3,첫 언급 — 공연: @jazzpresso_record · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @jazzpresso_record,0,0,0,0,13
-sionis,2026-11-27,first_mention,3,첫 언급 — 공연: @edls_official · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @edls_official,0,0,0,0,1
+sionis,2026-11-27,first_mention,3,첫 언급 — 공연: 이들스 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 이들스,0,0,0,0,1
 siro,2026-06-06,first_mention,3,첫 언급 — 공연: 우주정거장 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 우주정거장,0,0,0,0,28
 sirup,2024-12-08,first_mention,3,첫 언급 — 공연: 무신사개러지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 무신사개러지,0,0,0,0,28
 sirup,2024-12-08,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,무신사개러지 (L급),0,0,0,0,28
@@ -3561,13 +3564,13 @@ slant,2026-11-07,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러�
 slchld,2025-03-21,first_mention,3,첫 언급 — 공연: 무신사개러지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 무신사개러지,0,0,0,0,28
 slchld,2025-03-21,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,무신사개러지 (L급),0,0,0,0,28
 sleepcinema,2026-07-06,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
-sleepingsujo,2026-11-27,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,1
+sleepingsujo,2026-11-27,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,1
 sleepingwalkers,2026-02-08,first_mention,3,첫 언급 — 공연: 무신사개러지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 무신사개러지,0,0,0,0,28
 sleepingwalkers,2026-02-08,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,무신사개러지 (L급),0,0,0,0,28
-slha,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+slha,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 slikback,2025-01-22,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 sloe,2025-01-27,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,28
-slosolo,2026-11-24,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,4
+slosolo,2026-11-24,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,4
 slosxlo,2026-11-24,first_mention,3,첫 언급 — 공연: @beatology_seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @beatology_seoul,0,0,0,0,4
 slowdance,2023-12-12,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 slowdance,2024-05-23,magazine,2,매체 첫 소개 — trackzero 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,trackzero 첫 소개,0,0,0,0,28
@@ -3605,7 +3608,7 @@ sogumm,2022-04-14,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제�
 sogumm,2023-02-16,magazine,2,매체 첫 소개 — visla 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,visla 첫 소개,0,0,0,0,28
 sohnsun,2026-11-26,first_mention,3,첫 언급 — 큐레이션: @seoulexperimental · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @seoulexperimental,0,0,0,0,2
 soichiterada,2023-11-24,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-soj24,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+soj24,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 solanin,2024-06-24,first_mention,3,첫 언급 — 큐레이션: 음악취향Y · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 음악취향Y,0,0,0,0,28
 sole,2024-08-11,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
 solpark,2026-06-23,first_mention,3,첫 언급 — 공연: 우주정거장 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 우주정거장,0,0,0,0,28
@@ -3676,14 +3679,17 @@ srl,2025-04-29,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 ·
 sseleman,2026-08-08,first_mention,3,첫 언급 — 공연: 생기스튜디오 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 생기스튜디오,0,0,0,0,28
 ssilviapponce,2026-11-25,first_mention,3,첫 언급 — 큐레이션: @mixmixtv · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @mixmixtv,0,0,0,0,3
 ssiviviv,2023-08-18,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-ssmadangacademy,2026-11-18,first_mention,3,첫 언급 — 공연: @ssmadang.official · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @ssmadang.official,0,1,0,0,10
-ssmadangcokr,2026-11-23,first_mention,3,첫 언급 — 공연: @ssmadang.official · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @ssmadang.official,0,1,0,0,5
-ssmadanggallery,2026-11-18,first_mention,3,첫 언급 — 공연: @ssmadang.official · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @ssmadang.official,0,0,0,0,10
+ssmadangacademy,2026-11-18,first_mention,3,첫 언급 — 공연: KT&G 상상마당 대치 아트홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 대치 아트홀,0,1,0,0,10
+ssmadangacademy,2026-11-18,big_venue_first,3,큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,KT&G 상상마당 대치 아트홀 (L급),0,1,0,0,10
+ssmadangcokr,2026-11-23,first_mention,3,첫 언급 — 공연: KT&G 상상마당 대치 아트홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 대치 아트홀,0,1,0,0,5
+ssmadangcokr,2026-11-23,big_venue_first,3,큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,KT&G 상상마당 대치 아트홀 (L급),0,1,0,0,5
+ssmadanggallery,2026-11-18,first_mention,3,첫 언급 — 공연: KT&G 상상마당 대치 아트홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 대치 아트홀,0,0,0,0,10
+ssmadanggallery,2026-11-18,big_venue_first,3,큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,KT&G 상상마당 대치 아트홀 (L급),0,0,0,0,10
 staffmasterpiece,2026-11-23,first_mention,3,첫 언급 — 공연: @seoul_electronic_records · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @seoul_electronic_records,0,0,0,0,5
 stainus,2026-03-21,first_mention,3,첫 언급 — 공연: 채널1969 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 채널1969,0,0,0,0,28
 standingonthecorner,2025-05-28,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 startline,2022-08-25,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
-starwoodsofficial,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+starwoodsofficial,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 stateofff,2024-07-29,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 staypuller,2026-10-26,first_mention,3,첫 언급 — 공연: 생기스튜디오 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 생기스튜디오,0,0,0,0,28
 staypuller,2026-11-27,magazine,2,매체 첫 소개 — instagram 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,instagram 첫 소개,0,0,0,0,1
@@ -3718,7 +3724,7 @@ sugaiken,2026-11-07,first_mention,3,첫 언급 — 공연: 축제 · 기본 1 ·
 suhmoon,2024-01-26,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 suhomoon,2026-11-26,first_mention,3,첫 언급 — 큐레이션: @seoulexperimental · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @seoulexperimental,0,0,0,0,2
 suhyunyoun,2026-11-26,first_mention,3,첫 언급 — 공연: @cakeshopseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @cakeshopseoul,0,0,0,0,2
-suiiey,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+suiiey,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 suitz,2025-05-31,first_mention,3,첫 언급 — 선정·지원: muse_sejong · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,선정·지원: muse_sejong,0,0,0,0,28
 suitz,2025-05-31,selection,5,선정·지원 — muse_sejong 선정 · 기본 3 · 그때 '백지' +2 → 5,선정·지원,0,muse_sejong 선정,0,0,0,0,28
 sukhong,2023-12-15,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
@@ -3749,7 +3755,7 @@ sunsetrollercoaster,2024-07-12,magazine,2,매체 첫 소개 — visla 첫 소개
 sunsetrollercoaster,2024-07-22,magazine,2,매체 첫 소개 — musicy 첫 소개 · 기본 2 · 그때 '여러 갈래' +0 → 2,매체 첫 소개,2,musicy 첫 소개,0,0,1,0,28
 sunsetrollercoaster,2024-10-24,magazine,1,매체 첫 소개 — trackzero 첫 소개 · 기본 1 · 그때 '여러 갈래' +0 → 1,매체 첫 소개,2,trackzero 첫 소개,0,0,0,0,28
 sunsetrollercoaster,2026-11-19,magazine,1,매체 첫 소개 — instagram 첫 소개 · 기본 1 · 그때 '여러 갈래' +0 → 1,매체 첫 소개,2,instagram 첫 소개,0,0,0,0,9
-sunshinehwang,2026-11-23,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,5
+sunshinehwang,2026-11-23,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,5
 sunsoo,2026-08-29,first_mention,3,첫 언급 — 공연: Hukez · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Hukez,0,0,0,0,28
 sunthelily,2024-06-20,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 sunwashere,2026-05-04,first_mention,3,첫 언급 — 큐레이션: 음악취향Y · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 음악취향Y,0,0,0,0,28
@@ -3782,7 +3788,7 @@ sweetcharliehwang,2026-11-27,first_mention,3,첫 언급 — 공연: @harts.music
 sweetlight,2014-12-31,first_mention,3,첫 언급 — 선정·지원: yoojaeha_finalist · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,선정·지원: yoojaeha_finalist,0,0,0,0,28
 sweetlight,2014-12-31,selection,5,선정·지원 — yoojaeha_finalist 선정 · 기본 3 · 그때 '백지' +2 → 5,선정·지원,0,yoojaeha_finalist 선정,0,0,0,0,28
 sweetsteady,2026-11-22,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,6
-swiimersofficial,2026-11-26,first_mention,3,첫 언급 — 공연: @petsoundsmusicpub · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @petsoundsmusicpub,0,0,0,0,2
+swiimersofficial,2026-11-26,first_mention,3,첫 언급 — 공연: 펫사운즈 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 펫사운즈,0,0,0,0,2
 swimrabbit,2022-05-05,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 swimrabbit,2024-06-13,magazine,2,매체 첫 소개 — visla 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,visla 첫 소개,0,0,0,0,28
 swingmakers,2026-11-24,first_mention,3,첫 언급 — 공연: @flatnine_jazzbar · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @flatnine_jazzbar,0,0,0,0,4
@@ -3791,7 +3797,7 @@ sya,2026-10-02,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 ·
 syahbandirami,2026-11-26,first_mention,3,첫 언급 — 큐레이션: @seoulexperimental · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @seoulexperimental,0,0,0,0,2
 sydneyminskysargeant,2025-09-25,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 syefyee,2026-11-16,first_mention,3,첫 언급 — 공연: @litlounge_itw · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @litlounge_itw,0,0,0,0,12
-syeone,2026-11-26,first_mention,3,첫 언급 — 공연: @unplugged.lounge · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @unplugged.lounge,0,1,0,0,2
+syeone,2026-11-26,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,1,0,0,2
 syh123520,2026-11-16,first_mention,3,첫 언급 — 공연: @hai_info · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @hai_info,0,0,0,0,12
 synap,2026-10-21,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,28
 syntapunk,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
@@ -3804,17 +3810,17 @@ t5umut5umu,2025-06-12,first_mention,3,첫 언급 — 큐레이션: VISLA · 기�
 taati,2024-11-29,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 tabrisnet,2026-11-17,first_mention,3,첫 언급 — 공연: @more_breaks_kr · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @more_breaks_kr,0,0,0,0,11
 tachyonz,2024-01-07,first_mention,3,첫 언급 — 공연: 프리즘홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 프리즘홀,0,0,0,0,28
-tacostandkr,2026-11-23,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,5
+tacostandkr,2026-11-23,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,5
 tad,2026-06-18,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
 taehann,2026-11-19,first_mention,3,첫 언급 — 큐레이션: @kindiemagazine · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @kindiemagazine,0,0,0,0,9
 taehun,2022-08-11,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 taehun이태훈전호영민상용,2022-08-11,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
-taejosan,2026-11-19,first_mention,3,첫 언급 — 공연: @purple_hall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @purple_hall,0,0,0,0,9
+taejosan,2026-11-19,first_mention,3,첫 언급 — 공연: 퍼플홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 퍼플홀,0,0,0,0,9
 taepyeongsiganofficial,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
 taesuntaesaemoondansae,2026-11-24,first_mention,3,첫 언급 — 공연: @flatnine_jazzbar · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @flatnine_jazzbar,0,0,0,0,4
 tah,2024-04-11,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 tahiti80,2026-11-27,first_mention,3,첫 언급 — 공연: 현대카드 언더스테이지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 현대카드 언더스테이지,0,0,0,0,1
-taindafresh,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+taindafresh,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 tak,2026-11-21,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,7
 takasetoya,2026-10-18,first_mention,3,첫 언급 — 공연: 예스24 원더로크홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 예스24 원더로크홀,0,0,0,0,28
 takasetoya,2026-10-18,big_venue_first,3,큰 공연장 첫 출연 — 예스24 원더로크홀 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,예스24 원더로크홀 (L급),0,0,0,0,28
@@ -3865,15 +3871,15 @@ templime,2024-12-18,first_mention,3,첫 언급 — 큐레이션: overtone · 기
 tengger,2026-07-15,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,1,28
 tengger,2026-07-23,magazine,2,매체 첫 소개 — trackzero 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,trackzero 첫 소개,0,0,1,0,28
 tennis,2025-05-02,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
-tenorhanseong,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+tenorhanseong,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 teraosaho,2026-07-19,first_mention,3,첫 언급 — 공연: 벨르 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 벨르,0,0,0,0,28
 terrylewis,2019-04-12,first_mention,3,첫 언급 — 공연: KT&G 상상마당 홍대 라이브홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 홍대 라이브홀,0,0,0,0,28
 tete,2022-06-02,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 texas3000,2025-04-11,first_mention,3,첫 언급 — 공연: 오방가르드 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 오방가르드,0,0,0,0,28
-tgerdsco,2026-11-25,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,3
+tgerdsco,2026-11-25,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,3
 thama,2022-10-20,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 tharimcornelisse,2026-11-26,first_mention,3,첫 언급 — 큐레이션: @seoulexperimental · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @seoulexperimental,0,0,0,0,2
-thataboyjuna,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+thataboyjuna,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 thealchemist,2023-10-02,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,1,28
 theavalanches,2026-10-24,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,1,28
 theavalanches,2026-11-15,magazine,2,매체 첫 소개 — instagram 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,instagram 첫 소개,0,0,1,0,13
@@ -3891,7 +3897,7 @@ thedeep,2026-02-12,magazine,2,매체 첫 소개 — trackzero 첫 소개 · 기�
 thedimmers,2025-11-23,first_mention,3,첫 언급 — 공연: 오방가르드 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 오방가르드,0,1,0,0,28
 thedododos,2025-07-05,first_mention,3,첫 언급 — 공연: 스트레인지 프룻 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 스트레인지 프룻,0,1,0,0,28
 thedoorbell,2026-06-19,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
-theeasternpower,2026-11-23,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,5
+theeasternpower,2026-11-23,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,5
 thefrostchildren,2026-11-23,first_mention,3,첫 언급 — 큐레이션: @highjinkxx · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @highjinkxx,0,0,0,0,5
 thegeeks,2024-02-17,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 theglint,2025-11-08,first_mention,3,첫 언급 — 공연: 퍼플홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 퍼플홀,0,0,0,0,28
@@ -3918,7 +3924,7 @@ theneverminds,2026-09-17,first_mention,3,첫 언급 — 공연: 바이널 언더
 theneverminds,2026-09-18,first_seoul_gig,4,처음 서울 공연 — 베이비돌 (그 전엔 지방 무대) · 기본 3 · 그때 '첫 신호' +1 → 4,처음 서울 공연,1,베이비돌 (그 전엔 지방 무대),1,0,0,0,28
 thenewpornographers,2023-01-13,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 thenolbong,2026-11-23,first_mention,3,첫 언급 — 공연: @seoul_electronic_records · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @seoul_electronic_records,0,0,0,0,5
-theogtanyalee,2026-11-27,first_mention,3,첫 언급 — 공연: @ovantgarde · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @ovantgarde,0,0,0,0,1
+theogtanyalee,2026-11-27,first_mention,3,첫 언급 — 공연: 오방가르드 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 오방가르드,0,0,0,0,1
 theoparrish,2024-07-15,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 theoralcigarettes,2026-11-20,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,8
 theorchestra,2025-04-10,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
@@ -4001,7 +4007,7 @@ tomsson,2025-08-15,first_mention,3,첫 언급 — 공연: 꼬뮨 · 기본 1 · 
 tomtomtom,2024-02-16,first_mention,3,첫 언급 — 공연: Club Victim · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club Victim,0,0,0,0,28
 tontojang,2026-11-27,first_mention,3,첫 언급 — 큐레이션: @vislamag · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @vislamag,0,0,0,0,1
 tonyayumi,2026-04-05,first_mention,3,첫 언급 — 공연: 채널1969 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 채널1969,0,0,0,0,28
-tonykimmp3,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+tonykimmp3,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 tonyrayn,2026-09-21,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,28
 tonyryu,2025-02-10,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,28
 toolrecords,2026-11-26,first_mention,3,첫 언급 — 공연: @tool.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @tool.seoul,0,0,0,0,2
@@ -4034,7 +4040,7 @@ traumprinz,2023-11-14,first_mention,3,첫 언급 — 큐레이션: VISLA · 기�
 travisscott,2025-01-28,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
 travisscott,2026-11-25,magazine,2,매체 첫 소개 — instagram 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,instagram 첫 소개,0,0,0,0,3
 treaks,2026-09-01,first_mention,3,첫 언급 — 공연: 베이비돌 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 베이비돌,0,2,0,0,28
-triceratops,2026-11-25,first_mention,3,첫 언급 — 공연: @purple_hall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @purple_hall,0,0,0,0,3
+triceratops,2026-11-25,first_mention,3,첫 언급 — 공연: 퍼플홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 퍼플홀,0,0,0,0,3
 triologue,2026-05-14,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 trioworks,2024-09-19,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 triplesmsnz,2025-11-28,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
@@ -4129,7 +4135,7 @@ utpa,2026-11-08,first_mention,3,첫 언급 — 공연: 사상인디스테이션 
 uverworld,2026-09-05,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 uwol,2026-06-01,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
 uza,2023-03-06,first_mention,3,첫 언급 — 큐레이션: 음악취향Y · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 음악취향Y,0,0,0,0,28
-uzupatheuniversewave,2026-11-20,first_mention,3,첫 언급 — 공연: @unplugged_stage · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @unplugged_stage,0,0,0,2,8
+uzupatheuniversewave,2026-11-20,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,2,8
 uzupatheuniversewave,2026-11-20,magazine,3,매체 첫 소개 — instagram 첫 소개 · 기본 1 · 그때 '백지' +2 → 3,매체 첫 소개,0,instagram 첫 소개,0,0,0,2,8
 v01d,2026-09-20,first_mention,3,첫 언급 — 공연: 롤링홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 롤링홀,0,0,0,0,28
 v01d,2026-09-20,big_venue_first,3,큰 공연장 첫 출연 — 롤링홀 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,롤링홀 (L급),0,0,0,0,28
@@ -4191,7 +4197,7 @@ vkblanka,2025-11-22,first_mention,3,첫 언급 — 공연: 무신사개러지 ·
 vkblanka,2025-11-22,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,무신사개러지 (L급),0,0,0,0,28
 vmc,2018-03-17,first_mention,3,첫 언급 — 공연: KT&G 상상마당 홍대 라이브홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 홍대 라이브홀,0,0,0,0,28
 vmc,2021-07-01,magazine,2,매체 첫 소개 — hiphople 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,hiphople 첫 소개,0,0,0,0,28
-vneul,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+vneul,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 voboku,2026-11-21,first_mention,3,첫 언급 — 공연: @soar.wav · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @soar.wav,0,0,0,0,7
 voi,2026-07-22,first_mention,3,첫 언급 — 공연: 우주정거장 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 우주정거장,0,0,0,0,28
 vomitory,2026-11-27,first_mention,3,첫 언급 — 공연: 제이에스아트홀&뮤직바 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 제이에스아트홀&뮤직바,0,0,0,0,1
@@ -4247,7 +4253,7 @@ wavetoearth,2026-10-10,magazine,1,매체 첫 소개 — izm 첫 소개 · 기본
 wavon,2026-11-17,first_mention,3,첫 언급 — 공연: @boleroseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @boleroseoul,0,0,0,0,11
 wavworld,2024-03-06,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 wdnt,2026-01-28,first_mention,3,첫 언급 — 공연: Club 빵 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club 빵,0,0,0,0,28
-we1comesoso,2026-11-25,first_mention,3,첫 언급 — 공연: @unplugged.lounge · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @unplugged.lounge,0,0,0,0,3
+we1comesoso,2026-11-25,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,3
 wearealive,2026-11-05,first_mention,3,첫 언급 — 공연: 공상온도 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 공상온도,0,1,0,0,23
 weatherday,2025-04-01,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
 wednsdaycampanella,2025-05-08,first_mention,3,첫 언급 — 공연: 무신사개러지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 무신사개러지,0,0,0,0,28
@@ -4293,7 +4299,7 @@ wisp,2026-01-18,first_mention,3,첫 언급 — 공연: 무신사개러지 · 기
 wisp,2026-01-18,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,무신사개러지 (L급),0,0,0,0,28
 with김민석,2019-01-18,first_mention,3,첫 언급 — 공연: KT&G 상상마당 홍대 라이브홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 홍대 라이브홀,0,0,0,0,28
 witmilly,2026-05-25,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
-wjddn,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+wjddn,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 wkdxodud,2026-11-21,first_mention,3,첫 언급 — 공연: @subriot_hbc · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @subriot_hbc,0,0,0,0,7
 wllllllllllllllln,2026-11-26,first_mention,3,첫 언급 — 큐레이션: @seoulexperimental · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @seoulexperimental,0,0,0,0,2
 wnsday,2026-07-20,first_mention,3,첫 언급 — 큐레이션: 음악취향Y · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 음악취향Y,0,0,0,0,28
@@ -4309,7 +4315,7 @@ wookikiwaikiki,2026-11-23,first_mention,3,첫 언급 — 공연: 클럽헤비 ·
 woonjo,2026-11-24,first_mention,3,첫 언급 — 공연: @flatnine_jazzbar · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @flatnine_jazzbar,0,0,0,0,4
 woorimaeum,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
 wooze,2024-02-11,first_mention,3,첫 언급 — 공연: Club FF · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club FF,0,0,0,0,28
-woozovalike,2026-11-24,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,4
+woozovalike,2026-11-24,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,4
 workman247dnb,2026-11-25,first_mention,3,첫 언급 — 공연: @basscamp_crew · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @basscamp_crew,0,0,0,0,3
 woshi,2023-06-21,outcome,5,정답 — 뮤즈온 최종 (A) · 기본 4 · 그때 '백지' +2 → 5,정답,0,뮤즈온 최종 (A),0,0,0,0,28
 woshi,2024-12-31,first_mention,1,첫 언급 — 선정·지원: yoojaeha_finalist · 기본 1 · 그때 '졸업' -2 → 1,첫 언급,4,선정·지원: yoojaeha_finalist,0,0,0,0,28
@@ -4385,10 +4391,10 @@ yahyel,2018-04-14,first_mention,3,첫 언급 — 공연: KT&G 상상마당 홍�
 yajasuband,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
 yama,2026-11-21,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,7
 yamagatatweakster,2026-11-22,first_mention,3,첫 언급 — 공연: 베이비돌 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 베이비돌,0,0,0,0,6
-yamajockey,2026-11-15,first_mention,3,첫 언급 — 공연: @the_vinyl_underground · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @the_vinyl_underground,0,0,0,0,13
+yamajockey,2026-11-15,first_mention,3,첫 언급 — 공연: 바이널 언더그라운드 소극장 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 바이널 언더그라운드 소극장,0,0,0,0,13
 yamujinpro,2026-11-23,first_mention,3,첫 언급 — 공연: @pistilseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @pistilseoul,0,0,0,0,5
 yangjiione,2026-11-27,first_mention,3,첫 언급 — 큐레이션: @vislamag · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @vislamag,0,0,0,0,1
-yangjinsuuu,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
+yangjinsuuu,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
 yangmignon,2026-11-23,first_mention,3,첫 언급 — 공연: @venn.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @venn.seoul,0,0,0,0,5
 yangskinny,2025-12-13,first_mention,3,첫 언급 — 공연: 무신사개러지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 무신사개러지,0,0,0,0,28
 yangskinny,2025-12-13,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,무신사개러지 (L급),0,0,0,0,28
@@ -4467,11 +4473,11 @@ yoono,2022-04-14,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제�
 yoonyoon,2026-03-16,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
 yoruyouryoru,2026-11-20,first_mention,3,첫 언급 — 공연: @nue.seoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @nue.seoul,0,0,0,0,8
 yoshiyaxxx,2025-12-04,first_mention,3,첫 언급 — 공연: 리얼라이즈 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 리얼라이즈,0,0,0,0,28
-youchans,2026-11-25,first_mention,3,첫 언급 — 공연: @unplugged.lounge · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @unplugged.lounge,0,0,0,0,3
+youchans,2026-11-25,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,3
 youngkrow,2024-10-14,first_mention,3,첫 언급 — 선정·지원: superrookie · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,선정·지원: superrookie,0,0,0,0,28
 youngkrow,2024-10-14,selection,4,선정·지원 — superrookie 라인업·쇼케이스 · 기본 2 · 그때 '백지' +2 → 4,선정·지원,0,superrookie 라인업·쇼케이스,0,0,0,0,28
 youngminkwon,2026-11-26,first_mention,3,첫 언급 — 공연: @rustic_jazz · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @rustic_jazz,0,0,0,0,2
-youngmond,2026-11-23,first_mention,3,첫 언급 — 공연: @morene__sukha · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @morene__sukha,0,0,0,0,5
+youngmond,2026-11-23,first_mention,3,첫 언급 — 공연: 모래내 극락 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 모래내 극락,0,0,0,0,5
 youngthug,2025-09-28,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
 youthlagoon,2025-03-03,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
 youthlimbo,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @delay_relay,0,0,0,0,7
@@ -4496,8 +4502,10 @@ yunili,2025-03-13,selection,4,선정·지원 — superrookie 라인업·쇼케�
 yunili,2026-10-25,selection,3,선정·지원 — superrookie 라인업·쇼케이스 · 기본 2 · 그때 '첫 신호' +1 → 3,선정·지원,1,superrookie 라인업·쇼케이스,0,0,0,0,28
 yunjazz,2026-11-24,first_mention,3,첫 언급 — 공연: @subriot_hbc · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @subriot_hbc,0,0,0,0,4
 yunjixfuture,2026-11-19,first_mention,3,첫 언급 — 공연: @boleroseoul · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @boleroseoul,0,0,0,0,9
-yunsaemusic,2026-11-26,first_mention,3,첫 언급 — 공연: @ssmadang.official · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @ssmadang.official,0,0,0,0,2
-yunsaeofficial,2026-11-26,first_mention,3,첫 언급 — 공연: @ssmadang.official · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @ssmadang.official,0,0,0,0,2
+yunsaemusic,2026-11-26,first_mention,3,첫 언급 — 공연: KT&G 상상마당 대치 아트홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 대치 아트홀,0,0,0,0,2
+yunsaemusic,2026-11-26,big_venue_first,3,큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,KT&G 상상마당 대치 아트홀 (L급),0,0,0,0,2
+yunsaeofficial,2026-11-26,first_mention,3,첫 언급 — 공연: KT&G 상상마당 대치 아트홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 대치 아트홀,0,0,0,0,2
+yunsaeofficial,2026-11-26,big_venue_first,3,큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,KT&G 상상마당 대치 아트홀 (L급),0,0,0,0,2
 yunseokee,2026-11-25,first_mention,3,첫 언급 — 큐레이션: @vislamag · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @vislamag,0,0,0,0,3
 yurangband,2026-11-21,first_mention,3,첫 언급 — 공연: @_jam_lounge_hongdae · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @_jam_lounge_hongdae,0,0,0,0,7
 yushilucid,2026-11-14,first_mention,3,첫 언급 — 큐레이션: @aabyselects · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @aabyselects,0,0,0,2,14
@@ -4509,10 +4517,10 @@ yuzu,2026-11-22,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 ·
 yvesjarvis,2025-03-11,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 yvestumor,2023-04-05,first_mention,3,첫 언급 — 큐레이션: VISLA · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: VISLA,0,0,0,0,28
 yvminimvy,2026-11-17,first_mention,3,첫 언급 — 공연: @more_breaks_kr · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @more_breaks_kr,0,0,0,0,11
-ywnwide,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+ywnwide,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 yyoi,2025-11-06,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
-yyujinsim,2026-11-19,first_mention,3,첫 언급 — 공연: @art_space_sla · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @art_space_sla,0,0,0,0,9
-yyyyhysdis,2026-11-25,first_mention,3,첫 언급 — 공연: @unplugged.lounge · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @unplugged.lounge,0,0,0,0,3
+yyujinsim,2026-11-19,first_mention,3,첫 언급 — 공연: 석촌호수 아뜰리에 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 석촌호수 아뜰리에,0,0,0,0,9
+yyyyhysdis,2026-11-25,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,3
 z1choo,2026-11-13,first_mention,3,첫 언급 — 큐레이션: @theseosroom · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: @theseosroom,0,0,0,0,15
 zachherron,2026-11-21,first_mention,3,첫 언급 — 공연: GB가빈아트홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: GB가빈아트홀,0,0,0,0,7
 zachphilips,2025-01-15,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
@@ -4535,7 +4543,7 @@ zgoo,2026-07-15,first_mention,3,첫 언급 — 공연: 우주정거장 · 기본
 zideguqinstudio,2026-09-05,first_mention,3,첫 언급 — 공연: indistreet · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: indistreet,0,0,0,0,28
 zinn,2026-03-22,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,28
 zino,2026-04-14,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,28
-zinographik,2026-11-25,first_mention,3,첫 언급 — 공연: @unplugged.lounge · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @unplugged.lounge,0,0,0,0,3
+zinographik,2026-11-25,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,3
 zizonyundi,2026-11-22,first_mention,3,첫 언급 — 공연: @lvhs.kr · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @lvhs.kr,0,0,0,0,6
 zoey,2025-02-16,first_mention,3,첫 언급 — 큐레이션: overtone · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: overtone,0,0,0,0,28
 zoey,2025-03-27,magazine,2,매체 첫 소개 — trackzero 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,trackzero 첫 소개,0,0,0,0,28
@@ -6139,7 +6147,8 @@ zzzaamofficial,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay ·
 데미안러브,2023-12-18,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
 데브론,2021-02-17,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
 데스팟,2026-05-17,first_mention,3,첫 언급 — 공연: 프리즘홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 프리즘홀,0,0,0,0,28
-데이,2026-11-17,first_mention,3,첫 언급 — 공연: @musinsagarage · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @musinsagarage,0,0,0,0,11
+데이,2026-11-17,first_mention,3,첫 언급 — 공연: 무신사개러지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 무신사개러지,0,0,0,0,11
+데이,2026-11-17,big_venue_first,3,큰 공연장 첫 출연 — 무신사개러지 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,무신사개러지 (L급),0,0,0,0,11
 데이네버체인지,2024-04-25,first_mention,3,첫 언급 — 공연: A.O.R · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: A.O.R,0,0,0,0,28
 데이네버체인지,2025-05-12,outcome,5,정답 — 뮤즈온 최종 (A) · 기본 4 · 그때 '첫 신호' +1 → 5,정답,1,뮤즈온 최종 (A),0,1,0,0,28
 데이네버체인지,2025-08-29,outcome,1,정답 — 부산록페 본무대 (B) · 기본 3 · 그때 '졸업' -2 → 1,정답,4,부산록페 본무대 (B),0,0,0,0,28
@@ -6272,7 +6281,8 @@ zzzaamofficial,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay ·
 듀스,2023-05-05,magazine,2,매체 첫 소개 — hiphople 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,hiphople 첫 소개,0,0,0,0,28
 듀오벗,2024-05-13,first_mention,3,첫 언급 — 큐레이션: 음악취향Y · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 음악취향Y,0,0,0,0,28
 듀티,2022-01-24,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
-듀포인트,2026-11-26,first_mention,3,첫 언급 — 공연: @ssmadang.official · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @ssmadang.official,0,0,0,0,2
+듀포인트,2026-11-26,first_mention,3,첫 언급 — 공연: KT&G 상상마당 대치 아트홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: KT&G 상상마당 대치 아트홀,0,0,0,0,2
+듀포인트,2026-11-26,big_venue_first,3,큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,KT&G 상상마당 대치 아트홀 (L급),0,0,0,0,2
 드니성호,2023-02-23,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 드레스,2021-02-03,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
 드레스,2024-01-29,magazine,3,매체 첫 소개 — musicy 첫 소개 · 기본 2 · 그때 '첫 신호' +1 → 3,매체 첫 소개,1,musicy 첫 소개,0,0,1,0,28
@@ -7684,7 +7694,7 @@ zzzaamofficial,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay ·
 변하은,2024-02-16,big_venue_first,3,큰 공연장 첫 출연 — 롤링홀 (L급) · 기본 3 · 그때 '백지' +0 · 우리 기록의 첫 공연이라 그 전 체급 모름(작은 팀 가산 없음) → 3,큰 공연장 첫 출연,0,롤링홀 (L급),0,0,0,0,28
 변하은,2026-11-14,magazine,2,매체 첫 소개 — instagram 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,instagram 첫 소개,1,0,0,0,14
 변하은과하이에나,2024-06-23,first_mention,3,첫 언급 — 공연: Club FF · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club FF,0,0,0,0,28
-변현우,2026-11-26,first_mention,3,첫 언급 — 공연: @goyoroom · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @goyoroom,0,0,0,0,2
+변현우,2026-11-26,first_mention,3,첫 언급 — 공연: 고요의 방 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 고요의 방,0,0,0,0,2
 변현지,2026-11-06,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,22
 변화무쌍,2024-02-11,first_mention,3,첫 언급 — 공연: 공연장 미정 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 공연장 미정,0,1,0,0,28
 별17,2022-12-31,first_mention,3,첫 언급 — 선정·지원: yoojaeha_finalist · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,선정·지원: yoojaeha_finalist,0,0,0,0,28
@@ -8833,6 +8843,7 @@ zzzaamofficial,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay ·
 신설희,2024-09-03,first_mention,3,첫 언급 — 공연: Club 빵 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club 빵,0,0,0,1,28
 신설희,2024-09-09,magazine,3,매체 첫 소개 — musicy 첫 소개 · 기본 2 · 그때 '첫 신호' +1 → 3,매체 첫 소개,1,musicy 첫 소개,1,0,0,0,28
 신설희,2025-10-09,magazine,1,매체 첫 소개 — trackzero 첫 소개 · 기본 1 · 그때 '여러 갈래' +0 → 1,매체 첫 소개,2,trackzero 첫 소개,0,0,0,0,28
+신설희,2026-11-26,big_venue_first,4,큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급) · 기본 3 · 그때 '여러 갈래' +0 · 체급 점프(그 전엔 S급 무대뿐) +1 → 4,큰 공연장 첫 출연,2,KT&G 상상마당 대치 아트홀 (L급),0,0,0,0,2
 신설희밴드,2017-04-12,first_mention,3,첫 언급 — 선정·지원: band_discovery · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,선정·지원: band_discovery,0,0,0,0,28
 신설희밴드,2017-04-12,selection,4,선정·지원 — band_discovery 라인업·쇼케이스 · 기본 2 · 그때 '백지' +2 → 4,선정·지원,0,band_discovery 라인업·쇼케이스,0,0,0,0,28
 신수정,2026-04-13,first_mention,3,첫 언급 — 공연: 카페 언플러그드 홍대점 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 카페 언플러그드 홍대점,0,0,0,0,28
@@ -10919,7 +10930,7 @@ zzzaamofficial,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay ·
 인디데이,2026-02-08,first_mention,3,첫 언급 — 공연: 클럽 프리버드 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 클럽 프리버드,0,0,0,0,28
 인류멸망계획,2026-08-29,first_mention,3,첫 언급 — 공연: 공연장 미정 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 공연장 미정,0,0,0,0,28
 인센스,2024-03-21,first_mention,3,첫 언급 — 공연: Club 빵 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club 빵,0,1,0,0,28
-인스타그램,2026-11-24,first_mention,3,첫 언급 — 공연: @azito_livehall · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @azito_livehall,0,0,0,0,4
+인스타그램,2026-11-24,first_mention,3,첫 언급 — 공연: 아지토 라이브 홀 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 아지토 라이브 홀,0,0,0,0,4
 인스트루멘탈,2022-02-04,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
 인재,2022-08-02,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,1,28
 인큐베이터,2025-12-20,first_mention,3,첫 언급 — 공연: 클럽 프리버드 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 클럽 프리버드,0,0,0,0,28
@@ -11905,7 +11916,7 @@ zzzaamofficial,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay ·
 청요일,2024-04-22,magazine,2,매체 첫 소개 — musicy 첫 소개 · 기본 2 · 그때 '여러 갈래' +0 → 2,매체 첫 소개,2,musicy 첫 소개,1,2,0,0,28
 청요일,2026-05-18,outcome,4,정답 — 펜타포트 슈퍼루키 (A) · 기본 4 · 그때 '여러 갈래' +0 → 4,정답,2,펜타포트 슈퍼루키 (A),0,0,0,1,28
 청요일,2026-05-28,magazine,1,매체 첫 소개 — trackzero 첫 소개 · 기본 1 · 그때 '졸업' -2 → 1,매체 첫 소개,4,trackzero 첫 소개,0,0,0,0,28
-청우,2026-11-26,first_mention,3,첫 언급 — 공연: @goyoroom · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @goyoroom,0,0,0,0,2
+청우,2026-11-26,first_mention,3,첫 언급 — 공연: 고요의 방 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 고요의 방,0,0,0,0,2
 청일몽,2025-03-12,first_mention,3,첫 언급 — 공연: Club 빵 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: Club 빵,0,0,0,0,28
 청하,2024-03-01,first_mention,3,첫 언급 — 큐레이션: IZM · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: IZM,0,0,0,1,28
 청하,2024-03-11,magazine,2,매체 첫 소개 — hiphople 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,hiphople 첫 소개,0,0,1,0,28
@@ -13584,7 +13595,7 @@ zzzaamofficial,2026-11-21,first_mention,3,첫 언급 — 공연: @delay_relay ·
 히치하이커,2022-06-16,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,0,28
 히치하이커,2025-10-27,magazine,2,매체 첫 소개 — izm 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,izm 첫 소개,0,0,0,0,28
 히코,2021-10-22,first_mention,3,첫 언급 — 큐레이션: HIPHOPLE · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: HIPHOPLE,0,0,0,0,28
-히트펌프,2026-11-26,first_mention,3,첫 언급 — 공연: @unplugged.lounge · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: @unplugged.lounge,0,0,0,0,2
+히트펌프,2026-11-26,first_mention,3,첫 언급 — 공연: 언플러그드 라운지 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,공연: 언플러그드 라운지,0,0,0,0,2
 히피는집시였다,2022-04-14,first_mention,3,첫 언급 — 큐레이션: 멜론 트랙제로 · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 멜론 트랙제로,0,0,0,1,28
 히피는집시였다,2026-03-24,magazine,2,매체 첫 소개 — izm 첫 소개 · 기본 1 · 그때 '첫 신호' +1 → 2,매체 첫 소개,1,izm 첫 소개,0,0,0,0,28
 히피쿤다,2023-10-16,first_mention,3,첫 언급 — 큐레이션: 음악취향Y · 기본 1 · 그때 '백지' +2 → 3,첫 언급,0,큐레이션: 음악취향Y,0,0,0,0,28

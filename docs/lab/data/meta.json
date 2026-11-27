@@ -9,7 +9,7 @@
     "images": 241,
     "collabs": 0
   },
-  "generated_at": "2026-11-28T00:40:12+09:00",
+  "generated_at": "2026-11-28T00:58:30+09:00",
   "data_end": "2026-11-28",
   "uses_artist_xref": true,
   "rows": {
@@ -22,7 +22,6 @@
     "images": 243,
     "collabs": 0
   },
-  "scene_communities": 274,
   "extras": [
     "city_profiles",
     "event_stars",
@@ -35,7 +34,7 @@
   ],
   "extras_rows": {
     "city_profiles.json": true,
-    "event_stars.csv": 13606,
+    "event_stars.csv": 13617,
     "festival_profiles.json": true,
     "lineup_roles.csv": 4528,
     "team_cities.csv": 5307,
@@ -43,5 +42,5 @@
     "venue_profiles.json": true,
     "venue_tiers.csv": 55
   },
-  "extras_updated_at": "2026-11-28T00:40:27+09:00"
+  "extras_updated_at": "2026-11-28T00:58:33+09:00"
 }

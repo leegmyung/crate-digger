@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-28T00:52:27+09:00",
+ "generated_at": "2026-11-28T00:58:33+09:00",
  "as_of": "2026-11-28",
  "baseline": {
   "kind": "state",
@@ -36,7 +36,7 @@
   "new_selection": 10,
   "blank_first_mention": 1,
   "stage_up": 82,
-  "big_venue_first": 22,
+  "big_venue_first": 17,
   "peer_winner": 241,
   "spike": 3,
   "new_gig": 365,
@@ -46,7 +46,7 @@
   "new_selection": 10,
   "blank_first_mention": 1,
   "stage_up": 20,
-  "big_venue_first": 20,
+  "big_venue_first": 17,
   "peer_winner": 20,
   "rank_jump": 17,
   "spike": 3,
@@ -848,12 +848,12 @@
     {
      "branch": "공연",
      "date": "2026-11-22",
-     "venue": "@azito_livehall"
+     "venue": "아지토 라이브 홀"
     },
     {
      "branch": "공연",
      "date": "2026-11-22",
-     "venue": "@azito_livehall"
+     "venue": "아지토 라이브 홀"
     }
    ],
    "importance": 65,
@@ -1169,7 +1169,7 @@
      "source": "instagram",
      "program": "@unplugged_stage",
      "date": "2026-11-20",
-     "venue": "@unplugged_stage"
+     "venue": "카페 언플러그드 홍대점"
     },
     {
      "branch": "큐레이션",
@@ -1197,12 +1197,21 @@
      "source": "instagram",
      "program": "@theseosroom",
      "date": "2026-11-13"
+    },
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@musinsagarage",
+     "date": "2026-11-18",
+     "venue": "무신사개러지"
     }
    ],
    "importance": 60,
    "stage": 2,
    "rank": null,
-   "also": [],
+   "also": [
+    "big_venue_first"
+   ],
    "found_on": "2026-11-28"
   },
   {
@@ -1793,50 +1802,6 @@
   {
    "type": "big_venue_first",
    "type_label": "큰 공연장 첫 출연",
-   "team_key": "2524",
-   "name": "2524",
-   "date": "2026-12-02",
-   "text": "큰 공연장 첫 출연 — KT&G 상상마당 부산 3층 라이브홀 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-12-02",
-     "venue": "KT&G 상상마당 부산 3층 라이브홀"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [
-    "new_gig"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
-   "team_key": "big9ulpo",
-   "name": "BIG 9ULPO",
-   "date": "2026-12-04",
-   "text": "큰 공연장 첫 출연 — 예스24 원더로크홀 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-12-04",
-     "venue": "예스24 원더로크홀"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [
-    "new_gig"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
    "team_key": "lele",
    "name": "LELE",
    "date": "2026-12-02",
@@ -1881,247 +1846,6 @@
   {
    "type": "big_venue_first",
    "type_label": "큰 공연장 첫 출연",
-   "team_key": "pmkenobi",
-   "name": "PM KENOBI",
-   "date": "2026-11-28",
-   "text": "큰 공연장 첫 출연 — 롤링홀 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-11-28",
-     "venue": "롤링홀"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [
-    "new_gig"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
-   "team_key": "royal44",
-   "name": "Royal 44",
-   "date": "2026-12-04",
-   "text": "큰 공연장 첫 출연 — 예스24 원더로크홀 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-12-04",
-     "venue": "예스24 원더로크홀"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [
-    "new_gig"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
-   "team_key": "sunnydayservice",
-   "name": "Sunny Day Service",
-   "date": "2026-12-03",
-   "text": "큰 공연장 첫 출연 — 무신사개러지 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-12-03",
-     "venue": "무신사개러지"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [
-    "new_gig"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
-   "team_key": "공원",
-   "name": "공원",
-   "date": "2026-11-28",
-   "text": "큰 공연장 첫 출연 — 무신사개러지 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-11-28",
-     "venue": "무신사개러지"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [
-    "new_gig"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
-   "team_key": "노이즈가든",
-   "name": "노이즈가든",
-   "date": "2026-12-04",
-   "text": "큰 공연장 첫 출연 — 무신사개러지 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-12-04",
-     "venue": "무신사개러지"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [
-    "new_gig"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
-   "team_key": "뭉개구름",
-   "name": "뭉개구름",
-   "date": "2026-12-02",
-   "text": "큰 공연장 첫 출연 — KT&G 상상마당 부산 3층 라이브홀 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-12-02",
-     "venue": "KT&G 상상마당 부산 3층 라이브홀"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [
-    "new_gig"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
-   "team_key": "스카이민혁",
-   "name": "스카이민혁",
-   "date": "2026-11-28",
-   "text": "큰 공연장 첫 출연 — 롤링홀 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-11-28",
-     "venue": "롤링홀"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [
-    "new_gig"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
-   "team_key": "애쉬아일랜드",
-   "name": "애쉬 아일랜드",
-   "date": "2026-12-04",
-   "text": "큰 공연장 첫 출연 — 예스24 원더로크홀 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-12-04",
-     "venue": "예스24 원더로크홀"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [
-    "new_gig"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
-   "team_key": "올드잉글리쉬쉽독",
-   "name": "올드잉글리쉬쉽독",
-   "date": "2026-12-04",
-   "text": "큰 공연장 첫 출연 — 롤링홀 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-12-04",
-     "venue": "롤링홀"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [
-    "peer_winner",
-    "new_gig"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
-   "team_key": "조규찬",
-   "name": "조규찬",
-   "date": "2027-01-02",
-   "text": "큰 공연장 첫 출연 — KT&G 상상마당 부산 3층 라이브홀 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "sangsangmadang",
-     "date": "2027-01-02",
-     "venue": "KT&G 상상마당 부산 3층 라이브홀"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [
-    "new_gig"
-   ],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
-   "team_key": "뷰렛",
-   "name": "뷰렛",
-   "date": "2026-11-27",
-   "text": "큰 공연장 첫 출연 — 롤링홀 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-11-27",
-     "venue": "롤링홀"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [],
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
    "team_key": "manh",
    "name": "Mỹ Anh",
    "date": "2026-11-26",
@@ -2142,41 +1866,117 @@
   {
    "type": "big_venue_first",
    "type_label": "큰 공연장 첫 출연",
-   "team_key": "문수진",
-   "name": "문수진",
+   "team_key": "oahofficial",
+   "name": "oah_official",
    "date": "2026-11-26",
-   "text": "큰 공연장 첫 출연 — 무신사개러지 (L급)",
+   "text": "큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급)",
    "evidence": [
     {
      "branch": "공연",
-     "source": "indiego",
+     "source": "instagram",
+     "program": "@ssmadang.official",
      "date": "2026-11-26",
-     "venue": "무신사개러지"
+     "venue": "KT&G 상상마당 대치 아트홀"
     }
    ],
    "importance": 55,
    "rank": null,
-   "also": [],
+   "also": [
+    "peer_winner"
+   ],
    "found_on": "2026-11-28"
   },
   {
    "type": "big_venue_first",
    "type_label": "큰 공연장 첫 출연",
-   "team_key": "십센치",
-   "name": "십센치",
-   "date": "2026-11-25",
-   "text": "큰 공연장 첫 출연 — 무신사개러지 (L급)",
+   "team_key": "yunsaemusic",
+   "name": "yunsaemusic",
+   "date": "2026-11-26",
+   "text": "큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급)",
    "evidence": [
     {
      "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-11-25",
-     "venue": "무신사개러지"
+     "source": "instagram",
+     "program": "@ssmadang.official",
+     "date": "2026-11-26",
+     "venue": "KT&G 상상마당 대치 아트홀"
     }
    ],
    "importance": 55,
    "rank": null,
-   "also": [],
+   "also": [
+    "peer_winner"
+   ],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
+   "team_key": "yunsaeofficial",
+   "name": "yunsae_official",
+   "date": "2026-11-26",
+   "text": "큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@ssmadang.official",
+     "date": "2026-11-26",
+     "venue": "KT&G 상상마당 대치 아트홀"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [
+    "peer_winner"
+   ],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
+   "team_key": "듀포인트",
+   "name": "듀포인트",
+   "date": "2026-11-26",
+   "text": "큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@ssmadang.official",
+     "date": "2026-11-26",
+     "venue": "KT&G 상상마당 대치 아트홀"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [
+    "peer_winner",
+    "new_gig"
+   ],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
+   "team_key": "신설희",
+   "name": "신설희",
+   "date": "2026-11-26",
+   "text": "큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@ssmadang.official",
+     "date": "2026-11-26",
+     "venue": "KT&G 상상마당 대치 아트홀"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [
+    "peer_winner"
+   ],
    "found_on": "2026-11-28"
   },
   {
@@ -2192,6 +1992,156 @@
      "source": "sangsangmadang",
      "date": "2026-11-25",
      "venue": "KT&G 상상마당 부산 3층 라이브홀"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
+   "team_key": "2xfe",
+   "name": "2xFE",
+   "date": "2026-11-23",
+   "text": "큰 공연장 첫 출연 — 롤링홀 (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-11-23",
+     "venue": "롤링홀"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
+   "team_key": "ssmadangcokr",
+   "name": "ssmadang.co.kr",
+   "date": "2026-11-23",
+   "text": "큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@ssmadang.official",
+     "date": "2026-11-23",
+     "venue": "KT&G 상상마당 대치 아트홀"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [
+    "peer_winner"
+   ],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
+   "team_key": "choo",
+   "name": "choo_______",
+   "date": "2026-11-18",
+   "text": "큰 공연장 첫 출연 — 무신사개러지 (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@musinsagarage",
+     "date": "2026-11-18",
+     "venue": "무신사개러지"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [
+    "stage_up"
+   ],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
+   "team_key": "sangsangcinema",
+   "name": "sangsangcinema",
+   "date": "2026-11-18",
+   "text": "큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@ssmadang.official",
+     "date": "2026-11-18",
+     "venue": "KT&G 상상마당 대치 아트홀"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
+   "team_key": "ssmadangacademy",
+   "name": "ssmadangacademy",
+   "date": "2026-11-18",
+   "text": "큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@ssmadang.official",
+     "date": "2026-11-18",
+     "venue": "KT&G 상상마당 대치 아트홀"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
+   "team_key": "ssmadanggallery",
+   "name": "ssmadang_gallery",
+   "date": "2026-11-18",
+   "text": "큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@ssmadang.official",
+     "date": "2026-11-18",
+     "venue": "KT&G 상상마당 대치 아트홀"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
+   "team_key": "데이",
+   "name": "데이",
+   "date": "2026-11-17",
+   "text": "큰 공연장 첫 출연 — 무신사개러지 (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@musinsagarage",
+     "date": "2026-11-17",
+     "venue": "무신사개러지"
     }
    ],
    "importance": 55,
@@ -3518,9 +3468,7 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [
-    "big_venue_first"
-   ],
+   "also": [],
    "found_on": "2026-11-28"
   },
   {
@@ -3743,9 +3691,7 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [
-    "big_venue_first"
-   ],
+   "also": [],
    "found_on": "2026-11-28"
   },
   {
@@ -4675,9 +4621,7 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [
-    "big_venue_first"
-   ],
+   "also": [],
    "found_on": "2026-11-28"
   },
   {
@@ -4805,9 +4749,7 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [
-    "big_venue_first"
-   ],
+   "also": [],
    "found_on": "2026-11-28"
   },
   {
@@ -4954,9 +4896,7 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [
-    "big_venue_first"
-   ],
+   "also": [],
    "found_on": "2026-11-28"
   },
   {
@@ -5330,9 +5270,7 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [
-    "big_venue_first"
-   ],
+   "also": [],
    "found_on": "2026-11-28"
   },
   {
@@ -5353,9 +5291,7 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [
-    "big_venue_first"
-   ],
+   "also": [],
    "found_on": "2026-11-28"
   },
   {
@@ -6045,9 +5981,7 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [
-    "big_venue_first"
-   ],
+   "also": [],
    "found_on": "2026-11-28"
   },
   {
@@ -6489,6 +6423,7 @@
    "upcoming": true,
    "rank": null,
    "also": [
+    "big_venue_first",
     "peer_winner"
    ],
    "found_on": "2026-11-28"
@@ -7078,9 +7013,7 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [
-    "big_venue_first"
-   ],
+   "also": [],
    "found_on": "2026-11-28"
   },
   {
@@ -7908,9 +7841,7 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [
-    "big_venue_first"
-   ],
+   "also": [],
    "found_on": "2026-11-28"
   },
   {
@@ -8508,9 +8439,7 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [
-    "big_venue_first"
-   ],
+   "also": [],
    "found_on": "2026-11-28"
   },
   {
@@ -9006,7 +8935,6 @@
    "upcoming": true,
    "rank": null,
    "also": [
-    "big_venue_first",
     "peer_winner"
    ],
    "found_on": "2026-11-28"
@@ -9030,7 +8958,6 @@
    "upcoming": true,
    "rank": null,
    "also": [
-    "big_venue_first",
     "peer_winner"
    ],
    "found_on": "2026-11-28"
