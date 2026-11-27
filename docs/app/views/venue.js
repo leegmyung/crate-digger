@@ -6,6 +6,7 @@ import { loadVenueLadder, queryVenueTeams } from '../db_venue.js';
 import { buildVenueFlow } from '../components/venue_flow.js';
 import { mountVenueTables } from './venue_tables.js';
 import { isVenueSubscribed, toggleVenueSub } from '../venue_subs.js';
+import { confidenceLabel, venueTypeLabel } from '../components/venue_info.js';
 import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, gradeBadgeHtml,
   INFO_TIPS, infoTip, renderActionBanner, spotifyButtonHtml,
@@ -374,6 +375,30 @@ export async function renderVenueView(root, venueName) {
     ? `<a class="venue-geo-link" href="https://www.openstreetmap.org/?mlat=${Number(profile.lat)}&mlon=${Number(profile.lon)}#map=17/${Number(profile.lat)}/${Number(profile.lon)}" target="_blank" rel="noopener noreferrer">지도에서 보기 ↗</a> <span class="small muted">좌표 확실도 ${escapeHtml({ high: '높음(건물)', medium: '보통(도로)', low: '낮음(이름 검색)' }[profile.geo_confidence] || profile.geo_confidence || '모름')}</span>`
     : '<span class="small muted">좌표 없음</span>';
 
+  // 수용 인원 출처·확인일·확실도 · 한/영 별칭 · '묶지 않음' 근거 (venue_profiles.json, config/venue_capacity·venues_kr·venue_aliases)
+  const capSrc = String(profile?.capacity_source || '');
+  const capConf = confidenceLabel(profile?.capacity_confidence);
+  const capacityLineHtml = profile && Number(profile.capacity) > 0 ? `
+    <p class="venue-hero-cap">수용 약 <strong>${fmtInt(profile.capacity)}명</strong>
+      <span class="small muted">(${[
+    capSrc ? (/^https?:\/\//.test(capSrc) ? `<a href="${escapeHtml(capSrc)}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(profile.capacity_note || '')}">출처 ↗</a>` : escapeHtml(capSrc)) : '출처 미기록',
+    capConf ? `확실도 ${escapeHtml(capConf)}` : '',
+    profile.capacity_checked ? `확인 ${escapeHtml(profile.capacity_checked)}` : '',
+  ].filter(Boolean).join(' · ')})</span></p>` : (profile ? '<p class="venue-hero-cap small muted">수용 인원 미확인</p>' : '');
+  const aliases = Array.isArray(profile?.aliases) ? profile.aliases : [];
+  const aliasLineHtml = aliases.length ? `<p class="venue-hero-alias small muted">다른 표기: ${aliases.map(a => escapeHtml(a)).join(' · ')}</p>` : '';
+  const notMerged = Array.isArray(profile?.not_merged) ? profile.not_merged : [];
+  const basisFoldHtml = profile && (profile.type_basis || aliases.length || notMerged.length || profile.capacity_note) ? `
+    <details class="info-fold venue-basis-fold">
+      <summary>ⓘ 종류·표기·수용 인원 근거</summary>
+      <div class="info-fold-body small">
+        ${profile.type_basis ? `<p><strong>종류</strong> ${escapeHtml(venueTypeLabel(profile))} — ${escapeHtml(profile.type_basis)}</p>` : '<p><strong>종류</strong> 유형 미정 (마스터 목록에 종류가 비어 있음)</p>'}
+        ${aliases.length ? `<p><strong>한 곳으로 묶은 표기</strong> ${aliases.map(a => escapeHtml(a)).join(' · ')}</p>` : ''}
+        ${notMerged.map(n => `<p><strong>묶지 않음</strong> ${escapeHtml((n.names || []).join(' / '))} — ${escapeHtml(n.reason || '')}</p>`).join('')}
+        ${profile.capacity_note ? `<p><strong>수용 인원</strong> ${escapeHtml(profile.capacity_note)}</p>` : ''}
+      </div>
+    </details>` : '';
+
   // 4-3 전후 흐름 그림 (가로축 체급, 표본 작으면 문장)
   const tierOf = new Map(Object.entries(profilesData?.venues || {}).map(([n, v]) => [n, String(v?.tier || '').toUpperCase()]));
   const ladderVenue = ladder?.venues?.[cleanVenue] || null;
@@ -419,9 +444,6 @@ export async function renderVenueView(root, venueName) {
     `;
   } else {
     const metaParts = [];
-    if (profile.capacity !== null && profile.capacity !== undefined && Number(profile.capacity) > 0) {
-      metaParts.push(`수용 약 ${fmtInt(profile.capacity)}명`);
-    }
     const cityStr = String(profile.city || '').trim();
     if (cityStr) {
       metaParts.push(cityStr);
@@ -444,11 +466,14 @@ export async function renderVenueView(root, venueName) {
           <div class="venue-hero-title-row">
             <h1>${escapeHtml(cleanVenue)}</h1>
             ${renderTierBadge(profile.tier)}
+            <span class="venue-type-chip${profile.type ? '' : ' is-unknown'}" title="${escapeHtml(profile.type_basis || '종류 근거 없음')}">${escapeHtml(venueTypeLabel(profile))}</span>
             ${Number(profile.upcoming_nights || 0) > 0
               ? `<span class="venue-upcoming-pill">예정 ${fmtInt(profile.upcoming_nights)}일</span>`
               : ''}
           </div>
           <p class="venue-hero-meta">${escapeHtml(metaParts.join(' · '))}</p>
+          ${capacityLineHtml}
+          ${aliasLineHtml}
           <p class="venue-hero-geo">${geoLine}</p>
         </div>
 
@@ -476,6 +501,7 @@ export async function renderVenueView(root, venueName) {
           ${discoveryKpiHtml}
         </div>
         ${actionsHtml}
+        ${basisFoldHtml}
       </section>
 
       <div class="venue-overview-grid">

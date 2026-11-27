@@ -9,6 +9,7 @@ import {
 } from '../db.js';
 import { loadCityProfiles, queryCityFirstStageTeams } from '../db_venue.js';
 import { escapeHtml, fmtInt, fmtNum, formatNextGigText, gradeBadgeHtml, naCell } from '../ui.js';
+import { isInstaAccountName } from '../components/venue_info.js';
 
 const RECENT_DAYS = 90;
 const UPCOMING_DAYS = 30;
@@ -52,7 +53,10 @@ export async function renderCityTab(host) {
     return;
   }
   const cities = Object.entries(cp.cities).sort((a, b) => (b[1].nights || 0) - (a[1].nights || 0)).map(([name]) => name);
-  const venueCity = new Map(Object.entries(vp?.venues || {}).filter(([, v]) => v?.city).map(([n, v]) => [n, String(v.city)]));
+  // '@계정'(인스타 기획·레이블 계정 표기)은 공연장이 아니라 '첫 무대' 계산에서 뺀다
+  const venueCity = new Map(Object.entries(vp?.venues || {})
+    .filter(([n, v]) => v?.city && !isInstaAccountName(n))
+    .map(([n, v]) => [n, String(v.city)]));
   if (!cities.includes(appState.venuesCity)) appState.venuesCity = cities[0] || '';
 
   const paint = async () => {

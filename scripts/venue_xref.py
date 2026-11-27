@@ -12,6 +12,7 @@
    '라이브홀' 같은 이름은 지점을 알 수 없어(홍대·부산·춘천) 떼지 않고 검수 목록에 올린다.
 2. 수동 확인 목록 config/venue_aliases.json: 규칙으로 못 잡는 확실한 쌍(한영 표기, 인스타 계정, 이름 변경)을
    이유와 함께 적는다. 키가 같은 묶음 전체가 대표 이름으로 간다.
+   공연장 인스타 계정('@계정')은 config/venues_kr.json 의 instagram 칸으로 자동 규칙을 만들어 수동 목록 뒤에 붙인다.
 3. 애매한 것(한 이름이 다른 이름을 포함하지만 키가 다름, 지점 없는 이름)은 묶지 않고 venue_review.json 으로.
 
 PostgreSQL: ref.venue_xref(variant = 공연 원본의 공연장 칸 그대로, venue = 대표 이름).
@@ -36,6 +37,7 @@ ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"
 STATE_DIR = RAW_DIR / "state"
 ALIASES_PATH = ROOT / "config" / "venue_aliases.json"
+VENUES_KR_PATH = ROOT / "config" / "venues_kr.json"   # instagram 칸: 공연장 계정 → 공연장 이름
 XREF_PATH = STATE_DIR / "venue_xref.json"
 REVIEW_PATH = STATE_DIR / "venue_review.json"
 PSQL = os.environ.get("PSQL", "/opt/homebrew/opt/postgresql@17/bin/psql")
@@ -252,6 +254,29 @@ def load_aliases(path: Path = ALIASES_PATH) -> list[dict]:
         return []
 
 
+def insta_venue_aliases(path: Path = VENUES_KR_PATH) -> list[dict]:
+    """공연장 마스터(config/venues_kr.json)의 instagram 칸 → 수동 목록과 같은 모양의 규칙 [{venue, variants: ['@계정'], reason}].
+    인스타 공연장 계정의 라인업 공지는 공연장 칸에 '@계정'이 들어오므로(공연 원본 그대로) 연결표에서만 공연장 이름으로 묶는다.
+    대표 이름은 우리 데이터 이름(our_venue) → 없으면 마스터 이름. 공연장 계정이 아닌 '@계정'(기획사·레이블)은 규칙이 없어 그대로.
+    수동 목록(config/venue_aliases.json)을 먼저 적용하므로 같은 계정이 겹치면 수동 규칙이 이긴다."""
+    try:
+        venues = json.loads(path.read_text(encoding="utf-8")).get("venues", [])
+    except (OSError, ValueError, AttributeError):
+        return []
+    venues = venues if isinstance(venues, list) else []
+    handle_of = lambda v: str(v.get("instagram") or "").strip().lstrip("@").lower()  # noqa: E731
+    shared = Counter(h for h in map(handle_of, venues) if h)
+    rules = []
+    for v in venues:
+        handle = handle_of(v)
+        venue = (v.get("our_venue") or v.get("name") or "").strip()
+        # 한 계정을 여러 곳(같은 건물의 여러 홀)이 쓰면 어느 홀인지 몰라 규칙을 만들지 않는다(서로 다른 홀이 합쳐지지 않게)
+        if handle and venue and shared[handle] == 1:
+            rules.append({"venue": venue, "variants": [f"@{handle}"],
+                          "reason": "config/venues_kr.json instagram 칸 — 공연장 공식 계정의 라인업 공지"})
+    return rules
+
+
 def collect_counts(raw_dir: Path = RAW_DIR) -> Counter:
     """공연 원본의 공연장 칸 + 공연장 인스타 라인업 공지(기사 표의 outlet) → {표기: 건수} (core.v_signal 의 detail 과 같은 값)."""
     counts: Counter = Counter()
@@ -317,7 +342,7 @@ def main() -> None:
     ap.add_argument("--load-pg", action="store_true", help="PostgreSQL ref.venue_xref 로도 넣기")
     args = ap.parse_args()
     counts = collect_counts()
-    mapping, review = build_venue_xref(counts, load_aliases(), collect_addresses())
+    mapping, review = build_venue_xref(counts, load_aliases() + insta_venue_aliases(), collect_addresses())
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     XREF_PATH.write_text(json.dumps(mapping, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
     REVIEW_PATH.write_text(json.dumps(review, ensure_ascii=False, indent=1), encoding="utf-8")

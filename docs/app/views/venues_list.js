@@ -4,6 +4,9 @@
  * 자료: venue_profiles.json (scripts/venue_profiles.py)
  */
 import { appState } from '../state.js';
+import {
+  isInstaAccountName, matchesVenueQuery, UNKNOWN_TYPE, venueTypeLabel, venueTypeOptions,
+} from '../components/venue_info.js';
 import { loadVenueProfiles } from '../db.js';
 import {
   escapeHtml, fmtInt, fmtNum, INFO_TIPS, infoTip, naCell,
@@ -20,7 +23,7 @@ const SORTS = {
   winners: { label: '나중에 상 받은 팀', fn: v => v.later_winners_total ?? 0 },
   name: { label: '이름', fn: v => v.name },
 };
-const st = { q: '', city: '', tiers: new Set(), upcoming: false, sort: 'discovery', limit: CARDS_FIRST };
+const st = { q: '', city: '', type: '', tiers: new Set(), upcoming: false, showAccounts: false, sort: 'discovery', limit: CARDS_FIRST };
 
 function tierKey(v) {
   const t = String(v.tier || '').toUpperCase();
@@ -41,9 +44,15 @@ function sumLast12(v) {
   return lastMonths(appState.dataEnd || '2026-11-28').reduce((s, ym) => s + (Number(v.monthly?.[ym]) || 0), 0);
 }
 
+function matchesType(v) {
+  if (!st.type) return true;
+  return st.type === UNKNOWN_TYPE ? !v.type : v.type === st.type;
+}
+
 function filtered(all) {
-  const q = st.q.trim().toLowerCase();
-  return all.filter(v => (!q || v.name.toLowerCase().includes(q))
+  return all.filter(v => (st.showAccounts || !isInstaAccountName(v.name))
+    && matchesVenueQuery(v, st.q)
+    && matchesType(v)
     && (!st.city || v.city === st.city)
     && (!st.tiers.size || st.tiers.has(tierKey(v)))
     && (!st.upcoming || Number(v.upcoming_nights) > 0));
@@ -64,18 +73,24 @@ function tierBarsHtml(list) {
 }
 
 function filtersHtml(all) {
+  const accounts = all.filter(v => isInstaAccountName(v.name)).length;
+  const venues = all.filter(v => st.showAccounts || !isInstaAccountName(v.name));
   const cities = [...new Set(all.map(v => v.city).filter(Boolean))]
     .map(c => [c, all.filter(v => v.city === c).length])
     .sort((a, b) => b[1] - a[1]);
   return `
     <div class="vl-filters">
-      <input type="search" class="input vl-search" data-vl-q value="${escapeHtml(st.q)}" placeholder="공연장 이름 검색" aria-label="공연장 이름 검색">
+      <input type="search" class="input vl-search" data-vl-q value="${escapeHtml(st.q)}" placeholder="이름·별칭(한/영) 검색" aria-label="공연장 이름·별칭 검색">
       <select class="select" data-vl-city aria-label="도시">
         <option value="">모든 도시 (${fmtInt(all.length)})</option>
         ${cities.map(([c, n]) => `<option value="${escapeHtml(c)}"${st.city === c ? ' selected' : ''}>${escapeHtml(c)} (${fmtInt(n)})</option>`).join('')}
       </select>
-      <select class="select" disabled aria-label="유형" title="공연장 유형(클럽·라이브홀·카페·소극장) 자료를 아직 모으는 중입니다"><option>유형: 자료 준비 중</option></select>
+      <select class="select" data-vl-type aria-label="공연장 종류">
+        <option value="">모든 종류</option>
+        ${venueTypeOptions(venues).map(o => `<option value="${escapeHtml(o.value)}"${st.type === o.value ? ' selected' : ''}>${escapeHtml(o.label)} (${fmtInt(o.n)})</option>`).join('')}
+      </select>
       <label class="vl-check"><input type="checkbox" data-vl-upcoming${st.upcoming ? ' checked' : ''}> 예정 공연 있음</label>
+      ${accounts ? `<label class="vl-check" title="공연장 이름 대신 인스타 기획·레이블 계정이 공연장 칸에 적힌 표기 — 공연장이 아니라 기본으로 숨김"><input type="checkbox" data-vl-accounts${st.showAccounts ? ' checked' : ''}> 인스타 계정 표기 ${fmtInt(accounts)}곳 보기</label>` : ''}
       <select class="select" data-vl-sort aria-label="정렬">
         ${Object.entries(SORTS).map(([k, s]) => `<option value="${k}"${st.sort === k ? ' selected' : ''}>정렬: ${s.label}</option>`).join('')}
       </select>
@@ -131,7 +146,7 @@ function cardHtml(v, months) {
         <span class="vl-card-disc" title="발굴 주목도 0~100">${disc !== undefined && disc !== null ? fmtNum(disc, 1) : '—'}</span>
       </div>
       <div class="vl-card-meta small muted">
-        ${escapeHtml(v.city || '도시 모름')} · 체급 ${TIER_LABEL[tierKey(v)]}${v.capacity ? ` (~${fmtInt(v.capacity)}명)` : ''} · 유형 미정
+        ${escapeHtml(v.city || '도시 모름')} · 체급 ${TIER_LABEL[tierKey(v)]}${v.capacity ? ` (~${fmtInt(v.capacity)}명)` : ''} · <span title="${escapeHtml(v.type_basis || '종류 근거 없음')}">${escapeHtml(venueTypeLabel(v))}</span>
         ${Number(v.upcoming_nights) > 0 ? `<span class="venue-upcoming-pill">예정 ${fmtInt(v.upcoming_nights)}일</span>` : ''}
       </div>
       ${monthBarsHtml(v, months)}
@@ -193,6 +208,8 @@ export async function renderVenueListTab(host) {
   host.addEventListener('change', (e) => {
     const el = e.target;
     if (el.matches('[data-vl-city]')) st.city = el.value;
+    else if (el.matches('[data-vl-type]')) st.type = el.value;
+    else if (el.matches('[data-vl-accounts]')) st.showAccounts = el.checked;
     else if (el.matches('[data-vl-sort]')) st.sort = el.value;
     else if (el.matches('[data-vl-upcoming]')) st.upcoming = el.checked;
     else return;

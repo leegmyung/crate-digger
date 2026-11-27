@@ -182,3 +182,60 @@ class PayloadTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class MasterMetaTest(unittest.TestCase):
+    """공연장 종류(type·type_basis)·한/영 별칭·'묶지 않음' 근거·수용 인원 출처 칸 (앱 공연장 상세·목록 '유형' 필터)."""
+
+    MASTER = {"types": {"live_club": "라이브클럽", "hall": "홀·공연장"},
+              "venues": [{"name": "큰 홀 서교", "aliases": ["Big Hall"], "our_names": ["큰홀"], "type": "hall",
+                          "type_basis": "수동: 공식 소개"},
+                         {"name": "작은클럽", "aliases": [], "type": "", "instagram": "smallclub"}]}
+    ALIASES = {"aliases": [{"venue": "큰홀", "variants": ["큰 홀(BIG HALL)", "@bighall"], "reason": "같은 곳"}],
+               "_묶지_않음": [{"names": ["큰홀", "큰홀 2관"], "reason": "주소가 다름"}]}
+
+    def _write(self, d, name, obj):
+        p = Path(d) / name
+        p.write_text(json.dumps(obj, ensure_ascii=False), encoding="utf-8")
+        return p
+
+    def test_master_meta_type_label_and_aliases(self):
+        with tempfile.TemporaryDirectory() as d:
+            meta = vp.load_master_meta(["큰홀", "작은클럽", "없는곳"], self._write(d, "v.json", self.MASTER))
+        self.assertEqual(meta["큰홀"]["type"], "hall")
+        self.assertEqual(meta["큰홀"]["type_label"], "홀·공연장")
+        self.assertEqual(meta["큰홀"]["type_basis"], "수동: 공식 소개")
+        self.assertEqual(meta["큰홀"]["aliases"], ["Big Hall", "큰 홀 서교"])     # 마스터 대표 이름도 별칭(우리 이름과 다르면)
+        self.assertIsNone(meta["작은클럽"]["type"])                                # 빈 type 은 None(유형 미정)
+        self.assertIsNone(meta["작은클럽"]["type_label"])
+        self.assertNotIn("없는곳", meta)
+
+    def test_alias_notes_skip_insta_handles_and_keep_not_merged(self):
+        with tempfile.TemporaryDirectory() as d:
+            notes = vp.load_alias_notes(self._write(d, "a.json", self.ALIASES))
+        self.assertEqual(notes["큰홀"]["variants"], ["큰 홀(BIG HALL)"])          # '@계정'은 별칭 칸에 안 씀
+        self.assertEqual(notes["큰홀"]["not_merged"], [{"names": ["큰홀", "큰홀 2관"], "reason": "주소가 다름"}])
+        self.assertEqual(notes["큰홀 2관"]["not_merged"][0]["reason"], "주소가 다름")
+
+    def test_missing_files_are_empty(self):
+        self.assertEqual(vp.load_master_meta(["큰홀"], Path("/nonexistent/v.json")), {})
+        self.assertEqual(vp.load_alias_notes(Path("/nonexistent/a.json")), {})
+
+    def test_profile_carries_type_aliases_and_capacity_source(self):
+        cfg = {**CFG, "venues": {**CFG["venues"], "큰홀": {"capacity": 450, "tier": "L", "source": "https://x/cap",
+                                                           "source_note": "공식 안내", "confidence": "high",
+                                                           "checked": "2026-11-27"}}}
+        meta = {"큰홀": {"type": "hall", "type_label": "홀·공연장", "type_basis": "수동", "aliases": ["Big Hall"]}}
+        notes = {"큰홀": {"variants": ["큰 홀(BIG HALL)"], "not_merged": [{"names": ["큰홀", "큰홀 2관"], "reason": "r"}]}}
+        p = vp.build_profiles(_gigs(), TEAMS, OUTCOMES, SNAPSHOT, cfg, {}, AS_OF, meta=meta, alias_notes=notes)
+        big = p["큰홀"]
+        self.assertEqual((big["type"], big["type_label"], big["type_basis"]), ("hall", "홀·공연장", "수동"))
+        self.assertEqual(big["aliases"], ["Big Hall", "큰 홀(BIG HALL)"])
+        self.assertEqual(big["not_merged"], [{"names": ["큰홀", "큰홀 2관"], "reason": "r"}])
+        self.assertEqual(big["capacity_source"], "https://x/cap")
+        self.assertEqual(big["capacity_note"], "공식 안내")
+        self.assertEqual(big["capacity_confidence"], "high")
+        self.assertEqual(big["capacity_checked"], "2026-11-27")
+        small = p["작은클럽"]                                                       # 마스터·별칭·출처가 없으면 빈 값
+        self.assertEqual((small["type"], small["aliases"], small["not_merged"]), (None, [], []))
+        self.assertIsNone(small["capacity_source"])

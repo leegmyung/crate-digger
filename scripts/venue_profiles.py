@@ -6,7 +6,8 @@
 정의는 docs/methods.md '공연장 발굴 주목도'), 지도용 좌표(lat·lon·geo_confidence, config/venues_kr.json 에서 복사).
 
 - 입력(읽기만): 랩 데이터(docs/lab/data/signals.csv·teams.csv·outcomes.csv·snapshots/·meta.json),
-  config/venue_capacity.json(체급), config/venues_kr.json(도시 — 없으면 빈칸), 전후 흐름은 venue_ladder 와 같은 계산.
+  config/venue_capacity.json(체급·수용 인원 출처), config/venues_kr.json(도시·종류·별칭 — 없으면 빈칸),
+  config/venue_aliases.json(묶인 표기·묶지 않음 근거), 전후 흐름은 venue_ladder 와 같은 계산.
 - 시점: 기준 날짜(meta.json data_end) 뒤의 공연은 '예정 공연'으로만 세고 나머지 숫자에는 넣지 않는다.
   '나중에 정답 받은 팀' = 센 정답(counted)의 첫 발표일보다 '엄격하게 앞서' 그 공연장에 선 팀.
 - 공개 데이터만: 팀 키·이름, 공연장 이름, 숫자 (주소·연락처 없음).
@@ -32,6 +33,7 @@ import venues_kr as vk  # noqa: E402
 
 OUT = lab_sql.DATA_DIR / "venue_profiles.json"
 CITIES = lab_sql.ROOT / "config" / "venues_kr.json"
+ALIASES = lab_sql.ROOT / "config" / "venue_aliases.json"
 YEAR = timedelta(days=365)
 CANDIDATE_LOOKBACK_YEARS = 3   # '지금 후보 상위 팀' = 최근 3년 안에 이 공연장에 선 후보 (점수 v2 신호 창과 같게)
 TOP_CANDIDATES = 5
@@ -128,9 +130,60 @@ def first_counted_outcome(outcomes: Iterable[dict]) -> Dict[str, dict]:
     return first
 
 
+def load_master_meta(names: Iterable[str], path: Path = CITIES) -> Dict[str, dict]:
+    """우리 공연장 이름 → 마스터 목록의 종류(type·type_label·type_basis)·별칭(마스터 aliases + 우리 이름과 다른 대표 이름).
+    짝짓기는 load_geo 와 같은 규칙. type 이 비면 None(= 앱 '유형 미정')."""
+    raw = vk.load_json(path, {}) or {}
+    master = raw.get("venues", [])
+    if not isinstance(master, list):
+        return {}
+    labels = raw.get("types") if isinstance(raw.get("types"), dict) else {}
+    out = {}
+    for n, i in vk.match_our_venues(master, list(names)).items():
+        e = master[i]
+        code = str(e.get("type") or "").strip() or None
+        alias = {a for a in (e.get("aliases") or []) if isinstance(a, str) and a.strip()}
+        if e.get("name") and e["name"] != n:
+            alias.add(e["name"])
+        out[n] = {"type": code, "type_label": labels.get(code) if code else None,
+                  "type_basis": e.get("type_basis") or None, "aliases": sorted(alias - {n})}
+    return out
+
+
+def load_alias_notes(path: Path = ALIASES) -> Dict[str, dict]:
+    """config/venue_aliases.json → {대표 이름: {variants: 묶인 표기('@계정' 제외), not_merged: [{names, reason}]}}.
+    '묶지 않음' 근거는 거기 이름이 나온 공연장마다 붙인다(앱 공연장 상세 접힌 칸)."""
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    out: Dict[str, dict] = defaultdict(lambda: {"variants": [], "not_merged": []})
+    for rule in raw.get("aliases", []) or []:
+        venue = rule.get("venue")
+        if not venue:
+            continue
+        out[venue]["variants"].extend(v for v in rule.get("variants", []) if v and not str(v).startswith("@"))
+    for rule in raw.get("_묶지_않음", []) or []:
+        item = {"names": list(rule.get("names", [])), "reason": rule.get("reason", "")}
+        for n in item["names"]:
+            out[n]["not_merged"].append(item)
+    return {k: {"variants": sorted(set(v["variants"])), "not_merged": v["not_merged"]} for k, v in out.items()}
+
+
+def _extra_fields(v: str, cap: dict, meta: dict, notes: dict) -> dict:
+    """종류·별칭·'묶지 않음'·수용 인원 출처 칸 (없으면 None·빈 목록)."""
+    aliases = sorted((set(meta.get("aliases", [])) | set(notes.get("variants", []))) - {v})
+    return {"type": meta.get("type"), "type_label": meta.get("type_label"), "type_basis": meta.get("type_basis"),
+            "aliases": aliases, "not_merged": notes.get("not_merged", []),
+            "capacity_source": cap.get("source") or None, "capacity_note": cap.get("source_note") or None,
+            "capacity_confidence": cap.get("confidence") or None, "capacity_checked": cap.get("checked") or None}
+
+
 def build_profiles(gigs: Sequence[Gig], teams: Dict[str, str], outcomes: Sequence[dict],
                    snapshot: Dict[str, Tuple[int, float]], cfg: dict, cities: Dict[str, str],
-                   as_of: date, geo: Optional[Dict[str, dict]] = None) -> Dict[str, dict]:
+                   as_of: date, geo: Optional[Dict[str, dict]] = None,
+                   meta: Optional[Dict[str, dict]] = None, alias_notes: Optional[Dict[str, dict]] = None
+                   ) -> Dict[str, dict]:
     skip = vl.not_venues(cfg)
     rows = [g for g in gigs if g[2] not in skip and g[2] not in SKIP]
     past = [g for g in rows if g[1] <= as_of]
@@ -145,12 +198,15 @@ def build_profiles(gigs: Sequence[Gig], teams: Dict[str, str], outcomes: Sequenc
     for t, d, v in past:
         by_venue[v].append((t, d))
     geo = geo or {}
+    meta = meta or {}
+    alias_notes = alias_notes or {}
     out = {}
     for v, items in by_venue.items():
         g = geo.get(v, {})
         prof = _profile(v, items, caps.get(v, {}), cities.get(v) or g.get("city", ""), first_gig, first_out,
                         snapshot, teams, journey.get(v, {"before": [], "after": []}), upcoming.get(v, 0), as_of)
-        out[v] = {**prof, "lat": g.get("lat"), "lon": g.get("lon"), "geo_confidence": g.get("geo_confidence")}
+        out[v] = {**prof, "lat": g.get("lat"), "lon": g.get("lon"), "geo_confidence": g.get("geo_confidence"),
+                  **_extra_fields(v, caps.get(v, {}), meta.get(v, {}), alias_notes.get(v, {}))}
     prior_new, prior_win = discovery_priors(out)
     return {v: {**p, "discovery": discovery_block({**p, **p["discovery"]}, prior_new, prior_win)}
             for v, p in out.items()}
@@ -242,6 +298,12 @@ def payload(profiles: Dict[str, dict], as_of: date) -> dict:
                                    "비율 정규화)^(1/3). 활동 = log(1+최근 12개월 공연일)/log(366), 비율은 팀 10명분만큼 전체 평균 쪽으로 "
                                    "당김, 정답 전 출연은 처음 선 지 1년 넘은 팀 중 정답 발표 전에 선 팀(10%면 만점). "
                                    "최근 12개월 공연이 없으면 빈칸. docs/methods.md '공연장 발굴 주목도'",
+                      "type": "type·type_label·type_basis = config/venues_kr.json 공연장 종류(라이브클럽·홀·소극장·창작소·카페·페스티벌)와 근거. "
+                              "없으면 null(앱 '유형 미정')",
+                      "aliases": "aliases = 마스터 목록 별칭·대표 이름 + config/venue_aliases.json 묶인 표기('@계정' 제외), "
+                                 "not_merged = 묶지 않은 비슷한 이름과 근거",
+                      "capacity_source": "capacity_source·note·confidence·checked = config/venue_capacity.json 수용 인원 출처·"
+                                         "설명·확실도(high·medium·low)·확인일",
                       "geo": "lat·lon·geo_confidence = config/venues_kr.json 좌표(OpenStreetMap Nominatim, "
                              "high 건물 · medium 도로 · low 이름 검색). 없으면 null"},
             "venues": {v: profiles[v] for v in order}}
@@ -267,12 +329,14 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ap.add_argument("--data-dir", type=Path, default=lab_sql.DATA_DIR)
     ap.add_argument("--config", type=Path, default=vl.CONFIG)
     ap.add_argument("--cities", type=Path, default=CITIES)
+    ap.add_argument("--aliases", type=Path, default=ALIASES)
     ap.add_argument("--out", type=Path, default=OUT)
     args = ap.parse_args(argv)
     gigs, teams, outcomes, snap, as_of = load_lab(args.data_dir)
-    geo = load_geo({v for _, _, v in gigs}, args.cities)
+    names = {v for _, _, v in gigs}
+    geo = load_geo(names, args.cities)
     prof = build_profiles(gigs, teams, outcomes, snap, vl.load_config(args.config), load_cities(args.cities), as_of,
-                          geo=geo)
+                          geo=geo, meta=load_master_meta(names, args.cities), alias_notes=load_alias_notes(args.aliases))
     args.out.write_text(json.dumps(payload(prof, as_of), ensure_ascii=False, separators=(",", ":")) + "\n",
                         encoding="utf-8")
     print(summary(prof))

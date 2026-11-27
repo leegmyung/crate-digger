@@ -234,5 +234,61 @@ class DetailTest(unittest.TestCase):
         self.assertEqual(vx.gig_detail("A&amp;B 홀 (주소)"), "A&B 홀")
 
 
+class InstaHandleTest(unittest.TestCase):
+    """인스타 공연장 계정의 라인업 공지는 공연장 칸에 '@계정'이 들어온다 → config/venues_kr.json instagram 칸으로
+    공연장 이름에 묶는다(원본은 그대로, 연결표에서만). 공연장 계정이 아닌 '@계정'(기획사·레이블)은 그대로 둔다."""
+
+    MASTER = {"venues": [
+        {"name": "오방가르드", "instagram": "ovantgarde", "our_venue": "오방가르드"},
+        {"name": "A.O.R", "instagram": "ClubAOR", "our_venue": ""},          # 우리 데이터에 대표 이름이 없어도 마스터 이름으로
+        {"name": "계정 없는 곳"},
+    ]}
+
+    def _aliases(self, master):
+        import json
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "venues_kr.json"
+            path.write_text(json.dumps(master, ensure_ascii=False), encoding="utf-8")
+            return vx.insta_venue_aliases(path)
+
+    def test_rules_from_master_instagram_field(self):
+        rules = self._aliases(self.MASTER)
+        self.assertEqual([(r["venue"], r["variants"]) for r in rules],
+                         [("오방가르드", ["@ovantgarde"]), ("A.O.R", ["@clubaor"])])
+        self.assertTrue(all(r["reason"] for r in rules))
+
+    def test_handle_mapped_and_merged_with_venue_name(self):
+        counts = {"오방가르드": 235, "@ovantgarde": 12, "@clubaor": 3, "@delay_relay": 66}
+        mapping, _ = vx.build_venue_xref(counts, self._aliases(self.MASTER))
+        self.assertEqual(mapping["@ovantgarde"], "오방가르드")
+        self.assertEqual(mapping["@clubaor"], "A.O.R")               # 대표 이름이 데이터에 없어도 계정 → 공연장 이름
+        self.assertEqual(mapping["@delay_relay"], "@delay_relay")      # 공연장 계정이 아니면 그대로
+        self.assertEqual(mapping["오방가르드"], "오방가르드")
+
+    def test_manual_rule_wins_over_master(self):
+        counts = {"Club FF": 100, "@hongdaeff": 5}
+        manual = [{"venue": "Club FF", "variants": ["@hongdaeff"], "reason": "수동"}]
+        auto = self._aliases({"venues": [{"name": "클럽 FF", "instagram": "hongdaeff", "our_venue": ""}]})
+        mapping, review = vx.build_venue_xref(counts, manual + auto)
+        self.assertEqual(mapping["@hongdaeff"], "Club FF")
+
+    def test_shared_handle_is_ambiguous_and_skipped(self):
+        """한 계정을 여러 공연장(같은 건물의 여러 홀)이 같이 쓰면 어느 홀인지 몰라 규칙을 만들지 않는다 —
+        만들면 그 계정을 통해 서로 다른 홀이 한 묶음으로 합쳐진다."""
+        master = {"venues": [{"name": "센터 사운드홀", "instagram": "center"}, {"name": "센터 야외무대", "instagram": "Center"},
+                             {"name": "오방가르드", "instagram": "ovantgarde"}]}
+        rules = self._aliases(master)
+        self.assertEqual([r["venue"] for r in rules], ["오방가르드"])
+        counts = {"센터 사운드홀": 50, "센터 야외무대": 20, "@center": 4}
+        mapping, _ = vx.build_venue_xref(counts, rules)
+        self.assertEqual(mapping["센터 사운드홀"], "센터 사운드홀")
+        self.assertEqual(mapping["센터 야외무대"], "센터 야외무대")
+        self.assertEqual(mapping["@center"], "@center")
+
+    def test_missing_master_is_empty(self):
+        self.assertEqual(vx.insta_venue_aliases(Path("/nonexistent/venues_kr.json")), [])
+
+
 if __name__ == "__main__":
     unittest.main()
