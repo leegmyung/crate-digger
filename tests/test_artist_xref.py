@@ -490,6 +490,18 @@ class PgRowsTest(unittest.TestCase):
         self.assertIn("ref.blocked_profile_ids", view)
         self.assertLess(sql.index("CREATE TABLE IF NOT EXISTS ref.blocked_profile_ids"), sql.index("CREATE VIEW core.v_artist_profile"))
 
+    def test_outcome_view_uses_team_level_profile(self):
+        # 정답 뷰는 정답의 이름 키가 아니라 팀 키로 프로필을 잇는다 ('나이테' 정답 ↔ 'nyteh' 프로필)
+        sql = (ROOT / "sql" / "kr" / "00_core_views.sql").read_text(encoding="utf-8")
+        team_prof = sql[sql.index("CREATE VIEW core.v_team_profile"):sql.index("CREATE VIEW core.v_outcome ")]
+        self.assertIn("core.v_team_map", team_prof)
+        self.assertIn("min(first_release)", team_prof)
+        outcome = sql[sql.index("CREATE VIEW core.v_outcome "):sql.index("CREATE VIEW core.v_outcome_team")]
+        self.assertIn("core.v_team_profile", outcome)
+        self.assertNotIn("core.v_artist_profile", outcome)
+        drop = sql[sql.index("DROP VIEW"):sql.index(";", sql.index("DROP VIEW"))]
+        self.assertIn("core.v_team_profile", drop)
+
     def test_load_pg_skips_without_psql(self):
         msg = ax.load_pg([], psql_path="/nonexistent/psql")
         self.assertIn("건너뜀", msg)

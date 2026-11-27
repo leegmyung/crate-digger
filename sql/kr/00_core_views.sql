@@ -7,7 +7,7 @@
 -- 날짜: 일부만 아는 날짜는 후보 신호 = 기간 마지막 날(_end), 정답 = 기간 첫날(_start) (시점 누수 방지).
 
 CREATE SCHEMA IF NOT EXISTS core;
-DROP VIEW IF EXISTS core.v_artist_status, core.v_outcome_team, core.v_outcome, core.v_artist_profile,
+DROP VIEW IF EXISTS core.v_artist_status, core.v_outcome_team, core.v_outcome, core.v_team_profile, core.v_artist_profile,
                     core.v_signal, core.v_team_map, core.v_venue_map, core.v_signal_base CASCADE;
 
 -- 1) 신호 이벤트: 팀 × 갈래 × 날짜 (파일 출처를 빼고 UNION으로 합쳐 재수집 중복 제거) — team_key 붙이기 전
@@ -95,7 +95,17 @@ WHERE NOT EXISTS (SELECT 1 FROM ref.blocked_profile_ids b
                   WHERE b.source = rp.source AND b.artist_source_id = rp.artist_source_id)
 GROUP BY artist_key;
 
+-- 2-1) 팀 단위 프로필: 한 팀(team_key)에 걸린 이름 키들의 프로필을 합친다 (가장 이른 첫 발매·가장 많은 팬 —
+--      랩 팀 표 scripts/export_lab_data.py 와 같은 규칙). 정답 표기('나이테')와 프로필 표기('Nyteh')가 달라도 이어진다.
+CREATE VIEW core.v_team_profile AS
+SELECT COALESCE(tm.team_key, p.artist_key) AS team_key,
+       min(first_release) AS first_release, max(album_count) AS album_count, max(fan_count) AS fan_count
+FROM core.v_artist_profile p
+LEFT JOIN core.v_team_map tm ON tm.variant_key = p.artist_key
+GROUP BY 1;
+
 -- 3) 정답 + 등급 + 정답 당시 연차 + 셀지 여부(기성 팀이 섞인 정답은 첫 발매 N년 이내만)
+--    첫 발매는 팀 단위 프로필(v_team_profile)에서 — 정답의 이름 키로 이으면 표기가 다른 팀은 첫 발매를 못 찾아 '안 셈'이 된다
 CREATE VIEW core.v_outcome AS
 SELECT o.*, t.tier, t.career_filtered, ap.first_release,
        round(((o.announced_start - ap.first_release) / 365.25)::numeric, 1) AS years_at_outcome,
@@ -106,8 +116,8 @@ SELECT o.*, t.tier, t.career_filtered, ap.first_release,
        COALESCE(tm.team_key, o.artist_key) AS team_key
 FROM raw.raw_outcome o
 JOIN ref.outcome_tier t ON t.program = o.program
-LEFT JOIN core.v_artist_profile ap ON ap.artist_key = o.artist_key
-LEFT JOIN core.v_team_map tm ON tm.variant_key = o.artist_key;
+LEFT JOIN core.v_team_map tm ON tm.variant_key = o.artist_key
+LEFT JOIN core.v_team_profile ap ON ap.team_key = COALESCE(tm.team_key, o.artist_key);
 
 -- 4) 팀별 첫 정답 (센 정답만, 팀 = team_key)
 CREATE VIEW core.v_outcome_team AS
