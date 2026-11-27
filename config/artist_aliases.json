@@ -467,6 +467,164 @@
       "reason": "같은 팀 — 한글·영문 표기, 이름이 길고 독특함. 2주 간격 홍대 클럽 공연",
       "evidence": ["우리 데이터(인디스트릿 공연): 안덕근 & 99 Problems 2026-09-19 Club FF · AN DEOKGEUN & 99 PROBLEMS 2026-10-02 Club Victim"],
       "checked": "2026-11-27"
+    },
+    {
+      "main": "After Thoughts",
+      "aliases": [
+        "after_thoughts.kr"
+      ],
+      "reason": "같은 팀 — 인스타 계정명에서 official·band·.kr 같은 꼬리를 뺀 핵심이 팀 이름과 똑같음(공연 게시물에 이름 대신 계정명만 태그됨)",
+      "evidence": [
+        "계정 'after_thoughts.kr' 줄: instagram 큐레이션 2026-11-26",
+        "팀 'After Thoughts' 줄: flo 발매 2026-11-26, trackzero 큐레이션 2026-01-22"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "9B2",
+      "aliases": [
+        "band_9b2"
+      ],
+      "reason": "같은 팀 — 인스타 계정명에서 official·band·.kr 같은 꼬리를 뺀 핵심이 팀 이름과 똑같음(공연 게시물에 이름 대신 계정명만 태그됨)",
+      "evidence": [
+        "계정 'band_9b2' 줄: instagram 공연 2026-11-21 @delay_relay",
+        "팀 '9B2' 줄: indiego 공연 2026-11-27 Club 빵, indistreet 공연 2026-11-07 채널1969"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "Dim",
+      "aliases": [
+        "band_dim"
+      ],
+      "reason": "같은 팀 — 인스타 계정명에서 official·band·.kr 같은 꼬리를 뺀 핵심이 팀 이름과 똑같음(공연 게시물에 이름 대신 계정명만 태그됨)",
+      "evidence": [
+        "계정 'band_dim' 줄: instagram 공연 2026-11-25 @purple_hall",
+        "팀 'Dim' 줄: indistreet 공연 2025-04-18 Club Victim, indistreet 공연 2024-09-07 Club Victim"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "MIJI",
+      "aliases": [
+        "band__miji"
+      ],
+      "reason": "같은 팀 — 인스타 계정명에서 official·band·.kr 같은 꼬리를 뺀 핵심이 팀 이름과 똑같음(공연 게시물에 이름 대신 계정명만 태그됨)",
+      "evidence": [
+        "계정 'band__miji' 줄: instagram 공연 2026-11-23 @cosmosruby_",
+        "팀 'MIJI' 줄: indistreet 공연 2026-09-10 언플러그드 라운지, indistreet 공연 2026-06-14 카페 언플러그드 홍대점"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "firr",
+      "aliases": [
+        "firr_official_"
+      ],
+      "reason": "같은 팀 — 인스타 계정명에서 official·band·.kr 같은 꼬리를 뺀 핵심이 팀 이름과 똑같음(공연 게시물에 이름 대신 계정명만 태그됨)",
+      "evidence": [
+        "계정 'firr_official_' 줄: instagram 공연 2026-11-23 @cosmosruby_",
+        "팀 'firr' 줄: indistreet 공연 2026-10-25 우무지, indistreet 공연 2026-08-08 Hukez"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "honbaek",
+      "aliases": [
+        "honbaek_official"
+      ],
+      "reason": "같은 팀 — 인스타 계정명에서 official·band·.kr 같은 꼬리를 뺀 핵심이 팀 이름과 똑같음(공연 게시물에 이름 대신 계정명만 태그됨)",
+      "evidence": [
+        "계정 'honbaek_official' 줄: instagram 공연 2026-11-19 @purple_hall",
+        "팀 'honbaek' 줄: indistreet 공연 2026-09-19 공연장 미정, indistreet 공연 2026-07-11 Hukez"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "Lucy Valentine",
+      "aliases": [
+        "lucyvalentineband"
+      ],
+      "reason": "같은 팀 — 인스타 계정명에서 official·band·.kr 같은 꼬리를 뺀 핵심이 팀 이름과 똑같음(공연 게시물에 이름 대신 계정명만 태그됨)",
+      "evidence": [
+        "계정 'lucyvalentineband' 줄: instagram 공연 2026-11-21 @delay_relay",
+        "팀 'Lucy Valentine' 줄: indistreet 공연 2026-11-14 인피니티클럽, indistreet 공연 2026-10-10 베이비돌"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "Ratioff",
+      "aliases": [
+        "ratioffofficial"
+      ],
+      "reason": "같은 팀 — 인스타 계정명에서 official·band·.kr 같은 꼬리를 뺀 핵심이 팀 이름과 똑같음(공연 게시물에 이름 대신 계정명만 태그됨)",
+      "evidence": [
+        "계정 'ratioffofficial' 줄: instagram 공연 2026-11-21 @delay_relay",
+        "팀 'Ratioff' 줄: indistreet 공연 2026-10-18 생기스튜디오, indistreet 공연 2024-01-25 Club FF"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "Soyo",
+      "aliases": [
+        "soyo.kr"
+      ],
+      "reason": "같은 팀 — 인스타 계정명에서 official·band·.kr 같은 꼬리를 뺀 핵심이 팀 이름과 똑같음(공연 게시물에 이름 대신 계정명만 태그됨)",
+      "evidence": [
+        "계정 'soyo.kr' 줄: instagram 공연 2026-11-22 @hertz.sound, instagram 공연 2026-11-15 @hertz.sound",
+        "팀 'Soyo' 줄: instagram 공연 2026-11-26 @tool.seoul"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "Frost Children",
+      "aliases": [
+        "thefrostchildren"
+      ],
+      "reason": "같은 팀 — 인스타 계정명에서 official·band·.kr 같은 꼬리를 뺀 핵심이 팀 이름과 똑같음(공연 게시물에 이름 대신 계정명만 태그됨)",
+      "evidence": [
+        "계정 'thefrostchildren' 줄: instagram 큐레이션 2026-11-23",
+        "팀 'Frost Children' 줄: visla 큐레이션 2025-09-26, visla 큐레이션 2025-06-13"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "xiihu",
+      "aliases": [
+        "xiihu.kr"
+      ],
+      "reason": "같은 팀 — 인스타 계정명에서 official·band·.kr 같은 꼬리를 뺀 핵심이 팀 이름과 똑같음(공연 게시물에 이름 대신 계정명만 태그됨)",
+      "evidence": [
+        "계정 'xiihu.kr' 줄: instagram 공연 2026-11-19 @boleroseoul",
+        "팀 'xiihu' 줄: visla 큐레이션 2026-09-08"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "Y507",
+      "aliases": [
+        "y507_official"
+      ],
+      "reason": "같은 팀 — 인스타 계정명에서 official·band·.kr 같은 꼬리를 뺀 핵심이 팀 이름과 똑같음(공연 게시물에 이름 대신 계정명만 태그됨)",
+      "evidence": [
+        "계정 'y507_official' 줄: instagram 공연 2026-11-21 @_jam_lounge_hongdae",
+        "팀 'Y507' 줄: indistreet 공연 2026-11-05 카페 언플러그드 홍대점, indistreet 공연 2026-10-22 우주정거장"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "윤새",
+      "aliases": [
+        "yunsae_official",
+        "yunsaemusic"
+      ],
+      "reason": "같은 사람 — 싱어송라이터 윤새(Yunsae)의 인스타 계정명. 상상마당 공연 게시물에 이름 대신 두 계정이 함께 태그됨",
+      "evidence": [
+        "계정 'yunsae_official'·'yunsaemusic' 줄: instagram 공연 2026-11-26 KT&G 상상마당 대치 아트홀(@ssmadang.official 게시물)",
+        "팀 '윤새' 줄: sangsangmadang 공연 2025-08-31 KT&G 상상마당 홍대 라이브홀, indiego 공연 2026-11-13 누구의집",
+        "유튜브 공식 채널 이름 '윤새 Yunsae' (data/raw raw_video, 영상 수집)"
+      ],
+      "checked": "2026-11-28"
     }
   ],
   "distinct": [
@@ -686,6 +844,230 @@
         "config/insta_accounts.json role=magazine 'KOCCA MUSIC(코카뮤직)'"
       ],
       "checked": "2026-11-27"
+    },
+    {
+      "handle": "1199.fm",
+      "reason": "온라인 라디오(‘.fm’) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 '1199.fm' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-25 @modeci_seoul)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "alternativespaceloop",
+      "reason": "대안공간 루프(전시·공연 공간) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'alternativespaceloop' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 큐레이션 2026-11-26)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "asianpopfestival_kr",
+      "reason": "아시안 팝 페스티벌(행사) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'asianpopfestival_kr' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-19 @cafeveloso)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "bookcafe.emu",
+      "reason": "북카페(공연 장소) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'bookcafe.emu' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-13 @panta.emu)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "brownsoundstudio",
+      "reason": "녹음 스튜디오 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'brownsoundstudio' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-26 @rustic_jazz)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "bysmusicproduction",
+      "reason": "음악 제작사 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'bysmusicproduction' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-24 @flatnine_jazzbar)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "courtecafe",
+      "reason": "카페(공연 장소) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'courtecafe' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-23 @unbornsounds)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "dankook_univ",
+      "reason": "대학교(단국대) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'dankook_univ' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-19 @purple_hall)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "dongguk_university",
+      "reason": "대학교(동국대) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'dongguk_university' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-19 @purple_hall)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "hoseo_univ",
+      "reason": "대학교(호서대) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'hoseo_univ' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-19 @purple_hall)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "die_huette_gallery",
+      "reason": "갤러리(공연 장소) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'die_huette_gallery' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 큐레이션 2026-11-26)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "flakerecords",
+      "reason": "음반 가게(Flake Records) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'flakerecords' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 큐레이션 2026-11-26)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "gaesori.tv",
+      "reason": "영상 채널(미디어) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'gaesori.tv' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-23 @unbornsounds)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "gearlounge",
+      "reason": "악기·장비 매장 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'gearlounge' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-24 @seoul_recordfair)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "lorebehindrecords",
+      "reason": "음반사(레이블) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'lorebehindrecords' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-24 @beatology_seoul)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "noir_mardi_mercredi_cafe",
+      "reason": "카페(공연 장소) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'noir_mardi_mercredi_cafe' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 큐레이션 2026-11-24)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "ob.scenefestival",
+      "reason": "페스티벌(행사) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'ob.scenefestival' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 큐레이션 2026-11-26)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "oxynova.lifestyl",
+      "reason": "생활용품·패션 브랜드 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'oxynova.lifestyl' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-25 @yngandrichrecords)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "redcon_music_studio",
+      "reason": "음악 스튜디오 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'redcon_music_studio' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-27 @gj__peakmusic)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "samadi.lounge",
+      "reason": "라운지(공연 장소) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'samadi.lounge' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 큐레이션 2026-11-26)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "screamrecords",
+      "reason": "음반사(스크림 레코드) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'screamrecords' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-13 @net_taskforce)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "ssmadangacademy",
+      "reason": "KT&G 상상마당 아카데미(교육) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'ssmadangacademy' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-27 @ssmadang.official)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "ssmadang_gallery",
+      "reason": "KT&G 상상마당 갤러리 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'ssmadang_gallery' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-18 @ssmadang.official)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "tool.records",
+      "reason": "음반사(레이블) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'tool.records' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-26 @tool.seoul)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "totdy_mag",
+      "reason": "매거진 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'totdy_mag' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 공연 2026-11-25 @newwaveseoul)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "uk.project_staff",
+      "reason": "음반사 직원(UK Project 스태프) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'uk.project_staff' (공연·매거진 게시물에 태그되어 팀처럼 잡힘: instagram 큐레이션 2026-11-16)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "ssmadang.co.kr",
+      "reason": "KT&G 상상마당 누리집 주소 모양 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'ssmadang.co.kr' (상상마당 공연 게시물에 태그되어 팀처럼 잡힘)"
+      ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "sangsangcinema",
+      "reason": "KT&G 상상마당 시네마(영화관) 계정 — 팀 아님",
+      "evidence": [
+        "계정명 'sangsangcinema' (상상마당 게시물에 태그되어 팀처럼 잡힘)"
+      ],
+      "checked": "2026-11-28"
     }
   ]
 }

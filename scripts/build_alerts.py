@@ -16,6 +16,8 @@
 - 단계 상승: 새 남의 언급이 있어야 하고, 지난번 후보 목록에 없던 팀은 기록이 모두 최근인 '진짜 새 팀'이면서 2단계 이상일 때만
   (첫 신호 1건짜리 새 팀은 알림 아님 — 앱의 새 공연·관심 목록으로 본다).
 - 정렬: 미래 날짜(선정 기간 끝날 등)는 알게 된 날로 친다.
+- 큰 공연장 첫 출연은 발굴 단계 후보(신인) 중 졸업(4단계: S·A 정답·유명 팀) 전인 팀만 — 기성·해외 팀(내한 공연 등)과
+  우리 기록에 과거가 전혀 없는 팀('첫' 출연인지 알 수 없음)은 뺀다 (2026-11-28).
 
 실행: .venv/bin/python scripts/build_alerts.py [--as-of YYYY-MM-DD] [--no-state] [--out 파일]
 """
@@ -285,10 +287,12 @@ def venue_tiers(capacity: Optional[dict]) -> Dict[str, str]:
 
 
 def detect_big_venue(new_signals: Sequence[Signal], all_signals: Sequence[Signal], capacity: Optional[dict],
-                     teams: Dict[str, str], as_of: Optional[str] = None) -> List[Alert]:
+                     teams: Dict[str, str], as_of: Optional[str] = None,
+                     candidates: Optional[Set[str]] = None) -> List[Alert]:
     """처음으로 큰 공연장(L·XL)에 선(서는) 팀. 체급 파일이 없으면 건너뜀.
     as_of 가 있으면 최근(또는 다가오는) 새 공연만 '첫 출연' 후보이고, 옛 날짜 공연은 새로 본 것이라도 '이미 섰음'으로 친다
-    (연결표가 바뀌어 지문이 새로 생긴 옛 공연·늦게 수집된 지난 공연)."""
+    (연결표가 바뀌어 지문이 새로 생긴 옛 공연·늦게 수집된 지난 공연).
+    candidates(발굴 단계 후보 = 신인)가 있으면 그 팀만 — 기성·해외 팀의 큰 공연장 공연은 '발굴' 소식이 아니다."""
     tiers = venue_tiers(capacity)
     if not tiers:
         return []
@@ -301,7 +305,7 @@ def detect_big_venue(new_signals: Sequence[Signal], all_signals: Sequence[Signal
     had_big = {str(s["team_key"]) for s in all_signals if big(s) and signal_key(s) not in new_keys}
     out = []
     for team, rows in sorted(_by_team(s for s in new_signals if big(s)).items()):
-        if team in had_big:
+        if team in had_big or (candidates is not None and team not in candidates):
             continue
         first = min(rows, key=lambda s: str(s.get("signal_date")))
         venue = str(first.get("venue"))
@@ -453,7 +457,8 @@ def build(data: dict, stages_now: Dict[str, int], stages_before: Dict[str, int],
              + blank
              + [a for a in detect_stage_up(stages_now, before, teams, as_of, fresh, first_seen)
                 if not (a["team_key"] in blank_teams and int(before.get(a["team_key"], 0)) == 0)]
-             + detect_big_venue(new_sigs, signals, data.get("capacity"), teams, as_of=as_of)
+             + detect_big_venue(new_sigs, signals, data.get("capacity"), teams, as_of=as_of,
+                                candidates={t for t, st in stages_now.items() if int(st) < 4} or None)
              + detect_new_peer_winner(pairs, known_pairs, teams, as_of=as_of, fresh_gigs=fresh_gigs)
              + detect_spike(signals, fresh, teams, as_of)
              + detect_new_gigs(fresh, teams, as_of))

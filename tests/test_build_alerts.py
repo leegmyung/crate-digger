@@ -87,6 +87,14 @@ class DetectTest(unittest.TestCase):
         new = [old_rekeyed, recent, late_b]
         self.assertEqual(ba.detect_big_venue(new, new, cap, TEAMS, as_of=AS_OF), [])
 
+    def test_big_venue_first_only_for_newcomer_candidates(self):
+        # 신인 후보(발굴 단계 후보 목록)가 아닌 기성·해외 팀(갤럭시 익스프레스·Sunny Day Service)은 큰 공연장 첫 출연 알림에서 뺀다
+        cap = {"venues": {"큰홀": {"tier": "L"}}}
+        new = [sig("a", "공연", "2026-12-01", venue="큰홀"), sig("b", "공연", "2026-12-02", venue="큰홀")]
+        got = ba.detect_big_venue(new, new, cap, TEAMS, as_of=AS_OF, candidates={"b"})
+        self.assertEqual([x["team_key"] for x in got], ["b"])
+        self.assertEqual(len(ba.detect_big_venue(new, new, cap, TEAMS, as_of=AS_OF)), 2)   # 후보 목록을 안 주면 전과 같음
+
     def test_peer_winner_needs_recent_new_gig(self):
         pairs = {"a|w|2025-06-07|클럽": ("a", "w", "2025-06-07", "클럽"),      # 옛 무대 — 수상 팀 정답·연결표가 바뀌어 새로 생긴 연결
                  "b|w|2026-11-20|홀": ("b", "w", "2026-11-20", "홀"),          # 최근이지만 b 쪽 공연은 이미 본 것

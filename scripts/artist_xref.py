@@ -648,7 +648,7 @@ def _link_instagram(cands, g, base, count, spell, review) -> dict[str, list[dict
         if not k:
             continue
         spell[k][clean(first["text"])] += 0
-        links[g.find(k)].append({"handle": h, "confidence": "low",
+        links[g.find(k)].append({"handle": h, "confidence": "low", "from_profile": first["kind"] == "profile",
                                  "evidence": sorted({c["evidence"] for c in items})[:5]})
         review.append({"kind": "ig_unmatched", "detail": f"@{h} '{first['text']}'",
                        "reason": "인스타에만 있는 이름 — 다른 소스의 팀과 아직 못 이음", "weight": 1})
@@ -789,17 +789,24 @@ def tracked_account_handles(path: Path = INSTA_ACCOUNTS) -> list[str]:
     return [a.get("handle", "") for a in accounts if a.get("handle") and a.get("role") != "artist"] + list(ORG_HANDLES)
 
 
+def _own_profile(ig: dict) -> bool:
+    """확신 낮은 연결이라도 계정 본인의 인스타 프로필 이름에서 온 것 — 그 계정이 스스로 적은 이름이라 대표 이름으로 써도 된다.
+    (캡션 조각에서 나온 이름은 '11월 27일 함께 연주한 ○○'처럼 잘못 잘린 경우가 많아 쓰지 않는다.)"""
+    return bool(ig.get("from_profile")) or any(str(e).startswith("인스타 프로필 이름") for e in ig.get("evidence") or [])
+
+
 def xref_rows(artists: list[dict], non_artist_handles: list[str] | None = None) -> list[tuple[str, str, str, str]]:
     """DB ref.artist_xref 행: (variant_key, artist_key, display_name, confidence). variant_key 는 중복 없음."""
     rows: dict[str, tuple] = {}
     for rec in artists:
         for k in _variant_keys(rec):
             rows.setdefault(k, (k, rec["artist_key"], rec["display_name"], rec["confidence"]))
-    # 연결된 인스타 계정명(확신 high·mid)도 그 팀의 표기로: 인스타 게시물에서 이름 대신 '@oysters.999'만 잡힌 줄을 잇는다.
+    # 연결된 인스타 계정명(확신 high·mid, 또는 계정 본인 프로필 이름에서 온 low)도 그 팀의 표기로:
+    # 인스타 게시물에서 이름 대신 '@oysters.999'만 잡힌 줄을 잇는다.
     # 팀 이름 키를 다 넣은 뒤에 넣어서, 계정명 키가 다른 팀의 실제 이름 키를 덮어쓰지 않게 한다.
     for rec in artists:
         for ig in rec.get("instagram") or []:
-            if ig.get("confidence") in ("high", "mid") and ig.get("handle"):
+            if (ig.get("confidence") in ("high", "mid") or _own_profile(ig)) and ig.get("handle"):
                 k = artist_key(ig["handle"].lstrip("@"))
                 if k:
                     rows.setdefault(k, (k, rec["artist_key"], rec["display_name"], ig["confidence"]))

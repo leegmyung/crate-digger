@@ -514,6 +514,34 @@ class PgRowsTest(unittest.TestCase):
         rows2 = {r[0]: r for r in ax.xref_rows(artists[:1])}
         self.assertEqual(rows2["oysters999"][1], "오이스터즈")
 
+    def test_low_link_from_own_profile_name_maps_handle(self):
+        # 다른 소스에 없는 팀이라도 계정 본인의 프로필 이름이 있으면 계정명 줄을 그 이름으로 (공연 게시물에 '123areswimming'만 잡힌 줄 → '일이삼')
+        artists = [{"artist_key": "일이삼", "display_name": "일이삼", "keys": ["일이삼"], "aliases": ["일이삼"],
+                    "confidence": "low",
+                    "instagram": [{"handle": "123areswimming", "confidence": "low", "from_profile": True}]},
+                   {"artist_key": "캡션조각", "display_name": "11월 27일 함께 연주한 누군가", "keys": ["캡션조각"], "aliases": [],
+                    "confidence": "low",
+                    "instagram": [{"handle": "someone_sax", "confidence": "low",
+                                   "evidence": ["매거진 캡션 '11월 27일 함께 연주한 누군가 @someone_sax'"]}]}]
+        rows = {r[0]: r for r in ax.xref_rows(artists)}
+        self.assertEqual(rows["123areswimming"][1:3], ("일이삼", "일이삼"))
+        self.assertNotIn("someonesax", rows)                     # 캡션 조각에서 나온 이름은 대표 이름으로 안 씀
+
+    def test_old_state_profile_evidence_counts_as_profile(self):
+        # 예전 연결표 파일(from_profile 칸 없음)도 근거 문구로 알아본다
+        artists = [{"artist_key": "김윤수", "display_name": "김윤수", "keys": ["김윤수"], "aliases": [], "confidence": "low",
+                    "instagram": [{"handle": "bassist_yunsookim", "confidence": "low",
+                                   "evidence": ["인스타 프로필 이름 '김윤수' (ig_artist_links)"]}]}]
+        rows = {r[0]: r for r in ax.xref_rows(artists)}
+        self.assertEqual(rows["bassistyunsookim"][1], "김윤수")
+
+    def test_unmatched_profile_link_is_flagged(self):
+        artists, _ = ax.build_xref([{"table": "gig", "name": "다른팀", "count": 1}],
+                                   [{"handle": "123areswimming", "name": "𝟭𝟮𝟯 일이삼", "source": "instagram 프로필 CSV"}], [], [])
+        ig = next(i for a in artists for i in a["instagram"] if i["handle"] == "123areswimming")
+        self.assertEqual(ig["confidence"], "low")
+        self.assertTrue(ig["from_profile"])
+
     def test_tracked_accounts_are_marked_non_artist_without_overriding_teams(self):
         # 매거진·공연장·기관 계정명은 '팀 아님'으로 → 신호에서 빠진다. 실제 팀 이름 키는 덮어쓰지 않는다.
         artists = [{"artist_key": "클럽에프에프", "display_name": "클럽에프에프", "keys": ["clubffhongdae"],
