@@ -48,5 +48,29 @@ class NoteTest(unittest.TestCase):
         self.assertEqual(row["커밋"], "aabf2f8, 4f91eb5")
 
 
+class NewSourceWarningTest(unittest.TestCase):
+    def test_warning_line_when_new_sources(self):
+        md = dn.render_note("2026-11-26", COMMITS, RUNS, BOARD, new_sources=["공연:newvenue", "큐레이션:anewzine"])
+        warn = [line for line in md.splitlines() if "분류표에 없는 새 출처" in line]
+        self.assertEqual(len(warn), 1)                     # 한 줄
+        self.assertIn("2개", warn[0])
+        self.assertIn("공연:newvenue", warn[0])
+        self.assertIn("config/source_roles.json", warn[0])
+
+    def test_no_warning_when_all_classified(self):
+        md = dn.render_note("2026-11-26", COMMITS, RUNS, BOARD, new_sources=[])
+        self.assertNotIn("분류표에 없는 새 출처", md)
+        self.assertNotIn("분류표에 없는 새 출처", dn.render_note("2026-11-26", COMMITS, RUNS, BOARD))
+
+    def test_new_sources_from_files(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            sig, cfg = Path(d) / "signals.csv", Path(d) / "roles.json"
+            sig.write_text("team_key,branch,source,program\na,공연,indistreet,\nb,공연,newvenue,\n", encoding="utf-8")
+            cfg.write_text('{"signals": {"공연:indistreet": {"role": "discovery"}}}', encoding="utf-8")
+            self.assertEqual(dn.new_sources(sig, cfg), ["공연:newvenue"])
+            self.assertEqual(dn.new_sources(Path(d) / "none.csv", cfg), [])   # 파일이 없으면 경고 없음
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -5,23 +5,47 @@
 
 - 공개용: docs/log/<날짜>.md  (그날 커밋, 수집 결과, 지금 단계, 아직 정할 것)
 - 개인용: records/ 엑셀 '작업기록' 시트에 자동 줄 추가 (worklog.py)
+- 분류표(config/source_roles.json)에 없는 새 출처가 랩 데이터에 나오면 경고 한 줄 (사람이 역할을 정하도록)
 대화를 바탕으로 한 정리(결정 이유, 지침, 직무 참고)는 Claude가 records/entries/<날짜>.json 으로 따로 남긴다.
 """
+import csv
 import json
 import subprocess
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-import worklog
-
 ROOT = Path(__file__).resolve().parent.parent
+ROLES_FILE = ROOT / "config" / "source_roles.json"
+LAB_SIGNALS = ROOT / "docs" / "lab" / "data" / "signals.csv"
 KST = timezone(timedelta(hours=9))
 TABLE_KO = {"raw_kr_release": "발매", "raw_kr_gig": "공연", "raw_press": "평론 신호",
             "raw_kr_selection": "선정·지원", "raw_outcome": "공증"}
 
 
-def render_note(day, commits, runs, board):
+def source_key(row):
+    """신호 행 → 분류표 키 '갈래:출처' (선정·지원은 '갈래:프로그램'). export_lab_data.signal_role 과 같은 규칙."""
+    branch = (row.get("branch") or "").strip()
+    name = (row.get("program") if branch == "선정·지원" else row.get("source")) or ""
+    return f"{branch}:{name.strip()}" if branch and name.strip() else ""
+
+
+def unclassified_sources(rows, roles):
+    """분류표(roles['signals'])에 없는 출처 키 목록 (중복 없이 정렬)."""
+    known = set((roles or {}).get("signals", {}))
+    return sorted({k for k in (source_key(r) for r in rows) if k and k not in known})
+
+
+def new_sources(signals_path=LAB_SIGNALS, roles_path=ROLES_FILE):
+    """랩 데이터 신호 중 분류표에 없는 새 출처. 파일이 없으면 빈 목록."""
+    try:
+        with open(signals_path, encoding="utf-8") as f:
+            return unclassified_sources(csv.DictReader(f), _load(Path(roles_path), {}))
+    except OSError:
+        return []
+
+
+def render_note(day, commits, runs, board, new_sources=None):
     now_steps = [s for s in board.get("steps", []) if s.get("status") == "now"]
     todays = [r for r in runs if r["date"] == day]
     open_q = [d["q"] for d in board.get("decisions", []) if d.get("state") == "결정 필요"]
@@ -32,6 +56,9 @@ def render_note(day, commits, runs, board):
     lines += ["", "## 수집", "", "| 소스 | 종류 | 줄 수 | 형식 검사 |", "|---|---|---|---|"] if todays else ["", "## 수집", "- 수집 기록 없음"]
     lines += [f"| {r['source']} | {TABLE_KO.get(r['table'], r['table'])} | {r['rows']} | {'✅' if r['file_ok'] else '❌'} |"
               for r in todays]
+    if new_sources:
+        lines += ["", f"⚠️ 분류표에 없는 새 출처 {len(new_sources)}개: {', '.join(new_sources)} "
+                      "— config/source_roles.json 에 역할(발굴·맥락·제외·검증 대기)을 정해 주세요"]
     lines += ["", "## 아직 정할 것"]
     lines += [f"- {q}" for q in open_q] or ["- 없음"]
     lines += ["", "진행판: https://leegmyung.github.io/crate-digger/", ""]
@@ -72,10 +99,11 @@ def main(argv):
     board = _load(ROOT / "docs" / "data" / "board.json", {})
     out = ROOT / "docs" / "log" / f"{day}.md"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(render_note(day, commits, runs, board), encoding="utf-8")
+    out.write_text(render_note(day, commits, runs, board, new_sources()), encoding="utf-8")
     try:
+        import worklog   # 엑셀 도구(openpyxl)는 기록할 때만 — 없으면 아래에서 안내
         worklog.append_entry(worklog.DEFAULT_XLSX, auto_entry(day, commits, runs))
-    except (OSError, ValueError) as e:
+    except (OSError, ValueError, ImportError) as e:
         print(f"⚠️ 엑셀 기록 실패 (공개 기록은 저장됨): {e}", file=sys.stderr)
     print(f"✅ 일일 기록 → {out.relative_to(ROOT)}")
     return 0
