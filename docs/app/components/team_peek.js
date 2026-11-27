@@ -193,6 +193,8 @@ function onDocClick(e) {
   const panel = panelEl();
   if (!panel || panel.hidden || !panel.isConnected) return;
   if (e.target.closest('#teamPeek') || e.target.closest('tr[data-team-key]')) return;
+  // 정렬 머리줄·필터 버튼·입력 같은 조작은 미리보기를 닫지 않는다(빈 곳을 눌렀을 때만 닫음)
+  if (e.target.closest('button, a, input, select, textarea, label, summary, th, [role="button"], [role="tab"]')) return;
   if (!e.target.isConnected) return; // 클릭으로 다시 그려져 떨어져 나간 요소
   closeTeamPeek();
 }

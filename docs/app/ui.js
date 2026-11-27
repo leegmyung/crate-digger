@@ -234,7 +234,7 @@ export function scorePartsLine(r) {
   const parts = [];
   if (Number(r.pts_branch) > 0) parts.push(`갈래 ${r.n_branch}개(+${fmtNum(r.pts_branch, 1)})`);
   if (Number(r.pts_stage) > 0) parts.push(`선정 단계 ${r.best_stage}(+${fmtNum(r.pts_stage, 1)})`);
-  if (Number(r.pts_venues) > 0) parts.push(`공연장 ${r.venues}곳(+${fmtNum(r.pts_venues, 1)})`);
+  if (Number(r.pts_venues) > 0) parts.push(`최근 2년 공연장 ${r.venues}곳(+${fmtNum(r.pts_venues, 1)})`);
   if (Number(r.pts_recent) > 0) parts.push(`최근 6개월 ${r.recent180}건(+${fmtNum(r.pts_recent, 1)})`);
   if (Number(r.pts_winner) > 0) parts.push(`수상 팀과 같은 무대(+${fmtNum(r.pts_winner, 1)})`);
   if (Number(r.pts_outlets) > 0) parts.push(`발굴 매체 ${r.outlets}곳(+${fmtNum(r.pts_outlets, 1)})`);
@@ -247,7 +247,7 @@ export function scorePartsLine(r) {
 
 export function plainWhyLine(r) {
   const parts = [];
-  if (Number(r.venues) >= 2 && Number(r.pts_venues) > 0) parts.push(`공연장 ${r.venues}곳`);
+  if (Number(r.venues) >= 2 && Number(r.pts_venues) > 0) parts.push(`최근 2년 공연장 ${r.venues}곳`);
   if (Number(r.best_stage) >= 1 && Number(r.pts_stage) > 0) parts.push(`선정 ${r.best_stage}단계`);
   if (Number(r.peer_winner) > 0 && Number(r.pts_winner) > 0) parts.push('수상 팀과 같은 무대');
   if (Number(r.recent180) >= 2 && Number(r.pts_recent) > 0) parts.push(`최근 6개월 ${r.recent180}건`);
@@ -263,7 +263,7 @@ export function renderScoreBar(r, maxScore) {
   const segs = [
     { key: '갈래', v: Number(r.pts_branch) || 0, color: 'var(--seg-branch)' },
     { key: '선정 단계', v: Number(r.pts_stage) || 0, color: 'var(--seg-stage)' },
-    { key: '공연장 수', v: Number(r.pts_venues) || 0, color: 'var(--seg-venues)' },
+    { key: '최근 2년 공연장 수', v: Number(r.pts_venues) || 0, color: 'var(--seg-venues)' },
     { key: '최근 6개월 활동', v: Number(r.pts_recent) || 0, color: 'var(--seg-recent)' },
     { key: '수상 팀과 같은 무대', v: Number(r.pts_winner) || 0, color: 'var(--seg-winner)' },
     { key: '발굴 매체', v: Number(r.pts_outlets) || 0, color: 'var(--seg-outlets)' },

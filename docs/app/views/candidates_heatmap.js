@@ -13,7 +13,7 @@ const yesNo = v => (Number(v) > 0 ? '있음' : '없음');
 export const HEAT_COLUMNS = [
   { key: 'branch', label: '신호 갈래', unit: '개', raw: r => r.n_branch, peerPct: 'branch_pct' },
   { key: 'stage', label: '선정 단계', unit: '', raw: r => r.best_stage, peerPct: 'stage_pct' },
-  { key: 'venues', label: '공연장 다양성', unit: '곳', raw: r => r.venues, peerPct: 'venues_pct' },
+  { key: 'venues', label: '최근 2년 공연장 수', unit: '곳', raw: r => r.venues, peerPct: 'venues_pct' },
   { key: 'outlets', label: '발굴 매체', unit: '곳', raw: r => r.outlets, peerPct: 'outlets_pct' },
   { key: 'winner', label: '수상 팀과 같은 무대', unit: '', raw: r => r.peer_winner, peerPct: 'winner_pct', fmt: yesNo },
   { key: 'gigs', label: '1년 공연', unit: '회', raw: r => r.gigs_1y, peerPct: 'gigs_pct' },

@@ -98,7 +98,7 @@ export const DEFAULT_WEIGHTS = { ...WEIGHT_PRESETS.v2 };
 export const WEIGHT_FIELDS = [
   { key: 'w_branch', label: '갈래 수 (갈래−1)', min: 0, max: 5, step: 0.5, isInt: false },
   { key: 'w_stage', label: '선정 최고 단계 (0~4)', min: 0, max: 3, step: 0.5, isInt: false },
-  { key: 'w_venues', label: '서로 다른 공연장 수', min: 0, max: 3, step: 0.5, isInt: false },
+  { key: 'w_venues', label: '최근 2년 서로 다른 공연장 수', min: 0, max: 3, step: 0.5, isInt: false },
   { key: 'w_recent', label: '최근 6개월 활동', min: 0, max: 3, step: 0.5, isInt: false },
   { key: 'w_winner', label: '이미 상 받은 팀과 같은 무대', min: 0, max: 3, step: 0.5, isInt: false },
   { key: 'w_outlets', label: '발굴 매체 수', min: 0, max: 3, step: 0.5, isInt: false },
@@ -722,6 +722,11 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
     if (wm === 'board') p.set('wmode', 'board');
   }
 
+  // 팀 미리보기(?peek=, components/team_peek.js)는 화면 상태가 아니라 주소에만 있으므로,
+  // 같은 화면 주소를 다시 쓸 때(필터·정렬 변경)는 그대로 남긴다. 다른 화면으로 가면 빠진다.
+  const curHash = typeof window !== 'undefined' ? String(window.location.hash || '') : '';
+  const curPeek = new URLSearchParams(curHash.split('?')[1] || '').get('peek');
+  if (curPeek && curHash.split('?')[0] === basePath) p.set('peek', curPeek);
   const qs = p.toString();
   return qs ? `${basePath}?${qs}` : basePath;
 }
