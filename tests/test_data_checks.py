@@ -263,9 +263,20 @@ class PgTest(unittest.TestCase):
     def answers(self, **over):
         base = {"dc:sync": "n\n100\n", "dc:unknown_programs": "program,n\n",
                 "dc:no_artist": "total,no_artist,no_date\n1000,2,0\n",
-                "dc:career": "program\nmucon\n"}
+                "dc:career": "program\nmucon\n",
+                "dc:own_release": "n,has_all,has_own,diff3y,own_earlier\n100,98,90,2,0\n"}
         base.update(over)
         return base
+
+    def test_own_release_coverage_and_big_differences(self):
+        run = self.fake_run(self.answers(**{"dc:own_release": "n,has_all,has_own,diff3y,own_earlier\n796,787,65,11,0\n"}))
+        c = {c.key: c for c in dc.pg_checks(run, lab_signals=100, career_filtered={"mucon"})}["pg_own_release"]
+        self.assertEqual(c.status, "warn")          # 보유율 8% < 50%
+        self.assertIn("65/796", c.value)
+        self.assertIn("11", c.value)
+        run = self.fake_run(self.answers(**{"dc:own_release": "n,has_all,has_own,diff3y,own_earlier\n100,98,90,2,3\n"}))
+        c = {c.key: c for c in dc.pg_checks(run, lab_signals=100, career_filtered={"mucon"})}["pg_own_release"]
+        self.assertEqual(c.status, "warn")          # 본인 음반이 전체보다 이르면 계산 오류
 
     def test_pg_checks_pass_on_clean_db(self):
         checks = dc.pg_checks(self.fake_run(self.answers()), lab_signals=100, career_filtered={"mucon"})
@@ -287,6 +298,67 @@ class PgTest(unittest.TestCase):
             raise RuntimeError("connection refused")
         checks = dc.pg_checks(run, lab_signals=100, career_filtered=set())
         self.assertEqual([c.status for c in checks], ["skip"])
+
+
+class NewDataTest(unittest.TestCase):
+    """2026-11-28에 생긴 데이터: 공연장 좌표·체급, venues_kr 짝, 앱 보조 데이터, 알림, 팀 표 새 칸."""
+
+    def gigs(self):
+        return [sig("a", "공연", date="2026-11-01") | {"venue": "클럽A"}, sig("b", "공연", date="2026-11-01") | {"venue": "클럽A"},
+                sig("a", "공연", date="2026-11-02") | {"venue": "클럽B"}, sig("c", "공연", date="2026-11-03") | {"venue": "공연장 미정"},
+                sig("a", "큐레이션", "izm", "2026-11-04")]
+
+    def test_venue_coverage_counts_gig_nights(self):
+        prof = {"클럽A": {"lat": 37.5, "tier": "S"}, "클럽B": {"lat": 37.5, "tier": "M"}}
+        c = dc.check_venue_coverage(self.gigs(), prof)
+        self.assertEqual(c.status, "pass")
+        self.assertIn("2/2", c.value)                   # 공연 밤 2개(클럽A 11-01 한 번, 클럽B 11-02), '공연장 미정' 제외
+        c = dc.check_venue_coverage(self.gigs(), {"클럽A": {"lat": 37.5}})
+        self.assertEqual(c.status, "fail")              # 체급 0/2
+
+    def test_venue_master_unmatched(self):
+        match = lambda names: {n: 0 for n in names if n == "클럽A"}
+        c = dc.check_venue_master(self.gigs(), match)
+        self.assertEqual(c.status, "warn")              # 클럽B 1밤 / 2밤 = 50%
+        self.assertIn("클럽B", c.value)
+        self.assertEqual(dc.check_venue_master(self.gigs(), lambda names: {n: 0 for n in names}).status, "pass")
+
+    def test_extras_all_present(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            lab = Path(tmp)
+            for name in dc.EXTRAS:
+                (lab / name).write_text("x\n1\n", encoding="utf-8")
+            meta = {"extras": [n.split(".")[0] for n in dc.EXTRAS], "extras_rows": {n: 1 for n in dc.EXTRAS}}
+            self.assertEqual(dc.check_extras(meta, lab).status, "pass")
+            (lab / dc.EXTRAS[0]).unlink()
+            c = dc.check_extras(meta, lab)
+            self.assertEqual(c.status, "fail")
+            self.assertIn(dc.EXTRAS[0], c.value)
+            self.assertEqual(dc.check_extras({}, lab).status, "fail")
+
+    def test_alerts_future_and_duplicates(self):
+        doc = {"as_of": TODAY, "alerts": [
+            {"type": "new_gig", "team_key": "a", "date": "2026-12-01"},
+            {"type": "big_venue_first", "team_key": "a", "date": "2026-12-01"},
+            {"type": "new_outcome", "team_key": "b", "date": "2026-11-01"}]}
+        self.assertEqual(dc.check_alerts(doc).status, "pass")   # 공연 기반 알림은 미래 날짜가 정상
+        doc["alerts"].append({"type": "new_outcome", "team_key": "c", "date": "2027-01-01"})
+        doc["alerts"].append({"type": "new_gig", "team_key": "a", "date": "2026-12-01"})
+        c = dc.check_alerts(doc)
+        self.assertEqual(c.status, "warn")
+        self.assertIn("new_outcome", c.value)
+        self.assertIn("중복 1", c.value)
+        self.assertEqual(dc.check_alerts({}).status, "skip")
+
+    def test_team_labels_distribution(self):
+        teams = [{"newcomer_check": "verified", "genre_confidence": "profile"},
+                 {"newcomer_check": "first_seen", "genre_confidence": ""}]
+        c = dc.check_team_labels(teams)
+        self.assertEqual(c.status, "pass")
+        self.assertIn("verified 1", c.value)
+        c = dc.check_team_labels(teams + [{"newcomer_check": "maybe", "genre_confidence": "guess"}])
+        self.assertEqual(c.status, "warn")
+        self.assertIn("maybe", c.value)
 
 
 class ReportTest(unittest.TestCase):
@@ -329,14 +401,20 @@ class RunAllTest(unittest.TestCase):
             (lab / "signals.csv").write_text("team_key,branch,source,program,stage_rank,signal_date,venue,role\n"
                                              "a,공연,indistreet,,,2026-11-26,클럽,discovery\n", encoding="utf-8")
             (lab / "teams.csv").write_text("team_key,display_name,first_seen,first_release,fan_count,album_count,"
-                                           "profile_status,primary_genre,agency\na,에이,,2024-01-01,,,newcomer,밴드,\n",
+                                           "profile_status,primary_genre,agency,newcomer_check,genre_confidence\n"
+                                           "a,에이,,2024-01-01,,,newcomer,밴드,,verified,profile\n",
                                            encoding="utf-8")
+            for name in dc.EXTRAS:      # 앱 보조 데이터 8개
+                (lab / name).write_text("{}" if name.endswith(".json") else "team_key\na\n", encoding="utf-8")
+            (lab / "venue_profiles.json").write_text(json.dumps({"venues": {"클럽": {"lat": 37.5, "tier": "S"}}}),
+                                                     encoding="utf-8")
             (lab / "outcomes.csv").write_text("team_key,program,announced_date,counted,same_house_sources,same_house_scored\n",
                                               encoding="utf-8")
             for name in ("links", "images", "videos", "collabs", "programs"):
                 (lab / f"{name}.csv").write_text("team_key,platform,url,source\n", encoding="utf-8")
             (lab / "meta.json").write_text(json.dumps({"generated_at": "2026-11-27T21:40:00+09:00", "data_end": TODAY,
-                                                       "rows": {"signals": 1, "teams": 1}, "prev_rows": {}}), encoding="utf-8")
+                                                       "rows": {"signals": 1, "teams": 1}, "prev_rows": {},
+                                                       "extras": [n.split(".")[0] for n in dc.EXTRAS]}), encoding="utf-8")
             (lab / "snapshots" / "index.json").write_text(json.dumps({"dates": [TODAY]}), encoding="utf-8")
             (lab / "snapshots" / f"{TODAY}.csv").write_text("team_key,score,rank\na,1,1\n", encoding="utf-8")
             (d / "docs" / "data" / "collect.json").write_text(json.dumps({"runs": [

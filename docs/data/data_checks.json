@@ -1,7 +1,7 @@
 {
  "today": "2026-11-28",
- "generated": "2026-11-28T02:19+09:00",
- "summary": "통과 18 · 경고 3 · 실패 0",
+ "generated": "2026-11-28T02:29+09:00",
+ "summary": "통과 22 · 경고 5 · 실패 0",
  "checks": [
   {
    "key": "meta_fresh",
@@ -299,6 +299,51 @@
    "details": []
   },
   {
+   "key": "extras",
+   "name": "앱 보조 데이터 8개",
+   "rule": "meta.json extras 목록에 다 있고, 파일이 있고 비어 있지 않아야 함 — 하나라도 빠지면 실패",
+   "value": "모두 있음 (갱신 2026-11-28 02:19)",
+   "status": "pass",
+   "fix": "daily_run.sh의 앱 보조 데이터 묶음(build_app_extras.sh)이 실패했는지 records/daily_run.log 확인 후 다시 돌린다",
+   "details": []
+  },
+  {
+   "key": "team_labels",
+   "name": "팀 표 신인 확인·장르 확신도 분포",
+   "rule": "newcomer_check·genre_confidence 칸에 정해진 값만 — 모르는 값이 있으면 경고 (분포는 참고)",
+   "value": "newcomer_check: first_seen 7,833 · unverified 1,906 · verified 758 / genre_confidence: (빈칸) 5,188 · inferred 2,797 · press 979 · inferred_low 898 · profile 635",
+   "status": "pass",
+   "fix": "export_lab_data.py의 newcomer_check·genre_confidence 값 목록과 data_checks.py NEWCOMER_CHECKS·GENRE_CONFIDENCES를 맞춘다",
+   "details": []
+  },
+  {
+   "key": "alerts",
+   "name": "알림 날짜·중복",
+   "rule": "공연·선정 기반 알림 말고는 미래 날짜면 경고, 어떤 알림도 365일 넘게 뒤면 경고, 같은 종류·팀·날짜가 두 번이면 경고",
+   "value": "알림 405건 · 이상한 미래 날짜 0건 · 중복 3건 — 중복: new_gig 김산돌 2026-11-29, new_gig 모허 2026-11-29, new_gig 쓰다 2026-11-29",
+   "status": "warn",
+   "fix": "미래 날짜는 build_alerts.py의 날짜 고르기, 중복은 공연장 표기 차이('대구 제임스레코드'/'제임스레코드' 등)를 config/venue_aliases.json에 묶는다",
+   "details": []
+  },
+  {
+   "key": "venue_coverage",
+   "name": "공연장 좌표·체급 보유율 (공연 밤 기준)",
+   "rule": "좌표 85% 밑 경고·60% 밑 실패, 체급 70% 밑 경고·40% 밑 실패 ('공연장 미정' 제외)",
+   "value": "좌표 4,855/5,212 (93.2%) · 체급 4,089/5,212 (78.5%) — 체급 빠진 곳(밤 많은 순): 우무지 83, 모래내 극락 64, Cafe PPnF 57, KT&G 상상마당 춘천 49, 클럽샤프 47, 벨르 42, 공상온도 36, 인피니티클럽 35 외 213",
+   "status": "pass",
+   "fix": "공연 많은 공연장부터 config/venue_capacity.json(체급)·좌표 캐시를 채운다 — 아래 값의 '빠진 곳'부터",
+   "details": []
+  },
+  {
+   "key": "venue_master",
+   "name": "공연장 목록(venues_kr) 짝 못 찾은 곳",
+   "rule": "짝 없는 공연장의 공연 밤이 10% 넘으면 경고 ('공연장 미정' 제외)",
+   "value": "48곳 · 공연 밤 97/5,212 (1.9%) — 축제 (을지로) 10, @unbornsounds 5, @yngandrichrecords 5, 더뮤지션 5, @daeguhiphopfestival 3, @daytona.ent 3, @galactique_seoul 3, @gestalt_club__ 3 외 40",
+   "status": "pass",
+   "fix": "config/venues_kr.json에 공연장(aliases 포함)을 추가하거나, 인스타 계정명(@…)이면 공연장 연결표에 대표 이름으로 묶는다",
+   "details": []
+  },
+  {
    "key": "pg_sync",
    "name": "DB 신호 수 = 랩 신호 수",
    "rule": "차이가 1% 넘으면 경고",
@@ -332,6 +377,15 @@
    "value": "같음 (burock_main, hello_rookie, kma_genre, mucon)",
    "status": "pass",
    "fix": "load_pg.py를 다시 돌려 ref 표를 코드 값으로 맞춘다",
+   "details": []
+  },
+  {
+   "key": "pg_own_release",
+   "name": "멜론 본인 음반 첫 발매(first_release_own)",
+   "rule": "최신 멜론 프로필 중 보유율 50% 밑이면 경고, 본인 음반이 전체보다 이르면(계산 오류) 경고",
+   "value": "본인 음반 첫 발매 65/796 (8.2%) · 전체 첫 발매 787 · 본인 음반이 3년 넘게 늦은 프로필 11개 · 본인이 더 이른 오류 0개",
+   "status": "warn",
+   "fix": "collect_artists.py --refresh가 7일마다 다시 받아 채움 — '늦은 프로필'은 참여·소속 음반 때문에 첫 발매가 앞당겨졌던 팀(뷰가 본인 음반 기준으로 바로잡음)",
    "details": []
   }
  ]
