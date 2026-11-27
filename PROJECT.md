@@ -5,8 +5,12 @@
 > 대화 흐름 전체는 [HISTORY.md](HISTORY.md). 이 문서는 Claude Code 세션(2026-11-23 ~ 11-26)에서 정리한 방향, 결정 사항, 조사 결과, 할 일을 모은 것입니다.
 > 대화 원문은 포함되지 않았습니다. 2026-11-26 기준.
 
-## 0. 재개 지점 (중단되면 여기부터) — 마지막 갱신 2026-11-26 23시
+## 0. 재개 지점 (중단되면 여기부터) — 마지막 갱신 2026-11-27 오전
 사용량 한도·인터넷 끊김으로 멈추면 다음 세션은 이 칸부터 본다. 수집기는 `data/raw/state/*.json`에 '이미 받은 것'을 기록하므로 같은 명령을 다시 돌리면 이어서 받는다.
+
+**2026-11-27 병렬 작업 분담** (같은 폴더를 두 에이전트가 씀)
+- 안티그래비티(Orca 작업자): 대시보드 샘플 조사 → 재설계·구현. 담당 파일만: `docs/dashboard.html`, `scripts/build_dashboard_data.py`, `tests/test_build_dashboard_data.py`, `docs/research_2026-11-27_dashboard_samples.md`. 커밋은 Claude가 검토 후.
+- Claude: 수집(인스타 general·snowball·공연장 → `data/raw/review/instagram_*.json`, 결과 파일의 `"final": false`면 이어서), overtone 웹진, 멜론 481팀, 후보 합치기·커밋.
 
 **진행 중이던 것**
 - [ ] (2026-11-27 시작) **전 장르 확장** — 사용자: "모든 장르에서 구현", "인스타 매거진 500개 이상 리스트업"
