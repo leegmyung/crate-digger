@@ -330,9 +330,14 @@ def main(argv):
     ap = argparse.ArgumentParser(description="스포티파이 발매 이력 수집 (첫 발매일·발매 수)")
     ap.add_argument("--limit", type=int, default=None, help="이번에 새로 검색할 이름 수 상한")
     args = ap.parse_args(argv)
+    import spotify_budget as sb                  # 하루 요청 예산 공유·429 뒤 그날 쉬기 (세 스포티파이 단계 공통)
+    skip = sb.skip_message()
+    if skip:
+        print(skip)
+        return 0
     env = load_env(ENV_FILE)
     try:
-        client = SpotifyClient(env.get("SPOTIFY_CLIENT_ID"), env.get("SPOTIFY_CLIENT_SECRET"))
+        client = SpotifyClient(env.get("SPOTIFY_CLIENT_ID"), env.get("SPOTIFY_CLIENT_SECRET"), http=sb.BudgetedHttp(urllib_http))
         now = datetime.now(KST).replace(microsecond=0)
         res = run(client, input_names(RAW_DIR), RAW_DIR, f"{now:%Y-%m-%d}", now.isoformat(), limit=args.limit)
     except (SpotifyError, OSError) as e:

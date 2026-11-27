@@ -334,8 +334,13 @@ def main(argv):
     ap.add_argument("--max-requests", type=int, default=MAX_REQUESTS, help="이번 실행 요청 수 상한")
     ap.add_argument("--partner-cap", type=int, default=PARTNER_CAP, help="이번 실행에서 프로필 받을 상대 수 상한")
     args = ap.parse_args(argv)
+    import spotify_budget as sb                  # 하루 요청 예산 공유·429 뒤 그날 쉬기
+    skip = sb.skip_message()
+    if skip:
+        print(skip)
+        return 0
     env = cs.load_env(cs.ENV_FILE)
-    counter = CountingHttp(cs.urllib_http, args.max_requests)
+    counter = CountingHttp(sb.BudgetedHttp(cs.urllib_http), args.max_requests)
     try:
         client = cs.SpotifyClient(env.get("SPOTIFY_CLIENT_ID"), env.get("SPOTIFY_CLIENT_SECRET"), http=counter)
         now = datetime.now(cs.KST).replace(microsecond=0)

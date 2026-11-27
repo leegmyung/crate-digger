@@ -66,7 +66,12 @@ def main() -> int:
     if not env.get("SPOTIFY_CLIENT_ID") or not env.get("SPOTIFY_CLIENT_SECRET"):
         print("❌ SPOTIFY_CLIENT_ID / SPOTIFY_CLIENT_SECRET 가 없어요 (.env)", file=sys.stderr)
         return 1
-    client = cs.SpotifyClient(env["SPOTIFY_CLIENT_ID"], env["SPOTIFY_CLIENT_SECRET"])
+    import spotify_budget as sb                  # 하루 요청 예산 공유·429 뒤 그날 쉬기
+    skip = sb.skip_message()
+    if skip:
+        print(skip)
+        return 0
+    client = cs.SpotifyClient(env["SPOTIFY_CLIENT_ID"], env["SPOTIFY_CLIENT_SECRET"], http=sb.BudgetedHttp(cs.urllib_http))
     try:
         cache = fetch_images(todo, client.get, cache)
     except (cs.RateLimited, cs.SpotifyError) as e:

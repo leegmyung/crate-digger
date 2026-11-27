@@ -34,6 +34,8 @@ MAX_NEW_POSTS = 6
 MAX_POST_AGE_DAYS = 14
 SEEN_KEEP = 100
 MAX_ACCOUNTS_PER_RUN = 260   # 한 번에 볼 계정 상한 (계정당 10~20초 → 1시간 안팎, 인스타 차단 위험 관리)
+ZERO_STREAK_STEP = 3        # 이만큼 연속으로 0행(팀을 하나도 못 찾음)이면 주기를 2배로 (6회면 4배 …)
+MAX_EVERY_DAYS = 28         # 늘어나는 주기의 상한
 CHECKPOINT_EVERY = 20       # 이만큼 계정을 볼 때마다 행·상태 저장 (2026-11-26 수집이 도중에 멈춰 그날 본 계정이 모두 사라진 일 대비)
 ACCOUNT_PAUSE_SEC = 0   # 일부러 쉬지 않음 (사용자 지시). 로그인 요구 화면으로 막히면 다시 늘린다
 
@@ -122,13 +124,27 @@ def collectable_accounts(accounts):
     return [a for a in accounts if a.get("role") != "artist"]
 
 
-def due_accounts(accounts, last_checked, today, limit=None):
-    """볼 때가 된 계정. limit이 있으면 가장 오래 밀린 계정부터 limit개 (처음 보는 계정이 맨 앞)."""
+def effective_every(account, zero_streak=0):
+    """실제 확인 주기: 설정 주기 × 2^(연속 0행 ÷ ZERO_STREAK_STEP), 상한 MAX_EVERY_DAYS.
+    라인업이 이미지로만 올라오거나 태그가 없는 계정을 매번 보지 않게 (행이 나오면 바로 원래 주기로)."""
+    every = max(1, int(account.get("every_days", 1)))
+    return min(MAX_EVERY_DAYS, every * 2 ** (int(zero_streak or 0) // ZERO_STREAK_STEP))
+
+
+def update_streak(streaks, handle, n_rows):
+    """읽기에 성공한 계정의 연속 0행 횟수 갱신 (새 dict)."""
+    return {**streaks, handle: 0 if n_rows else int(streaks.get(handle, 0)) + 1}
+
+
+def due_accounts(accounts, last_checked, today, limit=None, zero_streak=None):
+    """볼 때가 된 계정. limit이 있으면 가장 오래 밀린 계정부터 limit개 (처음 보는 계정이 맨 앞).
+    zero_streak 이 있으면 연속 0행 계정은 늘어난 주기(effective_every)로 본다."""
     t = date.fromisoformat(today)
+    streaks = zero_streak or {}
 
     def overdue(a):
         last = last_checked.get(a["handle"])
-        every = int(a.get("every_days", 1))
+        every = effective_every(a, streaks.get(a["handle"], 0))
         return 10 ** 6 if not last else (t - date.fromisoformat(last)).days - every
 
     due = [a for a in accounts if overdue(a) >= 0]
@@ -210,10 +226,11 @@ def collect(check_all=False):
     oldest = (now - timedelta(days=MAX_POST_AGE_DAYS)).date().isoformat()
     accounts = collectable_accounts(_load_json(CONFIG, {}).get("accounts", []))
     state = _load_json(STATE, {"last_checked": {}, "seen": {}})
+    state.setdefault("zero_streak", {})          # 계정별 연속 0행 횟수 (늘어난 주기 계산용)
     if not check_all:
         state["last_checked"] = stagger(accounts, state["last_checked"], today)
     targets = accounts if check_all else due_accounts(accounts, state["last_checked"], today,
-                                                      limit=MAX_ACCOUNTS_PER_RUN)
+                                                      limit=MAX_ACCOUNTS_PER_RUN, zero_streak=state["zero_streak"])
     pending, review, report = [], [], []
     written = {"path": None, "rows": 0}
     written_keys: set = set()
@@ -249,6 +266,7 @@ def collect(check_all=False):
             review.extend(unparsed)
             state["seen"][handle] = (seen + ids)[-SEEN_KEEP:]
             state["last_checked"][handle] = today
+            state["zero_streak"] = update_streak(state["zero_streak"], handle, len(got))
             report.append(f"✅ @{handle}: 새 게시물 {len(ids)}개 → {len(got)}행" + (f", 검수 대기 {len(unparsed)}" if unparsed else ""))
             if n % CHECKPOINT_EVERY == 0:
                 flush()

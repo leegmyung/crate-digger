@@ -176,3 +176,33 @@ class CollabDuplicateTest(unittest.TestCase):
         first = ci.dedupe_rows([a, b, c], written)
         self.assertEqual([r["outlet"] + r["artist_text"] for r in first], ["@acc1@team", "@acc2@other"])
         self.assertEqual(ci.dedupe_rows([dict(b)], written), [])          # 다음 중간 저장에서도 다시 안 씀
+
+
+class BackoffTest(unittest.TestCase):
+    """공연장 주기 4일, 그리고 연속 0행 계정은 주기를 늘린다 (2026-11-28 운영 개선)."""
+
+    def test_venue_accounts_every_4_days_in_config(self):
+        import json as _json
+        accounts = _json.loads(ci.CONFIG.read_text(encoding="utf-8"))["accounts"]
+        venues = [a for a in accounts if a.get("tier") == "venue"]
+        self.assertTrue(venues)
+        self.assertTrue(all(int(a.get("every_days", 1)) >= 4 for a in venues))
+
+    def test_effective_every_grows_with_zero_streak(self):
+        a = {"handle": "v", "every_days": 4}
+        self.assertEqual(ci.effective_every(a, 0), 4)
+        self.assertEqual(ci.effective_every(a, ci.ZERO_STREAK_STEP - 1), 4)
+        self.assertEqual(ci.effective_every(a, ci.ZERO_STREAK_STEP), 8)        # 3회 연속 0행 → 2배
+        self.assertEqual(ci.effective_every(a, ci.ZERO_STREAK_STEP * 2), 16)
+        self.assertEqual(ci.effective_every(a, 99), ci.MAX_EVERY_DAYS)          # 상한
+
+    def test_due_accounts_uses_zero_streak(self):
+        accounts = [{"handle": "busy", "every_days": 4}, {"handle": "quiet", "every_days": 4}]
+        last = {"busy": "2026-11-20", "quiet": "2026-11-20"}
+        streak = {"quiet": ci.ZERO_STREAK_STEP}
+        got = ci.due_accounts(accounts, last, "2026-11-25", zero_streak=streak)
+        self.assertEqual([a["handle"] for a in got], ["busy"])                 # quiet 은 8일 주기라 아직
+
+    def test_update_streak(self):
+        self.assertEqual(ci.update_streak({"a": 2}, "a", 0), {"a": 3})
+        self.assertEqual(ci.update_streak({"a": 2}, "a", 5), {"a": 0})
