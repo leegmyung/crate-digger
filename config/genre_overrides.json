@@ -1,0 +1,28 @@
+{
+  "_설명": "사람이 공개 웹으로 확인한 팀 장르 (2026-11-27 시작, 근거: docs/top_candidates_review.md). scripts/export_lab_data.py 가 팀 표의 primary_genre 를 자동 추정(멜론·발매 장르 태그) 대신 이 갈래로 쓴다. 키 = docs/lab/data/teams.csv 의 team_key, genre = config/genre_map.json 의 갈래 키(hiphop·rnb·electronic·jazz·folk·metal·rock·pop·other). 항목마다 genre, reason(이유), evidence(근거 링크 1개 이상), checked(확인 날짜)가 모두 있어야 하고 없으면 내보내기가 멈춘다. 확신이 낮은 팀(예: 같은 팀인지 미확인)은 넣지 않는다.",
+  "teams": {
+    "하즈": {"genre": "metal", "reason": "대구 인디 메탈 밴드 HASE", "evidence": ["https://www.qobuz.com/us-en/interpreter/hase/1309575"], "checked": "2026-11-27"},
+    "에이틴에이프릴": {"genre": "metal", "reason": "메탈 밴드 Eighteen April(1804)", "evidence": ["https://kprofiles.com/?p=339753"], "checked": "2026-11-27"},
+    "신스네이크": {"genre": "metal", "reason": "메탈코어·일렉트로닉코어 밴드 Synsnake", "evidence": ["https://namu.moe/w/Synsnake"], "checked": "2026-11-27"},
+    "바림": {"genre": "metal", "reason": "둠·스토너 메탈 밴드 VARIM", "evidence": ["https://www.koreatimes.co.kr/southkorea/globalcommunity/20230815/metal-band-varim-brings-doom-to-koreas-scene"], "checked": "2026-11-27"},
+    "티어드랍": {"genre": "metal", "reason": "뉴메탈 밴드 티어드랍 (리뷰된 'Beastology'도 뉴메탈 계열)", "evidence": ["https://www.discomfort-wings.com/2019/11/10/it-s-time-to-make-your-plan-z-티어드랍/"], "checked": "2026-11-27"},
+    "클라프": {"genre": "rock", "reason": "부산 록·메탈 밴드 — 스스로 '기본적으로 Rock을 추구'", "evidence": ["https://maily.so/bullgamasound/posts/n3jrk8e6r51"], "checked": "2026-11-27"},
+    "칩포스트갱": {"genre": "rock", "reason": "'caveman noise rock' 밴드", "evidence": ["https://debasermagazine.com/music/chip-post-gang-interview"], "checked": "2026-11-27"},
+    "폴리아모리": {"genre": "rock", "reason": "서울 인스트루멘털 포스트록 듀오", "evidence": ["https://popga.co.kr/popup/9951"], "checked": "2026-11-27"},
+    "모노폴리": {"genre": "rock", "reason": "MONO4OLY, 블루스·하드 록 4인조", "evidence": ["https://discomfort-wings.com/2024/12/11/mono4oly-ordinary-chaos-album-release"], "checked": "2026-11-27"},
+    "놀플라워": {"genre": "rock", "reason": "오리엔탈 얼터너티브 밴드", "evidence": ["https://kprofiles.com/?p=457317"], "checked": "2026-11-27"},
+    "세일러허니문": {"genre": "rock", "reason": "여성 3인조 펑크 록 밴드", "evidence": ["https://en.wikipedia.org/wiki/Sailor_Honeymoon"], "checked": "2026-11-27"},
+    "콘트라젤리": {"genre": "electronic", "reason": "신스 EP로 데뷔한 3인 프로젝트", "evidence": ["https://thekmeal.com/indie-pick-kontrajelly/"], "checked": "2026-11-27"},
+    "애니멀다이버스": {"genre": "electronic", "reason": "디저리두·핸드팬과 전자음을 섞는 일렉트로닉 월드 듀오", "evidence": ["https://thekmeal.com/b-and-9-the-striking-debut-of-a-unique-presence-electronic-duo-band-animal-divers/"], "checked": "2026-11-27"},
+    "shj": {"genre": "electronic", "reason": "SØHJ — 전 3호선 버터플라이 드러머 서현정의 일렉트로닉 프로젝트", "evidence": ["https://biz.heraldcorp.com/article/10783489"], "checked": "2026-11-27"},
+    "한이": {"genre": "folk", "reason": "제34회 유재하 음악경연대회 동상 — 싱어송라이터 경연", "evidence": ["https://cjnews.cj.net/%ec%a0%9c34%ed%9a%8c-cj%ec%99%80-%ed%95%a8%ea%bb%98%ed%95%98%eb%8a%94-%ec%9c%a0%ec%9e%ac%ed%95%98-%ec%9d%8c%ec%95%85%ea%b2%bd%ec%97%b0%eb%8c%80%ed%9a%8c-%ec%84%b1%eb%a3%8c/"], "checked": "2026-11-27"},
+    "일렁": {"genre": "folk", "reason": "제34회 유재하 음악경연대회 장려상 — 싱어송라이터 경연", "evidence": ["https://cjnews.cj.net/%ec%a0%9c34%ed%9a%8c-cj%ec%99%80-%ed%95%a8%ea%bb%98%ed%95%98%eb%8a%94-%ec%9c%a0%ec%9e%ac%ed%95%98-%ec%9d%8c%ec%95%85%ea%b2%bd%ec%97%b0%eb%8c%80%ed%9a%8c-%ec%84%b1%eb%a3%8c/"], "checked": "2026-11-27"},
+    "닥터코어911": {"genre": "metal", "reason": "헤비메탈·하드코어(랩코어) 밴드 Dr.Core 911", "evidence": ["https://www.sedaily.com/article/10152703"], "checked": "2026-11-27"},
+    "미역수염": {"genre": "metal", "reason": "블랙가즈(블랙메탈+슈게이즈) 밴드 Seaweed Mustache", "evidence": ["https://en.wikipedia.org/wiki/Seaweed_Mustache"], "checked": "2026-11-27"},
+    "플라잉독": {"genre": "rock", "reason": "하드 록 밴드 Flying Dog", "evidence": ["https://northsound.fm/artist/flying-dog-60008"], "checked": "2026-11-27"},
+    "d82": {"genre": "rock", "reason": "4인조 록 밴드 D82 (2021 결성, 첫 EP 2024-04-20)", "evidence": ["https://thewiki.kr/w/D82"], "checked": "2026-11-27"},
+    "루디스텔로": {"genre": "electronic", "reason": "일렉트로닉·스페이스 록 3인조 LudiSTELO", "evidence": ["https://weekly.khan.co.kr/article/201404141807101"], "checked": "2026-11-27"},
+    "성해빈": {"genre": "folk", "reason": "포크 싱어송라이터 (신곡 '밤기차'를 포크 곡으로 소개)", "evidence": ["https://www.dailian.co.kr/news/view/1311628/"], "checked": "2026-11-27"},
+    "세기말": {"genre": "rock", "reason": "SEKIMAL, 새 인디 록 밴드", "evidence": ["https://thekmeal.com/indie-pick-sekimal/"], "checked": "2026-11-27"}
+  }
+}

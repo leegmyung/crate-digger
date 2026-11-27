@@ -55,12 +55,13 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `team_key` | 팀 대표 키 (아티스트 연결표로 같은 팀의 여러 표기를 하나로) | — |
 | `display_name` | 화면에 보일 팀 이름 | — |
 | `first_seen` | 우리 데이터에 처음 나온 날 | — |
-| `first_release` | 프로필 첫 발매일 (없으면 빈 칸) | — |
+| `first_release` | 프로필 첫 발매일 (없으면 빈 칸). 사람이 확인한 데뷔일(config/debut_overrides.json)이 더 이르면 그 날짜 | — |
 | `fan_count` | 플랫폼 팬(좋아요) 수, 명 | — |
 | `album_count` | 플랫폼에 올라온 앨범 수(싱글 포함), 개 | — |
 | `profile_status` | 팀 상태 (newcomer 신인 / established 기성 / famous 유명 / unknown 프로필 없음) | — |
-| `primary_genre` | 대표 장르 | — |
+| `primary_genre` | 대표 장르 (사람이 확인한 장르 config/genre_overrides.json 이 있으면 그것) | — |
 | `agency` | 소속사 | — |
+| `newcomer_check` | 신인 판정 확인 상태 — verified 첫 발매일 있음(사람 확인 데뷔일 포함) / unverified 첫 발매일 없고 그 팀을 처음 본 출처의 수집 시작 90일 안에 처음 봄(그 전부터 활동했을 수 있어 신인인지 확실치 않음) / first_seen 첫 발매일 없고 그 뒤에 처음 봄. 표시용 — 점수·후보군엔 안 씀 | — |
 
 ### `outcomes`
 

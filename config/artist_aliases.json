@@ -229,6 +229,21 @@
         "https://www.koreatimes.co.kr/amp/southkorea/globalcommunity/20240914/bandits-rules-southeastern-koreas-underground-music-scene"
       ],
       "checked": "2026-11-27"
+    },
+    {
+      "team": "성현",
+      "platform": "melon",
+      "not": [
+        "4491308"
+      ],
+      "reason": "우리 '성현'은 인디 싱어송라이터(음악취향Y 리뷰 「상실의 결실」 2025-11, 해방촌·홍대 소공연장). 멜론 4491308 '성현'은 소속 빅히트엔터테인먼트·팬 3,071·첫 발매 2025-09-08로 빅히트 신인 5인조(마틴·제임스·주훈·성현·건호, 2025-08 데뷔) 멤버 — 이름 검색 동명이인 8명 중 잘못 고른 번호. 인디 성현의 맞는 멜론 번호는 아직 모름(id 비움)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=4491308",
+        "https://mobile.newsis.com/view/NISX20250714_0003250159",
+        "http://musicy.kr/?c=review&s=1&gbn=view&ix=9111",
+        "docs/top_candidates_review.md #36"
+      ],
+      "checked": "2026-11-27"
     }
   ],
   "non_artist_handles": [

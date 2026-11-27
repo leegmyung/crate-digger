@@ -1,10 +1,15 @@
 import { appState, navigateTo, setExportContext } from '../state.js';
-import { getTeamExternalLinks, loadDashboardJson, loadSceneMap, loadSourceRoles, queryTeamDetail } from '../db.js';
 import {
-  avatarHtml, avatarSourceOf, ensureD3, escapeHtml, fmtInt, fmtNum, formatNextGigText,
-  formatSignalDate, gradeBadgeHtml, isLoweredOutcomeResult, lookupSourceRoleMeta,
-  PROFILE_LABELS, renderActionBanner, renderCompactGradeSummary, renderScoreBar,
-  renderTableCsvBtn, roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml, spotifyUrlOf,
+  getTeamExternalLinks, loadDashboardJson, loadSceneMap, loadSourceRoles,
+  queryDiscoveryStages, queryTeamDetail,
+} from '../db.js';
+import {
+  avatarHtml, avatarSourceOf, dormantBadgeHtml, ensureD3, escapeHtml, fmtInt, fmtNum,
+  formatNextGigText, formatRecentActivityCell, formatSignalDate, gradeBadgeHtml,
+  isDormantTeam, isLoweredOutcomeResult, lookupSourceRoleMeta,
+  newcomerUnverifiedBadgeHtml, nextStageConditionText, PROFILE_LABELS,
+  renderActionBanner, renderCompactGradeSummary, renderScoreBar, renderTableCsvBtn,
+  roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml, spotifyUrlOf, stageBadgeHtml,
   summarizeWhyTeam, TERMS, triggerTableCsvExport, watchButtonHtml,
   wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
@@ -169,10 +174,12 @@ export async function renderTeamView(root, teamKey) {
     return;
   }
 
-  const [data, sceneMap, sourceRoles] = await Promise.all([
+  const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
+  const [data, sceneMap, sourceRoles, stageData] = await Promise.all([
     queryTeamDetail(teamKey),
     loadSceneMap(),
     loadSourceRoles(),
+    queryDiscoveryStages({ as_of: asOf }),
     loadDashboardJson().catch(() => null),
     ensureD3().catch(() => null),
   ]);
@@ -189,11 +196,16 @@ export async function renderTeamView(root, teamKey) {
     return;
   }
 
+  let stageInfo = stageData?.byTeam?.get(teamKey) || null;
+  if (!stageInfo) {
+    const wideStage = await queryDiscoveryStages({ as_of: asOf, newcomer_years: 50 }).catch(() => null);
+    stageInfo = wideStage?.byTeam?.get(teamKey) || null;
+  }
+
   const displayName = scored?.display_name || profile?.display_name || teamKey;
   const extLinks = getTeamExternalLinks(teamKey, displayName);
   const whyLines = summarizeWhyTeam(data);
   const snapNow = appState.snapshots.latest.get(teamKey);
-  const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
 
   // Concise 1-line identity subline (omit empty fields)
   const metaParts = [];
@@ -345,6 +357,27 @@ export async function renderTeamView(root, teamKey) {
         ${outcomes.length > 4 ? `<span class="small muted">외 ${fmtInt(outcomes.length - 4)}건</span>` : ''}
       </div>`
     : '';
+
+  const stageAct = stageInfo ? formatRecentActivityCell(stageInfo) : null;
+  const stageLineHtml = stageInfo
+    ? `<div class="team-stage-line" aria-label="발굴 단계 및 다음 단계 조건">
+        ${stageBadgeHtml(stageInfo.stage)}
+        <span class="team-stage-next">${escapeHtml(nextStageConditionText(stageInfo.stage))}</span>
+        ${stageInfo.momentum_pct !== null ? stageAct.html : ''}
+      </div>`
+    : '';
+
+  let isDormant = isDormantTeam(scored);
+  if (!scored && timeline.length > 0 && asOf) {
+    const asOfMs = Date.parse(`${asOf}T00:00:00Z`);
+    if (Number.isFinite(asOfMs)) {
+      const cut180 = new Date(asOfMs - 180 * 86400000).toISOString().slice(0, 10);
+      const cut365 = new Date(asOfMs - 365 * 86400000).toISOString().slice(0, 10);
+      const hasRec180 = timeline.some(s => s.signal_date && s.signal_date >= cut180 && s.signal_date <= asOf);
+      const hasGig1y = timeline.some(s => s.branch === '공연' && s.signal_date && s.signal_date >= cut365 && s.signal_date <= asOf);
+      isDormant = !hasRec180 && !hasGig1y;
+    }
+  }
 
   const monthlyBarsHtml = renderMonthlyBarsHtml(timeline, asOf);
   const hasNonDiscovery = mergedTimeline.some(m => !m.isOutcome && m.role !== 'discovery');
@@ -574,8 +607,13 @@ export async function renderTeamView(root, teamKey) {
           ${photoCreditHtml}
         </div>
         <div>
-          <h1 class="action-banner-title">${escapeHtml(displayName)}</h1>
+          <div class="team-title-row">
+            <h1 class="action-banner-title">${escapeHtml(displayName)}</h1>
+            ${dormantBadgeHtml(isDormant)}
+            ${newcomerUnverifiedBadgeHtml(teamKey, profile)}
+          </div>
           <p class="team-subline">${escapeHtml(metaParts.join(' · ') || '기록된 활동 ' + fmtInt(mergedTimeline.length) + '건')}</p>
+          ${stageLineHtml}
           ${sceneLineHtml}
           ${outcomesLineHtml}
           ${nextGigHtml}

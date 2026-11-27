@@ -53,9 +53,13 @@ COLUMN_DOC: Dict[str, str] = {
     "branch": "신호 갈래 (공연·큐레이션·선정·지원·발매)", "stage_rank": "선정 단계 점수 0~4 (응모 0 … 최종 4)",
     "signal_date": "신호 날짜 (일부만 아는 날짜는 기간의 마지막 날 — 시점 누수 방지)",
     "venue": "공연장 대표 이름 (공연장 표기 묶기 적용)", "role": "출처 역할 (discovery 발굴 / context 맥락 / pending 검증 대기 / excluded 제외)",
-    "first_seen": "우리 데이터에 처음 나온 날", "first_release": "프로필 첫 발매일 (없으면 빈 칸)",
+    "first_seen": "우리 데이터에 처음 나온 날",
+    "first_release": "프로필 첫 발매일 (없으면 빈 칸). 사람이 확인한 데뷔일(config/debut_overrides.json)이 더 이르면 그 날짜",
     "profile_status": "팀 상태 (newcomer 신인 / established 기성 / famous 유명 / unknown 프로필 없음)",
-    "primary_genre": "대표 장르", "program_label": "프로그램 한글 이름", "tier": "정답 단계 (final 최종 / mid 중간)",
+    "newcomer_check": "신인 판정 확인 상태 — verified 첫 발매일 있음(사람 확인 데뷔일 포함) / unverified 첫 발매일 없고 "
+                      "그 팀을 처음 본 출처의 수집 시작 90일 안에 처음 봄(그 전부터 활동했을 수 있어 신인인지 확실치 않음) / "
+                      "first_seen 첫 발매일 없고 그 뒤에 처음 봄. 표시용 — 점수·후보군엔 안 씀",
+    "primary_genre": "대표 장르 (사람이 확인한 장르 config/genre_overrides.json 이 있으면 그것)", "program_label": "프로그램 한글 이름", "tier": "정답 단계 (final 최종 / mid 중간)",
     "announced_date": "정답 발표일 (일부만 알면 기간의 첫날 — 보수적)", "counted": "센 정답인지 (기성 팀 연차 규칙 통과) true/false",
     "grade": "정답 등급 S·A·B", "weight": "정답 등급 가중치 (S=3·A=2·B=1)",
     "platform": "플랫폼 (spotify·melon·instagram·youtube 등)", "kind": "영상 종류 (stage 무대·official_live·official·search)",

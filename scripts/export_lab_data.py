@@ -23,6 +23,7 @@ from urllib.parse import urlparse
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_dashboard_data import PROGRAM_NAMES, _has_xref_table, _infer_genres, psql_csv  # noqa: E402
 from csv_schema import OUTCOME_TIER  # noqa: E402
+import genre as genre_mod  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "docs" / "lab" / "data"
@@ -33,7 +34,9 @@ IMAGE_CACHE = ROOT / "data" / "raw" / "state" / "artist_images.json"
 
 SIGNAL_FIELDS = ["team_key", "branch", "source", "program", "stage_rank", "signal_date", "venue", "role"]
 TEAM_FIELDS = ["team_key", "display_name", "first_seen", "first_release", "fan_count", "album_count",
-               "profile_status", "primary_genre", "agency"]
+               "profile_status", "primary_genre", "agency", "newcomer_check"]
+# 신인 판정 확인 상태 (2026-11-27 사용자 결정: 후보에서 빼지 않고 표시만, 점수·검증엔 안 씀)
+NEWCOMER_CHECK_DAYS = 90   # 출처 수집 시작 뒤 이 기간 안에 처음 본 팀은 그 전부터 활동했을 수 있다 (데이터 시작점에 잘림)
 LINK_FIELDS = ["team_key", "platform", "url"]
 IMAGE_FIELDS = ["team_key", "url", "source"]
 IMAGE_CACHE_HOSTS = ("i.scdn.co",)
@@ -65,6 +68,8 @@ OUTCOME_FIELDS = ["team_key", "program", "program_label", "tier", "result", "ann
                   "same_house_sources", "same_house_scored"]
 SCORED_ROLES = ("discovery", "context")   # 점수에 들어가는 출처 역할
 ROLES_FILE = ROOT / "config" / "source_roles.json"
+DEBUT_OVERRIDES_FILE = ROOT / "config" / "debut_overrides.json"   # 사람이 확인한 데뷔일 (근거 필수)
+GENRE_OVERRIDES_FILE = ROOT / "config" / "genre_overrides.json"   # 사람이 확인한 장르 갈래 (근거 필수)
 DEFAULT_GRADE = ("B", 1)
 GRADE_LADDER = [("S", 3), ("A", 2), ("B", 1)]   # 후보(nominee 등)는 한 칸 아래, B 아래는 없음
 STATUS_PRIORITY = "CASE st.status WHEN 'famous' THEN 4 WHEN 'established' THEN 3 WHEN 'newcomer' THEN 2 ELSE 1 END"
@@ -151,20 +156,100 @@ def _records(text: str) -> List[dict]:
     return list(csv.DictReader(io.StringIO(text)))
 
 
-def team_rows(rows: List[dict], roles: dict | None = None) -> List[dict]:
+def _is_iso_date(text) -> bool:
+    try:
+        return isinstance(text, str) and bool(re.fullmatch(r"\d{4}-\d{2}-\d{2}", text)) and bool(date.fromisoformat(text))
+    except ValueError:
+        return False
+
+
+def _check_override(e, kind: str, buckets: dict) -> List[str]:
+    """덮어쓰기 항목 하나의 문제 목록 (비면 통과). 모든 항목에 이유·근거 링크·확인 날짜 필수."""
+    if not isinstance(e, dict):
+        return ["항목이 객체가 아님"]
+    problems = [why for ok, why in (
+        (isinstance(e.get("reason"), str) and e["reason"].strip(), "reason(이유)이 비어 있음"),
+        (isinstance(e.get("evidence"), list) and any(isinstance(x, str) and x.strip() for x in e["evidence"]),
+         "evidence(근거 링크)가 비어 있음"),
+        (_is_iso_date(e.get("checked")), "checked(확인 날짜 YYYY-MM-DD)가 없음"),
+    ) if not ok]
+    if kind == "debut" and not _is_iso_date(e.get("debut")):
+        problems.append("debut(데뷔 날짜 YYYY-MM-DD)가 올바르지 않음")
+    if kind == "genre" and e.get("genre") not in buckets:
+        problems.append(f"genre는 장르 지도 갈래 키 중 하나 ({'/'.join(buckets)})")
+    return problems
+
+
+def load_team_overrides(path: Path, kind: str) -> Dict[str, dict]:
+    """사람이 확인한 팀별 덮어쓰기 (kind = 'debut' 데뷔일 / 'genre' 장르 갈래 키) → {팀 키: 항목}.
+    파일이 없으면 빈 dict, 항목이 잘못됐으면 어느 팀의 무엇이 문제인지 알려 주고 멈춘다(근거 없는 덮어쓰기 금지)."""
+    try:
+        data = json.loads(Path(path).read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return {}
+    teams = data.get("teams") if isinstance(data, dict) else None
+    if not isinstance(teams, dict):
+        raise ValueError(f"{path}: 'teams' 객체가 없음")
+    buckets = genre_mod.load_config()["buckets"]
+    problems = [f"{k}: {why}" for k, e in teams.items() for why in _check_override(e, kind, buckets)]
+    if problems:
+        raise ValueError(f"{path} 항목 오류 — " + " · ".join(problems))
+    return teams
+
+
+def team_rows(rows: List[dict], roles: dict | None = None, debut_overrides: Dict[str, dict] | None = None,
+              genre_overrides: Dict[str, dict] | None = None) -> List[dict]:
     """도우미 열(raw_genres 등)로 대표 장르를 정하고, 프로필 없는 팀은 unknown으로.
-    candidate_rules.excluded_teams(팀이 아닌 이름·사람이 확인한 기성 팀)는 팀 표에서 빼서 후보군·백테스트에 안 들어가게 한다."""
+    candidate_rules.excluded_teams(팀이 아닌 이름·사람이 확인한 기성 팀)는 팀 표에서 빼서 후보군·백테스트에 안 들어가게 한다.
+    debut_overrides(사람이 확인한 데뷔일)는 프로필 첫 발매일과 비교해 이른 쪽을 first_release로 — 데뷔는 과거 사실이라
+    과거 기준일 검증에 써도 미래 정보가 새지 않는다. genre_overrides(사람이 확인한 갈래 키)는 자동 추정보다 먼저 쓴다."""
     excluded = ((roles or {}).get("candidate_rules") or {}).get("excluded_teams") or {}
+    debut_overrides, genre_overrides = debut_overrides or {}, genre_overrides or {}
+    labels = {k: b["label"] for k, b in genre_mod.load_config()["buckets"].items()}
     out = []
     for r in rows:
-        if r.get("team_key") in excluded:
+        key = r.get("team_key")
+        if key in excluded:
             continue
         genres = _infer_genres(r.get("raw_genres"), r.get("press_sources"), r.get("sel_programs"))
         row = {k: r.get(k) or "" for k in TEAM_FIELDS}
         row["profile_status"] = row["profile_status"] or "unknown"
         row["primary_genre"] = genres[0] if genres else ""
+        if key in debut_overrides:
+            row["first_release"] = min(d for d in (row["first_release"], debut_overrides[key]["debut"]) if d)
+        if key in genre_overrides:
+            row["primary_genre"] = labels[genre_overrides[key]["genre"]]
         out.append(row)
     return out
+
+
+def with_newcomer_check(teams: List[dict], signals: List[dict], window_days: int = NEWCOMER_CHECK_DAYS) -> List[dict]:
+    """팀마다 newcomer_check 를 붙인 새 목록 (입력은 바꾸지 않음):
+    verified = 첫 발매일 있음(사람이 확인한 데뷔일 포함) · unverified = 첫 발매일 없고, 그 팀을 처음 본 출처의 수집 시작일
+    (signals 에서 출처별 가장 이른 날) + window_days 안에 처음 봄 — 우리가 모으기 전부터 활동했을 수 있어 신인인지 확실치 않음 ·
+    first_seen = 첫 발매일 없고 그 뒤에 처음 봄 (우리 데이터 첫 등장으로 신인 판정)."""
+    start: Dict[str, str] = {}
+    first: Dict[str, tuple] = {}            # 팀 → (첫 날짜, 그날 본 출처들)
+    for r in signals:
+        d, src, key = r.get("signal_date") or "", r.get("source") or "", r.get("team_key") or ""
+        if not (d and src and key):
+            continue
+        if d < start.get(src, "9999"):
+            start[src] = d
+        day, srcs = first.get(key, ("9999", set()))
+        if d < day:
+            first[key] = (d, {src})
+        elif d == day:
+            first[key] = (day, srcs | {src})
+
+    def check(t: dict) -> str:
+        if t.get("first_release"):
+            return "verified"
+        day, srcs = first.get(t.get("team_key"), ("", set()))
+        early = any((date.fromisoformat(day[:10]) - date.fromisoformat(start[s][:10])).days <= window_days for s in srcs)
+        return "unverified" if day and early else "first_seen"
+
+    return [{**t, "newcomer_check": check(t)} for t in teams]
 
 
 def load_roles(path: Path = ROLES_FILE) -> dict:
@@ -463,7 +548,10 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
     q = queries(use_xref)
     roles = load_roles()
     signals = [{**r, "role": signal_role(r, roles)} for r in _records(run(q["signals"]))]
-    teams = team_rows(_records(run(q["teams"])), roles)
+    teams = team_rows(_records(run(q["teams"])), roles,
+                      debut_overrides=load_team_overrides(DEBUT_OVERRIDES_FILE, "debut"),
+                      genre_overrides=load_team_overrides(GENRE_OVERRIDES_FILE, "genre"))
+    teams = with_newcomer_check(teams, signals)
     outcomes = same_house_flags(outcome_rows(_records(run(q["outcomes"])), roles), signals, roles)
     programs = program_rows(signals, outcomes)
     links = link_rows(_records(run(q["links"])) + (extra_refs() if extra_refs else []))

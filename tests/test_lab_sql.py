@@ -62,6 +62,8 @@ def fixture_db():
     con.execute("ALTER TABLE outcomes ADD COLUMN same_house_sources VARCHAR DEFAULT ''")
     con.execute("ALTER TABLE outcomes ADD COLUMN same_house_scored BOOLEAN DEFAULT false")
     con.execute(COLLABS_DDL)      # 협업 데이터가 없을 때와 같은 빈 표 (lab_sql.connect·앱과 같은 정의)
+    con.execute("ALTER TABLE teams ADD COLUMN newcomer_check VARCHAR DEFAULT 'first_seen'")   # 신인 판정 확인 상태
+    con.execute("UPDATE teams SET newcomer_check = CASE team_key WHEN 'b' THEN 'unverified' ELSE 'first_seen' END")
     con.execute((SQL_DIR / "features.sql").read_text(encoding="utf-8"))
     con.execute("CREATE OR REPLACE MACRO fame_known_from() AS DATE '2000-01-01'")   # 가짜 데이터: 유명 판정을 모든 기준일에 씀
     return con
@@ -130,7 +132,7 @@ class LabSqlTest(unittest.TestCase):
         self.con.execute("""INSERT INTO signals VALUES ('f','공연','x','',NULL,'2024-12-15','클럽3','discovery'),
                                                        ('h','공연','x','',NULL,'2024-12-15','클럽3','discovery'),
                                                        ('h','공연','x','',NULL,'2024-11-01','클럽2','discovery')""")
-        self.con.execute("INSERT INTO teams VALUES ('h','에이치','2024-11-01',NULL,NULL,NULL,'unknown','')")
+        self.con.execute("INSERT INTO teams VALUES ('h','에이치','2024-11-01',NULL,NULL,NULL,'unknown','','first_seen')")
         h = self.scored()["h"]
         self.assertEqual((h["peer_winner"], h["venues"], h["recent180"]), (1, 2, 2))
         self.assertEqual(self.scored()["a"]["recent180"], 0)   # a의 마지막 신호 2024-07-01은 180일 밖
@@ -191,6 +193,17 @@ class LabSqlTest(unittest.TestCase):
         out = rows(self.con, "candidates.sql", as_of="'2025-01-01'", limit="50")
         self.assertEqual(out[0]["team_key"], "a")
         self.assertNotIn("f", [r["team_key"] for r in out])
+
+    def test_candidates_carry_newcomer_check_without_changing_scores(self):
+        out = {r["team_key"]: r for r in rows(self.con, "candidates.sql", as_of="'2025-01-01'", limit="50",
+                                               only_no_outcome="false")}
+        self.assertEqual(out["b"]["newcomer_check"], "unverified")
+        self.assertEqual(out["a"]["newcomer_check"], "first_seen")
+        before = {k: r["score"] for k, r in out.items()}
+        self.con.execute("UPDATE teams SET newcomer_check = 'verified'")   # 표시만 바뀌고 점수·후보군은 그대로
+        after = {r["team_key"]: r["score"] for r in rows(self.con, "candidates.sql", as_of="'2025-01-01'",
+                                                          limit="50", only_no_outcome="false")}
+        self.assertEqual(before, after)
 
     def test_signal_hits_has_baseline_and_wilson_bounds(self):
         out = rows(self.con, "signal_hits.sql", cutoff="'2025-01-01'")

@@ -39,6 +39,7 @@ const sceneNetCache = new Map();         // sql -> result
 const backtestCache = new Map();         // sqlKey -> blocks
 const signalHitsCache = new Map();       // sql -> { cutoff, rows }
 const scorecardCache = new Map();        // sql -> result
+const discoveryStageCache = new Map();   // sql -> { rows, byTeam }
 const sqlTemplatePromises = new Map();   // name -> Promise<string>
 
 function lruGet(map, key) {
@@ -69,6 +70,7 @@ function clearQueryCaches() {
   backtestCache.clear();
   signalHitsCache.clear();
   scorecardCache.clear();
+  discoveryStageCache.clear();
 }
 
 function localTodayIso() {
@@ -482,6 +484,7 @@ function parseTeamsCsvIndex(text) {
   const rows = parseCsvObjects(text);
   const genreCounts = new Map();
   const teamIndex = [];
+  const newcomerCheckByTeam = new Map();
   for (const r of rows) {
     const team_key = r.team_key || '';
     if (!team_key) continue;
@@ -491,12 +494,16 @@ function parseTeamsCsvIndex(text) {
     if (primary_genre) {
       genreCounts.set(primary_genre, (genreCounts.get(primary_genre) || 0) + 1);
     }
+    if (Object.prototype.hasOwnProperty.call(r, 'newcomer_check')) {
+      const nc = String(r.newcomer_check || '').trim().toLowerCase();
+      if (nc) newcomerCheckByTeam.set(team_key, nc);
+    }
   }
   teamIndex.sort((a, b) => (a.display_name < b.display_name ? -1 : a.display_name > b.display_name ? 1 : 0));
   const validGenres = [...genreCounts.entries()]
     .sort((a, b) => (b[1] - a[1]) || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
     .map(e => e[0]);
-  return { teamIndex, validGenres };
+  return { teamIndex, validGenres, newcomerCheckByTeam };
 }
 
 function parseProgramsCsvMap(text) {
@@ -830,6 +837,9 @@ export async function bootstrapData(onStatus = () => {}) {
       CREATE TABLE outcomes AS SELECT * FROM read_csv_auto('outcomes.csv', header=true);
       CREATE TABLE programs AS SELECT * FROM read_csv_auto('programs.csv', header=true);
       CREATE TABLE collabs(team_key VARCHAR, partner_key VARCHAR, partner_name VARCHAR, release_date DATE, role VARCHAR, partner_established BOOLEAN);
+      ALTER TABLE teams ADD COLUMN IF NOT EXISTS newcomer_check VARCHAR;
+      ALTER TABLE outcomes ADD COLUMN IF NOT EXISTS same_house_sources VARCHAR DEFAULT '';
+      ALTER TABLE outcomes ADD COLUMN IF NOT EXISTS same_house_scored BOOLEAN DEFAULT false;
     `;
     await connInstance.query(createSql);
     await connInstance.query(featSql);
@@ -840,9 +850,10 @@ export async function bootstrapData(onStatus = () => {}) {
     `);
   })();
 
-  const { teamIndex, validGenres } = parseTeamsCsvIndex(teamsCsv);
+  const { teamIndex, validGenres, newcomerCheckByTeam } = parseTeamsCsvIndex(teamsCsv);
   appState.validGenres = validGenres;
   appState.teamIndex = teamIndex;
+  appState.newcomerCheckByTeam = newcomerCheckByTeam;
   appState.programLabels = parseProgramsCsvMap(progCsv);
   appState.linksByTeam = indexLinksRows(parseCsvObjects(linksCsv));
   appState.videosByTeam = indexVideosRows(parseCsvObjects(videosCsv));
@@ -900,6 +911,42 @@ export async function queryCandidates(overrides = {}) {
     return rows.filter(r => r.last_seen && r.last_seen >= minDate);
   }
   return rows;
+}
+
+export async function queryDiscoveryStages(overrides = {}) {
+  const tpl = await getSqlTemplate('discovery_stage');
+  if (!tpl) return { rows: [], byTeam: new Map() };
+  const c = appState.cfg;
+  const fallbackAsOf = appState.dataEnd || '2026-11-27';
+  const newcomerYrs = overrides.newcomer_years !== undefined ? overrides.newcomer_years : c.newcomer_years;
+  const params = {
+    as_of: sqlDate(overrides.as_of || c.as_of, fallbackAsOf),
+    newcomer_years: sqlInt(newcomerYrs, 1, 50, 3),
+    horizon_months: sqlInt(overrides.horizon_months !== undefined ? overrides.horizon_months : c.horizon_months, 1, 60, 24),
+  };
+  const sql = fillTemplate(tpl, params);
+  if (overrides.newcomer_years === undefined) {
+    appState.lastSql.discovery_stage = sql;
+  }
+
+  const cached = lruGet(discoveryStageCache, sql);
+  if (cached) return cached;
+
+  const res = await runRawSql(sql);
+  const rows = res.rows.map(r => ({
+    ...r,
+    stage: Number(r.stage),
+    n_mention_branches: Number(r.n_mention_branches) || 0,
+    best_selection: Number(r.best_selection) || 0,
+    recent_n: Number(r.recent_n) || 0,
+    prev_n: Number(r.prev_n) || 0,
+    momentum: r.momentum !== null && r.momentum !== undefined ? Number(r.momentum) : null,
+    momentum_pct: r.momentum_pct !== null && r.momentum_pct !== undefined ? Number(r.momentum_pct) : null,
+  }));
+  const byTeam = new Map(rows.map(r => [r.team_key, r]));
+  const result = { rows, byTeam };
+  lruSet(discoveryStageCache, sql, result);
+  return result;
 }
 
 export async function queryBacktestAll() {

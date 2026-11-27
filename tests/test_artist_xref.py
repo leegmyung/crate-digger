@@ -302,6 +302,45 @@ class CurationSectionsTest(unittest.TestCase):
         self.assertEqual(rec["melon_id"], "4722708")
         self.assertFalse(any(r["kind"] == "multiple_platform_ids" for r in review))
 
+    def test_platform_pin_not_only_blocks_without_correct_id(self):
+        # 맞는 번호를 모를 때: 다른 아티스트 번호만 막는다 (성현 — 인디 싱어송라이터 ≠ 빅히트 신인 그룹 멤버)
+        names = [{"table": "gig", "name": "성현", "count": 3}]
+        ids = [{"name": "성현", "platform": "melon", "id": "4491308", "confidence": "mid"}]
+        pins = [{"team": "성현", "platform": "melon", "not": ["4491308"], **self.EV}]
+        artists, _ = ax.build_xref(names, [], [], ids, platform_pins=pins)
+        rec = next(a for a in artists if a["artist_key"] == "성현")
+        self.assertNotIn("melon_id", rec)
+        self.assertIn(("melon", "4491308"), {(s, i) for s, i, _ in ax.blocked_profile_rows({"platform_ids": pins})})
+
+    def test_load_sections_accept_not_only_pin_but_not_empty_pin(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "a.json"
+            base = {"aliases": [], "distinct": [], "non_artist_handles": []}
+            ok = {"team": "t", "platform": "melon", "not": ["4491308"], **self.EV}
+            p.write_text(json.dumps({**base, "platform_ids": [ok]}, ensure_ascii=False), encoding="utf-8")
+            self.assertEqual(len(ax.load_curation(p)["platform_ids"]), 1)
+            empty = {"team": "t", "platform": "melon", "not": [], **self.EV}   # 맞는 번호도 막을 번호도 없음
+            p.write_text(json.dumps({**base, "platform_ids": [empty]}, ensure_ascii=False), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                ax.load_curation(p)
+
+    def test_repo_config_blocks_bighit_member_profile_for_indie_seonghyeon(self):
+        pins = [e for e in ax.load_curation()["platform_ids"] if e["team"] == "성현"]
+        self.assertEqual(len(pins), 1)
+        self.assertIn("4491308", pins[0]["not"])
+
+    def test_major_agency_profile_with_indie_gigs_goes_to_review(self):
+        artists = [{"artist_key": "성현", "display_name": "성현", "melon_id": "4491308", "sources": ["gig", "press", "profile"]},
+                   {"artist_key": "에이티즈", "display_name": "에이티즈", "melon_id": "111111", "sources": ["release", "profile"]},
+                   {"artist_key": "밴드", "display_name": "밴드", "melon_id": "222222", "sources": ["gig", "profile"]}]
+        profiles = [{"platform": "melon", "id": "4491308", "agency": "빅히트엔터테인먼트"},
+                    {"platform": "melon", "id": "111111", "agency": "KQ엔터테인먼트, 에스엠엔터테인먼트"},
+                    {"platform": "melon", "id": "222222", "agency": "포크라노스"}]
+        review = ax.major_agency_review(artists, profiles)
+        self.assertEqual([r["kind"] for r in review], ["major_agency_indie"])
+        self.assertIn("성현", review[0]["detail"])
+        self.assertIn("빅히트", review[0]["detail"])
+
     def test_load_sections_validate(self):
         with tempfile.TemporaryDirectory() as d:
             p = Path(d) / "a.json"

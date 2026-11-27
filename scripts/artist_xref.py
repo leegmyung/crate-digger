@@ -456,7 +456,10 @@ def load_curation(path: Path | None = None) -> dict:
         "platform_ids": _section(data, "platform_ids", lambda e: [why for ok, why in (
             (isinstance(e.get("team"), str) and e["team"].strip(), "team(팀 이름)이 비어 있음"),
             (e.get("platform") in PLATFORMS, f"platform은 {'/'.join(PLATFORMS)} 중 하나"),
-            (isinstance(e.get("id"), str) and e["id"].strip(), "id(맞는 번호)가 비어 있음"),
+            # 맞는 번호를 모르면 id 없이 not(막을 번호)만 둘 수 있다 — 둘 다 없으면 의미 없는 항목
+            ((isinstance(e.get("id"), str) and e["id"].strip()) or (isinstance(e.get("not"), list) and e["not"]),
+             "id(맞는 번호)나 not(다른 아티스트 번호) 중 하나는 있어야 함"),
+            (e.get("id") is None or isinstance(e.get("id"), str), "id(맞는 번호)는 문자열"),
             (isinstance(e.get("not", []), list), "not(다른 아티스트 번호)은 목록"),
         ) if not ok], path),
         "non_artist_handles": _section(data, "non_artist_handles", lambda e: [] if isinstance(e.get("handle"), str)
@@ -480,10 +483,43 @@ def _apply_distinct(edges: list[tuple], distinct: list[dict]) -> list[tuple]:
 
 
 def _pin_platform_ids(platform_ids: list[dict], pins: list[dict]) -> list[dict]:
-    """플랫폼 번호 고정: 다른 아티스트로 확인된 번호(not)는 어디서 왔든 버리고, 맞는 번호를 high 로 더한다."""
+    """플랫폼 번호 고정: 다른 아티스트로 확인된 번호(not)는 어디서 왔든 버리고, 맞는 번호를 high 로 더한다.
+    맞는 번호(id)가 없는 항목은 막기만 한다(예: 동명이인 프로필만 확인되고 진짜 번호는 모를 때)."""
     blocked = {(p["platform"], str(x)) for p in pins for x in p.get("not", [])}
     kept = [r for r in platform_ids if (r["platform"], str(r["id"])) not in blocked]
-    return kept + [{"name": p["team"], "platform": p["platform"], "id": str(p["id"]), "confidence": "high"} for p in pins]
+    return kept + [{"name": p["team"], "platform": p["platform"], "id": str(p["id"]), "confidence": "high"}
+                   for p in pins if p.get("id")]
+
+
+# 대형 기획사 이름 (멜론 소속사 칸). 인디 공연 신호만 있는 팀에 이 소속 프로필이 붙으면 동명이인 연결 의심.
+MAJOR_AGENCY = re.compile(
+    r"빅히트|하이브|hybe|big ?hit|에스엠엔터|sm엔터|sm entertainment|jyp|와이지엔터|yg엔터|yg entertainment|스타쉽|"
+    r"큐브엔터|플레디스|어도어|빌리프랩|쏘스뮤직|위에화|판타지오|울림엔터|젤리피쉬|rbw|fnc|wm엔터|ist엔터|"
+    r"카카오엔터|키이스트|티오피미디어|kq엔터", re.I)
+
+
+def major_agency_review(artists: list[dict], profiles: list[dict]) -> list[dict]:
+    """'대형 기획사 소속 프로필 + 인디 공연 신호' → 사람 확인 목록(자동 차단은 안 함).
+    확인 후 다른 사람이면 config/artist_aliases.json platform_ids 에 not 으로 막는다 (예: 인디 싱어송라이터 성현 ≠ 빅히트 신인 그룹 멤버)."""
+    agency = {(p["platform"], str(p["id"])): p["agency"] for p in profiles if p.get("agency") and MAJOR_AGENCY.search(p["agency"])}
+    out = []
+    for a in artists:
+        mid = a.get("melon_id")
+        if mid and ("melon", str(mid)) in agency and "gig" in (a.get("sources") or []):
+            out.append({"kind": "major_agency_indie", "weight": 2,
+                        "detail": f"{a['display_name']} melon:{mid} ({agency[('melon', str(mid))]})",
+                        "reason": "대형 기획사 소속 프로필인데 인디 공연 신호가 있음 — 동명이인 연결 의심, 확인 후 platform_ids not"})
+    return out
+
+
+def agency_profiles(raw_dir: Path = RAW_DIR) -> list[dict]:
+    """원본 멜론 프로필 CSV → [{platform, id, agency}] (major_agency_review 입력)."""
+    rows = []
+    for path in sorted(glob.glob(str(raw_dir / "raw_artist_profile_*.csv"))):
+        for r in _read_csv(path):
+            if r.get("source") == "melon" and r.get("agency_text") and r.get("artist_source_id"):
+                rows.append({"platform": "melon", "id": r["artist_source_id"], "agency": r["agency_text"]})
+    return rows
 
 
 def _manual_edges(entries: list[dict]) -> list[tuple]:
@@ -930,7 +966,8 @@ def summarize(artists: list[dict], review: list[dict], names: list[dict], ig_han
     lines += [f"| {r['kind']} | {r['detail'].replace('|', '/')} | {r['reason']} |" for r in [x for x in review if x['kind'] not in AUTO_KINDS][:20]]
     lines += ["", "종류: cell_split = 한 칸 여러 명 중 나누지 않고 둔 것 · alias_conflict = 같은 별칭이 여러 팀에 붙음 · "
               "multiple_platform_ids = 한 팀에 플랫폼 번호 여러 개 · ig_multiple_teams = 한 계정이 여러 팀과 맞음 · "
-              "ig_unmatched = 인스타에만 있는 이름 · platform_namesake = 검색 동명이인. "
+              "ig_unmatched = 인스타에만 있는 이름 · platform_namesake = 검색 동명이인 · "
+              "major_agency_indie = 대형 기획사 소속 프로필인데 인디 공연 신호(동명이인 연결 의심). "
               "자동 해결(alias_auto)은 확인 목록 파일에만 기록하고 이 표·건수에서는 뺀다.", ""]
     return "\n".join(lines)
 
@@ -944,6 +981,8 @@ def main() -> None:
     manual = cur["aliases"]
     artists, review = build_xref(names, ig_profiles, ig_posts, platform_ids, manual_aliases=manual,
                                  distinct=cur["distinct"], platform_pins=cur["platform_ids"])
+    review += major_agency_review(artists, agency_profiles())   # 대형 기획사 프로필 + 인디 공연 → 확인 목록
+    review.sort(key=lambda r: (-r.get("weight", 0), r["kind"], r["detail"]))
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     DEFAULT_XREF.write_text(json.dumps(artists, ensure_ascii=False, indent=1), encoding="utf-8")
     REVIEW_PATH.write_text(json.dumps(review, ensure_ascii=False, indent=1), encoding="utf-8")

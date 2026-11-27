@@ -1,0 +1,113 @@
+{
+  "_설명": "사람이 공개 웹으로 확인한 데뷔일 (2026-11-27 시작, 근거: docs/top_candidates_review.md). scripts/export_lab_data.py 가 팀 표의 first_release 를 '이 날짜와 프로필 첫 발매일 중 이른 쪽'으로 바꿔, 프로필이 없어 우리 데이터 첫 등장(first_seen)으로 신인 판정되던 기성 팀을 바로잡는다. 데뷔는 과거 사실이라 과거 기준일 검증(백테스트)에 써도 미래 정보가 새지 않는다. 키 = docs/lab/data/teams.csv 의 team_key. 항목마다 debut(YYYY-MM-DD), reason(이유), evidence(근거 링크 1개 이상), checked(확인 날짜)가 모두 있어야 하고 없으면 내보내기가 멈춘다. 달·일을 모르고 연도만 확인된 경우 그해 1월 1일로 적고 reason 에 '연도만 확인'이라고 쓴다.",
+  "teams": {
+    "클라프": {
+      "debut": "2016-07-02",
+      "reason": "부산 록·메탈 밴드 KlaFF, 첫 싱글 'The dreamer' 2016-07-02 (불가마싸운드). 우리 첫 포착 2024-02는 인디스트릿 수집 시작 직후",
+      "evidence": ["https://namu.moe/w/KlaFF", "https://maily.so/bullgamasound/posts/n3jrk8e6r51", "http://musicy.kr/?c=review&s=1&gbn=view&ix=8963"],
+      "checked": "2026-11-27"
+    },
+    "콘트라젤리": {
+      "debut": "2015-01-01",
+      "reason": "Kontrajelly, 2015년 EP 'Sequence'로 데뷔 (연도만 확인)",
+      "evidence": ["https://thekmeal.com/indie-pick-kontrajelly/", "http://musicy.kr/?c=review&s=1&gbn=view&ix=8598"],
+      "checked": "2026-11-27"
+    },
+    "에이틴에이프릴": {
+      "debut": "2011-01-01",
+      "reason": "Eighteen April(1804), 2011년부터 활동한 메탈 밴드 (연도만 확인)",
+      "evidence": ["https://kprofiles.com/?p=339753", "http://musicy.kr/?c=review&s=1&gbn=view&ix=8900"],
+      "checked": "2026-11-27"
+    },
+    "티어드랍": {
+      "debut": "2006-01-01",
+      "reason": "2004년 결성 뉴메탈 밴드 티어드랍, 2006년 첫 EP (연도만 확인). 2024년 리뷰된 'Beastology'(뉴메탈)와 같은 팀일 가능성이 높음 — 다른 팀으로 밝혀지면 이 항목을 지운다",
+      "evidence": ["https://www.discomfort-wings.com/2019/11/10/it-s-time-to-make-your-plan-z-티어드랍/", "http://musicy.kr/?c=review&s=1&gbn=view&ix=8576"],
+      "checked": "2026-11-27"
+    },
+    "신스네이크": {
+      "debut": "2016-01-01",
+      "reason": "Synsnake, 2016년 데모·EP 'Revelaction', 2021 정규 1집, 2025 정규 2집 (연도만 확인)",
+      "evidence": ["https://namu.moe/w/Synsnake", "https://www.metalkingdom.net/band/synsnake-27305", "http://musicy.kr/?c=review&s=1&gbn=view&ix=9117"],
+      "checked": "2026-11-27"
+    },
+    "애니멀다이버스": {
+      "debut": "2018-01-01",
+      "reason": "Animal Divers, 2018년 'Horizon Noir'로 시작, 2019 정규 1집 'Monsoon' (연도만 확인)",
+      "evidence": ["https://thekmeal.com/b-and-9-the-striking-debut-of-a-unique-presence-electronic-duo-band-animal-divers/", "http://musicy.kr/?c=review&s=1&gbn=view&ix=8743"],
+      "checked": "2026-11-27"
+    },
+    "놀플라워": {
+      "debut": "2018-01-01",
+      "reason": "Nollflower, 2018년 EP '비익련리'로 데뷔 (연도만 확인)",
+      "evidence": ["https://kprofiles.com/?p=457317", "http://musicy.kr/?c=review&s=1&gbn=view&ix=8609"],
+      "checked": "2026-11-27"
+    },
+    "바림": {
+      "debut": "2023-07-12",
+      "reason": "VARIM, 2020년 결성 둠·스토너 메탈. 확인된 발매 중 날짜가 분명한 싱글 'DIE OR'가 2023-07-12이고 그 전 발매도 여럿 있음(더 이른 날짜를 찾으면 바꾼다)",
+      "evidence": ["https://varim.bandcamp.com/album/die-or", "https://www.koreatimes.co.kr/southkorea/globalcommunity/20230815/metal-band-varim-brings-doom-to-koreas-scene", "http://musicy.kr/?c=review&s=1&gbn=view&ix=8836"],
+      "checked": "2026-11-27"
+    },
+    "하즈": {
+      "debut": "2022-10-12",
+      "reason": "대구 인디 메탈 HASE, 2022-10-12 데뷔 (노머시 컴퍼니)",
+      "evidence": ["https://namu.moe/w/HASE(%EB%B0%B4%EB%93%9C)", "https://www.qobuz.com/us-en/interpreter/hase/1309575", "http://musicy.kr/?c=review&s=1&gbn=view&ix=8696"],
+      "checked": "2026-11-27"
+    },
+    "품바21": {
+      "debut": "2023-04-28",
+      "reason": "Poomba 21, 2023-04-28 EP '21세기의 품바들'로 데뷔(2019 결성, LOCALHIGH RECORDS) — 기준일(2026-11-27) 3년 전보다 이른 데뷔. 1차 검증 표에서 '3년 안'으로 잘못 적었던 것을 2차에서 바로잡음",
+      "evidence": ["https://kprofiles.com/?p=465288", "https://busanrockfestival.com/?p=8628"],
+      "checked": "2026-11-27"
+    },
+    "닥터코어911": {
+      "debut": "2000-09-25",
+      "reason": "Dr.Core 911, 1998년부터 롤링스톤즈 클럽 중심 활동, 데뷔 앨범 '비정산조'(2000년 9월, 서울경제 2000-09-25 신보 기사 날짜로 적음), 2008 정규 2집. 우리 첫 포착 2025-09(음악취향Y 리뷰)라 90일 창에도 안 걸렸던 팀",
+      "evidence": ["https://www.sedaily.com/article/10152703", "https://rocknseoul.com/2016/09/25/nostalgia-special-3-dr-core-911/", "http://musicy.kr/?c=review&s=1&gbn=view&ix=9087"],
+      "checked": "2026-11-27"
+    },
+    "미역수염": {
+      "debut": "2016-01-01",
+      "reason": "Seaweed Mustache, 2014년 부산 결성, 2016년 EP 'The Whistle', 2022 정규 1집 'Bombora' (연도만 확인)",
+      "evidence": ["https://en.wikipedia.org/wiki/Seaweed_Mustache", "http://musicy.kr/?c=review&s=1&gbn=view&ix=8796"],
+      "checked": "2026-11-27"
+    },
+    "플라잉독": {
+      "debut": "2011-01-01",
+      "reason": "Flying Dog, 음악 정보 사이트에 'South Korea, est. 2011' 하드 록 밴드로 등록 (결성 연도만 확인 — 첫 발매일을 찾으면 바꾼다)",
+      "evidence": ["https://northsound.fm/artist/flying-dog-60008", "http://musicy.kr/?c=review&s=1&gbn=view&ix=8666"],
+      "checked": "2026-11-27"
+    },
+    "루디스텔로": {
+      "debut": "2013-01-01",
+      "reason": "LudiSTELO, 서울 일렉트로닉·스페이스 록 3인조 — 2013년 싱글 3장 뒤 2014년 정규 1집 'Experience' (연도만 확인)",
+      "evidence": ["https://weekly.khan.co.kr/article/201404141807101", "https://rocknseoul.com/2018/11/23/a-zandari-festa-interview-with-ludistelo/"],
+      "checked": "2026-11-27"
+    },
+    "허니페퍼": {
+      "debut": "2014-01-01",
+      "reason": "Honey Pepper, 2014년 싱글로 데뷔, 2016 싱글 앨범 'The Long Way' (연도만 확인)",
+      "evidence": ["https://thekmeal.com/tag/honey-pepper", "https://brunch.co.kr/@acdcrock/1189"],
+      "checked": "2026-11-27"
+    },
+    "성해빈": {
+      "debut": "2015-01-01",
+      "reason": "싱어송라이터 성해빈, 2015년 '32번 버스'로 데뷔 (연도만 확인)",
+      "evidence": ["https://www.dailian.co.kr/news/view/1311628/"],
+      "checked": "2026-11-27"
+    },
+    "안예은": {
+      "debut": "2016-11-28",
+      "reason": "싱어송라이터 안예은, 2016 SBS 'K팝스타5' 준우승 뒤 2016-11-28 정규 데뷔 음반, 4년간 정규 3장 — 이미 알려진 가수. 우리 첫 포착 2026-06이라 첫 등장 기준으로 신인처럼 잡힘",
+      "evidence": ["https://www.tenasia.co.kr/article/2016112812624", "https://en.wikipedia.org/wiki/Ahn_Ye-eun"],
+      "checked": "2026-11-27"
+    },
+    "세일러허니문": {
+      "debut": "2022-01-01",
+      "reason": "Sailor Honeymoon, 2022년부터 활동 (연도만 확인). 이미 주목받는 팀이라 후보 제외 목록(config/source_roles.json candidate_rules)에도 있음 — 제외를 풀어도 신인 판정이 맞게 데뷔일을 같이 둔다",
+      "evidence": ["https://en.wikipedia.org/wiki/Sailor_Honeymoon"],
+      "checked": "2026-11-27"
+    }
+  }
+}

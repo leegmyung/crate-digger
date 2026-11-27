@@ -201,11 +201,13 @@ export const appState = {
   videosByTeam: new Map(),
   imagesByTeam: new Map(), // team_key → 사진 주소 (lab/data/images.csv)
   imageMetaByTeam: new Map(), // team_key → { url, source }
+  newcomerCheckByTeam: new Map(), // team_key → 'verified' | 'unverified' | 'first_seen' (optional column)
   teamIndex: [], // [{team_key, display_name, primary_genre}] for autocomplete
   candSort: { col: 'score', dir: 'desc' },
   debutSort: { col: 'score', dir: 'desc' },
   candQuery: '',
   candMove: '', // '' | 'new' | 'riser' | 'upcoming'
+  candStage: '', // '' | '0' | '1' | '2' | '3' | '4' (졸업 '4' 기본 숨김)
   scFilter: 'all', // 'all' | 'discovery' | 'context' | 'excluded' | 'pending' | 'mismatch'
   scSort: { col: 'winners_seen', dir: 'desc' },
   venuesCalMode: 'cand', // 'cand' | 'all'
@@ -220,6 +222,7 @@ export function resetViewFilters() {
   appState.debutSort = { col: 'score', dir: 'desc' };
   appState.candQuery = '';
   appState.candMove = '';
+  appState.candStage = '';
   appState.scFilter = 'all';
   appState.scSort = { col: 'winners_seen', dir: 'desc' };
   appState.venuesCalMode = 'cand';
@@ -279,7 +282,7 @@ export function registerChart(ch) {
 
 // ---------- Hash Routing + Query Sync ----------
 
-const VALID_CAND_SORTS = new Set(['score', 'display_name', 'next_gig_sort']);
+const VALID_CAND_SORTS = new Set(['score', 'display_name', 'next_gig_sort', 'momentum_pct']);
 const VALID_DEBUT_SORTS = new Set(['score', 'display_name', 'first_release', 'mentions']);
 const VALID_SC_SORTS = new Set([
   'label', 'role', 'signal_rows', 'teams', 'rate',
@@ -287,6 +290,7 @@ const VALID_SC_SORTS = new Set([
 ]);
 const VALID_SC_FILTERS = new Set(['all', 'discovery', 'context', 'excluded', 'pending', 'mismatch']);
 const VALID_MOVES = new Set(['new', 'riser', 'upcoming']);
+const VALID_STAGES = new Set(['0', '1', '2', '3', '4']);
 const VALID_SN_LIMITS = new Set([100, 150, 250, 300]);
 
 export function parseHash() {
@@ -372,6 +376,8 @@ export function parseHash() {
     appState.candQuery = p.has('q') ? String(p.get('q') || '').slice(0, 100) : '';
     const mv = p.get('move') || '';
     appState.candMove = VALID_MOVES.has(mv) ? mv : '';
+    const st = p.get('stage') || '';
+    appState.candStage = VALID_STAGES.has(st) ? st : '';
     const sortCol = p.get('sort') || '';
     const sortDir = p.get('dir') === 'asc' ? 'asc' : (p.get('dir') === 'desc' ? 'desc' : '');
     if (appState.candTab === 'debut') {
@@ -516,6 +522,7 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
       }
     } else {
       if (appState.candMove && VALID_MOVES.has(appState.candMove)) p.set('move', appState.candMove);
+      if (appState.candStage && VALID_STAGES.has(appState.candStage)) p.set('stage', appState.candStage);
       const cs = appState.candSort || { col: 'score', dir: 'desc' };
       if (cs.col !== 'score' || cs.dir !== 'desc') {
         p.set('sort', cs.col);

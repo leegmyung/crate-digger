@@ -2,7 +2,7 @@
   "version": 1,
   "note": "플랫폼 장르 태그 → 큰 갈래(bucket). 정확히 같은 태그(tags)를 먼저 보고, 없으면 글자 포함(keywords)으로 찾는다. 여러 갈래가 나오면 priority 앞쪽이 대표 갈래. everynoise 는 Every Noise at Once(2023 동결본) 장르 이름을 참고로만 적은 것.",
   "scene_tags": ["인디음악", "인디", "indie", "가요", "국내드라마", "국내영화", "애니메이션/웹툰", "ost", "국외드라마", "국외영화", "k-pop", "kpop", "j-pop"],
-  "priority": ["hiphop", "rnb", "electronic", "jazz", "folk", "rock", "pop", "other"],
+  "priority": ["hiphop", "rnb", "electronic", "jazz", "folk", "metal", "rock", "pop", "other"],
   "buckets": {
     "hiphop": {
       "label": "힙합",
@@ -39,12 +39,19 @@
       "keywords": ["포크", "folk", "어쿠스틱", "acoustic", "블루스", "blues", "singer-songwriter", "싱어송라이터"],
       "everynoise": ["korean indie folk", "korean singer-songwriter"]
     },
+    "metal": {
+      "label": "메탈·하드코어",
+      "meaning": "무거운 기타 사운드. 헤비메탈, 메탈코어, 뉴메탈, 둠·스토너, 하드코어 펑크 (2026-11-27 추가 — 상위 후보 표본 검증에서 메탈 계열 7팀이 록·빈칸에 묻혀 따로 둠)",
+      "tags": ["메탈", "헤비메탈", "metal", "heavy metal", "메탈코어", "metalcore", "뉴메탈", "nu metal", "하드코어", "hardcore"],
+      "keywords": ["메탈", "metal", "하드코어", "hardcore"],
+      "everynoise": ["korean metal", "korean hardcore"]
+    },
     "rock": {
       "label": "록·밴드",
-      "meaning": "밴드 사운드 전반. 인디록, 모던록, 펑크, 메탈, 슈게이즈, 포스트록",
-      "tags": ["록/메탈", "락/메탈", "록", "락", "인디록", "모던록", "rock", "메탈", "펑크", "슈게이즈", "포스트록"],
-      "keywords": ["록", "락", "rock", "메탈", "metal", "펑크", "punk", "슈게이즈", "shoegaze", "그런지", "grunge"],
-      "everynoise": ["korean indie rock", "korean rock", "korean shoegaze", "korean punk", "korean post-rock", "korean metal"]
+      "meaning": "밴드 사운드 전반. 인디록, 모던록, 펑크, 슈게이즈, 포스트록 (메탈·하드코어는 따로 — 단 플랫폼의 합친 태그 '록/메탈'은 여기)",
+      "tags": ["록/메탈", "락/메탈", "록", "락", "인디록", "모던록", "rock", "펑크", "슈게이즈", "포스트록"],
+      "keywords": ["록", "락", "rock", "펑크", "punk", "슈게이즈", "shoegaze", "그런지", "grunge"],
+      "everynoise": ["korean indie rock", "korean rock", "korean shoegaze", "korean punk", "korean post-rock"]
     },
     "pop": {
       "label": "인디팝·발라드",

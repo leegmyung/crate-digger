@@ -58,6 +58,7 @@ def connect(data_dir: Path = DATA_DIR):
         con.execute(COLLABS_DDL)
     for col, typ in (("same_house_sources", "VARCHAR DEFAULT ''"), ("same_house_scored", "BOOLEAN DEFAULT false")):
         con.execute(f"ALTER TABLE outcomes ADD COLUMN IF NOT EXISTS {col} {typ}")   # '같은 집안' 열이 없는 옛 CSV도 읽게
+    con.execute("ALTER TABLE teams ADD COLUMN IF NOT EXISTS newcomer_check VARCHAR")   # 신인 판정 확인 상태가 없는 옛 CSV도 읽게
     con.execute(read_sql("features.sql"))
     return con
 

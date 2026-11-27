@@ -4,19 +4,21 @@ import {
 } from '../state.js';
 import {
   buildNextGigByTeam, getSnapshotDiff, queryCandidates, queryDebutCandidates,
-  queryDebutScorecard, queryTopPrecedent, queryUpcomingGigs,
+  queryDebutScorecard, queryDiscoveryStages, queryTopPrecedent, queryUpcomingGigs,
 } from '../db.js';
 import {
-  avatarHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText, formatSourceKey,
-  gradeBadgeHtml, plainWhyLine, renderActionBanner, renderEmptyState, renderTableCsvBtn,
-  scorePartsLine, spotifyButtonHtml, TERMS, triggerTableCsvExport, updateSortHeaders,
+  avatarHtml, dormantBadgeHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText,
+  formatRecentActivityCell, formatSourceKey, gradeBadgeHtml, isDormantTeam,
+  newcomerUnverifiedBadgeHtml, plainWhyLine, renderActionBanner, renderEmptyState,
+  renderTableCsvBtn, scorePartsLine, spotifyButtonHtml, STAGE_META, STAGE_ORDER,
+  stageBadgeHtml, TERMS, triggerTableCsvExport, updateSortHeaders,
   watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons, wireTableKeyboardNav,
   wireTableRowHoverPreview, youtubeQuickInfo,
 } from '../ui.js';
 
 const DEBUT_MIN_SAMPLE = 5;
 const DEBUT_DOC_URL = 'https://github.com/leegmyung/crate-digger/blob/main/docs/debut_cohort.md';
-const VALID_SORT_COLS = new Set(['score', 'display_name', 'next_gig_sort']);
+const VALID_SORT_COLS = new Set(['score', 'display_name', 'next_gig_sort', 'momentum_pct']);
 const VALID_DEBUT_SORT_COLS = new Set(['score', 'first_release', 'display_name', 'mentions']);
 
 function sortRows(rows, col, dir) {
@@ -28,6 +30,20 @@ function sortRows(rows, col, dir) {
       const db = b.next_gig?.signal_date || '9999-12-31';
       if (da !== db) return da.localeCompare(db) * mult;
       return (Number(b.score) || 0) - (Number(a.score) || 0);
+    }
+    if (safeCol === 'momentum_pct') {
+      const va = a.momentum_pct;
+      const vb = b.momentum_pct;
+      if (va === null || va === undefined) {
+        if (vb === null || vb === undefined) return (Number(b.score) || -1) - (Number(a.score) || -1);
+        return 1;
+      }
+      if (vb === null || vb === undefined) return -1;
+      if (va !== vb) return (va - vb) * mult;
+      const ra = Number(a.recent_n) || 0;
+      const rb = Number(b.recent_n) || 0;
+      if (ra !== rb) return (ra - rb) * mult;
+      return (Number(b.score) || -1) - (Number(a.score) || -1);
     }
     const va = a[safeCol];
     const vb = b[safeCol];
@@ -404,6 +420,7 @@ async function renderDebutCandidatesView(root) {
                   <div class="row-team-name">
                     <span class="cand-mobile-rank">#${idx + 1}</span>
                     <strong class="cell-truncate" title="${escapeHtml(nameTxt)}">${escapeHtml(nameTxt)}</strong>
+                    ${newcomerUnverifiedBadgeHtml(r.team_key)}
                   </div>
                   ${subText ? `<div class="muted small row-team-sub cell-truncate" title="${escapeHtml(subText)}">${escapeHtml(subText)}</div>` : ''}
                   <div class="debut-mobile-meta">
@@ -578,9 +595,10 @@ export async function renderCandidatesView(root) {
   }
 
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
-  const [rawRows, upcomingRaw] = await Promise.all([
+  const [rawRows, upcomingRaw, stageData] = await Promise.all([
     queryCandidates(),
     queryUpcomingGigs({ asOf }),
+    queryDiscoveryStages({ as_of: asOf }),
   ]);
 
   const c = appState.cfg;
@@ -588,10 +606,12 @@ export async function renderCandidatesView(root) {
   const diff = getSnapshotDiff(rawRows);
   const newSet = new Set(diff.newEntrants.map(t => t.team_key));
   const riserMap = new Map(diff.risers.map(t => [t.team_key, t]));
+  const stageByTeam = stageData?.byTeam || new Map();
 
   const rows = rawRows.map(r => {
     const ng = nextGigByTeam.get(r.team_key) || null;
     const riser = riserMap.get(r.team_key) || null;
+    const st = stageByTeam.get(r.team_key) || null;
     return {
       ...r,
       why_line: plainWhyLine(r),
@@ -599,29 +619,95 @@ export async function renderCandidatesView(root) {
       next_gig_text: ng ? formatNextGigText(ng) : '',
       is_new: newSet.has(r.team_key),
       riser,
+      stage_info: st,
+      stage: st ? st.stage : null,
+      stage_label: st ? (STAGE_META[st.stage]?.label || st.stage_label || '') : '',
+      momentum_pct: st ? st.momentum_pct : null,
+      recent_n: st ? st.recent_n : 0,
+      prev_n: st ? st.prev_n : 0,
+      is_dormant: isDormantTeam(r),
     };
   });
+
+  const rowByKey = new Map(rows.map(r => [r.team_key, r]));
+  const allRowByKey = new Map(rowByKey);
+
+  // Build rows for stages outside default lab_scored ('0' 백지 & '4' 졸업)
+  function buildStageFallbackRows(targetStage) {
+    const out = [];
+    const lim = Math.max(10, Number(c.limit) || 100);
+    for (const s of (stageData?.rows || [])) {
+      if (s.stage !== targetStage) continue;
+      if (c.genre && s.primary_genre !== c.genre) continue;
+      const existing = rowByKey.get(s.team_key);
+      if (existing) {
+        out.push(existing);
+      } else {
+        const ng = nextGigByTeam.get(s.team_key) || null;
+        const why = targetStage === 0
+          ? (s.first_release ? `첫 발매 ${s.first_release} · 남의 언급 없음` : '첫 발매만 기록 · 남의 언급 없음')
+          : (s.best_grade_before
+            ? `${s.best_grade_before}등급 ${TERMS.outcome} (졸업)`
+            : '유명 팀 (졸업)');
+        const synth = {
+          team_key: s.team_key,
+          display_name: s.display_name || s.team_key,
+          primary_genre: s.primary_genre || '',
+          score: null,
+          why_line: why,
+          next_gig: ng,
+          next_gig_text: ng ? formatNextGigText(ng) : '',
+          is_new: false,
+          riser: null,
+          had_outcome: Boolean(s.best_grade_before),
+          stage_info: s,
+          stage: s.stage,
+          stage_label: STAGE_META[s.stage]?.label || s.stage_label || '',
+          momentum_pct: s.momentum_pct,
+          recent_n: s.recent_n,
+          prev_n: s.prev_n,
+          last_seen: s.last_mention || s.first_release || '',
+          is_dormant: false,
+        };
+        out.push(synth);
+        if (!allRowByKey.has(synth.team_key)) allRowByKey.set(synth.team_key, synth);
+      }
+      if (out.length >= lim) break;
+    }
+    return out;
+  }
+
+  const blankRows = buildStageFallbackRows(0);
+  const gradRows = buildStageFallbackRows(4);
+  const defaultRows = rows.filter(r => r.stage !== 4); // 졸업은 기본 숨김
+
+  const stageCounts = {
+    0: blankRows.length,
+    1: defaultRows.filter(r => r.stage === 1).length,
+    2: defaultRows.filter(r => r.stage === 2).length,
+    3: defaultRows.filter(r => r.stage === 3).length,
+    4: gradRows.length,
+  };
 
   if (!VALID_SORT_COLS.has(appState.candSort.col)) {
     appState.candSort.col = 'score';
     appState.candSort.dir = 'desc';
   }
 
-  const newCount = rows.filter(r => r.is_new).length;
-  const riserCount = rows.filter(r => Boolean(r.riser)).length;
-  const upcomingCount = rows.filter(r => Boolean(r.next_gig)).length;
+  const newCount = defaultRows.filter(r => r.is_new).length;
+  const riserCount = defaultRows.filter(r => Boolean(r.riser)).length;
+  const upcomingCount = defaultRows.filter(r => Boolean(r.next_gig)).length;
   const filterSummary = getActiveFilterSummary(c);
 
-  const rowByKey = new Map(rows.map(r => [r.team_key, r]));
   let visibleCount = 20;
   let expandedTeamKey = null;
   let lastCandCsvSpec = null;
 
-  const topName = rows[0] ? `${rows[0].display_name} (${fmtNum(rows[0].score, 2)}점)` : '없음';
+  const topName = defaultRows[0] ? `${defaultRows[0].display_name} (${fmtNum(defaultRows[0].score, 2)}점)` : '없음';
   const bannerHtml = renderActionBanner({
     title: '후보 목록',
-    lead: rows.length
-      ? `신인 후보 상위 <strong>${fmtInt(rows.length)}팀</strong> 중 1위는 <strong>${escapeHtml(topName)}</strong>이며, 예정 공연이 잡힌 팀은 <strong>${fmtInt(upcomingCount)}팀</strong>입니다.`
+    lead: defaultRows.length
+      ? `신인 후보 상위 <strong>${fmtInt(defaultRows.length)}팀</strong> 중 1위는 <strong>${escapeHtml(topName)}</strong>이며, 예정 공연이 잡힌 팀은 <strong>${fmtInt(upcomingCount)}팀</strong>입니다.`
       : '현재 조건에 맞는 신인 후보가 없습니다.',
   });
 
@@ -634,7 +720,17 @@ export async function renderCandidatesView(root) {
     return `<button type="button" class="chip-btn ${active ? 'active' : ''}" data-branch-chip="${escapeHtml(b)}" aria-pressed="${active ? 'true' : 'false'}">${escapeHtml(b)}</button>`;
   }).join('');
 
-  const hasFilterOrSearch = filterSummary.count > 0 || Boolean(appState.candQuery) || Boolean(appState.candMove);
+  const stageChipsHtml = STAGE_ORDER.map(code => {
+    const meta = STAGE_META[code];
+    const cnt = stageCounts[code] || 0;
+    const isGrad = code === 4;
+    const tip = isGrad
+      ? '졸업 단계 (기본 숨김 · 누르면 졸업 팀만 보기)'
+      : `${meta.label} — ${meta.next}`;
+    return `<button type="button" class="chip-btn${isGrad ? ' is-stage-grad' : ''}" data-stage-chip="${code}" aria-pressed="false" title="${escapeHtml(tip)}">${escapeHtml(meta.short)}${cnt ? ` ${fmtInt(cnt)}` : ''}</button>`;
+  }).join('');
+
+  const hasFilterOrSearch = filterSummary.count > 0 || Boolean(appState.candQuery) || Boolean(appState.candMove) || Boolean(appState.candStage);
 
   root.innerHTML = `
     ${bannerHtml}
@@ -665,6 +761,12 @@ export async function renderCandidatesView(root) {
         ${hasFilterOrSearch ? '<button type="button" class="btn btn-sm" data-action="reset-filters">초기화</button>' : ''}
 
         <span class="small muted inline-filter-count" id="candCountText"></span>
+      </div>
+
+      <div class="inline-filter-row inline-stage-row">
+        <span class="stage-filter-label">발굴 단계</span>
+        <div class="chip-group chip-group-stage" role="group" aria-label="발굴 단계 필터">${stageChipsHtml}</div>
+        <span class="small muted stage-filter-hint">졸업 기본 숨김</span>
       </div>
 
       <details class="inline-more-filters">
@@ -717,6 +819,7 @@ export async function renderCandidatesView(root) {
               <th class="sortable" data-sort="display_name">팀</th>
               <th>주목 이유</th>
               <th class="nowrap sortable" data-sort="next_gig_sort">다음 공연</th>
+              <th class="num nowrap sortable cand-activity-col" data-sort="momentum_pct" title="같은 발굴 단계 안에서 최근 90일 대 그 전 90일 남의 언급 수 백분위">최근 활동</th>
               <th class="num sortable" data-sort="score">점수</th>
               <th class="nowrap">듣기</th>
               <th class="nowrap">관심</th>
@@ -735,7 +838,19 @@ export async function renderCandidatesView(root) {
     appState.candQuery = qRaw;
     const q = qRaw.toLowerCase();
     const moveFilter = appState.candMove || '';
-    let list = rows;
+    const stageFilter = appState.candStage || '';
+
+    let list;
+    if (stageFilter === '0') {
+      list = blankRows;
+    } else if (stageFilter === '4') {
+      list = gradRows;
+    } else if (stageFilter === '1' || stageFilter === '2' || stageFilter === '3') {
+      list = defaultRows.filter(r => String(r.stage) === stageFilter);
+    } else {
+      list = defaultRows;
+    }
+
     if (moveFilter === 'new') list = list.filter(r => r.is_new);
     else if (moveFilter === 'riser') list = list.filter(r => Boolean(r.riser));
     else if (moveFilter === 'upcoming') list = list.filter(r => Boolean(r.next_gig));
@@ -746,7 +861,8 @@ export async function renderCandidatesView(root) {
         String(r.team_key || '').toLowerCase().includes(q) ||
         String(r.primary_genre || '').toLowerCase().includes(q) ||
         String(r.why_line || '').toLowerCase().includes(q) ||
-        String(r.next_gig_text || '').toLowerCase().includes(q)
+        String(r.next_gig_text || '').toLowerCase().includes(q) ||
+        String(r.stage_label || '').toLowerCase().includes(q)
       );
     }
 
@@ -758,17 +874,28 @@ export async function renderCandidatesView(root) {
       btn.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
 
+    root.querySelectorAll('[data-stage-chip]').forEach(btn => {
+      const active = btn.dataset.stageChip === stageFilter;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+
     lastCandCsvSpec = {
       filename: `crate_digger_candidates_${appState.dataEnd || 'export'}.csv`,
-      headers: ['#', '팀', '장르', '주목 이유', '다음 공연', '점수'],
-      rows: list.map((r, idx) => [
-        idx + 1,
-        r.display_name || r.team_key,
-        r.primary_genre || '',
-        r.why_line || '',
-        r.next_gig_text ? `${r.next_gig_text}${r.next_gig?.count > 1 ? ` 외 ${r.next_gig.count - 1}` : ''}` : '',
-        r.score !== null && r.score !== undefined ? fmtNum(r.score, 2) : '',
-      ]),
+      headers: ['#', '팀', '장르', '발굴 단계', '주목 이유', '다음 공연', '최근 활동', '점수'],
+      rows: list.map((r, idx) => {
+        const act = formatRecentActivityCell(r.stage_info);
+        return [
+          idx + 1,
+          r.display_name || r.team_key,
+          r.primary_genre || '',
+          r.stage_label || '',
+          r.why_line || '',
+          r.next_gig_text ? `${r.next_gig_text}${r.next_gig?.count > 1 ? ` 외 ${r.next_gig.count - 1}` : ''}` : '',
+          act.text,
+          r.score !== null && r.score !== undefined ? fmtNum(r.score, 2) : '',
+        ];
+      }),
     };
 
     // Register current filtered & sorted rows with unified Export menu
@@ -782,15 +909,20 @@ export async function renderCandidatesView(root) {
     const shown = list.slice(0, visibleCount);
     root.querySelector('#candCountText').textContent = `${fmtInt(shown.length)} / ${fmtInt(list.length)}팀`;
     const barTitle = root.querySelector('#candTableBarTitle');
-    if (barTitle) barTitle.textContent = `신인 후보 (${fmtInt(list.length)}팀)`;
+    if (barTitle) {
+      const stMeta = stageFilter ? STAGE_META[Number(stageFilter)] : null;
+      barTitle.textContent = stMeta
+        ? `${stMeta.label} (${fmtInt(list.length)}팀)`
+        : `신인 후보 (${fmtInt(list.length)}팀)`;
+    }
 
     updateSortHeaders(root.querySelector('#candTable'), appState.candSort.col, appState.candSort.dir, 'sort');
 
     const tbody = root.querySelector('#candTbody');
     if (!shown.length) {
-      tbody.innerHTML = `<tr><td colspan="7" style="padding:0;border:none;">${renderEmptyState({
+      tbody.innerHTML = `<tr><td colspan="8" style="padding:0;border:none;">${renderEmptyState({
         title: '조건에 맞는 후보 팀이 없습니다',
-        message: '검색어 또는 변동 필터를 해제하거나 조건을 초기화해 보세요.',
+        message: '검색어 또는 단계·변동 필터를 해제하거나 조건을 초기화해 보세요.',
         showReset: true,
       })}</td></tr>`;
       root.querySelector('#candMoreRow').hidden = true;
@@ -819,6 +951,11 @@ export async function renderCandidatesView(root) {
         moveBadge = `<span class="delta-badge is-up" title="${escapeHtml(riserTitle)}">${escapeHtml(txt)}</span>`;
       }
 
+      const stagePill = stageBadgeHtml(r.stage, { short: true });
+      const dormantPill = dormantBadgeHtml(r.is_dormant);
+      const unverifiedPill = newcomerUnverifiedBadgeHtml(r.team_key);
+      const act = formatRecentActivityCell(r.stage_info);
+
       const nextGigCell = r.next_gig_text
         ? `<span class="next-gig-chip" title="${escapeHtml(r.next_gig_text)}">${escapeHtml(r.next_gig_text)}${r.next_gig.count > 1 ? ` 외 ${r.next_gig.count - 1}` : ''}</span>`
         : '<span class="muted">—</span>';
@@ -826,6 +963,9 @@ export async function renderCandidatesView(root) {
       const isExpanded = expandedTeamKey === r.team_key;
       const nameTxt = r.display_name || r.team_key;
       const whyTxt = r.why_line || '';
+      const subRowHtml = (stagePill || subText)
+        ? `<div class="muted small row-team-sub">${stagePill}${subText ? `<span class="cell-truncate" title="${escapeHtml(subText)}">${escapeHtml(subText)}</span>` : ''}</div>`
+        : '';
 
       return `
         <tr class="clickable" tabindex="0" data-nav-row="1" data-team-key="${escapeHtml(r.team_key)}">
@@ -838,18 +978,22 @@ export async function renderCandidatesView(root) {
                 <div class="row-team-name">
                   <span class="cand-mobile-rank">#${idx + 1}</span>
                   <strong class="cell-truncate" title="${escapeHtml(nameTxt)}">${escapeHtml(nameTxt)}</strong>
-                  ${moveBadge}
+                  ${moveBadge}${dormantPill}${unverifiedPill}
                 </div>
-                ${subText ? `<div class="muted small row-team-sub cell-truncate" title="${escapeHtml(subText)}">${escapeHtml(subText)}</div>` : ''}
+                ${subRowHtml}
                 <div class="cand-mobile-meta">
                   <span class="cand-mobile-why">${escapeHtml(whyTxt)}</span>
-                  ${r.next_gig_text ? `<span class="next-gig-chip">${escapeHtml(r.next_gig_text)}</span>` : ''}
+                  <div class="cand-mobile-chips">
+                    ${r.stage_info && r.stage_info.momentum_pct !== null ? act.html : ''}
+                    ${r.next_gig_text ? `<span class="next-gig-chip">${escapeHtml(r.next_gig_text)}</span>` : ''}
+                  </div>
                 </div>
               </div>
             </div>
           </td>
           <td class="why-cell" title="${escapeHtml(whyTxt)}">${escapeHtml(whyTxt || '—')}</td>
           <td class="nowrap next-gig-col">${nextGigCell}</td>
+          <td class="num nowrap cand-activity-col">${act.html}</td>
           <td class="num"><strong>${r.score !== null && r.score !== undefined ? fmtNum(r.score, 2) : '—'}</strong></td>
           <td class="nowrap cand-listen-col">${renderRowListenControl(r)}</td>
           <td class="nowrap">${watchButtonHtml(r.team_key, nameTxt, true, true)}</td>
@@ -902,7 +1046,7 @@ export async function renderCandidatesView(root) {
   }
 
   function openPreviewRow(teamKey, tr) {
-    const r = rowByKey.get(teamKey);
+    const r = allRowByKey.get(teamKey);
     if (!r || !tr) return;
     closePreviewRows();
     const btn = tr.querySelector('.cand-expand-btn');
@@ -914,18 +1058,23 @@ export async function renderCandidatesView(root) {
     const nextGigHtml = r.next_gig_text
       ? `<strong>${escapeHtml(r.next_gig_text)}</strong>${r.next_gig.count > 1 ? ` <span class="muted">외 ${fmtInt(r.next_gig.count - 1)}건</span>` : ''}`
       : '<span class="muted">예정된 공연 기록 없음</span>';
-    const whyDetail = scorePartsLine(r);
+    const whyDetail = r.score !== null && r.score !== undefined ? scorePartsLine(r) : (r.why_line || '—');
+    const act = formatRecentActivityCell(r.stage_info);
 
     const previewTr = document.createElement('tr');
     previewTr.className = 'cand-preview-row';
     previewTr.dataset.previewFor = teamKey;
     previewTr.innerHTML = `
-      <td colspan="7" class="cand-preview-cell">
+      <td colspan="8" class="cand-preview-cell">
         <div class="cand-preview-box">
           <div class="cand-preview-items">
             <div class="cand-preview-item">
               <span class="cand-preview-lbl">왜 후보인가</span>
               <span class="cand-preview-val">${escapeHtml(whyDetail)}</span>
+            </div>
+            <div class="cand-preview-item">
+              <span class="cand-preview-lbl">최근 활동</span>
+              <span class="cand-preview-val">${stageBadgeHtml(r.stage)} ${escapeHtml(act.tooltip)}</span>
             </div>
             <div class="cand-preview-item">
               <span class="cand-preview-lbl">비슷한 선례</span>
@@ -970,6 +1119,16 @@ export async function renderCandidatesView(root) {
     btn.addEventListener('click', () => {
       const target = btn.dataset.moveChip;
       appState.candMove = (appState.candMove === target) ? '' : target;
+      visibleCount = 20;
+      syncHash(true);
+      paintTable();
+    });
+  });
+
+  root.querySelectorAll('[data-stage-chip]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.stageChip;
+      appState.candStage = (appState.candStage === target) ? '' : target;
       visibleCount = 20;
       syncHash(true);
       paintTable();
@@ -1091,13 +1250,15 @@ export async function renderCandidatesView(root) {
   });
 
   wireTableRowHoverPreview(tbodyEl, (tr) => {
-    const r = rowByKey.get(tr.dataset.teamKey);
+    const r = allRowByKey.get(tr.dataset.teamKey);
     if (!r) return '';
     const metaParts = [r.primary_genre || '장르 미분류'];
+    if (r.stage_label) metaParts.push(r.stage_label);
     if (r.last_seen) metaParts.push(`최근 신호 ${r.last_seen}`);
     const nextTxt = r.next_gig_text
       ? `${r.next_gig_text}${r.next_gig?.count > 1 ? ` 외 ${r.next_gig.count - 1}건` : ''}`
       : '예정 공연 없음';
+    const act = formatRecentActivityCell(r.stage_info);
     return `
       <div class="rhp-head">
         <strong>${escapeHtml(r.display_name || r.team_key)}</strong>
@@ -1105,7 +1266,8 @@ export async function renderCandidatesView(root) {
       </div>
       <div class="rhp-meta">${escapeHtml(metaParts.join(' · '))}</div>
       <div class="rhp-lines">
-        <div class="rhp-line"><span class="rhp-lbl">점수 근거</span>${escapeHtml(scorePartsLine(r) || r.why_line || '—')}</div>
+        <div class="rhp-line"><span class="rhp-lbl">점수 근거</span>${escapeHtml((r.score !== null && r.score !== undefined ? scorePartsLine(r) : '') || r.why_line || '—')}</div>
+        <div class="rhp-line"><span class="rhp-lbl">최근 활동</span>${escapeHtml(act.tooltip)}</div>
         <div class="rhp-line"><span class="rhp-lbl">다음 공연</span>${escapeHtml(nextTxt)}</div>
       </div>
       <div class="rhp-foot">클릭 또는 Enter로 팀 상세 · →로 표 안에서 펼치기</div>

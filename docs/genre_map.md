@@ -1,6 +1,6 @@
 # 장르 큰 갈래 (genre bucket)
 
-플랫폼마다 장르 이름이 제각각이라(멜론 `록/메탈`, 벅스 `락/메탈`, FLO `인디록`, 포크라노스 `Rock`) 8개 큰 갈래로 묶는다.
+플랫폼마다 장르 이름이 제각각이라(멜론 `록/메탈`, 벅스 `락/메탈`, FLO `인디록`, 포크라노스 `Rock`) 9개 큰 갈래로 묶는다.
 쓰는 곳: (1) 비교 그룹을 장르별로 나눠서 공정하게 비교, (2) 나중에 '한국 인디 사운드 지도'에 색 입히기.
 
 - 규칙 파일: `config/genre_map.json` · 코드: `scripts/genre.py` (`bucket_of`, `buckets_of`)
@@ -15,17 +15,20 @@
 | 일렉트로닉 (`electronic`) | 전자음 중심. 일렉트로팝·하우스·앰비언트 | 멜론 `일렉트로니카`, 벅스 `일렉트로닉`, FLO `인디 일렉트로닉`, 포크라노스 `Electronic` | korean electronic, korean electropop |
 | 재즈 (`jazz`) | 재즈, 퓨전 재즈, 재즈 보컬 | 멜론 `재즈`, 포크라노스 `Jazz` | korean jazz |
 | 포크·싱어송라이터 (`folk`) | 어쿠스틱 중심 포크·블루스·싱어송라이터 | 멜론 `포크/블루스`, 벅스 `포크/어쿠스틱`, FLO `인디포크`·`포크`, 포크라노스 `Folk` | korean indie folk, korean singer-songwriter |
-| 록·밴드 (`rock`) | 밴드 사운드 전반. 인디록·모던록·펑크·메탈·슈게이즈·포스트록 | 멜론 `록/메탈`, 벅스 `락/메탈`, FLO `록`·`인디록`·`모던록`, 포크라노스 `Rock` | korean indie rock, korean rock, korean shoegaze, korean punk, korean post-rock, korean metal |
+| 메탈·하드코어 (`metal`) | 헤비메탈·메탈코어·뉴메탈·둠·하드코어 (2026-11-27 추가) | `메탈`·`metalcore`·`하드코어` 같은 단독 태그 (플랫폼의 합친 태그 `록/메탈`은 록으로 둠). 실제로는 사람이 확인한 장르(`config/genre_overrides.json`)로 주로 채워짐 | korean metal, korean hardcore |
+| 록·밴드 (`rock`) | 밴드 사운드 전반. 인디록·모던록·펑크·슈게이즈·포스트록 | 멜론 `록/메탈`, 벅스 `락/메탈`, FLO `록`·`인디록`·`모던록`, 포크라노스 `Rock` | korean indie rock, korean rock, korean shoegaze, korean punk, korean post-rock |
 | 인디팝·발라드 (`pop`) | 멜로디 중심 팝. 발라드·인디팝·드림팝·시티팝·댄스팝 | 멜론·벅스·FLO `발라드`, FLO `인디팝`·`드림팝`, 벅스 `댄스/팝`, 포크라노스 `Pop`·`Dance` | k-indie, korean dream pop, korean city pop, korean pop |
 | 실험·기타 (`other`) | 실험·노이즈, 국악·크로스오버, 뉴에이지, 클래식 | FLO `뉴에이지`, 포크라노스 `Korean Traditional` | korean experimental |
 
 **장르가 아닌 태그**: `인디음악`(멜론), `인디`(벅스·지니), `indie`(포크라노스), `가요`(지니), `국내드라마`·`애니메이션/웹툰`(멜론, OST 표시). '어느 판·어느 용도'를 알려줄 뿐 소리를 알려주지 않아서 갈래로 치지 않는다.
 
 **태그가 여러 개일 때 대표 갈래 고르는 순서**:
-힙합 → R&B·소울 → 일렉트로닉 → 재즈 → 포크 → 록 → 인디팝·발라드 → 실험·기타.
+힙합 → R&B·소울 → 일렉트로닉 → 재즈 → 포크 → 메탈·하드코어 → 록 → 인디팝·발라드 → 실험·기타.
 좁고 분명한 이름이 이긴다. `발라드`·`인디팝`은 거의 모든 곡에 붙는 넓은 이름이라 다른 갈래가 있으면 진다. 예: `인디음악|발라드|록/메탈` → 록, `인디팝|알앤비` → R&B. 태그를 전부 보려면 `buckets_of`를 쓴다.
 
-처음 보는 태그는 글자 포함 여부로 찾는다(예: `슈게이즈` → 록, `시티팝` → 인디팝). 그래도 못 맞추면 `python3 scripts/genre.py`가 '못 맞춘 태그'로 보여준다.
+처음 보는 태그는 글자 포함 여부로 찾는다(예: `슈게이즈` → 록, `시티팝` → 인디팝, `블랙메탈` → 메탈·하드코어).
+
+**사람이 확인한 장르 덮어쓰기**: 플랫폼 태그로 갈래를 못 정하거나 틀린 팀은 `config/genre_overrides.json`(팀 키 → 갈래 키·이유·근거 링크·확인 날짜)에 적는다. 랩 데이터 내보내기(`scripts/export_lab_data.py`)가 자동 추정보다 먼저 쓴다. 근거: `docs/top_candidates_review.md`. 그래도 못 맞추면 `python3 scripts/genre.py`가 '못 맞춘 태그'로 보여준다.
 
 **Every Noise 참고에 대해**: Every Noise at Once(2023년에 멈춘 장르 지도)의 한국 장르 이름만 갈래를 나누는 참고로 적었다. 2026-11-26에 확인해 보니 이 사이트의 robots.txt가 AI 에이전트를 포함해 모든 자동 수집을 막고 있어서, 장르 페이지는 받지 않았고 사이트 데이터도 쓰지 않았다. 표에 적은 장르 이름이 사이트에 실제로 있는지도 다시 확인하지 않았다(k-rap, korean rock, korean metal, korean post-rock, korean pop, korean electropop, korean old school hip hop은 확인 안 된 이름).
 

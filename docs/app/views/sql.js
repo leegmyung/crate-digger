@@ -37,6 +37,7 @@ export async function renderSqlView(root) {
         <select id="sqlPresetSel" class="select" aria-label="SQL 예시 선택">
           <option value="">예시 SQL 불러오기...</option>
           <option value="candidates">방금 돌린 지금 후보 SQL</option>
+          <option value="discovery_stage">방금 돌린 발굴 단계 SQL</option>
           <option value="debut_candidates">방금 돌린 갓 데뷔 후보 SQL</option>
           <option value="backtest">방금 돌린 백테스트 SQL</option>
           <option value="signals">방금 돌린 신호별 적중률 SQL</option>
@@ -136,6 +137,7 @@ export async function renderSqlView(root) {
 
   const PRESET_TPL_KEY = {
     candidates: 'candidates',
+    discovery_stage: 'discovery_stage',
     debut_candidates: 'debut_candidates',
     backtest: 'backtest',
     signals: 'signal_hits',

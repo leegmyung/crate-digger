@@ -76,6 +76,110 @@ class TeamRowsTest(unittest.TestCase):
         self.assertIn(TEAMS[1]["team_key"], keys)
 
 
+class TeamOverrideTest(unittest.TestCase):
+    """config/debut_overrides.json(사람이 확인한 데뷔일) · config/genre_overrides.json(사람이 확인한 장르)."""
+    EV = {"reason": "근거", "evidence": ["https://example.com"], "checked": "2026-11-27"}
+
+    def test_debut_override_takes_earlier_of_override_and_profile(self):
+        overrides = {"abc": {"debut": "2016-07-02", **self.EV},          # 프로필 첫 발매 없음 → 덮어쓰기 날짜
+                     "xyz": {"debut": "2025-05-01", **self.EV}}          # 프로필(2024-01-01)이 더 이름 → 그대로
+        rows = {r["team_key"]: r for r in ex.team_rows(TEAMS, debut_overrides=overrides)}
+        self.assertEqual(rows["abc"]["first_release"], "2016-07-02")
+        self.assertEqual(rows["xyz"]["first_release"], "2024-01-01")
+        earlier = ex.team_rows(TEAMS, debut_overrides={"xyz": {"debut": "2019-03-01", **self.EV}})
+        self.assertEqual(earlier[1]["first_release"], "2019-03-01")
+
+    def test_genre_override_replaces_inferred_genre(self):
+        rows = ex.team_rows(TEAMS, genre_overrides={"abc": {"genre": "metal", **self.EV}})
+        self.assertEqual(rows[0]["primary_genre"], "메탈·하드코어")
+        self.assertEqual(rows[1]["primary_genre"], "힙합")   # 덮어쓰기 없는 팀은 그대로
+
+    def _load(self, kind, entry):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "o.json"
+            p.write_text(json.dumps({"_설명": "x", "teams": {"abc": entry}}, ensure_ascii=False), encoding="utf-8")
+            return ex.load_team_overrides(p, kind)
+
+    def test_loader_accepts_valid_entries(self):
+        self.assertEqual(self._load("debut", {"debut": "2016-07-02", **self.EV})["abc"]["debut"], "2016-07-02")
+        self.assertEqual(self._load("genre", {"genre": "rock", **self.EV})["abc"]["genre"], "rock")
+
+    def test_loader_requires_evidence_and_valid_values(self):
+        broken = [("debut", {"debut": "2016-07-02", "reason": "r", "evidence": [], "checked": "2026-11-27"}),
+                  ("debut", {"debut": "2016-07-02", "reason": "r", "evidence": ["https://e"]}),           # 확인 날짜 없음
+                  ("debut", {"debut": "2016/07/02", **self.EV}),
+                  ("debut", {"debut": "2016-13-40", **self.EV}),
+                  ("genre", {"genre": "kpop-idol", **self.EV}),                                         # 장르 지도에 없는 갈래
+                  ("genre", {"genre": "rock", "evidence": ["https://e"], "checked": "2026-11-27"})]       # 이유 없음
+        for kind, entry in broken:
+            with self.assertRaises(ValueError, msg=entry):
+                self._load(kind, entry)
+
+    def test_missing_file_means_no_overrides(self):
+        self.assertEqual(ex.load_team_overrides(Path("/nonexistent/overrides.json"), "debut"), {})
+
+    def test_repo_override_files_are_valid_and_cover_review_teams(self):
+        debut = ex.load_team_overrides(ex.DEBUT_OVERRIDES_FILE, "debut")
+        genre = ex.load_team_overrides(ex.GENRE_OVERRIDES_FILE, "genre")
+        for key in ("클라프", "콘트라젤리", "에이틴에이프릴", "티어드랍", "신스네이크", "애니멀다이버스", "놀플라워", "바림",
+                    "하즈", "세일러허니문"):   # docs/top_candidates_review.md R1
+            self.assertIn(key, debut)
+            self.assertLess(debut[key]["debut"], "2023-11-27", key)   # 모두 표본 기준일 3년 전보다 이른 데뷔
+        self.assertEqual(genre["하즈"]["genre"], "metal")
+
+    def test_export_applies_repo_overrides(self):
+        fake_teams = [{**TEAMS[0], "team_key": "클라프", "display_name": "클라프"}]
+
+        def run(sql):
+            return _csv(fake_teams) if "-- lab:teams" in sql else fake_run(sql)
+        with tempfile.TemporaryDirectory() as d:
+            ex.export(Path(d), run=run, today="2026-11-27", extra_refs=None, raw_videos=None, image_cache=None)
+            with open(Path(d) / "teams.csv", encoding="utf-8") as f:
+                row = next(csv.DictReader(f))
+        self.assertEqual(row["first_release"], "2016-07-02")
+
+
+class NewcomerCheckTest(unittest.TestCase):
+    """teams.csv newcomer_check: verified(첫 발매 있음·덮어쓰기 포함) / unverified(첫 발매 없음 + 그 팀을 처음 본 출처의
+    수집 시작일 + 90일 안에 처음 봄 — 그 전부터 활동했을 수 있음) / first_seen(첫 발매 없음, 그 뒤에 처음 봄)."""
+    SIG = [{"team_key": "old", "source": "indistreet", "signal_date": "2024-01-04"},    # 출처 시작일 = 2024-01-04
+           {"team_key": "early", "source": "indistreet", "signal_date": "2024-03-01"},  # 시작 + 57일
+           {"team_key": "early", "source": "musicy", "signal_date": "2025-01-01"},
+           {"team_key": "late", "source": "indistreet", "signal_date": "2024-09-01"},   # 시작 + 241일
+           {"team_key": "late", "source": "musicy", "signal_date": "2023-01-02"},       # 하지만 처음 본 건 musicy(시작일 그날)
+           {"team_key": "mid", "source": "musicy", "signal_date": "2023-06-01"},        # musicy 시작 + 150일
+           {"team_key": "rel", "source": "indistreet", "signal_date": "2024-01-10"}]
+
+    def _teams(self, *keys, release=""):
+        return [{"team_key": k, "first_release": release if k == "rel" else ""} for k in keys]
+
+    def test_three_states(self):
+        teams = ex.with_newcomer_check(self._teams("old", "early", "late", "mid", "rel", release="2020-01-01"), self.SIG)
+        got = {t["team_key"]: t["newcomer_check"] for t in teams}
+        self.assertEqual(got, {"old": "unverified", "early": "unverified", "late": "unverified",
+                               "mid": "first_seen", "rel": "verified"})
+
+    def test_window_boundary_is_90_days(self):
+        sig = [{"team_key": "s", "source": "x", "signal_date": "2024-01-01"},
+               {"team_key": "in", "source": "x", "signal_date": "2024-03-31"},    # +90일 → 미확인
+               {"team_key": "out", "source": "x", "signal_date": "2024-04-01"}]   # +91일 → first_seen
+        got = {t["team_key"]: t["newcomer_check"] for t in ex.with_newcomer_check(self._teams("in", "out"), sig)}
+        self.assertEqual(got, {"in": "unverified", "out": "first_seen"})
+
+    def test_does_not_mutate_input_and_team_without_signals_is_first_seen(self):
+        teams = self._teams("nosig")
+        out = ex.with_newcomer_check(teams, self.SIG)
+        self.assertNotIn("newcomer_check", teams[0])
+        self.assertEqual(out[0]["newcomer_check"], "first_seen")
+
+    def test_export_writes_column(self):
+        with tempfile.TemporaryDirectory() as d:
+            ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=None, image_cache=None)
+            with open(Path(d) / "teams.csv", encoding="utf-8") as f:
+                got = {r["team_key"]: r["newcomer_check"] for r in csv.DictReader(f)}
+        self.assertEqual(got, {"abc": "unverified", "xyz": "verified"})   # abc: 선정 신호가 그 출처 첫 기록
+
+
 class OutcomeRowsTest(unittest.TestCase):
     def test_label_and_boolean(self):
         row = ex.outcome_rows(OUTCOMES, ROLES)[0]

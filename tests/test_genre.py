@@ -53,6 +53,15 @@ class BucketOfTest(unittest.TestCase):
         self.assertEqual(genre.bucket_of("korean underground rap"), "hiphop")
         self.assertEqual(genre.bucket_of("시티팝"), "pop")
 
+    def test_metal_and_hardcore_have_own_bucket(self):
+        # 메탈·하드코어 갈래 (2026-11-27 상위 50 표본 검증: 메탈 계열 7팀이 '록·밴드'·빈칸에 묻힘)
+        for field in ("메탈", "헤비메탈", "Metalcore", "하드코어", "hardcore punk", "korean metal", "뉴메탈"):
+            self.assertEqual(genre.bucket_of(field), "metal", field)
+        # 플랫폼의 합친 태그 '록/메탈'은 록인지 메탈인지 모르므로 그대로 록
+        self.assertEqual(genre.bucket_of("인디음악|록/메탈"), "rock")
+        self.assertEqual(genre.bucket_of("펑크"), "rock")
+        self.assertEqual(genre.load_config()["buckets"]["metal"]["label"], "메탈·하드코어")
+
     def test_spacing_and_case_ignored(self):
         self.assertEqual(genre.bucket_of(" r&b/soul | INDIE "), "rnb")
 

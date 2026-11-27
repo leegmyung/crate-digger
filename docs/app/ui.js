@@ -1134,4 +1134,119 @@ export function triggerTableCsvExport({ filename, headers, rows } = {}) {
   return true;
 }
 
+// ---------- Discovery stage, recent activity, dormant & newcomer_check helpers ----------
+
+export const STAGE_META = {
+  0: {
+    code: 0,
+    short: '백지',
+    label: '백지',
+    next: '남의 언급 1갈래(공연·큐레이션·선정·지원)가 생기면 첫 신호 단계',
+  },
+  1: {
+    code: 1,
+    short: '첫 신호',
+    label: '첫 신호',
+    next: '다른 갈래 언급이 추가되어 2갈래 이상이면 여러 갈래 단계',
+  },
+  2: {
+    code: 2,
+    short: '여러 갈래',
+    label: '여러 갈래',
+    next: '선정 단계 3 이상(DMZ 제외) 또는 B등급 정답이면 선정·중간 정답 단계',
+  },
+  3: {
+    code: 3,
+    short: '선정',
+    label: '선정·중간 정답',
+    next: 'S·A등급 정답을 받으면 졸업 단계',
+  },
+  4: {
+    code: 4,
+    short: '졸업',
+    label: '졸업',
+    next: '최고 단계 도달 (S·A등급 정답 또는 유명 팀)',
+  },
+};
+
+export const STAGE_ORDER = [0, 1, 2, 3, 4];
+
+export const NEWCOMER_UNVERIFIED_TIP = '첫 발매일 미확인 — 수집 시작 직후 처음 보여 신인인지 확실치 않음';
+
+export function stageBadgeHtml(stage, { short = false, title = '' } = {}) {
+  if (stage === null || stage === undefined || stage === '') return '';
+  const meta = STAGE_META[Number(stage)];
+  if (!meta) return '';
+  const text = short ? meta.short : meta.label;
+  const tip = title || `발굴 단계: ${meta.label} — ${meta.next}`;
+  return `<span class="stage-badge stage-${meta.code}" title="${escapeHtml(tip)}">${escapeHtml(text)}</span>`;
+}
+
+export function nextStageConditionText(stage) {
+  if (stage === null || stage === undefined || stage === '') return '';
+  return STAGE_META[Number(stage)]?.next || '';
+}
+
+export function formatRecentActivityCell(st) {
+  if (!st || st.momentum_pct === null || st.momentum_pct === undefined || !Number.isFinite(Number(st.momentum_pct))) {
+    const tip = st && Number(st.stage) === 0
+      ? '백지 단계 — 아직 남의 언급 없음'
+      : '최근 활동 비교 데이터 없음';
+    return {
+      html: `<span class="muted" title="${escapeHtml(tip)}">—</span>`,
+      text: '—',
+      tooltip: tip,
+    };
+  }
+  const pct = Math.round(Number(st.momentum_pct) * 100);
+  const label = st.momentum_label || '보합';
+  let arrow = '→';
+  let cls = 'act-flat';
+  if (label === '상승') {
+    arrow = '▲';
+    cls = 'act-up';
+  } else if (label === '하락') {
+    arrow = '▼';
+    cls = 'act-down';
+  }
+  const stageLabel = STAGE_META[Number(st.stage)]?.label || st.stage_label || '';
+  const rec = Number(st.recent_n) || 0;
+  const prev = Number(st.prev_n) || 0;
+  const tooltip = `${stageLabel ? `${stageLabel} 단계 안 ` : ''}백분위 ${pct}% (${label}) · 최근 90일 언급 ${fmtInt(rec)}건 대 그 전 90일 ${fmtInt(prev)}건`;
+  return {
+    html: `<span class="act-pill ${cls}" title="${escapeHtml(tooltip)}"><span class="act-arrow" aria-hidden="true">${arrow}</span><span class="mono">${pct}%</span></span>`,
+    text: `${arrow} ${pct}% (최근 90일 ${rec}건 / 이전 90일 ${prev}건)`,
+    tooltip,
+  };
+}
+
+export function isDormantTeam(row) {
+  if (!row || typeof row !== 'object') return false;
+  if (row.recent180 === undefined || row.recent180 === null) return false;
+  if (row.gigs_1y === undefined || row.gigs_1y === null) return false;
+  return Number(row.recent180) === 0 && Number(row.gigs_1y) === 0;
+}
+
+export function dormantBadgeHtml(rowOrFlag) {
+  const dormant = typeof rowOrFlag === 'boolean' ? rowOrFlag : isDormantTeam(rowOrFlag);
+  if (!dormant) return '';
+  return '<span class="tag-pill tag-dormant" title="최근 180일 신호 0건 · 최근 1년 공연 0건">휴면</span>';
+}
+
+export function isNewcomerUnverified(teamKey, profile = null) {
+  const fromProfile = profile && Object.prototype.hasOwnProperty.call(profile, 'newcomer_check')
+    ? profile.newcomer_check
+    : undefined;
+  const raw = fromProfile !== undefined && fromProfile !== null && String(fromProfile).trim() !== ''
+    ? fromProfile
+    : (teamKey && appState.newcomerCheckByTeam ? appState.newcomerCheckByTeam.get(teamKey) : '');
+  return String(raw || '').trim().toLowerCase() === 'unverified';
+}
+
+export function newcomerUnverifiedBadgeHtml(teamKey, profile = null) {
+  if (!isNewcomerUnverified(teamKey, profile)) return '';
+  return `<span class="tag-pill tag-unverified" title="${escapeHtml(NEWCOMER_UNVERIFIED_TIP)}">신인 미확인</span>`;
+}
+
+
 

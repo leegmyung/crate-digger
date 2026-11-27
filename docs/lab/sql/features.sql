@@ -111,6 +111,7 @@ after_cut AS (                                  -- 기준일 뒤 정답 + 가장
 ),
 pool AS (
     SELECT f.*, t.display_name, t.first_seen, t.primary_genre, t.profile_status,
+           t.newcomer_check,                                                              -- 신인 판정 확인 상태(표시용, 점수·필터엔 안 씀)
            CASE WHEN pe.team_key IS NOT NULL THEN 1 ELSE 0 END                            AS peer_selected,
            CASE WHEN pw.team_key IS NOT NULL THEN 1 ELSE 0 END                            AS peer_winner,
            CASE WHEN ac.team_key IS NOT NULL THEN 1 ELSE 0 END                            AS is_hit,
