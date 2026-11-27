@@ -11,7 +11,9 @@
 **2026-11-27 오후 현재 (재개 시 여기부터)**
 - ✅ 통합 앱 `docs/dashboard.html` + `docs/app/*` (왼쪽 패널 10화면·전역 선택 창·오늘 볼 것/새로 뜬 팀·팀 상세(선례·관련 팀·플랫폼 메뉴·무대 영상)·관심 목록·설정형 백테스트·SQL 실행). 데이터 `docs/lab/data/*`(export_lab_data.py), 계산식 `docs/lab/sql/*`(테스트 tests/test_lab_sql.py, .venv duckdb), 매일 스냅샷 lab_snapshot.py, 무대 영상 collect_videos.py(YouTube API, .env 키).
 - ✅ 이름 묶기 artist_xref, 공연장 묶기 venue_xref, 과거 정답 2021~2024, README·docs/methods.md.
-- ⏳ 인스타 공연장·general·snowball 수집(하위 에이전트, `data/raw/review/instagram_*.json`의 final=false면 이어서).
+- ✅ 인스타 후보 수집 끝 → `config/insta_accounts.json` 499계정(매거진 main 매일·sub 주 1회·공연장 2일마다, 하루 약 230, 실행당 260 상한).
+- ✅ 점수 v1 (docs/score_tuning.md, 평균 AUC 0.651→0.701), 앱 테마·가독성.
+- ⏳ 멜론 프로필: `.venv/bin/python scripts/collect_artists.py --names-file data/raw/review/melon_names_2026-11-27.txt` 반복 (남은 수 = outcome_melon_match의 id − artist_profile_seen). 끝나면 load_pg → artist_xref --load-pg → 00_core_views → export_lab_data → lab_snapshot → build_dashboard_data → 커밋.
 - 다음: 멜론 프로필 481팀(aside 비면, 신인 판단·링크·소속사 늘어남) → 점수 개선(한 기준일 빼고 맞추는 교차 검증) → 디자인(사용자가 말하면).
 
 **진행 중이던 것**
