@@ -125,7 +125,7 @@ def all_tables() -> List[dict]:
 JSON_DOC: Dict[str, Dict[str, str]] = {
     f"{LAB}/meta.json": {"prev_rows": "직전 날짜의 표별 행 수 (앱의 '새로 붙은 수')", "generated_at": "만든 시각",
                          "data_end": "데이터 끝 날짜 (기준일)", "uses_artist_xref": "아티스트 연결표를 썼는지",
-                         "rows": "표별 행 수"},
+                         "rows": "표별 행 수", "scene_communities": "씬 묶음 수 (scripts/build_scene_map.py가 적음)"},
     f"{LAB}/source_roles.json": {"_설명": "분류 기준 설명", "default_role": "분류표에 없는 출처의 임시 역할",
                                  "signals": "출처별 역할·근거", "outcomes": "정답 등급·가중치",
                                  "outcome_rules": "정답 정리 규칙 (후보는 한 등급 아래, 제외 팀과 이유)",

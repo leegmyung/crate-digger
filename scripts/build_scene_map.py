@@ -125,6 +125,15 @@ def write_json(path: Path, data: dict) -> Path:
     return path
 
 
+def update_meta(meta_path: Path, data: dict) -> None:
+    """meta.json 에 씬 묶음 수를 적는다 (앱 첫 화면 카드용). meta.json 이 없으면 건너뜀."""
+    if not meta_path.exists():
+        return
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    meta["scene_communities"] = len(data.get("communities") or [])
+    meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
 def _csv(path: Path) -> List[dict]:
     if not path.exists():
         return []
@@ -140,6 +149,7 @@ def main() -> int:
     snapshot = {r["team_key"]: (float(r["score"]), int(r["rank"])) for r in _csv(snaps[-1])} if snaps else {}
     data = build(_csv(LAB / "signals.csv"), teams, snapshot, as_of)
     write_json(OUT, data)
+    update_meta(LAB / "meta.json", data)
     sizes = [c["size"] for c in data["communities"]]
     print(f"✅ 사운드 지도 → {OUT.relative_to(ROOT)} (공연 {data['n_events']:,} · 팀 {data['n_teams']:,} · 연결 {data['n_links']:,} · "
           f"씬 묶음 {len(sizes)}개, 큰 순 {sizes[:5]})")

@@ -77,6 +77,16 @@ class SummaryTest(unittest.TestCase):
         self.assertIn("community", out["nodes"][0])
         self.assertTrue(all(e["weight"] >= sm.MIN_EDGE_WEIGHT for e in out["edges"]))
 
+    def test_meta_gets_scene_community_count(self):
+        # 앱 첫 화면 씬 카드가 scene_map.json 을 안 내려받고도 묶음 수를 보이게
+        import json
+        with tempfile.TemporaryDirectory() as d:
+            meta = Path(d) / "meta.json"
+            meta.write_text(json.dumps({"data_end": "2026-11-27"}), encoding="utf-8")
+            sm.update_meta(meta, {"communities": [{"size": 3}, {"size": 2}]})
+            got = json.loads(meta.read_text(encoding="utf-8"))
+        self.assertEqual(got, {"data_end": "2026-11-27", "scene_communities": 2})
+
     def test_write_json(self):
         with tempfile.TemporaryDirectory() as d:
             p = sm.write_json(Path(d) / "scene_map.json", {"communities": []})

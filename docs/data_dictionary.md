@@ -353,6 +353,7 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `data_end` | 데이터 끝 날짜 (기준일) |
 | `uses_artist_xref` | 아티스트 연결표를 썼는지 |
 | `rows` | 표별 행 수 |
+| `scene_communities` | 씬 묶음 수 (scripts/build_scene_map.py가 적음) |
 
 ### `docs/lab/data/source_roles.json`
 
