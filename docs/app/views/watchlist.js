@@ -1,11 +1,23 @@
+/**
+ * 정보 구조 v2 '내 목록' (#/mine?tab=watch|venues|filters)
+ * - 관심 팀 (표|보드, 상태 변경, 최근 7일 주간 요약, CSV)
+ * - 구독 공연장 (venue_subs_view.js 재사용 + 빈 상태)
+ * - 저장한 필터 (mine.js — 조건 요약, 이름 변경·삭제, 발굴에서 열기, 지난 7일 새로 맞은 팀)
+ */
 import {
   appState, getWatchlist, getWatchlistViewMode, setExportContext,
   setWatchlistViewMode, setWatchStatus, syncHash, toggleWatch, WATCH_STATUSES,
 } from '../state.js';
 import { loadAlertsJson, queryWatchlistEnriched } from '../db.js';
 import { loadEventStars } from '../db_team_extras.js';
+import { listSavedFilters } from '../saved_filters.js';
+import { listVenueSubs } from '../venue_subs.js';
 import { renderWatchWeeklySummaryHtml } from './today_alerts.js';
-import { renderVenueSubsHtml, wireVenueSubs } from './venue_subs_view.js';
+import {
+  fillMineFiltersMatches, normalizeMineTab, renderEvidenceFooterHtml,
+  renderMineFiltersPanelHtml, renderMineTabsHtml, renderMineVenuesPanelHtml,
+  wireMineFiltersPanel, wireMineVenuesPanel,
+} from './mine.js';
 import {
   avatarHtml, clampDateDisplay, escapeHtml, fmtInt, fmtNum, naCell,
   renderActionBanner, renderEmptyState, renderNoRecordLine, renderTableCsvBtn,
@@ -50,24 +62,35 @@ function renderListenQuick(r, mode, slotId) {
 }
 
 export async function renderWatchlistView(root) {
-  const raw = getWatchlist();
-  const [rows, alertsData, eventStarsMap] = await Promise.all([
-    queryWatchlistEnriched(raw),
-    loadAlertsJson().catch(() => null),
-    loadEventStars(),
-  ]);
-  // 5-4 관심 팀 주간 요약 (alerts.json 재사용)
-  const weeklySummaryHtml = rows.length
-    ? renderWatchWeeklySummaryHtml(alertsData, new Set(rows.map(r => r.team_key)), eventStarsMap)
-    : '';
-  const recentActive = rows.filter(r => r.recent_7d > 0).length;
+  let rows = [];
+  let alertsData = null;
+  let eventStarsMap = null;
+
+  async function loadAll() {
+    const raw = getWatchlist();
+    const [enriched, alerts, stars] = await Promise.all([
+      queryWatchlistEnriched(raw),
+      loadAlertsJson().catch(() => null),
+      loadEventStars().catch(() => null),
+    ]);
+    rows = enriched;
+    alertsData = alerts;
+    eventStarsMap = stars;
+  }
+
+  await loadAll();
+
   const statusMap = Object.fromEntries(WATCH_STATUSES.map(s => [s.id, s.label]));
+  let activeTab = normalizeMineTab(appState.mineTab);
+  appState.mineTab = activeTab;
 
   let viewMode = (appState.watchModeParam === 'board' || appState.watchModeParam === 'table')
     ? appState.watchModeParam
     : getWatchlistViewMode();
   appState.watchModeParam = viewMode;
   setWatchlistViewMode(viewMode);
+
+  const filterUi = { renamingId: '', notice: '' };
 
   const buildWatchCsvSpec = () => ({
     filename: `crate_digger_watchlist_${appState.dataEnd || 'export'}.csv`,
@@ -86,61 +109,35 @@ export async function renderWatchlistView(root) {
   const syncWatchExport = () => {
     const spec = buildWatchCsvSpec();
     setExportContext({
-      csvLabel: rows.length ? `관심 목록 CSV 내려받기 (${fmtInt(rows.length)}팀)` : '',
+      csvLabel: activeTab === 'watch' && rows.length ? `관심 팀 CSV 내려받기 (${fmtInt(rows.length)}팀)` : '',
       csvFilename: spec.filename,
       csvHeaders: spec.headers,
       csvRows: spec.rows,
     });
     return spec;
   };
-  syncWatchExport();
-
-  const bannerHtml = renderActionBanner({
-    title: '관심 목록',
-    lead: rows.length
-      ? `담아 둔 <strong>${fmtInt(rows.length)}팀</strong> 중 최근 7일 새 신호가 들어온 팀은 <strong>${fmtInt(recentActive)}팀</strong>입니다.`
-      : '관심 목록은 선택 사항입니다. 추적하고 싶은 팀이 생길 때만 담아 두세요.',
-    buttonsHtml: rows.length
-      ? `<div class="view-mode-switch" role="group" aria-label="보기 방식">
-          <button type="button" class="btn btn-sm ${viewMode === 'table' ? 'btn-active' : ''}" data-wmode="table">표</button>
-          <button type="button" class="btn btn-sm ${viewMode === 'board' ? 'btn-active' : ''}" data-wmode="board">보드</button>
-         </div>`
-      : '<a class="btn" href="#/today">이번 주 브리핑 보기</a>',
-  });
-
-  if (!rows.length) {
-    root.innerHTML = `
-      ${bannerHtml}
-      ${renderEmptyState({
-        message: '관심 목록이 비어 있습니다. 브리핑·후보 목록·팀 상세에서 ☆ 관심 추가를 누르면 최근 7일 새 신호와 순위 변동을 한곳에 모아 봅니다.',
-        showReset: false,
-        actionLabel: '후보 목록에서 고르기',
-        actionHref: '#/candidates',
-      })}
-      ${renderVenueSubsHtml(alertsData, { editable: true })}
-    `;
-    wireVenueSubs(root, () => renderWatchlistView(root));
-    return;
-  }
 
   const snapLabel = appState.snapshots.latestDate && appState.snapshots.prevDate
     ? `${appState.snapshots.prevDate} → ${appState.snapshots.latestDate}`
     : '';
-  const hasAnyImg = rows.some(r => appState.imagesByTeam.has(r.team_key));
 
-  function paint() {
-    const modeBtns = `
-      <div class="view-mode-switch" role="group" aria-label="보기 방식">
-        <button type="button" class="btn btn-sm ${viewMode === 'table' ? 'btn-active' : ''}" data-wmode="table">표</button>
-        <button type="button" class="btn btn-sm ${viewMode === 'board' ? 'btn-active' : ''}" data-wmode="board">보드</button>
-      </div>
-    `;
+  function buildWatchPanelHtml() {
+    if (!rows.length) {
+      return renderEmptyState({
+        title: '관심 팀이 비어 있습니다',
+        message: '홈·발굴·팀 페이지에서 ☆ 관심 추가를 누르면 최근 7일 새 신호와 순위 변동을 한곳에 모아 봅니다.',
+        showReset: false,
+        actionLabel: '발굴에서 팀 고르기',
+        actionHref: '#/discover',
+      });
+    }
 
-    const headHtml = renderActionBanner({
-      title: '관심 목록',
-      lead: `담아 둔 <strong>${fmtInt(rows.length)}팀</strong> 중 최근 7일 새 신호가 들어온 팀은 <strong>${fmtInt(recentActive)}팀</strong>입니다.`,
-      buttonsHtml: modeBtns,
-    });
+    const weeklySummaryHtml = renderWatchWeeklySummaryHtml(
+      alertsData,
+      new Set(rows.map(r => r.team_key)),
+      eventStarsMap,
+    );
+    const hasAnyImg = rows.some(r => appState.imagesByTeam.has(r.team_key));
 
     const contentHtml = viewMode === 'board'
       ? `
@@ -239,63 +236,157 @@ export async function renderWatchlistView(root) {
         </div>
       `;
 
-    root.innerHTML = `
-      ${headHtml}
+    return `
       ${weeklySummaryHtml}
-      ${renderVenueSubsHtml(alertsData, { editable: true })}
       ${contentHtml}
       ${hasAnyImg ? '<p class="photo-credit">아티스트 사진 출처: Spotify</p>' : ''}
     `;
+  }
 
-    wireAvatarFallbacks(root);
-    wireSpotifyButtons(root);
-    wireVenueSubs(root, () => renderWatchlistView(root));
+  function paint() {
+    syncWatchExport();
+    const recentActive = rows.filter(r => r.recent_7d > 0).length;
+    const venueCount = listVenueSubs().length;
+    const filterCount = listSavedFilters().length;
 
-    root.querySelector('#btnWatchCsv')?.addEventListener('click', () => {
-      triggerTableCsvExport(syncWatchExport());
+    let leadHtml = '';
+    let buttonsHtml = '';
+    if (activeTab === 'watch') {
+      leadHtml = rows.length
+        ? `관심 팀 <strong>${fmtInt(rows.length)}팀</strong> 중 최근 7일 새 신호가 들어온 팀은 <strong>${fmtInt(recentActive)}팀</strong>입니다.`
+        : '관심 팀·구독 공연장·저장한 필터를 한곳에 모아 관리합니다.';
+      buttonsHtml = rows.length
+        ? `<div class="view-mode-switch" role="group" aria-label="보기 방식">
+            <button type="button" class="btn btn-sm ${viewMode === 'table' ? 'btn-active' : ''}" data-wmode="table">표</button>
+            <button type="button" class="btn btn-sm ${viewMode === 'board' ? 'btn-active' : ''}" data-wmode="board">보드</button>
+           </div>`
+        : '<a class="btn btn-sm" href="#/alerts">알림 센터 →</a>';
+    } else if (activeTab === 'venues') {
+      leadHtml = venueCount
+        ? `구독 중인 공연장 <strong>${fmtInt(venueCount)}곳</strong>의 신인·새 공연 소식을 모아 봅니다.`
+        : '관심 공연장을 구독해 두면 새 공연과 첫 무대 신인 소식을 받아 봅니다.';
+      buttonsHtml = '<a class="btn btn-sm" href="#/venues">공연장 목록 →</a>';
+    } else {
+      leadHtml = filterCount
+        ? `저장한 필터 <strong>${fmtInt(filterCount)}개</strong> — 매주 기준일 대비 새로 맞는 팀을 계산합니다.`
+        : '발굴 조건을 저장해 두면 매주 조건에 새로 들어온 팀을 자동으로 확인합니다.';
+      buttonsHtml = '<a class="btn btn-sm" href="#/discover">발굴 열기 →</a>';
+    }
+
+    const headHtml = renderActionBanner({
+      title: '내 목록',
+      lead: leadHtml,
+      buttonsHtml,
     });
 
-    root.querySelectorAll('[data-wmode]').forEach(btn => {
+    const tabsHtml = renderMineTabsHtml(activeTab, {
+      watchCount: rows.length,
+      venueCount,
+      filterCount,
+    });
+
+    let bodyHtml = '';
+    if (activeTab === 'watch') {
+      bodyHtml = buildWatchPanelHtml();
+    } else if (activeTab === 'venues') {
+      bodyHtml = renderMineVenuesPanelHtml(alertsData);
+    } else {
+      bodyHtml = renderMineFiltersPanelHtml(filterUi);
+    }
+
+    root.innerHTML = `
+      <div class="mine-page" id="minePageRoot">
+        ${headHtml}
+        ${tabsHtml}
+        <div class="mine-panel" role="tabpanel">
+          ${bodyHtml}
+        </div>
+        ${renderEvidenceFooterHtml()}
+      </div>
+    `;
+
+    // Tab switching
+    root.querySelectorAll('[data-mine-tab]').forEach(btn => {
       btn.addEventListener('click', () => {
-        viewMode = btn.dataset.wmode;
-        appState.watchModeParam = viewMode;
-        setWatchlistViewMode(viewMode);
+        const next = normalizeMineTab(btn.dataset.mineTab);
+        if (activeTab === next) return;
+        activeTab = next;
+        appState.mineTab = activeTab;
         syncHash(true);
         paint();
       });
     });
 
-    root.querySelectorAll('[data-watch-status]').forEach(sel => {
-      sel.addEventListener('change', () => {
-        const key = sel.dataset.watchStatus;
-        const nextStatus = sel.value;
-        setWatchStatus(key, nextStatus);
-        const item = rows.find(r => r.team_key === key);
-        if (item) item.status = nextStatus;
-        syncWatchExport();
-        paint();
-      });
-    });
+    if (activeTab === 'watch') {
+      wireAvatarFallbacks(root);
+      wireSpotifyButtons(root);
 
-    root.querySelectorAll('[data-move-key]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const key = btn.dataset.moveKey;
-        const nextStatus = btn.dataset.moveStatus;
-        setWatchStatus(key, nextStatus);
-        const item = rows.find(r => r.team_key === key);
-        if (item) item.status = nextStatus;
-        syncWatchExport();
-        paint();
+      root.querySelector('#btnWatchCsv')?.addEventListener('click', () => {
+        triggerTableCsvExport(syncWatchExport());
       });
-    });
 
-    root.querySelectorAll('[data-remove-watch]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        toggleWatch(btn.dataset.removeWatch);
-        renderWatchlistView(root);
+      root.querySelectorAll('[data-wmode]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          viewMode = btn.dataset.wmode;
+          appState.watchModeParam = viewMode;
+          setWatchlistViewMode(viewMode);
+          syncHash(true);
+          paint();
+        });
       });
-    });
+
+      root.querySelectorAll('[data-watch-status]').forEach(sel => {
+        sel.addEventListener('change', () => {
+          const key = sel.dataset.watchStatus;
+          const nextStatus = sel.value;
+          setWatchStatus(key, nextStatus);
+          const item = rows.find(r => r.team_key === key);
+          if (item) item.status = nextStatus;
+          syncWatchExport();
+          paint();
+        });
+      });
+
+      root.querySelectorAll('[data-move-key]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const key = btn.dataset.moveKey;
+          const nextStatus = btn.dataset.moveStatus;
+          setWatchStatus(key, nextStatus);
+          const item = rows.find(r => r.team_key === key);
+          if (item) item.status = nextStatus;
+          syncWatchExport();
+          paint();
+        });
+      });
+
+      root.querySelectorAll('[data-remove-watch]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          toggleWatch(btn.dataset.removeWatch);
+          await loadAll();
+          paint();
+        });
+      });
+    } else if (activeTab === 'venues') {
+      wireMineVenuesPanel(root, () => paint());
+    } else {
+      wireMineFiltersPanel(root, filterUi, () => paint());
+      fillMineFiltersMatches(root);
+    }
   }
 
   paint();
+
+  const onExternalChange = async () => {
+    const host = root.querySelector('#minePageRoot');
+    if (!host || !host.isConnected) {
+      window.removeEventListener('app:watchlist', onExternalChange);
+      window.removeEventListener('app:venue-subs', onExternalChange);
+      return;
+    }
+    await loadAll();
+    if (!host.isConnected) return;
+    paint();
+  };
+  window.addEventListener('app:watchlist', onExternalChange);
+  window.addEventListener('app:venue-subs', onExternalChange);
 }

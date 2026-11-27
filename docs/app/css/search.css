@@ -1,2 +1,26 @@
 /* 정보 구조 v2 묶음 B 전역 검색 (docs/app_structure_v2.md 4절)
    이 묶음의 스타일은 이 파일에만 — style.css 는 건드리지 않는다. 색은 var(--토큰)만. */
+
+/* 검색 결과 화면 #/search (views/search.js) */
+.search-view { max-width: 960px; }
+.sr-form { margin: 0 0 var(--space-3, 12px); }
+.sr-input { width: 100%; max-width: 560px; }
+.sr-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.sr-summary { margin: 0 0 var(--space-3, 12px); }
+.sr-group { margin-bottom: var(--space-3, 12px); }
+.sr-group-title { font-size: var(--text-h3, 15px); margin: 0 0 var(--space-2, 8px); }
+.sr-count { color: var(--ink-muted); font-weight: 400; font-variant-numeric: tabular-nums; }
+.sr-list { list-style: none; margin: 0; padding: 0; }
+.sr-row + .sr-row { border-top: 1px solid var(--line); }
+.sr-link { display: flex; align-items: center; gap: var(--space-2, 8px); flex-wrap: wrap; min-height: 44px; padding: 6px 4px;
+  color: var(--ink); text-decoration: none; }
+.sr-link:hover, .sr-link:focus-visible { background: var(--surface); }
+.sr-name { font-weight: 600; }
+.sr-meta { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-left: auto; color: var(--ink-muted); font-size: var(--text-xs, 12px);
+  font-variant-numeric: tabular-nums; }
+.sr-more { margin-top: var(--space-2, 8px); }
+.sr-chips { display: flex; flex-wrap: wrap; gap: var(--space-2, 8px); }
+.f-search-opt.f-search-all .f-search-opt-name { color: var(--accent); }
+@media (max-width: 480px) {
+  .sr-meta { margin-left: 36px; width: 100%; }
+}

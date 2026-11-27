@@ -28,8 +28,8 @@ const VIEW_LOADERS = {
   sql: () => import('./views/sql.js').then(m => m.renderSqlView),
   // 정보 구조 v2: 아직 화면이 없는 새 주소 (묶음 F·G·B에서 진짜 화면으로 교체)
   charts: () => import('./views/placeholder.js').then(m => m.renderPlaceholderView),
-  alerts: () => import('./views/placeholder.js').then(m => m.renderPlaceholderView),
-  search: () => import('./views/placeholder.js').then(m => m.renderPlaceholderView),
+  alerts: () => import('./views/alerts.js').then(m => m.renderAlertsView),
+  search: () => import('./views/search.js').then(m => m.renderSearchView),
 };
 
 // 왼쪽 메뉴 키(data-route) — 안쪽 경로 이름과 다를 수 있음 (docs/app_structure_v2.md 2-1)

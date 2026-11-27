@@ -17,16 +17,19 @@ export function renderSavedCardShellHtml() {
       <section class="block today-saved-block is-empty" aria-label="저장 필터">
         <div class="today-saved-empty">
           <strong>필터 저장하기</strong>
-          <span class="small muted">후보 목록에서 조건을 고른 뒤 '+ 이 필터 저장'을 누르면, 매주 여기서 그 조건에 새로 맞는 팀을 알려 줍니다.</span>
-          <a class="btn btn-sm" href="#/candidates">후보 목록에서 저장 →</a>
+          <span class="small muted">발굴 화면에서 조건을 고른 뒤 '+ 이 필터 저장'을 누르면, 매주 여기서 그 조건에 새로 맞는 팀을 알려 줍니다.</span>
+          <a class="btn btn-sm" href="#/discover">발굴에서 저장 →</a>
         </div>
       </section>`;
   }
   return `
     <section class="block today-saved-block" id="todaySavedBlock" aria-label="저장 필터에 새로 맞는 팀">
       <div class="block-head">
-        <h2>저장 필터에 새로 맞는 팀</h2>
-        <span class="block-meta" id="todaySavedMeta">계산 중…</span>
+        <div>
+          <h2>내 저장 필터에 새로 들어온 팀</h2>
+          <span class="block-meta" id="todaySavedMeta">계산 중…</span>
+        </div>
+        <a class="home-more-link" href="#/mine?tab=filters">필터 관리 →</a>
       </div>
       <ul class="today-saved-list" id="todaySavedList">
         ${list.map(it => `<li class="today-saved-item" data-saved-id="${escapeHtml(it.id)}"><span class="small muted">${escapeHtml(it.name)} — 계산 중…</span></li>`).join('')}

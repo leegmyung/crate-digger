@@ -1,51 +1,153 @@
+/**
+ * 정보 구조 v2 '홈' (#/home) — 판단할 것만 간결하게 (상세는 각 메뉴로 연결)
+ * 1. 이번 주 한 줄 (알림 핵심 건수 + 기준일)
+ * 2. [처음이면] 할 일 3장 (관심 팀 추가 · 필터 저장 · 공연장 구독 — 완료 시 자동 숨김)
+ * 3. 알림 요약 (별 많은 순 5줄 + 모두 보기 → #/alerts)
+ * 4. 내 저장 필터에 새로 들어온 팀 (#/mine?tab=filters) + 구독 공연장 소식 (#/mine?tab=venues)
+ * 5. 차트 맛보기: 떠오르는 5 (#/charts/rising) | 갓 데뷔 5 (#/charts/debut)
+ * 6. 이번 주 다가오는 공연 (관심 팀 · 구독 공연장 먼저)
+ * 7. 근거 줄 (데이터 갱신 시각 · 수집 이상 배너(조용할 때 숨김) · 검증 성적 → #/verify)
+ */
 import {
-  appState, getWatchlist, hasCustomWeights, navigateTo, setExportContext,
+  appState, getWatchlist, hasCustomWeights, setExportContext,
 } from '../state.js';
 import {
   buildNextGigByTeam, getSnapshotDiff, groupUpcomingEvents,
-  loadAlertsJson, queryCandidates, queryDebutCandidates, queryUpcomingGigs,
-  queryWatchlistEnriched, queryWeeklyDigestExtras,
+  loadAlertsJson, queryCandidates, queryDebutCandidates, queryRisingPreset,
+  queryUpcomingGigs, queryWeeklyDigestExtras,
 } from '../db.js';
+import { loadEventStars } from '../db_team_extras.js';
+import { listVenueSubs } from '../venue_subs.js';
 import {
-  avatarHtml, buildWeeklySummaryText,
-  escapeHtml, fmtInt, fmtNum,
-  formatKoreanShortDate, formatNextGigText,
-  getWatchlistAlerts, INFO_TIPS, infoTip, plainWhyLine, renderEmptyState,
-  spotifyButtonHtml, watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
-  youtubeQuickInfo,
+  avatarHtml, buildWeeklySummaryText, escapeHtml, fmtInt, fmtNum,
+  formatKoreanShortDate, formatNextGigText, spotifyButtonHtml,
+  watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
-import { renderAlertsCardHtml, renderSpikeSentencesHtml } from './today_alerts.js';
+import { renderHomeAlertsSummaryHtml } from './today_alerts.js';
 import { fillSavedCard, renderSavedCardShellHtml } from './today_saved.js';
 import { renderVenueSubsHtml } from './venue_subs_view.js';
-import { loadEventStars } from '../db_team_extras.js';
 import { renderOnboardingStripHtml } from '../components/onboarding_cards.js';
+import { renderEvidenceFooterHtml } from './mine.js';
 
-function renderCardListenAction(r) {
-  const sp = spotifyButtonHtml(r.team_key, true, {
-    teamName: r.display_name || r.team_key,
-    slotId: 'todayTopPlayerSlot',
-  });
-  if (sp) return sp;
+const HEADLINE_ALERT_TYPES = [
+  ['new_outcome', '새 정답'],
+  ['new_selection', '새 선정·지원'],
+  ['blank_first_mention', '백지 신인 첫 언급'],
+  ['stage_up', '단계 상승'],
+];
 
-  const yt = youtubeQuickInfo(r.team_key);
-  if (yt && yt.kind === 'channel') {
-    return `<a class="btn btn-sm" href="${escapeHtml(yt.url)}" target="_blank" rel="noopener noreferrer">유튜브 채널</a>`;
+function buildWeeklyOneLineHtml(alertsData, diff) {
+  const counts = alertsData?.counts_found || alertsData?.counts_shown || {};
+  const parts = [];
+  for (const [key, fallbackLabel] of HEADLINE_ALERT_TYPES) {
+    const n = Number(counts[key]) || 0;
+    if (n > 0) {
+      const label = alertsData?.types?.[key] || fallbackLabel;
+      parts.push(`<span>${escapeHtml(label)} <strong>${fmtInt(n)}</strong></span>`);
+    }
   }
-  if (yt && yt.kind === 'video') {
-    return `<a class="btn btn-sm" href="#/team/${encodeURIComponent(r.team_key)}">▶ 영상 ${fmtInt(yt.count)}</a>`;
+  if (!parts.length && diff.newEntrants.length > 0) {
+    parts.push(`<span>새 후보 <strong>${fmtInt(diff.newEntrants.length)}</strong>팀</span>`);
   }
-  return `<a class="btn btn-sm" href="#/team/${encodeURIComponent(r.team_key)}">상세 보기</a>`;
+  if (!parts.length) {
+    return '<span class="muted">이번 주 집계된 주요 변동 알림이 없습니다.</span>';
+  }
+  return parts.join('<span class="home-dot" aria-hidden="true">·</span>');
+}
+
+function buildSnapshotSublineHtml(diff, extras) {
+  const bits = [];
+  if (diff.newEntrants.length > 0) bits.push(`새 후보 ${fmtInt(diff.newEntrants.length)}팀`);
+  const topRiser = diff.risers[0];
+  if (topRiser) {
+    bits.push(
+      `최대 상승 <a class="inline-team-link" href="#/team/${encodeURIComponent(topRiser.team_key)}"><strong>${escapeHtml(topRiser.display_name)}</strong></a> (#${topRiser.rank_prev}→#${topRiser.rank_now})`
+    );
+  }
+  if (extras?.signalStats?.total > 0) {
+    bits.push(`최근 7일 새 신호 ${fmtInt(extras.signalStats.total)}건`);
+  }
+  return bits.join(' · ');
+}
+
+function renderRisingPreviewHtml(rows) {
+  const top = (rows || []).slice(0, 5);
+  if (!top.length) {
+    return '<p class="small muted" style="margin:0;">최근 30일 상승 조건에 맞는 팀이 아직 없습니다.</p>';
+  }
+  return `
+    <ol class="home-chart-list">
+      ${top.map((r, idx) => {
+        const name = r.display_name || r.team_key;
+        const metricBits = [];
+        if (r.recent_n > 0) metricBits.push(`30일 ${fmtInt(r.recent_n)}건`);
+        if (r.growth !== null && r.growth !== undefined && Number.isFinite(r.growth)) {
+          metricBits.push(`${r.growth.toFixed(1)}배`);
+        } else if (r.prev_n === 0 && r.recent_n > 0) {
+          metricBits.push('신규 급증');
+        }
+        return `
+          <li class="home-chart-row">
+            <span class="home-chart-rank mono">${idx + 1}</span>
+            <a class="home-chart-team" href="#/team/${encodeURIComponent(r.team_key)}">
+              ${avatarHtml(r.team_key, name, 28, { shape: 'circle', genre: r.primary_genre })}
+              <span class="home-chart-team-text">
+                <strong class="cell-truncate">${escapeHtml(name)}</strong>
+                ${r.primary_genre ? `<span class="small muted cell-truncate">${escapeHtml(r.primary_genre)}</span>` : ''}
+              </span>
+            </a>
+            <span class="home-chart-metric mono">${escapeHtml(metricBits.join(' · ') || '—')}</span>
+            <span class="home-chart-act">${watchButtonHtml(r.team_key, name, true, true)}</span>
+          </li>
+        `;
+      }).join('')}
+    </ol>
+  `;
+}
+
+function renderDebutPreviewHtml(debutData) {
+  const mentioned = Array.isArray(debutData?.mentioned) ? debutData.mentioned : [];
+  const unmentioned = Array.isArray(debutData?.unmentioned) ? debutData.unmentioned : [];
+  const top = [...mentioned, ...unmentioned].slice(0, 5);
+  if (!top.length) {
+    return '<p class="small muted" style="margin:0;">최근 12개월 첫 발매 신인 기록이 아직 없습니다.</p>';
+  }
+  return `
+    <ol class="home-chart-list">
+      ${top.map((t, idx) => {
+        const name = t.display_name || t.team_key;
+        const mCnt = Array.isArray(t.mentions) ? t.mentions.length : 0;
+        const metric = mCnt > 0
+          ? `언급 ${fmtInt(mCnt)}곳`
+          : (t.first_release ? `발매 ${String(t.first_release).slice(0, 10)}` : '언급 전');
+        return `
+          <li class="home-chart-row">
+            <span class="home-chart-rank mono">${idx + 1}</span>
+            <a class="home-chart-team" href="#/team/${encodeURIComponent(t.team_key)}">
+              ${avatarHtml(t.team_key, name, 28, { shape: 'circle', genre: t.primary_genre })}
+              <span class="home-chart-team-text">
+                <strong class="cell-truncate">${escapeHtml(name)}</strong>
+                ${t.primary_genre ? `<span class="small muted cell-truncate">${escapeHtml(t.primary_genre)}</span>` : ''}
+              </span>
+            </a>
+            <span class="home-chart-metric mono">${escapeHtml(metric)}</span>
+            <span class="home-chart-act">${watchButtonHtml(t.team_key, name, true, true)}</span>
+          </li>
+        `;
+      }).join('')}
+    </ol>
+  `;
 }
 
 export async function renderTodayView(root) {
-  const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
-  const [candRows, watchEnriched, upcomingRaw, debutData, alertsData, eventStarsMap] = await Promise.all([
+  const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-28';
+  const [candRows, upcomingRaw, risingRows, debutData, alertsData, eventStarsMap] = await Promise.all([
     queryCandidates({ limit: 300 }),
-    queryWatchlistEnriched(getWatchlist()),
     queryUpcomingGigs({ asOf, days: 14 }),
+    queryRisingPreset({ as_of: asOf }).catch(() => []),
     queryDebutCandidates({ as_of: asOf }).catch(() => null),
     loadAlertsJson().catch(() => null),
-    loadEventStars(),
+    loadEventStars().catch(() => null),
   ]);
   const extras = await queryWeeklyDigestExtras(candRows);
 
@@ -67,12 +169,8 @@ export async function renderTodayView(root) {
 
   const top5 = candRows.slice(0, 5);
   const diff = getSnapshotDiff(candRows);
-  const watchActive = watchEnriched.filter(w => w.recent_7d > 0);
   const customW = hasCustomWeights();
-  const health = appState.dataHealth;
-  const isReconstructed = Boolean(
-    diff.prevDate && (appState.snapshots.reconstructed || []).includes(diff.prevDate)
-  );
+  const health = appState.dataHealth || { ok: true, totalSources: 0, okSources: 0, summaryLabel: '수집 정상' };
 
   // Register unified export context (weekly digest text + top 100 candidates CSV)
   const digestText = buildWeeklySummaryText({
@@ -107,214 +205,112 @@ export async function renderTodayView(root) {
   });
 
   let upcomingLimit = 5;
-  let showAllNew = false;
-  let showAllRisers = false;
-  let showAllWatchAlerts = false;
-  const expandedAlertTypes = new Set();
 
-  // Build plain-Korean weekly briefing narrative
-  const topRiser = diff.risers[0];
-  const brSummary = Object.entries(extras.signalStats.byBranch || {})
-    .filter(([, n]) => n > 0)
-    .slice(0, 3)
-    .map(([b, n]) => `${b} ${fmtInt(n)}`)
-    .join(' · ');
+  const periodLabel = alertsData?.snapshots?.before && alertsData?.as_of
+    ? `${alertsData.snapshots.before} → ${alertsData.as_of}`
+    : (diff.prevDate && diff.latestDate ? `${diff.prevDate} → ${diff.latestDate}` : `기준 ${asOf}`);
 
-  const sentence1Parts = [];
-  if (diff.newEntrants.length > 0 || topRiser) {
-    const newTxt = `이번 주 새로 들어온 후보는 <strong>${fmtInt(diff.newEntrants.length)}팀</strong>`;
-    if (topRiser) {
-      const gainParts = [];
-      if (topRiser.rank_gain > 0) gainParts.push(`+${fmtInt(topRiser.rank_gain)}계단`);
-      if (topRiser.score_gain > 0) gainParts.push(`+${fmtNum(topRiser.score_gain, 2)}점`);
-      sentence1Parts.push(
-        `${newTxt}이고, 가장 크게 오른 팀은 <a class="inline-team-link" href="#/team/${encodeURIComponent(topRiser.team_key)}"><strong>${escapeHtml(topRiser.display_name)}</strong></a>(#${topRiser.rank_prev}→#${topRiser.rank_now}${gainParts.length ? `, ${gainParts.join(' · ')}` : ''})입니다.`
-      );
-    } else {
-      sentence1Parts.push(`${newTxt}입니다.`);
-    }
-  } else if (top5.length) {
-    sentence1Parts.push(`현재 신인 후보 1위는 <a class="inline-team-link" href="#/team/${encodeURIComponent(top5[0].team_key)}"><strong>${escapeHtml(top5[0].display_name)}</strong></a>(${fmtNum(top5[0].score, 2)}점)입니다.`);
-  } else {
-    sentence1Parts.push('현재 조건에 맞는 후보 팀이 없습니다.');
-  }
-
-  const sentence2Parts = [];
-  if (extras.signalStats.total > 0) {
-    sentence2Parts.push(`최근 7일간 새 신호 <strong>${fmtInt(extras.signalStats.total)}건</strong>${brSummary ? `(${brSummary})` : ''}`);
-  }
-  if (upcomingCandEvents.length > 0) {
-    sentence2Parts.push(`2주 내 볼 수 있는 후보 공연 <strong>${fmtInt(upcomingCandEvents.length)}건</strong>(${fmtInt(upcomingCandTeamSet.size)}팀)이 잡혔고`);
-  } else if (extras.newVideos7d > 0) {
-    sentence2Parts.push(`새 무대 영상 <strong>${fmtInt(extras.newVideos7d)}개</strong>가 잡혔고`);
-  }
-  const healthTxt = health.ok
-    ? (health.totalSources > 0 ? `데이터 수집은 정상(${health.okSources}/${health.totalSources} 출처)입니다.` : '데이터 수집은 정상입니다.')
-    : `<a href="#/quality"><strong>${escapeHtml(health.summaryLabel)}</strong></a> 상태입니다.`;
-  const sentence2 = sentence2Parts.length ? `${sentence2Parts.join('과 ')}, ${healthTxt}` : healthTxt;
-
-  const periodPill = diff.prevDate && diff.latestDate
-    ? `${diff.prevDate} → ${diff.latestDate}`
-    : `기준 ${appState.dataEnd}`;
-
-  const heroHtml = `
-    <section class="briefing-hero" aria-label="주간 브리핑 요약">
-      <div class="briefing-hero-head">
-        <div>
-          <div class="briefing-kicker">
-            <span class="briefing-date-pill">${escapeHtml(periodPill)}</span>
-            ${customW ? '<span class="briefing-tag">사용자 가중치 적용 중</span>' : ''}
-          </div>
-          <h1 class="briefing-title">이번 주 브리핑</h1>
-        </div>
-        <div class="briefing-hero-actions">
-          <a class="btn" href="#/candidates">전체 후보 보기 (${fmtInt(candRows.length)})</a>
-        </div>
-      </div>
-      <p class="briefing-narrative">${sentence1Parts.join(' ')} ${sentence2}</p>
-      <div class="briefing-kpis">
-        <div class="kpi-chip">
-          <span class="kpi-chip-lbl">새 후보</span>
-          <strong class="kpi-chip-val">${fmtInt(diff.newEntrants.length)}팀</strong>
-        </div>
-        <div class="kpi-chip">
-          <span class="kpi-chip-lbl">순위·점수 상승</span>
-          <strong class="kpi-chip-val">${fmtInt(diff.risers.length)}팀</strong>
-        </div>
-        <a class="kpi-chip" href="#/venues">
-          <span class="kpi-chip-lbl">2주 내 후보 공연</span>
-          <strong class="kpi-chip-val">${fmtInt(upcomingCandEvents.length)}건</strong>
-        </a>
-        <div class="kpi-chip">
-          <span class="kpi-chip-lbl">최근 7일 새 신호</span>
-          <strong class="kpi-chip-val">${fmtInt(extras.signalStats.total)}건</strong>
-        </div>
-        ${watchActive.length > 0 ? `
-          <a class="kpi-chip kpi-chip-accent" href="#/watchlist">
-            <span class="kpi-chip-lbl">관심 팀 새 신호</span>
-            <strong class="kpi-chip-val">${fmtInt(watchActive.length)}팀</strong>
-          </a>
-        ` : ''}
-      </div>
-    </section>
-  `;
-
-  const hasAnyTop5Img = top5.some(r => appState.imagesByTeam.has(r.team_key));
-  const top5Html = top5.length
-    ? `<div class="grid-5">${top5.map((r, i) => {
-        const ng = nextGigByTeam.get(r.team_key);
-        return `
-          <article class="pick-card">
-            <div class="pick-top">
-              <span class="pick-rank">#${i + 1}${r.primary_genre ? ` · ${escapeHtml(r.primary_genre)}` : ''}</span>
-              <span class="pick-score" title="종합 점수">${fmtNum(r.score, 2)}</span>
-            </div>
-            <a class="pick-head" href="#/team/${encodeURIComponent(r.team_key)}">
-              ${avatarHtml(r.team_key, r.display_name, 48, { shape: 'rounded', genre: r.primary_genre })}
-              <span class="pick-name">${escapeHtml(r.display_name || r.team_key)}</span>
-            </a>
-            <p class="pick-why">${escapeHtml(plainWhyLine(r))}</p>
-            ${ng ? `<div class="pick-next-gig">다음 공연 ${escapeHtml(formatNextGigText(ng))}</div>` : ''}
-            <div class="pick-foot">
-              ${renderCardListenAction(r)}
-              ${watchButtonHtml(r.team_key, r.display_name || r.team_key, true, true)}
-            </div>
-          </article>
-        `;
-      }).join('')}</div>
-      <div class="player-slot" id="todayTopPlayerSlot" data-player-slot></div>
-      ${hasAnyTop5Img ? '<p class="photo-credit">아티스트 사진 출처: Spotify</p>' : ''}`
-    : renderEmptyState({
-        title: '조건에 맞는 상위 후보가 없습니다',
-        message: '후보 목록에서 조건을 줄여 보거나 초기화해 전체 후보를 확인해 보세요.',
-        showReset: true,
-      });
-
-  const snapNoteParts = [];
-  if (diff.latestDate && diff.prevDate) {
-    snapNoteParts.push(`${diff.prevDate} → ${diff.latestDate}`);
-    if (customW) snapNoteParts.push('기본 점수 기준');
-    if (isReconstructed) snapNoteParts.push(`${diff.prevDate} 점수는 당시 신호 기준 재계산`);
-  }
-  const snapNote = snapNoteParts.join(' · ');
-
-  const recentVideosHtml = extras.recentStageVideos.length
-    ? `
-      <section class="block">
-        <div class="block-head">
-          <h2>최근 올라온 무대 영상</h2>
-          <span class="block-meta">상위 후보 최근 영상 · 누르면 바로 재생</span>
-        </div>
-        <div class="recent-videos-grid">
-          ${extras.recentStageVideos.map(v => {
-            const thumb = `https://i.ytimg.com/vi/${v.video_id}/hqdefault.jpg`;
-            return `
-              <article class="video-card">
-                <button type="button" class="video-frame" data-video-id="${escapeHtml(v.video_id)}" aria-label="${escapeHtml(v.display_name)} 영상 재생">
-                  <img src="${thumb}" alt="${escapeHtml(v.title || v.display_name)}" loading="lazy" decoding="async">
-                  <span class="video-play-btn" aria-hidden="true"></span>
-                </button>
-                <div class="video-card-body">
-                  <div class="video-card-team">
-                    <a href="#/team/${encodeURIComponent(v.team_key)}"><strong>${escapeHtml(v.display_name)}</strong></a>
-                    <span class="small muted">#${v.rank}${v.published_at ? ` · ${escapeHtml(String(v.published_at).slice(0, 10))}` : ''}</span>
-                  </div>
-                  <div class="video-title" title="${escapeHtml(v.title)}">${escapeHtml(v.title || '무대 영상')}</div>
-                </div>
-              </article>
-            `;
-          }).join('')}
-        </div>
-      </section>
-    `
-    : '';
-
-  // Conditional watchlist block: COMPLETELY HIDDEN when watchlist is empty ("할 일을 만들지 않기")
-  const watchBlockHtml = watchEnriched.length > 0
-    ? `
-      <section class="block">
-        <div class="block-head">
-          <h2>관심 팀 최근 7일 소식</h2>
-          <a class="small muted" href="#/watchlist">관심 목록 전체 (${fmtInt(watchEnriched.length)}) →</a>
-        </div>
-        ${watchActive.length
-          ? `<ul class="mini-list">${watchActive.slice(0, 5).map(w => `
-              <li>
-                <div class="mini-list-row">
-                  ${avatarHtml(w.team_key, w.display_name, 28, { shape: 'circle', genre: w.primary_genre })}
-                  <div class="mini-list-main">
-                    <a href="#/team/${encodeURIComponent(w.team_key)}"><strong>${escapeHtml(w.display_name)}</strong></a>
-                    <div class="mini-list-sub">최근 7일 새 신호 <strong>${fmtInt(w.recent_7d)}건</strong> · 마지막 기록 ${escapeHtml(w.last_seen || '-')}</div>
-                  </div>
-                </div>
-                <div class="mini-list-actions">
-                  ${spotifyButtonHtml(w.team_key, true, { iconOnly: true, teamName: w.display_name, slotId: 'todayWatchPlayerSlot' })}
-                  <a class="small muted" href="#/team/${encodeURIComponent(w.team_key)}">상세</a>
-                </div>
-              </li>
-            `).join('')}</ul>
-            <div class="player-slot" id="todayWatchPlayerSlot" data-player-slot></div>`
-          : `<p class="muted small" style="margin:0;">담아 둔 ${fmtInt(watchEnriched.length)}팀 중 최근 7일 새 신호는 없습니다.</p>`}
-      </section>
-    `
-    : '';
+  const weeklyOneLineHtml = buildWeeklyOneLineHtml(alertsData, diff);
+  const snapshotSublineHtml = buildSnapshotSublineHtml(diff, extras);
+  const debutTotal = debutData?.total || 0;
+  const debutMent = debutData?.mentioned?.length || 0;
 
   function paint() {
-    const visUpcoming = upcomingCandEvents.slice(0, upcomingLimit);
-    const remUpcoming = upcomingCandEvents.length - visUpcoming.length;
+    const watchKeys = new Set(getWatchlist().map(w => w.team_key));
+    const subVenues = new Set(listVenueSubs());
 
-    const upcomingHtml = upcomingCandEvents.length
+    // Prioritize upcoming events involving watched teams or subscribed venues
+    const prioritizedUpcoming = upcomingCandEvents
+      .map((ev, origIdx) => {
+        const hasWatched = ev.candidateTeams.some(t => watchKeys.has(t.team_key))
+          || ev.otherTeams.some(t => watchKeys.has(t.team_key));
+        const isSubVenue = subVenues.has(String(ev.venue || '').trim());
+        const priority = (hasWatched ? 2 : 0) + (isSubVenue ? 1 : 0);
+        return { ev, origIdx, hasWatched, isSubVenue, priority };
+      })
+      .sort((a, b) => (b.priority > 0 ? 1 : 0) - (a.priority > 0 ? 1 : 0) || b.priority - a.priority || a.origIdx - b.origIdx);
+
+    const visUpcoming = prioritizedUpcoming.slice(0, upcomingLimit);
+    const remUpcoming = prioritizedUpcoming.length - visUpcoming.length;
+
+    const headlineHtml = `
+      <section class="home-headline" aria-label="이번 주 한 줄 요약">
+        <div class="home-headline-top">
+          <div class="home-headline-kicker">
+            <h1 class="home-headline-title">이번 주 브리핑</h1>
+            <span class="home-date-tag mono">${escapeHtml(periodLabel)}</span>
+            ${customW ? '<span class="briefing-tag">사용자 가중치</span>' : ''}
+          </div>
+          <div class="home-headline-actions">
+            <a class="btn btn-sm" href="#/alerts">알림 센터</a>
+            <a class="btn btn-sm btn-primary" href="#/discover">발굴 열기</a>
+          </div>
+        </div>
+        <p class="home-one-line">${weeklyOneLineHtml}</p>
+        ${snapshotSublineHtml ? `<p class="home-sub-line small muted">${snapshotSublineHtml}</p>` : ''}
+      </section>
+    `;
+
+    const alertsSummaryHtml = renderHomeAlertsSummaryHtml(alertsData, {
+      eventStarsMap,
+      watchKeys,
+      subVenues,
+      limit: 5,
+    });
+
+    const venueSubsRaw = renderVenueSubsHtml(alertsData, { title: '구독 공연장 소식' });
+    const venueSubsSectionHtml = venueSubsRaw
+      ? `<div class="home-venue-subs-wrap">${venueSubsRaw}<div class="home-venue-subs-foot"><a class="home-more-link" href="#/mine?tab=venues">구독 공연장 관리 →</a></div></div>`
+      : '';
+
+    const chartsPreviewHtml = `
+      <section class="home-charts-section" aria-label="차트 맛보기">
+        <div class="home-charts-grid">
+          <article class="block home-chart-card">
+            <div class="block-head">
+              <div>
+                <h2>떠오르는 5</h2>
+                <span class="block-meta">최근 30일 신호 증가 · 소형 무대 위주</span>
+              </div>
+              <a class="home-more-link" href="#/charts/rising">전체 보기 →</a>
+            </div>
+            ${renderRisingPreviewHtml(risingRows)}
+          </article>
+
+          <article class="block home-chart-card">
+            <div class="block-head">
+              <div>
+                <h2>갓 데뷔 5</h2>
+                <span class="block-meta">${debutTotal > 0 ? `최근 12개월 첫 발매 ${fmtInt(debutTotal)}팀 · 언급 ${fmtInt(debutMent)}팀` : '최근 12개월 첫 발매 백지 신인'}</span>
+              </div>
+              <a class="home-more-link" href="#/charts/debut">전체 보기 →</a>
+            </div>
+            ${renderDebutPreviewHtml(debutData)}
+          </article>
+        </div>
+
+        <nav class="home-quick-links" aria-label="빠른 이동">
+          <a class="home-quick-link" href="#/discover">발굴 · 전체 후보 (${fmtInt(candRows.length)}) →</a>
+          <a class="home-quick-link" href="#/charts">차트 순위표 →</a>
+          <a class="home-quick-link" href="#/venues">공연장 목록 →</a>
+          <a class="home-quick-link" href="#/cities">도시별 씬 →</a>
+          <a class="home-quick-link" href="#/festivals">페스티벌 →</a>
+        </nav>
+      </section>
+    `;
+
+    const upcomingHtml = prioritizedUpcoming.length
       ? `
-        <section class="block" id="todayUpcomingBlock">
+        <section class="block" id="todayUpcomingBlock" aria-label="이번 주 다가오는 공연">
           <div class="block-head">
             <div>
-              <h2>이번 주·다음 주 볼 수 있는 후보 공연</h2>
-              <span class="block-meta">후보 ${fmtInt(upcomingCandTeamSet.size)}팀 · ${fmtInt(upcomingCandEvents.length)}개 무대 (같은 날·같은 공연장 묶음)</span>
+              <h2>이번 주 다가오는 공연</h2>
+              <span class="block-meta">관심 팀·구독 공연장 먼저 · 2주 내 후보 ${fmtInt(upcomingCandTeamSet.size)}팀 · ${fmtInt(prioritizedUpcoming.length)}개 무대</span>
             </div>
-            <a class="small muted" href="#/venues">공연장·달력 보기 →</a>
+            <a class="home-more-link" href="#/venues">공연장·달력 보기 →</a>
           </div>
           <ul class="upcoming-list">
-            ${visUpcoming.map(ev => {
+            ${visUpcoming.map(({ ev, hasWatched, isSubVenue }) => {
               const dtLabel = formatKoreanShortDate(ev.signal_date);
               const multiCand = ev.candidateTeams.length >= 2;
               const otherNames = ev.otherTeams.slice(0, 3).map(t => t.display_name);
@@ -322,11 +318,16 @@ export async function renderTodayView(root) {
               const coBillHtml = ev.otherTeams.length > 0
                 ? `<div class="cobill-note"><span class="cobill-lbl">함께 서는 팀</span> ${escapeHtml(otherNames.join(', '))}${otherMore > 0 ? ` 외 ${fmtInt(otherMore)}팀` : ''}</div>`
                 : '';
+              const prioTags = [
+                hasWatched ? '<span class="home-prio-tag">관심 팀</span>' : '',
+                isSubVenue ? '<span class="home-prio-tag">구독 공연장</span>' : '',
+              ].filter(Boolean).join('');
               return `
-                <li class="upcoming-row">
+                <li class="upcoming-row${hasWatched || isSubVenue ? ' is-priority' : ''}">
                   <div class="upcoming-when">
                     <span class="upcoming-date">${escapeHtml(dtLabel)}</span>
-                    <span class="upcoming-venue">${escapeHtml(ev.venue)}</span>
+                    <a class="upcoming-venue inline-venue-link" href="#/venue/${encodeURIComponent(ev.venue)}">${escapeHtml(ev.venue)}</a>
+                    ${prioTags}
                     ${multiCand ? `<span class="cobill-badge">후보 ${ev.candidateTeams.length}팀 함께 서는 무대</span>` : ''}
                   </div>
                   <div class="upcoming-teams-wrap">
@@ -351,12 +352,12 @@ export async function renderTodayView(root) {
           <div class="player-slot" id="todayUpcomingPlayerSlot" data-player-slot></div>
           ${remUpcoming > 0
             ? `<div class="more-row" style="margin-top:10px;">
-                 <span>${fmtInt(visUpcoming.length)} / ${fmtInt(upcomingCandEvents.length)}개 무대</span>
+                 <span>${fmtInt(visUpcoming.length)} / ${fmtInt(prioritizedUpcoming.length)}개 무대</span>
                  <button type="button" class="btn btn-sm" id="btnMoreUpcoming">${fmtInt(Math.min(10, remUpcoming))}건 더 보기</button>
                </div>`
-            : (upcomingLimit > 5 && upcomingCandEvents.length > 5
+            : (upcomingLimit > 5 && prioritizedUpcoming.length > 5
                 ? `<div class="more-row" style="margin-top:10px;">
-                     <span>전체 ${fmtInt(upcomingCandEvents.length)}개 무대 표시 중</span>
+                     <span>전체 ${fmtInt(prioritizedUpcoming.length)}개 무대 표시 중</span>
                      <button type="button" class="btn btn-sm" id="btnLessUpcoming">접기</button>
                    </div>`
                 : '')}
@@ -364,188 +365,43 @@ export async function renderTodayView(root) {
       `
       : '';
 
-    const visNew = showAllNew ? diff.newEntrants.slice(0, 20) : diff.newEntrants.slice(0, 5);
-    const visRisers = showAllRisers ? diff.risers.slice(0, 20) : diff.risers.slice(0, 5);
-
-    const newHtml = visNew.length
-      ? `<ul class="mini-list">${visNew.map(t => `
-          <li>
-            <div class="mini-list-row">
-              ${avatarHtml(t.team_key, t.display_name, 28, { shape: 'circle', genre: t.genre })}
-              <div class="mini-list-main">
-                <a href="#/team/${encodeURIComponent(t.team_key)}"><strong>${escapeHtml(t.display_name)}</strong></a>
-                <div class="mini-list-sub">신규 #${t.rank_now} · ${fmtNum(t.score_now, 2)}점${t.genre ? ` · ${escapeHtml(t.genre)}` : ''}</div>
-              </div>
-            </div>
-            <div class="mini-list-actions">
-              ${spotifyButtonHtml(t.team_key, true, { iconOnly: true, teamName: t.display_name, slotId: 'todayNewPlayerSlot' })}
-              ${watchButtonHtml(t.team_key, t.display_name, true, true)}
-            </div>
-          </li>
-        `).join('')}</ul>
-        <div class="player-slot" id="todayNewPlayerSlot" data-player-slot></div>
-        ${!showAllNew && diff.newEntrants.length > 5 ? `<div style="margin-top:10px;"><button type="button" class="btn btn-sm" id="btnMoreNew">${fmtInt(Math.min(20, diff.newEntrants.length) - 5)}팀 더 보기</button></div>` : ''}`
-      : '<p class="muted small" style="margin:0;">이번 주 새로 들어온 팀이 없습니다.</p>';
-
-    const riserHtml = visRisers.length
-      ? `<ul class="mini-list">${visRisers.map(t => {
-          const deltaParts = [];
-          if (t.rank_gain > 0) deltaParts.push(`+${t.rank_gain}계단`);
-          if (t.score_gain > 0) deltaParts.push(`+${fmtNum(t.score_gain, 2)}점`);
-          return `
-            <li>
-              <div class="mini-list-row">
-                ${avatarHtml(t.team_key, t.display_name, 28, { shape: 'circle', genre: t.genre })}
-                <div class="mini-list-main">
-                  <a href="#/team/${encodeURIComponent(t.team_key)}"><strong>${escapeHtml(t.display_name)}</strong></a>
-                  <div class="mini-list-sub">#${t.rank_prev} → #${t.rank_now} (${deltaParts.join(', ')})</div>
-                </div>
-              </div>
-              <div class="mini-list-actions">
-                ${spotifyButtonHtml(t.team_key, true, { iconOnly: true, teamName: t.display_name, slotId: 'todayRiserPlayerSlot' })}
-                ${watchButtonHtml(t.team_key, t.display_name, true, true)}
-              </div>
-            </li>
-          `;
-        }).join('')}</ul>
-        <div class="player-slot" id="todayRiserPlayerSlot" data-player-slot></div>
-        ${!showAllRisers && diff.risers.length > 5 ? `<div style="margin-top:10px;"><button type="button" class="btn btn-sm" id="btnMoreRisers">${fmtInt(Math.min(20, diff.risers.length) - 5)}팀 더 보기</button></div>` : ''}`
-      : '<p class="muted small" style="margin:0;">순위·점수가 크게 오른 팀이 없습니다.</p>';
-
-    const debutTotal = debutData?.total || 0;
-    const debutMent = debutData?.mentioned?.length || 0;
-    const debutUnm = debutData?.unmentioned?.length || 0;
-    const sceneCommCount = appState.sceneMap?.communities?.length || Number(appState.meta?.scene_communities) || 0;
-
-    const exploreStripHtml = `
-      <section class="today-explore-strip" aria-label="신인 · 씬 탐색 바로가기">
-        <a class="today-explore-card" href="#/candidates/debut">
-          <div class="today-explore-top">
-            <strong>갓 데뷔 신인</strong>
-            ${debutTotal > 0 ? `<span class="today-explore-count">${fmtInt(debutTotal)}팀</span>` : ''}
-          </div>
-          <p class="today-explore-desc">
-            ${debutTotal > 0
-              ? `최근 12개월 첫 발매 · 언급 있음 ${fmtInt(debutMent)} · 아직 언급 없음 ${fmtInt(debutUnm)}`
-              : '최근 12개월 내 첫 발매한 백지 신인 모아 보기'}
-          </p>
-          <span class="today-explore-cta">갓 데뷔 보기 →</span>
-        </a>
-        <a class="today-explore-card" href="#/venues/network">
-          <div class="today-explore-top">
-            <strong>씬 네트워크</strong>
-            ${sceneCommCount > 0 ? `<span class="today-explore-count">묶음 ${fmtInt(sceneCommCount)}개</span>` : ''}
-          </div>
-          <p class="today-explore-desc">같은 무대에 함께 선 후보·수상 팀 연결 지도 탐색</p>
-          <span class="today-explore-cta">씬 네트워크 열기 →</span>
-        </a>
-      </section>
-    `;
-
-    // 5-3 알림 카드(종류별 묶음·별점/중요도 순·근거 펼침·보인/찾은 수) · 5-4 이상치 문장(spike)
-    const watchAlertsAll = getWatchlistAlerts(alertsData, getWatchlist());
-    function buildAlertsBlockHtml() {
-      return renderAlertsCardHtml(alertsData, {
-        watchAlerts: watchAlertsAll,
-        showAllWatch: showAllWatchAlerts,
-        eventStarsMap,
-        expandedTypes: expandedAlertTypes,
-      });
-    }
-    const spikeAlerts = (alertsData?.alerts || []).filter(a => a.type === 'spike');
-    const spikeBlockHtml = spikeAlerts.length ? `
-      <section class="block today-spike-block" aria-label="평소와 다른 움직임">
-        <div class="block-head">
-          <h2>평소와 다른 움직임</h2>
-          <span class="block-meta">최근 1주 언급 vs 지난 12주 · ${fmtInt(spikeAlerts.length)}팀</span>
-        </div>
-        ${renderSpikeSentencesHtml(spikeAlerts)}
-      </section>` : '';
-
-    const alertsBlockHtml = buildAlertsBlockHtml();
+    const healthWarnBannerHtml = !health.ok
+      ? `
+        <section class="home-health-warn" role="status" aria-label="데이터 수집 이상 안내">
+          <strong>수집 점검 필요:</strong>
+          <span>${escapeHtml(health.summaryLabel || '일부 출처 수집 상태를 확인해 주세요.')}</span>
+          <a href="#/verify/quality">데이터 품질 보기 →</a>
+        </section>
+      `
+      : '';
 
     root.innerHTML = `
-      ${renderOnboardingStripHtml()}
-      ${heroHtml}
-
-      <div id="todayAlertsHost">${alertsBlockHtml}</div>
-
-      ${spikeBlockHtml}
-
-      ${renderSavedCardShellHtml()}
-
-      ${renderVenueSubsHtml(alertsData, { title: '구독 공연장 소식' })}
-
-      <section class="today-section">
-        <div class="block-head" style="border:none;margin-bottom:10px;padding:0;">
-          <h2>이번 주 먼저 볼 5팀${infoTip('종합 점수', INFO_TIPS.score)}</h2>
-          <a class="small muted" href="#/candidates">후보 전체 보기 →</a>
-        </div>
-        ${top5Html}
-      </section>
-
-      ${exploreStripHtml}
-
-      ${upcomingHtml}
-
-      <div class="grid-2" style="margin-bottom:20px;">
-        <section class="block" style="margin-bottom:0;">
-          <div class="block-head">
-            <h3>새로 후보에 들어온 팀</h3>
-            <span class="block-meta">${fmtInt(diff.newEntrants.length)}팀</span>
-          </div>
-          ${newHtml}
-          ${snapNote ? `<p class="muted small" style="margin:10px 0 0 0;">${escapeHtml(snapNote)}</p>` : ''}
-        </section>
-
-        <section class="block" style="margin-bottom:0;">
-          <div class="block-head">
-            <h3>순위·점수가 크게 오른 팀</h3>
-            <span class="block-meta">${fmtInt(diff.risers.length)}팀</span>
-          </div>
-          ${riserHtml}
-          ${snapNote ? `<p class="muted small" style="margin:10px 0 0 0;">${escapeHtml(snapNote)}</p>` : ''}
-        </section>
+      <div class="home-page" id="homePageRoot">
+        ${headlineHtml}
+        ${renderOnboardingStripHtml()}
+        <div id="todayAlertsHost">${alertsSummaryHtml}</div>
+        ${renderSavedCardShellHtml()}
+        ${venueSubsSectionHtml}
+        ${chartsPreviewHtml}
+        ${upcomingHtml}
+        ${healthWarnBannerHtml}
+        ${renderEvidenceFooterHtml()}
       </div>
-
-      ${recentVideosHtml}
-      ${watchBlockHtml}
     `;
 
     wireAvatarFallbacks(root);
     wireSpotifyButtons(root);
-
-    // Inline click-to-play YouTube thumbnails (zero iframes on initial load)
-    root.querySelectorAll('.video-frame[data-video-id]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const vid = btn.dataset.videoId;
-        if (!/^[A-Za-z0-9_-]{11}$/.test(vid)) return;
-        const wrap = document.createElement('div');
-        wrap.className = 'video-frame';
-        wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${vid}?autoplay=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="무대 영상"></iframe>`;
-        btn.replaceWith(wrap);
-      });
-    });
-
-    root.querySelector('#btnMoreWatchAlerts')?.addEventListener('click', () => { showAllWatchAlerts = true; paint(); });
-    root.querySelectorAll('[data-alert-more]').forEach(btn => {
-      btn.addEventListener('click', () => { expandedAlertTypes.add(btn.dataset.alertMore); paint(); });
-    });
     fillSavedCard(root);
+
     root.querySelector('#btnMoreUpcoming')?.addEventListener('click', () => { upcomingLimit += 10; paint(); });
     root.querySelector('#btnLessUpcoming')?.addEventListener('click', () => { upcomingLimit = 5; paint(); });
-    root.querySelector('#btnMoreNew')?.addEventListener('click', () => { showAllNew = true; paint(); });
-    root.querySelector('#btnMoreRisers')?.addEventListener('click', () => { showAllRisers = true; paint(); });
-    root.querySelectorAll('[data-open-team]').forEach(el => {
-      el.addEventListener('click', () => navigateTo('team', el.dataset.openTeam));
-    });
   }
 
   paint();
 
-  // Live-update alerts highlight & onboarding strip if user stars/subscribes directly on #/today
+  // Live-update alerts summary, onboarding cards & priority upcoming gigs on watchlist / venue sub changes
   const onWatchChange = () => {
-    const host = root.querySelector('#todayAlertsHost');
+    const host = root.querySelector('#homePageRoot');
     if (!host || !host.isConnected) {
       window.removeEventListener('app:watchlist', onWatchChange);
       window.removeEventListener('app:venue-subs', onWatchChange);

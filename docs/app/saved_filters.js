@@ -11,7 +11,8 @@ let writeBlocked = false; // 한 번이라도 쓰기가 막히면 이 탭에선 
 
 function validItem(it) {
   return it && typeof it === 'object' && typeof it.id === 'string' && typeof it.name === 'string'
-    && typeof it.hash === 'string' && it.hash.startsWith('#/candidates') && it.spec && typeof it.spec === 'object';
+    && typeof it.hash === 'string' && (it.hash.startsWith('#/candidates') || it.hash.startsWith('#/discover'))
+    && it.spec && typeof it.spec === 'object';
 }
 
 export function listSavedFilters() {

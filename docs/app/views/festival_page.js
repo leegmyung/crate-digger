@@ -1,0 +1,137 @@
+/**
+ * 페스티벌 페이지 #/festival/<이름> (정보 구조 v2 묶음 E) — 회차표 · 라인업 표(회차 고르기, 후보 점수·발굴 단계·그 뒤 정답) ·
+ * 라인업의 신인 비율·후보 점수 분포 · 선정/정답 연결(같은 집안 ⚠️ · 다른 페스티벌과 겹친 팀 · 페스티벌 사이 이동).
+ * 주소의 <이름>은 페스티벌 키(burock_main 등) 또는 표시 이름(부산록페 루키즈 등) 둘 다 받는다.
+ * 자료: festival_profiles.json (scripts/festival_profiles.py)
+ */
+import { appState } from '../state.js';
+import { queryCandidates, queryDiscoveryStages } from '../db.js';
+import { loadFestivalProfiles } from '../db_venue.js';
+import { escapeHtml, fmtInt, fmtNum, gradeBadgeHtml, naCell, stageBadgeHtml } from '../ui.js';
+import { editionRowHtml, pctText } from './festivals.js';
+
+const SCORE_BANDS = [[6, '6점 이상'], [4, '4~6점'], [0, '4점 미만']];
+
+export function findFestival(fp, name) {
+  const all = fp?.festivals || {};
+  if (all[name]) return [name, all[name]];
+  return Object.entries(all).find(([, f]) => f.label === name) || null;
+}
+
+function lineupSummary(teams, candByKey) {
+  const scored = teams.map(t => candByKey.get(t.team_key)).filter(Boolean);
+  const bands = SCORE_BANDS.map(([lo, label], i) => {
+    const hi = i === 0 ? Infinity : SCORE_BANDS[i - 1][0];
+    return { label, n: scored.filter(c => c.score >= lo && c.score < hi).length };
+  });
+  return { inTop: scored.length, bands };
+}
+
+function lineupTableHtml(year, e, ctx) {
+  const teams = Array.isArray(e.teams) ? e.teams : [];
+  if (!teams.length) return naCell('이 회차 라인업 기록이 없습니다', { block: true });
+  const winnerByKey = new Map((e.later_winners || []).map(w => [w.team_key, w]));
+  const sum = lineupSummary(teams, ctx.candByKey);
+  const rows = teams
+    .map(t => ({ ...t, cand: ctx.candByKey.get(t.team_key) || null, stage: ctx.stageByTeam.get(t.team_key), win: winnerByKey.get(t.team_key) || null }))
+    .sort((a, b) => (b.cand?.score ?? -1) - (a.cand?.score ?? -1) || String(a.name).localeCompare(String(b.name)));
+  return `
+    <div class="fest-lineup-summary small">
+      <span>라인업 <strong>${fmtInt(teams.length)}</strong>팀</span>
+      <span>이 페스티벌 새 팀 <strong>${pctText(e.new_to_festival_share)}</strong></span>
+      <span>첫 페스티벌(신인) <strong>${pctText(e.first_festival_share)}</strong></span>
+      <span>지금 후보 상위 300 <strong>${fmtInt(sum.inTop)}</strong>팀 (${sum.bands.map(b => `${b.label} ${fmtInt(b.n)}`).join(' · ')})</span>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table stack-table fest-lineup-table" aria-label="${escapeHtml(year)} 라인업">
+        <thead><tr><th>팀</th><th class="num">지금 후보 점수</th><th>발굴 단계</th><th>그 뒤 정답</th></tr></thead>
+        <tbody>${rows.map(r => `
+          <tr>
+            <td data-label="팀"><a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(r.name || r.team_key)}</strong></a></td>
+            <td class="num" data-label="후보 점수">${r.cand ? `${fmtNum(r.cand.score, 2)} <span class="small muted">#${fmtInt(r.cand.rank)}</span>` : naCell('지금 후보 상위 300팀 밖이거나 신인이 아닙니다', { label: '—' })}</td>
+            <td data-label="발굴 단계">${r.stage !== undefined && r.stage !== null ? stageBadgeHtml(r.stage, { short: true }) : naCell('발굴 단계를 계산하지 않은 팀입니다', { label: '—' })}</td>
+            <td data-label="그 뒤 정답">${r.win ? `${gradeBadgeHtml(r.win.grade)} <span class="small">${escapeHtml(r.win.outcome || '')} · ${fmtInt(r.win.lead_months)}개월 뒤</span>` : (e.upcoming ? '<span class="small muted">아직 안 열림</span>' : '<span class="small muted">없음</span>')}</td>
+          </tr>`).join('')}</tbody>
+      </table>
+    </div>`;
+}
+
+/**
+ * @param {HTMLElement} host
+ * @param {string} name 키 또는 표시 이름
+ */
+export async function renderFestivalPage(host, name) {
+  const asOf = appState.dataEnd || appState.cfg.as_of || '2026-11-28';
+  const [fp, candRows, stageData] = await Promise.all([
+    loadFestivalProfiles(),
+    queryCandidates({ limit: 300 }).catch(() => []),
+    queryDiscoveryStages({ as_of: asOf }).catch(() => null),
+  ]);
+  const back = '<div class="team-topbar"><a class="btn btn-sm" href="#/festivals">← 페스티벌 목록</a></div>';
+  if (!fp?.festivals) {
+    host.innerHTML = `${back}<section class="block">${naCell('페스티벌 프로필(festival_profiles.json)이 아직 없습니다', { block: true })}</section>`;
+    return;
+  }
+  const hit = findFestival(fp, name);
+  if (!hit) {
+    host.innerHTML = `${back}<section class="block"><h1 class="place-title">${escapeHtml(name)}</h1>
+      <p class="muted">이 페스티벌은 우리 기록에 없습니다. <a href="#/festivals">페스티벌 목록</a>에서 골라 주세요.</p></section>`;
+    return;
+  }
+  const [key, f] = hit;
+  const labels = Object.fromEntries(Object.entries(fp.festivals).map(([k, x]) => [k, x.label || k]));
+  const eds = Object.entries(f.editions || {}).sort((a, b) => b[0].localeCompare(a[0]));
+  const ctx = {
+    candByKey: new Map(candRows.map((r, i) => [r.team_key, { score: Number(r.score), rank: i + 1 }])),
+    stageByTeam: new Map((stageData?.rows || []).map(r => [r.team_key, r.stage])),
+  };
+  const sameHouse = f.same_house?.is_outcome || (f.same_house?.outcome_programs || []).length;
+  const flows = (fp.flows || []).filter(fl => fl.from === key || fl.to === key);
+  const overlaps = Array.isArray(f.overlaps) ? f.overlaps : [];
+  let year = eds[0]?.[0] || '';
+
+  const yearButtons = () => eds.map(([y, e]) => `<button type="button" class="cf-preset-btn${y === year ? ' is-active' : ''}" data-fest-year="${escapeHtml(y)}" aria-pressed="${y === year}">${escapeHtml(y)} <span class="cf-preset-cnt">${fmtInt(e.lineup)}</span></button>`).join('');
+
+  host.innerHTML = `
+    ${back}
+    <section class="place-head">
+      <div class="place-head-row">
+        <h1 class="place-title">${escapeHtml(f.label || key)}</h1>
+        <span class="place-badge">${f.kind === 'outcome' ? '정답 프로그램' : '신호(라인업)'}</span>
+      </div>
+      <p class="small muted">회차 ${fmtInt(eds.length)}개 · 누적 ${fmtInt(f.teams_total || 0)}팀${fp.as_of ? ` · 기준 ${escapeHtml(fp.as_of)}` : ''}</p>
+      ${sameHouse ? `<p class="fest-same-house">⚠️ 같은 집안 — ${escapeHtml(f.same_house?.note || '정답 프로그램과 같은 행사라 그 정답은 \'그 뒤 정답\'에서 뺐습니다')}</p>` : ''}
+    </section>
+    <section class="block">
+      <div class="block-head"><h2>회차</h2><span class="block-meta">새 팀 = 앞선 회차에 없던 팀 · 첫 페스티벌 = 우리 데이터의 첫 페스티벌 출연</span></div>
+      <div class="table-wrap">
+        <table class="data-table stack-table fest-table">
+          <thead><tr><th>회차</th><th class="num">라인업</th><th class="num">새 팀</th><th class="num">첫 페스티벌</th><th>그 뒤 정답</th></tr></thead>
+          <tbody>${eds.map(([y, e]) => editionRowHtml(y, e)).join('')}</tbody>
+        </table>
+      </div>
+    </section>
+    <section class="block" id="festLineupBlock">
+      <div class="block-head"><h2>라인업</h2><span class="block-meta">회차를 고르면 그 회차 출연 팀 · 지금 후보 점수 순</span></div>
+      <div class="city-picker" role="group" aria-label="회차 고르기" id="festYearPicker">${yearButtons()}</div>
+      <div id="festLineupBody">${year ? lineupTableHtml(year, f.editions[year], ctx) : ''}</div>
+    </section>
+    <div class="city-grid">
+      <section class="block"><div class="block-head"><h3>다른 페스티벌과 겹친 팀</h3><span class="block-meta">어느 쪽에 먼저 섰나</span></div>
+        ${overlaps.length ? `<ul class="city-list">${overlaps.map(o => `<li><a href="#/festival/${encodeURIComponent(o.festival)}">${escapeHtml(o.label || labels[o.festival] || o.festival)}</a> <strong>${fmtInt(o.teams)}팀</strong> <span class="small muted">· 여기 먼저 ${fmtInt(o.this_first)} · 거기 먼저 ${fmtInt(o.other_first)}${o.same_day ? ` · 같은 날 ${fmtInt(o.same_day)}` : ''}</span></li>`).join('')}</ul>` : '<p class="small muted" style="margin:0;">겹친 팀이 없습니다.</p>'}
+      </section>
+      <section class="block"><div class="block-head"><h3>페스티벌 사이 이동</h3><span class="block-meta">팀 수 · 걸린 기간 중앙값</span></div>
+        ${flows.length ? `<ul class="city-list">${flows.map(fl => `<li>${escapeHtml(labels[fl.from] || fl.from)} → ${escapeHtml(labels[fl.to] || fl.to)} <strong>${fmtInt(fl.teams)}팀</strong>${fl.median_months !== null && fl.median_months !== undefined ? ` <span class="small muted">· ${fl.median_months}개월</span>` : ''}</li>`).join('')}</ul>` : '<p class="small muted" style="margin:0;">이 페스티벌이 들어간 이동 기록이 없습니다.</p>'}
+      </section>
+    </div>
+    <p class="small muted place-evidence">근거: 그 뒤 정답 = 회차 날짜보다 뒤·기준일 이하의 센 정답(같은 집안 정답은 뺌) · 정답 등급 규칙은 <a href="#/verify/grades">검증 › 정답 등급·같은 집안</a></p>`;
+
+  host.querySelector('#festYearPicker')?.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-fest-year]');
+    if (!btn || btn.dataset.festYear === year) return;
+    year = btn.dataset.festYear;
+    host.querySelector('#festYearPicker').innerHTML = yearButtons();
+    host.querySelector('#festLineupBody').innerHTML = lineupTableHtml(year, f.editions[year], ctx);
+    host.querySelector(`[data-fest-year="${CSS.escape(year)}"]`)?.focus();
+  });
+}

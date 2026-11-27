@@ -22,36 +22,52 @@ export function alertStars(a, eventStarsMap) {
   return hit ? hit.stars : null;
 }
 
-function sortAlerts(list, eventStarsMap) {
+export function sortAlerts(list, eventStarsMap) {
   return list
     .map(a => ({ a, stars: alertStars(a, eventStarsMap) }))
     .sort((x, y) => (y.stars ?? 0) - (x.stars ?? 0) || (Number(y.a.importance) || 0) - (Number(x.a.importance) || 0));
 }
 
-function evidenceItems(a) {
+export function evidenceItems(a) {
   const ev = Array.isArray(a.evidence) ? a.evidence : [];
   return ev.slice(0, 6).map(e => {
     const prog = e.program ? (appState.programLabels?.get(e.program) || SOURCE_LABELS[e.program] || e.program) : '';
     const src = e.source ? (SOURCE_LABELS[e.source] || e.source) : '';
-    const label = [e.venue, prog || src, e.branch].filter(Boolean).join(' · ') || '출처 미상';
-    return `<li><span class="mono">${escapeHtml(e.date || a.date || '')}</span> ${escapeHtml(label)}</li>`;
+    const venueHtml = e.venue
+      ? `<a class="inline-venue-link" href="#/venue/${encodeURIComponent(e.venue)}">${escapeHtml(e.venue)}</a>`
+      : '';
+    const rest = [prog || src, e.branch].filter(Boolean).map(escapeHtml).join(' · ');
+    const body = [venueHtml, rest].filter(Boolean).join(' · ') || '출처 미상';
+    return `<li><span class="mono">${escapeHtml(e.date || a.date || '')}</span> ${body}</li>`;
   }).join('');
 }
 
-function starsMini(n) {
+export function starsMini(n) {
   if (!n) return '';
   return `<span class="alert-stars" role="img" aria-label="사건 별 ${n}개" title="사건 별점 ${n}">${'★'.repeat(n)}</span>`;
 }
 
-export function alertRowHtml({ a, stars }, { isWatch = false } = {}) {
+export function safeAlertType(type) {
+  return /^[a-z0-9_]+$/.test(String(type || '')) ? String(type) : 'other';
+}
+
+export function alertRowHtml({ a, stars }, { isWatch = false, isSubVenue = false, typeLabel = '' } = {}) {
   const ev = evidenceItems(a);
   const textCls = UP_TYPES.has(a.type) ? ' is-up' : '';
+  const chipHtml = typeLabel
+    ? `<span class="alert-kind-chip alert-kind-${safeAlertType(a.type)}">${escapeHtml(typeLabel)}</span>`
+    : '';
+  const relBadge = isWatch
+    ? '<span class="alert-rel-tag">관심</span>'
+    : (isSubVenue ? '<span class="alert-rel-tag">구독 공연장</span>' : '');
   return `
     <li class="alert-row${isWatch ? ' is-watch' : ''}">
       <details>
         <summary>
+          ${chipHtml}
           ${starsMini(stars)}
           <a class="today-alert-team" href="#/team/${encodeURIComponent(a.team_key)}"><strong>${escapeHtml(a.name || a.team_key)}</strong></a>
+          ${relBadge}
           <span class="today-alert-text${textCls}">${escapeHtml(a.text)}</span>
           <span class="today-alert-meta mono">${escapeHtml(a.date || '')}</span>
         </summary>
@@ -202,3 +218,57 @@ export function renderWatchWeeklySummaryHtml(alertsData, watchKeys, eventStarsMa
       ${top.length ? `<ul class="today-alerts-list">${top.map(x => alertRowHtml(x, { isWatch: true })).join('')}</ul>` : ''}
     </section>`;
 }
+
+export function alertMatchesVenueSub(a, subVenueSet) {
+  if (!subVenueSet || !subVenueSet.size) return false;
+  const ev = Array.isArray(a?.evidence) ? a.evidence : [];
+  return ev.some(e => e?.venue && subVenueSet.has(String(e.venue).trim()));
+}
+
+/**
+ * 정보 구조 v2 홈(#/home)용 간결 알림 요약 — 별점 → 중요도 순 상위 N줄 + '모두 보기 → #/alerts'.
+ * @param {object|null} alertsData
+ * @param {{ eventStarsMap: Map|null, watchKeys?: Set<string>, subVenues?: Set<string>, limit?: number }} opts
+ */
+export function renderHomeAlertsSummaryHtml(alertsData, {
+  eventStarsMap = null,
+  watchKeys = new Set(),
+  subVenues = new Set(),
+  limit = 5,
+} = {}) {
+  const all = Array.isArray(alertsData?.alerts) ? alertsData.alerts : [];
+  if (!alertsData) return '';
+  const foundTotal = Object.values(alertsData.counts_found || {}).reduce((s, n) => s + (Number(n) || 0), 0) || all.length;
+  const head = `
+    <div class="block-head">
+      <div>
+        <h2>알림 요약</h2>
+        <span class="block-meta">별 많은 순 상위 ${fmtInt(Math.min(limit, all.length))}건 · 전체 ${fmtInt(all.length)}건 (찾은 ${fmtInt(foundTotal)}건)</span>
+      </div>
+      <a class="home-more-link" href="#/alerts">모두 보기 →</a>
+    </div>`;
+  if (!all.length) {
+    return `<section class="block home-alerts-block" id="todayAlertsBlock" aria-label="알림 요약">${head}<p class="muted small" style="margin:0;">이번 주 새 알림이 없습니다.</p></section>`;
+  }
+
+  const types = alertsData.types && typeof alertsData.types === 'object' ? alertsData.types : {};
+  const sorted = sortAlerts(all, eventStarsMap);
+  const top = sorted.slice(0, limit);
+  const watchCount = all.filter(a => watchKeys.has(a.team_key) || alertMatchesVenueSub(a, subVenues)).length;
+  const note = formatAlertBaselineNote(alertsData);
+
+  return `
+    <section class="block home-alerts-block" id="todayAlertsBlock" aria-label="알림 요약">
+      ${head}
+      ${watchCount > 0 ? `<p class="home-alerts-mine-note small">관심 팀·구독 공연장 관련 알림 <strong>${fmtInt(watchCount)}건</strong>이 포함되어 있습니다 · <a href="#/alerts">알림 센터에서 모아 보기 →</a></p>` : ''}
+      <ul class="today-alerts-list">
+        ${top.map(item => alertRowHtml(item, {
+          isWatch: watchKeys.has(item.a.team_key),
+          isSubVenue: alertMatchesVenueSub(item.a, subVenues),
+          typeLabel: types[item.a.type] || item.a.type_label || item.a.type,
+        })).join('')}
+      </ul>
+      <p class="today-alerts-foot muted small">줄을 누르면 근거(날짜·출처)가 펼쳐집니다 · 별 많은 순 → 중요도 순${note ? ` · ${escapeHtml(note)}` : ''}</p>
+    </section>`;
+}
+

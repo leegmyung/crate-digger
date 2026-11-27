@@ -4,72 +4,11 @@
  */
 import { appState, navigateTo } from '../state.js';
 import {
-  loadVenueProfiles, queryDiscoveryStages, queryTeamLastSeenMap,
-} from '../db.js';
+  TIER_KO, loadSearchIndex, searchAll, cityHash, festivalHash, searchPageHash,
+} from '../search_index.js';
 import {
   avatarHtml, escapeHtml, STAGE_META, wireAvatarFallbacks,
 } from '../ui.js';
-
-/** 주요 공연장 한글·영문 별칭 (venue_profiles.json aliases 필드가 없을 때도 양방향 매칭) */
-const VENUE_ALIAS_PAIRS = [
-  ['club ff', ['클럽 에프에프', '클럽에프에프', '에프에프', 'ff']],
-  ['club bbang', ['클럽 빵', '클럽빵', '빵']],
-  ['club victim', ['클럽 빅팀', '클럽빅팀', '빅팀']],
-  ['club sharp', ['클럽 샤프', '클럽샤프', '샤프']],
-  ['strange fruit', ['스트레인지 프룻', '스트레인지프룻', '스푸']],
-  ['롤링홀', ['rolling hall', 'rollinghall']],
-  ['상상마당', ['sangsangmadang', 'kt&g 상상마당', 'ktg']],
-  ['웨스트브릿지', ['west bridge', 'westbridge']],
-  ['벨로주', ['veloso', '벨로주 홍대', '벨로주 망원']],
-  ['제비다방', ['jebidabang', '취한제비']],
-  ['베이비돌', ['baby doll', 'babydoll']],
-  ['채널1969', ['channel 1969', 'channel1969', '채널 1969']],
-  ['언플러그드', ['unplugged', '카페 언플러그드', 'cafe unplugged']],
-  ['프리버드', ['freebird', 'free bird']],
-  ['네스트나다', ['nest nada', 'nestnada']],
-  ['무신사 개러지', ['musinsa garage', 'musinsagarage', '개러지']],
-  ['cj아지트', ['cj azit', 'cjazit', '광흥창']],
-  ['a.o.r', ['aor', '에이오알']],
-  ['bender', ['벤더', '클럽 벤더']],
-  ['노들섬', ['nodeul', 'nodeul island']],
-  ['스페이스 브릭', ['space brick', 'spacebrick']],
-  ['예스24', ['yes24', '예스24 라이브홀', '예스24 원더로크홀']],
-  ['언더스테이지', ['understage', '현대카드 언더스테이지']],
-  ['살롱 문보우', ['salon moonbow', 'moonbow']],
-  ['생기스튜디오', ['senggi', 'senggi studio']],
-  ['오방가르드', ['ovantgarde', '부산 오방가르드']],
-  ['얼라이브홀', ['alive hall', 'alivehall']],
-  ['프리즘홀', ['prism hall', 'prismhall']],
-  ['퍼플홀', ['purple hall', 'purplehall']],
-  ['스틸페이스', ['steel face', 'steelface']],
-  ['구름아래소극장', ['gureum', '구름아래']],
-  ['고창석', []],
-  ['인디팍', ['indiepark']],
-  ['클럽 온에어', ['club on air', 'onair']],
-  ['몽향라이브홀', ['monghyang']],
-];
-
-const TIER_KO = { S: '소형', M: '중형', L: '대형', XL: '초대형' };
-
-function norm(s) {
-  return String(s || '').toLowerCase().replace(/[\s._\-·()[\]]+/g, '');
-}
-
-function extraVenueAliases(name) {
-  const low = String(name || '').toLowerCase();
-  const out = [];
-  for (const [needle, aliases] of VENUE_ALIAS_PAIRS) {
-    if (low.includes(needle)) {
-      out.push(...aliases);
-    } else if (aliases.some(a => {
-      const al = a.toLowerCase();
-      return al.length >= 3 ? low.includes(al) : low === al;
-    })) {
-      out.push(needle, ...aliases);
-    }
-  }
-  return out;
-}
 
 function isEditableTarget(el) {
   if (!el) return false;
@@ -86,51 +25,15 @@ export function initGlobalSearch() {
   const mobileCloseBtn = document.getElementById('mobileSearchClose');
   if (!inp || !drop) return;
 
-  let venueIndex = null;       // [{ name, normName, searchKeys, city, tier, discovery, rank, last_night }]
-  let stageByTeam = null;      // Map<team_key, { stage, stage_label }>
-  let lastSeenByTeam = null;   // Map<team_key, isoDate>
+  let searchIdx = null;        // search_index.js loadSearchIndex() 결과 (공연장·도시·페스티벌 + 팀 단계·마지막 신호)
   let enrichPromise = null;
   let activeIdx = -1;
 
   function ensureEnriched() {
-    if (venueIndex && stageByTeam && lastSeenByTeam) return Promise.resolve();
+    if (searchIdx) return Promise.resolve();
     if (enrichPromise) return enrichPromise;
     if (!appState.ready) return Promise.resolve();
-
-    const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
-    enrichPromise = Promise.all([
-      loadVenueProfiles().catch(() => null),
-      queryDiscoveryStages({ as_of: asOf }).catch(() => null),
-      queryTeamLastSeenMap().catch(() => null),
-    ]).then(([vp, stData, lsMap]) => {
-      if (vp && vp.venues) {
-        const list = Object.entries(vp.venues).map(([name, info]) => {
-          const rawAliases = [
-            ...(Array.isArray(info.aliases) ? info.aliases : []),
-            ...extraVenueAliases(name),
-          ];
-          const searchKeys = [name, ...rawAliases].map(norm).filter(Boolean);
-          return {
-            name,
-            lowName: name.toLowerCase(),
-            normName: norm(name),
-            searchKeys,
-            city: String(info.city || ''),
-            tier: String(info.tier || ''),
-            discovery: Number(info.discovery) || 0,
-            nights: Number(info.nights) || 0,
-            last_night: String(info.last_night || '').slice(0, 10),
-          };
-        });
-        list.sort((a, b) => (b.discovery - a.discovery) || (b.nights - a.nights));
-        list.forEach((v, i) => { v.rank = i + 1; });
-        venueIndex = list;
-      } else {
-        venueIndex = [];
-      }
-      stageByTeam = stData?.byTeam || new Map();
-      lastSeenByTeam = lsMap || new Map();
-    }).finally(() => {
+    enrichPromise = loadSearchIndex().then(idx => { searchIdx = idx; }).finally(() => {
       enrichPromise = null;
       if (document.activeElement === inp && inp.value.trim()) {
         renderDrop();
@@ -179,63 +82,19 @@ export function initGlobalSearch() {
     if (!btn) return;
     const teamKey = btn.dataset.pickTeam;
     const venueName = btn.dataset.pickVenue;
+    const hash = btn.dataset.pickHash;              // 도시·페스티벌·'모두 보기'
     drop.hidden = true;
     activeIdx = -1;
-    inp.value = '';
+    if (!hash || !hash.startsWith('#/search')) inp.value = '';
     setMobileSearchOpen(false);
     if (teamKey) navigateTo('team', teamKey);
     else if (venueName) navigateTo('venue', venueName);
-  }
-
-  function searchTeams(qLow, qNorm) {
-    if (!appState.teamIndex.length) return [];
-    const latestSnap = appState.snapshots?.latest || new Map();
-    const matches = [];
-    for (const t of appState.teamIndex) {
-      const dn = String(t.display_name || '').toLowerCase();
-      const tk = String(t.team_key || '').toLowerCase();
-      const dnNorm = norm(t.display_name);
-      const tkNorm = norm(t.team_key);
-      let prio = -1;
-      if (dn.startsWith(qLow) || tk.startsWith(qLow)) prio = 0;
-      else if (dn.includes(qLow) || tk.includes(qLow)) prio = 1;
-      else if (qNorm && (dnNorm.includes(qNorm) || tkNorm.includes(qNorm))) prio = 2;
-      if (prio < 0) continue;
-
-      const snap = latestSnap.get(t.team_key);
-      const rank = snap?.rank ? Number(snap.rank) : null;
-      const st = stageByTeam?.get(t.team_key) || null;
-      const lastSeen = lastSeenByTeam?.get(t.team_key) || '';
-      matches.push({ t, prio, rank, st, lastSeen });
-    }
-    matches.sort((a, b) => (
-      (a.prio - b.prio)
-      || ((a.rank ?? 99999) - (b.rank ?? 99999))
-      || (b.lastSeen.localeCompare(a.lastSeen))
-    ));
-    return matches.slice(0, 7);
-  }
-
-  function searchVenues(qLow, qNorm) {
-    if (!venueIndex || !venueIndex.length) return [];
-    const matches = [];
-    for (const v of venueIndex) {
-      let prio = -1;
-      if (v.lowName.startsWith(qLow)) prio = 0;
-      else if (v.lowName.includes(qLow)) prio = 1;
-      else if (qNorm && v.searchKeys.some(k => k.startsWith(qNorm))) prio = 1;
-      else if (qNorm && v.searchKeys.some(k => k.includes(qNorm))) prio = 2;
-      if (prio < 0) continue;
-      matches.push({ v, prio });
-    }
-    matches.sort((a, b) => (a.prio - b.prio) || (a.v.rank - b.v.rank));
-    return matches.slice(0, 5);
+    else if (hash) window.location.hash = hash;
   }
 
   function renderDrop() {
     const rawQ = inp.value.trim();
     const qLow = rawQ.toLowerCase();
-    const qNorm = norm(rawQ);
     activeIdx = -1;
     inp.removeAttribute('aria-activedescendant');
 
@@ -247,11 +106,16 @@ export function initGlobalSearch() {
 
     ensureEnriched();
 
-    const teamHits = searchTeams(qLow, qNorm);
-    const venueHits = searchVenues(qLow, qNorm);
+    const res = searchAll(rawQ, searchIdx, { teams: 7, venues: 5, cities: 3, festivals: 3 });
+    const teamHits = res.teams.items;
+    const venueHits = res.venues.items;
+    const cityHits = res.cities.items;
+    const festHits = res.festivals.items;
+    const totalHits = res.teams.total + res.venues.total + res.cities.total + res.festivals.total;
 
-    if (!teamHits.length && !venueHits.length) {
-      drop.innerHTML = '<div class="f-search-empty">일치하는 팀이나 공연장이 없습니다.</div>';
+    if (!totalHits) {
+      drop.innerHTML = `<div class="f-search-empty">아직 우리 기록에 없는 이름입니다.
+        <a href="${escapeHtml(searchPageHash(rawQ))}">검색 결과 화면에서 다시 보기</a></div>`;
       drop.hidden = false;
       return;
     }
@@ -302,6 +166,42 @@ export function initGlobalSearch() {
       }).join('');
       sections.push(`<div class="f-search-group-label" role="presentation">공연장</div>${itemsHtml}`);
     }
+
+    if (cityHits.length || festHits.length) {
+      const cityHtml = cityHits.map(({ c }) => {
+        const id = `gsOpt${optSeq++}`;
+        return `
+          <button type="button" id="${id}" class="f-search-opt" role="option" aria-selected="false" data-pick-hash="${escapeHtml(cityHash(c.name))}">
+            <span class="f-search-opt-left">
+              <span class="f-search-venue-ico" aria-hidden="true">${escapeHtml(c.name.slice(0, 2))}</span>
+              <span class="f-search-opt-name">${escapeHtml(c.name)}</span>
+              <span class="f-search-stage">도시</span>
+            </span>
+            <span class="f-search-opt-meta"><span class="f-search-date">공연장 ${c.venues} · 1년 첫 무대 ${c.firstStage1y}팀</span></span>
+          </button>`;
+      }).join('');
+      const festHtml = festHits.map(({ f }) => {
+        const id = `gsOpt${optSeq++}`;
+        const span = f.years.length ? `${f.years[0]}${f.years.length > 1 ? `~${f.years[f.years.length - 1]}` : ''}` : '';
+        return `
+          <button type="button" id="${id}" class="f-search-opt" role="option" aria-selected="false" data-pick-hash="${escapeHtml(festivalHash(f.key))}">
+            <span class="f-search-opt-left">
+              <span class="f-search-venue-ico" aria-hidden="true">축</span>
+              <span class="f-search-opt-name">${escapeHtml(f.label)}</span>
+              <span class="f-search-stage">페스티벌</span>
+            </span>
+            <span class="f-search-opt-meta"><span class="f-search-date">${escapeHtml(span)} · ${f.teams}팀</span></span>
+          </button>`;
+      }).join('');
+      sections.push(`<div class="f-search-group-label" role="presentation">도시 · 페스티벌</div>${cityHtml}${festHtml}`);
+    }
+
+    const shown = teamHits.length + venueHits.length + cityHits.length + festHits.length;
+    sections.push(`
+      <button type="button" id="gsOpt${optSeq++}" class="f-search-opt f-search-all" role="option" aria-selected="false" data-pick-hash="${escapeHtml(searchPageHash(rawQ))}">
+        <span class="f-search-opt-left"><span class="f-search-opt-name">모두 보기 →</span></span>
+        <span class="f-search-opt-meta"><span class="f-search-date">${totalHits > shown ? `${totalHits}개 중 ${shown}개 표시` : `${totalHits}개`}</span></span>
+      </button>`);
 
     drop.innerHTML = sections.join('');
     wireAvatarFallbacks(drop);

@@ -7229,7 +7229,6 @@ table.data-table tbody tr[data-nav-row]:focus-visible {
   background: var(--surface);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-card);
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--ink) 14%, transparent);
 }
 
 .cf-popover[hidden] {

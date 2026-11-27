@@ -10,8 +10,10 @@ import {
 } from '../ui.js';
 import { mountSceneNetworkBlock } from './graph.js';
 import { renderVenueListPage, renderVenueViewSwitch, wireVenueViewSwitch } from './venues_list.js';
-import { renderCityTab } from './city.js';
-import { renderFestivalTab } from './festivals.js';
+import { renderCitiesList } from './city.js';
+import { renderCityPage } from './city_page.js';
+import { renderFestivalsList } from './festivals.js';
+import { renderFestivalPage } from './festival_page.js';
 
 /**
  * 공연장 메뉴(정보 구조 v2 묶음 D): #/venues · #/venues/list = 공연장 목록(보기: 표·지도),
@@ -20,10 +22,15 @@ import { renderFestivalTab } from './festivals.js';
  */
 export async function renderVenuesView(root) {
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
-  if (appState.venuesTab === 'city' || appState.venuesTab === 'festival') {
-    root.innerHTML = '<div id="venuesTabHost"></div>';
-    const render = appState.venuesTab === 'city' ? renderCityTab : renderFestivalTab;
-    await render(root.querySelector('#venuesTabHost'));
+  // 묶음 E: 도시 목록 #/cities → 도시 페이지 #/city/<이름>, 페스티벌 목록 #/festivals → #/festival/<이름>
+  if (appState.venuesTab === 'city') {
+    if (appState.venuesCity) await renderCityPage(root, appState.venuesCity);
+    else await renderCitiesList(root);
+    return;
+  }
+  if (appState.venuesTab === 'festival') {
+    if (appState.festivalName) await renderFestivalPage(root, appState.festivalName);
+    else await renderFestivalsList(root);
     return;
   }
   // 팀 상세의 '속한 씬' 링크는 씬 묶음을 펼쳐 보여 줘야 하므로 씬 보기로

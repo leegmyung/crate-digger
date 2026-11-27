@@ -13,8 +13,8 @@ export function renderOnboardingStripHtml() {
       id: 'watch',
       title: '관심 팀 추가',
       desc: '지켜볼 팀을 담아 두면 최근 7일 새 신호와 순위 변동을 모아 봅니다.',
-      cta: '후보 목록에서 고르기',
-      href: '#/candidates',
+      cta: '발굴에서 고르기',
+      href: '#/discover',
       done: getWatchlist().length > 0,
     },
     {
@@ -22,7 +22,7 @@ export function renderOnboardingStripHtml() {
       title: '필터 저장',
       desc: '자주 보는 장르·발굴 단계 조건을 저장해 매주 새 팀을 확인합니다.',
       cta: '조건 만들고 저장하기',
-      href: '#/candidates',
+      href: '#/discover',
       done: listSavedFilters().length > 0,
     },
     {
