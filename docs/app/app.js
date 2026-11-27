@@ -30,6 +30,7 @@ const VIEW_LOADERS = {
   charts: () => import('./views/charts.js').then(m => m.renderChartsView),   // 묶음 F
   alerts: () => import('./views/alerts.js').then(m => m.renderAlertsView),
   search: () => import('./views/search.js').then(m => m.renderSearchView),
+  help: () => import('./views/help.js').then(m => m.renderHelpView),
 };
 
 // 왼쪽 메뉴 키(data-route) — 안쪽 경로 이름과 다를 수 있음 (docs/app_structure_v2.md 2-1)

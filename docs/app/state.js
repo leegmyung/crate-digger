@@ -19,6 +19,7 @@ export const ROUTES = [
   'charts',
   'alerts',
   'search',
+  'help',
 ];
 
 // ---------- 정보 구조 v2 (docs/app_structure_v2.md) ----------
@@ -468,6 +469,8 @@ function parseHashString(hash) {
   } else if (head === 'mine') {
     appState.route = 'watchlist';
     appState.mineTab = MINE_TABS.includes(p.get('tab')) ? p.get('tab') : 'watch';
+  } else if (head === 'help') {
+    appState.route = 'help';
   } else if (head === 'search') {
     appState.route = 'search';
     appState.searchQuery = String(p.get('q') || '').slice(0, 100);
@@ -624,6 +627,8 @@ function publicPath(normRoute, param, verifyTab, p) {
       return '#/mine';
     case 'alerts':
       return '#/alerts';
+    case 'help':
+      return '#/help';
     case 'search':
       if (appState.searchQuery) p.set('q', appState.searchQuery);
       return '#/search';

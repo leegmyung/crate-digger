@@ -43,7 +43,7 @@ export function renderOnboardingStripHtml() {
     <section class="onboard-strip" id="todayOnboardStrip" aria-label="처음 시작하기">
       <div class="onboard-head">
         <span class="onboard-title">처음 시작하기</span>
-        <span class="onboard-meta">완료 ${doneCount} / ${tasks.length} · 마치면 자동으로 사라집니다</span>
+        <span class="onboard-meta">완료 ${doneCount} / ${tasks.length} · 마치면 자동으로 사라집니다 · <a href="#/help">사용 안내</a></span>
       </div>
       <div class="onboard-grid">
         ${remaining.map(t => `
