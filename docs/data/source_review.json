@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-28T01:02:27+09:00",
+ "generated_at": "2026-11-28T02:31:29+09:00",
  "data_end": "2026-11-28",
  "cutoffs": [
   "2025-01-01",
@@ -16,21 +16,28 @@
   "unclassified": "분류표에 없는 출처 → 미분류",
   "small_sample": "후보 20팀 미만이면 제안 대신 표본 부족"
  },
- "suggestions_changed_on": "2026-11-27",
+ "suggestions_changed_on": "2026-11-28",
  "suggestions": [
   {
    "src": "큐레이션:trackzero",
    "role": "pending",
    "kind": "ready",
    "suggestion": "평가 가능 — 성적표로 판정",
-   "reason": "기록 1689일·후보 2088팀·적중 32·배수 1.9·유일 기여 4팀"
+   "reason": "기록 1689일·후보 2086팀·적중 34·배수 2·유일 기여 4팀"
+  },
+  {
+   "src": "공연:indiego",
+   "role": "pending",
+   "kind": "ready",
+   "suggestion": "평가 가능 — 성적표로 판정",
+   "reason": "기록 2070일·후보 151팀·적중 3·배수 2.4·유일 기여 1팀"
   },
   {
    "src": "큐레이션:rhythmer",
    "role": "context",
    "kind": "promote",
    "suggestion": "discovery로 올릴 후보",
-   "reason": "후보 72팀·적중 2·배수 3.4·유일 기여 0팀"
+   "reason": "후보 72팀·적중 2·배수 3.3·유일 기여 0팀"
   },
   {
    "src": "큐레이션:hiphople",
@@ -52,26 +59,26 @@
    "src": "공연:indistreet",
    "role": "discovery",
    "since_date": "2024-01-04",
-   "signal_rows": 13914,
-   "teams": 4498,
+   "signal_rows": 13913,
+   "teams": 4493,
    "hits": 54,
    "rate": 1.2,
-   "lift": 1.5,
+   "lift": 1.4,
    "winners_seen": 50,
-   "first_to_see": 33,
-   "only_source": 19
+   "first_to_see": 32,
+   "only_source": 14
   },
   {
    "src": "큐레이션:trackzero",
    "role": "pending",
    "since_date": "2022-04-14",
    "signal_rows": 2905,
-   "teams": 2088,
-   "hits": 32,
-   "rate": 1.53,
-   "lift": 1.9,
-   "winners_seen": 36,
-   "first_to_see": 10,
+   "teams": 2086,
+   "hits": 34,
+   "rate": 1.63,
+   "lift": 2.0,
+   "winners_seen": 37,
+   "first_to_see": 11,
    "only_source": 4
   },
   {
@@ -79,23 +86,36 @@
    "role": "discovery",
    "since_date": "2023-01-02",
    "signal_rows": 1053,
-   "teams": 1459,
+   "teams": 1456,
    "hits": 33,
-   "rate": 2.26,
-   "lift": 2.8,
+   "rate": 2.27,
+   "lift": 2.7,
    "winners_seen": 27,
    "first_to_see": 11,
    "only_source": 2
+  },
+  {
+   "src": "공연:indiego",
+   "role": "pending",
+   "since_date": "2021-03-29",
+   "signal_rows": 4872,
+   "teams": 151,
+   "hits": 3,
+   "rate": 1.99,
+   "lift": 2.4,
+   "winners_seen": 13,
+   "first_to_see": 2,
+   "only_source": 1
   },
   {
    "src": "큐레이션:izm",
    "role": "context",
    "since_date": "2023-01-01",
    "signal_rows": 1322,
-   "teams": 1172,
+   "teams": 1170,
    "hits": 10,
    "rate": 0.85,
-   "lift": 1.1,
+   "lift": 1.0,
    "winners_seen": 10,
    "first_to_see": 2,
    "only_source": 1
@@ -105,10 +125,10 @@
    "role": "discovery",
    "since_date": "2010-07-08",
    "signal_rows": 839,
-   "teams": 242,
+   "teams": 240,
    "hits": 8,
-   "rate": 3.31,
-   "lift": 4.1,
+   "rate": 3.33,
+   "lift": 4.0,
    "winners_seen": 8,
    "first_to_see": 5,
    "only_source": 0
@@ -134,7 +154,7 @@
    "teams": 1764,
    "hits": 11,
    "rate": 0.62,
-   "lift": 0.8,
+   "lift": 0.7,
    "winners_seen": 8,
    "first_to_see": 4,
    "only_source": 1
@@ -147,7 +167,7 @@
    "teams": 21,
    "hits": 3,
    "rate": 14.29,
-   "lift": 17.6,
+   "lift": 17.2,
    "winners_seen": 3,
    "first_to_see": 1,
    "only_source": 0
@@ -160,7 +180,7 @@
    "teams": 72,
    "hits": 2,
    "rate": 2.78,
-   "lift": 3.4,
+   "lift": 3.3,
    "winners_seen": 3,
    "first_to_see": 1,
    "only_source": 0
@@ -186,22 +206,9 @@
    "teams": 84,
    "hits": 3,
    "rate": 3.57,
-   "lift": 4.4,
+   "lift": 4.3,
    "winners_seen": 2,
    "first_to_see": 2,
-   "only_source": 0
-  },
-  {
-   "src": "공연:indiego",
-   "role": "pending",
-   "since_date": "2022-07-16",
-   "signal_rows": 611,
-   "teams": 12,
-   "hits": 0,
-   "rate": 0.0,
-   "lift": 0.0,
-   "winners_seen": 2,
-   "first_to_see": 0,
    "only_source": 0
   },
   {
@@ -212,7 +219,7 @@
    "teams": 34,
    "hits": 1,
    "rate": 2.94,
-   "lift": 3.6,
+   "lift": 3.5,
    "winners_seen": 1,
    "first_to_see": 0,
    "only_source": 0
@@ -222,7 +229,7 @@
    "role": "excluded",
    "since_date": "2018-06-30",
    "signal_rows": 152,
-   "teams": 79,
+   "teams": 77,
    "hits": 0,
    "rate": 0.0,
    "lift": 0.0,
@@ -312,7 +319,7 @@
    "src": "공연:instagram",
    "role": "pending",
    "since_date": "2026-11-13",
-   "signal_rows": 1079,
+   "signal_rows": 1078,
    "teams": 0,
    "hits": 0,
    "rate": null,
