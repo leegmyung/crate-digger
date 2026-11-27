@@ -560,7 +560,23 @@ def outcome_signal_link(artists: list[dict]) -> dict:
             "linked_only_by_xref": links["merged"]}
 
 
-def xref_rows(artists: list[dict]) -> list[tuple[str, str, str, str]]:
+NON_ARTIST_KEY = "__non_artist__"   # 팀이 아닌 계정(매거진·공연장·기관) — core.v_signal 이 이 키의 줄을 신호에서 뺀다
+ORG_HANDLES = ("kocca_official", "_muse_on", "gmail.com", "naver.com")   # 캡션에 자주 태그되는 기관·프로그램 계정
+# 팀처럼 잡히지만 지원·경연 프로그램 이름인 것 (연결표에 팀으로 있어도 덮어씀)
+PROGRAM_NAME_KEYS = ("뮤즈온", "museon", "헬로루키", "hellorookie", "튠업", "인디스땅스", "뮤콘", "mucon")
+INSTA_ACCOUNTS = ROOT / "config" / "insta_accounts.json"
+
+
+def tracked_account_handles(path: Path = INSTA_ACCOUNTS) -> list[str]:
+    """우리가 추적하는 매거진·공연장 계정 + 기관 계정 = 팀이 아닌 계정명. 파일이 없으면 기관 계정만."""
+    try:
+        accounts = json.loads(path.read_text(encoding="utf-8")).get("accounts", [])
+    except (OSError, ValueError, AttributeError):
+        accounts = []
+    return [a.get("handle", "") for a in accounts if a.get("handle")] + list(ORG_HANDLES)
+
+
+def xref_rows(artists: list[dict], non_artist_handles: list[str] | None = None) -> list[tuple[str, str, str, str]]:
     """DB ref.artist_xref 행: (variant_key, artist_key, display_name, confidence). variant_key 는 중복 없음."""
     rows: dict[str, tuple] = {}
     for rec in artists:
@@ -574,6 +590,12 @@ def xref_rows(artists: list[dict]) -> list[tuple[str, str, str, str]]:
                 k = artist_key(ig["handle"].lstrip("@"))
                 if k:
                     rows.setdefault(k, (k, rec["artist_key"], rec["display_name"], ig["confidence"]))
+    for k in PROGRAM_NAME_KEYS:                 # 프로그램 이름은 확실히 팀이 아니므로 덮어쓴다
+        rows[k] = (k, NON_ARTIST_KEY, "팀 아님(지원·경연 프로그램 이름)", "high")
+    for h in non_artist_handles or []:          # 마지막에: 실제 팀 키는 덮어쓰지 않음
+        k = artist_key(h.lstrip("@"))
+        if k:
+            rows.setdefault(k, (k, NON_ARTIST_KEY, "팀 아님(매거진·공연장·기관 계정)", "high"))
     return list(rows.values())
 
 
@@ -597,7 +619,7 @@ def load_pg(artists: list[dict], psql_path: str = PSQL, db: str = DB) -> str:
     넣은 뒤 sql/kr/00_core_views.sql 을 다시 실행해야 뷰의 team_key 에 반영된다."""
     if not Path(psql_path).exists():
         return "PostgreSQL 적재 건너뜀: psql을 찾을 수 없음 (PSQL 환경변수로 위치 지정 가능)"
-    rows = xref_rows(artists)
+    rows = xref_rows(artists, tracked_account_handles())
     with tempfile.TemporaryDirectory() as d:
         csv_path, sql_path = Path(d) / "artist_xref.csv", Path(d) / "load.sql"
         with open(csv_path, "w", encoding="utf-8", newline="") as f:

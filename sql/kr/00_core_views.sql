@@ -77,7 +77,8 @@ SELECT b.*, COALESCE(tm.team_key, b.artist_key) AS team_key,
        CASE WHEN b.branch = '공연' THEN COALESCE(vm.venue, TRIM(b.detail)) END AS venue
 FROM core.v_signal_base b
 LEFT JOIN core.v_team_map tm ON tm.variant_key = b.artist_key
-LEFT JOIN core.v_venue_map vm ON b.branch = '공연' AND vm.variant = TRIM(b.detail);
+LEFT JOIN core.v_venue_map vm ON b.branch = '공연' AND vm.variant = TRIM(b.detail)
+WHERE COALESCE(tm.team_key, '') <> '__non_artist__';   -- 매거진·공연장·기관 계정명으로만 잡힌 줄은 팀 신호가 아님 (artist_xref.NON_ARTIST_KEY)
 
 -- 2) 아티스트 첫 발매일·규모 (멜론 프로필). 같은 키에 여러 프로필이면 가장 이른 날짜
 CREATE VIEW core.v_artist_profile AS

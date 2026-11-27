@@ -301,6 +301,22 @@ class PgRowsTest(unittest.TestCase):
         rows2 = {r[0]: r for r in ax.xref_rows(artists[:1])}
         self.assertEqual(rows2["oysters999"][1], "오이스터즈")
 
+    def test_tracked_accounts_are_marked_non_artist_without_overriding_teams(self):
+        # 매거진·공연장·기관 계정명은 '팀 아님'으로 → 신호에서 빠진다. 실제 팀 이름 키는 덮어쓰지 않는다.
+        artists = [{"artist_key": "클럽에프에프", "display_name": "클럽에프에프", "keys": ["clubffhongdae"],
+                    "aliases": [], "confidence": "high", "instagram": []}]
+        rows = {r[0]: r for r in ax.xref_rows(artists, non_artist_handles=["@kocca_official", "clubff_hongdae"])}
+        self.assertEqual(rows["koccaofficial"][1], ax.NON_ARTIST_KEY)
+        self.assertEqual(rows["clubffhongdae"][1], "클럽에프에프")
+
+    def test_program_names_are_forced_non_artist(self):
+        # '뮤즈온' 같은 지원 프로그램 이름은 연결표에 팀처럼 있어도 팀 아님으로 덮어쓴다
+        artists = [{"artist_key": "뮤즈온", "display_name": "뮤즈온", "keys": ["뮤즈온", "museon"], "aliases": [],
+                    "confidence": "low", "instagram": []}]
+        rows = {r[0]: r for r in ax.xref_rows(artists, non_artist_handles=[])}
+        self.assertEqual(rows["museon"][1], ax.NON_ARTIST_KEY)
+        self.assertEqual(rows["뮤즈온"][1], ax.NON_ARTIST_KEY)
+
     def test_pg_script_refills_without_drop(self):
         # core 뷰가 ref.artist_xref 를 참조하므로 DROP 대신 비우고 다시 채운다 (한 트랜잭션)
         script = ax.pg_load_script("/tmp/x.csv")
