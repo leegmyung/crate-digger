@@ -45,7 +45,7 @@ def genre_label(value: Optional[str]) -> str:
 
 
 def analysis_genre(value: Optional[str], confidence: Optional[str]) -> str:
-    """비교·분석용 장르: 추정(inferred·inferred_low) 장르는 '미분류'로 — profile·press 장르만 쓴다
+    """비교·분석용 장르: 추정·리뷰(inferred·review·inferred_low) 장르는 '미분류'로 — profile·press 장르만 쓴다
     (2026-11-27 결정, docs/genre_fill.md). 확신도 칸이 비면(옛 CSV) 장르를 그대로 쓴다."""
     return genre_label(value) if (confidence or "") in ("", "profile", "press") else UNCLASSIFIED
 

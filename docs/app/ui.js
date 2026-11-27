@@ -1011,11 +1011,36 @@ export async function ensureD3() {
 
 // ---------- Shared Table Usability Helpers (Sort, Keyboard, Hover Preview, CSV) ----------
 
-/** teams.genre_confidence='inferred' 인 팀의 장르 옆 '추정' 꼬리표(아니면 빈 문자열). */
+/**
+ * 약한 장르 확신도 (docs/genre_fill.md, 2026-11-28 결정): 앱 필터·표시에는 쓰되 꼬리표를 붙이고, 비교·분석(장르 이웃)에서는 뺀다.
+ *   inferred 같은 무대 다수결·공연장 성향·약한 출처 힌트 · review 매체 리뷰 장르 · inferred_low 같은 무대 1표(가장 약함)
+ */
+const WEAK_GENRE_TAGS = {
+  inferred: { label: '추정', title: '추정 장르', tip: INFO_TIPS.genre_inferred },
+  review: {
+    label: '리뷰', title: '매체 리뷰 장르',
+    tip: { what: '웹진 리뷰(음악취향Y·overtone·VISLA)가 붙인 장르입니다. 곡·앨범 하나의 장르라 팀 장르와 다를 수 있어 약하게 표시합니다.',
+           period: '받은 리뷰 기록 기준', compare: '플랫폼 장르·확실한 출처가 없는 팀 대상' },
+  },
+  inferred_low: {
+    label: '추정·약함', title: '확신 낮은 추정 장르',
+    tip: { what: '같은 무대에 장르를 아는 팀이 1팀뿐이라 그 팀의 장르로 짐작했습니다. 맞는 비율이 절반 정도라 참고로만 보세요.',
+           period: '누적 공연 기록 기준', compare: '다른 방법으로 장르를 못 정한 팀 대상' },
+  },
+};
+
+/** 장르 확신도가 약한가 — 추정·리뷰·확신 낮음 (장르 이웃 비교·'추정 장르 빼기' 필터에서 제외할 대상). */
+export function isWeakGenreConfidence(genreConfidence = '') {
+  return Object.prototype.hasOwnProperty.call(WEAK_GENRE_TAGS, String(genreConfidence || '').trim().toLowerCase());
+}
+
+/** 장르 옆 약한 확신도 꼬리표('추정'·'리뷰'·'추정·약함', 아니면 빈 문자열). 확신 낮음은 더 흐리게(genre-tag-low). */
 export function genreConfidenceBadgeHtml(teamKey, genreConfidence = '') {
   const raw = String(genreConfidence || appState.genreConfidenceByTeam?.get(teamKey) || '').trim().toLowerCase();
-  if (raw !== 'inferred') return '';
-  return `<span class="genre-inferred-tag">추정${infoTip('추정 장르', INFO_TIPS.genre_inferred, { compact: true })}</span>`;
+  const tag = WEAK_GENRE_TAGS[raw];
+  if (!tag) return '';
+  const cls = raw === 'inferred_low' ? 'genre-inferred-tag genre-tag-low' : 'genre-inferred-tag';
+  return `<span class="${cls}">${tag.label}${infoTip(tag.title, tag.tip, { compact: true })}</span>`;
 }
 
 /**

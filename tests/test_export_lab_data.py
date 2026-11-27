@@ -76,7 +76,8 @@ class PressGenreTest(unittest.TestCase):
                       press_genre_ref=lambda: {"http://musicy.kr/?ix=1": "포크"})
             with open(Path(d) / "teams.csv", encoding="utf-8") as f:
                 rows = {r["team_key"]: r for r in csv.DictReader(f)}
-        self.assertEqual((rows["xyz"]["primary_genre"], rows["xyz"]["genre_confidence"]), ("포크·싱어송라이터", "press"))
+        # 리뷰 장르는 review(press 아래) — xyz 는 리드머 출처 힌트(press 힙합)가 먼저
+        self.assertEqual((rows["xyz"]["primary_genre"], rows["xyz"]["genre_confidence"]), ("힙합", "press"))
         self.assertEqual((rows["abc"]["primary_genre"], rows["abc"]["genre_confidence"]), ("록·밴드", "press"))
 
 

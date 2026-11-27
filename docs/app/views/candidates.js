@@ -9,7 +9,7 @@ import {
 } from '../db.js';
 import {
   avatarHtml, dormantBadgeHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText,
-  formatRecentActivityCell, formatSourceKey, genreConfidenceBadgeHtml,
+  formatRecentActivityCell, formatSourceKey, genreConfidenceBadgeHtml, isWeakGenreConfidence,
   gradeBadgeHtml, INFO_TIPS, infoTip, isDormantTeam, naCell,
   newcomerUnverifiedBadgeHtml, plainWhyLine, renderActionBanner,
   renderEmptyState, renderTableCsvBtn, scorePartsLine, spotifyButtonHtml,
@@ -1038,7 +1038,7 @@ export async function renderCandidatesView(root) {
       const cap = TIER_RANK[appState.candTier];
       list = list.filter(r => TIER_RANK[maxTierOf(r.team_key)] && TIER_RANK[maxTierOf(r.team_key)] <= cap);
     }
-    if (appState.candGenreInf === 'exclude' && c.genre) list = list.filter(r => r.genre_confidence !== 'inferred');
+    if (appState.candGenreInf === 'exclude' && c.genre) list = list.filter(r => !isWeakGenreConfidence(r.genre_confidence));
 
     if (moveFilter === 'new') list = list.filter(r => r.is_new);
     else if (moveFilter === 'riser') list = list.filter(r => Boolean(r.riser));

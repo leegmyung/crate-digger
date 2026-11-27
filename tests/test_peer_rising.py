@@ -83,6 +83,8 @@ class PeerCompareTest(unittest.TestCase):
         signals.append(gig("inf", "2024-04-02", "클럽0"))
         teams.append(team("low", genre="록·밴드", conf="inferred_low"))          # 확신 낮은 추정도 단계로만
         signals.append(gig("low", "2024-04-03", "클럽0"))
+        teams.append(team("rev", genre="록·밴드", conf="review"))                # 리뷰 장르도 단계로만
+        signals.append(gig("rev", "2024-04-04", "클럽0"))
         teams.append(team("two"))                                             # 2단계(공연+큐레이션) → 다른 단계
         signals += [gig("two", "2024-05-01", "클럽0"),
                     ("two", "큐레이션", "musicy", "musicy", None, "2024-06-01", "", "discovery")]
@@ -95,7 +97,7 @@ class PeerCompareTest(unittest.TestCase):
     def test_blank_genre_compares_within_stage_including_known_genres(self):
         r = self.rows(min_peers="3")
         self.assertEqual(r["p05"]["peer_scope"], "단계")
-        self.assertEqual(r["p05"]["peer_n"], 15)          # p01~p10 + g1·g2 + s1 + inf·low (1단계 전체), 2단계 팀은 빠짐
+        self.assertEqual(r["p05"]["peer_n"], 16)          # p01~p10 + g1·g2 + s1 + inf·low·rev (1단계 전체), 2단계 팀은 빠짐
         self.assertEqual(r["s1"]["peer_scope"], "단계")
         self.assertEqual(r["two"]["stage"], 2)
         self.assertEqual(r["two"]["peer_n"], 1)
@@ -104,7 +106,8 @@ class PeerCompareTest(unittest.TestCase):
         r = self.rows(min_peers="3")
         self.assertEqual(r["inf"]["peer_scope"], "단계")
         self.assertEqual(r["low"]["peer_scope"], "단계")
-        self.assertEqual(r["inf"]["peer_n"], 15)
+        self.assertEqual(r["rev"]["peer_scope"], "단계")
+        self.assertEqual(r["inf"]["peer_n"], 16)
         self.assertEqual(r["g1"]["peer_n"], 2)             # 추정 팀은 장르 무리(록·밴드)에 안 들어감
 
     def test_known_genre_compares_within_stage_and_genre(self):
@@ -115,10 +118,10 @@ class PeerCompareTest(unittest.TestCase):
 
     def test_grades_by_rank_share(self):
         r = self.rows(min_peers="3")
-        self.assertEqual(r["p10"]["grade"], "탁월")       # 15팀 중 1등 → 상위 7%
-        self.assertEqual(r["p08"]["grade"], "훌륭")       # 3등 → 20%
-        self.assertEqual(r["p05"]["grade"], "평균")       # 6등 → 40%
-        self.assertEqual(r["p01"]["grade"], "평균 이하")  # 공동 11등 → 90%
+        self.assertEqual(r["p10"]["grade"], "탁월")       # 16팀 중 1등 → 상위 6%
+        self.assertEqual(r["p08"]["grade"], "훌륭")       # 3등 → 19%
+        self.assertEqual(r["p05"]["grade"], "평균")       # 6등 → 38%
+        self.assertEqual(r["p01"]["grade"], "평균 이하")  # 공동 11등 → 91%
         self.assertEqual(r["p10"]["score_pct"], 1.0)
         self.assertGreater(r["p10"]["score_pct"], r["p01"]["score_pct"])
         self.assertEqual(r["p10"]["peer_rank"], 1)
@@ -151,7 +154,7 @@ class PeerCompareTest(unittest.TestCase):
     def test_team_filter_keeps_full_peer_group(self):
         out = run(self.con, "peer_compare.sql", as_of=self.AS_OF, team="'p03'")
         self.assertEqual([x["team_key"] for x in out], ["p03"])
-        self.assertEqual(out[0]["peer_n"], 15)
+        self.assertEqual(out[0]["peer_n"], 16)
 
     def test_stage_matches_discovery_stage_sql(self):
         mine = {k: v["stage"] for k, v in self.rows().items()}

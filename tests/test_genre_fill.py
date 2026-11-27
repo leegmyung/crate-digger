@@ -31,11 +31,12 @@ class BaseGenreTest(unittest.TestCase):
         self.assertEqual(gf.base_genre("", "", "band_discovery"), (ROCK, "press"))
         self.assertEqual(gf.base_genre("", "izm", ""), ("", ""))
 
-    def test_press_review_genre_is_press(self):
-        self.assertEqual(gf.base_genre("", "", "", "록"), (ROCK, "press"))              # 매체 리뷰 장르
-        self.assertEqual(gf.base_genre("", "rhythmer", "", "포크|FOLK"), (FOLK, "press"))  # 리뷰 장르가 출처 힌트보다 먼저
-        self.assertEqual(gf.base_genre("록/메탈", "", "", "포크"), (ROCK, "profile"))     # 플랫폼 장르가 먼저
-        self.assertEqual(gf.base_genre("", "", "", "Bossa Nova"), ("", ""))            # 갈래로 못 묶는 글자
+    def test_review_genres_map(self):
+        # 매체 리뷰 장르(2026-11-28 결정: press 아님 → 별도 확신도 review, 비교·분석 제외)
+        rows = [{"team_key": "a", "press_genres": "록|ROCK"}, {"team_key": "b", "press_genres": "Bossa Nova"},
+                {"team_key": "c", "press_genres": ""}, {"team_key": "d", "press_genres": "알앤비"}]
+        self.assertEqual(gf.review_genres(rows), {"a": ROCK, "d": "R&B·소울"})   # 갈래로 못 묶는 글자는 뺌
+        self.assertEqual(gf.base_genre("", "", ""), ("", ""))
 
     def test_team_rows_carry_confidence(self):
         rows = ex.team_rows([
@@ -119,6 +120,40 @@ class FillGenresTest(unittest.TestCase):
         r = self.rows(hints={"y": HIPHOP, "x": HIPHOP})
         self.assertEqual(r["y"], (HIPHOP, "inferred"))          # 투표 없음 → 약한 힌트
         self.assertEqual(r["x"], (ROCK, "inferred"))            # 같은 무대 다수결이 먼저
+
+
+class ReviewGenreTest(unittest.TestCase):
+    """우선순위 profile > press > inferred > review > inferred_low, 리뷰가 같은 무대 1표와 같으면 inferred 로 올림."""
+
+    def setUp(self):
+        self.teams = [t("r1", ROCK), t("r2", ROCK), t("f1", FOLK), t("x"), t("lone"), t("solo"), t("agree"), t("p", HIPHOP, "press")]
+        self.sig = [g("x", "2024-01-01", "클럽A"), g("r1", "2024-01-01", "클럽A"), g("r2", "2024-01-01", "클럽A"),
+                    g("lone", "2024-02-01", "클럽B"), g("f1", "2024-02-01", "클럽B"),
+                    g("agree", "2024-03-01", "클럽C"), g("r1", "2024-03-01", "클럽C")]
+
+    def rows(self, reviews, hints=None):
+        return {r["team_key"]: (r["primary_genre"], r["genre_confidence"])
+                for r in gf.fill_genres(self.teams, self.sig, hints or {}, reviews)}
+
+    def test_review_below_inferred_above_single(self):
+        r = self.rows({"x": FOLK, "lone": ROCK, "solo": HIPHOP, "p": ROCK})
+        self.assertEqual(r["x"], (ROCK, "inferred"))          # 같은 무대 다수결이 리뷰보다 먼저
+        self.assertEqual(r["lone"], (ROCK, "review"))         # 리뷰가 같은 무대 1표(포크)보다 먼저
+        self.assertEqual(r["solo"], (HIPHOP, "review"))       # 공연 없이 리뷰만
+        self.assertEqual(r["p"], (HIPHOP, "press"))           # press 는 그대로
+
+    def test_weak_hint_above_review(self):
+        self.assertEqual(self.rows({"solo": ROCK}, {"solo": gf.HIPHOP_RNB})["solo"], (gf.HIPHOP_RNB, "inferred"))
+
+    def test_review_agreeing_with_single_vote_is_raised(self):
+        self.assertEqual(self.rows({"agree": ROCK})["agree"], (ROCK, "inferred"))   # 리뷰 록 = 같은 무대 1표 록
+        self.assertEqual(self.rows({})["agree"], (ROCK, "inferred_low"))
+
+    def test_review_teams_do_not_vote(self):
+        teams = self.teams + [t("y")]
+        sig = self.sig + [g("y", "2024-04-01", "클럽D"), g("solo", "2024-04-01", "클럽D")]
+        r = {k["team_key"]: k for k in gf.fill_genres(teams, sig, {}, {"solo": HIPHOP})}
+        self.assertEqual(r["y"]["genre_confidence"], "")
 
 
 class EvaluateTest(unittest.TestCase):

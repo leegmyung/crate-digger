@@ -64,9 +64,10 @@ COLUMN_DOC: Dict[str, str] = {
                       "그 팀을 처음 본 출처의 수집 시작 90일 안에 처음 봄(그 전부터 활동했을 수 있어 신인인지 확실치 않음) / "
                       "first_seen 첫 발매일 없고 그 뒤에 처음 봄. 표시용 — 점수·후보군엔 안 씀",
     "primary_genre": "대표 장르 (사람이 확인한 장르 config/genre_overrides.json 이 있으면 그것, 빈칸은 추정으로 채움 — genre_confidence)",
-    "genre_confidence": "대표 장르의 확신도 — profile 멜론·발매 장르·사람 확인 / press 매체 리뷰 장르(음악취향Y·overtone·VISLA)·확실한 출처 힌트(리드머·밴드 디스커버리) / "
-                        "inferred 같은 무대 다수결·공연장 성향·약한 출처 힌트로 추정 / inferred_low 같은 무대에 장르 아는 팀이 1팀뿐(확신 낮음) — "
-                        "추정 두 가지는 앱 필터·표시에만, 비교·분석엔 안 씀(docs/genre_fill.md) / 빈칸 모름", "program_label": "프로그램 한글 이름", "tier": "정답 단계 (final 최종 / mid 중간)",
+    "genre_confidence": "대표 장르의 확신도 — profile 멜론·발매 장르·사람 확인 / press 확실한 출처 힌트(리드머·밴드 디스커버리) / "
+                        "inferred 같은 무대 다수결·공연장 성향·약한 출처 힌트로 추정 / review 매체 리뷰 장르(음악취향Y·overtone·VISLA) / "
+                        "inferred_low 같은 무대에 장르 아는 팀이 1팀뿐(확신 낮음) — 이 셋은 앱 필터·표시에만('추정' 꼬리표), "
+                        "비교·분석엔 안 씀(docs/genre_fill.md) / 빈칸 모름", "program_label": "프로그램 한글 이름", "tier": "정답 단계 (final 최종 / mid 중간)",
     "announced_date": "정답 발표일 (일부만 알면 기간의 첫날 — 보수적)", "counted": "센 정답인지 (기성 팀 연차 규칙 통과) true/false",
     "grade": "정답 등급 S·A·B", "weight": "정답 등급 가중치 (S=3·A=2·B=1)",
     "platform": "플랫폼 (spotify·melon·instagram·youtube 등)", "kind": "영상 종류 (stage 무대·official_live·official·search)",

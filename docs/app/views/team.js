@@ -7,7 +7,7 @@ import {
   alertKindChipHtml, avatarHtml, avatarSourceOf, dormantBadgeHtml, ensureD3,
   escapeHtml, fmtInt, fmtNum, formatAlertEvidenceText, formatNextGigText,
   formatSignalDate, gradeBadgeHtml, INFO_TIPS, infoTip,
-  isDormantTeam, isLoweredOutcomeResult, lookupSourceRoleMeta,
+  isDormantTeam, isLoweredOutcomeResult, isWeakGenreConfidence, lookupSourceRoleMeta,
   newcomerUnverifiedBadgeHtml, PROFILE_LABELS,
   renderActionBanner, renderCompactGradeSummary, renderEmptyState,
   renderNoRecordLine, renderScoreBar,
@@ -312,7 +312,7 @@ export async function renderTeamView(root, teamKey) {
     scored,
     peer: peerStage?.byTeam?.get(teamKey) || null,
     peerError: peerStage?.error || '',
-    genreOk: Boolean(genreForPeer && genreForPeer !== '미분류' && String(genreConf).toLowerCase() !== 'inferred'),
+    genreOk: Boolean(genreForPeer && genreForPeer !== '미분류' && !isWeakGenreConfidence(genreConf)),   // 추정·리뷰 장르는 이웃 비교 제외
     timeline,
     asOf,
     nameOf: resolveSignalName,

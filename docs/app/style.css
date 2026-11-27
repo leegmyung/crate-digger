@@ -7473,6 +7473,11 @@ table.data-table tbody tr[data-nav-row]:focus-visible {
   font-size: var(--text-xs);
 }
 
+.genre-inferred-tag.genre-tag-low {   /* 같은 무대 1표(inferred_low) — '추정'보다 흐리게 */
+  opacity: 0.7;
+  border-style: dotted;
+}
+
 .genre-inferred-tag {
   display: inline-flex;
   align-items: center;

@@ -3,14 +3,17 @@
 팀 표(teams.csv)의 대표 장르가 93% 빈칸이라 장르 안 비교·필터가 무너진다(경쟁 서비스 Viberate 도 장르 오분류가 비교를 망침).
 확신도 순서대로 채운다:
   profile  = 멜론 프로필·발매 장르, 사람이 확인한 장르(config/genre_overrides.json)
-  press    = 매체 리뷰가 붙인 장르(음악취향Y '장르'·overtone 'Genre'·VISLA 장르 태그, 2026-11-28~), 없으면
-             오탐이 적은 출처 힌트(build_dashboard_data._infer_genres: 리드머 → 힙합, 밴드 디스커버리 → 록·밴드)
+  press    = 오탐이 적은 출처 힌트(build_dashboard_data._infer_genres: 리드머 → 힙합, 밴드 디스커버리 → 록·밴드)
   inferred = 빈칸에만, 아래 순서로 처음 결정되는 것
              ① 같은 무대 다수결: 같은 날·같은 공연장에 선 팀들의 장르 — 2표 이상, 60% 이상
              ② 공연장 성향: 그 팀이 선 공연장들의 장르 분포(투표자 5팀 이상인 공연장만, 공연장마다 같은 무게) — 70% 이상
              ③ 약한 출처 힌트: 힙합엘 기사 → '힙합·R&B'(넓은 묶음 — 힙합만 47%, 힙합·R&B 합치면 78%),
                 유재하 경연 본선 → 포크·싱어송라이터 (65%)
-  inferred_low = 위로도 못 정한 팀 중 같은 무대에 장르 아는 팀이 딱 1팀뿐일 때 그 장르 (확신 낮음 — 앱 필터·표시에만)
+  review   = 위로도 못 정한 팀의 매체 리뷰 장르(음악취향Y '장르'·overtone 'Genre'·VISLA 장르 태그). 맞는 비율 53%(멜론 장르
+             중 하나와 76%)로 같은 무대 다수결(69%)보다 낮아 press 가 아님(2026-11-28 결정). 리뷰 장르가 같은 무대 1표와 같으면 inferred.
+  inferred_low = 위로도 못 정한 팀 중 같은 무대에 장르 아는 팀이 딱 1팀뿐일 때 그 장르 (확신 낮음)
+우선순위: profile > press > inferred > review > inferred_low. review·inferred·inferred_low 는 앱 필터·표시에만('추정' 꼬리표),
+비교·분석(peer_compare·genre_bias·장르별 성적표)에서는 '미분류'로 센다.
 투표는 profile·press 팀만 한다 — 추정한 장르로 다시 추정하지 않는다(순환 방지, 한 번만 계산).
 정답(검증용) 정보는 쓰지 않는다: 공연 신호와 신호 출처만 보고, 정답 프로그램(csv_schema.OUTCOME_TIER)은 힌트에서 뺀다.
 """
@@ -23,8 +26,8 @@ import csv_schema
 import genre as genre_mod
 from build_dashboard_data import _infer_genres, _split_lower
 
-PROFILE, PRESS, INFERRED, INFERRED_LOW = "profile", "press", "inferred", "inferred_low"
-ANALYSIS_LEVELS = ("", PROFILE, PRESS)   # 비교·분석(peer_compare·genre_bias)이 쓰는 확신도 — 추정 두 가지는 '미분류'로
+PROFILE, PRESS, INFERRED, REVIEW, INFERRED_LOW = "profile", "press", "inferred", "review", "inferred_low"
+ANALYSIS_LEVELS = ("", PROFILE, PRESS)   # 비교·분석(peer_compare·genre_bias)이 쓰는 확신도 — 나머지(추정·리뷰)는 '미분류'로
 VOTER_LEVELS = (PROFILE, PRESS)
 MIN_VOTES = 2            # 같은 무대 다수결: 최소 표 수
 MIN_SHARE = 0.6          # 같은 무대 다수결: 1등 장르 비율 하한
@@ -45,17 +48,25 @@ def _labels() -> Dict[str, str]:
     return {k: b["label"] for k, b in genre_mod.load_config()["buckets"].items()}
 
 
-def base_genre(raw_genres, press_sources="", sel_programs="", press_genres="") -> Tuple[str, str]:
-    """(대표 장르, 확신도) — 플랫폼 장르가 있으면 profile, 매체 리뷰 장르나 확실한 출처 힌트만 있으면 press, 없으면 ('', '')."""
+def base_genre(raw_genres, press_sources="", sel_programs="") -> Tuple[str, str]:
+    """(대표 장르, 확신도) — 플랫폼 장르가 있으면 profile, 확실한 출처 힌트만 있으면 press, 없으면 ('', '')."""
     labels = _labels()
     raw = [labels[b] for b in genre_mod.buckets_of(str(raw_genres or "")) if b in labels]
     if raw:
         return raw[0], PROFILE
-    reviewed = [labels[b] for b in genre_mod.buckets_of(str(press_genres or "")) if b in labels]
-    if reviewed:
-        return reviewed[0], PRESS
     hinted = _infer_genres("", press_sources, sel_programs)
     return (hinted[0], PRESS) if hinted else ("", "")
+
+
+def review_genres(rows: Iterable[Mapping]) -> Dict[str, str]:
+    """도우미 열 press_genres(매체 리뷰 장르 '|' 구분)가 있는 팀 행 → {팀: 첫 갈래 이름}. 갈래로 못 묶는 글자는 뺀다."""
+    labels = _labels()
+    out = {}
+    for r in rows:
+        got = [labels[b] for b in genre_mod.buckets_of(str(r.get("press_genres") or "")) if b in labels]
+        if got:
+            out[str(r.get("team_key"))] = got[0]
+    return out
 
 
 def weak_hints(rows: Iterable[Mapping]) -> Dict[str, str]:
@@ -126,15 +137,17 @@ class _Votes:
         top, score = total.most_common(1)[0]
         return top if score / sum(total.values()) >= VENUE_MIN_SHARE else ""
 
-    def infer(self, key: str, hints: Mapping[str, str]) -> Tuple[str, str]:
-        """(장르, 방법) — 방법 = neighbor · venue · hint · single(확신 낮음), 못 정하면 ('', '')."""
-        steps = (("neighbor", self.neighbor), ("venue", self.venue), ("hint", lambda k: hints.get(k, "")),
-                 ("single", self.single_vote))
-        for method, fn in steps:
+    def infer(self, key: str, hints: Mapping[str, str], reviews: Mapping[str, str] = None) -> Tuple[str, str]:
+        """(장르, 방법) — 방법 = neighbor · venue · hint · review_agree(리뷰 = 같은 무대 1표) · review · single, 못 정하면 ('', '')."""
+        reviews = reviews or {}
+        for method, fn in (("neighbor", self.neighbor), ("venue", self.venue), ("hint", lambda k: hints.get(k, ""))):
             guess = fn(key)
             if guess:
                 return guess, method
-        return "", ""
+        single, review = self.single_vote(key), reviews.get(key, "")
+        if review:
+            return review, ("review_agree" if review == single else "review")
+        return (single, "single") if single else ("", "")
 
 
 def _members(guess: str) -> Set[str]:
@@ -143,28 +156,33 @@ def _members(guess: str) -> Set[str]:
     return {labels[k] for k in BROAD_MEMBERS[guess] if k in labels} if guess in BROAD_MEMBERS else {guess}
 
 
-def fill_genres(teams: Sequence[Mapping], signals: Iterable[Mapping], hints: Mapping[str, str]) -> List[dict]:
-    """빈칸 팀에 추정 장르(inferred)를 채운 새 목록. 장르가 있는 팀·입력 목록은 바꾸지 않는다."""
+METHOD_LEVEL = {"neighbor": INFERRED, "venue": INFERRED, "hint": INFERRED, "review_agree": INFERRED,
+                "review": REVIEW, "single": INFERRED_LOW}
+
+
+def fill_genres(teams: Sequence[Mapping], signals: Iterable[Mapping], hints: Mapping[str, str],
+                reviews: Mapping[str, str] = None) -> List[dict]:
+    """빈칸 팀에 추정·리뷰 장르를 채운 새 목록. 장르가 있는 팀·입력 목록은 바꾸지 않는다."""
     votes = _Votes(teams, signals)
     out = []
     for t in teams:
         row = dict(t)
         if not row.get("primary_genre"):
-            guess, method = votes.infer(str(row["team_key"]), hints)
-            conf = (INFERRED_LOW if method == "single" else INFERRED) if guess else ""
-            row["primary_genre"], row["genre_confidence"] = guess, conf
+            guess, method = votes.infer(str(row["team_key"]), hints, reviews)
+            row["primary_genre"], row["genre_confidence"] = guess, (METHOD_LEVEL[method] if guess else "")
         out.append(row)
     return out
 
 
-def evaluate(teams: Sequence[Mapping], signals: Iterable[Mapping], hints: Mapping[str, str]) -> Dict[str, Dict[str, int]]:
+def evaluate(teams: Sequence[Mapping], signals: Iterable[Mapping], hints: Mapping[str, str],
+             reviews: Mapping[str, str] = None) -> Dict[str, Dict[str, int]]:
     """profile 팀의 장르를 가리고 추정해 맞는 비율을 잰다(자기 표는 빠짐) → {방법: {n, correct}, 'all': …}."""
     votes = _Votes(teams, signals)
-    rep = {m: {"n": 0, "correct": 0} for m in ("neighbor", "venue", "hint", "single", "all")}
+    rep = {m: {"n": 0, "correct": 0} for m in ("neighbor", "venue", "hint", "review_agree", "review", "single", "all")}
     for t in teams:
         if t.get("genre_confidence") != PROFILE or not t.get("primary_genre"):
             continue
-        guess, method = votes.infer(str(t["team_key"]), hints)
+        guess, method = votes.infer(str(t["team_key"]), hints, reviews)
         if not guess:
             continue
         hit = int(t["primary_genre"] in _members(guess))

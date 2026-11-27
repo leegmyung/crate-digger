@@ -241,9 +241,9 @@ def team_rows(rows: List[dict], roles: dict | None = None, debut_overrides: Dict
             continue
         row = {k: r.get(k) or "" for k in TEAM_FIELDS}
         row["profile_status"] = row["profile_status"] or "unknown"
-        # 대표 장르 + 확신도(profile 플랫폼 장르 / press 확실한 출처 힌트) — 빈칸 추정(inferred)은 export()의 genre_fill
+        # 대표 장르 + 확신도(profile 플랫폼 장르 / press 확실한 출처 힌트) — 빈칸 추정·리뷰 장르는 export()의 genre_fill
         row["primary_genre"], row["genre_confidence"] = genre_fill.base_genre(
-            r.get("raw_genres"), r.get("press_sources"), r.get("sel_programs"), r.get("press_genres"))
+            r.get("raw_genres"), r.get("press_sources"), r.get("sel_programs"))
         if key in debut_overrides:
             row["first_release"] = min(d for d in (row["first_release"], debut_overrides[key]["debut"]) if d)
         if key in genre_overrides:
@@ -588,7 +588,8 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
                       genre_overrides=load_team_overrides(GENRE_OVERRIDES_FILE, "genre"))
     teams = with_newcomer_check(teams, signals)
     # 장르 빈칸 추정(같은 무대 다수결 → 공연장 성향 → 약한 출처 힌트, 확신도 inferred) — 정답 정보 안 씀 (docs/genre_fill.md)
-    teams = genre_fill.fill_genres(teams, signals, genre_fill.weak_hints(team_raw))
+    # 매체 리뷰 장르는 review(추정과 inferred_low 사이, 비교·분석 제외 — 2026-11-28 결정, docs/genre_fill.md)
+    teams = genre_fill.fill_genres(teams, signals, genre_fill.weak_hints(team_raw), genre_fill.review_genres(team_raw))
     outcomes = same_house_flags(outcome_rows(_records(run(q["outcomes"])), roles), signals, roles)
     programs = program_rows(signals, outcomes)
     links = link_rows(_records(run(q["links"])) + (extra_refs() if extra_refs else []))
