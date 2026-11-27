@@ -11,9 +11,10 @@
 **코디네이션 상태 (2026-11-27 밤, 대화가 요약돼도 이걸 보고 이어간다)**
 - 운영 방식: 사용자는 "관여 없이 끝까지". 작업자마다 할 일 3~6개를 미리 쌓아 두고, 결과 보고가 오면 코디네이터(Claude 메인 세션)가 검토(테스트·브라우저 확인) → 커밋·push → 다음 일 추가. 작업자는 커밋 금지. 같은 단계 안은 묻지 않고 진행·보고, 방향·틀 변경만 사용자에게 묻기.
 - Orca 실행: `/Applications/Orca.app/Contents/Resources/bin/orca orchestration send --to dispatch:<id> --subject … --body …` (run run_bb3533879a4f). 작업자 목록: `orca orchestration worker-list --environment local --json`. 같은 작업자에게 보낸 후속 메시지는 새 dispatch id로 이어짐.
-  - 안티그래비티(앱 docs/app/**·dashboard.html): 최근 dispatch ctx_2a2d2c2b236f. 남은 목록 ② 팀 활동 흐름 막대 ③ 재분류 제안 알림 점 ④ 후보 줄 펼침 미리보기 ⑤ 전체 화면 점검.
-  - Claude 작업자 A (= 교차 세션 이름 crate-digger-ce): 최근 dispatch ctx_cf01f9a986f9. 남은 목록 ② docs/data_dictionary.md(+생성 스크립트) ③ docs/index.html 안내 띠 ④ scripts/check_links.py → 이어서 유튜브 매일 지표(collect_video_stats·export_video_momentum) → Tableau 추출(docs/tableau/, export_tableau.py) → 사운드 지도(build_scene_map.py, docs/lab/data/scene_map.json) → methods 요약.
-  - Claude 작업자 B: dispatch ctx_4ffe39a8cee1. 목록: 학습 모델 비교(score_model.py, docs/score_model.md) → 장르 편향(genre_bias.py, docs/genre_bias.md) → 리드타임 심화 → 점수 안정성.
+  - 안티그래비티(앱 docs/app/**·dashboard.html): 최근 dispatch ctx_8e6c4abf4272 — 출처 성적표에 분류 사유·재분류 제안, 검증 안내에 정답 등급표(outcome_rules 포함), 팀 상세 '후보' 표시, backtest.js 옛 숫자 갱신.
+  - Claude 작업자 A: 최근 dispatch ctx_1cd87a3c5d65 — 정답 정리 후 score_model·genre_bias 재실행, README·methods 등 숫자 갱신(교차 검증 v2 0.752·v0 0.740), methods에 '정답 정리' 절.
+  - Claude 작업자 B: 최근 dispatch ctx_84d1c1aa6889 — 데뷔 코호트 출처 성적표(source_scorecard_debut.sql, debut_cohort.py, docs/debut_cohort.md: '백지 신인을 먼저 언급한 출처의 신뢰도') → 슈퍼루키챌린지 복원율 → collect_hiphople.py(aside, 21~23시 금지). hiphople는 source_roles에 pending으로 추가 요청 오면 코디네이터가.
+  - 정답 정리(2026-11-27 사용자 결정, 커밋 5054911): config/source_roles.json outcome_rules — 후보(nominee·shortlist) 한 등급 아래, 기획사 아이돌 10팀 제외. 교차 검증 0.711/0.712 → 0.752/0.740, 추천 가중치가 v2와 일치.
 - 21시 자동 실행 끝나면(대기 작업이 깨움, 없으면 records/daily_run.log 확인): 협업 수집 건수 확인 → score_tune(w_collab 포함) 돌려 협업 신호 효과 확인 → 효과 있으면 점수 반영 여부 사용자에게 물음. 인스타 499계정·멜론 100팀·연결표 갱신·출처 재분류 제안이 잘 돌았는지 확인.
 - 작업자 결과 반영 시 daily_run.sh에 넣을 줄은 코디네이터가 넣음(작업자는 알려만 줌).
 
