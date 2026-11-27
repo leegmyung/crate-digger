@@ -260,7 +260,7 @@ export function sqlStringLiteral(val) {
   return `'${String(val ?? '').replace(/'/g, "''")}'`;
 }
 
-function fillTemplate(tpl, map) {
+export function fillTemplate(tpl, map) {
   let out = tpl;
   for (const [k, v] of Object.entries(map)) {
     out = out.split(`{{${k}}}`).join(v);

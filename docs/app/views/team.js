@@ -1,20 +1,24 @@
 import { appState, navigateTo, setExportContext } from '../state.js';
 import {
-  getTeamExternalLinks, loadAlertsJson, loadDashboardJson, loadSceneMap,
-  loadSourceRoles, queryDiscoveryStages, queryTeamDetail,
+  ensureTeamCitiesLoaded, getTeamExternalLinks, loadAlertsJson, loadDashboardJson, loadSceneMap,
+  loadSourceRoles, queryDiscoveryStages, queryRankChange, queryTeamDetail,
 } from '../db.js';
 import {
   alertKindChipHtml, avatarHtml, avatarSourceOf, dormantBadgeHtml, ensureD3,
   escapeHtml, fmtInt, fmtNum, formatAlertEvidenceText, formatNextGigText,
-  formatRecentActivityCell, formatSignalDate, gradeBadgeHtml, INFO_TIPS, infoTip,
+  formatSignalDate, gradeBadgeHtml, INFO_TIPS, infoTip,
   isDormantTeam, isLoweredOutcomeResult, lookupSourceRoleMeta,
-  newcomerUnverifiedBadgeHtml, nextStageConditionText, PROFILE_LABELS,
+  newcomerUnverifiedBadgeHtml, PROFILE_LABELS,
   renderActionBanner, renderCompactGradeSummary, renderScoreBar,
   renderTableCsvBtn, roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml,
-  spotifyUrlOf, stageBadgeHtml, summarizeWhyTeam, TERMS, triggerTableCsvExport,
+  spotifyUrlOf, summarizeWhyTeam, TERMS, triggerTableCsvExport,
   watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
 import { mountTeamGraphBlock } from './graph.js';
+import { compareButtonHtml, renderTeamFactsHtml, renderTeamTocHtml, wireTeamToc } from './team_head.js';
+import {
+  queryScenePeerWinners, renderChangeRowHtml, renderTeamStatusBarsHtml, wireChangeRow,
+} from './team_pulse.js';
 
 /**
  * 듣기·보기는 스포티파이·유튜브 두 가지만 (사용자 결정 2026-11-27).
@@ -176,12 +180,15 @@ export async function renderTeamView(root, teamKey) {
   }
 
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
-  const [data, sceneMap, sourceRoles, stageData, alertsData] = await Promise.all([
+  const [data, sceneMap, sourceRoles, stageData, alertsData, rankChangeData, sceneWinners] = await Promise.all([
     queryTeamDetail(teamKey),
     loadSceneMap(),
     loadSourceRoles(),
     queryDiscoveryStages({ as_of: asOf }),
     loadAlertsJson().catch(() => null),
+    queryRankChange({ as_of: asOf }).catch(() => null),
+    queryScenePeerWinners(teamKey, asOf),
+    ensureTeamCitiesLoaded().catch(() => null),
     loadDashboardJson().catch(() => null),
     ensureD3().catch(() => null),
   ]);
@@ -207,16 +214,13 @@ export async function renderTeamView(root, teamKey) {
   const displayName = scored?.display_name || profile?.display_name || teamKey;
   const extLinks = getTeamExternalLinks(teamKey, displayName);
   const whyLines = summarizeWhyTeam(data);
-  const snapNow = appState.snapshots.latest.get(teamKey);
 
   // Concise 1-line identity subline (omit empty fields)
   const metaParts = [];
-  if (profile?.primary_genre) metaParts.push(profile.primary_genre);
   if (profile?.agency) metaParts.push(`소속 ${profile.agency}`);
   if (profile?.first_seen) metaParts.push(`첫 등장 ${profile.first_seen}`);
   if (scored) {
-    const rankTxt = snapNow ? ` (기본 순위 #${snapNow.rank})` : '';
-    metaParts.push(`${fmtNum(scored.score, 2)}점${rankTxt}`);
+    metaParts.push(`${fmtNum(scored.score, 2)}점`);
   }
 
   // Merge outcomes + signals into single chronological timeline
@@ -369,14 +373,6 @@ export async function renderTeamView(root, teamKey) {
       </div>`
     : '';
 
-  const stageAct = stageInfo ? formatRecentActivityCell(stageInfo) : null;
-  const stageLineHtml = stageInfo
-    ? `<div class="team-stage-line" aria-label="발굴 단계 및 다음 단계 조건">
-        ${stageBadgeHtml(stageInfo.stage)}${infoTip('발굴 단계', INFO_TIPS.discovery_stage, { compact: true })}
-        <span class="team-stage-next">${escapeHtml(nextStageConditionText(stageInfo.stage))}</span>
-        ${stageInfo.momentum_pct !== null ? stageAct.html : ''}
-      </div>`
-    : '';
 
   const teamAlerts = alertsData?.byTeam?.get(teamKey) || [];
   const teamAlertsLineHtml = teamAlerts.length
@@ -635,6 +631,27 @@ export async function renderTeamView(root, teamKey) {
     + `&team_key=${encodeURIComponent(teamKey)}`
     + `&page=${encodeURIComponent(window.location.href)}`;
 
+  // 3-1 머리 띠 사실 줄 · 3-2/3-3 상태·변화 · 쪽 안 목차
+  const rcRow = rankChangeData?.byTeam?.get(teamKey) || null;
+  const teamFactsHtml = renderTeamFactsHtml({
+    teamKey,
+    stageInfo,
+    rc: rcRow,
+    homeCity: appState.teamCitiesByTeam.get(teamKey)?.home_city || rcRow?.home_city || '',
+    hasCityData: appState.teamCitiesByTeam.size > 0,
+    firstRelease: profile?.first_release || appState.firstReleaseByTeam.get(teamKey) || stageInfo?.first_release || '',
+    genre,
+  });
+  const pulseCtx = { timeline, asOf, rc: rcRow };
+  const tocHtml = renderTeamTocHtml([
+    { id: 'teamPulseBlock', label: '요약' },
+    { id: 'teamScoreBlock', label: '근거' },
+    { id: 'teamGraphSection', label: '관계' },
+    { id: 'teamActivityBlock', label: '사건' },
+    { id: 'teamPrecedentsBlock', label: '선례' },
+    ...(videos.length ? [{ id: 'teamVideosBlock', label: '영상' }] : []),
+  ]);
+
   // Exact requested flow: 요약 → 점수 근거 → 관계망 → 활동 기록 → 비슷한 과거 수상 팀 → 영상
   root.innerHTML = `
     <div class="team-back-bar">
@@ -653,7 +670,7 @@ export async function renderTeamView(root, teamKey) {
             ${newcomerUnverifiedBadgeHtml(teamKey, profile)}
           </div>
           <p class="team-subline">${escapeHtml(metaParts.join(' · ') || '기록된 활동 ' + fmtInt(mergedTimeline.length) + '건')}</p>
-          ${stageLineHtml}
+          ${teamFactsHtml}
           ${teamAlertsLineHtml}
           ${sceneLineHtml}
           ${outcomesLineHtml}
@@ -663,9 +680,17 @@ export async function renderTeamView(root, teamKey) {
       <div class="action-banner-btns">
         ${renderListenButtons(teamKey, displayName, links, videos.length > 0)}
         ${watchButtonHtml(teamKey, displayName, false)}
+        ${compareButtonHtml(genre)}
       </div>
     </div>
     <div class="player-slot" id="teamPlayerSlot" data-player-slot></div>
+
+    ${tocHtml}
+
+    <section class="block team-pulse" id="teamPulseBlock" aria-label="상태와 변화">
+      ${renderTeamStatusBarsHtml({ stageInfo, scored, timeline, sceneWinners, asOf })}
+      ${renderChangeRowHtml(pulseCtx)}
+    </section>
 
     ${summarySectionHtml}
 
@@ -694,6 +719,8 @@ export async function renderTeamView(root, teamKey) {
 
   wireAvatarFallbacks(root);
   wireSpotifyButtons(root, root.querySelector('#teamPlayerSlot'));
+  wireTeamToc(root);
+  wireChangeRow(root, pulseCtx);
 
   function paintRelatedBody() {
     const body = root.querySelector('#teamRelatedBody');

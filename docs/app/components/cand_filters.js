@@ -202,6 +202,7 @@ export function renderCandFilterBarHtml({
   }).join('');
 
   const regionActive = appState.candRegion === 'non_seoul';
+  const isHeat = appState.candView === 'heat';
   const regionCnt = counts.nonSeoul;
   const regionCntTxt = counts.hasCityData ? fmtInt(regionCnt) : '준비 중';
 
@@ -307,8 +308,8 @@ export function renderCandFilterBarHtml({
           </select>
 
           <div class="cf-view-switch" role="group" aria-label="보기 전환">
-            <button type="button" class="cf-view-btn is-active" aria-pressed="true">표</button>
-            <button type="button" class="cf-view-btn" disabled title="색 지도(히트맵) 보기는 다음 단계(2-5)에서 연결됩니다">색 지도</button>
+            <button type="button" class="cf-view-btn${isHeat ? '' : ' is-active'}" data-cand-view="" aria-pressed="${isHeat ? 'false' : 'true'}">표</button>
+            <button type="button" class="cf-view-btn${isHeat ? ' is-active' : ''}" data-cand-view="heat" aria-pressed="${isHeat ? 'true' : 'false'}" title="팀 × 신호 8개를 진하기(1~5단계)로 보기">색 지도</button>
           </div>
         </div>
       </div>

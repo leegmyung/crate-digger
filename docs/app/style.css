@@ -234,6 +234,8 @@ html, body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  /* clip 은 가로 넘침은 자르되 스크롤 상자를 만들지 않아 position: sticky(위쪽 머리줄·팀 목차)가 동작한다 */
+  overflow-x: clip;
 }
 
 a { color: var(--accent); text-decoration: none; }
@@ -7269,5 +7271,407 @@ table.data-table.is-density-comfortable td {
 
   .table-kb-hint {
     display: none;
+  }
+}
+
+/* ================================================================
+   2-5 — 후보 목록 색 지도 (칸 사이 2px 틈 · 모서리 2px · 1~5단계 --ramp-*)
+   ================================================================ */
+.heat-host {
+  padding: var(--space-2) var(--space-3) var(--space-3);
+}
+
+.heat-host[hidden] {
+  display: none;
+}
+
+.heat-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-1) 0 var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+}
+
+.heat-legend-lbl {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.heat-scale,
+.heat-legend-na {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.heat-scale-end {
+  margin: 0 4px;
+  color: var(--ink-subtle);
+}
+
+.heat-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 18px;
+  border-radius: 2px;
+  font-size: 11px;
+  font-weight: var(--weight-semi);
+}
+
+.heat-wrap {
+  overflow-x: auto;
+}
+
+table.heat-table {
+  border-collapse: separate;
+  border-spacing: 2px;
+  min-width: 760px;
+  width: 100%;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.heat-table thead th {
+  padding: 4px 6px;
+  vertical-align: bottom;
+  text-align: center;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--ink-muted);
+  white-space: normal;
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+.heat-table thead th:hover .heat-th-lbl {
+  color: var(--accent);
+}
+
+.heat-table thead th:focus-visible,
+.heat-table tbody tr:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.heat-th-lbl {
+  display: block;
+  min-height: 2.6em;
+}
+
+.heat-th-arrow {
+  margin-left: 2px;
+  color: var(--accent);
+}
+
+.heat-table .heat-team-th {
+  text-align: left;
+}
+
+.heat-team-th,
+.heat-team {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 150px;
+  max-width: 200px;
+  background: var(--surface);
+}
+
+.heat-team {
+  padding: 0 8px 0 2px;
+  text-align: left;
+  font-weight: var(--weight-semi);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.heat-rank {
+  display: inline-block;
+  min-width: 26px;
+  margin-right: 4px;
+  color: var(--ink-subtle);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-xs);
+  text-align: right;
+}
+
+.heat-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.heat-table tbody tr {
+  cursor: pointer;
+}
+
+.heat-table tbody tr:hover .heat-team {
+  color: var(--accent);
+}
+
+.heat-cell {
+  height: 26px;
+  min-width: 64px;
+  padding: 0 6px;
+  border-radius: 2px;
+  text-align: center;
+  font-weight: var(--weight-semi);
+}
+
+.heat-cell.is-na {
+  background: transparent;
+  padding: 0;
+}
+
+.heat-cell.is-na .cd-na-cell {
+  display: flex;
+  width: 100%;
+  height: 26px;
+  border-radius: 2px;
+}
+
+.heat-chip.lv1,
+.heat-cell.lv1 {
+  background: var(--ramp-1);
+  color: var(--ramp-ink-low);
+}
+
+.heat-chip.lv2,
+.heat-cell.lv2 {
+  background: var(--ramp-2);
+  color: var(--ramp-ink-low);
+}
+
+.heat-chip.lv3,
+.heat-cell.lv3 {
+  background: var(--ramp-3);
+  color: var(--ramp-ink-low);
+}
+
+.heat-chip.lv4,
+.heat-cell.lv4 {
+  background: var(--ramp-4);
+  color: var(--ramp-ink-high);
+}
+
+.heat-chip.lv5,
+.heat-cell.lv5 {
+  background: var(--ramp-5);
+  color: var(--ramp-ink-high);
+}
+
+@media (max-width: 640px) {
+  .heat-host {
+    padding: var(--space-2);
+  }
+
+  .heat-team-th,
+  .heat-team {
+    min-width: 116px;
+    max-width: 128px;
+  }
+}
+
+/* ================================================================
+   단계 3 — 팀 상세: 머리 띠 사실 줄(3-1) · 쪽 안 목차(3-1) · 4칸 상태 막대(3-2) · 변화 줄(3-3)
+   ================================================================ */
+.team-facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin: var(--space-1) 0 var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.team-fact {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 24px;
+}
+
+.team-fact-lbl {
+  color: var(--ink-subtle);
+  font-size: var(--text-xs);
+}
+
+.team-fact .rank-delta {
+  margin-left: 2px;
+}
+
+.team-toc {
+  position: sticky;
+  top: var(--team-toc-top, 0px);
+  z-index: 15;
+  display: flex;
+  gap: var(--space-1);
+  margin: 0 0 var(--space-4);
+  padding: var(--space-1) var(--space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.team-toc-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 var(--space-3);
+  border-bottom: 2px solid transparent;
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.team-toc-link:hover {
+  color: var(--ink);
+}
+
+.team-toc-link.is-active {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+  font-weight: var(--weight-semi);
+}
+
+.team-toc-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+#teamPulseBlock,
+#teamSummaryBlock,
+#teamScoreBlock,
+#teamGraphSection,
+#teamActivityBlock,
+#teamPrecedentsBlock,
+#teamVideosBlock {
+  scroll-margin-top: var(--team-scroll-pad, 120px);
+}
+
+.team-status-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-5);
+}
+
+.team-pulse-next {
+  margin: var(--space-3) 0 0;
+}
+
+.team-change-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.team-change-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: var(--text-h3);
+  font-weight: var(--weight-bold);
+}
+
+.team-change-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.team-change-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface-alt);
+}
+
+.tc-title {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--ink-muted);
+}
+
+.tc-big {
+  font-size: 26px;
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.tc-big .cd-na-cell {
+  font-size: var(--text-sm);
+}
+
+.tc-sub {
+  min-height: 20px;
+  font-size: var(--text-xs);
+}
+
+.tc-delta {
+  font-weight: var(--weight-semi);
+  font-variant-numeric: tabular-nums;
+}
+
+.tc-delta.is-up {
+  color: var(--up);
+}
+
+.tc-delta.is-down {
+  color: var(--down);
+}
+
+.tc-delta.is-flat {
+  color: var(--ink-subtle);
+}
+
+.tc-delta-ref {
+  color: var(--ink-muted);
+}
+
+.tc-base {
+  font-size: 11px;
+  color: var(--ink-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 960px) {
+  .team-status-grid,
+  .team-change-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  /* 휴대폰에선 위쪽 머리줄(약 150px)을 고정하지 않는다 — 고정하면 화면 1/4을 차지. 팀 목차만 맨 위에 붙음 */
+  .top-header {
+    position: relative;
+  }
+
+  .team-toc-link {
+    min-height: 44px;
+  }
+
+  .tc-big {
+    font-size: 22px;
   }
 }

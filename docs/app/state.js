@@ -216,6 +216,7 @@ export const appState = {
   candReleaseMonths: 0, // 0 | 6 | 12 | 18 | 24 | 36
   candRegion: '', // '' | 'non_seoul'
   candPreset: '', // '' | 'debut12' | 'blank' | 'selected' | 'regional' | 'rising'
+  candView: '', // '' (표) | 'heat' (색 지도)
   scFilter: 'all', // 'all' | 'discovery' | 'context' | 'excluded' | 'pending' | 'mismatch'
   scSort: { col: 'winners_seen', dir: 'desc' },
   venuesCalMode: 'cand', // 'cand' | 'all'
@@ -234,6 +235,7 @@ export function resetViewFilters() {
   appState.candReleaseMonths = 0;
   appState.candRegion = '';
   appState.candPreset = '';
+  appState.candView = '';
   appState.scFilter = 'all';
   appState.scSort = { col: 'winners_seen', dir: 'desc' };
   appState.venuesCalMode = 'cand';
@@ -305,6 +307,7 @@ const VALID_STAGES = new Set(['0', '1', '2', '3', '4']);
 const VALID_RELEASE_MONTHS = new Set([6, 12, 18, 24, 36]);
 const VALID_REGIONS = new Set(['non_seoul']);
 const VALID_PRESETS = new Set(['debut12', 'blank', 'selected', 'regional', 'rising']);
+const VALID_CAND_VIEWS = new Set(['heat']);
 const VALID_SN_LIMITS = new Set([100, 150, 250, 300]);
 
 export function parseHash() {
@@ -405,6 +408,8 @@ export function parseHash() {
     appState.candRegion = VALID_REGIONS.has(reg) ? reg : '';
     const pr = p.get('preset') || '';
     appState.candPreset = VALID_PRESETS.has(pr) ? pr : '';
+    const vw = p.get('view') || '';
+    appState.candView = VALID_CAND_VIEWS.has(vw) ? vw : '';
     const sortCol = p.get('sort') || '';
     const sortDir = p.get('dir') === 'asc' ? 'asc' : (p.get('dir') === 'desc' ? 'desc' : '');
     if (appState.candTab === 'debut') {
@@ -555,6 +560,7 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
       }
       if (appState.candRegion && VALID_REGIONS.has(appState.candRegion)) p.set('region', appState.candRegion);
       if (appState.candPreset && VALID_PRESETS.has(appState.candPreset)) p.set('preset', appState.candPreset);
+      if (appState.candView && VALID_CAND_VIEWS.has(appState.candView)) p.set('view', appState.candView);
       const cs = appState.candSort || { col: 'score', dir: 'desc' };
       if (cs.col !== 'score' || cs.dir !== 'desc') {
         p.set('sort', cs.col);

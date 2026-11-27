@@ -21,8 +21,11 @@ import {
   formatRankDeltaHtml, matchesReleaseMonths, RELEASE_MONTH_OPTIONS,
   renderCandFilterBarHtml,
 } from '../components/cand_filters.js';
+import { buildHeatRows, nextHeatSort, renderHeatmapHtml } from './candidates_heatmap.js';
+import { queryPeerCompare } from '../db_peer.js';
 
 const DEBUT_MIN_SAMPLE = 5;
+const HEAT_MIN_ROWS = 25; // 색 지도는 촘촘해서 한 화면 25줄부터
 let candDocListeners = null; // 후보 필터 묶음 메뉴의 문서 단위 듣기(다시 그릴 때 끊음)
 const DEBUT_DOC_URL = 'https://github.com/leegmyung/crate-digger/blob/main/docs/debut_cohort.md';
 const VALID_SORT_COLS = new Set(['score', 'display_name', 'next_gig_sort', 'momentum_pct', 'genre_rank']);
@@ -857,6 +860,9 @@ export async function renderCandidatesView(root) {
   let popoverOpen = false;
   let mobileFilterOpen = false;
   let density = getTableDensity();
+  let heatSort = { col: 'rank', dir: 'asc' };
+  let peerData = null; // 색 지도용 이웃 비교 (처음 색 지도로 바꿀 때 한 번 불러옴)
+  let peerLoading = false;
 
   const topName = defaultRows[0] ? `${defaultRows[0].display_name} (${fmtNum(defaultRows[0].score, 2)}점)` : '없음';
   const bannerHtml = renderActionBanner({
@@ -890,7 +896,8 @@ export async function renderCandidatesView(root) {
           ${renderTableCsvBtn('btnCandCsv', 'CSV 내려받기')}
         </div>
       </div>
-      <div class="table-wrap table-sticky">
+      <div id="candHeatHost" class="heat-host" hidden></div>
+      <div class="table-wrap table-sticky" id="candTableWrap">
         <table class="data-table cand-table is-density-${density}" id="candTable">
           <thead>
             <tr>
@@ -930,6 +937,62 @@ export async function renderCandidatesView(root) {
     root.querySelectorAll('.th-coverage[data-cov]').forEach(el => {
       const k = el.dataset.cov;
       if (k && cov[k] !== undefined) el.textContent = cov[k];
+    });
+  }
+
+  // 2-5 색 지도: 활성이면 표 대신 색 지도를 그리고 true 를 돌려준다
+  function paintHeatIfActive(list) {
+    const heatHost = root.querySelector('#candHeatHost');
+    const tableWrap = root.querySelector('#candTableWrap');
+    const isHeat = appState.candView === 'heat';
+    if (heatHost) heatHost.hidden = !isHeat;
+    if (tableWrap) tableWrap.hidden = isHeat;
+    root.querySelector('.density-switch')?.toggleAttribute('hidden', isHeat);
+    root.querySelector('.table-kb-hint')?.toggleAttribute('hidden', isHeat);
+    if (!isHeat || !heatHost) return false;
+
+    if (!peerData && !peerLoading) {
+      peerLoading = true;
+      queryPeerCompare({ as_of: asOf }).then(res => {
+        peerData = res;
+        peerLoading = false;
+        if (heatHost.isConnected && appState.candView === 'heat') paintTable();
+      });
+    }
+    const heatRows = buildHeatRows(list, {
+      peerByTeam: peerData?.byTeam || new Map(),
+      cities: appState.teamCitiesByTeam,
+    });
+    const limit = Math.max(visibleCount, HEAT_MIN_ROWS);
+    heatHost.innerHTML = list.length
+      ? renderHeatmapHtml(heatRows, { sort: heatSort, limit, loading: peerLoading, error: peerData?.error || '' })
+      : renderEmptyState({
+        title: '조건에 맞는 후보 팀이 없습니다',
+        message: '검색어 또는 적용된 필터 꼬리표를 지우거나 조건을 초기화해 보세요.',
+        showReset: true,
+      });
+    root.querySelector('#candPhotoCredit').hidden = true;
+    const countEl = root.querySelector('#candCountText');
+    if (countEl) countEl.textContent = `${fmtInt(Math.min(limit, list.length))} / ${fmtInt(list.length)}팀`;
+    paintMoreRow(list.length, Math.min(limit, list.length));
+    return true;
+  }
+
+  function paintMoreRow(total, shownCount) {
+    const moreRow = root.querySelector('#candMoreRow');
+    const rem = total - shownCount;
+    if (rem <= 0) {
+      moreRow.hidden = true;
+      return;
+    }
+    moreRow.hidden = false;
+    moreRow.innerHTML = `
+      <span>${fmtInt(shownCount)} / ${fmtInt(total)}팀 표시</span>
+      <button type="button" class="btn btn-sm" id="btnCandMore">${fmtInt(Math.min(20, rem))}팀 더 보기</button>
+    `;
+    moreRow.querySelector('#btnCandMore').addEventListener('click', () => {
+      visibleCount = Math.max(visibleCount, shownCount) + 20;
+      paintTable();
     });
   }
 
@@ -1028,6 +1091,8 @@ export async function renderCandidatesView(root) {
 
     updateColumnCoverage(list);
     updateSortHeaders(root.querySelector('#candTable'), appState.candSort.col, appState.candSort.dir, 'sort');
+
+    if (paintHeatIfActive(list)) return;
 
     const tbody = root.querySelector('#candTbody');
     if (!shown.length) {
@@ -1137,21 +1202,7 @@ export async function renderCandidatesView(root) {
       else expandedTeamKey = null;
     }
 
-    const moreRow = root.querySelector('#candMoreRow');
-    const rem = list.length - shown.length;
-    if (rem > 0) {
-      moreRow.hidden = false;
-      moreRow.innerHTML = `
-        <span>${fmtInt(shown.length)} / ${fmtInt(list.length)}팀 표시</span>
-        <button type="button" class="btn btn-sm" id="btnCandMore">${fmtInt(Math.min(20, rem))}팀 더 보기</button>
-      `;
-      moreRow.querySelector('#btnCandMore').addEventListener('click', () => {
-        visibleCount += 20;
-        paintTable();
-      });
-    } else {
-      moreRow.hidden = true;
-    }
+    paintMoreRow(list.length, shown.length);
   }
 
   function formatPrecedentPreview(p) {
@@ -1337,6 +1388,10 @@ export async function renderCandidatesView(root) {
     if (!t || !host.contains(t)) return;
     const d = t.dataset;
     if (d.candPreset) return applyPreset(d.candPreset);
+    if (d.candView !== undefined) {
+      appState.candView = d.candView === 'heat' ? 'heat' : '';
+      return refreshLocal();
+    }
     if (d.removeFilter) return removeFilter(d.removeFilter);
     if (d.setGenre !== undefined) {
       appState.cfg.genre = d.setGenre || '';
@@ -1443,6 +1498,27 @@ export async function renderCandidatesView(root) {
   });
 
   renderFilterBar();
+
+  const heatHostEl = root.querySelector('#candHeatHost');
+  const onHeatActivate = (target) => {
+    if (target.closest('.cd-infotip') || target.closest('.cd-na-cell')) return;
+    const th = target.closest('th[data-heat-sort]');
+    if (th) {
+      heatSort = nextHeatSort(heatSort, th.dataset.heatSort);
+      paintTable();
+      heatHostEl.querySelector(`th[data-heat-sort="${th.dataset.heatSort}"]`)?.focus();
+      return;
+    }
+    const tr = target.closest('tr[data-team-key]');
+    if (tr) navigateTo('team', tr.dataset.teamKey);
+  };
+  heatHostEl?.addEventListener('click', (e) => onHeatActivate(e.target));
+  heatHostEl?.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    if (!e.target.matches('th[data-heat-sort], tr[data-team-key]')) return;
+    e.preventDefault();
+    onHeatActivate(e.target);
+  });
 
   root.querySelectorAll('th.sortable').forEach(th => {
     th.setAttribute('tabindex', '0');
