@@ -35,6 +35,24 @@ class ScoreTest(unittest.TestCase):
         self.assertAlmostEqual(st.score(f, dict(st.V0_WEIGHTS)), 2 * 2 + 2 + 1 + 0 + 0 + 3)
 
 
+class CollabGridTest(unittest.TestCase):
+    def test_collab_in_score_and_grid(self):
+        f = {"n_branch": 1, "best_stage": 0, "peer_selected": 0, "dmz": 0, "gigs_1y": 0, "outlets": 0,
+             "recent180": 0, "venues": 0, "peer_winner": 0, "collab_est": 2}
+        w = {**dict(st.V0_WEIGHTS), "w_collab": 1.0}
+        self.assertAlmostEqual(st.score(f, w) - st.score(f, dict(st.V0_WEIGHTS)), __import__("math").log(3))
+        self.assertEqual(st.GRID["w_collab"], (0, 0.5, 1, 2))
+        self.assertEqual(dict(st.V0_WEIGHTS)["w_collab"], 0)
+
+    def test_grid_drops_collab_weights_when_no_collab_data(self):
+        # 협업 데이터가 0건이면 w_collab 은 0만 후보 (같은 AUC 동점에서 엉뚱한 값이 골라지지 않게)
+        empty = {"2025-01-01": [{"collab_est": 0}, {"collab_est": 0}]}
+        some = {"2025-01-01": [{"collab_est": 0}, {"collab_est": 1}]}
+        self.assertEqual(st.active_grid(empty)["w_collab"], (0,))
+        self.assertEqual(st.active_grid(some)["w_collab"], (0, 0.5, 1, 2))
+        self.assertEqual(st.active_grid(empty)["w_branch"], st.GRID["w_branch"])
+
+
 class LocoTest(unittest.TestCase):
     def test_held_out_cutoff_never_used_for_choosing(self):
         # 기준일 A에서만 좋은 가중치 x, 나머지에서 좋은 가중치 y → A를 뺄 때는 y가 골라져야 함

@@ -31,6 +31,7 @@
   --seg-dmz: #bfdbfe;
   --seg-gigs: #4a505c;
   --seg-outlets: #8d95a5;
+  --seg-context: #b6bcc8;
 
   /* Semantic notices */
   --warn-bg: #fffbeb;
@@ -96,6 +97,7 @@
   --seg-dmz: #1e40af;
   --seg-gigs: #9ca3af;
   --seg-outlets: #6b7280;
+  --seg-context: #4b5563;
 
   --warn-bg: #221908;
   --warn-line: #f59e0b;
@@ -1036,12 +1038,13 @@ table.data-table tbody tr.baseline-row td {
 
 .timeline-list li {
   display: grid;
-  grid-template-columns: 112px 84px minmax(0, 1fr);
+  grid-template-columns: 136px 76px minmax(0, 1fr);
   gap: var(--space-3);
   padding: 10px 0;
   border-bottom: 1px solid var(--line);
   font-size: var(--text-sm);
   line-height: 1.5;
+  align-items: baseline;
 }
 
 .timeline-date {
@@ -1049,6 +1052,7 @@ table.data-table tbody tr.baseline-row td {
   font-size: var(--text-xs);
   font-variant-numeric: tabular-nums;
   color: var(--ink-muted);
+  white-space: nowrap;
 }
 .timeline-branch { font-size: var(--text-xs); font-weight: 700; }
 .timeline-outcome { color: var(--accent); font-weight: 700; }
@@ -2833,5 +2837,220 @@ tr.player-expand-row td {
     text-align: center;
   }
 }
+
+/* ---------- Phase 3: Signal Role Badges, Outcome Grade Badges & Source Scorecard ---------- */
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-muted);
+  flex-shrink: 0;
+}
+
+.role-badge.is-discovery {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.role-badge.is-context {
+  background: var(--surface);
+  border-color: var(--line-strong);
+  color: var(--ink-muted);
+}
+
+.role-badge.is-pending {
+  background: transparent;
+  border-color: var(--line);
+  border-style: dashed;
+  color: var(--ink-subtle);
+}
+
+.role-badge.is-excluded {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink-subtle);
+}
+
+.grade-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 800;
+  line-height: 1;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.grade-badge.grade-S {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 1px solid var(--accent);
+}
+
+.grade-badge.grade-A {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.grade-badge.grade-B {
+  background: var(--surface-2);
+  color: var(--ink-muted);
+  border: 1px solid var(--line-strong);
+}
+
+.reclassify-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.45;
+  white-space: nowrap;
+  background: var(--warn-bg);
+  color: var(--warn-ink);
+  border: 1px solid var(--warn-line);
+}
+
+.score-role-note {
+  margin: 12px 0 0 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+  line-height: 1.5;
+}
+
+.score-role-note a {
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
+.outcome-label-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timeline-role-legend {
+  margin: 0 0 10px 0;
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+  line-height: 1.5;
+}
+
+.timeline-detail {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.timeline-list li.is-dimmed {
+  opacity: 0.56;
+}
+
+.timeline-list li.is-dimmed:hover {
+  opacity: 0.88;
+}
+
+/* Source Scorecard */
+.sc-src-cell {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sc-branch-tag {
+  font-size: 11.5px;
+  color: var(--ink-subtle);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0 5px;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.sc-table tbody tr.is-muted-row td {
+  opacity: 0.68;
+}
+
+.sc-table tbody tr.is-mismatch-row td {
+  background: var(--warn-bg);
+}
+
+.sc-pending-cell {
+  text-align: left !important;
+}
+
+.sc-pending-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+  background: var(--surface);
+  border: 1px dashed var(--line-strong);
+}
+
+.sc-lift-high {
+  color: var(--accent);
+}
+
+.sc-lift-low {
+  color: var(--ink-muted);
+}
+
+.sc-warn-inline {
+  color: var(--warn-ink);
+}
+
+.sc-info-list {
+  margin: 0;
+  padding-left: 18px;
+  line-height: 1.65;
+}
+
+.sc-info-list li + li {
+  margin-top: 4px;
+}
+
+@media (max-width: 640px) {
+  .timeline-list li {
+    grid-template-columns: auto 1fr;
+    gap: 4px 10px;
+  }
+
+  .timeline-list li .timeline-detail {
+    grid-column: 1 / -1;
+  }
+
+  .stat-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 
 

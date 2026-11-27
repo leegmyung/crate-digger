@@ -2,11 +2,13 @@ import { appState, hasCustomWeights, syncHash } from '../state.js';
 import { renderBacktestView } from './backtest.js';
 import { renderSignalsView } from './signals.js';
 import { renderEvidenceView } from './evidence.js';
+import { renderScorecardView } from './scorecard.js';
 
 const TABS = [
   { id: 'backtest', label: '과거 검증 · 가중치' },
   { id: 'signals', label: '신호별 적중률' },
   { id: 'evidence', label: '리드타임 · 연차' },
+  { id: 'scorecard', label: '출처 성적표' },
 ];
 
 export async function renderVerifyView(root) {
@@ -46,6 +48,8 @@ export async function renderVerifyView(root) {
     await renderSignalsView(subRoot);
   } else if (activeTab === 'evidence') {
     await renderEvidenceView(subRoot);
+  } else if (activeTab === 'scorecard') {
+    await renderScorecardView(subRoot);
   } else {
     await renderBacktestView(subRoot);
   }

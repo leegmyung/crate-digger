@@ -2,8 +2,8 @@ import { appState, navigateTo, setExportContext } from '../state.js';
 import { getTeamExternalLinks, queryTeamDetail } from '../db.js';
 import {
   avatarHtml, avatarSourceOf, escapeHtml, fmtInt, fmtNum, formatNextGigText,
-  formatSignalDate, PROFILE_LABELS, renderActionBanner, renderScoreBar,
-  SOURCE_LABELS, spotifyButtonHtml, spotifyUrlOf, summarizeWhyTeam,
+  formatSignalDate, gradeBadgeHtml, PROFILE_LABELS, renderActionBanner, renderScoreBar,
+  roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml, spotifyUrlOf, summarizeWhyTeam,
   watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
 
@@ -110,17 +110,24 @@ export async function renderTeamView(root, teamKey) {
       dateDisp: o.announced_date || '-',
       branch: '정답',
       isOutcome: true,
+      grade: o.grade || '',
+      role: '',
+      isDimmed: false,
       text: `${o.program_label || o.program} [${tierKo}]${o.counted ? '' : ' (집계 제외)'}`,
     });
   }
   for (const s of timeline) {
     const name = s.program_label || SOURCE_LABELS[s.program] || SOURCE_LABELS[s.source] || s.source || '';
     const detail = s.venue ? `${name} — ${s.venue}` : name;
+    const role = s.role || 'pending';
     mergedTimeline.push({
       sortDate: s.signal_date || '',
       dateDisp: formatSignalDate(s.signal_date, s.branch),
       branch: s.branch || '',
       isOutcome: false,
+      grade: '',
+      role,
+      isDimmed: role === 'excluded' || role === 'pending',
       text: detail,
     });
   }
@@ -159,7 +166,8 @@ export async function renderTeamView(root, teamKey) {
         ['서로 다른 공연장 (' + fmtInt(scored.venues) + '곳)', scored.pts_venues],
         ['최근 6개월 활동 (' + fmtInt(scored.recent180) + '건)', scored.pts_recent],
         ['이미 상 받은 팀과 같은 무대', scored.pts_winner],
-        ['큐레이션 매체 (' + fmtInt(scored.outlets) + '곳)', scored.pts_outlets],
+        ['발굴 매체 (' + fmtInt(scored.outlets) + '곳)', scored.pts_outlets],
+        ['맥락 매체 (' + fmtInt(scored.context_outlets ?? 0) + '곳)', scored.pts_context],
         ['선정 팀과 같은 무대', scored.pts_peer],
         ['DMZ 출연', scored.pts_dmz],
         ['최근 1년 공연 (' + fmtInt(scored.gigs_1y) + '일)', scored.pts_gigs],
@@ -191,6 +199,10 @@ export async function renderTeamView(root, teamKey) {
                 ${scoreItems.map(([k, v]) => `<dt>${escapeHtml(k)}</dt><dd>+${fmtNum(v, 2)}</dd>`).join('')}
               </dl>
             ` : '<p class="muted small" style="margin:0;">현재 필터·기간 조건 안의 점수가 없습니다.</p>'}
+            <p class="score-role-note">
+              점수에는 발굴 신호만, 맥락 매체는 약하게 반영합니다.
+              <a href="#/scorecard">출처 성적표 보기 ↗</a>
+            </p>
           </section>
 
           ${profileFacts.length ? `
@@ -224,7 +236,7 @@ export async function renderTeamView(root, teamKey) {
                   ${visiblePrec.map(p => `
                     <tr>
                       <td><a href="#/team/${encodeURIComponent(p.past_team)}"><strong>${escapeHtml(p.display_name || p.past_team)}</strong></a></td>
-                      <td>${escapeHtml(p.outcome_label || '-')}</td>
+                      <td><span class="outcome-label-wrap">${gradeBadgeHtml(p.outcome_grade)}<span>${escapeHtml(p.outcome_label || '-')}</span></span></td>
                       <td class="nowrap mono muted">${escapeHtml(p.outcome_date || '-')}</td>
                       <td>${escapeHtml(p.shared_list || '-')}</td>
                       <td class="num">${p.months_signal_to_outcome !== null && p.months_signal_to_outcome !== undefined ? fmtInt(p.months_signal_to_outcome) : '-'}</td>
@@ -235,8 +247,8 @@ export async function renderTeamView(root, teamKey) {
             </div>
             ${morePrec > 0 ? `<div class="more-row"><span>${fmtInt(visiblePrec.length)} / ${fmtInt(precedents.length)}팀 표시</span><button type="button" class="btn btn-sm" id="btnMorePrec">${fmtInt(morePrec)}팀 더 보기</button></div>` : ''}
             <details class="info-fold" style="margin:8px 0 0 0;">
-              <summary>ⓘ 선례 해석 주의</summary>
-              <div class="info-fold-body">선례는 정답 전에 같은 선정·공연장·매체를 거쳤다는 참고 경로일 뿐이며, 수상을 예측하지 않습니다.</div>
+              <summary>ⓘ 선례 · 등급 해석</summary>
+              <div class="info-fold-body">선례는 정답 전에 같은 선정·공연장·매체를 거쳤다는 참고 경로일 뿐이며, 수상을 예측하지 않습니다. 등급: <strong>S</strong> 전국 최종 수상·선정(가중치 3) · <strong>A</strong> 주요 신인 결선·최종(2) · <strong>B</strong> 쇼케이스·장르 부문·월간(1).</div>
             </details>
           ` : '<p class="muted small" style="margin:0;">겹치는 경로를 가진 과거 수상 팀 선례가 아직 없습니다.</p>'}
         </section>
@@ -246,19 +258,24 @@ export async function renderTeamView(root, teamKey) {
     if (activeSubTab === 'activity') {
       const visibleTl = showAllTimeline ? mergedTimeline : mergedTimeline.slice(0, 10);
       const moreTl = mergedTimeline.length - visibleTl.length;
+      const hasNonDiscovery = mergedTimeline.some(m => !m.isOutcome && m.role !== 'discovery');
       return `
         <section class="block">
           <div class="block-head">
             <h2>신호 · 정답 타임라인</h2>
             <span class="block-meta">전체 ${fmtInt(mergedTimeline.length)}건</span>
           </div>
+          ${hasNonDiscovery ? '<p class="timeline-role-legend">역할: <strong>발굴</strong> 점수 반영 · <strong>맥락</strong> 참고/약하게 · <strong>대기·제외</strong> 점수 제외(흐리게 표시)</p>' : ''}
           ${visibleTl.length ? `
             <ul class="timeline-list">
               ${visibleTl.map(m => `
-                <li>
+                <li class="${m.isDimmed ? 'is-dimmed' : ''}">
                   <span class="timeline-date">${escapeHtml(m.dateDisp)}</span>
                   <span class="timeline-branch ${m.isOutcome ? 'timeline-outcome' : ''}">${escapeHtml(m.branch)}</span>
-                  <span>${escapeHtml(m.text)}</span>
+                  <span class="timeline-detail">
+                    ${m.isOutcome ? gradeBadgeHtml(m.grade) : roleBadgeHtml(m.role)}
+                    <span>${escapeHtml(m.text)}</span>
+                  </span>
                 </li>
               `).join('')}
             </ul>
@@ -356,8 +373,8 @@ export async function renderTeamView(root, teamKey) {
   setExportContext({
     csvLabel: `${displayName} 활동 기록 CSV 내려받기 (${fmtInt(mergedTimeline.length)}건)`,
     csvFilename: `crate_digger_team_${teamKey.replace(/[^a-zA-Z0-9가-힣_-]+/g, '_')}_${appState.dataEnd || 'export'}.csv`,
-    csvHeaders: ['date', 'branch', 'detail'],
-    csvRows: mergedTimeline.map(m => [m.dateDisp, m.branch, m.text]),
+    csvHeaders: ['date', 'branch', 'role_or_grade', 'detail'],
+    csvRows: mergedTimeline.map(m => [m.dateDisp, m.branch, m.isOutcome ? (m.grade || '') : (m.role || ''), m.text]),
   });
 
   const backLabels = {

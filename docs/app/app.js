@@ -20,7 +20,7 @@ import { renderVenuesView } from './views/venues.js';
 import { renderQualityView } from './views/quality.js';
 import { renderSqlView } from './views/sql.js';
 
-const ADVANCED_ROUTES = new Set(['verify', 'backtest', 'signals', 'evidence', 'quality', 'sql']);
+const ADVANCED_ROUTES = new Set(['verify', 'backtest', 'signals', 'evidence', 'scorecard', 'quality', 'sql']);
 
 let renderSeq = 0;
 let toastTimer = null;
@@ -411,7 +411,7 @@ async function renderCurrentView() {
     else if (r === 'candidates') await renderCandidatesView(root);
     else if (r === 'team') await renderTeamView(root, appState.routeParam);
     else if (r === 'watchlist') await renderWatchlistView(root);
-    else if (r === 'verify' || r === 'backtest' || r === 'signals' || r === 'evidence') await renderVerifyView(root);
+    else if (r === 'verify' || r === 'backtest' || r === 'signals' || r === 'evidence' || r === 'scorecard') await renderVerifyView(root);
     else if (r === 'venues') await renderVenuesView(root);
     else if (r === 'quality') await renderQualityView(root);
     else if (r === 'sql') await renderSqlView(root);

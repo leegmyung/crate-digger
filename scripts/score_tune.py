@@ -24,11 +24,13 @@ CUTOFFS = ["2023-01-01", "2023-07-01", "2024-01-01", "2024-07-01", "2025-01-01",
 HORIZON_MONTHS = 24
 OUTLET_CAP = 3
 V0_WEIGHTS = (("w_branch", 2.0), ("w_stage", 1.0), ("w_peer", 1.0), ("w_dmz", 0.5), ("w_gigs", 0.5),
-              ("w_outlets", 1.0), ("w_recent", 0.0), ("w_venues", 0.0), ("w_winner", 0.0), ("w_context", 0.0))
+              ("w_outlets", 1.0), ("w_recent", 0.0), ("w_venues", 0.0), ("w_winner", 0.0), ("w_context", 0.0),
+              ("w_collab", 0.0))
 # 1차 탐색(v0 특징 6개만)에서 DMZ는 늘 0, 선정 단계는 2가 골라졌다 → 새 특징 3개를 넣고 범위를 좁혀 다시 탐색
 GRID = {"w_branch": (0, 1, 2, 3), "w_stage": (1, 2, 3), "w_peer": (0, 1), "w_dmz": (0,),
         "w_gigs": (0,), "w_outlets": (0.5, 1, 2), "w_recent": (0, 1, 2, 3), "w_venues": (0, 1, 2),
-        "w_winner": (0, 1, 2), "w_context": (0, 0.25, 0.5, 1)}   # 맥락 매체(기준선 이하 큰 매거진)는 약하게 — 차등
+        "w_winner": (0, 1, 2), "w_context": (0, 0.25, 0.5, 1),   # 맥락 매체(기준선 이하 큰 매거진)는 약하게 — 차등
+        "w_collab": (0, 0.5, 1, 2)}   # 기성 파트너와의 협업(스포티파이) — 데이터가 없으면 active_grid 가 0만 남김
 OUT = lab_sql.ROOT / "docs" / "score_tuning.md"
 
 
@@ -87,7 +89,14 @@ def score(f: dict, w: dict) -> float:
             + w["w_dmz"] * f["dmz"] + w["w_gigs"] * math.log(1 + f["gigs_1y"])
             + w["w_outlets"] * min(f["outlets"], OUTLET_CAP) + w["w_recent"] * math.log(1 + f["recent180"])
             + w["w_venues"] * math.log(1 + f["venues"]) + w["w_winner"] * f["peer_winner"]
-            + w.get("w_context", 0) * min(f.get("context_outlets", 0), OUTLET_CAP))
+            + w.get("w_context", 0) * min(f.get("context_outlets", 0), OUTLET_CAP)
+            + w.get("w_collab", 0) * math.log(1 + f.get("collab_est", 0)))
+
+
+def active_grid(data: Dict[str, List[dict]]) -> Dict[str, tuple]:
+    """특징값이 모두 0인 가중치는 0만 후보로 (협업 데이터 0건일 때 동점끼리 엉뚱한 값이 골라지지 않게)."""
+    has_collab = any((r.get("collab_est") or 0) > 0 for rows in data.values() for r in rows)
+    return {**GRID, "w_collab": GRID["w_collab"] if has_collab else (0,)}
 
 
 def loco_pick(table: Dict[str, Dict[str, Optional[float]]]) -> Dict[str, str]:
@@ -107,10 +116,10 @@ def loco_pick(table: Dict[str, Dict[str, Optional[float]]]) -> Dict[str, str]:
 def features(con, cutoff: str) -> List[dict]:
     zero = {k: "0" for k, _ in V0_WEIGHTS}
     q = ("SELECT team_key, n_branch, best_stage, peer_selected, dmz, gigs_1y, outlets, recent180, venues, "
-         "peer_winner, context_outlets, is_hit, hit_weight "
+         "peer_winner, context_outlets, collab_est, is_hit, hit_weight "
          "FROM lab_scored(DATE '{c}', 3, 3, true, 'any', {h}, '', ['공연','선정·지원','발매','큐레이션'], "
          "{w_branch}, {w_stage}, {w_peer}, {w_dmz}, {w_gigs}, {w_outlets}, {cap}, {w_recent}, {w_venues}, "
-         "{w_winner}, {w_context}) WHERE NOT had_outcome")
+         "{w_winner}, {w_context}, w_collab := {w_collab}) WHERE NOT had_outcome")
     cur = con.execute(q.format(c=cutoff, h=HORIZON_MONTHS, cap=OUTLET_CAP, **zero))
     cols = [d[0] for d in cur.description]
     return [dict(zip(cols, r)) for r in cur.fetchall()]
@@ -140,7 +149,8 @@ def _fmt_w(w: dict) -> str:
 def main() -> int:
     con = lab_sql.connect()
     data = {c: features(con, c) for c in CUTOFFS}
-    grid = [dict(zip(GRID, combo)) for combo in itertools.product(*GRID.values())]
+    space = active_grid(data)
+    grid = [dict(zip(space, combo)) for combo in itertools.product(*space.values())]
     grid = [w for w in grid if any(w.values())]
     names = {i: w for i, w in enumerate(grid)}
     evals = {i: evaluate(data, w) for i, w in names.items()}

@@ -161,6 +161,10 @@
     "first": 0,
     "only": 0
    }
+  },
+  "협업:spotify": {
+   "role": "pending",
+   "reason": "스포티파이 협업(피처링), 2026-11-27부터 수집 — 아직 성적 없음. 점수에는 w_collab(기본 0)로 따로 연결"
   }
  },
  "outcomes": {

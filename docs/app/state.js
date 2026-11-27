@@ -11,12 +11,13 @@ export const ROUTES = [
   'backtest',
   'signals',
   'evidence',
+  'scorecard',
   'venues',
   'quality',
   'sql',
 ];
 
-export const VERIFY_TABS = ['backtest', 'signals', 'evidence'];
+export const VERIFY_TABS = ['backtest', 'signals', 'evidence', 'scorecard'];
 
 export const WATCH_STATUSES = [
   { id: 'watching', label: '지켜보는 중' },
@@ -24,7 +25,7 @@ export const WATCH_STATUSES = [
   { id: 'hold', label: '보류' },
 ];
 
-// Scoring weight presets (matches docs/lab/sql/features.sql & docs/score_tuning.md)
+// Single source of truth for scoring weights (matches docs/lab/sql/features.sql & docs/score_tuning.md)
 export const WEIGHT_PRESETS = {
   v1: {
     w_branch: 2,
@@ -37,6 +38,7 @@ export const WEIGHT_PRESETS = {
     w_recent: 1,
     w_venues: 2,
     w_winner: 1,
+    w_context: 0,
   },
   v0: {
     w_branch: 2,
@@ -49,6 +51,7 @@ export const WEIGHT_PRESETS = {
     w_recent: 0,
     w_venues: 0,
     w_winner: 0,
+    w_context: 0,
   },
 };
 
@@ -60,8 +63,9 @@ export const WEIGHT_FIELDS = [
   { key: 'w_venues', label: '서로 다른 공연장 수', min: 0, max: 3, step: 0.5, isInt: false },
   { key: 'w_recent', label: '최근 6개월 활동', min: 0, max: 3, step: 0.5, isInt: false },
   { key: 'w_winner', label: '이미 상 받은 팀과 같은 무대', min: 0, max: 3, step: 0.5, isInt: false },
-  { key: 'w_outlets', label: '큐레이션 매체 수', min: 0, max: 3, step: 0.5, isInt: false },
-  { key: 'outlet_cap', label: '큐레이션 매체 상한', min: 1, max: 6, step: 1, isInt: true },
+  { key: 'w_outlets', label: '발굴 매체 수', min: 0, max: 3, step: 0.5, isInt: false },
+  { key: 'w_context', label: '맥락 매체 수 (약하게)', min: 0, max: 3, step: 0.1, isInt: false },
+  { key: 'outlet_cap', label: '매체 수 상한', min: 1, max: 6, step: 1, isInt: true },
   { key: 'w_peer', label: '선정 팀과 같은 무대', min: 0, max: 3, step: 0.5, isInt: false },
   { key: 'w_dmz', label: 'DMZ 출연', min: 0, max: 3, step: 0.5, isInt: false },
   { key: 'w_gigs', label: '최근 1년 공연 ln(1+n)', min: 0, max: 3, step: 0.5, isInt: false },
@@ -140,6 +144,7 @@ export const appState = {
     backtest: '',
     candidates: '',
     signals: '',
+    scorecard: '',
     precedents: '',
     team: '',
     related: '',
@@ -149,10 +154,13 @@ export const appState = {
     backtest: '',
     candidates: '',
     signal_hits: '',
+    source_scorecard: '',
     precedents: '',
     team: '',
     related: '',
   },
+  sourceRolesJson: null,
+  programLabels: new Map(),
   snapshots: {
     dates: [],
     reconstructed: [],
@@ -280,7 +288,8 @@ export function parseHash() {
     appState.verifyTab = p.get('vtab');
   }
 
-  for (const key of ['w_branch', 'w_stage', 'w_peer', 'w_dmz', 'w_gigs', 'w_outlets', 'w_recent', 'w_venues', 'w_winner']) {
+  for (const key of WEIGHT_KEYS) {
+    if (key === 'outlet_cap') continue;
     if (p.has(key)) {
       const n = Number(p.get(key));
       if (Number.isFinite(n) && n >= 0 && n <= 10) c[key] = n;
@@ -348,16 +357,9 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
   setIf('lookback_years', c.lookback_years, DEFAULTS.lookback_years);
   setIf('as_of', c.as_of, defAsOf);
   setIf('limit', c.limit, DEFAULTS.limit);
-  setIf('w_branch', c.w_branch, DEFAULTS.w_branch);
-  setIf('w_stage', c.w_stage, DEFAULTS.w_stage);
-  setIf('w_peer', c.w_peer, DEFAULTS.w_peer);
-  setIf('w_dmz', c.w_dmz, DEFAULTS.w_dmz);
-  setIf('w_gigs', c.w_gigs, DEFAULTS.w_gigs);
-  setIf('w_outlets', c.w_outlets, DEFAULTS.w_outlets);
-  setIf('outlet_cap', c.outlet_cap, DEFAULTS.outlet_cap);
-  setIf('w_recent', c.w_recent, DEFAULTS.w_recent);
-  setIf('w_venues', c.w_venues, DEFAULTS.w_venues);
-  setIf('w_winner', c.w_winner, DEFAULTS.w_winner);
+  for (const wk of WEIGHT_KEYS) {
+    setIf(wk, c[wk], DEFAULT_WEIGHTS[wk]);
+  }
   setIf('cutoffs', c.cutoffs, DEFAULTS.cutoffs);
   setIf('horizon_months', c.horizon_months, DEFAULTS.horizon_months);
   setIf('outcome_tier', c.outcome_tier, DEFAULTS.outcome_tier);

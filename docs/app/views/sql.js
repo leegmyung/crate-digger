@@ -21,11 +21,11 @@ export async function renderSqlView(root) {
 
     <div class="schema-box">
       <strong>사용 가능한 표</strong><br>
-      <code class="mono">signals(team_key, branch, source, program, stage_rank, signal_date, venue)</code><br>
+      <code class="mono">signals(team_key, branch, source, program, stage_rank, signal_date, venue, role)</code><br>
       <code class="mono">teams(team_key, display_name, first_seen, first_release, fan_count, album_count, profile_status, primary_genre, agency)</code><br>
-      <code class="mono">outcomes(team_key, program, program_label, tier, announced_date, counted)</code><br>
+      <code class="mono">outcomes(team_key, program, program_label, tier, announced_date, counted, grade, weight)</code><br>
       <code class="mono">programs(program, label, kind)</code> · <code class="mono">links(team_key, platform, url)</code> · <code class="mono">videos(team_key, video_id, title, channel_title, published_at, kind)</code> · <code class="mono">images(team_key, url, source)</code><br>
-      공통 매크로: <code class="mono">lab_scored(cutoff, lookback_years, newcomer_years, exclude_famous, outcome_tier, horizon_months, genre, branches, w_branch, w_stage, w_peer, w_dmz, w_gigs, w_outlets, outlet_cap, w_recent, w_venues, w_winner)</code>
+      공통 매크로: <code class="mono">lab_scored(cutoff, lookback_years, newcomer_years, exclude_famous, outcome_tier, horizon_months, genre, branches, w_branch, w_stage, w_peer, w_dmz, w_gigs, w_outlets, outlet_cap, w_recent, w_venues, w_winner, w_context)</code>
     </div>
 
     <div class="toolbar">
@@ -35,6 +35,7 @@ export async function renderSqlView(root) {
           <option value="candidates">방금 돌린 지금 후보 SQL</option>
           <option value="backtest">방금 돌린 백테스트 SQL</option>
           <option value="signals">방금 돌린 신호별 적중률 SQL</option>
+          <option value="scorecard">방금 돌린 출처 성적표 SQL</option>
           <option value="precedents">방금 돌린 선례 SQL</option>
           <option value="related">방금 돌린 관련 팀 SQL</option>
           <option value="features">공통 매크로 (features.sql)</option>
@@ -110,6 +111,7 @@ export async function renderSqlView(root) {
     if (k === 'candidates') editor.value = appState.lastSql.candidates || appState.sqlTemplates.candidates;
     else if (k === 'backtest') editor.value = appState.lastSql.backtest || appState.sqlTemplates.backtest;
     else if (k === 'signals') editor.value = appState.lastSql.signals || appState.sqlTemplates.signal_hits;
+    else if (k === 'scorecard') editor.value = appState.lastSql.scorecard || appState.sqlTemplates.source_scorecard;
     else if (k === 'precedents') editor.value = appState.lastSql.precedents || appState.sqlTemplates.precedents;
     else if (k === 'related') editor.value = appState.lastSql.related || appState.sqlTemplates.related;
     else if (k === 'features') editor.value = appState.sqlTemplates.features;

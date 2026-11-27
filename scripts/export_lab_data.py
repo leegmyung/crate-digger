@@ -9,6 +9,7 @@
 """
 from __future__ import annotations
 
+import calendar
 import csv
 import io
 import json
@@ -55,6 +56,11 @@ URL_TEMPLATES = {
 }
 URL_HOSTS = {"melon": "www.melon.com", "genie": "www.genie.co.kr", "bugs": "music.bugs.co.kr",
              "spotify": "open.spotify.com", "instagram": "www.instagram.com", "youtube": "www.youtube.com"}
+COLLAB_FIELDS = ["team_key", "partner_key", "partner_name", "release_date", "role", "partner_established"]
+# '기성 파트너' 규칙 — 이미 자리 잡은 아티스트와의 협업은 업계가 그 신인을 알아봤다는 신호일 수 있다.
+# 시점 누수 방지: 모든 비교는 '그 협업 발매일' 기준(그때 이미 기성이었나). 정답·유명 여부도 그 전에 알 수 있던 것만.
+ESTABLISHED_YEARS = 5      # 파트너 첫 발매가 협업보다 5년 이상 앞서면 기성 (신인 기준 3년보다 넉넉히 — 확실한 선배만)
+ESTABLISHED_ALBUMS = 15    # 앨범(싱글 포함) 15개 이상이면 기성 (신인 기준 10개를 확실히 넘는 수준)
 OUTCOME_FIELDS = ["team_key", "program", "program_label", "tier", "announced_date", "counted", "grade", "weight"]
 ROLES_FILE = ROOT / "config" / "source_roles.json"
 DEFAULT_GRADE = ("B", 1)
@@ -282,6 +288,84 @@ def _image_cache() -> dict:
         return {}
 
 
+def period_end_date(text: str, precision: str = "") -> str:
+    """스포티파이 발매일 → YYYY-MM-DD. 일부만 알면 기간의 '마지막 날'(시점 누수 방지: 늦게 잡아 '미리 알았다'를 부풀리지 않음).
+    '2024'(year) → 2024-12-31, '2024-02'(month) → 2024-02-29. 형식이 틀리면 ''."""
+    parts = (text or "").strip().split("-")
+    try:
+        nums = [int(p) for p in parts]
+        if len(nums) == 1:
+            return date(nums[0], 12, 31).isoformat()
+        if len(nums) == 2:
+            return date(nums[0], nums[1], calendar.monthrange(nums[0], nums[1])[1]).isoformat()
+        if len(nums) == 3:
+            return date(*nums).isoformat()
+    except (ValueError, calendar.IllegalMonthError):
+        return ""
+    return ""
+
+
+def _years_before(earlier: str, later: str, years: int) -> bool:
+    """earlier 가 later 보다 years 년 이상 앞서나 (2월 29일은 28일로)."""
+    try:
+        e, l = date.fromisoformat(earlier), date.fromisoformat(later)
+    except ValueError:
+        return False
+    try:
+        threshold = l.replace(year=l.year - years)
+    except ValueError:
+        threshold = l.replace(year=l.year - years, day=28)
+    return e <= threshold
+
+
+def _is_established(partner_key: str, profile: dict, released: str, famous: set, first_outcome: Dict[str, str]) -> bool:
+    first = period_end_date(profile.get("first_release_date", ""))   # 파트너 첫 발매도 보수적으로 늦게
+    albums = int(profile["album_count"]) if str(profile.get("album_count") or "").isdigit() else 0
+    won = first_outcome.get(partner_key)
+    return bool((first and _years_before(first, released, ESTABLISHED_YEARS)) or albums >= ESTABLISHED_ALBUMS
+                or partner_key in famous or (won and won < released))
+
+
+def collab_rows(collabs: List[dict], partners: List[dict], teams: List[dict], outcomes: List[dict],
+                key_of: Callable[[str], str] | None = None, xref_index: dict | None = None) -> List[dict]:
+    """raw_collab(+partner) → collabs.csv 행. 팀·파트너 키는 아티스트 연결표의 canonical_key."""
+    if key_of is None:
+        from artist_xref import canonical_key, load_xref
+
+        index = load_xref() if xref_index is None else xref_index
+        key_of = lambda name: canonical_key(name, index)   # noqa: E731
+    profiles = {p.get("partner_spotify_id", ""): p for p in partners}
+    famous = {t["team_key"] for t in teams if t.get("profile_status") == "famous"}
+    first_outcome: Dict[str, str] = {}
+    for o in outcomes:
+        if str(o.get("counted", "")).lower() == "true" and o.get("announced_date"):
+            first_outcome[o["team_key"]] = min(first_outcome.get(o["team_key"], o["announced_date"]), o["announced_date"])
+    out, seen = [], set()
+    for c in collabs:
+        team, partner = key_of(c.get("artist_name", "")), key_of(c.get("partner_name", ""))
+        released = period_end_date(c.get("release_date", ""), c.get("release_date_precision", ""))
+        if not team or not partner or team == partner or not released:
+            continue
+        est = _is_established(partner, profiles.get(c.get("partner_spotify_id", ""), {}), released, famous, first_outcome)
+        row = {"team_key": team, "partner_key": partner, "partner_name": c.get("partner_name", ""),
+               "release_date": released, "role": c.get("role", ""), "partner_established": "true" if est else "false"}
+        sig = tuple(row.values())
+        if sig not in seen:
+            seen.add(sig)
+            out.append(row)
+    return out
+
+
+def _raw_collabs(raw_dir: Path = RAW_DIR) -> tuple:
+    """data/raw/raw_collab_*.csv(협업)와 raw_collab_partner_*.csv(파트너 프로필). 없으면 빈 목록."""
+    collabs: List[dict] = []
+    partners: List[dict] = []
+    for path in sorted(raw_dir.glob("raw_collab_*.csv")):
+        with open(path, encoding="utf-8") as f:
+            (partners if path.name.startswith("raw_collab_partner_") else collabs).extend(csv.DictReader(f))
+    return collabs, partners
+
+
 def _raw_videos(raw_dir: Path = RAW_DIR) -> List[dict]:
     rows: List[dict] = []
     for path in sorted(raw_dir.glob("raw_video_*.csv")):
@@ -311,7 +395,8 @@ def _write_csv(path: Path, fields: List[str], rows: List[dict]) -> None:
 def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = None,
            extra_refs: Callable[[], List[dict]] | None = _extra_refs,
            raw_videos: Callable[[], List[dict]] | None = _raw_videos,
-           image_cache: Callable[[], dict] | None = _image_cache) -> dict:
+           image_cache: Callable[[], dict] | None = _image_cache,
+           raw_collabs: Callable[[], tuple] | None = _raw_collabs) -> dict:
     use_xref = _has_xref_table(run)
     q = queries(use_xref)
     roles = load_roles()
@@ -333,6 +418,9 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
     _write_csv(out_dir / "videos.csv", VIDEO_FIELDS, videos)
     images = image_rows(image_cache()) if image_cache else []
     _write_csv(out_dir / "images.csv", IMAGE_FIELDS, images)
+    raw_c, raw_p = raw_collabs() if raw_collabs else ([], [])
+    collabs = collab_rows(raw_c, raw_p, teams, outcomes) if raw_c else []
+    _write_csv(out_dir / "collabs.csv", COLLAB_FIELDS, collabs)   # 데이터가 없으면 헤더만
     day = today or date.today().isoformat()
     try:   # 직전 '날짜'의 행 수 → 앱이 '어젯밤 새로 붙은 신호·영상 수'를 보여 줄 수 있게
         old = json.loads((out_dir / "meta.json").read_text(encoding="utf-8"))
@@ -346,7 +434,8 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
         "data_end": day,
         "uses_artist_xref": use_xref,
         "rows": {"signals": len(signals), "teams": len(teams), "outcomes": len(outcomes),
-                 "programs": len(programs), "links": len(links), "videos": len(videos), "images": len(images)},
+                 "programs": len(programs), "links": len(links), "videos": len(videos), "images": len(images),
+                 "collabs": len(collabs)},
     }
     (out_dir / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
     return meta

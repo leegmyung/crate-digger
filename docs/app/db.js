@@ -159,6 +159,7 @@ export function buildParams(overrides = {}) {
     w_recent: sqlNum(c.w_recent, 0, 10, DEFAULT_WEIGHTS.w_recent),
     w_venues: sqlNum(c.w_venues, 0, 10, DEFAULT_WEIGHTS.w_venues),
     w_winner: sqlNum(c.w_winner, 0, 10, DEFAULT_WEIGHTS.w_winner),
+    w_context: sqlNum(c.w_context, 0, 10, DEFAULT_WEIGHTS.w_context),
     k_list: sqlKList(c.k_list),
     only_no_outcome: sqlBool(overrides.only_no_outcome !== undefined ? overrides.only_no_outcome : c.only_no_outcome),
     limit: sqlInt(overrides.limit !== undefined ? overrides.limit : c.limit, 10, 1000, 100),
@@ -329,6 +330,7 @@ export function computeDataHealth(meta = appState.meta, collect = appState.colle
     }
     const latestRuns = [...latestByKey.values()];
     totalSources = latestRuns.length;
+    const DROP_CHECK_TABLES = new Set(['raw_kr_gig', 'raw_press', 'raw_kr_release']);
     const failed = [];
     const zeroRows = [];
     const dropped = [];
@@ -340,7 +342,11 @@ export function computeDataHealth(meta = appState.meta, collect = appState.colle
         zeroRows.push(name);
       } else {
         okSources += 1;
-        if (Number(r.prev_rows) >= 20 && Number(r.rows) < Number(r.prev_rows) * 0.5) {
+        if (
+          DROP_CHECK_TABLES.has(String(r.table || '')) &&
+          Number(r.prev_rows) >= 20 &&
+          Number(r.rows) < Number(r.prev_rows) * 0.5
+        ) {
           dropped.push(`${name}(${r.prev_rows}→${r.rows})`);
         }
       }
@@ -442,6 +448,7 @@ export async function bootstrapData(onStatus = () => {}) {
     btSql,
     candSql,
     sigHitSql,
+    scorecardSql,
     precSql,
     teamSql,
     relSql,
@@ -458,6 +465,7 @@ export async function bootstrapData(onStatus = () => {}) {
     fetchText('lab/sql/backtest.sql'),
     fetchText('lab/sql/candidates.sql'),
     fetchText('lab/sql/signal_hits.sql'),
+    fetchText('lab/sql/source_scorecard.sql', true),
     fetchText('lab/sql/precedents.sql', true),
     fetchText('lab/sql/team.sql', true),
     fetchText('lab/sql/related.sql', true),
@@ -477,6 +485,7 @@ export async function bootstrapData(onStatus = () => {}) {
     backtest: btSql || '',
     candidates: candSql || '',
     signal_hits: sigHitSql || '',
+    source_scorecard: scorecardSql || '',
     precedents: precSql || '',
     team: teamSql || '',
     related: relSql || '',
@@ -513,6 +522,8 @@ export async function bootstrapData(onStatus = () => {}) {
   if (linksCsv) createSql += `CREATE TABLE links AS SELECT * FROM read_csv_auto('links.csv', header=true);`;
   if (videosCsv) createSql += `CREATE TABLE videos AS SELECT * FROM read_csv_auto('videos.csv', header=true);`;
   if (imagesCsv) createSql += `CREATE TABLE images AS SELECT * FROM read_csv_auto('images.csv', header=true);`;
+  // 협업(피처링) 표: 앱은 collabs.csv를 올리지 않으므로 빈 표만 (features.sql이 읽음, w_collab 기본 0 — scripts/lab_sql.py COLLABS_DDL과 같은 정의)
+  createSql += `CREATE TABLE collabs(team_key VARCHAR, partner_key VARCHAR, partner_name VARCHAR, release_date DATE, role VARCHAR, partner_established BOOLEAN);`;
   await connInstance.query(createSql);
   await connInstance.query(featSql);
 
@@ -521,7 +532,7 @@ export async function bootstrapData(onStatus = () => {}) {
   const latestDate = snapDates[0] || null;
   const prevDate = snapDates[1] || null;
 
-  const [genreRes, rangeRes, teamIdxRes, snapLatestTxt, snapPrevTxt, linksRes, videosRes] = await Promise.all([
+  const [genreRes, rangeRes, teamIdxRes, progRes, snapLatestTxt, snapPrevTxt, linksRes, videosRes] = await Promise.all([
     runRawSql(`
       SELECT primary_genre, COUNT(*) AS n
       FROM teams
@@ -539,6 +550,7 @@ export async function bootstrapData(onStatus = () => {}) {
       FROM teams
       ORDER BY display_name
     `),
+    runRawSql(`SELECT program, label FROM programs`),
     latestDate ? fetchText(`lab/data/snapshots/${latestDate}.csv`, true) : Promise.resolve(null),
     prevDate ? fetchText(`lab/data/snapshots/${prevDate}.csv`, true) : Promise.resolve(null),
     linksCsv ? runRawSql(`SELECT team_key, platform, url FROM links`) : Promise.resolve({ rows: [] }),
@@ -554,6 +566,7 @@ export async function bootstrapData(onStatus = () => {}) {
     };
   }
   appState.teamIndex = teamIdxRes.rows;
+  appState.programLabels = new Map(progRes.rows.filter(r => r.program && r.label).map(r => [r.program, r.label]));
   appState.linksByTeam = indexLinksRows(linksRes.rows);
   appState.videosByTeam = indexVideosRows(videosRes.rows);
   const parsedImgs = parseImagesCsv(imagesCsv);
@@ -612,38 +625,92 @@ export async function querySignalHits(cutoff) {
   return { cutoff: useCutoff, rows };
 }
 
+export async function querySourceScorecard({
+  cutoffs = ['2024-07-01', '2025-01-01', '2025-07-01'],
+  since = '2024-01-01',
+  horizonMonths = 24,
+} = {}) {
+  const cleanCutoffs = (Array.isArray(cutoffs) ? cutoffs : []).filter(d => DATE_RE.test(d));
+  const useCutoffs = cleanCutoffs.length ? cleanCutoffs : ['2024-07-01', '2025-01-01', '2025-07-01'];
+  const cutoffsSql = useCutoffs.map(d => `(DATE '${d}')`).join(',');
+  const sinceLit = sqlDate(since, '2024-01-01');
+  const horizonSql = sqlInt(horizonMonths, 1, 60, 24);
+
+  const tpl = appState.sqlTemplates.source_scorecard;
+  if (!tpl) {
+    return { cutoffs: useCutoffs, since: sinceLit.slice(1, -1), horizonMonths: Number(horizonSql), totalWinners: 0, rows: [] };
+  }
+  const sql = fillTemplate(tpl, {
+    cutoffs: cutoffsSql,
+    since: sinceLit,
+    horizon_months: horizonSql,
+  });
+  appState.lastSql.scorecard = sql;
+
+  const [scRes, winRes] = await Promise.all([
+    runRawSql(sql),
+    runRawSql(`
+      SELECT COUNT(*) AS n FROM (
+        SELECT team_key, MIN(announced_date) AS fo
+        FROM outcomes
+        WHERE counted
+        GROUP BY team_key
+        HAVING MIN(announced_date) >= DATE ${sinceLit}
+      ) w
+    `),
+  ]);
+
+  return {
+    cutoffs: useCutoffs,
+    since: sinceLit.slice(1, -1),
+    horizonMonths: Number(horizonSql),
+    totalWinners: Number(winRes.rows[0]?.n) || 0,
+    rows: scRes.rows,
+  };
+}
+
 export async function queryTeamDetail(teamKey) {
   const keyLit = sqlStringLiteral(teamKey);
   const p = buildParams({ team_key: teamKey });
 
   const scoreSql = `
     SELECT team_key, display_name, ROUND(score, 2) AS score, n_branch, best_stage,
-           peer_selected, dmz, gigs_1y, outlets, recent180, venues, peer_winner,
+           peer_selected, dmz, gigs_1y, outlets, context_outlets, recent180, venues, peer_winner,
            first_seen, last_seen, primary_genre, profile_status, had_outcome,
            ROUND(pts_branch, 2) AS pts_branch, ROUND(pts_stage, 2) AS pts_stage,
            ROUND(pts_peer, 2) AS pts_peer, ROUND(pts_dmz, 2) AS pts_dmz,
            ROUND(pts_gigs, 2) AS pts_gigs, ROUND(pts_outlets, 2) AS pts_outlets,
+           ROUND(pts_context, 2) AS pts_context,
            ROUND(pts_recent, 2) AS pts_recent, ROUND(pts_venues, 2) AS pts_venues,
            ROUND(pts_winner, 2) AS pts_winner
     FROM lab_scored(DATE ${p.as_of}, ${p.lookback_years}, 50, false,
                     'any', 1, '', ${p.branches},
                     ${p.w_branch}, ${p.w_stage}, ${p.w_peer}, ${p.w_dmz}, ${p.w_gigs}, ${p.w_outlets}, ${p.outlet_cap},
-                    ${p.w_recent}, ${p.w_venues}, ${p.w_winner})
+                    ${p.w_recent}, ${p.w_venues}, ${p.w_winner}, ${p.w_context})
     WHERE team_key = ${keyLit}
     LIMIT 1
   `;
 
   const teamProfileSql = `SELECT * FROM teams WHERE team_key = ${keyLit} LIMIT 1`;
   const outcomesSql = `
-    SELECT announced_date, program, program_label, tier, counted
+    SELECT announced_date, program, program_label, tier, counted, grade, weight
     FROM outcomes
     WHERE team_key = ${keyLit}
-    ORDER BY announced_date DESC
+    ORDER BY announced_date DESC, weight DESC
   `;
 
-  const timelineSql = appState.sqlTemplates.team
-    ? fillTemplate(appState.sqlTemplates.team, { team_key: keyLit })
-    : `SELECT signal_date, branch, source, program, program AS program_label, venue, false AS is_upcoming FROM signals WHERE team_key = ${keyLit} ORDER BY signal_date DESC`;
+  // Include s.role directly so team timeline displays role badges & mutes excluded/pending rows
+  const timelineSql = `
+    SELECT s.signal_date, s.branch, s.source, s.program,
+           COALESCE(pr.label, NULLIF(s.program, '')) AS program_label,
+           NULLIF(s.venue, '') AS venue,
+           COALESCE(s.role, 'pending') AS role,
+           s.signal_date > CURRENT_DATE AS is_upcoming
+    FROM signals s
+    LEFT JOIN programs pr ON pr.program = s.program
+    WHERE s.team_key = ${keyLit}
+    ORDER BY s.signal_date DESC, s.branch
+  `;
   appState.lastSql.team = timelineSql;
 
   let precPromise = Promise.resolve({ rows: [] });
@@ -669,12 +736,46 @@ export async function queryTeamDetail(teamKey) {
     relPromise,
   ]);
 
+  // Enrich precedent rows with counted outcome grade & weight (S/A/B) without modifying precedents.sql
+  let precedents = precRes.rows;
+  if (precedents.length) {
+    const pKeys = [...new Set(precedents.map(r => r.past_team).filter(Boolean))];
+    if (pKeys.length) {
+      const inList = pKeys.map(k => sqlStringLiteral(k)).join(', ');
+      try {
+        const gRes = await runRawSql(`
+          SELECT team_key, announced_date, program_label, grade, weight
+          FROM outcomes
+          WHERE counted AND team_key IN (${inList})
+          ORDER BY announced_date ASC, weight DESC
+        `);
+        const exactMap = new Map();
+        const firstMap = new Map();
+        for (const r of gRes.rows) {
+          const exactKey = `${r.team_key}::${r.announced_date}::${r.program_label}`;
+          if (!exactMap.has(exactKey)) exactMap.set(exactKey, r);
+          if (!firstMap.has(r.team_key)) firstMap.set(r.team_key, r);
+        }
+        precedents = precedents.map(row => {
+          const match =
+            exactMap.get(`${row.past_team}::${row.outcome_date}::${row.outcome_label}`) ||
+            firstMap.get(row.past_team);
+          return {
+            ...row,
+            outcome_grade: match?.grade || '',
+            outcome_weight: match?.weight ?? null,
+          };
+        });
+      } catch (_) {}
+    }
+  }
+
   return {
     profile: profileRes.rows[0] || null,
     scored: scoreRes.rows[0] || null,
     timeline: timelineRes.rows,
     outcomes: outcomeRes.rows,
-    precedents: precRes.rows,
+    precedents,
     related: relRes.rows,
     links: appState.linksByTeam.get(teamKey) || new Map(),
     videos: appState.videosByTeam.get(teamKey) || [],
@@ -693,7 +794,7 @@ export async function queryWatchlistEnriched(watchItems) {
       FROM lab_scored(DATE ${p.as_of}, ${p.lookback_years}, 50, false,
                       'any', 1, '', ${p.branches},
                       ${p.w_branch}, ${p.w_stage}, ${p.w_peer}, ${p.w_dmz}, ${p.w_gigs}, ${p.w_outlets}, ${p.outlet_cap},
-                      ${p.w_recent}, ${p.w_venues}, ${p.w_winner})
+                      ${p.w_recent}, ${p.w_venues}, ${p.w_winner}, ${p.w_context})
       WHERE team_key IN (${keys})
     `),
     runRawSql(`

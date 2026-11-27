@@ -179,6 +179,77 @@ class RoleTest(unittest.TestCase):
         self.assertEqual((rows[1]["grade"], rows[1]["weight"]), ("B", 1))
 
 
+class CollabDateTest(unittest.TestCase):
+    def test_partial_dates_become_last_day_of_period(self):
+        # 시점 누수 방지: 연도만 알면 그해 마지막 날, 연·월만 알면 그 달 마지막 날
+        self.assertEqual(ex.period_end_date("2024", "year"), "2024-12-31")
+        self.assertEqual(ex.period_end_date("2024-02", "month"), "2024-02-29")
+        self.assertEqual(ex.period_end_date("2023-02", "month"), "2023-02-28")
+        self.assertEqual(ex.period_end_date("2024-05-03", "day"), "2024-05-03")
+        self.assertEqual(ex.period_end_date("2024-05", ""), "2024-05-31")       # precision 없어도 모양으로 판단
+        self.assertEqual(ex.period_end_date("", "day"), "")
+        self.assertEqual(ex.period_end_date("2024-13", "month"), "")
+
+
+def _collab(artist, partner, date, prec="day", role="feat_on_own"):
+    return {"artist_name": artist, "artist_spotify_id": "A" * 22, "partner_spotify_id": f"P-{partner}",
+            "partner_name": partner, "track_id": f"t-{artist}-{partner}-{date}", "release_date": date,
+            "release_date_precision": prec, "role": role}
+
+
+class CollabRowsTest(unittest.TestCase):
+    TEAMS = [{"team_key": "유명팀", "profile_status": "famous"}, {"team_key": "신인", "profile_status": "unknown"}]
+    OUTCOMES = [{"team_key": "수상팀", "announced_date": "2024-03-01", "counted": "true"},
+                {"team_key": "늦은수상", "announced_date": "2025-06-01", "counted": "true"},
+                {"team_key": "안센정답", "announced_date": "2023-01-01", "counted": "false"}]
+    PARTNERS = [{"partner_spotify_id": "P-오래된", "first_release_date": "2015-05-01", "album_count": "3"},
+                {"partner_spotify_id": "P-앨범많음", "first_release_date": "2023-01-01", "album_count": "15"},
+                {"partner_spotify_id": "P-새팀", "first_release_date": "2022-01-01", "album_count": "4"}]
+
+    def rows(self, collabs):
+        key = lambda n: n.replace(" ", "").lower()   # noqa: E731  (가짜 canonical_key)
+        return {r["partner_key"]: r for r in ex.collab_rows(collabs, self.PARTNERS, self.TEAMS, self.OUTCOMES, key)}
+
+    def test_established_rules(self):
+        got = self.rows([_collab("우리 팀", p, "2024-06-01") for p in
+                         ("오래된", "앨범많음", "새팀", "유명팀", "수상팀", "늦은수상", "안센정답", "모르는팀")])
+        self.assertEqual(got["오래된"]["partner_established"], "true")     # 첫 발매가 9년 앞섬 (≥5년)
+        self.assertEqual(got["앨범많음"]["partner_established"], "true")   # 앨범 15개 이상
+        self.assertEqual(got["새팀"]["partner_established"], "false")      # 2년 앞섬, 앨범 4
+        self.assertEqual(got["유명팀"]["partner_established"], "true")     # teams 에서 famous
+        self.assertEqual(got["수상팀"]["partner_established"], "true")     # 협업 전에 센 정답
+        self.assertEqual(got["늦은수상"]["partner_established"], "false")  # 정답이 협업 뒤 → 그때는 몰랐음
+        self.assertEqual(got["안센정답"]["partner_established"], "false")  # 안 센 정답은 무시
+        self.assertEqual(got["모르는팀"]["partner_established"], "false")  # 정보 없음
+
+    def test_five_year_boundary_uses_collab_date(self):
+        partners = [{"partner_spotify_id": "P-x", "first_release_date": "2019-06-01", "album_count": "1"}]
+        key = lambda n: n   # noqa: E731
+        early = ex.collab_rows([_collab("a", "x", "2024-05-31")], partners, [], [], key)
+        late = ex.collab_rows([_collab("a", "x", "2024-06-01")], partners, [], [], key)
+        self.assertEqual((early[0]["partner_established"], late[0]["partner_established"]), ("false", "true"))
+
+    def test_keys_dates_and_columns(self):
+        rows = ex.collab_rows([_collab("우리 팀", "새 팀", "2024", "year", "guest_on_partner")],
+                              self.PARTNERS, self.TEAMS, self.OUTCOMES, lambda n: n.replace(" ", ""))
+        self.assertEqual(rows, [{"team_key": "우리팀", "partner_key": "새팀", "partner_name": "새 팀",
+                                 "release_date": "2024-12-31", "role": "guest_on_partner",
+                                 "partner_established": "false"}])
+        self.assertEqual(list(rows[0]), ex.COLLAB_FIELDS)
+
+    def test_skips_bad_rows_self_and_duplicates(self):
+        key = lambda n: n   # noqa: E731
+        rows = ex.collab_rows([_collab("a", "b", ""), _collab("a", "a", "2024-01-01"),
+                               _collab("a", "b", "2024-01-01"), _collab("a", "b", "2024-01-01"),
+                               _collab("", "b", "2024-01-01")], [], [], [], key)
+        self.assertEqual(len(rows), 1)
+
+    def test_uses_artist_xref_canonical_key_by_default(self):
+        rows = ex.collab_rows([_collab("피치 트럭 하이재커스(Peach Truck Hijackers)", "다브다 (Dabda)", "2024-01-01")],
+                              [], [], [], key_of=None, xref_index={"by_key": {}})
+        self.assertEqual((rows[0]["team_key"], rows[0]["partner_key"]), ("피치트럭하이재커스", "다브다"))
+
+
 class ExportTest(unittest.TestCase):
     def test_writes_all_files_with_meta(self):
         with tempfile.TemporaryDirectory() as d:
@@ -192,6 +263,24 @@ class ExportTest(unittest.TestCase):
             self.assertTrue(meta["uses_artist_xref"])
             saved = json.loads((Path(d) / "meta.json").read_text(encoding="utf-8"))
             self.assertEqual(saved["rows"]["teams"], 2)
+
+    def test_collabs_csv_written_with_meta_count(self):
+        fake = lambda: ([_collab("에이", "비", "2024-03")], [])   # noqa: E731
+        with tempfile.TemporaryDirectory() as d:
+            meta = ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=None,
+                             image_cache=None, raw_collabs=fake)
+            self.assertEqual(meta["rows"]["collabs"], 1)
+            with open(Path(d) / "collabs.csv", encoding="utf-8") as f:
+                rows = list(csv.DictReader(f))
+            self.assertEqual(rows[0]["release_date"], "2024-03-31")
+
+    def test_collabs_csv_header_only_when_no_data(self):
+        with tempfile.TemporaryDirectory() as d:
+            meta = ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=None,
+                             image_cache=None, raw_collabs=None)
+            self.assertEqual(meta["rows"]["collabs"], 0)
+            text = (Path(d) / "collabs.csv").read_text(encoding="utf-8").strip()
+            self.assertEqual(text, ",".join(ex.COLLAB_FIELDS))
 
     def test_meta_keeps_previous_run_counts(self):
         with tempfile.TemporaryDirectory() as d:

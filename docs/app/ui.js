@@ -2,6 +2,7 @@ import { appState, isWatched } from './state.js';
 
 export const SOURCE_LABELS = {
   indistreet: '인디스트릿',
+  indiego: '인디고',
   sangsangmadang_live: '상상마당 라이브',
   sangsangmadang: '상상마당 라이브',
   band_discovery: '상상마당 밴드 디스커버리',
@@ -11,15 +12,65 @@ export const SOURCE_LABELS = {
   gb_creation: '경북 음악창작소',
   muse_sejong: '세종 뮤즈세종',
   yoojaeha_finalist: '유재하 본선',
+  musicy: '음악취향Y',
   rhythmer: '리드머',
   poclanos: '포크라노스',
   izm: '이즘(IZM)',
   overtone: '오버톤',
+  weiv: 'weiv',
   k_indie_chart: 'K-인디차트',
   melon_indie: '멜론 인디',
+  melon: '멜론 신보',
+  genie: '지니 신보',
+  bugs: '벅스 신보',
+  flo: '플로 신보',
   visla: 'VISLA',
   instagram: '인스타그램',
 };
+
+export const ROLE_META = {
+  discovery: { label: '발굴', fullLabel: '발굴 (점수 반영)', title: '발굴 신호: 후보 점수 계산에 반영됩니다.' },
+  context: { label: '맥락', fullLabel: '맥락 (약하게)', title: '맥락 매체: 기준선 이하 매거진으로 팀 상세 참고용이며 점수에는 약하게만 반영됩니다.' },
+  pending: { label: '대기', fullLabel: '검증 대기', title: '검증 대기: 수집 기록이 짧아 아직 점수에 반영하지 않습니다.' },
+  excluded: { label: '제외', fullLabel: '제외', title: '점수 제외: 과거 검증에서 변별력이 없어 점수에서 제외됩니다.' },
+};
+
+export const GRADE_META = {
+  S: { label: 'S', title: 'S등급 · 전국 단위 최종 수상·선정 (가중치 3)' },
+  A: { label: 'A', title: 'A등급 · 주요 신인 프로그램 결선·최종 (가중치 2)' },
+  B: { label: 'B', title: 'B등급 · 쇼케이스·장르 부문·월간 선정 (가중치 1)' },
+};
+
+export function roleBadgeHtml(role, opts = {}) {
+  const key = ROLE_META[role] ? role : 'pending';
+  const m = ROLE_META[key];
+  const txt = opts.full ? m.fullLabel : m.label;
+  return `<span class="role-badge is-${key}" title="${escapeHtml(m.title)}">${escapeHtml(txt)}</span>`;
+}
+
+export function gradeBadgeHtml(grade) {
+  const g = String(grade || '').trim().toUpperCase();
+  const m = GRADE_META[g];
+  if (!m) return '';
+  return `<span class="grade-badge grade-${g}" title="${escapeHtml(m.title)}">${g}</span>`;
+}
+
+/** '공연:indistreet' / '선정·지원:band_discovery' → { branch, code, label } */
+export function formatSourceKey(src) {
+  const raw = String(src || '');
+  const idx = raw.indexOf(':');
+  const branch = idx >= 0 ? raw.slice(0, idx) : '';
+  const code = idx >= 0 ? raw.slice(idx + 1) : raw;
+  let label = (branch === '선정·지원' && appState.programLabels.get(code))
+    || SOURCE_LABELS[code]
+    || appState.programLabels.get(code)
+    || code;
+  if (code === 'instagram') {
+    if (branch === '공연') label = '인스타그램 (공연장 라인업)';
+    else if (branch === '큐레이션') label = '인스타그램 (매거진)';
+  }
+  return { branch, code, label };
+}
 
 export const PROFILE_LABELS = {
   newcomer: '신인 확인',
@@ -107,7 +158,8 @@ export function scorePartsLine(r) {
   if (Number(r.pts_venues) > 0) parts.push(`공연장 ${r.venues}곳(+${fmtNum(r.pts_venues, 1)})`);
   if (Number(r.pts_recent) > 0) parts.push(`최근 6개월 ${r.recent180}건(+${fmtNum(r.pts_recent, 1)})`);
   if (Number(r.pts_winner) > 0) parts.push(`수상 팀과 같은 무대(+${fmtNum(r.pts_winner, 1)})`);
-  if (Number(r.pts_outlets) > 0) parts.push(`매체 ${r.outlets}곳(+${fmtNum(r.pts_outlets, 1)})`);
+  if (Number(r.pts_outlets) > 0) parts.push(`발굴 매체 ${r.outlets}곳(+${fmtNum(r.pts_outlets, 1)})`);
+  if (Number(r.pts_context) > 0) parts.push(`맥락 매체 ${r.context_outlets ?? 0}곳(+${fmtNum(r.pts_context, 1)})`);
   if (Number(r.pts_peer) > 0) parts.push(`선정 팀과 같은 무대(+${fmtNum(r.pts_peer, 1)})`);
   if (Number(r.pts_dmz) > 0) parts.push(`DMZ(+${fmtNum(r.pts_dmz, 1)})`);
   if (Number(r.pts_gigs) > 0) parts.push(`1년 공연 ${r.gigs_1y}일(+${fmtNum(r.pts_gigs, 2)})`);
@@ -121,6 +173,7 @@ export function plainWhyLine(r) {
   if (Number(r.peer_winner) > 0 && Number(r.pts_winner) > 0) parts.push('수상 팀과 같은 무대');
   if (Number(r.recent180) >= 2 && Number(r.pts_recent) > 0) parts.push(`최근 6개월 ${r.recent180}건`);
   if (Number(r.outlets) >= 1 && Number(r.pts_outlets) > 0) parts.push(`매체 ${r.outlets}곳 주목`);
+  if (Number(r.context_outlets) >= 1 && Number(r.pts_context) > 0) parts.push(`맥락 매체 ${r.context_outlets}곳`);
   if (Number(r.n_branch) >= 2 && parts.length < 3) parts.push(`${r.n_branch}개 갈래 동시 활동`);
   if (!parts.length) return scorePartsLine(r);
   return parts.slice(0, 3).join(' · ');
@@ -134,7 +187,8 @@ export function renderScoreBar(r, maxScore) {
     { key: '공연장 수', v: Number(r.pts_venues) || 0, color: 'var(--seg-venues)' },
     { key: '최근 6개월 활동', v: Number(r.pts_recent) || 0, color: 'var(--seg-recent)' },
     { key: '수상 팀과 같은 무대', v: Number(r.pts_winner) || 0, color: 'var(--seg-winner)' },
-    { key: '큐레이션', v: Number(r.pts_outlets) || 0, color: 'var(--seg-outlets)' },
+    { key: '발굴 매체', v: Number(r.pts_outlets) || 0, color: 'var(--seg-outlets)' },
+    { key: '맥락 매체', v: Number(r.pts_context) || 0, color: 'var(--seg-context)' },
     { key: '선정 팀과 같은 무대', v: Number(r.pts_peer) || 0, color: 'var(--seg-peer)' },
     { key: 'DMZ', v: Number(r.pts_dmz) || 0, color: 'var(--seg-dmz)' },
     { key: '1년 공연', v: Number(r.pts_gigs) || 0, color: 'var(--seg-gigs)' },

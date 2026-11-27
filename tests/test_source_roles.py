@@ -37,7 +37,7 @@ class ConfigShapeTest(unittest.TestCase):
     def test_signal_keys_are_branch_colon_source(self):
         for key in _config()["signals"]:
             branch, _, source = key.partition(":")
-            self.assertIn(branch, ("공연", "큐레이션", "선정·지원", "발매"), key)
+            self.assertIn(branch, ("공연", "큐레이션", "선정·지원", "발매", "협업"), key)   # 협업 = 스포티파이 피처링
             self.assertTrue(source, key)
 
     def test_outcome_grades_and_integer_weights(self):
