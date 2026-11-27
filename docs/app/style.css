@@ -106,6 +106,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 html, body {
   margin: 0;
@@ -1509,14 +1510,801 @@ table.data-table tbody tr.baseline-row td {
   }
 }
 
-/* ---------- 아티스트 사진 · 스포티파이 미리 듣기 (코디네이터) ---------- */
-.avatar { display: inline-block; flex: none; border-radius: 50%; object-fit: cover; background: var(--line, #ddd); }
-.avatar-initial { display: inline-flex; align-items: center; justify-content: center; font-weight: 700;
-  color: var(--fg, #111); background: var(--chip-bg, rgba(127,127,127,.18)); }
-.team-head { display: flex; align-items: center; gap: 16px; min-width: 0; }
-.team-head > div { min-width: 0; }
-.player-slot:empty { display: none; }
-.player-slot { margin: 0 0 16px; }
-iframe.spotify-embed { display: block; width: 100%; max-width: 640px; border: 0; border-radius: 12px; margin-top: 8px; }
-.pick-head { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.pick-head .pick-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* ---------- Collapsible Advanced Nav ---------- */
+
+.nav-advanced {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.nav-adv-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  border: none;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink-subtle);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.nav-adv-toggle:hover {
+  background: var(--surface-2);
+  color: var(--ink);
+}
+
+.nav-adv-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-adv-caret {
+  display: inline-block;
+  transition: transform 0.15s ease;
+  font-size: 11px;
+}
+
+.nav-adv-toggle.is-open .nav-adv-caret {
+  transform: rotate(90deg);
+}
+
+.nav-adv-list {
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-link-sub {
+  padding-left: 16px;
+  font-size: 13.5px;
+}
+
+/* ---------- Unified Export Dropdown & Toast ---------- */
+
+.export-menu-wrap {
+  position: relative;
+}
+
+.export-drop {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  width: 264px;
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+  padding: 6px;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+[data-theme="dark"] .export-drop {
+  background: var(--surface);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+}
+
+.export-opt {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  padding: 9px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 13.5px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.export-opt:hover,
+.export-opt:focus-visible {
+  background: var(--surface-2);
+  outline: none;
+}
+
+.f-search-opt-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.app-toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 13.5px;
+  font-weight: 500;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+  z-index: 80;
+}
+
+/* ---------- Auto Data Anomaly Banner (Silent when Healthy) ---------- */
+
+.anomaly-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 11px 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--warn-line);
+  background: var(--warn-bg);
+  color: var(--warn-ink);
+  font-size: 14px;
+}
+
+.anomaly-banner.is-error {
+  border-color: var(--err-line);
+  background: var(--err-bg);
+  color: var(--err-ink);
+}
+
+.anomaly-banner-text {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+/* ---------- Weekly Briefing Hero & KPI Strip ---------- */
+
+.briefing-hero {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 22px;
+}
+
+.briefing-hero-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.briefing-kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.briefing-date-pill {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-muted);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+
+.briefing-tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+
+.briefing-title {
+  margin: 0;
+  font-size: var(--text-h1);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.briefing-narrative {
+  margin: 0 0 16px 0;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--ink);
+  max-width: 78ch;
+}
+
+.inline-team-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.inline-team-link:hover {
+  border-bottom-color: var(--accent);
+}
+
+.briefing-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.kpi-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.kpi-chip-accent {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.kpi-chip-lbl {
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.kpi-chip-val {
+  font-size: 17px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.today-section {
+  margin-bottom: 22px;
+}
+
+/* ---------- Artist Avatars (Spotify -> YouTube -> Genre Monogram) ---------- */
+
+.avatar {
+  display: inline-block;
+  flex: none;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+}
+
+.avatar-circle {
+  border-radius: 50%;
+}
+
+.avatar-rounded {
+  border-radius: 10px;
+}
+
+.team-avatar-col .avatar-rounded {
+  border-radius: 14px;
+}
+
+.avatar-initial {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  user-select: none;
+}
+
+/* Muted genre-tinted monogram palettes (Light & True Black AA+ readable) */
+.av-rock { background: #e0e7ff; color: #312e81; border-color: #c7d2fe; }
+.av-pop { background: #f3e8ff; color: #581c87; border-color: #e9d5ff; }
+.av-folk { background: #d1fae5; color: #065f46; border-color: #a7f3d0; }
+.av-hiphop { background: #fef3c7; color: #78350f; border-color: #fde68a; }
+.av-default { background: var(--surface-2); color: var(--ink); border-color: var(--line); }
+
+[data-theme="dark"] .av-rock { background: #1e2547; color: #c7d2fe; border-color: #313d73; }
+[data-theme="dark"] .av-pop { background: #2d1b42; color: #e9d5ff; border-color: #4c2d6e; }
+[data-theme="dark"] .av-folk { background: #0f2f26; color: #a7f3d0; border-color: #1c5444; }
+[data-theme="dark"] .av-hiphop { background: #33250c; color: #fde68a; border-color: #594115; }
+[data-theme="dark"] .av-default { background: #1e2128; color: #e5e7eb; border-color: #323744; }
+
+.photo-credit {
+  margin: 8px 0 0 0;
+  font-size: 11.5px;
+  color: var(--ink-subtle);
+  text-align: right;
+}
+
+.team-avatar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+}
+
+.avatar-credit {
+  font-size: 11px;
+  color: var(--ink-subtle);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+a.avatar-credit:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* ---------- Artist Cards, Row Cells & Spotify Inline Player ---------- */
+
+.pick-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 10px;
+  transition: border-color 0.14s ease, transform 0.14s ease;
+}
+
+.pick-card:hover {
+  border-color: var(--line-strong);
+}
+
+.pick-head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.pick-head:hover .pick-name {
+  color: var(--accent);
+}
+
+.pick-head .pick-name {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pick-why {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+  flex: 1;
+}
+
+.pick-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+
+.row-team-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.row-team-text {
+  min-width: 0;
+}
+
+.mini-list-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.mini-list-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 7px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  line-height: 1;
+}
+
+.btn-yt-mini {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.team-back-bar {
+  margin-bottom: 10px;
+}
+
+.team-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.team-head > div {
+  min-width: 0;
+}
+
+.player-slot:empty {
+  display: none;
+}
+
+.player-slot {
+  margin: 12px 0 6px;
+}
+
+.spotify-embed-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 12px 12px;
+  max-width: 680px;
+}
+
+.spotify-embed-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+iframe.spotify-embed {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+}
+
+tr.player-expand-row td {
+  background: var(--surface);
+  padding: 12px 14px;
+}
+
+/* ---------- Recent Stage Videos Grid on Briefing ---------- */
+
+.recent-videos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.video-card-body {
+  padding: 10px 2px 2px;
+}
+
+.video-card-team {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.video-play-btn {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(17, 17, 17, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.14s ease, background 0.14s ease;
+}
+
+.video-play-btn::after {
+  content: "";
+  display: block;
+  margin-left: 3px;
+  border-style: solid;
+  border-width: 8px 0 8px 14px;
+  border-color: transparent transparent transparent #ffffff;
+}
+
+.video-frame:hover .video-play-btn {
+  transform: scale(1.06);
+  background: var(--accent);
+}
+
+/* ---------- Candidates Inline Filter Bar ---------- */
+
+.inline-filter-bar {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.inline-filter-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cand-search-input {
+  width: 210px;
+}
+
+.chip-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.chip-btn {
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  color: var(--ink-muted);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+
+.chip-btn.active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.inline-filter-count {
+  margin-left: auto;
+}
+
+.inline-more-filters {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.inline-more-filters summary {
+  cursor: pointer;
+  color: var(--ink-muted);
+  user-select: none;
+}
+
+.inline-more-body {
+  padding-top: 10px;
+}
+
+.inline-more-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ---------- Watchlist 표|보드 & Status Pills ---------- */
+
+.view-mode-switch {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.status-pill-select {
+  font-size: 12.5px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  min-width: 102px;
+}
+
+.watch-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+
+.watch-col {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.watch-col-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.watch-col-head h3 {
+  margin: 0;
+  font-size: 14.5px;
+}
+
+.watch-col-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.watch-card {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 11px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.watch-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.watch-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.watch-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+
+.watch-move-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.badge-new {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.badge-ok {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.badge-warn {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--warn-bg);
+  color: var(--warn-ink);
+  border: 1px solid var(--warn-line);
+}
+
+[data-theme="dark"] .badge-ok {
+  background: #0f2f26;
+  color: #a7f3d0;
+}
+
+.verify-shell-head {
+  margin-bottom: 12px;
+}
+
+/* ---------- Mobile 375px Polish ---------- */
+
+@media (max-width: 960px) {
+  .recent-videos-grid,
+  .watch-board {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .briefing-hero {
+    padding: 16px 14px;
+  }
+
+  .briefing-kpis {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .kpi-chip {
+    min-width: 0;
+  }
+
+  .top-row {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .top-row-right {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .cand-search-input {
+    width: 100%;
+  }
+
+  .inline-filter-count {
+    margin-left: 0;
+  }
+
+  .export-drop {
+    right: 0;
+    left: auto;
+    width: min(264px, calc(100vw - 24px));
+  }
+
+  .app-toast {
+    left: 12px;
+    right: 12px;
+    bottom: 14px;
+    text-align: center;
+  }
+}
+

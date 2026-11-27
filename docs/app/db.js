@@ -240,20 +240,31 @@ async function initEngine() {
 const VIDEO_ID_RE = /^[A-Za-z0-9_-]{11}$/;
 const VIDEO_KIND_ORDER = { stage: 0, official_live: 1, official: 2, search: 3 };
 
-/** images.csv(team_key,url,source) → Map. 스포티파이 이미지 서버(https://i.scdn.co/)만 받는다. */
+/**
+ * images.csv(team_key,url,source) → { urlMap, metaMap }.
+ * 우선순위: 스포티파이(i.scdn.co) → 유튜브 채널 썸네일(yt3.ggpht.com / yt3.googleusercontent.com).
+ */
 function parseImagesCsv(text) {
-  const map = new Map();
-  if (!text) return map;
+  const urlMap = new Map();
+  const metaMap = new Map();
+  if (!text) return { urlMap, metaMap };
   const lines = text.trim().split(/\r?\n/).slice(1);
-  // 팀 키에 쉼표가 있으면 따옴표로 감싸져 오므로, 끝의 '주소,출처'를 기준으로 자른다
-  const row = /^(.*),(https:\/\/i\.scdn\.co\/[A-Za-z0-9/_-]+),([^,]*)$/;
+  const row = /^(.*),(https:\/\/(?:i\.scdn\.co|yt3\.ggpht\.com|yt3\.googleusercontent\.com)\/[^\s,]+),([^,]*)$/;
+  const priority = src => (src === 'spotify' ? 0 : src === 'youtube' ? 1 : 2);
   for (const line of lines) {
     const m = line.match(row);
     if (!m) continue;
     const teamKey = m[1].replace(/^"(.*)"$/, '$1').replace(/""/g, '"');
-    if (teamKey) map.set(teamKey, m[2]);
+    const url = m[2];
+    const source = (m[3] || '').trim().toLowerCase() || (url.includes('i.scdn.co') ? 'spotify' : 'youtube');
+    if (!teamKey) continue;
+    const prev = metaMap.get(teamKey);
+    if (!prev || priority(source) < priority(prev.source)) {
+      urlMap.set(teamKey, url);
+      metaMap.set(teamKey, { url, source });
+    }
   }
-  return map;
+  return { urlMap, metaMap };
 }
 
 function indexLinksRows(rows) {
@@ -287,6 +298,138 @@ function indexVideosRows(rows) {
   return map;
 }
 
+/**
+ * 자동 데이터 이상 점검 (collect.json + dashboard.json + meta.json).
+ * 정상일 때는 배너를 띄우지 않고, 이상이 있을 때만 전 화면 상단에 자동 표시한다.
+ */
+export function computeDataHealth(meta = appState.meta, collect = appState.collectJson, dash = appState.dashboardJson) {
+  const issues = [];
+  let severity = 'ok';
+  const pushIssue = (sev, msg) => {
+    issues.push({ severity: sev, message: msg });
+    if (sev === 'error') severity = 'error';
+    else if (severity === 'ok') severity = 'warn';
+  };
+
+  // 1) collect.json runs check (latest run per table+source: file_ok === false, rows === 0, or prev_rows sudden drop)
+  const runs = Array.isArray(collect?.runs) ? collect.runs : [];
+  let totalSources = 0;
+  let okSources = 0;
+  let lastCollectedDate = '';
+  if (runs.length) {
+    const latestByKey = new Map();
+    for (const r of runs) {
+      const dateStr = String(r.date || '');
+      if (dateStr > lastCollectedDate) lastCollectedDate = dateStr;
+      const key = `${r.table || ''}::${r.source || ''}`;
+      const prev = latestByKey.get(key);
+      if (!prev || dateStr > String(prev.date || '')) {
+        latestByKey.set(key, r);
+      }
+    }
+    const latestRuns = [...latestByKey.values()];
+    totalSources = latestRuns.length;
+    const failed = [];
+    const zeroRows = [];
+    const dropped = [];
+    for (const r of latestRuns) {
+      const name = r.source || '알 수 없는 소스';
+      if (r.file_ok === false) {
+        failed.push(name);
+      } else if (Number(r.rows) === 0) {
+        zeroRows.push(name);
+      } else {
+        okSources += 1;
+        if (Number(r.prev_rows) >= 20 && Number(r.rows) < Number(r.prev_rows) * 0.5) {
+          dropped.push(`${name}(${r.prev_rows}→${r.rows})`);
+        }
+      }
+    }
+    if (failed.length) {
+      pushIssue('error', `수집 파일 오류 ${failed.length}건 (${failed.slice(0, 3).join(', ')})`);
+    }
+    if (zeroRows.length) {
+      pushIssue('warn', `수집 건수 0건 소스 ${zeroRows.length}곳 (${zeroRows.slice(0, 3).join(', ')})`);
+    }
+    if (dropped.length) {
+      pushIssue('warn', `직전 대비 수집량 50% 이상 급감: ${dropped.slice(0, 3).join(', ')}`);
+    }
+  } else if (collect?.generated) {
+    lastCollectedDate = String(collect.generated).slice(0, 10);
+  }
+
+  // 1b) meta.json prev_rows core table drop check
+  if (meta?.prev_rows && meta?.rows) {
+    for (const [k, label] of [['signals', '신호'], ['teams', '팀'], ['outcomes', '정답']]) {
+      const prev = Number(meta.prev_rows[k] || 0);
+      const cur = Number(meta.rows[k] || 0);
+      if (prev >= 50 && cur < prev * 0.8) {
+        pushIssue('warn', `${label} 행 수가 직전(${prev}) 대비 크게 줄었습니다(${cur})`);
+      }
+    }
+  }
+
+  // 2) dashboard.json errors & error-level quality checks & monthly gig volume drop
+  const dashErrors = Array.isArray(dash?.errors) ? dash.errors : [];
+  if (dashErrors.length) {
+    pushIssue('error', `대시보드 집계 오류 ${dashErrors.length}건`);
+  }
+
+  const qualityRows = Array.isArray(dash?.sections?.quality) ? dash.sections.quality : [];
+  const qualErrors = qualityRows.filter(q => q.level === 'error');
+  if (qualErrors.length) {
+    pushIssue('error', `품질 오류 ${qualErrors.length}건 (${qualErrors[0].item || ''})`);
+  }
+
+  const gigsByMonth = Array.isArray(dash?.sections?.gigs_by_month) ? dash.sections.gigs_by_month : [];
+  if (gigsByMonth.length >= 5) {
+    // Compare latest completed month (second-to-last if last is current in-progress month) against prior 3 months
+    const dataMonth = String(meta?.data_end || '').slice(0, 7);
+    const completed = gigsByMonth.filter(m => m.month && (!dataMonth || m.month < dataMonth));
+    if (completed.length >= 4) {
+      const latestM = completed[completed.length - 1];
+      const prior3 = completed.slice(-4, -1);
+      const avg3 = prior3.reduce((acc, m) => acc + (Number(m.gigs) || 0), 0) / 3;
+      if (avg3 >= 30 && (Number(latestM.gigs) || 0) < avg3 * 0.5) {
+        pushIssue('warn', `${latestM.month} 공연 수집량(${latestM.gigs}건)이 직전 3개월 평균(${Math.round(avg3)}건) 대비 50% 이상 감소`);
+      }
+    }
+  }
+
+  // 3) Staleness check (> 3 days behind current date or > 3 days mismatch between collect and data_end)
+  const dataEndStr = meta?.data_end || '';
+  if (dataEndStr && /^\d{4}-\d{2}-\d{2}$/.test(dataEndStr)) {
+    const endMs = Date.parse(`${dataEndStr}T00:00:00Z`);
+    const nowMs = Date.now();
+    const diffDays = Math.floor((nowMs - endMs) / 86400000);
+    if (diffDays > 3) {
+      pushIssue('warn', `데이터 갱신이 ${diffDays}일째 멈춰 있습니다 (마지막 기준일 ${dataEndStr})`);
+    }
+    if (lastCollectedDate && /^\d{4}-\d{2}-\d{2}$/.test(lastCollectedDate)) {
+      const collMs = Date.parse(`${lastCollectedDate}T00:00:00Z`);
+      const gap = Math.abs(Math.floor((endMs - collMs) / 86400000));
+      if (gap > 3) {
+        pushIssue('warn', `수집일(${lastCollectedDate})과 분석 기준일(${dataEndStr}) 차이가 ${gap}일입니다`);
+      }
+    }
+  }
+
+  const ok = issues.length === 0;
+  const summaryLabel = ok
+    ? (totalSources > 0 ? `수집 정상 (${okSources}/${totalSources})` : '수집 정상')
+    : `수집 확인 필요 (${issues.length}건)`;
+
+  return {
+    ok,
+    severity,
+    issues,
+    totalSources,
+    okSources,
+    lastCollectedDate,
+    summaryLabel,
+  };
+}
+
 export async function bootstrapData(onStatus = () => {}) {
   onStatus('데이터·SQL·DuckDB-WASM 불러오는 중...');
   const [
@@ -304,6 +447,7 @@ export async function bootstrapData(onStatus = () => {}) {
     relSql,
     snapIdx,
     dashJson,
+    collectJson,
   ] = await Promise.all([
     fetchJson('lab/data/meta.json'),
     fetchText('lab/data/signals.csv'),
@@ -319,12 +463,15 @@ export async function bootstrapData(onStatus = () => {}) {
     fetchText('lab/sql/related.sql', true),
     fetchJson('lab/data/snapshots/index.json', true),
     fetchJson('data/dashboard.json', true),
+    fetchJson('data/collect.json', true),
     initEngine(),
   ]);
 
   appState.meta = meta;
   appState.dataEnd = meta?.data_end || '2026-11-27';
   appState.dashboardJson = dashJson;
+  appState.collectJson = collectJson;
+  appState.dataHealth = computeDataHealth(meta, collectJson, dashJson);
   appState.sqlTemplates = {
     features: featSql || '',
     backtest: btSql || '',
@@ -354,6 +501,7 @@ export async function bootstrapData(onStatus = () => {}) {
   ];
   if (linksCsv) regTasks.push(dbInstance.registerFileText('links.csv', linksCsv));
   if (videosCsv) regTasks.push(dbInstance.registerFileText('videos.csv', videosCsv));
+  if (imagesCsv) regTasks.push(dbInstance.registerFileText('images.csv', imagesCsv));
   await Promise.all(regTasks);
 
   let createSql = `
@@ -364,6 +512,7 @@ export async function bootstrapData(onStatus = () => {}) {
   `;
   if (linksCsv) createSql += `CREATE TABLE links AS SELECT * FROM read_csv_auto('links.csv', header=true);`;
   if (videosCsv) createSql += `CREATE TABLE videos AS SELECT * FROM read_csv_auto('videos.csv', header=true);`;
+  if (imagesCsv) createSql += `CREATE TABLE images AS SELECT * FROM read_csv_auto('images.csv', header=true);`;
   await connInstance.query(createSql);
   await connInstance.query(featSql);
 
@@ -407,7 +556,9 @@ export async function bootstrapData(onStatus = () => {}) {
   appState.teamIndex = teamIdxRes.rows;
   appState.linksByTeam = indexLinksRows(linksRes.rows);
   appState.videosByTeam = indexVideosRows(videosRes.rows);
-  appState.imagesByTeam = parseImagesCsv(imagesCsv);
+  const parsedImgs = parseImagesCsv(imagesCsv);
+  appState.imagesByTeam = parsedImgs.urlMap;
+  appState.imageMetaByTeam = parsedImgs.metaMap;
   appState.snapshots = {
     dates: snapDates,
     reconstructed: snapReconstructed,
@@ -577,6 +728,7 @@ export async function queryWatchlistEnriched(watchItems) {
       team_key: item.team_key,
       display_name: sc?.display_name || pr?.display_name || item.display_name || item.team_key,
       added_at: item.added_at,
+      status: item.status || 'watching',
       score: sc?.score ?? null,
       n_branch: sc?.n_branch ?? 0,
       gigs_1y: sc?.gigs_1y ?? 0,
@@ -589,6 +741,100 @@ export async function queryWatchlistEnriched(watchItems) {
       is_new_in_snap: Boolean(snapNow && !snapPrev),
     };
   });
+}
+
+/**
+ * 주간 브리핑 보조 통계:
+ * 1) 최근 7일(또는 직전 스냅샷 이후) 새 신호 건수 및 갈래별 분포
+ * 2) 최근 7일 공개 새 영상 수 + 상위 후보 중 최근 무대/공식 영상 최대 3개
+ */
+export async function queryWeeklyDigestExtras(candRows = []) {
+  const endDate = appState.snapshots.latestDate || appState.dataEnd || '2026-11-27';
+  const prevDate = appState.snapshots.prevDate;
+  const startDate = prevDate || new Date(Date.parse(`${endDate}T00:00:00Z`) - 7 * 86400000).toISOString().slice(0, 10);
+
+  let totalSignals = 0;
+  const byBranch = {};
+  try {
+    const { rows } = await runRawSql(`
+      SELECT branch, COUNT(*) AS n
+      FROM signals
+      WHERE signal_date >= DATE '${startDate}' AND signal_date <= DATE '${endDate}'
+      GROUP BY branch
+      ORDER BY n DESC
+    `);
+    for (const r of rows) {
+      const cnt = Number(r.n) || 0;
+      byBranch[r.branch] = cnt;
+      totalSignals += cnt;
+    }
+  } catch (_) {}
+
+  // Count videos published in the 7-day window across all teams
+  let newVideos7d = 0;
+  for (const vids of appState.videosByTeam.values()) {
+    for (const v of vids) {
+      const pub = String(v.published_at || '').slice(0, 10);
+      if (pub && pub >= startDate && pub <= endDate) {
+        newVideos7d += 1;
+      }
+    }
+  }
+
+  // Pick up to 3 recent stage/official videos from top candidates (one video per team for variety)
+  const candRank = new Map();
+  candRows.forEach((r, i) => {
+    candRank.set(r.team_key, { rank: i + 1, display_name: r.display_name || r.team_key, genre: r.primary_genre || '' });
+  });
+  const cutoff30 = new Date(Date.parse(`${endDate}T00:00:00Z`) - 45 * 86400000).toISOString().slice(0, 10);
+  const picked = [];
+  const usedTeams = new Set();
+
+  const collectFromTop = (maxRank, minPub) => {
+    const pool = [];
+    for (const [tk, info] of candRank.entries()) {
+      if (info.rank > maxRank || usedTeams.has(tk)) continue;
+      const vids = appState.videosByTeam.get(tk) || [];
+      if (!vids.length) continue;
+      const sorted = [...vids].sort((a, b) => {
+        const pubCmp = String(b.published_at || '').localeCompare(String(a.published_at || ''));
+        if (pubCmp !== 0) return pubCmp;
+        return (VIDEO_KIND_ORDER[a.kind] ?? 9) - (VIDEO_KIND_ORDER[b.kind] ?? 9);
+      });
+      const best = sorted.find(v => !minPub || String(v.published_at || '').slice(0, 10) >= minPub);
+      if (best) {
+        pool.push({
+          ...best,
+          team_key: tk,
+          display_name: info.display_name,
+          genre: info.genre,
+          rank: info.rank,
+        });
+      }
+    }
+    pool.sort((a, b) => {
+      const pubCmp = String(b.published_at || '').localeCompare(String(a.published_at || ''));
+      if (pubCmp !== 0) return pubCmp;
+      return a.rank - b.rank;
+    });
+    for (const v of pool) {
+      if (picked.length >= 3) break;
+      if (usedTeams.has(v.team_key)) continue;
+      usedTeams.add(v.team_key);
+      picked.push(v);
+    }
+  };
+
+  collectFromTop(60, cutoff30);
+  if (picked.length < 3) collectFromTop(120, '');
+
+  return {
+    startDate,
+    endDate,
+    signalStats: { total: totalSignals, byBranch },
+    newVideos7d,
+    recentStageVideos: picked.slice(0, 3),
+  };
 }
 
 export function getSnapshotDiff(scoredRows = []) {

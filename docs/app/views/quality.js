@@ -1,4 +1,4 @@
-import { appState, registerChart } from '../state.js';
+import { appState, registerChart, setExportContext } from '../state.js';
 import { cssVar, escapeHtml, fmtInt, renderActionBanner, SOURCE_LABELS } from '../ui.js';
 
 export async function renderQualityView(root) {
@@ -9,14 +9,20 @@ export async function renderQualityView(root) {
   const qualityRows = sec.quality || [];
   const collRows = sec.collection || [];
   const gigsMonth = sec.gigs_by_month || [];
+  const collectRuns = Array.isArray(appState.collectJson?.runs) ? appState.collectJson.runs : [];
+  const health = appState.dataHealth;
+
+  setExportContext({
+    csvLabel: collRows.length ? `수집 현황 CSV 내려받기 (${fmtInt(collRows.length)}출처)` : '',
+    csvFilename: `crate_digger_collection_${appState.dataEnd || 'export'}.csv`,
+    csvHeaders: ['branch', 'source', 'rows', 'teams', 'first_date', 'last_date'],
+    csvRows: collRows.map(c => [c.branch || '', SOURCE_LABELS[c.source] || c.source, c.rows ?? 0, c.teams ?? 0, c.first_date || '', c.last_date || '']),
+  });
 
   const warnCount = qualityRows.filter(q => q.level === 'warn').length;
   const bannerHtml = renderActionBanner({
-    title: '데이터 현황 · 품질',
-    lead: `데이터 기준일은 <strong>${escapeHtml(meta.data_end || '-')}</strong>이며, 신호 ${fmtInt(rowsMeta.signals)}건 · 팀 ${fmtInt(rowsMeta.teams)}곳 · 정답 ${fmtInt(rowsMeta.outcomes)}건이 적재되어 있습니다.`,
-    todo: warnCount > 0
-      ? `품질 점검 항목 중 주의(${warnCount}건) 표시된 수집 공백을 확인하세요.`
-      : '모든 수집 출처의 최신 날짜와 행 수를 확인해 공백이 없는지 점검하세요.',
+    title: '데이터 수집·품질',
+    lead: `마지막 수집 <strong>${escapeHtml(health.lastCollectedDate || meta.data_end || '-')}</strong> (${escapeHtml(health.summaryLabel)}) · 신호 ${fmtInt(rowsMeta.signals)}건 · 팀 ${fmtInt(rowsMeta.teams)}곳 · 점검 주의 ${fmtInt(warnCount)}건.`,
   });
 
   root.innerHTML = `
@@ -24,19 +30,19 @@ export async function renderQualityView(root) {
 
     <div class="stat-row">
       <div class="stat-card">
+        <div class="stat-label">자동 수집 상태</div>
+        <div class="stat-val">${health.ok ? '정상' : '확인 필요'}</div>
+        <div class="stat-sub">${escapeHtml(health.summaryLabel)}</div>
+      </div>
+      <div class="stat-card">
         <div class="stat-label">데이터 기준일</div>
         <div class="stat-val mono">${escapeHtml(meta.data_end || '-')}</div>
         <div class="stat-sub">생성 ${escapeHtml((meta.generated_at || '').slice(0, 16).replace('T', ' '))}</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">신호 행 수</div>
+        <div class="stat-label">신호 · 팀</div>
         <div class="stat-val">${fmtInt(rowsMeta.signals)}</div>
-        <div class="stat-sub">공연·선정·발매·큐레이션</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">고유 팀 수</div>
-        <div class="stat-val">${fmtInt(rowsMeta.teams)}</div>
-        <div class="stat-sub">artist_xref: ${meta.uses_artist_xref ? '연결됨' : '미연결'}</div>
+        <div class="stat-sub">고유 팀 ${fmtInt(rowsMeta.teams)}곳 · 사진 ${fmtInt(rowsMeta.images || 0)}팀</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">정답 기록</div>
@@ -44,6 +50,33 @@ export async function renderQualityView(root) {
         <div class="stat-sub">집계 대상 ${fmtInt(appState.outcomeRange.counted)}건 (${escapeHtml(appState.outcomeRange.min || '-')}~)</div>
       </div>
     </div>
+
+    ${collectRuns.length ? `
+      <section class="block">
+        <div class="block-head">
+          <h2>최근 자동 수집 실행 결과 (매일 21시)</h2>
+          <span class="block-meta">${escapeHtml(health.lastCollectedDate || '')} · ${fmtInt(collectRuns.length)}개 소스</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>날짜</th><th>소스</th><th class="num">수집 행 수</th><th class="nowrap">상태</th></tr></thead>
+            <tbody>
+              ${collectRuns.map(r => {
+                const bad = r.file_ok === false || Number(r.rows) === 0;
+                return `
+                  <tr>
+                    <td class="nowrap mono muted">${escapeHtml(r.date || '-')}</td>
+                    <td><strong>${escapeHtml(SOURCE_LABELS[r.source] || r.source)}</strong></td>
+                    <td class="num">${fmtInt(r.rows)}</td>
+                    <td class="nowrap">${bad ? '<span class="badge-warn">확인 필요</span>' : '<span class="badge-ok">정상</span>'}</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ` : ''}
 
     ${qualityRows.length ? `
       <section class="block">
@@ -58,7 +91,7 @@ export async function renderQualityView(root) {
               ${qualityRows.map(q => `
                 <tr>
                   <td><strong>${escapeHtml(q.item)}</strong></td>
-                  <td class="nowrap mono">${escapeHtml(q.value)}${q.level === 'warn' ? ' (주의)' : ''}</td>
+                  <td class="nowrap mono">${escapeHtml(q.value)}${q.level === 'warn' ? ' (주의)' : q.level === 'error' ? ' (오류)' : ''}</td>
                   <td class="muted">${escapeHtml(q.note || '')}</td>
                 </tr>
               `).join('')}

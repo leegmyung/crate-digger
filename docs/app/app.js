@@ -1,24 +1,38 @@
 import {
-  ALL_BRANCHES, appState, cloneDefaults, destroyActiveCharts,
-  getActiveFilterSummary, getWatchlist, hasCustomWeights,
-  navigateTo, parseHash, syncHash, toggleWatch,
+  appState, cloneDefaults, destroyActiveCharts, exportTableToCsv,
+  getWatchlist, hasCustomWeights, navigateTo, parseHash,
+  setExportContext, syncHash, toggleWatch,
 } from './state.js';
-import { bootstrapData } from './db.js';
 import {
-  cssVar, escapeHtml, fmtInt, friendlySqlError, renderViewSkeleton,
+  bootstrapData, computeDataHealth, getSnapshotDiff,
+  queryCandidates, queryWeeklyDigestExtras,
+} from './db.js';
+import {
+  avatarHtml, buildWeeklySummaryText, cssVar, escapeHtml,
+  fmtInt, friendlySqlError, renderViewSkeleton, wireAvatarFallbacks,
 } from './ui.js';
 import { renderTodayView } from './views/today.js';
 import { renderCandidatesView } from './views/candidates.js';
 import { renderTeamView } from './views/team.js';
 import { renderWatchlistView } from './views/watchlist.js';
-import { renderBacktestView } from './views/backtest.js';
-import { renderSignalsView } from './views/signals.js';
-import { renderEvidenceView } from './views/evidence.js';
+import { renderVerifyView } from './views/verify.js';
 import { renderVenuesView } from './views/venues.js';
 import { renderQualityView } from './views/quality.js';
 import { renderSqlView } from './views/sql.js';
 
+const ADVANCED_ROUTES = new Set(['verify', 'backtest', 'signals', 'evidence', 'quality', 'sql']);
+
 let renderSeq = 0;
+let toastTimer = null;
+
+function showToast(msg) {
+  const el = document.getElementById('appToast');
+  if (!el) return;
+  el.textContent = msg;
+  el.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.hidden = true; }, 2200);
+}
 
 function setStatus(text, busy = false) {
   const el = document.getElementById('topStatus');
@@ -39,23 +53,75 @@ function setGlobalError(msg) {
   }
 }
 
+function renderAnomalyBanner() {
+  const el = document.getElementById('dataAnomalyBanner');
+  const health = appState.dataHealth;
+  if (!el || !health || health.ok || !health.issues.length) {
+    if (el) {
+      el.hidden = true;
+      el.innerHTML = '';
+    }
+    return;
+  }
+  const summary = health.issues.map(i => i.message).join(' · ');
+  el.className = `anomaly-banner ${health.severity === 'error' ? 'is-error' : 'is-warn'}`;
+  el.innerHTML = `
+    <div class="anomaly-banner-text">
+      <strong>데이터 수집 확인 필요</strong>
+      <span>${escapeHtml(summary)}</span>
+    </div>
+    <a class="btn btn-sm" href="#/quality">수집 현황 보기</a>
+  `;
+  el.hidden = false;
+}
+
+function setAdvancedNavOpen(open) {
+  const list = document.getElementById('navAdvList');
+  const toggle = document.getElementById('navAdvToggle');
+  if (!list || !toggle) return;
+  list.hidden = !open;
+  toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  toggle.classList.toggle('is-open', open);
+}
+
 function updateNavActive() {
   const route = appState.route;
   document.querySelectorAll('.nav-link[data-route]').forEach(a => {
-    const active = a.dataset.route === route || (route === 'team' && a.dataset.route === 'team');
+    const active = a.dataset.route === route;
     a.classList.toggle('active', active);
     if (active) a.setAttribute('aria-current', 'page');
     else a.removeAttribute('aria-current');
   });
+
+  if (ADVANCED_ROUTES.has(route)) {
+    setAdvancedNavOpen(true);
+  }
+
   const wc = document.getElementById('navWatchCount');
   if (wc) {
     const n = getWatchlist().length;
     wc.textContent = n > 0 ? String(n) : '';
   }
-  const customNote = document.getElementById('navWeightBadge');
-  if (customNote) {
-    customNote.textContent = hasCustomWeights() ? '수정됨' : '';
+
+  const customW = hasCustomWeights();
+  const hasIssue = !appState.dataHealth.ok;
+
+  const weightBadge = document.getElementById('navWeightBadge');
+  if (weightBadge) weightBadge.textContent = customW ? '수정됨' : '';
+
+  const healthBadge = document.getElementById('navHealthBadge');
+  if (healthBadge) healthBadge.textContent = hasIssue ? '확인' : '';
+
+  const advBadge = document.getElementById('navAdvBadge');
+  if (advBadge) {
+    advBadge.textContent = hasIssue ? '!' : (customW ? '수정' : '');
   }
+}
+
+function updateExportMenuUI() {
+  const lbl = document.getElementById('exportCsvLabel');
+  if (!lbl) return;
+  lbl.textContent = appState.exportCtx.csvLabel || '지금 보는 표 CSV 내려받기';
 }
 
 function closeMobileNav() {
@@ -64,96 +130,14 @@ function closeMobileNav() {
   document.getElementById('mobileMenuBtn')?.setAttribute('aria-expanded', 'false');
 }
 
-// ---------- Global Filter Bar Sync & Collapsible Summary ----------
-
-function buildBranchCheckboxes() {
-  const wrap = document.getElementById('gfBranches');
-  if (!wrap) return;
-  wrap.innerHTML = ALL_BRANCHES.map(b => `
-    <label class="f-check">
-      <input type="checkbox" name="gf_branch" value="${escapeHtml(b)}" ${appState.cfg.branches.includes(b) ? 'checked' : ''}>
-      <span>${escapeHtml(b)}</span>
-    </label>
-  `).join('');
-}
-
-function populateGenreOptions() {
-  const sel = document.getElementById('gfGenre');
-  if (!sel) return;
-  sel.innerHTML = '<option value="">전체 장르</option>' +
-    appState.validGenres.map(g => `<option value="${escapeHtml(g)}">${escapeHtml(g)}</option>`).join('');
-  if (appState.cfg.genre && !appState.validGenres.includes(appState.cfg.genre)) {
-    appState.cfg.genre = '';
-  }
-  sel.value = appState.cfg.genre;
-}
-
-function updateFilterSummaryUI() {
-  const summary = getActiveFilterSummary(appState.cfg);
-  const toggleBtn = document.getElementById('btnToggleFilters');
-  const toggleLbl = document.getElementById('filterToggleLabel');
-  const chipsEl = document.getElementById('filterSummaryChips');
-
-  if (toggleLbl) {
-    toggleLbl.textContent = summary.count > 0 ? `필터 · ${summary.count}개 적용됨` : '필터';
-  }
-  if (toggleBtn) {
-    toggleBtn.classList.toggle('btn-active', summary.count > 0);
-  }
-  if (chipsEl) {
-    if (summary.count > 0) {
-      chipsEl.innerHTML = summary.items
-        .map(it => `<span class="filter-chip">${escapeHtml(it.label)}</span>`)
-        .join('') +
-        ' <button type="button" class="filter-clear-link" data-action="reset-filters">초기화</button>';
-    } else {
-      chipsEl.innerHTML = '<span class="muted">기본 조건 (전체 장르 · 3년 · 유명 팀 제외)</span>';
-    }
-  }
-
-  document.querySelectorAll('[data-filter-field]').forEach(el => {
-    const key = el.dataset.filterField;
-    el.classList.toggle('is-changed', summary.changedKeys.has(key));
-  });
-}
-
-function syncGlobalControlsFromState() {
-  const c = appState.cfg;
-  const gSel = document.getElementById('gfGenre');
-  if (gSel) gSel.value = c.genre;
-  const pSel = document.getElementById('gfPeriod');
-  if (pSel) pSel.value = String(c.period_days);
-  const nInp = document.getElementById('gfNewcomer');
-  if (nInp) nInp.value = String(c.newcomer_years);
-  const exCb = document.getElementById('gfExcludeFamous');
-  if (exCb) exCb.checked = c.exclude_famous;
-  document.querySelectorAll('input[name="gf_branch"]').forEach(cb => {
-    cb.checked = c.branches.includes(cb.value);
-  });
-  updateFilterSummaryUI();
-}
-
-function readGlobalControlsToState() {
-  const c = appState.cfg;
-  c.genre = document.getElementById('gfGenre')?.value || '';
-  c.period_days = Number(document.getElementById('gfPeriod')?.value) || 0;
-  c.newcomer_years = Math.max(1, Math.min(15, Math.round(Number(document.getElementById('gfNewcomer')?.value) || 3)));
-  c.exclude_famous = Boolean(document.getElementById('gfExcludeFamous')?.checked);
-  const checked = [...document.querySelectorAll('input[name="gf_branch"]:checked')].map(el => el.value);
-  c.branches = checked;
-  syncHash(true);
-  updateFilterSummaryUI();
-}
-
 function resetAllFiltersAndWeights() {
   appState.cfg = cloneDefaults();
   appState.cfg.as_of = appState.dataEnd;
-  syncGlobalControlsFromState();
   syncHash(true);
   renderCurrentView();
 }
 
-// ---------- Autocomplete Team Search ----------
+// ---------- Autocomplete Team Search (with 24px Avatars) ----------
 
 function initTeamSearch() {
   const inp = document.getElementById('gfTeamSearch');
@@ -185,10 +169,14 @@ function initTeamSearch() {
     }
     drop.innerHTML = top.map(({ t }) => `
       <button type="button" class="f-search-opt" data-pick-team="${escapeHtml(t.team_key)}">
-        <strong>${escapeHtml(t.display_name || t.team_key)}</strong>
+        <span class="f-search-opt-left">
+          ${avatarHtml(t.team_key, t.display_name || t.team_key, 24, { shape: 'circle', genre: t.primary_genre })}
+          <strong>${escapeHtml(t.display_name || t.team_key)}</strong>
+        </span>
         <span class="small muted">${escapeHtml(t.primary_genre || '')}</span>
       </button>
     `).join('');
+    wireAvatarFallbacks(drop);
     drop.hidden = false;
   }
 
@@ -220,6 +208,100 @@ function initTeamSearch() {
 
   document.addEventListener('click', e => {
     if (!e.target.closest('.f-search-wrap')) drop.hidden = true;
+  });
+}
+
+// ---------- Unified Export Menu ----------
+
+function initExportMenu() {
+  const wrap = document.getElementById('exportMenuWrap');
+  const btn = document.getElementById('btnExportMenu');
+  const drop = document.getElementById('exportDrop');
+  if (!wrap || !btn || !drop) return;
+
+  const setOpen = (open) => {
+    drop.hidden = !open;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    wrap.classList.toggle('open', open);
+  };
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setOpen(drop.hidden);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!wrap.contains(e.target)) setOpen(false);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !drop.hidden) {
+      setOpen(false);
+      btn.focus();
+    }
+  });
+
+  drop.addEventListener('click', async (e) => {
+    const opt = e.target.closest('[data-export-action]');
+    if (!opt) return;
+    const action = opt.dataset.exportAction;
+    setOpen(false);
+
+    if (action === 'link') {
+      syncHash(true);
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        showToast('현재 화면 링크를 복사했습니다.');
+      } catch (_) {
+        window.prompt('아래 링크를 복사하세요:', window.location.href);
+      }
+      return;
+    }
+
+    if (action === 'digest') {
+      let text = appState.weeklyDigestText;
+      if (!text && appState.ready) {
+        const candRows = await queryCandidates({ limit: 300 });
+        const diff = getSnapshotDiff(candRows);
+        const extras = await queryWeeklyDigestExtras(candRows);
+        text = buildWeeklySummaryText({
+          dataEnd: appState.dataEnd,
+          prevDate: diff.prevDate,
+          latestDate: diff.latestDate,
+          newEntrants: diff.newEntrants,
+          risers: diff.risers,
+          signalStats: extras.signalStats,
+          newVideos7d: extras.newVideos7d,
+          top5: candRows.slice(0, 5),
+          health: appState.dataHealth,
+        });
+        appState.weeklyDigestText = text;
+      }
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast('주간 브리핑 문장을 복사했습니다.');
+      } catch (_) {
+        window.prompt('주간 브리핑 문장:', text);
+      }
+      return;
+    }
+
+    if (action === 'csv') {
+      const ctx = appState.exportCtx;
+      if (ctx.csvHeaders.length && ctx.csvRows.length) {
+        exportTableToCsv(ctx.csvFilename || `crate_digger_${appState.dataEnd}.csv`, ctx.csvHeaders, ctx.csvRows);
+        showToast('CSV 파일을 내려받았습니다.');
+      } else if (appState.ready) {
+        const candRows = await queryCandidates({ limit: 100 });
+        exportTableToCsv(
+          `crate_digger_top100_${appState.dataEnd || 'export'}.csv`,
+          ['rank', 'team_key', 'display_name', 'genre', 'score', 'n_branch', 'last_seen'],
+          candRows.map((r, i) => [i + 1, r.team_key, r.display_name || r.team_key, r.primary_genre || '', r.score ?? '', r.n_branch ?? 0, r.last_seen || ''])
+        );
+        showToast('상위 후보 100팀 CSV를 내려받았습니다.');
+      }
+    }
   });
 }
 
@@ -302,7 +384,9 @@ async function renderCurrentView() {
   const seq = ++renderSeq;
   const root = document.getElementById('viewRoot');
   setGlobalError('');
+  setExportContext({ csvLabel: '', csvFilename: '', csvHeaders: [], csvRows: [] });
   updateNavActive();
+  renderAnomalyBanner();
   closeMobileNav();
 
   if (!appState.cfg.branches.length) {
@@ -313,10 +397,8 @@ async function renderCurrentView() {
 
   destroyActiveCharts();
   syncChartThemeDefaults();
-  const t0 = performance.now();
   setStatus('계산 중...', true);
 
-  // Show minimal skeleton if query takes >90ms (avoids flicker on instant views)
   const skelTimer = setTimeout(() => {
     if (seq === renderSeq && root) {
       root.innerHTML = renderViewSkeleton();
@@ -329,9 +411,7 @@ async function renderCurrentView() {
     else if (r === 'candidates') await renderCandidatesView(root);
     else if (r === 'team') await renderTeamView(root, appState.routeParam);
     else if (r === 'watchlist') await renderWatchlistView(root);
-    else if (r === 'backtest') await renderBacktestView(root);
-    else if (r === 'signals') await renderSignalsView(root);
-    else if (r === 'evidence') await renderEvidenceView(root);
+    else if (r === 'verify' || r === 'backtest' || r === 'signals' || r === 'evidence') await renderVerifyView(root);
     else if (r === 'venues') await renderVenuesView(root);
     else if (r === 'quality') await renderQualityView(root);
     else if (r === 'sql') await renderSqlView(root);
@@ -339,8 +419,10 @@ async function renderCurrentView() {
 
     clearTimeout(skelTimer);
     if (seq !== renderSeq) return;
-    const sec = ((performance.now() - t0) / 1000).toFixed(2);
-    setStatus(`기준 ${appState.dataEnd} · 계산 완료 (${sec}초)`, false);
+    const healthTxt = appState.dataHealth.ok
+      ? appState.dataHealth.summaryLabel
+      : `⚠ ${appState.dataHealth.summaryLabel}`;
+    setStatus(`기준 ${appState.dataEnd} · ${healthTxt}`, false);
   } catch (err) {
     clearTimeout(skelTimer);
     if (seq !== renderSeq) return;
@@ -353,7 +435,6 @@ async function renderCurrentView() {
 // ---------- Event Wiring ----------
 
 function wireGlobalEvents() {
-  // Mobile menu drawer
   const mobileBtn = document.getElementById('mobileMenuBtn');
   mobileBtn?.addEventListener('click', () => {
     const rail = document.getElementById('navRail');
@@ -368,56 +449,26 @@ function wireGlobalEvents() {
     if (e.key === 'Escape') closeMobileNav();
   });
 
-  // Collapsible filter drawer toggle
-  const filterToggle = document.getElementById('btnToggleFilters');
-  const filterDrawer = document.getElementById('globalFilterDrawer');
-  filterToggle?.addEventListener('click', () => {
-    if (!filterDrawer) return;
-    const nextOpen = filterDrawer.hidden;
-    filterDrawer.hidden = !nextOpen;
-    filterToggle.setAttribute('aria-expanded', nextOpen ? 'true' : 'false');
-    filterToggle.classList.toggle('is-open', nextOpen);
+  // Collapsible Advanced sidebar group
+  const advToggle = document.getElementById('navAdvToggle');
+  const advList = document.getElementById('navAdvList');
+  advToggle?.addEventListener('click', () => {
+    if (!advList) return;
+    setAdvancedNavOpen(advList.hidden);
   });
 
   // Left nav links keep current query params
   document.querySelectorAll('.nav-link[data-route]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
-      const targetRoute = a.dataset.route;
-      if (targetRoute === 'team' && appState.routeParam) {
-        navigateTo('team', appState.routeParam);
-      } else {
-        navigateTo(targetRoute, '');
-      }
+      navigateTo(a.dataset.route, '');
     });
   });
 
-  // Global filter changes
-  const filterBar = document.getElementById('globalFilterBar');
-  filterBar?.addEventListener('change', e => {
-    if (e.target.id === 'gfTeamSearch') return;
-    readGlobalControlsToState();
-    renderCurrentView();
-  });
-
-  // Reset all global filters + weights (top button + any inline empty-state reset button)
-  document.getElementById('btnGlobalReset')?.addEventListener('click', resetAllFiltersAndWeights);
+  // Any reset-filters button
   document.addEventListener('click', e => {
     if (e.target.closest('[data-action="reset-filters"]')) {
       resetAllFiltersAndWeights();
-    }
-  });
-
-  // Share link copy
-  document.getElementById('btnCopyLink')?.addEventListener('click', async () => {
-    syncHash(true);
-    const btn = document.getElementById('btnCopyLink');
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      btn.textContent = '복사됨';
-      setTimeout(() => { btn.textContent = '링크 복사'; }, 1400);
-    } catch (_) {
-      window.prompt('아래 링크를 복사하세요:', window.location.href);
     }
   });
 
@@ -432,19 +483,17 @@ function wireGlobalEvents() {
     const shortLbl = btn.querySelector('.watch-lbl-short');
     if (fullLbl || shortLbl) {
       if (fullLbl) fullLbl.textContent = added ? '관심 중' : '관심 추가';
-      if (shortLbl) shortLbl.textContent = added ? '✓' : '+';
+      if (shortLbl) shortLbl.textContent = added ? '★' : '☆';
       btn.setAttribute('aria-label', `${btn.dataset.watchName || ''} ${added ? '관심 중' : '관심 추가'}`.trim());
     } else {
-      btn.textContent = added ? '관심 중' : '관심 추가';
+      btn.textContent = added ? '★ 관심 중' : '☆ 관심 추가';
     }
     updateNavActive();
-    // Refresh Today view watchlist block immediately when toggling from Today
     if (appState.route === 'today') renderCurrentView();
   });
 
   window.addEventListener('hashchange', () => {
     parseHash();
-    syncGlobalControlsFromState();
     renderCurrentView();
   });
 
@@ -453,19 +502,26 @@ function wireGlobalEvents() {
   });
 
   window.addEventListener('app:recompute', () => {
-    syncGlobalControlsFromState();
     renderCurrentView();
   });
 
   window.addEventListener('app:watchlist', updateNavActive);
+  window.addEventListener('app:export-ctx', updateExportMenuUI);
+
+  // Allow live health recomputation (also helpful for automated verification)
+  window.addEventListener('app:refresh-health', () => {
+    appState.dataHealth = computeDataHealth();
+    renderAnomalyBanner();
+    updateNavActive();
+  });
 }
 
 // ---------- Boot ----------
 
 async function boot() {
   initTheme();
-  buildBranchCheckboxes();
   initTeamSearch();
+  initExportMenu();
   wireGlobalEvents();
   parseHash();
   updateNavActive();
@@ -473,18 +529,15 @@ async function boot() {
   try {
     await bootstrapData(msg => setStatus(msg, true));
 
-    // Set default as_of to real dataEnd unless hash explicitly overrode it
     if (!window.location.hash.includes('as_of=')) {
       appState.cfg.as_of = appState.dataEnd;
     }
     parseHash();
-    populateGenreOptions();
-    syncGlobalControlsFromState();
 
     const r = appState.meta?.rows || {};
     const footMeta = document.getElementById('navDataMeta');
     if (footMeta) {
-      footMeta.textContent = `기준 ${appState.dataEnd} · 신호 ${fmtInt(r.signals)} · 팀 ${fmtInt(r.teams)} · 정답 ${fmtInt(r.outcomes)}`;
+      footMeta.textContent = `기준 ${appState.dataEnd} · 신호 ${fmtInt(r.signals)} · 팀 ${fmtInt(r.teams)}`;
     }
 
     await renderCurrentView();

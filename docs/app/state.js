@@ -7,12 +7,21 @@ export const ROUTES = [
   'candidates',
   'team',
   'watchlist',
+  'verify',
   'backtest',
   'signals',
   'evidence',
   'venues',
   'quality',
   'sql',
+];
+
+export const VERIFY_TABS = ['backtest', 'signals', 'evidence'];
+
+export const WATCH_STATUSES = [
+  { id: 'watching', label: '지켜보는 중' },
+  { id: 'listened', label: '들어봄' },
+  { id: 'hold', label: '보류' },
 ];
 
 // Scoring weight presets (matches docs/lab/sql/features.sql & docs/score_tuning.md)
@@ -79,7 +88,7 @@ export const DEFAULTS = {
   as_of: '2026-11-27',
   limit: 100,
 
-  // Global scoring weights (shared across Today, Candidates, Team, Watchlist, Backtest)
+  // Global scoring weights (shared across Today, Candidates, Team, Watchlist, Verify)
   ...DEFAULT_WEIGHTS,
 
   // Backtest & Signals
@@ -93,6 +102,7 @@ export const DEFAULTS = {
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const WATCH_KEY = 'crate_digger_watchlist_v1';
+const WATCH_VIEW_KEY = 'crate_digger_watch_view_v1';
 
 export function cloneDefaults() {
   return {
@@ -106,6 +116,9 @@ export function cloneDefaults() {
 export const appState = {
   route: 'today',
   routeParam: '',
+  verifyTab: 'backtest', // 'backtest' | 'signals' | 'evidence'
+  prevRoute: null,
+  prevParam: '',
   cfg: cloneDefaults(),
   knownCutoffs: [...PRESET_CUTOFFS],
   validGenres: [],
@@ -114,6 +127,15 @@ export const appState = {
   ready: false,
   meta: null,
   dashboardJson: null,
+  collectJson: null,
+  dataHealth: { ok: true, severity: 'ok', issues: [], totalSources: 0, okSources: 0, lastCollectedDate: '', summaryLabel: '수집 정상' },
+  weeklyDigestText: '',
+  exportCtx: {
+    csvLabel: '',
+    csvFilename: '',
+    csvHeaders: [],
+    csvRows: [],
+  },
   lastSql: {
     backtest: '',
     candidates: '',
@@ -141,11 +163,20 @@ export const appState = {
   },
   linksByTeam: new Map(),
   videosByTeam: new Map(),
-  imagesByTeam: new Map(), // team_key → 스포티파이 프로필 사진 주소 (lab/data/images.csv)
+  imagesByTeam: new Map(), // team_key → 사진 주소 (lab/data/images.csv)
+  imageMetaByTeam: new Map(), // team_key → { url, source }
   teamIndex: [], // [{team_key, display_name, primary_genre}] for autocomplete
   candSort: { col: 'score', dir: 'desc' },
   activeCharts: [],
 };
+
+export function setExportContext({ csvLabel = '', csvFilename = '', csvHeaders = [], csvRows = [], digestText = null } = {}) {
+  appState.exportCtx = { csvLabel, csvFilename, csvHeaders, csvRows };
+  if (typeof digestText === 'string' && digestText) {
+    appState.weeklyDigestText = digestText;
+  }
+  window.dispatchEvent(new CustomEvent('app:export-ctx'));
+}
 
 export function hasCustomWeights(cfg = appState.cfg) {
   return WEIGHT_KEYS.some(k => Number(cfg[k]) !== Number(DEFAULT_WEIGHTS[k]));
@@ -218,11 +249,23 @@ export function parseHash() {
     } catch (_) {
       appState.routeParam = segs[1];
     }
+  } else if (segs[0] === 'verify') {
+    appState.route = 'verify';
+    appState.routeParam = '';
+    if (segs[1] && VERIFY_TABS.includes(segs[1])) {
+      appState.verifyTab = segs[1];
+    }
+  } else if (segs[0] && VERIFY_TABS.includes(segs[0])) {
+    // Backward-compatible aliases: #/backtest, #/signals, #/evidence -> unified verify view
+    appState.route = 'verify';
+    appState.routeParam = '';
+    appState.verifyTab = segs[0];
   } else if (segs[0] && ROUTES.includes(segs[0])) {
     appState.route = segs[0];
     appState.routeParam = '';
   } else if (!pathPart && queryPart) {
-    appState.route = 'backtest';
+    appState.route = 'verify';
+    appState.verifyTab = 'backtest';
     appState.routeParam = '';
   } else {
     appState.route = 'today';
@@ -232,6 +275,10 @@ export function parseHash() {
   if (!queryPart) return;
   const p = new URLSearchParams(queryPart);
   const c = appState.cfg;
+
+  if (p.has('vtab') && VERIFY_TABS.includes(p.get('vtab'))) {
+    appState.verifyTab = p.get('vtab');
+  }
 
   for (const key of ['w_branch', 'w_stage', 'w_peer', 'w_dmz', 'w_gigs', 'w_outlets', 'w_recent', 'w_venues', 'w_winner']) {
     if (p.has(key)) {
@@ -318,7 +365,15 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
   setIf('compare_k', c.compare_k, DEFAULTS.compare_k);
   setIf('signal_cutoff', c.signal_cutoff, DEFAULTS.signal_cutoff);
 
-  const basePath = route === 'team' && param ? `#/team/${encodeURIComponent(param)}` : `#/${route}`;
+  let normRoute = route;
+  if (VERIFY_TABS.includes(route)) {
+    normRoute = 'verify';
+    if (route !== 'backtest') p.set('vtab', route);
+  } else if (route === 'verify' && appState.verifyTab && appState.verifyTab !== 'backtest') {
+    p.set('vtab', appState.verifyTab);
+  }
+
+  const basePath = normRoute === 'team' && param ? `#/team/${encodeURIComponent(param)}` : `#/${normRoute}`;
   const qs = p.toString();
   return qs ? `${basePath}?${qs}` : basePath;
 }
@@ -334,9 +389,19 @@ export function syncHash(replace = true) {
 }
 
 export function navigateTo(route, param = '') {
-  appState.route = route;
-  appState.routeParam = param;
-  const next = buildHashUrl(route, param);
+  if (appState.route && appState.route !== 'team') {
+    appState.prevRoute = appState.route;
+    appState.prevParam = appState.routeParam;
+  }
+  if (VERIFY_TABS.includes(route)) {
+    appState.verifyTab = route;
+    appState.route = 'verify';
+    appState.routeParam = '';
+  } else {
+    appState.route = route;
+    appState.routeParam = param;
+  }
+  const next = buildHashUrl(appState.route, appState.routeParam);
   if (window.location.hash !== next) {
     window.location.hash = next;
   } else {
@@ -344,33 +409,57 @@ export function navigateTo(route, param = '') {
   }
 }
 
-// ---------- Watchlist (localStorage with try/catch) ----------
+// ---------- Watchlist (localStorage with try/catch + optional 3-state status) ----------
 
 let memWatchlist = [];
+const VALID_WATCH_STATUS = new Set(WATCH_STATUSES.map(s => s.id));
+
+function normalizeWatchItem(item) {
+  return {
+    team_key: item.team_key,
+    display_name: item.display_name || item.team_key,
+    added_at: item.added_at || '',
+    status: VALID_WATCH_STATUS.has(item.status) ? item.status : 'watching',
+  };
+}
 
 export function getWatchlist() {
   try {
     const raw = window.localStorage.getItem(WATCH_KEY);
-    if (!raw) return [...memWatchlist];
+    if (!raw) return memWatchlist.map(normalizeWatchItem);
     const parsed = JSON.parse(raw);
     if (Array.isArray(parsed)) {
-      memWatchlist = parsed.filter(item => item && typeof item.team_key === 'string');
+      memWatchlist = parsed.filter(item => item && typeof item.team_key === 'string').map(normalizeWatchItem);
       return [...memWatchlist];
     }
   } catch (_) {}
-  return [...memWatchlist];
+  return memWatchlist.map(normalizeWatchItem);
 }
 
 function saveWatchlist(list) {
-  memWatchlist = list;
+  memWatchlist = list.map(normalizeWatchItem);
   try {
-    window.localStorage.setItem(WATCH_KEY, JSON.stringify(list));
+    window.localStorage.setItem(WATCH_KEY, JSON.stringify(memWatchlist));
   } catch (_) {}
   window.dispatchEvent(new CustomEvent('app:watchlist'));
 }
 
 export function isWatched(teamKey) {
   return getWatchlist().some(it => it.team_key === teamKey);
+}
+
+export function getWatchStatus(teamKey) {
+  const found = getWatchlist().find(it => it.team_key === teamKey);
+  return found ? found.status : 'watching';
+}
+
+export function setWatchStatus(teamKey, status) {
+  if (!VALID_WATCH_STATUS.has(status)) return;
+  const list = getWatchlist();
+  const idx = list.findIndex(it => it.team_key === teamKey);
+  if (idx < 0) return;
+  list[idx] = { ...list[idx], status };
+  saveWatchlist(list);
 }
 
 export function toggleWatch(teamKey, displayName = '') {
@@ -384,6 +473,7 @@ export function toggleWatch(teamKey, displayName = '') {
       team_key: teamKey,
       display_name: displayName || teamKey,
       added_at: new Date().toISOString().slice(0, 10),
+      status: 'watching',
     });
     added = true;
   }
@@ -391,45 +481,69 @@ export function toggleWatch(teamKey, displayName = '') {
   return added;
 }
 
-export function exportWatchlistCsv(rows) {
-  const header = ['team_key', 'display_name', 'score', 'rank_now', 'rank_delta', 'recent_7d_signals', 'last_seen', 'added_at'];
+export function getWatchlistViewMode() {
+  try {
+    const v = window.localStorage.getItem(WATCH_VIEW_KEY);
+    if (v === 'board' || v === 'table') return v;
+  } catch (_) {}
+  return 'table';
+}
+
+export function setWatchlistViewMode(mode) {
+  if (mode !== 'board' && mode !== 'table') return;
+  try {
+    window.localStorage.setItem(WATCH_VIEW_KEY, mode);
+  } catch (_) {}
+}
+
+// ---------- Unified CSV Export ----------
+
+export function exportTableToCsv(filename, headers, rows) {
   const esc = v => {
     const s = String(v ?? '');
-    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
-  const lines = [header.join(',')];
-  for (const r of rows) {
-    lines.push([
-      r.team_key,
-      r.display_name,
-      r.score ?? '',
-      r.rank_now ?? '',
-      r.rank_delta ?? '',
-      r.recent_7d ?? 0,
-      r.last_seen ?? '',
-      r.added_at ?? '',
-    ].map(esc).join(','));
+  const lines = [headers.map(esc).join(',')];
+  for (const row of rows) {
+    lines.push(row.map(esc).join(','));
   }
   const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `crate_digger_watchlist_${appState.dataEnd || 'export'}.csv`;
+  a.download = filename;
   document.body.appendChild(a);
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
 }
 
+export function exportWatchlistCsv(rows) {
+  const statusMap = Object.fromEntries(WATCH_STATUSES.map(s => [s.id, s.label]));
+  const headers = ['team_key', 'display_name', 'status', 'score', 'rank_now', 'rank_delta', 'recent_7d_signals', 'last_seen', 'added_at'];
+  const csvRows = rows.map(r => [
+    r.team_key,
+    r.display_name,
+    statusMap[r.status] || '지켜보는 중',
+    r.score ?? '',
+    r.rank_now ?? '',
+    r.rank_delta ?? '',
+    r.recent_7d ?? 0,
+    r.last_seen ?? '',
+    r.added_at ?? '',
+  ]);
+  exportTableToCsv(`crate_digger_watchlist_${appState.dataEnd || 'export'}.csv`, headers, csvRows);
+}
+
 const PLATFORM_KEY = 'crate_digger_platform_v1';
-const VALID_PLATFORMS = ['melon', 'genie', 'bugs', 'spotify', 'youtube', 'instagram'];
+const VALID_PLATFORMS = ['spotify', 'youtube'];
 
 export function getPreferredPlatform() {
   try {
     const v = window.localStorage.getItem(PLATFORM_KEY);
     if (v && VALID_PLATFORMS.includes(v)) return v;
   } catch (_) {}
-  return 'melon';
+  return 'spotify';
 }
 
 export function setPreferredPlatform(platform) {

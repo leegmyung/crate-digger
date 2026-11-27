@@ -95,6 +95,18 @@ export function scorePartsLine(r) {
   return parts.length ? parts.join(' · ') : '가중치 0 또는 신호 없음';
 }
 
+export function plainWhyLine(r) {
+  const parts = [];
+  if (Number(r.venues) >= 2 && Number(r.pts_venues) > 0) parts.push(`공연장 ${r.venues}곳`);
+  if (Number(r.best_stage) >= 1 && Number(r.pts_stage) > 0) parts.push(`선정 ${r.best_stage}단계`);
+  if (Number(r.peer_winner) > 0 && Number(r.pts_winner) > 0) parts.push('수상 팀과 같은 무대');
+  if (Number(r.recent180) >= 2 && Number(r.pts_recent) > 0) parts.push(`최근 6개월 ${r.recent180}건`);
+  if (Number(r.outlets) >= 1 && Number(r.pts_outlets) > 0) parts.push(`매체 ${r.outlets}곳 주목`);
+  if (Number(r.n_branch) >= 2 && parts.length < 3) parts.push(`${r.n_branch}개 갈래 동시 활동`);
+  if (!parts.length) return scorePartsLine(r);
+  return parts.slice(0, 3).join(' · ');
+}
+
 export function renderScoreBar(r, maxScore) {
   const denom = Math.max(1, maxScore);
   const segs = [
@@ -142,50 +154,204 @@ export function spotifyIdOf(teamKey) {
   return m ? m[1] : null;
 }
 
-/** 팀 사진: 스포티파이 프로필 사진, 없으면 이름 첫 글자 자리표시. size = px. */
-export function avatarHtml(teamKey, displayName, size = 40) {
+export function spotifyUrlOf(teamKey) {
+  const id = spotifyIdOf(teamKey);
+  return id ? `https://open.spotify.com/artist/${id}` : null;
+}
+
+export function avatarSourceOf(teamKey) {
+  return appState.imageMetaByTeam.get(teamKey)?.source || null;
+}
+
+/**
+ * 유튜브 연결 우선순위 (사용자 결정: 스포티파이·유튜브 두 플랫폼만):
+ * 1) 공식 채널 (links.csv) → 2) 최근 무대 영상 (videos.csv) → 3) null
+ */
+export function youtubeQuickInfo(teamKey) {
+  const yt = appState.linksByTeam.get(teamKey)?.get('youtube');
+  if (yt && yt.startsWith('https://www.youtube.com/')) {
+    return { kind: 'channel', label: '유튜브 채널', url: yt };
+  }
+  const vids = appState.videosByTeam.get(teamKey) || [];
+  if (vids.length) {
+    const sorted = [...vids].sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+    const v = sorted[0];
+    if (v && /^[A-Za-z0-9_-]{11}$/.test(v.video_id)) {
+      return {
+        kind: 'video',
+        label: '무대 영상',
+        videoId: v.video_id,
+        url: `https://www.youtube.com/watch?v=${v.video_id}`,
+        count: vids.length,
+      };
+    }
+  }
+  return null;
+}
+
+function genreAvatarTone(genre) {
+  const g = String(genre || '').toLowerCase();
+  if (/록|밴드|메탈|펑크|rock|punk|metal/.test(g)) return 'av-rock';
+  if (/팝|r&b|소울|발라드|pop|soul|rnb/.test(g)) return 'av-pop';
+  if (/포크|어쿠스틱|인디|folk|acoustic/.test(g)) return 'av-folk';
+  if (/힙합|랩|일렉|재즈|hip|rap|elec|jazz/.test(g)) return 'av-hiphop';
+  return 'av-default';
+}
+
+/** 팀 사진: 스포티파이 → 유튜브 채널 썸네일 → 이름 첫 글자(+장르색 모노그램). size = px. */
+export function avatarHtml(teamKey, displayName, size = 40, opts = {}) {
   const name = displayName || teamKey || '';
   const url = appState.imagesByTeam.get(teamKey);
-  const dim = `width="${size}" height="${size}" style="width:${size}px;height:${size}px"`;
-  if (url) {
-    return `<img class="avatar" src="${escapeHtml(url)}" alt="${escapeHtml(name)}" ${dim} loading="lazy" decoding="async">`;
-  }
+  const shape = opts.shape === 'rounded' ? 'avatar-rounded' : 'avatar-circle';
+  const tone = genreAvatarTone(opts.genre);
   const initial = escapeHtml(Array.from(name.trim())[0] || '?');
-  return `<span class="avatar avatar-initial" aria-hidden="true" style="width:${size}px;height:${size}px;font-size:${Math.round(size * 0.42)}px">${initial}</span>`;
+  const fontSize = Math.max(11, Math.round(size * 0.42));
+  if (url) {
+    return `<img class="avatar ${shape}" src="${escapeHtml(url)}" alt="${escapeHtml(name)}" width="${size}" height="${size}" style="width:${size}px;height:${size}px" loading="lazy" decoding="async" data-av-initial="${initial}" data-av-tone="${tone}" data-av-shape="${shape}" data-av-size="${size}">`;
+  }
+  return `<span class="avatar avatar-initial ${shape} ${tone}" aria-hidden="true" style="width:${size}px;height:${size}px;font-size:${fontSize}px">${initial}</span>`;
+}
+
+/** 이미지 로드 실패 시 깨짐 아이콘 대신 첫 글자 모노그램으로 즉시 치환한다. */
+export function wireAvatarFallbacks(root) {
+  if (!root) return;
+  root.querySelectorAll('img.avatar[data-av-initial]').forEach(img => {
+    const swapToInitial = () => {
+      const size = Number(img.dataset.avSize) || 40;
+      const span = document.createElement('span');
+      span.className = `avatar avatar-initial ${img.dataset.avShape || 'avatar-circle'} ${img.dataset.avTone || 'av-default'}`;
+      span.setAttribute('aria-hidden', 'true');
+      span.style.width = `${size}px`;
+      span.style.height = `${size}px`;
+      span.style.fontSize = `${Math.max(11, Math.round(size * 0.42))}px`;
+      span.textContent = img.dataset.avInitial || '?';
+      img.replaceWith(span);
+    };
+    if (img.complete && img.naturalWidth === 0) {
+      swapToInitial();
+    } else {
+      img.addEventListener('error', swapToInitial, { once: true });
+    }
+  });
 }
 
 /** '▶ 듣기' 버튼: 누르면 같은 자리에 스포티파이 공식 임베드 플레이어를 만든다(wireSpotifyButtons로 연결). */
-export function spotifyButtonHtml(teamKey, small = false) {
+export function spotifyButtonHtml(teamKey, small = false, opts = {}) {
   const id = spotifyIdOf(teamKey);
   if (!id) return '';
-  return `<button type="button" class="btn ${small ? 'btn-sm' : 'btn-primary'} spotify-play" data-spotify-id="${id}"
-            aria-label="스포티파이로 미리 듣기">▶ 듣기</button>`;
+  const iconOnly = Boolean(opts.iconOnly);
+  const mode = opts.mode ? `data-spotify-mode="${escapeHtml(opts.mode)}"` : '';
+  const nameAttr = opts.teamName ? `data-spotify-name="${escapeHtml(opts.teamName)}"` : '';
+  const slotAttr = opts.slotId ? `data-spotify-slot="${escapeHtml(opts.slotId)}"` : '';
+  const cls = iconOnly
+    ? 'btn btn-icon spotify-play'
+    : `btn ${small ? 'btn-sm' : 'btn-primary'} spotify-play`;
+  const label = iconOnly ? '▶' : '▶ 듣기';
+  return `<button type="button" class="${cls}" data-spotify-id="${id}" ${mode} ${nameAttr} ${slotAttr}
+            aria-label="${escapeHtml(opts.teamName || teamKey)} 스포티파이 미리 듣기" title="스포티파이로 미리 듣기">${label}</button>`;
 }
 
-/** root 안의 '▶ 듣기' 버튼마다 클릭 시 플레이어 생성. target(선택)은 플레이어를 넣을 자리(기본: 버튼 바로 뒤). */
-export function wireSpotifyButtons(root, target = null) {
+function buildSpotifyEmbedBox(id, teamName, onClose) {
+  const box = document.createElement('div');
+  box.className = 'spotify-embed-box';
+  if (teamName) {
+    const head = document.createElement('div');
+    head.className = 'spotify-embed-head';
+    head.innerHTML = `<span class="small"><strong>${escapeHtml(teamName)}</strong> · Spotify 미리 듣기</span>`;
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'btn btn-sm';
+    closeBtn.textContent = '닫기';
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      onClose();
+    });
+    head.appendChild(closeBtn);
+    box.appendChild(head);
+  }
+  const frame = document.createElement('iframe');
+  frame.className = 'spotify-embed';
+  frame.src = `https://open.spotify.com/embed/artist/${id}?utm_source=generator&theme=0`;
+  frame.height = '152';
+  frame.loading = 'lazy';
+  frame.title = `${teamName || ''} 스포티파이 미리 듣기`.trim();
+  frame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+  box.appendChild(frame);
+  return box;
+}
+
+/**
+ * root 안의 '▶ 듣기' 버튼마다 클릭 시 플레이어 생성 (단일 활성 슬롯 + 토글 닫기 지원).
+ * - data-spotify-slot="<id>": 지정된 공유 슬롯에 표시 (5장 카드 그리드 높이 균형 유지)
+ * - data-spotify-mode="table-row": 표 행 바로 아래 확장 tr에 표시
+ * - 기본: 가장 가까운 [data-player-slot] 또는 target
+ */
+export function wireSpotifyButtons(root, defaultTarget = null) {
+  if (!root) return;
+  let activeBtn = null;
+  let activeCleanup = null;
+
+  const resetBtnLabel = (btn) => {
+    if (!btn) return;
+    btn.classList.remove('btn-active', 'is-playing');
+    btn.textContent = btn.classList.contains('btn-icon') ? '▶' : '▶ 듣기';
+  };
+
+  const closeActive = () => {
+    if (activeCleanup) {
+      activeCleanup();
+      activeCleanup = null;
+    }
+    if (activeBtn) {
+      resetBtnLabel(activeBtn);
+      activeBtn = null;
+    }
+  };
+
   root.querySelectorAll('.spotify-play[data-spotify-id]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
       const id = btn.dataset.spotifyId;
       if (!/^[A-Za-z0-9]{22}$/.test(id)) return;
-      let host = target;
+
+      const wasSame = activeBtn === btn;
+      closeActive();
+      if (wasSame) return;
+
+      const teamName = btn.dataset.spotifyName || '';
+      const mode = btn.dataset.spotifyMode || '';
+      const slotId = btn.dataset.spotifySlot || '';
+
+      btn.classList.add('btn-active', 'is-playing');
+      btn.textContent = btn.classList.contains('btn-icon') ? '■' : '■ 닫기';
+      activeBtn = btn;
+
+      if (mode === 'table-row') {
+        const tr = btn.closest('tr');
+        if (tr && tr.parentElement) {
+          const colCount = tr.children.length || 8;
+          const expTr = document.createElement('tr');
+          expTr.className = 'player-expand-row';
+          const td = document.createElement('td');
+          td.colSpan = colCount;
+          td.appendChild(buildSpotifyEmbedBox(id, teamName, closeActive));
+          expTr.appendChild(td);
+          tr.insertAdjacentElement('afterend', expTr);
+          activeCleanup = () => expTr.remove();
+          return;
+        }
+      }
+
+      let host = slotId ? root.querySelector(`#${CSS.escape(slotId)}`) : defaultTarget;
       for (let el = btn.parentElement; !host && el && el !== root.parentElement; el = el.parentElement) {
         host = el.querySelector(':scope > [data-player-slot]');
       }
       host = host || btn.parentElement;
-      if (host.querySelector('iframe.spotify-embed')) return;
-      const frame = document.createElement('iframe');
-      frame.className = 'spotify-embed';
-      frame.src = `https://open.spotify.com/embed/artist/${id}?utm_source=generator&theme=0`;
-      frame.height = '152';
-      frame.loading = 'lazy';
-      frame.title = '스포티파이 미리 듣기';
-      frame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
-      host.appendChild(frame);
-      btn.textContent = '재생 중';
-      btn.disabled = true;
+      host.innerHTML = '';
+      const box = buildSpotifyEmbedBox(id, teamName, closeActive);
+      host.appendChild(box);
+      activeCleanup = () => { host.innerHTML = ''; };
     });
   });
 }
@@ -195,9 +361,43 @@ export function watchButtonHtml(teamKey, displayName, small = true, reveal = fal
   const cls = `btn ${small ? 'btn-sm' : ''} ${on ? 'btn-active' : ''} ${reveal ? 'watch-reveal' : ''}`.trim();
   const label = on ? '관심 중' : '관심 추가';
   if (reveal) {
-    return `<button type="button" class="${cls}" data-watch-key="${escapeHtml(teamKey)}" data-watch-name="${escapeHtml(displayName)}" aria-label="${escapeHtml(displayName)} ${label}"><span class="watch-lbl-full">${label}</span><span class="watch-lbl-short" aria-hidden="true">${on ? '✓' : '+'}</span></button>`;
+    return `<button type="button" class="${cls}" data-watch-key="${escapeHtml(teamKey)}" data-watch-name="${escapeHtml(displayName)}" aria-label="${escapeHtml(displayName)} ${label}"><span class="watch-lbl-full">${label}</span><span class="watch-lbl-short" aria-hidden="true">${on ? '★' : '☆'}</span></button>`;
   }
-  return `<button type="button" class="${cls}" data-watch-key="${escapeHtml(teamKey)}" data-watch-name="${escapeHtml(displayName)}">${label}</button>`;
+  return `<button type="button" class="${cls}" data-watch-key="${escapeHtml(teamKey)}" data-watch-name="${escapeHtml(displayName)}">${on ? '★ 관심 중' : '☆ 관심 추가'}</button>`;
+}
+
+export function buildWeeklySummaryText({
+  dataEnd = appState.dataEnd,
+  prevDate = '',
+  latestDate = '',
+  newEntrants = [],
+  risers = [],
+  signalStats = { total: 0, byBranch: {} },
+  newVideos7d = 0,
+  top5 = [],
+  health = appState.dataHealth,
+}) {
+  const lines = [];
+  lines.push(`[Crate Digger 주간 브리핑 · ${dataEnd || latestDate} 기준]`);
+  const topRiser = risers[0];
+  const riserNote = topRiser
+    ? ` (최대 ${topRiser.display_name} #${topRiser.rank_prev}→#${topRiser.rank_now}${topRiser.score_gain > 0 ? `, +${fmtNum(topRiser.score_gain, 2)}점` : ''})`
+    : '';
+  const periodTxt = prevDate && latestDate ? `${prevDate}→${latestDate} ` : '';
+  lines.push(`- ${periodTxt}변화: 새 후보 ${fmtInt(newEntrants.length)}팀 · 상승 ${fmtInt(risers.length)}팀${riserNote}`);
+  const brParts = Object.entries(signalStats.byBranch || {})
+    .filter(([, n]) => n > 0)
+    .map(([b, n]) => `${b} ${fmtInt(n)}`);
+  lines.push(`- 최근 7일 활동: 새 신호 ${fmtInt(signalStats.total)}건${brParts.length ? `(${brParts.join(' · ')})` : ''} · 새 무대 영상 ${fmtInt(newVideos7d)}개`);
+  if (top5.length) {
+    const t5 = top5.map((r, i) => `${i + 1}. ${r.display_name || r.team_key}(${fmtNum(r.score, 2)})`).join(' · ');
+    lines.push(`- 이번 주 상위 5팀: ${t5}`);
+  }
+  lines.push(`- 수집 상태: ${health?.summaryLabel || '정상'}`);
+  if (typeof window !== 'undefined' && window.location?.href) {
+    lines.push(`- 링크: ${window.location.href}`);
+  }
+  return lines.join('\n');
 }
 
 export function summarizeWhyTeam({ scored, profile, timeline, precedents }) {
@@ -245,7 +445,7 @@ export function friendlySqlError(err) {
     return `SQL 문법 오류입니다. 쉼표·괄호·따옴표를 확인해 주세요. (${raw})`;
   }
   if (raw.includes('does not exist') || raw.includes('Catalog Error')) {
-    return `표나 열 이름을 찾을 수 없습니다. 사용 가능한 표는 signals, teams, outcomes, programs, links, videos 입니다. (${raw})`;
+    return `표나 열 이름을 찾을 수 없습니다. 사용 가능한 표는 signals, teams, outcomes, programs, links, videos, images 입니다. (${raw})`;
   }
   if (raw.includes('Binder Error')) {
     return `열 이름이나 자료형이 맞지 않습니다. (${raw})`;

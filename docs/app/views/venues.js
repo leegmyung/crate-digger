@@ -1,18 +1,30 @@
-import { appState, registerChart } from '../state.js';
+import { appState, registerChart, setExportContext } from '../state.js';
 import { runRawSql, sqlStringLiteral } from '../db.js';
-import { cssVar, escapeHtml, fmtInt, renderActionBanner } from '../ui.js';
+import { avatarHtml, cssVar, escapeHtml, fmtInt, renderActionBanner, wireAvatarFallbacks } from '../ui.js';
 
 export async function renderVenuesView(root) {
   const dj = appState.dashboardJson;
   const venues = dj?.sections?.top_venues || [];
   const topV = venues[0];
 
+  setExportContext({
+    csvLabel: venues.length ? `공연장·씬 CSV 내려받기 (${fmtInt(venues.length)}곳)` : '',
+    csvFilename: `crate_digger_venues_${appState.dataEnd || 'export'}.csv`,
+    csvHeaders: ['venue', 'gigs', 'teams', 'candidate_teams', 'candidate_ratio_pct'],
+    csvRows: venues.map(v => [
+      v.venue,
+      v.gigs ?? 0,
+      v.teams ?? 0,
+      v.candidate_teams ?? 0,
+      v.teams ? ((100 * v.candidate_teams) / v.teams).toFixed(1) : '0.0',
+    ]),
+  });
+
   const bannerHtml = renderActionBanner({
-    title: '씬 지도 (공연장)',
+    title: '공연장·씬',
     lead: topV
-      ? `가장 많은 공연이 열린 곳은 <strong>${escapeHtml(topV.venue)}</strong>(${fmtInt(topV.gigs)}건, 출연 ${fmtInt(topV.teams)}팀, 후보 ${fmtInt(topV.candidate_teams)}팀)입니다.`
+      ? `가장 많은 공연이 열린 곳은 <strong>${escapeHtml(topV.venue)}</strong>(${fmtInt(topV.gigs)}건, 출연 ${fmtInt(topV.teams)}팀, 후보 ${fmtInt(topV.candidate_teams)}팀)이며, 공연장을 누르면 최근 출연 팀이 열립니다.`
       : '공연장 요약 데이터를 불러오지 못했습니다.',
-    todo: '아래 표에서 공연장 줄을 누르면 그 무대에 최근 오른 팀 목록을 바로 확인하고 팀 상세로 이동할 수 있습니다.',
   });
 
   if (!venues.length) {
@@ -128,13 +140,19 @@ export async function renderVenuesView(root) {
             <tbody>${rows.map(r => `
               <tr>
                 <td class="nowrap mono muted">${escapeHtml(r.signal_date || '-')}</td>
-                <td><a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(r.display_name)}</strong></a></td>
+                <td>
+                  <a class="row-team-cell" href="#/team/${encodeURIComponent(r.team_key)}">
+                    ${avatarHtml(r.team_key, r.display_name, 24, { shape: 'circle', genre: r.primary_genre })}
+                    <strong>${escapeHtml(r.display_name)}</strong>
+                  </a>
+                </td>
                 <td class="muted">${escapeHtml(r.primary_genre || '-')}</td>
                 <td class="muted">${escapeHtml(r.source || '-')}</td>
               </tr>
             `).join('')}</tbody>
           </table>`
         : '<p class="muted small" style="margin:0;">이 공연장 이름으로 직접 일치하는 신호 행이 없습니다.</p>';
+      wireAvatarFallbacks(body);
       box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } catch (err) {
       meta.textContent = '오류';

@@ -1,10 +1,10 @@
-import { appState } from '../state.js';
+import { appState, navigateTo, setExportContext } from '../state.js';
 import { getTeamExternalLinks, queryTeamDetail } from '../db.js';
 import {
-  escapeHtml, fmtInt, fmtNum, formatSignalDate,
+  avatarHtml, avatarSourceOf, escapeHtml, fmtInt, fmtNum, formatSignalDate,
   PROFILE_LABELS, renderActionBanner, renderScoreBar,
-  SOURCE_LABELS, summarizeWhyTeam, watchButtonHtml,
-  avatarHtml, spotifyButtonHtml, wireSpotifyButtons,
+  SOURCE_LABELS, spotifyButtonHtml, spotifyUrlOf, summarizeWhyTeam,
+  watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
 
 /**
@@ -12,8 +12,8 @@ import {
  * - 스포티파이: '▶ 듣기'를 누르면 이 자리에서 공식 임베드 플레이어(미리 듣기, 로그인 시 전곡)
  * - 유튜브: 공식 채널이 있으면 채널로, 없으면 아래 '최근 무대' 영상으로 이동
  */
-function renderListenButtons(teamKey, linksMap, hasVideos) {
-  const parts = [spotifyButtonHtml(teamKey)];
+function renderListenButtons(teamKey, displayName, linksMap, hasVideos) {
+  const parts = [spotifyButtonHtml(teamKey, false, { teamName: displayName })];
   const yt = linksMap && linksMap.get('youtube');
   if (yt && yt.startsWith('https://www.youtube.com/')) {
     parts.push(`<a class="btn" href="${escapeHtml(yt)}" target="_blank" rel="noopener noreferrer">유튜브 채널</a>`);
@@ -310,7 +310,12 @@ export async function renderTeamView(root, teamKey) {
               <tbody>
                 ${visibleStage.map(r => `
                   <tr>
-                    <td><a href="#/team/${encodeURIComponent(r.related_team)}"><strong>${escapeHtml(r.display_name || r.related_team)}</strong></a></td>
+                    <td>
+                      <a class="row-team-cell" href="#/team/${encodeURIComponent(r.related_team)}">
+                        ${avatarHtml(r.related_team, r.display_name || r.related_team, 24, { shape: 'circle' })}
+                        <strong>${escapeHtml(r.display_name || r.related_team)}</strong>
+                      </a>
+                    </td>
                     <td class="num">${fmtInt(r.shared_count)}</td>
                     <td class="nowrap mono muted">${escapeHtml(r.last_date || '-')}</td>
                     <td class="muted">${escapeHtml(r.detail || '-')}</td>
@@ -332,8 +337,11 @@ export async function renderTeamView(root, teamKey) {
           <ul class="mini-list">
             ${agencyRelated.map(r => `
               <li>
-                <div class="mini-list-main">
-                  <a href="#/team/${encodeURIComponent(r.related_team)}"><strong>${escapeHtml(r.display_name || r.related_team)}</strong></a>
+                <div class="mini-list-row">
+                  ${avatarHtml(r.related_team, r.display_name || r.related_team, 24, { shape: 'circle' })}
+                  <div class="mini-list-main">
+                    <a href="#/team/${encodeURIComponent(r.related_team)}"><strong>${escapeHtml(r.display_name || r.related_team)}</strong></a>
+                  </div>
                 </div>
                 <span class="small muted">${escapeHtml(r.detail || '')}</span>
               </li>
@@ -344,18 +352,54 @@ export async function renderTeamView(root, teamKey) {
     `;
   }
 
+  // Register team timeline CSV with unified export dropdown
+  setExportContext({
+    csvLabel: `${displayName} 활동 기록 CSV 내려받기 (${fmtInt(mergedTimeline.length)}건)`,
+    csvFilename: `crate_digger_team_${teamKey.replace(/[^a-zA-Z0-9가-힣_-]+/g, '_')}_${appState.dataEnd || 'export'}.csv`,
+    csvHeaders: ['date', 'branch', 'detail'],
+    csvRows: mergedTimeline.map(m => [m.dateDisp, m.branch, m.text]),
+  });
+
+  const backLabels = {
+    today: '이번 주 브리핑',
+    candidates: '후보 목록',
+    venues: '공연장·씬',
+    watchlist: '관심 목록',
+    verify: '점수 신뢰도·검증',
+    quality: '데이터 수집·품질',
+  };
+  const backRoute = appState.prevRoute && backLabels[appState.prevRoute] ? appState.prevRoute : 'today';
+  const backLabel = backLabels[backRoute] || '이번 주 브리핑';
+
+  const imgSrc = avatarSourceOf(teamKey);
+  const spUrl = spotifyUrlOf(teamKey);
+  const genre = scored?.primary_genre || profile?.primary_genre || '';
+  const photoCreditHtml = imgSrc === 'spotify'
+    ? (spUrl
+        ? `<a class="avatar-credit" href="${escapeHtml(spUrl)}" target="_blank" rel="noopener noreferrer">사진 · Spotify ↗</a>`
+        : '<span class="avatar-credit">사진 · Spotify</span>')
+    : imgSrc === 'youtube'
+      ? '<span class="avatar-credit">사진 · YouTube</span>'
+      : '';
+
   function paint() {
     root.innerHTML = `
+      <div class="team-back-bar">
+        <button type="button" class="btn btn-sm" id="btnTeamBack">← ${escapeHtml(backLabel)}</button>
+      </div>
       <div class="action-banner">
         <div class="team-head">
-          ${avatarHtml(teamKey, displayName, 72)}
+          <div class="team-avatar-col">
+            ${avatarHtml(teamKey, displayName, 72, { shape: 'rounded', genre })}
+            ${photoCreditHtml}
+          </div>
           <div>
             <h1 class="action-banner-title">${escapeHtml(displayName)}</h1>
             <p class="team-subline">${escapeHtml(metaParts.join(' · ') || '기록된 신호 ' + fmtInt(mergedTimeline.length) + '건')}</p>
           </div>
         </div>
         <div class="action-banner-btns">
-          ${renderListenButtons(teamKey, links, videos.length > 0)}
+          ${renderListenButtons(teamKey, displayName, links, videos.length > 0)}
           ${watchButtonHtml(teamKey, displayName, false)}
         </div>
       </div>
@@ -372,7 +416,13 @@ export async function renderTeamView(root, teamKey) {
       <div id="teamSubPanel">${renderSubPanel()}</div>
     `;
 
+    wireAvatarFallbacks(root);
     wireSpotifyButtons(root, root.querySelector('#teamPlayerSlot'));
+
+    root.querySelector('#btnTeamBack')?.addEventListener('click', () => {
+      navigateTo(backRoute, '');
+    });
+
     root.querySelector('[data-scroll-videos]')?.addEventListener('click', (e) => {
       e.preventDefault();
       root.querySelector('#teamVideosBlock')?.scrollIntoView({ behavior: 'smooth', block: 'start' });

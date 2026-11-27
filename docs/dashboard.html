@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crate Digger — 국내 신인 발굴 분석 앱</title>
+  <title>Crate Digger — 국내 신인 발굴 브리핑</title>
   <link rel="icon" href="data:,">
   <script>
     (function () {
@@ -28,31 +28,39 @@
     <aside class="nav-rail" id="navRail" aria-label="화면 이동">
       <div class="nav-brand">
         <p class="nav-brand-title">Crate Digger</p>
-        <p class="nav-brand-sub">국내 신인 발굴 분석 도구</p>
+        <p class="nav-brand-sub">매일 21시 자동 갱신</p>
       </div>
 
       <nav class="nav-list">
-        <div class="nav-group-label">발굴 · 추적</div>
-        <a class="nav-link active" href="#/today" data-route="today" aria-current="page"><span>오늘 볼 것</span></a>
-        <a class="nav-link" href="#/candidates" data-route="candidates"><span>후보 탐색</span></a>
-        <a class="nav-link" href="#/team" data-route="team"><span>팀 상세</span></a>
+        <div class="nav-group-label">매일 보는 화면</div>
+        <a class="nav-link active" href="#/today" data-route="today" aria-current="page"><span>이번 주 브리핑</span></a>
+        <a class="nav-link" href="#/candidates" data-route="candidates"><span>후보 목록</span></a>
+        <a class="nav-link" href="#/venues" data-route="venues"><span>공연장·씬</span></a>
         <a class="nav-link" href="#/watchlist" data-route="watchlist">
           <span>관심 목록</span>
           <span class="nav-count" id="navWatchCount"></span>
         </a>
 
-        <div class="nav-group-label">점수 · 신호 검증</div>
-        <a class="nav-link" href="#/backtest" data-route="backtest">
-          <span>점수 검증 (백테스트)</span>
-          <span class="nav-count" id="navWeightBadge"></span>
-        </a>
-        <a class="nav-link" href="#/signals" data-route="signals"><span>신호별 적중률</span></a>
-        <a class="nav-link" href="#/evidence" data-route="evidence"><span>검증 근거 (리드타임·연차)</span></a>
-
-        <div class="nav-group-label">현황 · 탐색</div>
-        <a class="nav-link" href="#/venues" data-route="venues"><span>씬 지도 (공연장)</span></a>
-        <a class="nav-link" href="#/quality" data-route="quality"><span>데이터 현황 · 품질</span></a>
-        <a class="nav-link" href="#/sql" data-route="sql"><span>SQL 직접 실행</span></a>
+        <div class="nav-advanced">
+          <button type="button" class="nav-adv-toggle" id="navAdvToggle" aria-expanded="false" aria-controls="navAdvList">
+            <span>고급 · 검증</span>
+            <span class="nav-adv-right">
+              <span class="nav-count" id="navAdvBadge"></span>
+              <span class="nav-adv-caret" aria-hidden="true">▸</span>
+            </span>
+          </button>
+          <div class="nav-adv-list" id="navAdvList" hidden>
+            <a class="nav-link nav-link-sub" href="#/verify" data-route="verify">
+              <span>점수 신뢰도·검증</span>
+              <span class="nav-count" id="navWeightBadge"></span>
+            </a>
+            <a class="nav-link nav-link-sub" href="#/quality" data-route="quality">
+              <span>데이터 수집·품질</span>
+              <span class="nav-count" id="navHealthBadge"></span>
+            </a>
+            <a class="nav-link nav-link-sub" href="#/sql" data-route="sql"><span>SQL 직접 실행</span></a>
+          </div>
+        </div>
       </nav>
 
       <div class="nav-foot">
@@ -70,11 +78,35 @@
         <div class="top-row">
           <div class="top-row-left">
             <button type="button" class="btn mobile-menu-btn" id="mobileMenuBtn" aria-label="메뉴 열기" aria-expanded="false" aria-controls="navRail">메뉴</button>
-            <span class="top-status" id="topStatus" aria-live="polite">DuckDB-WASM 초기화 중...</span>
+            <span class="top-status" id="topStatus" aria-live="polite">데이터 불러오는 중...</span>
           </div>
+
           <div class="top-row-right">
-            <button type="button" class="btn" id="btnGlobalReset">초기화</button>
-            <button type="button" class="btn" id="btnCopyLink">링크 복사</button>
+            <div class="f-search-wrap">
+              <input type="search" id="gfTeamSearch" class="f-search-input" placeholder="팀 검색..." autocomplete="off" aria-label="팀 이름 검색">
+              <div class="f-search-drop" id="gfTeamDrop" hidden></div>
+            </div>
+
+            <div class="export-menu-wrap" id="exportMenuWrap">
+              <button type="button" class="btn" id="btnExportMenu" aria-haspopup="menu" aria-expanded="false" aria-controls="exportDrop">
+                내보내기 <span aria-hidden="true">▾</span>
+              </button>
+              <div class="export-drop" id="exportDrop" role="menu" hidden>
+                <button type="button" class="export-opt" role="menuitem" data-export-action="digest">
+                  <strong>주간 브리핑 문장 복사</strong>
+                  <span class="small muted">메신저·이메일에 바로 붙여넣기</span>
+                </button>
+                <button type="button" class="export-opt" role="menuitem" data-export-action="csv" id="exportCsvOpt">
+                  <strong id="exportCsvLabel">지금 보는 표 CSV 내려받기</strong>
+                  <span class="small muted">엑셀·구글시트 호환 UTF-8</span>
+                </button>
+                <button type="button" class="export-opt" role="menuitem" data-export-action="link">
+                  <strong>현재 화면 링크 복사</strong>
+                  <span class="small muted">지금 보고 있는 주소 공유</span>
+                </button>
+              </div>
+            </div>
+
             <div class="theme-switch" id="themeSwitch" role="radiogroup" aria-label="화면 테마">
               <button type="button" class="theme-seg" role="radio" data-theme-pref="light" aria-checked="false">화이트</button>
               <button type="button" class="theme-seg" role="radio" data-theme-pref="dark" aria-checked="false">블랙</button>
@@ -82,58 +114,10 @@
             </div>
           </div>
         </div>
-
-        <div class="filter-bar-compact" aria-label="필터 요약 및 팀 검색">
-          <button type="button" class="btn filter-toggle-btn" id="btnToggleFilters" aria-expanded="false" aria-controls="globalFilterDrawer">
-            <span id="filterToggleLabel">필터</span>
-            <span class="filter-toggle-caret" aria-hidden="true">▾</span>
-          </button>
-          <div class="filter-summary-text" id="filterSummaryChips"></div>
-          <div class="f-search-wrap">
-            <input type="search" id="gfTeamSearch" class="f-search-input" placeholder="팀 검색 후 상세로 이동..." autocomplete="off" aria-label="팀 이름 검색">
-            <div class="f-search-drop" id="gfTeamDrop" hidden></div>
-          </div>
-        </div>
-
-        <div class="filter-drawer" id="globalFilterDrawer" aria-label="전역 필터 설정" hidden>
-          <div class="filter-bar" id="globalFilterBar">
-            <div class="f-item" data-filter-field="genre">
-              <label for="gfGenre">장르</label>
-              <select id="gfGenre" class="select">
-                <option value="">전체 장르</option>
-              </select>
-            </div>
-
-            <div class="f-item" data-filter-field="branches">
-              <label>갈래</label>
-              <div class="f-branches" id="gfBranches"></div>
-            </div>
-
-            <div class="f-item" data-filter-field="period_days">
-              <label for="gfPeriod">기간</label>
-              <select id="gfPeriod" class="select">
-                <option value="0">전체 (3년)</option>
-                <option value="30">최근 30일</option>
-                <option value="90">최근 90일</option>
-                <option value="180">최근 180일</option>
-                <option value="365">최근 365일</option>
-              </select>
-            </div>
-
-            <div class="f-item" data-filter-field="newcomer_years">
-              <label for="gfNewcomer">신인(년)</label>
-              <input type="number" id="gfNewcomer" class="input input-num" min="1" max="15" value="3">
-            </div>
-
-            <label class="f-check f-item-inline" data-filter-field="exclude_famous">
-              <input type="checkbox" id="gfExcludeFamous" checked>
-              <span>유명 팀 제외</span>
-            </label>
-          </div>
-        </div>
       </header>
 
       <main class="view-main">
+        <div id="dataAnomalyBanner" class="anomaly-banner" role="alert" hidden></div>
         <div id="globalError" class="notice notice-err" role="alert" hidden></div>
         <div id="viewRoot" tabindex="-1">
           <div class="skeleton-wrap" aria-busy="true" aria-label="데이터 불러오는 중">
@@ -149,8 +133,7 @@
               <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:18px;"></div><div class="skel-line skel-w-90"></div></div>
               <div class="skel-card"><div class="skel-line skel-w-40"></div><div class="skel-line skel-w-70" style="height:18px;"></div><div class="skel-line skel-w-90"></div></div>
             </div>
-            <div class="grid-3">
-              <div class="skel-card"><div class="skel-line skel-w-50"></div><div class="skel-line skel-w-90"></div><div class="skel-line skel-w-80"></div><div class="skel-line skel-w-70"></div></div>
+            <div class="grid-2">
               <div class="skel-card"><div class="skel-line skel-w-50"></div><div class="skel-line skel-w-90"></div><div class="skel-line skel-w-80"></div><div class="skel-line skel-w-70"></div></div>
               <div class="skel-card"><div class="skel-line skel-w-50"></div><div class="skel-line skel-w-90"></div><div class="skel-line skel-w-80"></div><div class="skel-line skel-w-70"></div></div>
             </div>
@@ -160,6 +143,7 @@
     </div>
   </div>
 
+  <div id="appToast" class="app-toast" role="status" aria-live="polite" hidden></div>
   <script type="module" src="app/app.js"></script>
 </body>
 </html>

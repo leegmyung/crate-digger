@@ -54,7 +54,7 @@ export async function renderBacktestView(root) {
   const bannerHtml = renderActionBanner({
     title: '점수 검증 (백테스트)',
     lead: leadText,
-    todo: '아래 가중치 슬라이더를 바꾸면 백테스트와 오늘 볼 것·후보 탐색·팀 상세 점수가 함께 다시 계산됩니다.',
+    todo: '아래 가중치 슬라이더를 바꾸면 백테스트와 이번 주 브리핑·후보 목록·팀 상세 점수가 함께 다시 계산됩니다.',
     buttonsHtml: '<button type="button" class="btn" id="btResetWeights">가중치·조건 기본값</button>',
   });
 
