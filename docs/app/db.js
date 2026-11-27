@@ -373,6 +373,21 @@ function indexVideosRows(rows) {
 
 export const DROP_CHECK_TABLES = new Set(['raw_kr_gig', 'raw_press', 'raw_kr_release']);
 
+export const COLLECT_TABLE_LABELS = {
+  raw_kr_gig: '공연 수집',
+  raw_press: '기사 수집',
+  raw_kr_release: '발매 수집',
+  raw_kr_selection: '선정·지원 수집',
+  raw_artist_profile: '프로필 수집',
+  raw_outcome: '정답 기록',
+};
+
+export function formatRunLabel(r) {
+  const src = r?.source || '알 수 없는 소스';
+  const tbl = COLLECT_TABLE_LABELS[String(r?.table || '')];
+  return tbl ? `${tbl}(${src})` : src;
+}
+
 export function isRunDropped(r) {
   if (!r || r.prev_rows === null || r.prev_rows === undefined) return false;
   const prev = Number(r.prev_rows);
@@ -393,37 +408,49 @@ export function computeDataHealth(meta = appState.meta, collect = appState.colle
     else if (severity === 'ok') severity = 'warn';
   };
 
-  // 1) collect.json runs check (latest run per table+source: file_ok === false, rows === 0, or prev_rows sudden drop)
+  // 1) collect.json runs check (per table+source: file_ok === false, rows === 0, or prev_rows sudden drop)
+  //    - 매일 전체 적재 표(raw_kr_gig, raw_press, raw_kr_release): 0행 즉시 주의 + prev_rows ≥ 20 & <30% 급감 판정
+  //    - 증분/수동 표(raw_artist_profile, raw_outcome 등): 급감 판정 제외, 0행이 3일 연속일 때만 주의
   const runs = Array.isArray(collect?.runs) ? collect.runs : [];
   let totalSources = 0;
   let okSources = 0;
   let lastCollectedDate = '';
   if (runs.length) {
-    const latestByKey = new Map();
+    const runsByKey = new Map();
     for (const r of runs) {
       const dateStr = String(r.date || '');
       if (dateStr > lastCollectedDate) lastCollectedDate = dateStr;
       const key = `${r.table || ''}::${r.source || ''}`;
-      const prev = latestByKey.get(key);
-      if (!prev || dateStr > String(prev.date || '')) {
-        latestByKey.set(key, r);
-      }
+      if (!runsByKey.has(key)) runsByKey.set(key, []);
+      runsByKey.get(key).push(r);
     }
-    const latestRuns = [...latestByKey.values()];
-    totalSources = latestRuns.length;
+    totalSources = runsByKey.size;
     const failed = [];
     const zeroRows = [];
     const dropped = [];
-    for (const r of latestRuns) {
-      const name = r.source || '알 수 없는 소스';
-      if (r.file_ok === false) {
-        failed.push(name);
-      } else if (Number(r.rows) === 0) {
-        zeroRows.push(name);
+    for (const list of runsByKey.values()) {
+      list.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+      const latest = list[0];
+      const label = formatRunLabel(latest);
+      const isDailyFull = DROP_CHECK_TABLES.has(String(latest.table || ''));
+      if (latest.file_ok === false) {
+        failed.push(label);
+      } else if (Number(latest.rows) === 0) {
+        if (isDailyFull) {
+          zeroRows.push(label);
+        } else {
+          // 증분/수동 표는 최근 3회 연속 0행일 때만 주의
+          const recent3 = list.slice(0, 3);
+          if (recent3.length >= 3 && recent3.every(x => Number(x.rows) === 0)) {
+            zeroRows.push(`${label} 3일 연속`);
+          } else {
+            okSources += 1;
+          }
+        }
       } else {
         okSources += 1;
-        if (isRunDropped(r)) {
-          dropped.push(`${name}(${r.prev_rows}→${r.rows})`);
+        if (isRunDropped(latest)) {
+          dropped.push(`${label} ${latest.prev_rows}→${latest.rows}`);
         }
       }
     }

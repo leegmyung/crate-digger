@@ -1,5 +1,5 @@
 import { appState, registerChart, setExportContext } from '../state.js';
-import { isRunDropped } from '../db.js';
+import { COLLECT_TABLE_LABELS, DROP_CHECK_TABLES, isRunDropped } from '../db.js';
 import { cssVar, escapeHtml, fmtInt, renderActionBanner, SOURCE_LABELS } from '../ui.js';
 
 function formatDeltaText(cur, prev) {
@@ -72,14 +72,14 @@ export async function renderQualityView(root) {
       <section class="block">
         <div class="block-head">
           <h2>최근 자동 수집 실행 결과 (매일 21시)</h2>
-          <span class="block-meta">${escapeHtml(health.lastCollectedDate || '')} · ${fmtInt(collectRuns.length)}개 소스</span>
+          <span class="block-meta">${escapeHtml(health.lastCollectedDate || '')} · ${fmtInt(collectRuns.length)}개 실행</span>
         </div>
         <div class="table-wrap">
           <table class="data-table">
             <thead>
               <tr>
                 <th>날짜</th>
-                <th>소스</th>
+                <th>표 · 소스</th>
                 <th class="num">수집 행 수</th>
                 ${hasAnyPrevRun ? '<th class="num nowrap">직전 대비</th>' : ''}
                 <th class="nowrap">상태</th>
@@ -87,8 +87,10 @@ export async function renderQualityView(root) {
             </thead>
             <tbody>
               ${collectRuns.map(r => {
-                const bad = r.file_ok === false || Number(r.rows) === 0;
+                const isDailyFull = DROP_CHECK_TABLES.has(String(r.table || ''));
+                const bad = r.file_ok === false || (isDailyFull && Number(r.rows) === 0);
                 const dropped = !bad && isRunDropped(r);
+                const tblLabel = COLLECT_TABLE_LABELS[String(r.table || '')] || '';
                 let prevCell = '';
                 if (hasAnyPrevRun) {
                   if (r.prev_rows === null || r.prev_rows === undefined) {
@@ -105,7 +107,7 @@ export async function renderQualityView(root) {
                 return `
                   <tr>
                     <td class="nowrap mono muted">${escapeHtml(r.date || '-')}</td>
-                    <td><strong>${escapeHtml(SOURCE_LABELS[r.source] || r.source)}</strong></td>
+                    <td><strong>${escapeHtml(SOURCE_LABELS[r.source] || r.source)}</strong>${tblLabel ? ` <span class="small muted">${escapeHtml(tblLabel)}</span>` : ''}</td>
                     <td class="num">${fmtInt(r.rows)}</td>
                     ${prevCell}
                     <td class="nowrap">${statusBadge}</td>
