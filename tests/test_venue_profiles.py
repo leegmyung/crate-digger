@@ -81,6 +81,82 @@ class ProfilesTest(unittest.TestCase):
         self.assertEqual(self.p["작은클럽"]["after"], [["큰홀", 1]])
 
 
+class DiscoveryTest(unittest.TestCase):
+    """발굴 주목도: 최근 12개월 공연일 × 첫 출연 신인 비율 × 정답 전 출연 비율 → 0~100 (정렬용)."""
+
+    def setUp(self):
+        self.p = vp.build_profiles(_gigs(), TEAMS, OUTCOMES, SNAPSHOT, CFG, {"큰홀": "서울"}, AS_OF)
+
+    def test_raw_counts(self):
+        d = self.p["큰홀"]["discovery"]
+        self.assertEqual(d["nights_12m"], 2)                      # 2026-03-01 · 2026-05-01 (예정 공연 뺌)
+        self.assertEqual(d["winner_base"], 2)                     # 1년 넘게 전에 처음 선 팀: w · x
+        self.assertEqual(d["winner_hits"], 1)                     # 그중 정답 전에 선 팀: w
+        self.assertAlmostEqual(d["winner_share"], 0.5)
+        self.assertAlmostEqual(d["newcomer_share"], 2 / 3, places=3)
+
+    def test_no_recent_nights_means_no_score(self):
+        d = self.p["작은클럽"]["discovery"]
+        self.assertEqual(d["nights_12m"], 0)
+        self.assertIsNone(d["score"])
+        self.assertEqual((d["winner_base"], d["winner_hits"]), (2, 1))   # w(정답 전) · b(미집계 정답 → 아님)
+
+    def test_score_in_range(self):
+        s = self.p["큰홀"]["discovery"]["score"]
+        self.assertTrue(0 < s <= 100, s)
+
+    def test_block_formula_with_shrinkage(self):
+        raw = {"nights_12m": 365, "teams_1y": 10, "first_timers_1y": 10, "winner_base": 10, "winner_hits": 10}
+        d = vp.discovery_block(raw, prior_new=0.5, prior_win=0.05)
+        self.assertAlmostEqual(d["activity"], 1.0)
+        self.assertAlmostEqual(d["newcomer_adj"], 0.75)           # (10 + 10×0.5) / (10 + 10)
+        self.assertAlmostEqual(d["winner_adj"], 0.525)            # (10 + 10×0.05) / (10 + 10)
+        self.assertAlmostEqual(d["winner_norm"], 1.0)             # 10% 이상이면 만점
+        self.assertAlmostEqual(d["score"], round(100 * 0.75 ** (1 / 3), 1))
+
+    def test_small_venue_pulled_toward_average(self):
+        small = vp.discovery_block({"nights_12m": 12, "teams_1y": 1, "first_timers_1y": 1, "winner_base": 1,
+                                    "winner_hits": 1}, prior_new=0.3, prior_win=0.02)
+        self.assertLess(small["newcomer_adj"], 0.5)               # 1팀 중 1팀(100%)이어도 평균 쪽으로
+        self.assertLess(small["winner_adj"], 0.2)
+
+    def test_more_newcomers_scores_higher(self):
+        base = {"nights_12m": 50, "teams_1y": 40, "winner_base": 40, "winner_hits": 2}
+        lo = vp.discovery_block({**base, "first_timers_1y": 5}, prior_new=0.3, prior_win=0.02)
+        hi = vp.discovery_block({**base, "first_timers_1y": 30}, prior_new=0.3, prior_win=0.02)
+        self.assertGreater(hi["score"], lo["score"])
+
+    def test_priors_are_pooled(self):
+        profs = {"A": {"teams_1y": 10, "first_timers_1y": 5, "discovery": {"winner_base": 20, "winner_hits": 1}},
+                 "B": {"teams_1y": 30, "first_timers_1y": 5, "discovery": {"winner_base": 80, "winner_hits": 4}}}
+        self.assertEqual(vp.discovery_priors(profs), (10 / 40, 5 / 100))
+
+
+class GeoTest(unittest.TestCase):
+    def test_geo_copied_from_master_via_matching(self):
+        master = {"venues": [{"name": "큰 홀 서교", "our_names": ["큰홀"], "city": "서울", "lat": 37.55, "lon": 126.92,
+                              "geo_confidence": "high"},
+                             {"name": "작은클럽", "city": "부산"}]}
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "v.json"
+            p.write_text(json.dumps(master, ensure_ascii=False), encoding="utf-8")
+            geo = vp.load_geo(["큰홀", "작은클럽", "없는곳"], p)
+        self.assertEqual(geo["큰홀"], {"lat": 37.55, "lon": 126.92, "geo_confidence": "high", "city": "서울"})
+        self.assertEqual(geo["작은클럽"], {"lat": None, "lon": None, "geo_confidence": None, "city": "부산"})
+        self.assertNotIn("없는곳", geo)
+
+    def test_profile_carries_geo_and_city_fallback(self):
+        geo = {"큰홀": {"lat": 37.55, "lon": 126.92, "geo_confidence": "high", "city": "서울"},
+               "작은클럽": {"lat": None, "lon": None, "geo_confidence": None, "city": "부산"}}
+        p = vp.build_profiles(_gigs(), TEAMS, OUTCOMES, SNAPSHOT, CFG, {}, AS_OF, geo=geo)
+        self.assertEqual((p["큰홀"]["lat"], p["큰홀"]["lon"], p["큰홀"]["geo_confidence"]), (37.55, 126.92, "high"))
+        self.assertEqual(p["작은클럽"]["city"], "부산")              # 도시 표에 없으면 마스터 목록 도시로
+        self.assertIsNone(p["작은클럽"]["lat"])
+
+    def test_missing_master_file(self):
+        self.assertEqual(vp.load_geo(["큰홀"], Path("/nonexistent/v.json")), {})
+
+
 class CitiesTest(unittest.TestCase):
     def test_missing_file_is_empty(self):
         self.assertEqual(vp.load_cities(Path("/nonexistent/venues_kr.json")), {})

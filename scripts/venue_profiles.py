@@ -2,6 +2,8 @@
 
 공연장마다: 대표 이름·체급·수용 인원·도시, 월별 공연 날짜 수, 최근 1년 선 팀 수, 첫 출연 팀 수(신인 비율),
 그 공연장에 섰던 팀 중 나중에 정답 받은 팀('정답 전에 섰던'만), 지금 후보 상위 팀, 전후 공연장 흐름 상위 5.
+발굴 주목도(discovery: 최근 12개월 공연일 × 첫 출연 신인 비율 × 정답 전 출연 비율 → 0~100, 정렬용·점수 미반영,
+정의는 docs/methods.md '공연장 발굴 주목도'), 지도용 좌표(lat·lon·geo_confidence, config/venues_kr.json 에서 복사).
 
 - 입력(읽기만): 랩 데이터(docs/lab/data/signals.csv·teams.csv·outcomes.csv·snapshots/·meta.json),
   config/venue_capacity.json(체급), config/venues_kr.json(도시 — 없으면 빈칸), 전후 흐름은 venue_ladder 와 같은 계산.
@@ -16,6 +18,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import math
 import sys
 from collections import Counter, defaultdict
 from datetime import date, timedelta
@@ -25,6 +28,7 @@ from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import lab_sql  # noqa: E402
 import venue_ladder as vl  # noqa: E402
+import venues_kr as vk  # noqa: E402
 
 OUT = lab_sql.DATA_DIR / "venue_profiles.json"
 CITIES = lab_sql.ROOT / "config" / "venues_kr.json"
@@ -34,6 +38,11 @@ TOP_CANDIDATES = 5
 TOP_WINNERS = 10
 TOP_FLOW = 5
 SKIP = {"", "공연장 미정"}
+# 발굴 주목도 (정렬용, 후보 점수엔 안 씀 — docs/methods.md '공연장 발굴 주목도')
+DISCOVERY_PRIOR_TEAMS = 10      # 팀 수가 적은 공연장의 비율을 전체 평균 쪽으로 당기는 세기(팀 10명분)
+DISCOVERY_FULL_NIGHTS = 365     # 최근 12개월 매일 공연 = 활동 만점 (로그 눈금)
+DISCOVERY_FULL_WINNER = 0.10    # 처음 선 팀의 10% 이상이 나중에 정답 = 정답 만점
+WINNER_MIN_AGE = YEAR           # 정답 전 출연 비율은 '처음 선 지 1년 넘은 팀'만 센다(정답 받을 시간)
 
 Gig = Tuple[str, date, str]
 
@@ -61,6 +70,18 @@ def load_cities(path: Path = CITIES) -> Dict[str, str]:
         if name and city:
             out[name] = city
     return out
+
+
+def load_geo(names: Iterable[str], path: Path = CITIES) -> Dict[str, dict]:
+    """우리 공연장 이름 → 마스터 목록(config/venues_kr.json)의 좌표·확실도·도시. 짝짓기는 venues_kr 와 같은 규칙
+    (our_names 정확히 → 이름·별칭 정규화 키). 짝이 없으면 빠지고, 짝은 있는데 좌표가 없으면 lat·lon = None."""
+    master = (vk.load_json(path, {}) or {}).get("venues", [])
+    if not isinstance(master, list):
+        return {}
+    match = vk.match_our_venues(master, list(names))
+    return {n: {"lat": master[i].get("lat"), "lon": master[i].get("lon"),
+                "geo_confidence": master[i].get("geo_confidence"), "city": master[i].get("city") or ""}
+            for n, i in match.items()}
 
 
 def _read_csv(path: Path) -> List[dict]:
@@ -109,7 +130,7 @@ def first_counted_outcome(outcomes: Iterable[dict]) -> Dict[str, dict]:
 
 def build_profiles(gigs: Sequence[Gig], teams: Dict[str, str], outcomes: Sequence[dict],
                    snapshot: Dict[str, Tuple[int, float]], cfg: dict, cities: Dict[str, str],
-                   as_of: date) -> Dict[str, dict]:
+                   as_of: date, geo: Optional[Dict[str, dict]] = None) -> Dict[str, dict]:
     skip = vl.not_venues(cfg)
     rows = [g for g in gigs if g[2] not in skip and g[2] not in SKIP]
     past = [g for g in rows if g[1] <= as_of]
@@ -123,11 +144,47 @@ def build_profiles(gigs: Sequence[Gig], teams: Dict[str, str], outcomes: Sequenc
     by_venue: Dict[str, List[Tuple[str, date]]] = defaultdict(list)
     for t, d, v in past:
         by_venue[v].append((t, d))
+    geo = geo or {}
     out = {}
     for v, items in by_venue.items():
-        out[v] = _profile(v, items, caps.get(v, {}), cities.get(v, ""), first_gig, first_out, snapshot, teams,
-                          journey.get(v, {"before": [], "after": []}), upcoming.get(v, 0), as_of)
-    return out
+        g = geo.get(v, {})
+        prof = _profile(v, items, caps.get(v, {}), cities.get(v) or g.get("city", ""), first_gig, first_out,
+                        snapshot, teams, journey.get(v, {"before": [], "after": []}), upcoming.get(v, 0), as_of)
+        out[v] = {**prof, "lat": g.get("lat"), "lon": g.get("lon"), "geo_confidence": g.get("geo_confidence")}
+    prior_new, prior_win = discovery_priors(out)
+    return {v: {**p, "discovery": discovery_block({**p, **p["discovery"]}, prior_new, prior_win)}
+            for v, p in out.items()}
+
+
+def discovery_priors(profiles: Dict[str, dict]) -> Tuple[float, float]:
+    """전체 평균(모든 공연장을 합친 비율): (첫 출연 신인 / 최근 1년 팀, 정답 전 출연 / 처음 선 지 1년 넘은 팀)."""
+    teams = sum(p["teams_1y"] for p in profiles.values())
+    new = sum(p["first_timers_1y"] for p in profiles.values())
+    base = sum(p["discovery"]["winner_base"] for p in profiles.values())
+    hits = sum(p["discovery"]["winner_hits"] for p in profiles.values())
+    return (new / teams if teams else 0.0), (hits / base if base else 0.0)
+
+
+def discovery_block(raw: dict, prior_new: float, prior_win: float) -> dict:
+    """발굴 주목도 0~100 = 100 × (활동 × 첫 출연 신인 비율 × 정답 만점 비율)^(1/3).
+    세 값을 곱한 것과 순서가 같고(세제곱근은 순서를 안 바꿈) 0~100으로 읽기 쉽게 한 것.
+    - 활동 = log(1 + 최근 12개월 공연일) / log(1 + 365), 1이 상한
+    - 첫 출연 신인 비율 = (첫 출연 팀 + 10 × 전체 평균) / (최근 1년 팀 + 10)  ← 팀 적은 곳은 평균 쪽으로
+    - 정답 전 출연 비율 = (정답 전에 선 팀 + 10 × 전체 평균) / (처음 선 지 1년 넘은 팀 + 10), 10%면 만점
+    최근 12개월 공연이 없으면 점수 None(빈칸)."""
+    k = DISCOVERY_PRIOR_TEAMS
+    n12, teams, new = raw["nights_12m"], raw["teams_1y"], raw["first_timers_1y"]
+    base, hits = raw["winner_base"], raw["winner_hits"]
+    activity = min(1.0, math.log1p(n12) / math.log1p(DISCOVERY_FULL_NIGHTS))
+    newcomer_adj = (new + k * prior_new) / (teams + k)
+    winner_adj = (hits + k * prior_win) / (base + k)
+    winner_norm = min(1.0, winner_adj / DISCOVERY_FULL_WINNER)
+    score = round(100 * (activity * newcomer_adj * winner_norm) ** (1 / 3), 1) if n12 else None
+    return {"score": score, "nights_12m": n12, "activity": round(activity, 4),
+            "newcomer_share": round(new / teams, 4) if teams else None, "newcomer_adj": round(newcomer_adj, 4),
+            "winner_base": base, "winner_hits": hits,
+            "winner_share": round(hits / base, 4) if base else None, "winner_adj": round(winner_adj, 4),
+            "winner_norm": round(winner_norm, 4)}
 
 
 def _profile(v: str, items: List[Tuple[str, date]], cap: dict, city: str, first_gig: Dict[str, Tuple[date, str]],
@@ -151,6 +208,9 @@ def _profile(v: str, items: List[Tuple[str, date]], cap: dict, city: str, first_
                             "outcome_date": o["announced_date"].isoformat(),
                             "lead_months": _months_between(d0, o["announced_date"])})
     winners.sort(key=lambda w: (w["outcome_date"], w["team_key"]), reverse=True)
+    old_enough = as_of - WINNER_MIN_AGE
+    winner_base = {t for t, d0 in first_here.items() if d0 <= old_enough}
+    winner_hits = {w["team_key"] for w in winners if w["team_key"] in winner_base}
     since = date(as_of.year - CANDIDATE_LOOKBACK_YEARS, as_of.month, as_of.day)
     cands = sorted((t for t in last_here if t in snapshot and last_here[t] >= since), key=lambda t: snapshot[t][0])
     return {
@@ -165,6 +225,8 @@ def _profile(v: str, items: List[Tuple[str, date]], cap: dict, city: str, first_
                             "last_here": last_here[t].isoformat()} for t in cands[:TOP_CANDIDATES]],
         "before": [[u, c] for u, c in journey["before"][:TOP_FLOW]],
         "after": [[u, c] for u, c in journey["after"][:TOP_FLOW]],
+        "discovery": {"nights_12m": sum(1 for d in nights if d > year_ago),
+                      "winner_base": len(winner_base), "winner_hits": len(winner_hits)},
     }
 
 
@@ -175,7 +237,13 @@ def payload(profiles: Dict[str, dict], as_of: date) -> dict:
                       "later_winners": "센 정답 첫 발표일보다 먼저 이 공연장에 선 팀",
                       "first_timers_1y": "최근 1년 이 공연장에 선 팀 중 우리 데이터의 첫 공연이 여기였던 팀",
                       "top_candidates": f"최근 {CANDIDATE_LOOKBACK_YEARS}년 이 공연장에 선 팀 중 최신 점수 순위 상위",
-                      "before_after": "이 공연장에 처음 선 팀들이 그 전 1년에 선 곳 / 그 뒤 1년에 처음 선 곳 (팀 수, 페스티벌 제외)"},
+                      "before_after": "이 공연장에 처음 선 팀들이 그 전 1년에 선 곳 / 그 뒤 1년에 처음 선 곳 (팀 수, 페스티벌 제외)",
+                      "discovery": "발굴 주목도 0~100(정렬용, 후보 점수엔 안 씀) = 100 × (활동 × 첫 출연 신인 비율 × 정답 전 출연 "
+                                   "비율 정규화)^(1/3). 활동 = log(1+최근 12개월 공연일)/log(366), 비율은 팀 10명분만큼 전체 평균 쪽으로 "
+                                   "당김, 정답 전 출연은 처음 선 지 1년 넘은 팀 중 정답 발표 전에 선 팀(10%면 만점). "
+                                   "최근 12개월 공연이 없으면 빈칸. docs/methods.md '공연장 발굴 주목도'",
+                      "geo": "lat·lon·geo_confidence = config/venues_kr.json 좌표(OpenStreetMap Nominatim, "
+                             "high 건물 · medium 도로 · low 이름 검색). 없으면 null"},
             "venues": {v: profiles[v] for v in order}}
 
 
@@ -184,9 +252,14 @@ def summary(profiles: Dict[str, dict]) -> str:
     with_tier = sum(1 for p in profiles.values() if p["tier"])
     with_city = sum(1 for p in profiles.values() if p["city"])
     with_win = sum(1 for p in profiles.values() if p["later_winners_total"])
+    with_geo = sum(1 for p in profiles.values() if p.get("lat") is not None)
+    scored = sorted(((p["discovery"]["score"], v) for v, p in profiles.items() if p["discovery"]["score"] is not None),
+                    reverse=True)
     top = sorted(profiles.items(), key=lambda kv: -kv[1]["later_winners_total"])[:5]
-    return (f"공연장 {n}곳 · 체급 있음 {with_tier} · 도시 있음 {with_city} · 나중 정답 팀이 선 곳 {with_win}\n"
-            "나중 정답 팀 많은 곳: " + ", ".join(f"{v} {p['later_winners_total']}" for v, p in top))
+    return (f"공연장 {n}곳 · 체급 있음 {with_tier} · 도시 있음 {with_city} · 좌표 있음 {with_geo} · "
+            f"나중 정답 팀이 선 곳 {with_win}\n"
+            "나중 정답 팀 많은 곳: " + ", ".join(f"{v} {p['later_winners_total']}" for v, p in top) + "\n"
+            f"발굴 주목도 (점수 있는 곳 {len(scored)}) 상위: " + ", ".join(f"{v} {s}" for s, v in scored[:8]))
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
@@ -197,7 +270,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ap.add_argument("--out", type=Path, default=OUT)
     args = ap.parse_args(argv)
     gigs, teams, outcomes, snap, as_of = load_lab(args.data_dir)
-    prof = build_profiles(gigs, teams, outcomes, snap, vl.load_config(args.config), load_cities(args.cities), as_of)
+    geo = load_geo({v for _, _, v in gigs}, args.cities)
+    prof = build_profiles(gigs, teams, outcomes, snap, vl.load_config(args.config), load_cities(args.cities), as_of,
+                          geo=geo)
     args.out.write_text(json.dumps(payload(prof, as_of), ensure_ascii=False, separators=(",", ":")) + "\n",
                         encoding="utf-8")
     print(summary(prof))

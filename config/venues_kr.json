@@ -48,7 +48,12 @@
    "checked": "2026-11-27",
    "our_venue": "A.O.R",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.55482,
+   "lon": 126.930337,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "ACS",
@@ -80,7 +85,12 @@
    "checked": "2026-11-27",
    "our_venue": "ACS",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.562687,
+   "lon": 126.990521,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "ASTRA Live",
@@ -104,7 +114,12 @@
    "our_venue": null,
    "in_our_data": false,
    "status_note": "인디고 최근 공연 2026-10-09 (2026-11-27 확인)",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.555206,
+   "lon": 126.91904,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "Bender",
@@ -132,7 +147,12 @@
    "checked": "2026-11-27",
    "our_venue": "Bender",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.550092,
+   "lon": 126.923372,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "CJ아지트 광흥창",
@@ -171,7 +191,12 @@
    "checked": "2026-11-27",
    "our_venue": "CJ아지트 광흥창",
    "in_our_data": true,
-   "type_basis": "스탠딩 수용 250명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
+   "type_basis": "스탠딩 수용 250명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.544257,
+   "lon": 126.930347,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "Cafe PPnF",
@@ -194,7 +219,12 @@
    "checked": "2026-11-27",
    "our_venue": "Cafe PPnF",
    "in_our_data": true,
-   "type_basis": "이름 'Cafe PPnF'에 'Cafe' → 카페·바"
+   "type_basis": "이름 'Cafe PPnF'에 'Cafe' → 카페·바",
+   "geo_checked": "2026-11-27",
+   "lat": 37.589976,
+   "lon": 126.998288,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "Club FF",
@@ -239,7 +269,12 @@
    "checked": "2026-11-27",
    "our_venue": "Club FF",
    "in_our_data": true,
-   "type_basis": "이름 'Club FF'에 'Club' → 라이브클럽"
+   "type_basis": "이름 'Club FF'에 'Club' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.550236,
+   "lon": 126.922334,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "Club Sharp",
@@ -283,7 +318,12 @@
    "checked": "2026-11-27",
    "our_venue": "Club Sharp",
    "in_our_data": true,
-   "type_basis": "이름 'Club Sharp'에 'Club' → 라이브클럽"
+   "type_basis": "이름 'Club Sharp'에 'Club' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.553522,
+   "lon": 126.909302,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "Club Victim",
@@ -329,7 +369,12 @@
    "checked": "2026-11-27",
    "our_venue": "Club Victim",
    "in_our_data": true,
-   "type_basis": "이름 'Club Victim'에 'Club' → 라이브클럽"
+   "type_basis": "이름 'Club Victim'에 'Club' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.549261,
+   "lon": 126.922868,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "Club 빵",
@@ -375,7 +420,12 @@
    "checked": "2026-11-27",
    "our_venue": "Club 빵",
    "in_our_data": true,
-   "type_basis": "이름 'Club 빵'에 'Club' → 라이브클럽"
+   "type_basis": "이름 'Club 빵'에 'Club' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.554761,
+   "lon": 126.929362,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "DGT아트센터",
@@ -398,7 +448,12 @@
    "checked": "2026-11-27",
    "our_venue": "DGT아트센터",
    "in_our_data": true,
-   "type_basis": "이름 'DGT아트센터'에 '아트센터' → 홀·공연장"
+   "type_basis": "이름 'DGT아트센터'에 '아트센터' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.543639,
+   "lon": 126.946866,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "GB가빈아트홀",
@@ -426,7 +481,12 @@
    "checked": "2026-11-27",
    "our_venue": "GB가빈아트홀",
    "in_our_data": true,
-   "type_basis": "이름 'GB가빈아트홀'에 '아트홀' → 홀·공연장"
+   "type_basis": "이름 'GB가빈아트홀'에 '아트홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.509678,
+   "lon": 127.055536,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "Hukez",
@@ -454,7 +514,12 @@
    "checked": "2026-11-27",
    "our_venue": "Hukez",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.5119,
+   "lon": 126.893143,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "H스테이지",
@@ -477,7 +542,12 @@
    "checked": "2026-11-27",
    "our_venue": "H스테이지",
    "in_our_data": true,
-   "type_basis": "이름 'H스테이지'에 '스테이지' → 라이브클럽"
+   "type_basis": "이름 'H스테이지'에 '스테이지' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.553104,
+   "lon": 126.924358,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "KSPO DOME",
@@ -502,7 +572,12 @@
    "in_our_data": false,
    "mainstream": true,
    "status_note": "인디고 최근 공연 2026-09-26 (2026-11-27 확인)",
-   "type_basis": "이름 'KSPO DOME'에 'DOME' → 홀·공연장"
+   "type_basis": "이름 'KSPO DOME'에 'DOME' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.498194,
+   "lon": 126.867073,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "KT&G 상상마당 대치 아트홀",
@@ -541,7 +616,8 @@
    "checked": "2026-11-27",
    "our_venue": "아트홀",
    "in_our_data": true,
-   "type_basis": "이름 'KT&G 상상마당 대치 아트홀'에 '아트홀' → 홀·공연장"
+   "type_basis": "이름 'KT&G 상상마당 대치 아트홀'에 '아트홀' → 홀·공연장",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "KT&G 상상마당 홍대 라이브홀",
@@ -585,7 +661,12 @@
    "checked": "2026-11-27",
    "our_venue": "라이브홀",
    "in_our_data": true,
-   "type_basis": "이름 'KT&G 상상마당 홍대 라이브홀'에 '라이브홀' → 홀·공연장"
+   "type_basis": "이름 'KT&G 상상마당 홍대 라이브홀'에 '라이브홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.550989,
+   "lon": 126.921068,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "NOL 씨어터 합정",
@@ -621,7 +702,12 @@
    "in_our_data": true,
    "indiego_url": "https://www.indiego.co.kr/venues/137-nol-%EC%94%A8%EC%96%B4%ED%84%B0-%ED%95%A9%EC%A0%95-%EB%8F%99%EC%96%91%EC%83%9D%EB%AA%85%ED%99%80",
    "indiego_past": 1,
-   "type_basis": "이름 'NOL 씨어터 합정'에 '씨어터' → 소극장"
+   "type_basis": "이름 'NOL 씨어터 합정'에 '씨어터' → 소극장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.55024,
+   "lon": 126.913962,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "SMALL FRY",
@@ -644,7 +730,12 @@
    "checked": "2026-11-27",
    "our_venue": "SMALL FRY",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.561318,
+   "lon": 127.00623,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "SPACE SODA2002",
@@ -672,7 +763,12 @@
    "checked": "2026-11-27",
    "our_venue": "SPACE SODA2002",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.549983,
+   "lon": 126.90508,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "SPIN AND GRIND",
@@ -700,7 +796,12 @@
    "checked": "2026-11-27",
    "our_venue": "SPIN AND GRIND",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.558944,
+   "lon": 126.93877,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "THILA",
@@ -723,7 +824,12 @@
    "our_venue": null,
    "in_our_data": false,
    "status_note": "공연장 인스타 최근 글 2026-11-25 (2026-11-27 확인)",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.545293,
+   "lon": 126.924448,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "TILT",
@@ -751,7 +857,12 @@
    "checked": "2026-11-27",
    "our_venue": "TILT",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.55986,
+   "lon": 126.925518,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "XSCALA(엑스칼라)",
@@ -774,7 +885,12 @@
    "checked": "2026-11-27",
    "our_venue": "XSCALA(엑스칼라)",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.560374,
+   "lon": 126.979601,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "감마홀",
@@ -808,7 +924,12 @@
    "checked": "2026-11-27",
    "our_venue": "감마홀",
    "in_our_data": true,
-   "type_basis": "이름 '감마홀'에 '홀' → 홀·공연장"
+   "type_basis": "이름 '감마홀'에 '홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.551919,
+   "lon": 126.922868,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "거암아트홀",
@@ -831,7 +952,12 @@
    "checked": "2026-11-27",
    "our_venue": "거암아트홀",
    "in_our_data": true,
-   "type_basis": "이름 '거암아트홀'에 '아트홀' → 홀·공연장"
+   "type_basis": "이름 '거암아트홀'에 '아트홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.51994,
+   "lon": 127.01906,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "고고스2",
@@ -855,7 +981,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "근거 메모 '2016 기사(라이브클럽데이) — 지금 운영 여부 확인 필요'에 '라이브클럽' → 라이브클럽"
+   "type_basis": "근거 메모 '2016 기사(라이브클럽데이) — 지금 운영 여부 확인 필요'에 '라이브클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "고라니특공대",
@@ -879,7 +1006,12 @@
    "our_venue": null,
    "in_our_data": false,
    "status_note": "인디고 최근 공연 2026-10-05 (2026-11-27 확인)",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.544869,
+   "lon": 126.925819,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "고요의 방",
@@ -913,7 +1045,12 @@
    "checked": "2026-11-27",
    "our_venue": "고요의 방",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.555208,
+   "lon": 126.929152,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "공공일클럽",
@@ -959,7 +1096,12 @@
    "in_our_data": true,
    "indiego_url": "https://www.indiego.co.kr/venues/179-001-%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%99%80",
    "indiego_past": 1,
-   "type_basis": "이름 '공공일클럽'에 '클럽' → 라이브클럽"
+   "type_basis": "이름 '공공일클럽'에 '클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.551014,
+   "lon": 126.92401,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "공상온도",
@@ -993,7 +1135,12 @@
    "checked": "2026-11-27",
    "our_venue": "공상온도",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.557667,
+   "lon": 126.919799,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "공중캠프",
@@ -1016,7 +1163,12 @@
    "our_venue": null,
    "in_our_data": false,
    "status_note": "공연장 인스타 최근 글 2026-11-26 (2026-11-27 확인)",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.554303,
+   "lon": 126.929857,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "구름아래소극장",
@@ -1054,7 +1206,12 @@
    "checked": "2026-11-27",
    "our_venue": "구름아래소극장",
    "in_our_data": true,
-   "type_basis": "이름 '구름아래소극장'에 '소극장' → 소극장"
+   "type_basis": "이름 '구름아래소극장'에 '소극장' → 소극장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.554171,
+   "lon": 126.928602,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "그림라이브하우스",
@@ -1082,7 +1239,12 @@
    "checked": "2026-11-27",
    "our_venue": "그림라이브하우스",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.563559,
+   "lon": 126.929619,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "긱 라이브 하우스",
@@ -1110,7 +1272,12 @@
    "checked": "2026-11-27",
    "our_venue": "긱 라이브 하우스",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.556381,
+   "lon": 126.932033,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "꿀약과홀",
@@ -1138,7 +1305,12 @@
    "checked": "2026-11-27",
    "our_venue": "꿀약과홀",
    "in_our_data": true,
-   "type_basis": "이름 '꿀약과홀'에 '홀' → 홀·공연장"
+   "type_basis": "이름 '꿀약과홀'에 '홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.549017,
+   "lon": 126.921185,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "노무현시민센터 다목적홀 '가치하다'",
@@ -1166,7 +1338,12 @@
    "checked": "2026-11-27",
    "our_venue": "노무현시민센터 다목적홀 '가치하다'",
    "in_our_data": true,
-   "type_basis": "이름 '노무현시민센터 다목적홀 '가치하다''에 '홀 ' → 홀·공연장"
+   "type_basis": "이름 '노무현시민센터 다목적홀 '가치하다''에 '홀 ' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.582218,
+   "lon": 126.989479,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "더 마스카니",
@@ -1196,7 +1373,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "더비틀즈 라이브펍",
@@ -1219,7 +1397,12 @@
    "checked": "2026-11-27",
    "our_venue": "더비틀즈 라이브펍",
    "in_our_data": true,
-   "type_basis": "이름 '더비틀즈 라이브펍'에 '펍' → 카페·바"
+   "type_basis": "이름 '더비틀즈 라이브펍'에 '펍' → 카페·바",
+   "geo_checked": "2026-11-27",
+   "lat": 37.536803,
+   "lon": 127.000018,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "둘 스튜디오",
@@ -1254,7 +1437,12 @@
    "merge_note": "인디고 '둘 스튜디오'(마포구 잔다리로 20)에 2026-11-01 '2026 LALALAON' 공연 — 라랄라온 보도의 Tool Studio(11-01, 바비핀즈 등)와 같은 날·같은 행사",
    "instagram": "dule_studio",
    "status_note": "인디고 최근 공연 2026-11-01 (2026-11-27 확인)",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.55099,
+   "lon": 126.920863,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "드림씨어터 라이브홀",
@@ -1277,7 +1465,8 @@
    "our_venue": null,
    "in_our_data": false,
    "status_note": "공연장 인스타 최근 글 2026-11-24 (2026-11-27 확인)",
-   "type_basis": "이름 '드림씨어터 라이브홀'에 '라이브홀' → 홀·공연장"
+   "type_basis": "이름 '드림씨어터 라이브홀'에 '라이브홀' → 홀·공연장",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "드림홀",
@@ -1305,7 +1494,12 @@
    "checked": "2026-11-27",
    "our_venue": "드림홀",
    "in_our_data": true,
-   "type_basis": "이름 '드림홀'에 '홀' → 홀·공연장"
+   "type_basis": "이름 '드림홀'에 '홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.550387,
+   "lon": 126.91583,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "디앤디",
@@ -1333,7 +1527,12 @@
    "checked": "2026-11-27",
    "our_venue": "디앤디",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.558541,
+   "lon": 126.934129,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "라디오가가",
@@ -1367,7 +1566,12 @@
    "checked": "2026-11-27",
    "our_venue": "라디오가가",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.552296,
+   "lon": 126.913833,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "라이브앤라우드",
@@ -1401,7 +1605,12 @@
    "checked": "2026-11-27",
    "our_venue": "라이브앤라우드",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.55753,
+   "lon": 126.922442,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "레드포인트",
@@ -1434,7 +1643,12 @@
    "checked": "2026-11-27",
    "our_venue": "레드포인트",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.563229,
+   "lon": 127.022056,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "레진코믹스 브이홀",
@@ -1459,7 +1673,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이름 '레진코믹스 브이홀'에 '홀' → 홀·공연장"
+   "type_basis": "이름 '레진코믹스 브이홀'에 '홀' → 홀·공연장",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "롤러코스터",
@@ -1482,7 +1697,12 @@
    "checked": "2026-11-27",
    "our_venue": "롤러코스터",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.555555,
+   "lon": 126.918349,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "롤링홀",
@@ -1520,7 +1740,12 @@
    "checked": "2026-11-27",
    "our_venue": "롤링홀",
    "in_our_data": true,
-   "type_basis": "이름 '롤링홀'에 '홀' → 홀·공연장"
+   "type_basis": "이름 '롤링홀'에 '홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.54853,
+   "lon": 126.920125,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "마더스 오피스",
@@ -1553,7 +1778,8 @@
    "checked": "2026-11-27",
    "our_venue": "마더스 오피스",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "마포 뮤지스탕스 (마포 음악창작소)",
@@ -1584,7 +1810,8 @@
    "our_venue": null,
    "in_our_data": false,
    "status_note": "이름이 서울마포음악창작소(구 뮤지스땅스)로 바뀜 — 2026-08~10 정기 공연 'LP 한 잔' 안내",
-   "type_basis": "이름 '마포 뮤지스탕스 (마포 음악창작소)'에 '뮤지스탕스' → 창작소·지원 시설"
+   "type_basis": "이름 '마포 뮤지스탕스 (마포 음악창작소)'에 '뮤지스탕스' → 창작소·지원 시설",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "마포아트센터",
@@ -1609,7 +1836,12 @@
    "our_venue": null,
    "in_our_data": false,
    "mainstream": true,
-   "type_basis": "이름 '마포아트센터'에 '아트센터' → 홀·공연장"
+   "type_basis": "이름 '마포아트센터'에 '아트센터' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.549808,
+   "lon": 126.945489,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "명화 라이브홀",
@@ -1637,7 +1869,8 @@
    "our_venue": "명화라이브홀",
    "in_our_data": true,
    "mainstream": true,
-   "type_basis": "이름 '명화 라이브홀'에 '라이브홀' → 홀·공연장"
+   "type_basis": "이름 '명화 라이브홀'에 '라이브홀' → 홀·공연장",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "모래내 극락",
@@ -1671,7 +1904,12 @@
    "checked": "2026-11-27",
    "our_venue": "모래내 극락",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.569955,
+   "lon": 126.914692,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "모비딕",
@@ -1694,7 +1932,12 @@
    "checked": "2026-11-27",
    "our_venue": "모비딕",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.53676,
+   "lon": 127.13987,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "몬스터펍",
@@ -1722,7 +1965,12 @@
    "checked": "2026-11-27",
    "our_venue": "몬스터펍",
    "in_our_data": true,
-   "type_basis": "이름 '몬스터펍'에 '펍' → 카페·바"
+   "type_basis": "이름 '몬스터펍'에 '펍' → 카페·바",
+   "geo_checked": "2026-11-27",
+   "lat": 37.555985,
+   "lon": 126.92677,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "몽향 라이브홀",
@@ -1756,7 +2004,12 @@
    "checked": "2026-11-27",
    "our_venue": "몽향 라이브홀",
    "in_our_data": true,
-   "type_basis": "이름 '몽향 라이브홀'에 '라이브홀' → 홀·공연장"
+   "type_basis": "이름 '몽향 라이브홀'에 '라이브홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.556511,
+   "lon": 126.93504,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "무대륙",
@@ -1790,7 +2043,12 @@
    "checked": "2026-11-27",
    "our_venue": "무대륙",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.545979,
+   "lon": 126.91841,
+   "geo_confidence": "high",
+   "geo_method": "name+address"
   },
   {
    "name": "무신사 개러지",
@@ -1830,7 +2088,12 @@
    "checked": "2026-11-27",
    "our_venue": "무신사개러지",
    "in_our_data": true,
-   "type_basis": "수용 인원 550명(venue_capacity 확인값) — 401명 이상은 홀"
+   "type_basis": "수용 인원 550명(venue_capacity 확인값) — 401명 이상은 홀",
+   "geo_checked": "2026-11-27",
+   "lat": 37.551617,
+   "lon": 126.919794,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "문화비축기지",
@@ -1855,7 +2118,12 @@
    "in_our_data": false,
    "mainstream": true,
    "status_note": "인디고 최근 공연 2026-09-05 (2026-11-27 확인)",
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27",
+   "lat": 37.57159,
+   "lon": 126.893777,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "뮤즈라이브",
@@ -1876,7 +2144,12 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27",
+   "lat": 37.57015,
+   "lon": 127.069565,
+   "geo_confidence": "low",
+   "geo_method": "name"
   },
   {
    "name": "바이너리 스튜디오",
@@ -1899,7 +2172,12 @@
    "checked": "2026-11-27",
    "our_venue": "바이너리 스튜디오",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.55737,
+   "lon": 126.905022,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "베이비돌",
@@ -1933,7 +2211,12 @@
    "checked": "2026-11-27",
    "our_venue": "베이비돌",
    "in_our_data": true,
-   "type_basis": "스탠딩 수용 200명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
+   "type_basis": "스탠딩 수용 200명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.558863,
+   "lon": 126.931299,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "베짱이홀",
@@ -1956,7 +2239,12 @@
    "checked": "2026-11-27",
    "our_venue": "베짱이홀",
    "in_our_data": true,
-   "type_basis": "이름 '베짱이홀'에 '홀' → 홀·공연장"
+   "type_basis": "이름 '베짱이홀'에 '홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.548494,
+   "lon": 126.921522,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "벨로주 홍대",
@@ -1999,7 +2287,12 @@
    "checked": "2026-11-27",
    "our_venue": "벨로주 홍대",
    "in_our_data": true,
-   "type_basis": "스탠딩 수용 200명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
+   "type_basis": "스탠딩 수용 200명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.552373,
+   "lon": 126.918814,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "벨르",
@@ -2033,7 +2326,12 @@
    "checked": "2026-11-27",
    "our_venue": "벨르",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.552373,
+   "lon": 126.918814,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "블루스퀘어",
@@ -2062,7 +2360,12 @@
    "in_our_data": false,
    "mainstream": true,
    "status_note": "인디고 최근 공연 2026-11-20 (2026-11-27 확인)",
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27",
+   "lat": 37.540904,
+   "lon": 127.002581,
+   "geo_confidence": "low",
+   "geo_method": "name"
   },
   {
    "name": "사운드독 재즈",
@@ -2091,7 +2394,8 @@
    "our_venue": null,
    "in_our_data": false,
    "instagram": "sounddog_jazz",
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "사운드마인드",
@@ -2136,7 +2440,12 @@
    "checked": "2026-11-27",
    "our_venue": "사운드마인드",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.477292,
+   "lon": 126.958759,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "사운드시티 합정 라이브룸",
@@ -2164,7 +2473,12 @@
    "checked": "2026-11-27",
    "our_venue": "사운드시티 합정 라이브룸",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.551513,
+   "lon": 126.919251,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "살롱 문보우",
@@ -2204,7 +2518,12 @@
    "checked": "2026-11-27",
    "our_venue": "살롱문보우",
    "in_our_data": true,
-   "type_basis": "이름 '살롱 문보우'에 '살롱' → 카페·바"
+   "type_basis": "이름 '살롱 문보우'에 '살롱' → 카페·바",
+   "geo_checked": "2026-11-27",
+   "lat": 37.554107,
+   "lon": 126.914352,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "생기스튜디오",
@@ -2242,7 +2561,12 @@
    "checked": "2026-11-27",
    "our_venue": "생기스튜디오",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.553885,
+   "lon": 126.928731,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "서강대학교 메리홀 대극장",
@@ -2265,7 +2589,12 @@
    "checked": "2026-11-27",
    "our_venue": "서강대학교 메리홀 대극장",
    "in_our_data": true,
-   "type_basis": "이름 '서강대학교 메리홀 대극장'에 '홀 ' → 홀·공연장"
+   "type_basis": "이름 '서강대학교 메리홀 대극장'에 '홀 ' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.552091,
+   "lon": 126.940988,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "서브라이엇 해방촌",
@@ -2306,7 +2635,12 @@
    "our_venue": "서브라이엇 해방촌",
    "in_our_data": true,
    "merge_note": "같은 공간: 더 스튜디오 HBC(2024년 말 폐업) → 새 운영자가 서브라이엇(Subriot)으로 2025-02 재개장 (Korea Times 2025-02)",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.543208,
+   "lon": 126.985983,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "서울 노들섬 라이브하우스",
@@ -2341,7 +2675,12 @@
    "in_our_data": true,
    "indiego_url": "https://www.indiego.co.kr/venues/125-%EB%85%B8%EB%93%A4%EC%84%AC%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%95%98%EC%9A%B0%EC%8A%A4",
    "indiego_past": 3,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.518149,
+   "lon": 126.958218,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "서울스트리밍스테이션",
@@ -2369,7 +2708,12 @@
    "checked": "2026-11-27",
    "our_venue": "서울스트리밍스테이션",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.503806,
+   "lon": 127.029096,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "석촌호수 아뜰리에",
@@ -2397,7 +2741,12 @@
    "checked": "2026-11-27",
    "our_venue": "석촌호수 아뜰리에",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.506807,
+   "lon": 127.098225,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "성우레더스테이지",
@@ -2425,7 +2774,12 @@
    "checked": "2026-11-27",
    "our_venue": "성우레더스테이지",
    "in_our_data": true,
-   "type_basis": "이름 '성우레더스테이지'에 '스테이지' → 라이브클럽"
+   "type_basis": "이름 '성우레더스테이지'에 '스테이지' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.541176,
+   "lon": 127.059527,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "세티 라이브홀",
@@ -2451,7 +2805,12 @@
    "our_venue": null,
    "in_our_data": false,
    "status_note": "2026-10 공연 일정(천체관측 vol.17 등) 확인",
-   "type_basis": "이름 '세티 라이브홀'에 '라이브홀' → 홀·공연장"
+   "type_basis": "이름 '세티 라이브홀'에 '라이브홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.55227,
+   "lon": 126.922107,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "수상한창고",
@@ -2480,7 +2839,12 @@
    "checked": "2026-11-27",
    "our_venue": "수상한창고",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.450666,
+   "lon": 126.908716,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "숲세권",
@@ -2504,7 +2868,8 @@
    "our_venue": null,
    "in_our_data": false,
    "status_note": "인디고 최근 공연 2026-09-20 (2026-11-27 확인)",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "숲세권 라이브 카인드스퀘어점",
@@ -2532,7 +2897,12 @@
    "checked": "2026-11-27",
    "our_venue": "숲세권 라이브 카인드스퀘어점",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.573008,
+   "lon": 126.964838,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "쉬바펍",
@@ -2560,7 +2930,12 @@
    "checked": "2026-11-27",
    "our_venue": "쉬바펍",
    "in_our_data": true,
-   "type_basis": "이름 '쉬바펍'에 '펍' → 카페·바"
+   "type_basis": "이름 '쉬바펍'에 '펍' → 카페·바",
+   "geo_checked": "2026-11-27",
+   "lat": 37.559279,
+   "lon": 126.938396,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "스컹크 신당",
@@ -2595,7 +2970,8 @@
    ],
    "instagram": "skunk_sindang",
    "merge_note": "인디스트릿 공연장 페이지 인스타가 @skunk_sindang — 우리 데이터의 SKUNK와 같은 곳",
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "스튜디오산보",
@@ -2618,7 +2994,12 @@
    "checked": "2026-11-27",
    "our_venue": "스튜디오산보",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.523377,
+   "lon": 126.996912,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "스트레인지 프룻",
@@ -2662,7 +3043,12 @@
    "checked": "2026-11-27",
    "our_venue": "스트레인지 프룻",
    "in_our_data": true,
-   "type_basis": "스탠딩 수용 80명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
+   "type_basis": "스탠딩 수용 80명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.556265,
+   "lon": 126.926788,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "스팀펑크락",
@@ -2696,7 +3082,12 @@
    "checked": "2026-11-27",
    "our_venue": "스팀펑크락",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.55846,
+   "lon": 126.936083,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "스페이스 한강",
@@ -2736,7 +3127,12 @@
    "checked": "2026-11-27",
    "our_venue": "스페이스 한강",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.553318,
+   "lon": 126.927633,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "스페이스브릭",
@@ -2774,7 +3170,12 @@
    "checked": "2026-11-27",
    "our_venue": "스페이스브릭",
    "in_our_data": true,
-   "type_basis": "스탠딩 수용 350명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
+   "type_basis": "스탠딩 수용 350명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.551279,
+   "lon": 126.919498,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "신도시",
@@ -2814,7 +3215,12 @@
    "checked": "2026-11-27",
    "our_venue": "신도시",
    "in_our_data": true,
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27",
+   "lat": 37.565651,
+   "lon": 126.991264,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "씨스퀘어",
@@ -2842,7 +3248,12 @@
    "checked": "2026-11-27",
    "our_venue": "씨스퀘어",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.503837,
+   "lon": 127.066498,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "아메노히커피점",
@@ -2870,7 +3281,8 @@
    "checked": "2026-11-27",
    "our_venue": "아메노히커피점",
    "in_our_data": true,
-   "type_basis": "이름 '아메노히커피점'에 '커피' → 카페·바"
+   "type_basis": "이름 '아메노히커피점'에 '커피' → 카페·바",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "아수",
@@ -2893,7 +3305,12 @@
    "checked": "2026-11-27",
    "our_venue": "아수",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.620662,
+   "lon": 126.915994,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "아지토 라이브 홀",
@@ -2927,7 +3344,12 @@
    "checked": "2026-11-27",
    "our_venue": "아지토 라이브 홀",
    "in_our_data": true,
-   "type_basis": "이름 '아지토 라이브 홀'에 '라이브 홀' → 홀·공연장"
+   "type_basis": "이름 '아지토 라이브 홀'에 '라이브 홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.557821,
+   "lon": 126.942567,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "언더시티",
@@ -2960,7 +3382,12 @@
    "checked": "2026-11-27",
    "our_venue": "언더시티",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.543148,
+   "lon": 127.063907,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "언플러그드 라운지",
@@ -2994,7 +3421,12 @@
    "checked": "2026-11-27",
    "our_venue": "언플러그드 라운지",
    "in_our_data": true,
-   "type_basis": "이름 '언플러그드 라운지'에 '라운지' → 카페·바"
+   "type_basis": "이름 '언플러그드 라운지'에 '라운지' → 카페·바",
+   "geo_checked": "2026-11-27",
+   "lat": 37.554881,
+   "lon": 126.928896,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "얼라이브홀",
@@ -3038,7 +3470,12 @@
    "checked": "2026-11-27",
    "our_venue": "얼라이브홀",
    "in_our_data": true,
-   "type_basis": "이름 '얼라이브홀'에 '라이브홀' → 홀·공연장"
+   "type_basis": "이름 '얼라이브홀'에 '라이브홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.548703,
+   "lon": 126.919163,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "에반스라운지",
@@ -3071,7 +3508,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이름 '에반스라운지'에 '라운지' → 카페·바"
+   "type_basis": "이름 '에반스라운지'에 '라운지' → 카페·바",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "엠피엠지",
@@ -3099,7 +3537,12 @@
    "checked": "2026-11-27",
    "our_venue": "엠피엠지",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.548402,
+   "lon": 126.93179,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "연남스페이스",
@@ -3131,7 +3574,8 @@
    "checked": "2026-11-27",
    "our_venue": "연남스페이스",
    "in_our_data": true,
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "연남장",
@@ -3154,7 +3598,12 @@
    "checked": "2026-11-27",
    "our_venue": "연남장",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.56433,
+   "lon": 126.927585,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "예림당아트홀",
@@ -3177,7 +3626,12 @@
    "checked": "2026-11-27",
    "our_venue": "예림당아트홀",
    "in_our_data": true,
-   "type_basis": "이름 '예림당아트홀'에 '아트홀' → 홀·공연장"
+   "type_basis": "이름 '예림당아트홀'에 '아트홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.49792,
+   "lon": 127.04436,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "예스24 라이브홀",
@@ -3216,7 +3670,12 @@
    "our_venue": "예스24 라이브홀",
    "in_our_data": true,
    "mainstream": true,
-   "type_basis": "이름 '예스24 라이브홀'에 '라이브홀' → 홀·공연장"
+   "type_basis": "이름 '예스24 라이브홀'에 '라이브홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.545758,
+   "lon": 127.108003,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "예스24 원더로크홀",
@@ -3243,7 +3702,12 @@
    "checked": "2026-11-27",
    "our_venue": "예스24 원더로크홀",
    "in_our_data": true,
-   "type_basis": "이름 '예스24 원더로크홀'에 '홀' → 홀·공연장"
+   "type_basis": "이름 '예스24 원더로크홀'에 '홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.556456,
+   "lon": 126.940224,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "오리진도어",
@@ -3269,7 +3733,8 @@
    "our_venue": null,
    "in_our_data": false,
    "status_note": "2026-09-14 보도자료에 무대 사진(오리진그루브 제공) — 운영 중으로 봄, 위치는 확인 필요",
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "옥타바리움 라이브홀",
@@ -3297,7 +3762,12 @@
    "checked": "2026-11-27",
    "our_venue": "옥타바리움 라이브홀",
    "in_our_data": true,
-   "type_basis": "이름 '옥타바리움 라이브홀'에 '라이브홀' → 홀·공연장"
+   "type_basis": "이름 '옥타바리움 라이브홀'에 '라이브홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.550946,
+   "lon": 126.923937,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "우무지",
@@ -3331,7 +3801,12 @@
    "checked": "2026-11-27",
    "our_venue": "우무지",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.547548,
+   "lon": 126.918452,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "우주정거장",
@@ -3365,7 +3840,12 @@
    "checked": "2026-11-27",
    "our_venue": "우주정거장",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.554952,
+   "lon": 126.929052,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "웨스트브릿지 라이브홀",
@@ -3400,7 +3880,12 @@
    "checked": "2026-11-27",
    "our_venue": "웨스트브릿지 라이브홀",
    "in_our_data": true,
-   "type_basis": "이름 '웨스트브릿지 라이브홀'에 '라이브홀' → 홀·공연장"
+   "type_basis": "이름 '웨스트브릿지 라이브홀'에 '라이브홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.553685,
+   "lon": 126.926142,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "유킬봉",
@@ -3424,7 +3909,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "육일봉",
@@ -3447,7 +3933,12 @@
    "checked": "2026-11-27",
    "our_venue": "육일봉",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.566058,
+   "lon": 126.993609,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "은평 음악창작지원센터",
@@ -3469,7 +3960,12 @@
    "our_venue": null,
    "in_our_data": false,
    "status_note": "서울시 안내에 대관·프로그램 정보(수색역 광장) — 2026년 소식은 못 찾음",
-   "type_basis": "이름 '은평 음악창작지원센터'에 '창작지원' → 창작소·지원 시설"
+   "type_basis": "이름 '은평 음악창작지원센터'에 '창작지원' → 창작소·지원 시설",
+   "geo_checked": "2026-11-27",
+   "lat": 37.589155,
+   "lon": 126.885052,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "을지로 H.ai",
@@ -3497,7 +3993,8 @@
    "checked": "2026-11-27",
    "our_venue": "을지로 H.ai",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "이들스",
@@ -3525,7 +4022,12 @@
    "checked": "2026-11-27",
    "our_venue": "이들스",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.572153,
+   "lon": 126.987614,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "이화여자대학교 삼성홀",
@@ -3553,7 +4055,12 @@
    "checked": "2026-11-27",
    "our_venue": "이화여자대학교 삼성홀",
    "in_our_data": true,
-   "type_basis": "이름 '이화여자대학교 삼성홀'에 '홀' → 홀·공연장"
+   "type_basis": "이름 '이화여자대학교 삼성홀'에 '홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.564337,
+   "lon": 126.946893,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "인피니티클럽",
@@ -3587,7 +4094,12 @@
    "checked": "2026-11-27",
    "our_venue": "인피니티클럽",
    "in_our_data": true,
-   "type_basis": "이름 '인피니티클럽'에 '클럽' → 라이브클럽"
+   "type_basis": "이름 '인피니티클럽'에 '클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.558317,
+   "lon": 126.934877,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "일지아트홀",
@@ -3615,7 +4127,12 @@
    "checked": "2026-11-27",
    "our_venue": "일지아트홀",
    "in_our_data": true,
-   "type_basis": "이름 '일지아트홀'에 '아트홀' → 홀·공연장"
+   "type_basis": "이름 '일지아트홀'에 '아트홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.523832,
+   "lon": 127.039629,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "재미공작소",
@@ -3637,7 +4154,12 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.522548,
+   "lon": 126.891177,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "재즈클럽 그루브",
@@ -3660,7 +4182,12 @@
    "checked": "2026-11-27",
    "our_venue": "재즈클럽 그루브",
    "in_our_data": true,
-   "type_basis": "이름 '재즈클럽 그루브'에 '재즈클럽' → 라이브클럽"
+   "type_basis": "이름 '재즈클럽 그루브'에 '재즈클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.515237,
+   "lon": 127.018833,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "제비다방",
@@ -3704,7 +4231,12 @@
    "checked": "2026-11-27",
    "our_venue": "제비다방",
    "in_our_data": true,
-   "type_basis": "이름 '제비다방'에 '다방' → 카페·바"
+   "type_basis": "이름 '제비다방'에 '다방' → 카페·바",
+   "geo_checked": "2026-11-27",
+   "lat": 37.546532,
+   "lon": 126.923044,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "제이에스아트홀&뮤직바",
@@ -3728,7 +4260,12 @@
    "checked": "2026-11-27",
    "our_venue": "제이에스아트홀&뮤직바",
    "in_our_data": true,
-   "type_basis": "이름 '제이에스아트홀&뮤직바'에 '바' → 카페·바"
+   "type_basis": "이름 '제이에스아트홀&뮤직바'에 '바' → 카페·바",
+   "geo_checked": "2026-11-27",
+   "lat": 37.550842,
+   "lon": 126.864053,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "채널1969",
@@ -3772,7 +4309,12 @@
    "checked": "2026-11-27",
    "our_venue": "채널1969",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.561921,
+   "lon": 126.927035,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "카페 아이다호",
@@ -3800,7 +4342,12 @@
    "checked": "2026-11-27",
    "our_venue": "카페 아이다호",
    "in_our_data": true,
-   "type_basis": "이름 '카페 아이다호'에 '카페' → 카페·바"
+   "type_basis": "이름 '카페 아이다호'에 '카페' → 카페·바",
+   "geo_checked": "2026-11-27",
+   "lat": 37.559138,
+   "lon": 126.923672,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "카페 언플러그드 홍대점",
@@ -3849,7 +4396,12 @@
    "checked": "2026-11-27",
    "our_venue": "카페 언플러그드 홍대점",
    "in_our_data": true,
-   "type_basis": "이름 '카페 언플러그드 홍대점'에 '카페' → 카페·바"
+   "type_basis": "이름 '카페 언플러그드 홍대점'에 '카페' → 카페·바",
+   "geo_checked": "2026-11-27",
+   "lat": 37.555524,
+   "lon": 126.929233,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "컨벤트",
@@ -3872,7 +4424,12 @@
    "checked": "2026-11-27",
    "our_venue": "컨벤트",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.549384,
+   "lon": 126.921376,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "코스모스루비",
@@ -3906,7 +4463,12 @@
    "checked": "2026-11-27",
    "our_venue": "코스모스루비",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.554667,
+   "lon": 126.929513,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "클럽 딥퍼플",
@@ -3940,7 +4502,8 @@
    "checked": "2026-11-27",
    "our_venue": "클럽 딥퍼플",
    "in_our_data": true,
-   "type_basis": "이름 '클럽 딥퍼플'에 '클럽' → 라이브클럽"
+   "type_basis": "이름 '클럽 딥퍼플'에 '클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "클럽 스틸페이스",
@@ -3964,7 +4527,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이름 '클럽 스틸페이스'에 '클럽' → 라이브클럽"
+   "type_basis": "이름 '클럽 스틸페이스'에 '클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "클럽 에반스",
@@ -3994,7 +4558,12 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이름 '클럽 에반스'에 '클럽' → 라이브클럽"
+   "type_basis": "이름 '클럽 에반스'에 '클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.550224,
+   "lon": 126.922849,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "클럽 온에어",
@@ -4028,7 +4597,12 @@
    "checked": "2026-11-27",
    "our_venue": "클럽 온에어",
    "in_our_data": true,
-   "type_basis": "이름 '클럽 온에어'에 '클럽' → 라이브클럽"
+   "type_basis": "이름 '클럽 온에어'에 '클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.552299,
+   "lon": 126.918929,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "클럽 타",
@@ -4056,7 +4630,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이름 '클럽 타'에 '클럽' → 라이브클럽"
+   "type_basis": "이름 '클럽 타'에 '클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "클럽 프리버드",
@@ -4101,7 +4676,12 @@
    "checked": "2026-11-27",
    "our_venue": "클럽 프리버드",
    "in_our_data": true,
-   "type_basis": "이름 '클럽 프리버드'에 '클럽' → 라이브클럽"
+   "type_basis": "이름 '클럽 프리버드'에 '클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.549384,
+   "lon": 126.921376,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "클럽일마레",
@@ -4129,7 +4709,12 @@
    "checked": "2026-11-27",
    "our_venue": "클럽일마레",
    "in_our_data": true,
-   "type_basis": "이름 '클럽일마레'에 '클럽' → 라이브클럽"
+   "type_basis": "이름 '클럽일마레'에 '클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.553746,
+   "lon": 126.905722,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "톤스튜디오 서울",
@@ -4161,7 +4746,12 @@
    "checked": "2026-11-27",
    "our_venue": "톤스튜디오 서울",
    "in_our_data": true,
-   "type_basis": "스탠딩 수용 100명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
+   "type_basis": "스탠딩 수용 100명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.561741,
+   "lon": 126.918731,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "팡타 개라지",
@@ -4199,7 +4789,12 @@
    "checked": "2026-11-27",
    "our_venue": "팡타 개라지",
    "in_our_data": true,
-   "type_basis": "스탠딩 수용 200명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
+   "type_basis": "스탠딩 수용 200명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.572086,
+   "lon": 126.969013,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "퍼플노이즈 라이브홀",
@@ -4233,7 +4828,8 @@
    "checked": "2026-11-27",
    "our_venue": "퍼플노이즈 라이브홀",
    "in_our_data": true,
-   "type_basis": "이름 '퍼플노이즈 라이브홀'에 '라이브홀' → 홀·공연장"
+   "type_basis": "이름 '퍼플노이즈 라이브홀'에 '라이브홀' → 홀·공연장",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "펫사운즈",
@@ -4273,7 +4869,12 @@
    "checked": "2026-11-27",
    "our_venue": "펫사운즈",
    "in_our_data": true,
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27",
+   "lat": 37.539307,
+   "lon": 126.989346,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "푸르지오아트홀",
@@ -4301,7 +4902,12 @@
    "checked": "2026-11-27",
    "our_venue": "푸르지오아트홀",
    "in_our_data": true,
-   "type_basis": "이름 '푸르지오아트홀'에 '아트홀' → 홀·공연장"
+   "type_basis": "이름 '푸르지오아트홀'에 '아트홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.566338,
+   "lon": 126.99676,
+   "geo_confidence": "low",
+   "geo_method": "name"
   },
   {
    "name": "프리즘홀",
@@ -4345,7 +4951,12 @@
    "checked": "2026-11-27",
    "our_venue": "프리즘홀",
    "in_our_data": true,
-   "type_basis": "이름 '프리즘홀'에 '홀' → 홀·공연장"
+   "type_basis": "이름 '프리즘홀'에 '홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.551654,
+   "lon": 126.91751,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "허밋",
@@ -4375,7 +4986,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "현대카드 언더스테이지",
@@ -4402,7 +5014,12 @@
    "checked": "2026-11-27",
    "our_venue": "현대카드 언더스테이지",
    "in_our_data": true,
-   "type_basis": "이름 '현대카드 언더스테이지'에 '스테이지' → 라이브클럽"
+   "type_basis": "이름 '현대카드 언더스테이지'에 '스테이지' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.536646,
+   "lon": 127.000699,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "홍대 스윙홀",
@@ -4426,7 +5043,12 @@
    "our_venue": null,
    "in_our_data": false,
    "status_note": "인디고 최근 공연 2026-03-22 (2026-11-27 확인)",
-   "type_basis": "이름 '홍대 스윙홀'에 '홀' → 홀·공연장"
+   "type_basis": "이름 '홍대 스윙홀'에 '홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.559189,
+   "lon": 126.920884,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "홍대스테이지",
@@ -4447,7 +5069,12 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이름 '홍대스테이지'에 '스테이지' → 라이브클럽"
+   "type_basis": "이름 '홍대스테이지'에 '스테이지' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 37.551114,
+   "lon": 126.921501,
+   "geo_confidence": "low",
+   "geo_method": "name"
   },
   {
    "name": "휘슬",
@@ -4475,7 +5102,8 @@
    "checked": "2026-11-27",
    "our_venue": "휘슬",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "KT&G 상상마당 춘천",
@@ -4536,7 +5164,8 @@
    "checked": "2026-11-27",
    "our_venue": "사운드홀 로비",
    "in_our_data": true,
-   "type_basis": "이름 'KT&G 상상마당 춘천 사운드홀 로비'에 '홀 ' → 홀·공연장"
+   "type_basis": "이름 'KT&G 상상마당 춘천 사운드홀 로비'에 '홀 ' → 홀·공연장",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "KT&G 상상마당 춘천 사운드홀",
@@ -4582,7 +5211,8 @@
    "checked": "2026-11-27",
    "our_venue": "사운드홀",
    "in_our_data": true,
-   "type_basis": "이름 'KT&G 상상마당 춘천 사운드홀'에 '홀' → 홀·공연장"
+   "type_basis": "이름 'KT&G 상상마당 춘천 사운드홀'에 '홀' → 홀·공연장",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "KT&G 상상마당 춘천 야외공연장",
@@ -4618,7 +5248,8 @@
    ],
    "status_note": "공연장 인스타 최근 글 2026-11-25 (2026-11-27 확인)",
    "instagram": "ssmadang.cc",
-   "type_basis": "이름 'KT&G 상상마당 춘천 야외공연장'에 '야외' → 페스티벌·야외"
+   "type_basis": "이름 'KT&G 상상마당 춘천 야외공연장'에 '야외' → 페스티벌·야외",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "KINTEX",
@@ -4648,7 +5279,12 @@
    "in_our_data": false,
    "mainstream": true,
    "instagram": "kintex_korea",
-   "type_basis": "이름 'KINTEX'에 'KINTEX' → 홀·공연장"
+   "type_basis": "이름 'KINTEX'에 'KINTEX' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.665214,
+   "lon": 126.748326,
+   "geo_confidence": "high",
+   "geo_method": "name+address"
   },
   {
    "name": "딩깅프렌즈",
@@ -4676,7 +5312,12 @@
    "our_venue": "딩깅프렌즈",
    "in_our_data": true,
    "instagram": "dinggingfriends",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.281706,
+   "lon": 127.018847,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "수원SK아트리움 대공연장",
@@ -4705,7 +5346,8 @@
    "our_venue": "수원SK아트리움 대공연장",
    "in_our_data": true,
    "mainstream": true,
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "수원음악캠프",
@@ -4739,7 +5381,8 @@
    "checked": "2026-11-27",
    "our_venue": "수원음악캠프",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "앨리웨이 탭하우스",
@@ -4763,7 +5406,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "퍼플홀",
@@ -4797,7 +5441,12 @@
    "checked": "2026-11-27",
    "our_venue": "퍼플홀",
    "in_our_data": true,
-   "type_basis": "이름 '퍼플홀'에 '홀' → 홀·공연장"
+   "type_basis": "이름 '퍼플홀'에 '홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 37.391128,
+   "lon": 126.955305,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "언드",
@@ -4837,7 +5486,12 @@
    "checked": "2026-11-27",
    "our_venue": "언드",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 34.889998,
+   "lon": 128.6906,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "문씨어터",
@@ -4866,7 +5520,12 @@
    "checked": "2026-11-27",
    "our_venue": "문씨어터",
    "in_our_data": true,
-   "type_basis": "이름 '문씨어터'에 '씨어터' → 소극장"
+   "type_basis": "이름 '문씨어터'에 '씨어터' → 소극장",
+   "geo_checked": "2026-11-27",
+   "lat": 35.183875,
+   "lon": 128.058377,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "사이드킥프로덕션",
@@ -4899,7 +5558,12 @@
    "our_venue": "사이드킥프로덕션",
    "in_our_data": true,
    "instagram": "sidekick_production",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 35.261138,
+   "lon": 128.614494,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "로컬다움 롴돰",
@@ -4927,7 +5591,8 @@
    "checked": "2026-11-27",
    "our_venue": "로컬다움 롴돰",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "광주북구문화센터",
@@ -4950,7 +5615,12 @@
    "checked": "2026-11-27",
    "our_venue": "광주북구문화센터",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 35.187334,
+   "lon": 126.879706,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "광주음악창작소",
@@ -4996,7 +5666,8 @@
    "our_venue": "광주음악창작소",
    "in_our_data": true,
    "merge_note": "광주음악창작소 인스타 계정이 @gj__peakmusic — 피크뮤직(광주음악산업진흥센터)이 운영",
-   "type_basis": "이름 '광주음악창작소'에 '창작소' → 창작소·지원 시설"
+   "type_basis": "이름 '광주음악창작소'에 '창작소' → 창작소·지원 시설",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "롤링스톤즈 광주",
@@ -5020,7 +5691,12 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 35.154344,
+   "lon": 126.850476,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "문화클럽 네버마인드",
@@ -5044,7 +5720,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이름 '문화클럽 네버마인드'에 '클럽' → 라이브클럽"
+   "type_basis": "이름 '문화클럽 네버마인드'에 '클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "보헤미안 소극장",
@@ -5088,7 +5765,12 @@
    "checked": "2026-11-27",
    "our_venue": "보헤미안 소극장",
    "in_our_data": true,
-   "type_basis": "이름 '보헤미안 소극장'에 '소극장' → 소극장"
+   "type_basis": "이름 '보헤미안 소극장'에 '소극장' → 소극장",
+   "geo_checked": "2026-11-27",
+   "lat": 35.143651,
+   "lon": 126.919978,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "부드러운 직선",
@@ -5134,7 +5816,8 @@
    "checked": "2026-11-27",
    "our_venue": "부드러운직선",
    "in_our_data": true,
-   "type_basis": "이름 'Club Boojik'에 'Club' → 라이브클럽"
+   "type_basis": "이름 'Club Boojik'에 'Club' → 라이브클럽",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "소촌아트팩토리",
@@ -5156,7 +5839,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "스피크이지 광주",
@@ -5180,7 +5864,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "에포케",
@@ -5204,7 +5889,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "인더그루브",
@@ -5232,7 +5918,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "제4지대",
@@ -5259,7 +5946,12 @@
    "our_venue": null,
    "in_our_data": false,
    "instagram": "the4zonelive",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 35.143651,
+   "lon": 126.919978,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "프렌즈 광주",
@@ -5283,7 +5975,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "하멜아트홀",
@@ -5310,7 +6003,8 @@
    "checked": "2026-11-27",
    "our_venue": "하멜아트홀",
    "in_our_data": true,
-   "type_basis": "이름 '하멜아트홀'에 '아트홀' → 홀·공연장"
+   "type_basis": "이름 '하멜아트홀'에 '아트홀' → 홀·공연장",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "꼬뮨",
@@ -5349,7 +6043,12 @@
    "checked": "2026-11-27",
    "our_venue": "꼬뮨",
    "in_our_data": true,
-   "type_basis": "스탠딩 수용 70명(마스터 목록, 스탠딩 기준 값) — 400명 이하 스탠딩 공연장은 라이브클럽"
+   "type_basis": "스탠딩 수용 70명(마스터 목록, 스탠딩 기준 값) — 400명 이하 스탠딩 공연장은 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 35.867415,
+   "lon": 128.597621,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "대구음악창작소",
@@ -5375,7 +6074,8 @@
    "our_venue": null,
    "in_our_data": false,
    "status_note": "2022 기사: 개소 7년차, 앨범 제작 지원 44팀 — 2026년 공지는 못 찾음",
-   "type_basis": "이름 '대구음악창작소'에 '창작소' → 창작소·지원 시설"
+   "type_basis": "이름 '대구음악창작소'에 '창작소' → 창작소·지원 시설",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "라이브소극장 락왕",
@@ -5425,7 +6125,12 @@
    "checked": "2026-11-27",
    "our_venue": "라이브소극장 락왕",
    "in_our_data": true,
-   "type_basis": "이름 '라이브소극장 락왕'에 '소극장' → 소극장"
+   "type_basis": "이름 '라이브소극장 락왕'에 '소극장' → 소극장",
+   "geo_checked": "2026-11-27",
+   "lat": 35.858502,
+   "lon": 128.578692,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "라이브펍 타락",
@@ -5453,7 +6158,12 @@
    "checked": "2026-11-27",
    "our_venue": "라이브펍 타락",
    "in_our_data": true,
-   "type_basis": "이름 '라이브펍 타락'에 '펍' → 카페·바"
+   "type_basis": "이름 '라이브펍 타락'에 '펍' → 카페·바",
+   "geo_checked": "2026-11-27",
+   "lat": 35.867862,
+   "lon": 128.597887,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "락클럽 Bar 레드제플린",
@@ -5488,7 +6198,12 @@
    "our_venue": "락클럽 Bar 레드제플린",
    "in_our_data": true,
    "instagram": "rock_club_led_zeppelin",
-   "type_basis": "이름 '락클럽 Bar 레드제플린'에 '클럽' → 라이브클럽"
+   "type_basis": "이름 '락클럽 Bar 레드제플린'에 '클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 35.856569,
+   "lon": 128.59516,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "베리어스 재즈클럽",
@@ -5516,7 +6231,12 @@
    "checked": "2026-11-27",
    "our_venue": "베리어스 재즈클럽",
    "in_our_data": true,
-   "type_basis": "이름 '베리어스 재즈클럽'에 '재즈클럽' → 라이브클럽"
+   "type_basis": "이름 '베리어스 재즈클럽'에 '재즈클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 35.8392,
+   "lon": 128.70922,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "사차원우주음악연구소 × 네켄킴 스튜디오",
@@ -5544,7 +6264,12 @@
    "our_venue": "사차원우주음악연구소 × 네켄킴 스튜디오",
    "in_our_data": true,
    "instagram": "4dcosmosmusiclab",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 35.857275,
+   "lon": 128.54722,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "슈가조스",
@@ -5568,7 +6293,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "제임스레코드 사운드가든",
@@ -5618,7 +6344,12 @@
    "checked": "2026-11-27",
    "our_venue": "대구 제임스레코드",
    "in_our_data": true,
-   "type_basis": "스탠딩 수용 200명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
+   "type_basis": "스탠딩 수용 200명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 35.867862,
+   "lon": 128.597887,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "클럽 헤비",
@@ -5667,7 +6398,12 @@
    "checked": "2026-11-27",
    "our_venue": "클럽헤비",
    "in_our_data": true,
-   "type_basis": "이름 '클럽 헤비'에 '클럽' → 라이브클럽"
+   "type_basis": "이름 '클럽 헤비'에 '클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 35.842707,
+   "lon": 128.580007,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "대전음악창작소",
@@ -5694,7 +6430,12 @@
    "checked": "2026-11-27",
    "our_venue": "대전 음악창작소",
    "in_our_data": true,
-   "type_basis": "이름 '대전음악창작소'에 '창작소' → 창작소·지원 시설"
+   "type_basis": "이름 '대전음악창작소'에 '창작소' → 창작소·지원 시설",
+   "geo_checked": "2026-11-27",
+   "lat": 36.326423,
+   "lon": 127.430613,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "버찌라이브하우스",
@@ -5734,7 +6475,12 @@
    "checked": "2026-11-27",
    "our_venue": "그린빈 버찌라이브하우스",
    "in_our_data": true,
-   "type_basis": "이름 '버찌라이브홀'에 '라이브홀' → 홀·공연장"
+   "type_basis": "이름 '버찌라이브홀'에 '라이브홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 36.325888,
+   "lon": 127.42539,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "비호소",
@@ -5768,7 +6514,12 @@
    "checked": "2026-11-27",
    "our_venue": "비호소",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 36.320354,
+   "lon": 127.43408,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "인터플레이",
@@ -5802,7 +6553,12 @@
    "checked": "2026-11-27",
    "our_venue": "인터플레이",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 36.347356,
+   "lon": 127.376717,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "처치 앤 댄스홀",
@@ -5824,7 +6580,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이름 '처치 앤 댄스홀'에 '홀' → 홀·공연장"
+   "type_basis": "이름 '처치 앤 댄스홀'에 '홀' → 홀·공연장",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "HQ광안",
@@ -5859,7 +6616,12 @@
    "checked": "2026-11-27",
    "our_venue": "HQ광안",
    "in_our_data": true,
-   "type_basis": "이름 'HQ Bar'에 'Bar' → 카페·바"
+   "type_basis": "이름 'HQ Bar'에 'Bar' → 카페·바",
+   "geo_checked": "2026-11-27",
+   "lat": 35.155784,
+   "lon": 129.123784,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "KT&G 상상마당 부산",
@@ -5901,7 +6663,12 @@
     "KT&G 상상마당 부산 13층 루프탑",
     "KT&G상상마당 부산"
    ],
-   "type_basis": "수용 인원 500명(venue_capacity 확인값) — 401명 이상은 홀"
+   "type_basis": "수용 인원 500명(venue_capacity 확인값) — 401명 이상은 홀",
+   "geo_checked": "2026-11-27",
+   "lat": 35.1528,
+   "lon": 129.057838,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "KT&G 상상마당 부산 3층 라이브홀",
@@ -5943,7 +6710,12 @@
    "checked": "2026-11-27",
    "our_venue": "3층 라이브홀",
    "in_our_data": true,
-   "type_basis": "이름 'KT&G 상상마당 부산 3층 라이브홀'에 '라이브홀' → 홀·공연장"
+   "type_basis": "이름 'KT&G 상상마당 부산 3층 라이브홀'에 '라이브홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 35.1528,
+   "lon": 129.057838,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "OL'55",
@@ -5977,7 +6749,12 @@
    "checked": "2026-11-27",
    "our_venue": "OL'55",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 35.136087,
+   "lon": 129.10214,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "WAV3",
@@ -6005,7 +6782,12 @@
    "checked": "2026-11-27",
    "our_venue": "WAV3",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 35.14927,
+   "lon": 129.112903,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "금사락",
@@ -6037,7 +6819,12 @@
    "checked": "2026-11-27",
    "our_venue": "금사락",
    "in_our_data": true,
-   "type_basis": "수용 인원 500명(venue_capacity 확인값) — 401명 이상은 홀"
+   "type_basis": "수용 인원 500명(venue_capacity 확인값) — 401명 이상은 홀",
+   "geo_checked": "2026-11-27",
+   "lat": 35.219548,
+   "lon": 129.111547,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "리얼라이즈",
@@ -6071,7 +6858,8 @@
    "checked": "2026-11-27",
    "our_venue": "리얼라이즈",
    "in_our_data": true,
-   "type_basis": "이름 'Club Realize'에 'Club' → 라이브클럽"
+   "type_basis": "이름 'Club Realize'에 'Club' → 라이브클럽",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "무몽크",
@@ -6100,7 +6888,8 @@
    "in_our_data": false,
    "instagram": "moomonk1995",
    "status_note": "인디고 최근 공연 2026-04-18 (2026-11-27 확인)",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "문화골목 노가다",
@@ -6129,7 +6918,12 @@
    "in_our_data": false,
    "instagram": "nogada_pub",
    "status_note": "인디고 최근 공연 2026-10-11 (2026-11-27 확인)",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 35.136905,
+   "lon": 129.102724,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "바이널 언더그라운드 소극장",
@@ -6178,7 +6972,12 @@
    "in_our_data": true,
    "indiego_url": "https://www.indiego.co.kr/venues/167-%EB%B0%94%EC%9D%B4%EB%84%90-%EC%96%B8%EB%8D%94%EA%B7%B8%EB%9D%BC%EC%9A%B4%EB%93%9C",
    "indiego_past": 1,
-   "type_basis": "이름 '바이널 언더그라운드 소극장'에 '소극장' → 소극장"
+   "type_basis": "이름 '바이널 언더그라운드 소극장'에 '소극장' → 소극장",
+   "geo_checked": "2026-11-27",
+   "lat": 35.136385,
+   "lon": 129.101932,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "베이스먼트 부산",
@@ -6202,7 +7001,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "부산음악창작소",
@@ -6223,7 +7023,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이름 '부산음악창작소'에 '창작소' → 창작소·지원 시설"
+   "type_basis": "이름 '부산음악창작소'에 '창작소' → 창작소·지원 시설",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "북두칠성도서관 아트훌",
@@ -6251,7 +7052,12 @@
    "checked": "2026-11-27",
    "our_venue": "북두칠성도서관 아트훌",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 35.114612,
+   "lon": 129.043429,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "사상인디스테이션 소란동",
@@ -6279,7 +7085,12 @@
    "checked": "2026-11-27",
    "our_venue": "사상인디스테이션 소란동",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 35.187341,
+   "lon": 128.987546,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "야만",
@@ -6307,7 +7118,12 @@
    "our_venue": "야만",
    "in_our_data": true,
    "instagram": "yaman_joint_official",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 35.15413,
+   "lon": 129.060966,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "오방가르드",
@@ -6355,7 +7171,12 @@
    "checked": "2026-11-27",
    "our_venue": "오방가르드",
    "in_our_data": true,
-   "type_basis": "스탠딩 수용 120명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽"
+   "type_basis": "스탠딩 수용 120명(venue_capacity 확인값) — 400명 이하 스탠딩 공연장은 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 35.13722,
+   "lon": 129.101034,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "유기체",
@@ -6389,7 +7210,12 @@
    "checked": "2026-11-27",
    "our_venue": "유기체",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 35.157323,
+   "lon": 129.12073,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "인터플레이 부산",
@@ -6413,7 +7239,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "클럽 벨포스",
@@ -6441,7 +7268,12 @@
    "checked": "2026-11-27",
    "our_venue": "클럽 벨포스",
    "in_our_data": true,
-   "type_basis": "이름 '클럽 벨포스'에 '클럽' → 라이브클럽"
+   "type_basis": "이름 '클럽 벨포스'에 '클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 35.155144,
+   "lon": 129.060361,
+   "geo_confidence": "high",
+   "geo_method": "address"
   },
   {
    "name": "히떼로스터리 광안점",
@@ -6464,7 +7296,12 @@
    "checked": "2026-11-27",
    "our_venue": "히떼로스터리 광안점",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 35.15113,
+   "lon": 129.112423,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "세종 음악창작소 누리락",
@@ -6492,7 +7329,12 @@
    "our_venue": "세종 음악창작소 누리락",
    "in_our_data": true,
    "instagram": "nurirock",
-   "type_basis": "이름 '세종 음악창작소 누리락'에 '창작소' → 창작소·지원 시설"
+   "type_basis": "이름 '세종 음악창작소 누리락'에 '창작소' → 창작소·지원 시설",
+   "geo_checked": "2026-11-27",
+   "lat": 36.512333,
+   "lon": 127.266639,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "로얄앵커",
@@ -6523,7 +7365,8 @@
    "our_venue": null,
    "in_our_data": false,
    "status_note": "인디고 최근 공연 2026-11-07 (2026-11-27 확인)",
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "AMP MUSIC",
@@ -6547,7 +7390,12 @@
    "our_venue": null,
    "in_our_data": false,
    "status_note": "인디고 최근 공연 2026-10-31 (2026-11-27 확인)",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.515274,
+   "lon": 126.704122,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "Chord Space",
@@ -6570,7 +7418,12 @@
    "our_venue": null,
    "in_our_data": false,
    "status_note": "공연장 인스타 최근 글 2026-11-24 (2026-11-27 확인)",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.464313,
+   "lon": 126.674546,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "락캠프",
@@ -6604,7 +7457,12 @@
    "checked": "2026-11-27",
    "our_venue": "락캠프",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.505546,
+   "lon": 126.722055,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "올래공연장",
@@ -6627,7 +7485,12 @@
    "checked": "2026-11-27",
    "our_venue": "올래공연장",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.48494,
+   "lon": 126.742139,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "인천맥주호랑이",
@@ -6661,7 +7524,12 @@
    "checked": "2026-11-27",
    "our_venue": "인천맥주호랑이",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.472794,
+   "lon": 126.620804,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "인천아트플랫폼",
@@ -6686,7 +7554,12 @@
    "in_our_data": false,
    "mainstream": true,
    "status_note": "인디고 최근 공연 2026-04-26 (2026-11-27 확인)",
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27",
+   "lat": 37.472794,
+   "lon": 126.620804,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "인천여관X루비살롱",
@@ -6727,7 +7600,8 @@
    "checked": "2026-11-27",
    "our_venue": "인천여관X루비살롱",
    "in_our_data": true,
-   "type_basis": "이름 '인천여관X루비살롱'에 '살롱' → 카페·바"
+   "type_basis": "이름 '인천여관X루비살롱'에 '살롱' → 카페·바",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "클럽 낙",
@@ -6751,7 +7625,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이름 '클럽 낙'에 '클럽' → 라이브클럽"
+   "type_basis": "이름 '클럽 낙'에 '클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "트라이보울",
@@ -6775,7 +7650,8 @@
    "our_venue": "트라이보울",
    "in_our_data": true,
    "mainstream": true,
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "파라다이스시티",
@@ -6800,7 +7676,12 @@
    "in_our_data": false,
    "mainstream": true,
    "status_note": "인디고 최근 공연 2026-10-03 (2026-11-27 확인)",
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27",
+   "lat": 37.433799,
+   "lon": 126.452077,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "후즈하우스",
@@ -6839,7 +7720,12 @@
    "indiego_url": "https://www.indiego.co.kr/venues/178-%EB%88%84%EA%B5%AC%EC%9D%98%EC%A7%91",
    "indiego_past": 1,
    "merge_note": "Whose House = 누구의 집 (같은 인천 공연장의 영문·한글 이름)",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 37.452109,
+   "lon": 126.702839,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "Club GP",
@@ -6868,7 +7754,12 @@
    "checked": "2026-11-27",
    "our_venue": "Club GP",
    "in_our_data": true,
-   "type_basis": "이름 'Club GP'에 'Club' → 라이브클럽"
+   "type_basis": "이름 'Club GP'에 'Club' → 라이브클럽",
+   "geo_checked": "2026-11-27",
+   "lat": 35.817278,
+   "lon": 127.111048,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "더바인홀",
@@ -6902,7 +7793,8 @@
    "our_venue": "더바인홀",
    "in_our_data": true,
    "instagram": "the_vine_hall",
-   "type_basis": "이름 '더바인홀'에 '홀' → 홀·공연장"
+   "type_basis": "이름 '더바인홀'에 '홀' → 홀·공연장",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "두더지 라이브 홀",
@@ -6930,7 +7822,12 @@
    "checked": "2026-11-27",
    "our_venue": "두더지 라이브 홀",
    "in_our_data": true,
-   "type_basis": "이름 '두더지 라이브 홀'에 '라이브 홀' → 홀·공연장"
+   "type_basis": "이름 '두더지 라이브 홀'에 '라이브 홀' → 홀·공연장",
+   "geo_checked": "2026-11-27",
+   "lat": 35.795406,
+   "lon": 127.141772,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "라디오가든",
@@ -6954,7 +7851,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "레드콘 (전북 음악창작소)",
@@ -6978,7 +7876,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이름 '레드콘 (전북 음악창작소)'에 '창작소' → 창작소·지원 시설"
+   "type_basis": "이름 '레드콘 (전북 음악창작소)'에 '창작소' → 창작소·지원 시설",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "남온 제주",
@@ -7018,7 +7917,12 @@
    "our_venue": "남온",
    "in_our_data": true,
    "instagram": "namon_jeju",
-   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고"
+   "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
+   "geo_checked": "2026-11-27",
+   "lat": 33.31427,
+   "lon": 126.731481,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "미예랑소극장",
@@ -7040,7 +7944,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이름 '미예랑소극장'에 '소극장' → 소극장"
+   "type_basis": "이름 '미예랑소극장'에 '소극장' → 소극장",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "이디홀",
@@ -7074,7 +7979,8 @@
    "checked": "2026-11-27",
    "our_venue": "이디홀",
    "in_our_data": true,
-   "type_basis": "이름 '이디홀'에 '홀' → 홀·공연장"
+   "type_basis": "이름 '이디홀'에 '홀' → 홀·공연장",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "클럽 인디 제주",
@@ -7097,7 +8003,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이름 '클럽 인디 제주'에 '클럽' → 라이브클럽"
+   "type_basis": "이름 '클럽 인디 제주'에 '클럽' → 라이브클럽",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "골목다방",
@@ -7121,7 +8028,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이름 '골목다방'에 '다방' → 카페·바"
+   "type_basis": "이름 '골목다방'에 '다방' → 카페·바",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "로드킹 (청주)",
@@ -7145,7 +8053,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27"
   },
   {
    "name": "지직",
@@ -7175,7 +8084,12 @@
    "checked": "2026-11-27",
    "our_venue": "지직",
    "in_our_data": true,
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-27",
+   "lat": 36.636888,
+   "lon": 127.487255,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "뮤지트 (충주 음악창작소)",
@@ -7199,7 +8113,8 @@
    "checked": "2026-11-27",
    "our_venue": null,
    "in_our_data": false,
-   "type_basis": "이름 '뮤지트 (충주 음악창작소)'에 '창작소' → 창작소·지원 시설"
+   "type_basis": "이름 '뮤지트 (충주 음악창작소)'에 '창작소' → 창작소·지원 시설",
+   "geo_checked": "2026-11-27"
   }
  ]
 }
