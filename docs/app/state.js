@@ -141,6 +141,7 @@ export const appState = {
   },
   linksByTeam: new Map(),
   videosByTeam: new Map(),
+  imagesByTeam: new Map(), // team_key → 스포티파이 프로필 사진 주소 (lab/data/images.csv)
   teamIndex: [], // [{team_key, display_name, primary_genre}] for autocomplete
   candSort: { col: 'score', dir: 'desc' },
   activeCharts: [],

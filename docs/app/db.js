@@ -240,6 +240,22 @@ async function initEngine() {
 const VIDEO_ID_RE = /^[A-Za-z0-9_-]{11}$/;
 const VIDEO_KIND_ORDER = { stage: 0, official_live: 1, official: 2, search: 3 };
 
+/** images.csv(team_key,url,source) → Map. 스포티파이 이미지 서버(https://i.scdn.co/)만 받는다. */
+function parseImagesCsv(text) {
+  const map = new Map();
+  if (!text) return map;
+  const lines = text.trim().split(/\r?\n/).slice(1);
+  // 팀 키에 쉼표가 있으면 따옴표로 감싸져 오므로, 끝의 '주소,출처'를 기준으로 자른다
+  const row = /^(.*),(https:\/\/i\.scdn\.co\/[A-Za-z0-9/_-]+),([^,]*)$/;
+  for (const line of lines) {
+    const m = line.match(row);
+    if (!m) continue;
+    const teamKey = m[1].replace(/^"(.*)"$/, '$1').replace(/""/g, '"');
+    if (teamKey) map.set(teamKey, m[2]);
+  }
+  return map;
+}
+
 function indexLinksRows(rows) {
   const map = new Map();
   for (const r of rows) {
@@ -322,9 +338,11 @@ export async function bootstrapData(onStatus = () => {}) {
   // Optional datasets gated by meta.rows to avoid noisy 404s before files exist
   const hasLinksMeta = !meta?.rows || meta.rows.links === undefined || meta.rows.links > 0;
   const hasVideosMeta = Boolean(meta?.rows && Number(meta.rows.videos) > 0);
-  const [linksCsv, videosCsv] = await Promise.all([
+  const hasImagesMeta = Boolean(meta?.rows && Number(meta.rows.images) > 0);
+  const [linksCsv, videosCsv, imagesCsv] = await Promise.all([
     hasLinksMeta ? fetchText('lab/data/links.csv', true) : Promise.resolve(null),
     hasVideosMeta ? fetchText('lab/data/videos.csv', true) : Promise.resolve(null),
+    hasImagesMeta ? fetchText('lab/data/images.csv', true) : Promise.resolve(null),
   ]);
 
   onStatus('브라우저 DB에 표 적재 중...');
@@ -389,6 +407,7 @@ export async function bootstrapData(onStatus = () => {}) {
   appState.teamIndex = teamIdxRes.rows;
   appState.linksByTeam = indexLinksRows(linksRes.rows);
   appState.videosByTeam = indexVideosRows(videosRes.rows);
+  appState.imagesByTeam = parseImagesCsv(imagesCsv);
   appState.snapshots = {
     dates: snapDates,
     reconstructed: snapReconstructed,

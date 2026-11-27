@@ -1,64 +1,26 @@
-import {
-  appState, getPreferredPlatform, setPreferredPlatform,
-} from '../state.js';
+import { appState } from '../state.js';
 import { getTeamExternalLinks, queryTeamDetail } from '../db.js';
 import {
   escapeHtml, fmtInt, fmtNum, formatSignalDate,
   PROFILE_LABELS, renderActionBanner, renderScoreBar,
   SOURCE_LABELS, summarizeWhyTeam, watchButtonHtml,
+  avatarHtml, spotifyButtonHtml, wireSpotifyButtons,
 } from '../ui.js';
 
-const PLATFORMS = [
-  { id: 'melon', label: '멜론', verb: '에서 듣기', searchUrl: q => `https://www.melon.com/search/total/index.htm?q=${encodeURIComponent(q)}` },
-  { id: 'genie', label: '지니', verb: '에서 듣기', searchUrl: q => `https://www.genie.co.kr/search/searchMain?query=${encodeURIComponent(q)}` },
-  { id: 'bugs', label: '벅스', verb: '에서 듣기', searchUrl: q => `https://music.bugs.co.kr/search/integrated?q=${encodeURIComponent(q)}` },
-  { id: 'spotify', label: '스포티파이', verb: '에서 듣기', searchUrl: q => `https://open.spotify.com/search/${encodeURIComponent(q)}` },
-  { id: 'youtube', label: '유튜브', verb: '에서 보기', searchUrl: q => `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}` },
-  { id: 'instagram', label: '인스타그램', verb: ' 보기', searchUrl: null }, // 링크 없으면 숨김
-];
-
-function buildPlatformEntries(displayName, linksMap) {
-  const entries = [];
-  for (const p of PLATFORMS) {
-    const official = linksMap && linksMap.get(p.id);
-    if (official && official.startsWith('https://')) {
-      entries.push({ ...p, url: official, isOfficial: true });
-    } else if (p.searchUrl) {
-      entries.push({ ...p, url: p.searchUrl(displayName), isOfficial: false });
-    }
+/**
+ * 듣기·보기는 스포티파이·유튜브 두 가지만 (사용자 결정 2026-11-27).
+ * - 스포티파이: '▶ 듣기'를 누르면 이 자리에서 공식 임베드 플레이어(미리 듣기, 로그인 시 전곡)
+ * - 유튜브: 공식 채널이 있으면 채널로, 없으면 아래 '최근 무대' 영상으로 이동
+ */
+function renderListenButtons(teamKey, linksMap, hasVideos) {
+  const parts = [spotifyButtonHtml(teamKey)];
+  const yt = linksMap && linksMap.get('youtube');
+  if (yt && yt.startsWith('https://www.youtube.com/')) {
+    parts.push(`<a class="btn" href="${escapeHtml(yt)}" target="_blank" rel="noopener noreferrer">유튜브 채널</a>`);
+  } else if (hasVideos) {
+    parts.push('<a class="btn" href="#teamVideosBlock" data-scroll-videos>무대 영상</a>');
   }
-  return entries;
-}
-
-function renderPlatformDropdown(displayName, linksMap) {
-  const entries = buildPlatformEntries(displayName, linksMap);
-  if (!entries.length) return '';
-  const prefId = getPreferredPlatform();
-  // Prefer user's last chosen platform if available; fallback to first official or Melon
-  let primary = entries.find(e => e.id === prefId);
-  if (!primary) primary = entries.find(e => e.isOfficial) || entries[0];
-
-  return `
-    <div class="platform-menu-wrap" id="platformMenuWrap">
-      <a class="btn btn-primary platform-main-btn" id="platformMainLink"
-         href="${escapeHtml(primary.url)}" target="_blank" rel="noopener noreferrer"
-         data-plat-id="${escapeHtml(primary.id)}">
-        ${escapeHtml(primary.label)}${escapeHtml(primary.verb)}
-      </a>
-      <button type="button" class="btn btn-primary platform-caret-btn" id="platformCaretBtn"
-              aria-haspopup="menu" aria-expanded="false" aria-label="다른 플랫폼 선택">▾</button>
-      <div class="platform-drop" id="platformDrop" role="menu">
-        ${entries.map(e => `
-          <a class="platform-opt ${e.isOfficial ? '' : 'is-search'}" role="menuitem"
-             href="${escapeHtml(e.url)}" target="_blank" rel="noopener noreferrer"
-             data-plat-id="${escapeHtml(e.id)}" data-plat-label="${escapeHtml(e.label + e.verb)}">
-            <span>${escapeHtml(e.label)}</span>
-            <span class="platform-opt-tag">${e.isOfficial ? '공식 페이지' : '검색으로 찾기'}</span>
-          </a>
-        `).join('')}
-      </div>
-    </div>
-  `;
+  return parts.filter(Boolean).join('');
 }
 
 function renderVideosSection(videos, showAll) {
@@ -385,15 +347,19 @@ export async function renderTeamView(root, teamKey) {
   function paint() {
     root.innerHTML = `
       <div class="action-banner">
-        <div>
-          <h1 class="action-banner-title">${escapeHtml(displayName)}</h1>
-          <p class="team-subline">${escapeHtml(metaParts.join(' · ') || '기록된 신호 ' + fmtInt(mergedTimeline.length) + '건')}</p>
+        <div class="team-head">
+          ${avatarHtml(teamKey, displayName, 72)}
+          <div>
+            <h1 class="action-banner-title">${escapeHtml(displayName)}</h1>
+            <p class="team-subline">${escapeHtml(metaParts.join(' · ') || '기록된 신호 ' + fmtInt(mergedTimeline.length) + '건')}</p>
+          </div>
         </div>
         <div class="action-banner-btns">
-          ${renderPlatformDropdown(displayName, links)}
+          ${renderListenButtons(teamKey, links, videos.length > 0)}
           ${watchButtonHtml(teamKey, displayName, false)}
         </div>
       </div>
+      <div class="player-slot" id="teamPlayerSlot" data-player-slot></div>
 
       ${renderVideosSection(videos, showAllVideos)}
 
@@ -406,50 +372,11 @@ export async function renderTeamView(root, teamKey) {
       <div id="teamSubPanel">${renderSubPanel()}</div>
     `;
 
-    // Wire platform hover/tap + keyboard dropdown
-    const menuWrap = root.querySelector('#platformMenuWrap');
-    const caretBtn = root.querySelector('#platformCaretBtn');
-    const mainLink = root.querySelector('#platformMainLink');
-    const drop = root.querySelector('#platformDrop');
-
-    if (menuWrap && caretBtn && drop) {
-      const setOpen = (on) => {
-        menuWrap.classList.toggle('open', on);
-        caretBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
-      };
-      caretBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        setOpen(!menuWrap.classList.contains('open'));
-      });
-      caretBtn.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') { setOpen(false); }
-        else if (e.key === 'ArrowDown' || e.key === 'Enter') {
-          setOpen(true);
-          drop.querySelector('.platform-opt')?.focus();
-        }
-      });
-      drop.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          setOpen(false);
-          caretBtn.focus();
-        }
-      });
-      drop.querySelectorAll('.platform-opt').forEach(opt => {
-        opt.addEventListener('click', () => {
-          const pid = opt.dataset.platId;
-          setPreferredPlatform(pid);
-          if (mainLink) {
-            mainLink.href = opt.href;
-            mainLink.dataset.platId = pid;
-            mainLink.textContent = opt.dataset.platLabel;
-          }
-          setOpen(false);
-        });
-      });
-      document.addEventListener('click', (e) => {
-        if (!menuWrap.contains(e.target)) setOpen(false);
-      }, { once: false });
-    }
+    wireSpotifyButtons(root, root.querySelector('#teamPlayerSlot'));
+    root.querySelector('[data-scroll-videos]')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      root.querySelector('#teamVideosBlock')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
 
     // Wire inline lazy YouTube embed swap on click
     root.querySelectorAll('.video-frame[data-video-id]').forEach(btn => {

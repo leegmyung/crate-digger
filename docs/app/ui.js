@@ -133,6 +133,63 @@ export function josa(word, consonantForm, vowelForm) {
   return `${word}${vowelForm}`;
 }
 
+const SPOTIFY_ARTIST = /^https:\/\/open\.spotify\.com\/artist\/([A-Za-z0-9]{22})/;
+
+/** 팀의 스포티파이 아티스트 id (links.csv), 없으면 null. */
+export function spotifyIdOf(teamKey) {
+  const url = appState.linksByTeam.get(teamKey)?.get('spotify') || '';
+  const m = url.match(SPOTIFY_ARTIST);
+  return m ? m[1] : null;
+}
+
+/** 팀 사진: 스포티파이 프로필 사진, 없으면 이름 첫 글자 자리표시. size = px. */
+export function avatarHtml(teamKey, displayName, size = 40) {
+  const name = displayName || teamKey || '';
+  const url = appState.imagesByTeam.get(teamKey);
+  const dim = `width="${size}" height="${size}" style="width:${size}px;height:${size}px"`;
+  if (url) {
+    return `<img class="avatar" src="${escapeHtml(url)}" alt="${escapeHtml(name)}" ${dim} loading="lazy" decoding="async">`;
+  }
+  const initial = escapeHtml(Array.from(name.trim())[0] || '?');
+  return `<span class="avatar avatar-initial" aria-hidden="true" style="width:${size}px;height:${size}px;font-size:${Math.round(size * 0.42)}px">${initial}</span>`;
+}
+
+/** '▶ 듣기' 버튼: 누르면 같은 자리에 스포티파이 공식 임베드 플레이어를 만든다(wireSpotifyButtons로 연결). */
+export function spotifyButtonHtml(teamKey, small = false) {
+  const id = spotifyIdOf(teamKey);
+  if (!id) return '';
+  return `<button type="button" class="btn ${small ? 'btn-sm' : 'btn-primary'} spotify-play" data-spotify-id="${id}"
+            aria-label="스포티파이로 미리 듣기">▶ 듣기</button>`;
+}
+
+/** root 안의 '▶ 듣기' 버튼마다 클릭 시 플레이어 생성. target(선택)은 플레이어를 넣을 자리(기본: 버튼 바로 뒤). */
+export function wireSpotifyButtons(root, target = null) {
+  root.querySelectorAll('.spotify-play[data-spotify-id]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const id = btn.dataset.spotifyId;
+      if (!/^[A-Za-z0-9]{22}$/.test(id)) return;
+      let host = target;
+      for (let el = btn.parentElement; !host && el && el !== root.parentElement; el = el.parentElement) {
+        host = el.querySelector(':scope > [data-player-slot]');
+      }
+      host = host || btn.parentElement;
+      if (host.querySelector('iframe.spotify-embed')) return;
+      const frame = document.createElement('iframe');
+      frame.className = 'spotify-embed';
+      frame.src = `https://open.spotify.com/embed/artist/${id}?utm_source=generator&theme=0`;
+      frame.height = '152';
+      frame.loading = 'lazy';
+      frame.title = '스포티파이 미리 듣기';
+      frame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+      host.appendChild(frame);
+      btn.textContent = '재생 중';
+      btn.disabled = true;
+    });
+  });
+}
+
 export function watchButtonHtml(teamKey, displayName, small = true, reveal = false) {
   const on = isWatched(teamKey);
   const cls = `btn ${small ? 'btn-sm' : ''} ${on ? 'btn-active' : ''} ${reveal ? 'watch-reveal' : ''}`.trim();

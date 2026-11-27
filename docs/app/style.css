@@ -1508,3 +1508,15 @@ table.data-table tbody tr.baseline-row td {
     gap: var(--space-2);
   }
 }
+
+/* ---------- 아티스트 사진 · 스포티파이 미리 듣기 (코디네이터) ---------- */
+.avatar { display: inline-block; flex: none; border-radius: 50%; object-fit: cover; background: var(--line, #ddd); }
+.avatar-initial { display: inline-flex; align-items: center; justify-content: center; font-weight: 700;
+  color: var(--fg, #111); background: var(--chip-bg, rgba(127,127,127,.18)); }
+.team-head { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.team-head > div { min-width: 0; }
+.player-slot:empty { display: none; }
+.player-slot { margin: 0 0 16px; }
+iframe.spotify-embed { display: block; width: 100%; max-width: 640px; border: 0; border-radius: 12px; margin-top: 8px; }
+.pick-head { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.pick-head .pick-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

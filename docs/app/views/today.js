@@ -3,6 +3,7 @@ import { getSnapshotDiff, queryCandidates, queryWatchlistEnriched } from '../db.
 import {
   escapeHtml, fmtInt, fmtNum, renderActionBanner,
   renderEmptyState, scorePartsLine, watchButtonHtml,
+  avatarHtml, spotifyButtonHtml, wireSpotifyButtons,
 } from '../ui.js';
 
 export async function renderTodayView(root) {
@@ -60,12 +61,17 @@ export async function renderTodayView(root) {
               <span class="pick-rank">#${i + 1}${r.primary_genre ? ` · ${escapeHtml(r.primary_genre)}` : ''}${hasVid ? ' · 영상' : ''}</span>
               <span class="pick-score">${fmtNum(r.score, 2)}</span>
             </div>
-            <a class="pick-name" href="#/team/${encodeURIComponent(r.team_key)}">${escapeHtml(r.display_name || r.team_key)}</a>
+            <div class="pick-head">
+              ${avatarHtml(r.team_key, r.display_name, 44)}
+              <a class="pick-name" href="#/team/${encodeURIComponent(r.team_key)}">${escapeHtml(r.display_name || r.team_key)}</a>
+            </div>
             <div class="pick-why">${escapeHtml(scorePartsLine(r))}</div>
             <div class="pick-foot">
               <a class="small muted" href="#/team/${encodeURIComponent(r.team_key)}">근거 보기</a>
+              ${spotifyButtonHtml(r.team_key, true)}
               ${watchButtonHtml(r.team_key, r.display_name || r.team_key, true, true)}
             </div>
+            <div data-player-slot></div>
           </article>
         `;
       }).join('')}</div>`
@@ -169,6 +175,7 @@ export async function renderTodayView(root) {
       </div>
     `;
 
+    wireSpotifyButtons(root);
     root.querySelector('#btnMoreNew')?.addEventListener('click', () => { showAllNew = true; paint(); });
     root.querySelector('#btnMoreRisers')?.addEventListener('click', () => { showAllRisers = true; paint(); });
     root.querySelectorAll('[data-open-team]').forEach(el => {
