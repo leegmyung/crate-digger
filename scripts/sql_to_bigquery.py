@@ -11,6 +11,7 @@
 from __future__ import annotations
 
 import sys
+import re
 from pathlib import Path
 from typing import Dict, List
 
@@ -41,7 +42,7 @@ FROM alias_map am
 LEFT JOIN ref.artist_xref x2 ON x2.variant_key = am.main_key
 WHERE NOT EXISTS (SELECT 1 FROM ref.artist_xref x WHERE x.variant_key = am.alias_key);"""
 FLAT_VENUE_MAP = "CREATE VIEW core.v_venue_map AS SELECT variant, venue FROM ref.venue_xref;"
-CORE_SKIP_PREFIXES = ("CREATE SCHEMA", "DROP VIEW")   # BigQuery 데이터셋·뷰 교체는 운영 방식에 맞게 따로
+CORE_SKIP_PREFIXES = ("CREATE SCHEMA", "DROP VIEW", "CREATE TABLE")   # BigQuery 데이터셋·뷰 교체·ref 표는 운영 방식에 맞게 따로
 
 
 def convert(sql: str, notes: List[str] | None = None) -> str:
@@ -99,9 +100,22 @@ def flatten_core_views(text: str) -> str:
         out.append(text[i:j])
         out.append(blocks.pop(0) if blocks else "")
         i = k + len("END $$;")
-    stmts = [st for st in "".join(out).split(";\n") if st.strip()]
-    keep = [st for st in stmts if not st.lstrip().upper().startswith(CORE_SKIP_PREFIXES)
-            and not all(line.strip().startswith("--") or not line.strip() for line in st.splitlines())]
+    # 문장 끝 ';' 뒤에 줄 끝 주석이 붙은 경우(';   -- 설명')도 문장 경계로 본다 (주석은 버림)
+    stmts = [st for st in re.split(r";[ \t]*(?:--[^\n]*)?\n", "".join(out)) if st.strip()]
+    def first_code(st: str) -> str:   # 앞의 주석 줄은 건너뛰고 첫 SQL 줄로 판정
+        return next((line.strip() for line in st.splitlines() if line.strip() and not line.strip().startswith("--")), "")
+
+    def comments(st: str) -> List[str]:
+        return [line for line in st.splitlines() if line.strip().startswith("--")]
+
+    keep, carry = [], []
+    for st in stmts:
+        code = first_code(st)
+        if not code or code.upper().startswith(CORE_SKIP_PREFIXES):
+            carry += comments(st)        # 건너뛴 문장(스키마·뷰 지우기·ref 표)의 앞 주석은 다음 문장에 붙여 남김
+            continue
+        keep.append("\n".join([*carry, st.lstrip("\n")]) if carry else st)
+        carry = []
     return ";\n".join(keep) + ";\n"
 
 

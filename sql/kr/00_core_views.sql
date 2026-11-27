@@ -81,13 +81,18 @@ LEFT JOIN core.v_venue_map vm ON b.branch = '공연' AND vm.variant = TRIM(b.det
 WHERE COALESCE(tm.team_key, '') <> '__non_artist__';   -- 매거진·공연장·기관 계정명으로만 잡힌 줄은 팀 신호가 아님 (artist_xref.NON_ARTIST_KEY)
 
 -- 2) 아티스트 첫 발매일·규모 (멜론 프로필). 같은 키에 여러 프로필이면 가장 이른 날짜
+--    프로필은 이름 키로 잇기 때문에, 같은 이름의 다른 아티스트 번호(ref.blocked_profile_ids — artist_xref.py --load-pg 가
+--    config/artist_aliases.json 의 platform_ids.not·멜론 공용 번호로 채움)로 받은 행은 뺀다. 표가 없으면 빈 표로 만든다.
+CREATE TABLE IF NOT EXISTS ref.blocked_profile_ids (source text, artist_source_id text, reason text);
 CREATE VIEW core.v_artist_profile AS
 SELECT artist_key,
        min(least(coalesce(debut_start, first_release_start), coalesce(first_release_start, debut_start))) AS first_release,
        max(album_count) AS album_count,
        max(fan_count) AS fan_count,
        count(DISTINCT artist_source_id) AS profile_count      -- 2 이상이면 동명 팀 가능성
-FROM raw.raw_artist_profile
+FROM raw.raw_artist_profile rp
+WHERE NOT EXISTS (SELECT 1 FROM ref.blocked_profile_ids b
+                  WHERE b.source = rp.source AND b.artist_source_id = rp.artist_source_id)
 GROUP BY artist_key;
 
 -- 3) 정답 + 등급 + 정답 당시 연차 + 셀지 여부(기성 팀이 섞인 정답은 첫 발매 N년 이내만)

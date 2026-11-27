@@ -5,10 +5,8 @@
 --   없으면 예전 방식(괄호 속 별칭 alias_key → 그 별칭을 가진 이름 키)으로 묶는다. 연결표에 없는 새 이름도 예전 방식으로.
 --   연결표를 새로 넣은 뒤에는 이 파일을 다시 실행해야 반영된다 (run_pg_queries.py 가 매번 실행).
 -- 날짜: 일부만 아는 날짜는 후보 신호 = 기간 마지막 날(_end), 정답 = 기간 첫날(_start) (시점 누수 방지).
+-- 1) 신호 이벤트: 팀 × 갈래 × 날짜 (파일 출처를 빼고 UNION으로 합쳐 재수집 중복 제거) — team_key 붙이기 전
 -- (BigQuery 문법으로 자동 변환: scripts/sql_to_bigquery.py — 원문은 sql/kr/ 의 같은 파일)
-CREATE SCHEMA IF NOT EXISTS core;
-
-/* 1) 신호 이벤트: 팀 × 갈래 × 날짜 (파일 출처를 빼고 UNION으로 합쳐 재수집 중복 제거) — team_key 붙이기 전 */
 CREATE VIEW core.v_signal_base AS
 SELECT
   s.artist_key,
@@ -69,8 +67,6 @@ FROM raw.raw_press AS p
 WHERE
   COALESCE(p.is_sponsored, 0) = 0;
 
-/* 협찬 글은 신호에서 뺀다 */;
-
 /* 1-1) 표기 키 → 팀 대표 키. 연결표가 있으면 연결표 우선, 연결표에 없는 키는 괄호 별칭 규칙으로. */
 /*      (ref.artist_xref 가 없을 때도 돌아가야 해서 있는지 보고 뷰 정의를 고른다) */
 CREATE VIEW core.v_team_map AS
@@ -127,9 +123,9 @@ LEFT JOIN core.v_venue_map AS vm
 WHERE
   COALESCE(tm.team_key, '') <> '__non_artist__';
 
-/* 매거진·공연장·기관 계정명으로만 잡힌 줄은 팀 신호가 아님 (artist_xref.NON_ARTIST_KEY) */;
-
 /* 2) 아티스트 첫 발매일·규모 (멜론 프로필). 같은 키에 여러 프로필이면 가장 이른 날짜 */
+/*    프로필은 이름 키로 잇기 때문에, 같은 이름의 다른 아티스트 번호(ref.blocked_profile_ids — artist_xref.py --load-pg 가 */
+/*    config/artist_aliases.json 의 platform_ids.not·멜론 공용 번호로 채움)로 받은 행은 뺀다. 표가 없으면 빈 표로 만든다. */
 CREATE VIEW core.v_artist_profile AS
 SELECT
   artist_key,
@@ -142,7 +138,15 @@ SELECT
   MAX(album_count) AS album_count,
   MAX(fan_count) AS fan_count,
   COUNT(DISTINCT artist_source_id) AS profile_count /* 2 이상이면 동명 팀 가능성 */
-FROM raw.raw_artist_profile
+FROM raw.raw_artist_profile AS rp
+WHERE
+  NOT EXISTS(
+    SELECT
+      1
+    FROM ref.blocked_profile_ids AS b
+    WHERE
+      b.source = rp.source AND b.artist_source_id = rp.artist_source_id
+  )
 GROUP BY
   artist_key;
 

@@ -59,6 +59,21 @@ class ConvertTest(unittest.TestCase):
         self.assertIn("core.v_venue_map", flat)
         self.assertIn("core.a", flat)
 
+    def test_core_views_ref_tables_are_not_created_in_bigquery(self):
+        # 뷰 파일이 만드는 빈 ref 표(없을 때 대비)는 BigQuery 에서는 운영 방식대로 따로 — 변환 결과에서 뺀다
+        flat = sb.flatten_core_views("-- 2) 설명 주석\nCREATE TABLE IF NOT EXISTS ref.blocked_profile_ids (source text, artist_source_id text);\n"
+                                     "CREATE VIEW core.a AS SELECT 1;\n")
+        self.assertNotIn("CREATE TABLE", flat)
+        self.assertIn("core.a", flat)
+        self.assertIn("-- 2) 설명 주석", flat)                     # 건너뛴 문장 앞 주석은 다음 문장에 붙여 남김
+
+    def test_core_views_header_comments_kept(self):
+        flat = sb.flatten_core_views("-- 머리 주석\nCREATE SCHEMA IF NOT EXISTS core;\nCREATE VIEW core.a AS SELECT 1;   -- 끝 주석\n"
+                                     "CREATE VIEW core.b AS SELECT 2;\n")
+        self.assertTrue(flat.startswith("-- 머리 주석"))
+        self.assertNotIn("CREATE SCHEMA", flat)
+        self.assertIn("core.b", flat)
+
     def test_nulls_ordering_inside_string_agg_is_noted_not_failed(self):
         notes = []
         out = sb.convert("SELECT string_agg(n, ',' ORDER BY n NULLS LAST) FROM t", notes)

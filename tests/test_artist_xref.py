@@ -467,6 +467,29 @@ class PgRowsTest(unittest.TestCase):
         self.assertLess(script.index("BEGIN"), script.index("TRUNCATE"))
         self.assertLess(script.index("\\copy"), script.index("COMMIT"))
 
+    def test_blocked_profile_rows_from_curation(self):
+        # 플랫폼 번호 고정의 not 번호 + 멜론 공용 번호(0·1) → ref.blocked_profile_ids (core.v_artist_profile 이 그 프로필 행을 뺌)
+        cur = {"platform_ids": [{"team": "나이테", "platform": "melon", "id": "4722708", "not": ["5324101"]},
+                                {"team": "루시갱", "platform": "spotify", "id": "6bd", "not": ["6gX"]}]}
+        rows = ax.blocked_profile_rows(cur)
+        keys = {(r[0], r[1]) for r in rows}
+        self.assertTrue({("melon", "5324101"), ("spotify", "6gX"), ("melon", "0"), ("melon", "1")} <= keys)
+        self.assertNotIn(("melon", "39"), keys)          # 짧은 번호는 막지 않음 (강산에 39 처럼 진짜 번호도 있음)
+        self.assertTrue(all(r[2] for r in rows))         # 이유 칸
+
+    def test_pg_script_also_refills_blocked_profile_ids(self):
+        script = ax.pg_load_script("/tmp/x.csv", blocked_csv="/tmp/b.csv")
+        self.assertIn("CREATE TABLE IF NOT EXISTS ref.blocked_profile_ids", script)
+        self.assertIn("TRUNCATE ref.blocked_profile_ids", script)
+        self.assertIn("\\copy ref.blocked_profile_ids FROM '/tmp/b.csv'", script)
+        self.assertLess(script.index("blocked_profile_ids FROM"), script.index("COMMIT"))
+
+    def test_core_view_skips_blocked_profiles(self):
+        sql = (ROOT / "sql" / "kr" / "00_core_views.sql").read_text(encoding="utf-8")
+        view = sql[sql.index("CREATE VIEW core.v_artist_profile"):sql.index("CREATE VIEW core.v_outcome ")]
+        self.assertIn("ref.blocked_profile_ids", view)
+        self.assertLess(sql.index("CREATE TABLE IF NOT EXISTS ref.blocked_profile_ids"), sql.index("CREATE VIEW core.v_artist_profile"))
+
     def test_load_pg_skips_without_psql(self):
         msg = ax.load_pg([], psql_path="/nonexistent/psql")
         self.assertIn("건너뜀", msg)

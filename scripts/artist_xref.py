@@ -738,9 +738,28 @@ def xref_rows(artists: list[dict], non_artist_handles: list[str] | None = None) 
     return list(rows.values())
 
 
-def pg_load_script(csv_path: str) -> str:
-    """ref.artist_xref 를 비우고 다시 채우는 psql 스크립트 (한 트랜잭션).
-    core 뷰(sql/kr/00_core_views.sql)가 이 표를 참조하므로 DROP 하지 않는다."""
+INVALID_PROFILE_IDS = ("0", "1")   # 멜론 공용 번호('여러 아티스트' 등) — collect_artists.INVALID_IDS 와 같음
+
+
+def blocked_profile_rows(curation: dict) -> list[tuple[str, str, str]]:
+    """쓰면 안 되는 프로필 번호 (source, artist_source_id, 이유) → ref.blocked_profile_ids.
+    core.v_artist_profile 이 이 번호의 프로필 행을 빼서, 같은 이름 키의 다른 아티스트 프로필이 첫 발매·팬 수에 섞이지 않게 한다.
+    짧은 번호(1,000 미만)는 막지 않는다 — 그 프로필은 옛 가수 본인 이름 키로만 묶이고, 강산에(39)처럼 진짜 번호도 있다."""
+    rows = {("melon", i): "멜론 공용 번호 (실제 팀 아님)" for i in INVALID_PROFILE_IDS}
+    for p in curation.get("platform_ids", []):
+        for x in p.get("not", []):
+            rows[(p["platform"], str(x))] = f"{p['team']}의 다른 아티스트 번호 (config/artist_aliases.json platform_ids)"
+    return [(src, sid, why) for (src, sid), why in sorted(rows.items())]
+
+
+def pg_load_script(csv_path: str, blocked_csv: str | None = None) -> str:
+    """ref.artist_xref(+ ref.blocked_profile_ids)를 비우고 다시 채우는 psql 스크립트 (한 트랜잭션).
+    core 뷰(sql/kr/00_core_views.sql)가 이 표들을 참조하므로 DROP 하지 않는다."""
+    blocked = [
+        "CREATE TABLE IF NOT EXISTS ref.blocked_profile_ids (source text, artist_source_id text, reason text);",
+        "TRUNCATE ref.blocked_profile_ids;",
+        f"\\copy ref.blocked_profile_ids FROM '{blocked_csv}' WITH (FORMAT csv)",
+    ] if blocked_csv else []
     return "\n".join([
         "BEGIN;",
         "CREATE SCHEMA IF NOT EXISTS ref;",
@@ -749,26 +768,31 @@ def pg_load_script(csv_path: str) -> str:
         "CREATE INDEX IF NOT EXISTS artist_xref_artist_key_idx ON ref.artist_xref (artist_key);",
         "TRUNCATE ref.artist_xref;",
         f"\\copy ref.artist_xref FROM '{csv_path}' WITH (FORMAT csv)",
+        *blocked,
         "COMMIT;",
     ]) + "\n"
 
 
-def load_pg(artists: list[dict], psql_path: str = PSQL, db: str = DB) -> str:
+def load_pg(artists: list[dict], psql_path: str = PSQL, db: str = DB, blocked: list[tuple] | None = None) -> str:
     """ref.artist_xref 표로 넣기. psql·DB가 없으면 건너뛰고 메시지만 돌려준다.
     넣은 뒤 sql/kr/00_core_views.sql 을 다시 실행해야 뷰의 team_key 에 반영된다."""
     if not Path(psql_path).exists():
         return "PostgreSQL 적재 건너뜀: psql을 찾을 수 없음 (PSQL 환경변수로 위치 지정 가능)"
     rows = xref_rows(artists, tracked_account_handles())
     with tempfile.TemporaryDirectory() as d:
-        csv_path, sql_path = Path(d) / "artist_xref.csv", Path(d) / "load.sql"
+        csv_path, sql_path, blocked_path = Path(d) / "artist_xref.csv", Path(d) / "load.sql", Path(d) / "blocked.csv"
         with open(csv_path, "w", encoding="utf-8", newline="") as f:
             csv.writer(f).writerows(rows)
-        sql_path.write_text(pg_load_script(str(csv_path)), encoding="utf-8")
+        if blocked is not None:
+            with open(blocked_path, "w", encoding="utf-8", newline="") as f:
+                csv.writer(f).writerows(blocked)
+        sql_path.write_text(pg_load_script(str(csv_path), str(blocked_path) if blocked is not None else None), encoding="utf-8")
         proc = subprocess.run([psql_path, "-v", "ON_ERROR_STOP=1", "-q", "-d", db, "-f", str(sql_path)],
                               capture_output=True, text=True)
     if proc.returncode != 0:
         return f"PostgreSQL 적재 건너뜀: {proc.stderr.strip()[:300]}"
-    return f"PostgreSQL ref.artist_xref {len(rows):,}행 적재 (뷰 반영: psql -f sql/kr/00_core_views.sql)"
+    extra = f", ref.blocked_profile_ids {len(blocked)}행" if blocked is not None else ""
+    return f"PostgreSQL ref.artist_xref {len(rows):,}행{extra} 적재 (뷰 반영: psql -f sql/kr/00_core_views.sql)"
 
 
 # ---------- 원본 읽기 ----------
@@ -929,7 +953,7 @@ def main() -> None:
     n_auto = sum(r["kind"] in AUTO_KINDS for r in review)
     print(f"대표 팀 {len(artists):,} · 확인 필요 {len(review) - n_auto:,} (자동 해결 {n_auto}) → {DEFAULT_XREF.relative_to(ROOT)}, {SUMMARY_MD.relative_to(ROOT)}")
     if args.load_pg:
-        print(load_pg(artists))
+        print(load_pg(artists, blocked=blocked_profile_rows(cur)))
 
 
 if __name__ == "__main__":
