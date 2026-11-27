@@ -10,7 +10,11 @@
 
 **2026-11-27 병렬 작업 분담** (같은 폴더를 두 에이전트가 씀)
 - 안티그래비티(Orca 작업자): 대시보드 샘플 조사 → 재설계·구현. 담당 파일만: `docs/dashboard.html`, `scripts/build_dashboard_data.py`, `tests/test_build_dashboard_data.py`, `docs/research_2026-11-27_dashboard_samples.md`. 커밋은 Claude가 검토 후.
-- Claude: 수집(인스타 general·snowball·공연장 → `data/raw/review/instagram_*.json`, 결과 파일의 `"final": false`면 이어서), overtone 웹진, 멜론 481팀, 후보 합치기·커밋.
+- Claude: 수집(인스타 general·snowball·공연장 → `data/raw/review/instagram_*.json`, 결과 파일의 `"final": false`면 이어서), ~~overtone 웹진~~ ✅(517글, 실패분은 다음 실행에 재시도), 멜론 481팀, 후보 합치기·커밋.
+- Claude 작업자(Orca): 같은 팀 다른 표기 묶기 `scripts/artist_xref.py` → `ref.artist_xref`로 DB 연결 예정.
+- 하위 에이전트: 과거 정답 명단 2021~2024 → `data/raw/raw_outcome_2026-11-27_manual_history.csv` (백테스트 기간 늘리기).
+- ✅ backtrace 재실행, 점수 v0 백테스트 `sql/kr/analysis/a09_score_v0_backtest.sql` (상위 20팀 중 2팀 적중·무작위 9배, 단 표본 작음). 다음: 과거 정답 들어오면 기준일 2023·2024 추가해 재검증 → 대시보드 백테스트 섹션(안티그래비티에 전달함).
+- 서로 피드백: 대시보드 정렬 = 점수 v0 공식, 신인 대용 = '우리 데이터 첫 등장 3년 이내', 팀 키 = artist_xref(완성 후).
 
 **진행 중이던 것**
 - [ ] (2026-11-27 시작) **전 장르 확장** — 사용자: "모든 장르에서 구현", "인스타 매거진 500개 이상 리스트업"
