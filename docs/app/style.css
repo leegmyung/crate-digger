@@ -41,6 +41,28 @@
   --err-line: #dc2626;
   --err-ink: #991b1b;
 
+  /* Ego network graph tones (White) */
+  --graph-bg: #fafbfc;
+  --graph-edge: #cbd5e1;
+  --graph-edge-agency: #94a3b8;
+  --graph-edge-hi: #1d4ed8;
+  --graph-node-team: #2563eb;
+  --graph-node-team-fill: #eff6ff;
+  --graph-node-venue: #0f766e;
+  --graph-node-venue-fill: #f0fdfa;
+  --graph-node-program: #b45309;
+  --graph-node-program-fill: #fffbeb;
+  --graph-node-outlet: #6d28d9;
+  --graph-node-outlet-fill: #f5f3ff;
+  --graph-node-scene: #475569;
+  --graph-node-scene-fill: #f1f5f9;
+  --graph-grade-s: #b45309;
+  --graph-grade-s-fg: #ffffff;
+  --graph-grade-a: #1d4ed8;
+  --graph-grade-a-fg: #ffffff;
+  --graph-grade-b: #4b5563;
+  --graph-grade-b-fg: #ffffff;
+
   /* Typography scale (3-level heading hierarchy + comfortable body & table sizes) */
   --font-sans: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Segoe UI", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -105,6 +127,28 @@
   --err-bg: #261012;
   --err-line: #f87171;
   --err-ink: #fecaca;
+
+  /* Ego network graph tones (True Black #08090a) */
+  --graph-bg: #0b0c0e;
+  --graph-edge: #353a46;
+  --graph-edge-agency: #596275;
+  --graph-edge-hi: #60a5fa;
+  --graph-node-team: #60a5fa;
+  --graph-node-team-fill: #122038;
+  --graph-node-venue: #2dd4bf;
+  --graph-node-venue-fill: #0d2424;
+  --graph-node-program: #f59e0b;
+  --graph-node-program-fill: #241b0b;
+  --graph-node-outlet: #a78bfa;
+  --graph-node-outlet-fill: #1c162e;
+  --graph-node-scene: #94a3b8;
+  --graph-node-scene-fill: #171a21;
+  --graph-grade-s: #d97706;
+  --graph-grade-s-fg: #08090a;
+  --graph-grade-a: #60a5fa;
+  --graph-grade-a-fg: #08090a;
+  --graph-grade-b: #94a3b8;
+  --graph-grade-b-fg: #08090a;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -3815,8 +3859,438 @@ tr.player-expand-row td {
   }
 }
 
+/* ---------- Interactive Team Ego Network Graph ---------- */
 
+.team-graph-host {
+  margin-top: 16px;
+}
 
+.graph-block {
+  margin-bottom: 0;
+}
 
+.graph-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
 
+.graph-head-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
 
+.graph-head-title h2 {
+  margin: 0;
+  font-size: var(--text-h2);
+  font-weight: 700;
+}
+
+.graph-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.graph-period-toggle {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 2px;
+  gap: 2px;
+}
+
+.graph-period-toggle .seg-btn {
+  border: none;
+  background: transparent;
+  color: var(--ink-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 4px 9px;
+  border-radius: 3px;
+  cursor: pointer;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.graph-period-toggle .seg-btn:hover {
+  color: var(--ink);
+}
+
+.graph-period-toggle .seg-btn.active {
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.graph-surface {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.graph-stage {
+  position: relative;
+  width: 100%;
+  height: 330px;
+  background: var(--graph-bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.graph-surface.is-expanded .graph-stage {
+  height: min(72vh, 660px);
+}
+
+.graph-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.graph-float-ctrls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: calc(100% - 20px);
+  z-index: 2;
+}
+
+.graph-ctrl-btn {
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  min-width: 28px;
+  height: 28px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.92;
+}
+
+.graph-ctrl-btn:hover {
+  border-color: var(--line-strong);
+  background: var(--surface);
+  opacity: 1;
+}
+
+.graph-ctrl-btn.is-accent {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.graph-tooltip {
+  position: absolute;
+  pointer-events: none;
+  z-index: 5;
+  max-width: 240px;
+  padding: 7px 10px;
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+
+.graph-tooltip strong {
+  display: block;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.graph-tooltip .gt-sub {
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+
+.graph-tooltip .gt-hint {
+  color: var(--ink-subtle);
+  font-size: 11.5px;
+  margin-top: 3px;
+}
+
+.graph-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+  pointer-events: none;
+}
+
+.graph-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  padding: 2px 2px;
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.graph-leg-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.graph-leg-sub {
+  color: var(--ink-subtle);
+  font-size: 11.5px;
+}
+
+.graph-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  flex: none;
+}
+
+.graph-swatch.is-team {
+  border-radius: 50%;
+  background: var(--graph-node-team-fill);
+  border: 2px solid var(--graph-node-team);
+}
+
+.graph-swatch.is-venue {
+  border-radius: 2.5px;
+  background: var(--graph-node-venue-fill);
+  border: 1.8px solid var(--graph-node-venue);
+}
+
+.graph-swatch.is-outcome {
+  border-radius: 50%;
+  background: var(--graph-grade-s);
+}
+
+.graph-swatch.is-program {
+  width: 9px;
+  height: 9px;
+  border-radius: 1.5px;
+  transform: rotate(45deg);
+  background: var(--graph-node-program-fill);
+  border: 1.8px solid var(--graph-node-program);
+}
+
+.graph-swatch.is-outlet {
+  border-radius: 50%;
+  width: 9px;
+  height: 9px;
+  background: var(--graph-node-outlet-fill);
+  border: 1.8px solid var(--graph-node-outlet);
+}
+
+.graph-swatch.is-scene {
+  border-radius: 50%;
+  background: var(--graph-node-scene-fill);
+  border: 1.5px dashed var(--graph-node-scene);
+}
+
+.graph-inspector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 8px 11px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  min-height: 40px;
+  font-size: 13px;
+}
+
+.graph-insp-hint {
+  color: var(--ink-muted);
+  font-size: 12.5px;
+}
+
+.graph-insp-main {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.graph-insp-name {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.graph-insp-detail {
+  color: var(--ink-muted);
+  font-size: 12.5px;
+}
+
+.graph-insp-status {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.graph-insp-right {
+  flex: none;
+}
+
+.graph-type-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink-muted);
+}
+
+.graph-type-pill.is-ego,
+.graph-type-pill.is-team {
+  border-color: var(--graph-node-team);
+  color: var(--graph-node-team);
+  background: var(--graph-node-team-fill);
+}
+
+.graph-type-pill.is-venue {
+  border-color: var(--graph-node-venue);
+  color: var(--graph-node-venue);
+  background: var(--graph-node-venue-fill);
+}
+
+.graph-type-pill.is-outcome {
+  border-color: var(--graph-grade-s);
+  color: var(--graph-grade-s);
+  background: var(--graph-node-program-fill);
+}
+
+.graph-type-pill.is-program {
+  border-color: var(--graph-node-program);
+  color: var(--graph-node-program);
+  background: var(--graph-node-program-fill);
+}
+
+.graph-type-pill.is-outlet {
+  border-color: var(--graph-node-outlet);
+  color: var(--graph-node-outlet);
+  background: var(--graph-node-outlet-fill);
+}
+
+.graph-type-pill.is-scene {
+  border-color: var(--graph-node-scene);
+  color: var(--graph-node-scene);
+  background: var(--graph-node-scene-fill);
+}
+
+/* Fullscreen modal */
+body.graph-modal-open {
+  overflow: hidden;
+}
+
+.graph-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(8, 9, 10, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.graph-modal {
+  width: min(1120px, 100%);
+  max-height: calc(100vh - 32px);
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  overflow: hidden;
+}
+
+.graph-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.graph-modal-title {
+  margin: 0;
+  font-size: var(--text-h2);
+  font-weight: 700;
+  display: inline;
+  margin-right: 8px;
+}
+
+.graph-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 640px) {
+  .graph-stage {
+    height: 280px;
+  }
+
+  .graph-surface.is-expanded .graph-stage {
+    height: min(64vh, 520px);
+  }
+
+  .graph-modal-backdrop {
+    padding: 8px;
+  }
+
+  .graph-modal {
+    padding: 12px;
+    max-height: calc(100vh - 16px);
+  }
+
+  .graph-leg-sub {
+    display: none;
+  }
+
+  .graph-inspector {
+    padding: 8px 10px;
+  }
+}

@@ -88,7 +88,7 @@ async function reloadLabMacrosOnce() {
   macroReloadPromise = (async () => {
     try {
       const reloadOpts = { cache: 'reload', bust: true };
-      const [featSql, btSql, candSql, sigHitSql, scorecardSql, debutScorecardSql, precSql, teamSql, relSql] = await Promise.all([
+      const [featSql, btSql, candSql, sigHitSql, scorecardSql, debutScorecardSql, precSql, teamSql, relSql, egoSql] = await Promise.all([
         fetchText('lab/sql/features.sql', false, reloadOpts),
         fetchText('lab/sql/backtest.sql', true, reloadOpts),
         fetchText('lab/sql/candidates.sql', true, reloadOpts),
@@ -98,6 +98,7 @@ async function reloadLabMacrosOnce() {
         fetchText('lab/sql/precedents.sql', true, reloadOpts),
         fetchText('lab/sql/team.sql', true, reloadOpts),
         fetchText('lab/sql/related.sql', true, reloadOpts),
+        fetchText('lab/sql/ego_network.sql', true, reloadOpts),
       ]);
       if (!featSql) return false;
       await connInstance.query(featSql);
@@ -110,6 +111,7 @@ async function reloadLabMacrosOnce() {
       if (precSql) appState.sqlTemplates.precedents = precSql;
       if (teamSql) appState.sqlTemplates.team = teamSql;
       if (relSql) appState.sqlTemplates.related = relSql;
+      if (egoSql) appState.sqlTemplates.ego_network = egoSql;
       return true;
     } catch (_) {
       return false;
@@ -577,6 +579,7 @@ export async function bootstrapData(onStatus = () => {}) {
     precSql,
     teamSql,
     relSql,
+    egoSql,
     snapIdx,
     dashJson,
     collectJson,
@@ -595,6 +598,7 @@ export async function bootstrapData(onStatus = () => {}) {
     fetchText('lab/sql/precedents.sql', true),
     fetchText('lab/sql/team.sql', true),
     fetchText('lab/sql/related.sql', true),
+    fetchText('lab/sql/ego_network.sql', true),
     fetchJson('lab/data/snapshots/index.json', true),
     fetchJson('data/dashboard.json', true),
     fetchJson('data/collect.json', true),
@@ -618,6 +622,7 @@ export async function bootstrapData(onStatus = () => {}) {
     precedents: precSql || '',
     team: teamSql || '',
     related: relSql || '',
+    ego_network: egoSql || '',
   };
 
   // Optional datasets gated by meta.rows to avoid noisy 404s before files exist
@@ -1701,6 +1706,279 @@ export async function queryDebutCandidates(overrides = {}) {
     unmentioned,
   };
 }
+
+// ---------- Interactive Team Ego Network Graph ----------
+
+function resolveGraphWindow(period = 'all') {
+  const asOf = safeIsoDate(appState.cfg.as_of || appState.dataEnd, '2026-11-27');
+  const dataEnd = safeIsoDate(appState.dataEnd, asOf);
+  const untilDate = asOf >= dataEnd ? '2099-12-31' : asOf;
+  let sinceDate = '1900-01-01';
+  if (period === '1y') {
+    const ms = Date.parse(`${asOf}T00:00:00Z`) - 365 * 86400000;
+    sinceDate = new Date(ms).toISOString().slice(0, 10);
+  }
+  return { asOf, sinceDate, untilDate };
+}
+
+function buildSceneNeighbor(teamKey, sceneMap) {
+  const comm = sceneMap?.teamToCommunity?.get(teamKey);
+  if (!comm) return null;
+  const venuesTxt = Array.isArray(comm.top_venues) && comm.top_venues.length
+    ? comm.top_venues.slice(0, 3).map(v => v.venue).join(' · ')
+    : '';
+  return {
+    node_id: `scene:${comm.id}`,
+    node_type: 'scene',
+    node_key: String(comm.id),
+    label: `씬 묶음 ${comm.id}`,
+    relation: 'scene',
+    weight: Number(comm.size) || 1,
+    grade: '',
+    detail: venuesTxt ? `${comm.size || 0}팀 · ${venuesTxt}` : `${comm.size || 0}팀`,
+    last_date: '',
+    primary_genre: '',
+  };
+}
+
+/**
+ * docs/lab/sql/ego_network.sql을 브라우저 DuckDB에서 실행하고,
+ * scene_map.json의 속한 씬 묶음을 합쳐 1-hop 이웃 목록을 반환한다.
+ */
+export async function queryEgoNetwork(teamKey, { period = 'all', limitPerKind = 12 } = {}) {
+  if (!teamKey) return [];
+  let tpl = appState.sqlTemplates.ego_network;
+  if (!tpl) {
+    tpl = await fetchText('lab/sql/ego_network.sql', true);
+    if (tpl) appState.sqlTemplates.ego_network = tpl;
+  }
+  const { sinceDate, untilDate } = resolveGraphWindow(period);
+  const lim = sqlInt(limitPerKind, 1, 40, 12);
+
+  const [sqlRes, sceneMap] = await Promise.all([
+    tpl
+      ? (async () => {
+          const sql = fillTemplate(tpl, {
+            team_key: sqlStringLiteral(teamKey),
+            since_date: sqlDate(sinceDate, '1900-01-01'),
+            until_date: sqlDate(untilDate, '2099-12-31'),
+            limit_per_kind: lim,
+          });
+          appState.lastSql.ego_network = sql;
+          return runRawSql(sql);
+        })()
+      : Promise.resolve({ rows: [] }),
+    loadSceneMap(),
+  ]);
+
+  const rows = [...(sqlRes.rows || [])];
+  const sceneNode = buildSceneNeighbor(teamKey, sceneMap);
+  if (sceneNode) rows.push(sceneNode);
+  return rows;
+}
+
+/**
+ * 그래프에서 노드를 클릭했을 때 그 노드의 1-hop 이웃을 DuckDB/scene_map에서 확장 조회한다.
+ * - team/ego: ego_network.sql 실행
+ * - venue: 해당 공연장에 선 상위 후보·다회 출연 팀
+ * - outcome: 해당 정답 프로그램 수상/후보 팀
+ * - program: 해당 선정·지원 프로그램 팀
+ * - outlet: 해당 매체가 다룬 팀
+ * - scene: 해당 씬 묶음의 상위 후보·허브 팀
+ */
+export async function queryNodeExpansion(node, { period = 'all', limit = 10 } = {}) {
+  if (!node || !node.node_type || !node.node_key) return [];
+  const type = node.node_type;
+  const key = String(node.node_key);
+  const lim = Math.max(1, Math.min(30, Math.round(Number(limit) || 10)));
+
+  if (type === 'team' || type === 'ego') {
+    return queryEgoNetwork(key, { period, limitPerKind: Math.min(8, lim) });
+  }
+
+  if (type === 'scene') {
+    const sceneMap = await loadSceneMap();
+    const comm = sceneMap?.communityById?.get(Number(key));
+    if (!comm) return [];
+    const merged = [];
+    const seen = new Set();
+    for (const c of (comm.top_candidates || [])) {
+      if (!c?.team_key || seen.has(c.team_key)) continue;
+      seen.add(c.team_key);
+      merged.push({
+        node_id: `team:${c.team_key}`,
+        node_type: 'team',
+        node_key: c.team_key,
+        label: c.display_name || c.team_key,
+        relation: 'scene',
+        weight: Number(c.score) || 1,
+        grade: '',
+        detail: c.score ? `상위 후보 · ${Number(c.score).toFixed(1)}점` : '상위 후보',
+        last_date: '',
+        primary_genre: c.primary_genre || '',
+      });
+    }
+    for (const h of (comm.hubs || [])) {
+      if (!h?.team_key || seen.has(h.team_key)) continue;
+      seen.add(h.team_key);
+      merged.push({
+        node_id: `team:${h.team_key}`,
+        node_type: 'team',
+        node_key: h.team_key,
+        label: h.display_name || h.team_key,
+        relation: 'scene',
+        weight: Number(h.degree) || 1,
+        grade: '',
+        detail: h.degree ? `씬 허브 · 연결 ${h.degree}` : '씬 허브',
+        last_date: '',
+        primary_genre: h.primary_genre || '',
+      });
+    }
+    return merged.slice(0, lim);
+  }
+
+  const { sinceDate, untilDate } = resolveGraphWindow(period);
+  const sinceLit = sqlDate(sinceDate, '1900-01-01');
+  const untilLit = sqlDate(untilDate, '2099-12-31');
+  const keyLit = sqlStringLiteral(key);
+  const fetchLim = Math.max(lim * 3, 24);
+  const snapLatest = appState.snapshots?.latest || new Map();
+
+  if (type === 'venue') {
+    const { rows } = await runRawSql(`
+      WITH gig AS (
+        SELECT DISTINCT team_key, signal_date
+        FROM signals
+        WHERE branch = '공연'
+          AND TRIM(COALESCE(venue, '')) = ${keyLit}
+          AND signal_date >= DATE ${sinceLit}
+          AND signal_date <= DATE ${untilLit}
+      )
+      SELECT 'team:' || g.team_key                AS node_id,
+             'team'                               AS node_type,
+             g.team_key                           AS node_key,
+             COALESCE(t.display_name, g.team_key) AS label,
+             'venue'                              AS relation,
+             COUNT(*)::DOUBLE                     AS weight,
+             ''                                   AS grade,
+             COUNT(*)::VARCHAR || '회 공연'        AS detail,
+             MAX(g.signal_date)                   AS last_date,
+             COALESCE(t.primary_genre, '')        AS primary_genre
+      FROM gig g
+      LEFT JOIN teams t ON t.team_key = g.team_key
+      GROUP BY g.team_key, t.display_name, t.primary_genre
+      ORDER BY weight DESC, last_date DESC
+      LIMIT ${fetchLim}
+    `);
+    rows.sort((a, b) => {
+      const ra = snapLatest.get(a.node_key)?.rank ?? 99999;
+      const rb = snapLatest.get(b.node_key)?.rank ?? 99999;
+      const aCand = ra < 99999 ? 0 : 1;
+      const bCand = rb < 99999 ? 0 : 1;
+      if (aCand !== bCand) return aCand - bCand;
+      if (aCand === 0 && ra !== rb) return ra - rb;
+      return (Number(b.weight) || 0) - (Number(a.weight) || 0);
+    });
+    return rows.slice(0, lim);
+  }
+
+  if (type === 'outcome') {
+    const { rows } = await runRawSql(`
+      SELECT 'team:' || o.team_key                                         AS node_id,
+             'team'                                                        AS node_type,
+             o.team_key                                                    AS node_key,
+             COALESCE(t.display_name, o.team_key)                          AS label,
+             'outcome'                                                     AS relation,
+             COALESCE(MAX(o.weight), 1)::DOUBLE                            AS weight,
+             COALESCE(ARG_MAX(o.grade, o.weight), '')                      AS grade,
+             STRING_AGG(DISTINCT COALESCE(NULLIF(o.result, ''), o.tier, ''), ', ') AS detail,
+             MAX(o.announced_date)                                         AS last_date,
+             COALESCE(t.primary_genre, '')                                 AS primary_genre
+      FROM outcomes o
+      LEFT JOIN teams t ON t.team_key = o.team_key
+      WHERE o.program = ${keyLit}
+        AND o.counted
+        AND o.announced_date >= DATE ${sinceLit}
+        AND o.announced_date <= DATE ${untilLit}
+      GROUP BY o.team_key, t.display_name, t.primary_genre
+      ORDER BY last_date DESC, weight DESC
+      LIMIT ${lim}
+    `);
+    return rows;
+  }
+
+  if (type === 'program') {
+    const { rows } = await runRawSql(`
+      SELECT 'team:' || s.team_key                AS node_id,
+             'team'                               AS node_type,
+             s.team_key                           AS node_key,
+             COALESCE(t.display_name, s.team_key) AS label,
+             'program'                            AS relation,
+             COUNT(DISTINCT s.signal_date)::DOUBLE AS weight,
+             ''                                   AS grade,
+             CAST(MAX(s.signal_date) AS VARCHAR)  AS detail,
+             MAX(s.signal_date)                   AS last_date,
+             COALESCE(t.primary_genre, '')        AS primary_genre
+      FROM signals s
+      LEFT JOIN teams t ON t.team_key = s.team_key
+      WHERE s.branch = '선정·지원'
+        AND s.program = ${keyLit}
+        AND s.signal_date >= DATE ${sinceLit}
+        AND s.signal_date <= DATE ${untilLit}
+      GROUP BY s.team_key, t.display_name, t.primary_genre
+      ORDER BY last_date DESC, weight DESC
+      LIMIT ${fetchLim}
+    `);
+    rows.sort((a, b) => {
+      const ra = snapLatest.get(a.node_key)?.rank ?? 99999;
+      const rb = snapLatest.get(b.node_key)?.rank ?? 99999;
+      if (ra !== rb) return ra - rb;
+      return String(b.last_date || '').localeCompare(String(a.last_date || ''));
+    });
+    return rows.slice(0, lim);
+  }
+
+  if (type === 'outlet') {
+    const colonIdx = key.indexOf(':');
+    const branch = colonIdx >= 0 ? key.slice(0, colonIdx) : '';
+    const source = colonIdx >= 0 ? key.slice(colonIdx + 1) : key;
+    const { rows } = await runRawSql(`
+      SELECT 'team:' || s.team_key                AS node_id,
+             'team'                               AS node_type,
+             s.team_key                           AS node_key,
+             COALESCE(t.display_name, s.team_key) AS label,
+             'outlet'                             AS relation,
+             COUNT(*)::DOUBLE                     AS weight,
+             ''                                   AS grade,
+             COUNT(*)::VARCHAR || '회 언급'        AS detail,
+             MAX(s.signal_date)                   AS last_date,
+             COALESCE(t.primary_genre, '')        AS primary_genre
+      FROM signals s
+      LEFT JOIN teams t ON t.team_key = s.team_key
+      WHERE (${branch ? `s.branch = ${sqlStringLiteral(branch)}` : 'true'})
+        AND s.source = ${sqlStringLiteral(source)}
+        AND COALESCE(s.role, '') <> 'excluded'
+        AND s.signal_date >= DATE ${sinceLit}
+        AND s.signal_date <= DATE ${untilLit}
+      GROUP BY s.team_key, t.display_name, t.primary_genre
+      ORDER BY weight DESC, last_date DESC
+      LIMIT ${fetchLim}
+    `);
+    rows.sort((a, b) => {
+      const ra = snapLatest.get(a.node_key)?.rank ?? 99999;
+      const rb = snapLatest.get(b.node_key)?.rank ?? 99999;
+      const aCand = ra < 99999 ? 0 : 1;
+      const bCand = rb < 99999 ? 0 : 1;
+      if (aCand !== bCand) return aCand - bCand;
+      if (aCand === 0 && ra !== rb) return ra - rb;
+      return (Number(b.weight) || 0) - (Number(a.weight) || 0);
+    });
+    return rows.slice(0, lim);
+  }
+
+  return [];
+}
+
 
 
 

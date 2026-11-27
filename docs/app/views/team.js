@@ -7,6 +7,7 @@ import {
   roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml, spotifyUrlOf, summarizeWhyTeam,
   watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
+import { mountTeamGraphBlock } from './graph.js';
 
 /**
  * 듣기·보기는 스포티파이·유튜브 두 가지만 (사용자 결정 2026-11-27).
@@ -224,6 +225,8 @@ export async function renderTeamView(root, teamKey) {
             </section>
           ` : ''}
         </div>
+
+        <div id="teamGraphHost" class="team-graph-host"></div>
 
         <section class="block" style="margin-top:16px;">
           <div class="block-head">
@@ -534,7 +537,14 @@ export async function renderTeamView(root, teamKey) {
       </div>`
     : '';
 
+  let graphHandle = null;
+
   function paint() {
+    if (graphHandle) {
+      try { graphHandle.destroy(); } catch (_) {}
+      graphHandle = null;
+    }
+
     root.innerHTML = `
       <div class="team-back-bar">
         <button type="button" class="btn btn-sm" id="btnTeamBack">← ${escapeHtml(backLabel)}</button>
@@ -573,6 +583,15 @@ export async function renderTeamView(root, teamKey) {
 
     wireAvatarFallbacks(root);
     wireSpotifyButtons(root, root.querySelector('#teamPlayerSlot'));
+
+    const graphHost = root.querySelector('#teamGraphHost');
+    if (graphHost) {
+      graphHandle = mountTeamGraphBlock(graphHost, {
+        teamKey,
+        displayName,
+        primaryGenre: genre,
+      });
+    }
 
     root.querySelector('#btnTeamBack')?.addEventListener('click', () => {
       navigateTo(backRoute, '');

@@ -168,6 +168,7 @@ export const appState = {
     precedents: '',
     team: '',
     related: '',
+    ego_network: '',
   },
   sqlTemplates: {
     features: '',
@@ -179,6 +180,7 @@ export const appState = {
     precedents: '',
     team: '',
     related: '',
+    ego_network: '',
   },
   sourceRolesJson: null,
   programLabels: new Map(),
