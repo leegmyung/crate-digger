@@ -137,7 +137,8 @@ export function cloneDefaults() {
 export const appState = {
   route: 'today',
   routeParam: '',
-  verifyTab: 'backtest', // 'backtest' | 'signals' | 'evidence'
+  verifyTab: 'backtest', // 'backtest' | 'signals' | 'evidence' | 'scorecard'
+  candTab: 'all', // 'all' | 'debut'
   prevRoute: null,
   prevParam: '',
   cfg: cloneDefaults(),
@@ -163,6 +164,7 @@ export const appState = {
     candidates: '',
     signals: '',
     scorecard: '',
+    debut_scorecard: '',
     precedents: '',
     team: '',
     related: '',
@@ -173,6 +175,7 @@ export const appState = {
     candidates: '',
     signal_hits: '',
     source_scorecard: '',
+    source_scorecard_debut: '',
     precedents: '',
     team: '',
     related: '',
@@ -289,6 +292,9 @@ export function parseHash() {
   } else if (segs[0] && ROUTES.includes(segs[0])) {
     appState.route = segs[0];
     appState.routeParam = '';
+    if (segs[0] === 'candidates' && (segs[1] === 'debut' || segs[1] === 'all')) {
+      appState.candTab = segs[1];
+    }
   } else if (!pathPart && queryPart) {
     appState.route = 'verify';
     appState.verifyTab = 'backtest';
@@ -304,6 +310,9 @@ export function parseHash() {
 
   if (p.has('vtab') && VERIFY_TABS.includes(p.get('vtab'))) {
     appState.verifyTab = p.get('vtab');
+  }
+  if (p.has('ctab') && (p.get('ctab') === 'debut' || p.get('ctab') === 'all')) {
+    appState.candTab = p.get('ctab');
   }
 
   for (const key of WEIGHT_KEYS) {
@@ -391,6 +400,8 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
     if (route !== 'backtest') p.set('vtab', route);
   } else if (route === 'verify' && appState.verifyTab && appState.verifyTab !== 'backtest') {
     p.set('vtab', appState.verifyTab);
+  } else if (route === 'candidates' && appState.candTab === 'debut') {
+    p.set('ctab', 'debut');
   }
 
   const basePath = normRoute === 'team' && param ? `#/team/${encodeURIComponent(param)}` : `#/${normRoute}`;

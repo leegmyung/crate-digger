@@ -3,15 +3,20 @@ import {
   setExportContext, syncHash,
 } from '../state.js';
 import {
-  buildNextGigByTeam, getSnapshotDiff, queryCandidates, queryTopPrecedent, queryUpcomingGigs,
+  buildNextGigByTeam, getSnapshotDiff, queryCandidates, queryDebutCandidates,
+  queryDebutScorecard, queryTopPrecedent, queryUpcomingGigs,
 } from '../db.js';
 import {
-  avatarHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText, gradeBadgeHtml, plainWhyLine,
-  renderActionBanner, renderEmptyState, scorePartsLine, spotifyButtonHtml, watchButtonHtml,
-  wireAvatarFallbacks, wireSpotifyButtons, youtubeQuickInfo,
+  avatarHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText, formatSourceKey,
+  gradeBadgeHtml, plainWhyLine, renderActionBanner, renderEmptyState, scorePartsLine,
+  spotifyButtonHtml, watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
+  youtubeQuickInfo,
 } from '../ui.js';
 
+const DEBUT_MIN_SAMPLE = 5;
+const DEBUT_DOC_URL = 'https://github.com/leegmyung/crate-digger/blob/main/docs/debut_cohort.md';
 const VALID_SORT_COLS = new Set(['score', 'display_name', 'next_gig_sort']);
+const VALID_DEBUT_SORT_COLS = new Set(['score', 'first_release', 'display_name']);
 
 function sortRows(rows, col, dir) {
   const safeCol = VALID_SORT_COLS.has(col) ? col : 'score';
@@ -51,7 +56,379 @@ function renderRowListenControl(r) {
   return '';
 }
 
+function renderCandTabsHtml(activeTab) {
+  return `
+    <div class="sub-tabs cand-sub-tabs" role="tablist" aria-label="후보 목록 보기 전환">
+      <button type="button" class="sub-tab-btn ${activeTab === 'all' ? 'active' : ''}" role="tab" aria-selected="${activeTab === 'all' ? 'true' : 'false'}" data-cand-tab="all">전체 후보</button>
+      <button type="button" class="sub-tab-btn ${activeTab === 'debut' ? 'active' : ''}" role="tab" aria-selected="${activeTab === 'debut' ? 'true' : 'false'}" data-cand-tab="debut">갓 데뷔</button>
+    </div>
+  `;
+}
+
+function wireCandTabs(root) {
+  root.querySelectorAll('[data-cand-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const next = btn.dataset.candTab;
+      if (next === appState.candTab) return;
+      appState.candTab = next;
+      syncHash(true);
+      window.dispatchEvent(new CustomEvent('app:route'));
+    });
+  });
+}
+
+function sortDebutRows(rows, col, dir) {
+  const safeCol = VALID_DEBUT_SORT_COLS.has(col) ? col : 'score';
+  const mult = dir === 'asc' ? 1 : -1;
+  return [...rows].sort((a, b) => {
+    if (safeCol === 'score') {
+      const va = a.score !== null && a.score !== undefined ? Number(a.score) : -1;
+      const vb = b.score !== null && b.score !== undefined ? Number(b.score) : -1;
+      if (va !== vb) return (va - vb) * mult;
+      return String(b.first_release || '').localeCompare(String(a.first_release || ''));
+    }
+    if (safeCol === 'first_release') {
+      const cmp = String(a.first_release || '').localeCompare(String(b.first_release || '')) * mult;
+      if (cmp !== 0) return cmp;
+      return ((Number(b.score) || 0) - (Number(a.score) || 0));
+    }
+    return String(a.display_name || '').localeCompare(String(b.display_name || ''), 'ko') * mult;
+  });
+}
+
+function renderDebutMentionChip(m, debutScorecard) {
+  const info = formatSourceKey(m.src);
+  const sc = debutScorecard?.bySrc?.get(m.src) || null;
+  const days = m.days_to_mention !== null && m.days_to_mention !== undefined ? Number(m.days_to_mention) : null;
+  const daysTxt = days !== null ? `+${fmtInt(days)}일` : '';
+
+  let relHtml = '<span class="debut-mention-rel is-thin">표본 부족</span>';
+  let tipParts = [
+    `${info.label}${info.branch ? ` (${info.branch})` : ''}`,
+    m.first_mention_date ? `첫 언급 ${m.first_mention_date}${daysTxt ? ` (${daysTxt})` : ''}` : '',
+    m.mention_cnt > 1 ? `총 ${fmtInt(m.mention_cnt)}회` : '',
+  ].filter(Boolean);
+
+  if (sc) {
+    const teams = Number(sc.teams) || 0;
+    const hits = Number(sc.hits) || 0;
+    const rate = sc.rate !== null && sc.rate !== undefined ? Number(sc.rate) : null;
+    const lift = sc.lift !== null && sc.lift !== undefined ? Number(sc.lift) : null;
+    const thin = teams < DEBUT_MIN_SAMPLE;
+    const liftCls = !thin && lift !== null && lift >= 1.5 ? ' is-strong' : '';
+    const metricTxt = `${rate !== null ? fmtNum(rate, 1) + '%' : '-'}${lift !== null ? ` · ${fmtNum(lift, 1)}배` : ''}`;
+    relHtml = `<span class="debut-mention-rel${thin ? ' is-thin' : liftCls}">${escapeHtml(metricTxt)}${thin ? ' (표본 부족)' : ''}</span>`;
+    const medTxt = sc.median_days !== null && sc.median_days !== undefined ? `, 중앙 ${fmtNum(sc.median_days, 0)}일` : '';
+    tipParts.push(`데뷔 코호트 ${fmtInt(hits)}/${fmtInt(teams)}팀 (${metricTxt}${medTxt})${thin ? ' — 표본 부족' : ''}`);
+  } else {
+    tipParts.push('데뷔 코호트 기록 없음 (표본 부족)');
+  }
+
+  return `
+    <span class="debut-mention-chip" title="${escapeHtml(tipParts.join(' · '))}">
+      <span class="debut-mention-src">${escapeHtml(info.label)}</span>
+      ${daysTxt ? `<span class="debut-mention-days mono">${escapeHtml(daysTxt)}</span>` : ''}
+      ${relHtml}
+    </span>
+  `;
+}
+
+async function renderDebutCandidatesView(root) {
+  const c = appState.cfg;
+  const asOf = c.as_of || appState.dataEnd || '2026-11-27';
+  const [debutData, debutScorecard] = await Promise.all([
+    queryDebutCandidates({ as_of: asOf }),
+    queryDebutScorecard({ horizonMonths: c.horizon_months || 24 }),
+  ]);
+
+  let debutSort = { col: 'score', dir: 'desc' };
+
+  const bannerHtml = renderActionBanner({
+    title: '후보 목록',
+    lead: debutData.total
+      ? `기준일(${escapeHtml(asOf)}) 전 12개월 내 첫 발매·사전 신호 없는 백지 신인 <strong>${fmtInt(debutData.total)}팀</strong>(언급 있음 ${fmtInt(debutData.mentioned.length)}팀 · 아직 언급 없음 ${fmtInt(debutData.unmentioned.length)}팀)입니다.`
+      : `기준일(${escapeHtml(asOf)}) 전 12개월 내 조건에 맞는 백지 신인이 없습니다.`,
+  });
+
+  const genreOpts = ['<option value="">전체 장르</option>']
+    .concat(appState.validGenres.map(g => `<option value="${escapeHtml(g)}" ${c.genre === g ? 'selected' : ''}>${escapeHtml(g)}</option>`))
+    .join('');
+
+  const cohortPillsHtml = debutScorecard.sourceRows.length
+    ? debutScorecard.sourceRows.map(r => {
+        const info = formatSourceKey(r.src);
+        const teams = Number(r.teams) || 0;
+        const hits = Number(r.hits) || 0;
+        const thin = teams < DEBUT_MIN_SAMPLE;
+        const rateTxt = r.rate !== null && r.rate !== undefined ? `${fmtNum(r.rate, 1)}%` : '-';
+        const liftTxt = r.lift !== null && r.lift !== undefined ? `${fmtNum(r.lift, 1)}배` : '-';
+        const medTxt = r.median_days !== null && r.median_days !== undefined ? ` · 중앙 ${fmtNum(r.median_days, 0)}일` : '';
+        const tip = `${info.label}: 코호트 ${fmtInt(hits)}/${fmtInt(teams)}팀 (적중률 ${rateTxt}, 배수 ${liftTxt}${medTxt})`;
+        return `<span class="debut-cohort-pill${thin ? ' is-thin' : ''}" title="${escapeHtml(tip)}"><strong>${escapeHtml(info.label)}</strong> <span class="mono">${escapeHtml(rateTxt)} · ${escapeHtml(liftTxt)}</span>${thin ? ' <span class="small">(표본 부족)</span>' : ''}</span>`;
+      }).join('')
+    : '<span class="muted small">데뷔 코호트 출처 데이터 없음</span>';
+
+  const cohortMetaHtml = debutScorecard.cohortTeams > 0
+    ? `데뷔 코호트 신뢰도 (${fmtInt(debutScorecard.mentionMonths)}개월 창 · ${fmtInt(debutScorecard.cohortTeams)}팀, 기준율 ${fmtNum(debutScorecard.baseRate, 1)}%):`
+    : '데뷔 코호트 신뢰도:';
+
+  const unm = debutScorecard.unmentioned;
+  const unmOpportunityHtml = unm && debutScorecard.cohortTeams > 0
+    ? `데뷔 코호트 검증 기준 첫 발매 뒤 ${fmtInt(debutScorecard.mentionMonths)}개월 안에 어느 출처에도 안 나온 백지 신인이 <strong>${fmtInt(debutScorecard.unmentionedPct)}%</strong>(${fmtInt(unm.teams)}/${fmtInt(debutScorecard.cohortTeams)}팀, 그중 정답 ${fmtInt(unm.hits)}팀)입니다 — 아직 언급이 없는 팀이 가장 큰 발굴 기회입니다.`
+    : '아직 어느 출처에도 언급되지 않은 백지 신인은 선행 발굴 후보로 따로 모아 둡니다.';
+
+  root.innerHTML = `
+    ${bannerHtml}
+    ${renderCandTabsHtml('debut')}
+
+    <section class="inline-filter-bar" aria-label="갓 데뷔 필터">
+      <div class="inline-filter-row">
+        <input type="search" id="debutFilterInput" class="input cand-search-input" placeholder="팀 이름·장르·언급 출처 검색..." aria-label="갓 데뷔 표 안에서 검색">
+        <select id="debutGenreSel" class="select" aria-label="장르 필터">${genreOpts}</select>
+        <span class="small muted inline-filter-count" id="debutCountText"></span>
+      </div>
+      <details class="inline-more-filters">
+        <summary>세부 기준 (${c.exclude_famous ? '유명 팀 제외' : '유명 팀 포함'} · ${c.only_no_outcome ? '기정답 제외' : '기정답 포함'})</summary>
+        <div class="inline-more-body">
+          <div class="inline-more-controls">
+            <label class="f-check small">
+              <input type="checkbox" id="debutExcludeFamous" ${c.exclude_famous ? 'checked' : ''}>
+              <span>유명 팀 제외</span>
+            </label>
+            <label class="f-check small">
+              <input type="checkbox" id="debutOnlyNoOutcome" ${c.only_no_outcome ? 'checked' : ''}>
+              <span>이미 상 받은 팀 제외</span>
+            </label>
+          </div>
+          <p class="small muted" style="margin:8px 0 0 0;">
+            기준일(${escapeHtml(asOf)}) 전 12개월 안에 첫 발매가 있고 첫 발매 이전 신호가 0건인 팀만 모았습니다.
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <section class="debut-cohort-strip" id="debutCohortStrip" aria-label="데뷔 코호트 신뢰도 기준">
+      <div class="debut-cohort-row">
+        <span class="debut-cohort-label">${cohortMetaHtml}</span>
+        <div class="debut-cohort-pills">${cohortPillsHtml}</div>
+        <a class="debut-doc-link" href="${DEBUT_DOC_URL}" target="_blank" rel="noopener noreferrer">분석 문서 ↗</a>
+      </div>
+      <p class="debut-limit-note">한계: 첫 발매일은 멜론·스포티파이 프로필이 있는 팀에만 있어 전체 백지 신인의 일부만 보입니다.</p>
+    </section>
+
+    <div class="block" style="padding:0;overflow:hidden;">
+      <div class="table-wrap">
+        <table class="data-table debut-table" id="debutTable">
+          <thead>
+            <tr>
+              <th class="num">#</th>
+              <th class="sortable" data-debut-sort="display_name">팀</th>
+              <th class="nowrap sortable" data-debut-sort="first_release">첫 발매일</th>
+              <th>첫 발매 뒤 언급 출처 · 데뷔 신뢰도</th>
+              <th class="num sortable" data-debut-sort="score">점수</th>
+              <th class="nowrap">듣기</th>
+              <th class="nowrap">관심</th>
+            </tr>
+          </thead>
+          <tbody id="debutTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <details class="info-fold debut-unmentioned-fold" id="debutUnmentionedFold">
+      <summary id="debutUnmSummary">아직 언급 없음 (${fmtInt(debutData.unmentioned.length)}팀)</summary>
+      <div class="info-fold-body">
+        <p class="debut-unm-note">${unmOpportunityHtml}</p>
+        <div id="debutUnmBody"></div>
+      </div>
+    </details>
+
+    <p class="photo-credit" id="debutPhotoCredit" hidden>아티스트 사진 출처: Spotify</p>
+  `;
+
+  wireCandTabs(root);
+
+  function paintDebut() {
+    const q = (root.querySelector('#debutFilterInput')?.value || '').trim().toLowerCase();
+    const matchQuery = (t) => {
+      if (!q) return true;
+      if (String(t.display_name || '').toLowerCase().includes(q)) return true;
+      if (String(t.team_key || '').toLowerCase().includes(q)) return true;
+      if (String(t.primary_genre || '').toLowerCase().includes(q)) return true;
+      if (String(t.first_release || '').toLowerCase().includes(q)) return true;
+      return t.mentions.some(m => {
+        const info = formatSourceKey(m.src);
+        return info.label.toLowerCase().includes(q) || m.src.toLowerCase().includes(q);
+      });
+    };
+
+    const filteredMentioned = sortDebutRows(debutData.mentioned.filter(matchQuery), debutSort.col, debutSort.dir);
+    const filteredUnmentioned = debutData.unmentioned.filter(matchQuery);
+
+    root.querySelector('#debutCountText').textContent = `언급 있음 ${fmtInt(filteredMentioned.length)}팀 · 미언급 ${fmtInt(filteredUnmentioned.length)}팀`;
+    const unmSumEl = root.querySelector('#debutUnmSummary');
+    if (unmSumEl) unmSumEl.textContent = `아직 언급 없음 (${fmtInt(filteredUnmentioned.length)}팀)`;
+
+    root.querySelectorAll('th[data-debut-sort]').forEach(th => {
+      const col = th.dataset.debutSort;
+      const baseLabel = th.dataset.label || th.textContent.replace(/ [▲▼]$/, '');
+      th.dataset.label = baseLabel;
+      th.textContent = col === debutSort.col
+        ? `${baseLabel} ${debutSort.dir === 'asc' ? '▲' : '▼'}`
+        : baseLabel;
+    });
+
+    setExportContext({
+      csvLabel: `갓 데뷔 백지 신인 CSV 내려받기 (${fmtInt(filteredMentioned.length + filteredUnmentioned.length)}팀)`,
+      csvFilename: `crate_digger_debut_${asOf}.csv`,
+      csvHeaders: ['team_key', 'display_name', 'genre', 'first_release', 'score', 'mentions'],
+      csvRows: [...filteredMentioned, ...filteredUnmentioned].map(r => [
+        r.team_key,
+        r.display_name,
+        r.primary_genre || '',
+        r.first_release || '',
+        r.score ?? '',
+        r.mentions.map(m => `${formatSourceKey(m.src).label}(+${m.days_to_mention ?? '?'}일)`).join(' / '),
+      ]),
+    });
+
+    const tbody = root.querySelector('#debutTbody');
+    if (!filteredMentioned.length) {
+      tbody.innerHTML = `<tr><td colspan="7" style="padding:0;border:none;">${renderEmptyState({
+        title: '조건에 맞는 첫 발매 뒤 언급 팀이 없습니다',
+        message: '검색어 또는 장르·기정답 제외 조건을 완화해 보세요.',
+        showReset: false,
+      })}</td></tr>`;
+    } else {
+      tbody.innerHTML = filteredMentioned.map((r, idx) => {
+        const subParts = [];
+        if (r.primary_genre) subParts.push(escapeHtml(r.primary_genre));
+        if (r.had_outcome) subParts.push('기정답');
+        const mentionsHtml = `<div class="debut-mention-list">${r.mentions.map(m => renderDebutMentionChip(m, debutScorecard)).join('')}</div>`;
+        return `
+          <tr class="clickable" tabindex="0" data-team-key="${escapeHtml(r.team_key)}">
+            <td class="num muted">${idx + 1}</td>
+            <td>
+              <div class="row-team-cell">
+                ${avatarHtml(r.team_key, r.display_name, 28, { shape: 'circle', genre: r.primary_genre })}
+                <div class="row-team-text">
+                  <div class="row-team-name">
+                    <span class="cand-mobile-rank">#${idx + 1}</span>
+                    <strong>${escapeHtml(r.display_name)}</strong>
+                  </div>
+                  ${subParts.length ? `<div class="muted small">${subParts.join(' · ')}</div>` : ''}
+                  <div class="debut-mobile-meta">
+                    <span class="mono muted small">첫 발매 ${escapeHtml(r.first_release || '-')}</span>
+                    ${mentionsHtml}
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="nowrap mono muted debut-date-col">${escapeHtml(r.first_release || '-')}</td>
+            <td class="debut-mentions-col">${mentionsHtml}</td>
+            <td class="num"><strong>${r.score !== null ? fmtNum(r.score, 2) : '—'}</strong></td>
+            <td class="nowrap cand-listen-col">${renderRowListenControl(r)}</td>
+            <td class="nowrap">${watchButtonHtml(r.team_key, r.display_name, true, true)}</td>
+          </tr>
+        `;
+      }).join('');
+      wireAvatarFallbacks(tbody);
+      wireSpotifyButtons(tbody);
+    }
+
+    const unmBody = root.querySelector('#debutUnmBody');
+    if (filteredUnmentioned.length) {
+      unmBody.innerHTML = `
+        <ul class="debut-unmentioned-list">
+          ${filteredUnmentioned.map(r => `
+            <li>
+              <a class="debut-unm-team" href="#/team/${encodeURIComponent(r.team_key)}">
+                ${avatarHtml(r.team_key, r.display_name, 24, { shape: 'circle', genre: r.primary_genre })}
+                <strong>${escapeHtml(r.display_name)}</strong>
+                ${r.primary_genre ? `<span class="small muted">${escapeHtml(r.primary_genre)}</span>` : ''}
+              </a>
+              <span class="debut-unm-right">
+                <span class="mono small muted">첫 발매 ${escapeHtml(r.first_release || '-')}</span>
+                ${watchButtonHtml(r.team_key, r.display_name, true, true)}
+              </span>
+            </li>
+          `).join('')}
+        </ul>
+      `;
+      wireAvatarFallbacks(unmBody);
+    } else {
+      unmBody.innerHTML = `<p class="small muted" style="margin:6px 0 0 0;">현재 기준일(${escapeHtml(asOf)}) 프로필 보유 백지 신인 중 첫 발매 뒤 언급이 0건인 팀은 없습니다.</p>`;
+    }
+
+    const hasAnyImg = [...filteredMentioned, ...filteredUnmentioned].some(r => appState.imagesByTeam.has(r.team_key));
+    root.querySelector('#debutPhotoCredit').hidden = !hasAnyImg;
+  }
+
+  paintDebut();
+
+  root.querySelector('#debutFilterInput')?.addEventListener('input', () => paintDebut());
+
+  const triggerRecompute = () => {
+    syncHash(true);
+    window.dispatchEvent(new CustomEvent('app:recompute'));
+  };
+  root.querySelector('#debutGenreSel')?.addEventListener('change', (e) => {
+    appState.cfg.genre = e.target.value || '';
+    triggerRecompute();
+  });
+  root.querySelector('#debutExcludeFamous')?.addEventListener('change', (e) => {
+    appState.cfg.exclude_famous = e.target.checked;
+    triggerRecompute();
+  });
+  root.querySelector('#debutOnlyNoOutcome')?.addEventListener('change', (e) => {
+    appState.cfg.only_no_outcome = e.target.checked;
+    triggerRecompute();
+  });
+
+  root.querySelectorAll('th[data-debut-sort]').forEach(th => {
+    th.setAttribute('tabindex', '0');
+    const onSort = () => {
+      const col = th.dataset.debutSort;
+      if (debutSort.col === col) {
+        debutSort.dir = debutSort.dir === 'desc' ? 'asc' : 'desc';
+      } else {
+        debutSort.col = col;
+        debutSort.dir = col === 'display_name' ? 'asc' : 'desc';
+      }
+      paintDebut();
+    };
+    th.addEventListener('click', onSort);
+    th.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        onSort();
+      }
+    });
+  });
+
+  const tbodyEl = root.querySelector('#debutTbody');
+  tbodyEl?.addEventListener('click', (e) => {
+    if (e.target.closest('button') || e.target.closest('a')) return;
+    const tr = e.target.closest('tr.clickable');
+    if (tr && tr.dataset.teamKey) navigateTo('team', tr.dataset.teamKey);
+  });
+  tbodyEl?.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    if (e.target.closest('button') || e.target.closest('a')) return;
+    const tr = e.target.closest('tr.clickable');
+    if (tr && tr.dataset.teamKey) {
+      e.preventDefault();
+      navigateTo('team', tr.dataset.teamKey);
+    }
+  });
+}
+
 export async function renderCandidatesView(root) {
+  if (appState.candTab === 'debut') {
+    await renderDebutCandidatesView(root);
+    return;
+  }
+
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
   const [rawRows, upcomingRaw] = await Promise.all([
     queryCandidates(),
@@ -111,6 +488,7 @@ export async function renderCandidatesView(root) {
 
   root.innerHTML = `
     ${bannerHtml}
+    ${renderCandTabsHtml('all')}
 
     <section class="inline-filter-bar" aria-label="후보 목록 필터">
       <div class="inline-filter-row">
@@ -412,6 +790,7 @@ export async function renderCandidatesView(root) {
     });
   }
 
+  wireCandTabs(root);
   paintTable();
 
   root.querySelector('#candFilterInput').addEventListener('input', () => {
