@@ -2,6 +2,7 @@
 
     python3 scripts/collect_artists.py            # 발매 수집에서 새로 본 멜론 아티스트만
     python3 scripts/collect_artists.py --limit 50
+    python3 scripts/collect_artists.py --refresh   # 관찰 목록 팬 수 다시 받기 (마지막으로 받은 지 7일 지난 것만)
 
 - 대상: data/raw/raw_kr_release_*_melon*.csv 의 artist_source_id 중 아직 프로필을 안 받은 아티스트.
   이미 받은 번호는 data/raw/state/artist_profile_seen.json.
@@ -10,6 +11,9 @@
   1.5단계 신인 판별(첫 발매 2년 이내 & 발매 5개 이하)과 2단계 이름 맞추기(동명 팀 구분)의 기준 자료.
 - 멜론은 robots.txt가 막아서 aside 브라우저로 읽는다. 페이지가 뜰 때까지만 기다린다.
 - 다른 플랫폼에서만 보인 팀은 2단계 이름 맞추기에서 멜론 번호를 찾은 뒤 이어서 받는다.
+- --refresh: 관찰 목록(후보 점검 b 팀 + 오늘 후보 상위 300 + 정답 팀) 중 이미 프로필을 받은 팀을, 마지막으로 받은 지
+  REFRESH_DAYS(7일) 지난 것만 다시 받는다 → 팬 수가 날짜별로 쌓인다(scripts/fan_history.py, 기준일 시점 유명 판정 준비).
+  artist_profile_seen.json 은 건드리지 않고 data/raw/state/profile_refreshed.json 에 {번호: 날짜}.
 - 형식: docs/csv_spec.md / scripts/csv_schema.py raw_artist_profile
 """
 import argparse
@@ -33,6 +37,11 @@ from normalize import artist_key
 ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"
 STATE = RAW_DIR / "state" / "artist_profile_seen.json"
+REFRESH_STATE = RAW_DIR / "state" / "profile_refreshed.json"   # --refresh 로 다시 받은 날 {멜론 번호: 날짜}
+REFRESH_DAYS = 7
+REFRESH_LIMIT = 300         # 한 번 실행에 다시 받을 최대 팀 수 (7일 규칙이라 매일 돌리면 보통 하루 수십 팀)
+LAB_DIR = ROOT / "docs" / "lab" / "data"
+MELON_ID_IN_URL = re.compile(r"artistId=(\d+)")
 KST = timezone(timedelta(hours=9))
 COLUMNS = [f.name for f in TABLES["raw_artist_profile"]["fields"]]
 ARTIST_URL = "https://www.melon.com/artist/detail.htm?artistId={id}"
@@ -320,12 +329,110 @@ def collect_from_outcomes(limit, names=None, today=None):
     return path, len(todo), total
 
 
+# ---------- --refresh: 관찰 목록 팬 수 다시 받기 ----------
+
+def watch_ids(audit_keys, top_keys, winner_keys, team_ids):
+    """관찰 목록 팀 키 → 멜론 번호 (후보 점검 b → 오늘 후보 상위 → 정답 팀 순, 겹치지 않게)."""
+    out = []
+    for key in [*audit_keys, *top_keys, *winner_keys]:
+        out.extend(team_ids.get(key, []))
+    return list(dict.fromkeys(i for i in out if i))
+
+
+def last_fetched(profile_rows, refreshed):
+    """멜론 번호 → 마지막으로 받은 날 (원본 프로필 파일의 수집일과 profile_refreshed.json 중 늦은 날)."""
+    last = {}
+    for r in profile_rows:
+        i, at = r.get("artist_source_id", ""), (r.get("collected_at") or "")[:10]
+        if i and at and at > last.get(i, ""):
+            last[i] = at
+    for i, d in (refreshed or {}).items():
+        if d > last.get(i, ""):
+            last[i] = d
+    return last
+
+
+def due_for_refresh(ids, last, today, days=REFRESH_DAYS):
+    """한 번이라도 받은 번호 중 마지막으로 받은 지 days 일 이상 지난 것 (한 번도 안 받은 번호는 일반 수집이 맡음)."""
+    limit = (datetime.fromisoformat(today) - timedelta(days=days)).date().isoformat()
+    return [i for i in ids if i in last and last[i] <= limit]
+
+
+def refresh_profiles(ids, fetch=None, out_dir=RAW_DIR, state_path=REFRESH_STATE, today=None, now=None):
+    """SAVE_EVERY 팀마다 저장하고 profile_refreshed.json 을 갱신한다 (끊겨도 받은 만큼 남게). 받은 팀 수를 돌려준다."""
+    fetch = fetch or fetch_profiles
+    state = _load_json(state_path, {})
+    total = 0
+    for k in range(0, len(ids), SAVE_EVERY):
+        chunk = ids[k:k + SAVE_EVERY]
+        stamp = now or datetime.now(KST).replace(microsecond=0).isoformat()
+        day = today or stamp[:10]
+        pages = fetch(chunk)
+        rows = [r for r in (to_row(i, parse_melon_artist(pages.get(i, {})), stamp) for i in chunk) if r]
+        if not rows:
+            continue
+        write_csv(rows, out_dir, day)
+        state.update({r["artist_source_id"]: day for r in rows})
+        state_path.parent.mkdir(parents=True, exist_ok=True)
+        state_path.write_text(json.dumps(state, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+        total += len(rows)
+    return total
+
+
+def _profile_rows():
+    rows = []
+    for f in sorted(glob.glob(str(RAW_DIR / "raw_artist_profile_*_melon*.csv"))):
+        with open(f, encoding="utf-8") as fh:
+            rows.extend(csv.DictReader(fh))
+    return rows
+
+
+def _team_melon_ids():
+    """팀 키 → 멜론 번호: 랩 데이터 links.csv 의 멜론 주소 + 이름 검색 결과(outcome_melon_match.json)."""
+    import melon_names as mn
+    out = {}
+    for r in mn._csv(LAB_DIR / "links.csv"):
+        m = MELON_ID_IN_URL.search(r.get("url", "")) if r.get("platform") == "melon" else None
+        if m:
+            out.setdefault(r["team_key"], []).append(m.group(1))
+    matches = _load_json(MATCH_STATE, {})
+    for t in mn._csv(LAB_DIR / "teams.csv"):
+        m = matches.get((t.get("display_name") or "").strip())
+        if isinstance(m, dict) and valid_melon_id(m.get("id", "")):
+            out.setdefault(t["team_key"], []).append(str(m["id"]))
+    return {k: list(dict.fromkeys(v)) for k, v in out.items()}
+
+
+def collect_refresh(limit=REFRESH_LIMIT, days=REFRESH_DAYS, today=None):
+    import melon_names as mn
+    today = today or f"{datetime.now(KST):%Y-%m-%d}"
+    snapshot = mn._csv(mn.latest_snapshot())
+    top = [r["team_key"] for r in sorted(snapshot, key=lambda r: -float(r.get("score") or 0))[:mn.SNAPSHOT_TOP]]
+    winners = [o["team_key"] for o in mn._csv(LAB_DIR / "outcomes.csv") if str(o.get("counted", "")).lower() == "true"]
+    audit = mn.audit_priority(mn._csv(mn.latest_audit()))
+    ids = watch_ids(audit, top, winners, _team_melon_ids())
+    due = due_for_refresh(ids, last_fetched(_profile_rows(), _load_json(REFRESH_STATE, {})), today, days)[:limit]
+    n = refresh_profiles(due) if due else 0
+    return len(ids), len(due), n
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description="멜론 아티스트 메타데이터 수집 (aside 브라우저)")
+    ap.add_argument("--refresh", action="store_true", help="관찰 목록 팬 수 다시 받기 (마지막으로 받은 지 --refresh-days 지난 것만)")
+    ap.add_argument("--refresh-days", type=int, default=REFRESH_DAYS)
     ap.add_argument("--limit", type=int, default=DEFAULT_LIMIT)
     ap.add_argument("--from-outcomes", action="store_true", help="정답 명단 팀을 멜론에서 찾아 프로필 받기 (백테스트용)")
     ap.add_argument("--names-file", help="한 줄에 팀 이름 하나 — 멜론에서 찾아 프로필 받기 (후보 팀 유명도 판별용)")
     args = ap.parse_args(argv)
+    if args.refresh:
+        try:
+            n_watch, n_due, n_rows = collect_refresh(min(args.limit, REFRESH_LIMIT) if args.limit != DEFAULT_LIMIT else REFRESH_LIMIT,
+                                                     args.refresh_days)
+        except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError) as e:
+            print(f"⚠️ 멜론 팬 수 다시 받기 실패: {e}")
+            return 1
+        print(f"✅ 멜론 팬 수 다시 받기: 관찰 목록 번호 {n_watch}개 · {args.refresh_days}일 지난 것 {n_due}개 → {n_rows}행")
+        return 0
     try:
         if args.names_file:
             names = [n.strip() for n in Path(args.names_file).read_text(encoding="utf-8").splitlines() if n.strip()]

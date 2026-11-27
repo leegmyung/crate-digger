@@ -26,6 +26,7 @@ if command -v aside >/dev/null 2>&1; then
   "$PY" scripts/melon_names.py || echo "⚠️ 멜론 보강 명단 만들기 실패"
   NAMES="$(ls -t data/raw/review/melon_names_*.txt 2>/dev/null | head -1)"   # 후보·수상 팀 프로필 보강 (한도 없이 명단 전체)
   [ -n "$NAMES" ] && { "$PY" scripts/collect_artists.py --names-file "$NAMES" || echo "⚠️ 후보 팀 멜론 프로필 보강 실패"; }
+  "$PY" scripts/collect_artists.py --refresh || echo "⚠️ 멜론 팬 수 다시 받기 실패"   # 관찰 팀 팬 수 7일마다 (팬 수 날짜별 기록용)
 else
   echo "⚠️ aside 명령이 없어 공연·인스타·음원 플랫폼 수집을 건너뜀"
 fi

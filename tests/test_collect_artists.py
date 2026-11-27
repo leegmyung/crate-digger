@@ -254,3 +254,37 @@ class RetryTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class RefreshTest(unittest.TestCase):
+    """--refresh: 관찰 목록의 멜론 프로필을 마지막으로 받은 지 7일 지난 것만 다시 받는다 (팬 수 날짜별 기록용)."""
+
+    def test_watch_ids_order_and_mapping(self):
+        team_ids = {"a": ["1"], "b": ["2", "3"], "w": ["9"]}
+        ids = ca.watch_ids(audit_keys=["b"], top_keys=["a", "b", "x"], winner_keys=["w", "a"], team_ids=team_ids)
+        self.assertEqual(ids, ["2", "3", "1", "9"])                     # 점검 b → 상위 → 정답 순, 겹침 없음
+
+    def test_last_fetched_takes_latest_of_files_and_state(self):
+        rows = [{"artist_source_id": "1", "collected_at": "2026-11-20T10:00:00+09:00"},
+                {"artist_source_id": "1", "collected_at": "2026-11-26T10:00:00+09:00"},
+                {"artist_source_id": "2", "collected_at": "2026-11-10T10:00:00+09:00"}]
+        last = ca.last_fetched(rows, {"2": "2026-11-25"})
+        self.assertEqual(last, {"1": "2026-11-26", "2": "2026-11-25"})
+
+    def test_due_for_refresh_only_after_days_and_only_fetched_before(self):
+        last = {"1": "2026-11-20", "2": "2026-11-25"}
+        due = ca.due_for_refresh(["1", "2", "3"], last, "2026-11-27", days=7)
+        self.assertEqual(due, ["1"])                                     # 2는 2일 전, 3은 한 번도 안 받음(일반 수집이 맡음)
+
+    def test_refresh_saves_state_without_touching_seen(self):
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            seen_path, state_path = d / "seen.json", d / "refreshed.json"
+            seen_path.write_text('["1"]', encoding="utf-8")
+            pages = {"1": PAGE}
+            n = ca.refresh_profiles(["1"], fetch=lambda ids: {i: pages[i] for i in ids}, out_dir=d,
+                                    state_path=state_path, today="2026-11-27", now=AT)
+            self.assertEqual(n, 1)
+            self.assertEqual(seen_path.read_text(encoding="utf-8"), '["1"]')
+            self.assertEqual(ca._load_json(state_path, {}), {"1": "2026-11-27"})
+            self.assertEqual(len(list(d.glob("raw_artist_profile_*_melon*.csv"))), 1)
