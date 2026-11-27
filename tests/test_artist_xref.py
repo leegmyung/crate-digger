@@ -273,6 +273,70 @@ class ConflictResolvedByManualAliasTest(unittest.TestCase):
         self.assertTrue(any(r["kind"] == "alias_auto" and "yb" in r["detail"] for r in review))
 
 
+class CurationSectionsTest(unittest.TestCase):
+    """config/artist_aliases.json 의 '다른 팀'(distinct)·'플랫폼 번호 고정'(platform_ids)·'팀 아닌 인스타 계정'(non_artist_handles)."""
+    EV = {"reason": "근거", "evidence": ["https://example.com"], "checked": "2026-11-27"}
+
+    def test_distinct_member_keeps_group_alias_with_group(self):
+        names = [{"table": "release", "name": "민기 (ATEEZ)", "count": 1}, {"table": "release", "name": "에이티즈 (ATEEZ)", "count": 3}]
+        artists, review = ax.build_xref(names, [], [], [], distinct=[{"names": ["민기", "에이티즈"], **self.EV}])
+        grp = next(a for a in artists if "에이티즈" in a["keys"])
+        self.assertIn("ateez", grp["keys"])
+        self.assertNotIn("민기", grp["keys"])
+        self.assertFalse(any(r["kind"] == "alias_conflict" for r in review))
+
+    def test_distinct_blocks_direct_link(self):
+        names = [{"table": "gig", "name": "가나 (GANA)", "count": 2}, {"table": "press", "name": "GANA", "count": 2}]
+        joined, _ = ax.build_xref(names, [], [], [])
+        self.assertTrue(any({"가나", "gana"} <= set(a["keys"]) for a in joined))
+        apart, _ = ax.build_xref(names, [], [], [], distinct=[{"names": ["가나", "GANA"], **self.EV}])
+        self.assertFalse(any({"가나", "gana"} <= set(a["keys"]) for a in apart))
+
+    def test_platform_pin_drops_wrong_id(self):
+        names = [{"table": "gig", "name": "나이테", "count": 3}]
+        ids = [{"name": "나이테", "platform": "melon", "id": "5324101", "confidence": "high"},
+               {"name": "나이테", "platform": "melon", "id": "4722708", "confidence": "mid"}]
+        pins = [{"team": "나이테", "platform": "melon", "id": "4722708", "not": ["5324101"], **self.EV}]
+        artists, review = ax.build_xref(names, [], [], ids, platform_pins=pins)
+        rec = next(a for a in artists if a["artist_key"] == "나이테")
+        self.assertEqual(rec["melon_id"], "4722708")
+        self.assertFalse(any(r["kind"] == "multiple_platform_ids" for r in review))
+
+    def test_load_sections_validate(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "a.json"
+            good = {"aliases": [], "distinct": [{"names": ["a", "b"], **self.EV}],
+                    "platform_ids": [{"team": "t", "platform": "melon", "id": "4722708", "not": ["1"], **self.EV}],
+                    "non_artist_handles": [{"handle": "marshall", **self.EV}]}
+            p.write_text(json.dumps(good, ensure_ascii=False), encoding="utf-8")
+            self.assertEqual(len(ax.load_curation(p)["distinct"]), 1)
+            for key, broken in (("distinct", {"names": ["a"], **self.EV}),
+                                ("platform_ids", {"team": "t", "platform": "bugs", "id": "1", **self.EV}),
+                                ("non_artist_handles", {"handle": "", **self.EV})):
+                p.write_text(json.dumps({**good, key: [broken]}, ensure_ascii=False), encoding="utf-8")
+                with self.assertRaises(ValueError):
+                    ax.load_curation(p)
+
+    def test_repo_config_sections(self):
+        cur = ax.load_curation()
+        self.assertTrue(any(set(e["names"]) == {"민기", "에이티즈"} for e in cur["distinct"]))
+        self.assertTrue(any(e["team"] == "나이테" and e["id"] == "4722708" for e in cur["platform_ids"]))
+        self.assertIn("marshall", {e["handle"] for e in cur["non_artist_handles"]})
+
+    def test_config_non_artist_handles_dropped_from_ig_profiles(self):
+        from unittest import mock
+        with tempfile.TemporaryDirectory() as d:
+            raw = Path(d)
+            (raw / "state").mkdir()
+            (raw / "raw_artist_profile_2026-11-27_instagram.csv").write_text(
+                "source,artist_source_id,artist_text\ninstagram,marshall,Marshall\ninstagram,realband,리얼밴드\n", encoding="utf-8")
+            cfg = raw / "cfg.json"
+            cfg.write_text(json.dumps({"aliases": [], "non_artist_handles": [{"handle": "marshall", **self.EV}]}), encoding="utf-8")
+            with mock.patch.object(ax, "MANUAL_ALIASES", cfg):
+                _, ig_profiles, _, _ = ax.collect_inputs(raw)
+        self.assertEqual([p["handle"] for p in ig_profiles], ["realband"])
+
+
 class ManualAliasTest(unittest.TestCase):
     """사람이 확인한 별칭(config/artist_aliases.json) → 신뢰도 high 간선. 충돌 검사는 자동 간선과 같이 받는다."""
     ENTRY = {"main": "포스트이너서클", "aliases": ["포스트이너써클"], "reason": "같은 EP, 인디스트릿 페이지 둘",

@@ -1,6 +1,6 @@
 # 아티스트 연결표 요약 (artist_xref)
 
-_자동 생성: `python3 scripts/artist_xref.py` · 2026-11-27 19:46_
+_자동 생성: `python3 scripts/artist_xref.py` · 2026-11-27 19:51_
 
 플랫폼·소스마다 다르게 적힌 팀 이름을 **대표 이름 1개 + 표기 목록**으로 묶고, 인스타 계정·멜론/스포티파이 번호를 붙인 표예요 (업계 말로 '아티스트 매칭·메타데이터 검수'). 문제 찾기는 검증 SQL(`docs/sql/README.md` c02·c06·c08), 고친 표 만들기는 이 스크립트, 결과는 다시 PostgreSQL `ref.artist_xref`(표기 키 → 대표 키)로 넣어 SQL에서 씁니다.
 원본 연결표는 실제 수집 데이터라 저장소에 올리지 않고 여기엔 숫자와 예시만 둡니다.
@@ -9,19 +9,20 @@ _자동 생성: `python3 scripts/artist_xref.py` · 2026-11-27 19:46_
 
 | 항목 | 값 |
 |---|---|
-| 대표 팀 수 | 9,213 |
-| 표기 2개 이상으로 적힌 팀 | 1,532팀 (표기 3,421개) |
-| 이름 키가 달라 갈라져 있던 팀 → 새로 묶음 (한영 병기·인스타 이름 근거) | 1,381팀 |
+| 대표 팀 수 | 9,206 |
+| 표기 2개 이상으로 적힌 팀 | 1,536팀 (표기 3,429개) |
+| 이름 키가 달라 갈라져 있던 팀 → 새로 묶음 (한영 병기·인스타 이름 근거) | 1,385팀 |
 | 선정 명단에서 한 칸에 여러 명 → 팀 단위로 나눈 칸 | 22칸 |
-| 인스타 계정 (아티스트로 분류된 것) | 101개 |
-| └ 다른 소스의 팀과 연결 (high + mid) | 45개 (44.6%) — high 28, mid 17 |
-| └ 인스타에만 있는 이름 (low) | 56개 |
+| 인스타 계정 (아티스트로 분류된 것) | 97개 |
+| └ 다른 소스의 팀과 연결 (high + mid) | 45개 (46.4%) — high 28, mid 17 |
+| └ 인스타에만 있는 이름 (low) | 52개 |
 | 멜론 번호 / 스포티파이 번호 붙은 팀 | 618 / 400 |
-| **정답 팀 중 신호(공연·선정·발매·기사)와 이어진 팀** | 400 / 477팀 (83.9%) |
-| └ 그중 연결표로 다른 표기를 묶어서 새로 이어진 팀 | 11팀 |
-| 사람이 확인한 별칭 (`config/artist_aliases.json`) | 8팀 · 별칭 11개 |
-| 별칭 충돌 자동 해결 (긴 이름이 짧은 이름을 품는 합동 표기 → 별칭은 짧은 쪽) | 15건 |
-| 사람 확인 필요 | 79건 (ig_unmatched 56, cell_split 11, alias_conflict 6, multiple_platform_ids 5, ig_multiple_handles 1) |
+| **정답 팀 중 신호(공연·선정·발매·기사)와 이어진 팀** | 401 / 477팀 (84.1%) |
+| └ 그중 연결표로 다른 표기를 묶어서 새로 이어진 팀 | 12팀 |
+| 사람이 확인한 별칭 (`config/artist_aliases.json`) | 9팀 · 별칭 13개 |
+| 사람이 확인한 다른 팀 / 플랫폼 번호 고정 / 팀 아닌 인스타 계정 (같은 파일) | 5쌍 / 4팀 / 4개 |
+| 별칭 충돌 자동 해결 (긴 이름이 짧은 이름을 품는 합동 표기 → 별칭은 짧은 쪽) | 16건 |
+| 사람 확인 필요 | 66건 (ig_unmatched 52, cell_split 11, multiple_platform_ids 1, alias_conflict 1, ig_multiple_handles 1) |
 
 정답↔신호 연결률은 날짜를 따지지 않은 '이름이 이어지는가'만 본 숫자예요. 점수 백테스트의 정답 수는 여기에 '신호가 정답보다 먼저'·'정답 기간 2025년 이후'·'같은 프로그램 계열 제외' 조건이 더해져 줄어듭니다.
 
@@ -48,17 +49,8 @@ _자동 생성: `python3 scripts/artist_xref.py` · 2026-11-27 19:46_
 
 | 종류 | 내용 | 이유 |
 |---|---|---|
-| multiple_platform_ids | 나이테 melon 4722708, 5324101 | 한 팀에 플랫폼 번호가 여러 개 — 동명 팀이 섞였을 수 있음 |
-| multiple_platform_ids | 루시갱 spotify 6bdK4VbII2XlfccYCeK47S, 6gXEyIkyyFcVrhY2tk8NSy | 한 팀에 플랫폼 번호가 여러 개 — 동명 팀이 섞였을 수 있음 |
-| multiple_platform_ids | 밴디츠 melon 3752676, 5182442 | 한 팀에 플랫폼 번호가 여러 개 — 동명 팀이 섞였을 수 있음 |
 | multiple_platform_ids | 애리 spotify 3s85ERxPcJlYlvquO4X1rT, 5wcyZGHnvGc4lhk1JZLvak | 한 팀에 플랫폼 번호가 여러 개 — 동명 팀이 섞였을 수 있음 |
-| multiple_platform_ids | 호아 melon 2201264, 980733 | 한 팀에 플랫폼 번호가 여러 개 — 동명 팀이 섞였을 수 있음 |
-| alias_conflict | ateez ← 민기, 에이티즈 | 같은 별칭이 여러 팀에 붙음 (동명 팀일 수 있음) |
-| alias_conflict | bignaughty ← 빅나티, 서동현 | 같은 별칭이 여러 팀에 붙음 (동명 팀일 수 있음) |
 | alias_conflict | cyan ← 시안, 싸이언 | 같은 별칭이 여러 팀에 붙음 (동명 팀일 수 있음) |
-| alias_conflict | kickflip ← 동화, 킥플립 | 같은 별칭이 여러 팀에 붙음 (동명 팀일 수 있음) |
-| alias_conflict | twice ← 채영, 트와이스 | 같은 별칭이 여러 팀에 붙음 (동명 팀일 수 있음) |
-| alias_conflict | 더사운드 ← eson, thesound | 같은 별칭이 여러 팀에 붙음 (동명 팀일 수 있음) |
 | cell_split | Eddie and the Bricks → Eddie and the Bricks | '&'·'+'·'and'는 팀 이름 안에도 나와 그대로 둠 |
 | ig_multiple_handles | 노이 ← @neu_hause, @no2yeyo | 한 팀에 인스타 계정이 여러 개 — 동명 팀이거나 개인·팀 계정 |
 | cell_split | J Kim & Holidayhvre → J Kim & Holidayhvre | '&'·'+'·'and'는 팀 이름 안에도 나와 그대로 둠 |
@@ -68,5 +60,14 @@ _자동 생성: `python3 scripts/artist_xref.py` · 2026-11-27 19:46_
 | cell_split | 문근영(해파, 시옷과 바람) → 문근영 | 괄호 속은 멤버·소속으로 보고 팀만 남김 |
 | cell_split | 박혜리(정원영밴드, 바드) → 박혜리 | 괄호 속은 멤버·소속으로 보고 팀만 남김 |
 | cell_split | 뱃사공(수림, 백찬영) → 뱃사공 | 괄호 속은 멤버·소속으로 보고 팀만 남김 |
+| cell_split | 이미지 외 4명 → 이미지 | '외 N명' — 나머지 이름은 원문에 없음 |
+| cell_split | 이차형 외 2명 → 이차형 | '외 N명' — 나머지 이름은 원문에 없음 |
+| cell_split | 파란난장(장제헌,빌리어코스티,이관,박은주,유영길,심정) → 파란난장 | 괄호 속은 멤버·소속으로 보고 팀만 남김 |
+| ig_unmatched | @123areswimming '일이삼' | 인스타에만 있는 이름 — 다른 소스의 팀과 아직 못 이음 |
+| ig_unmatched | @4sale.4sale.4sale '4sale' | 인스타에만 있는 이름 — 다른 소스의 팀과 아직 못 이음 |
+| ig_unmatched | @5yogalaxy '다갤짱드롭킥' | 인스타에만 있는 이름 — 다른 소스의 팀과 아직 못 이음 |
+| ig_unmatched | @____malgo____ '말고' | 인스타에만 있는 이름 — 다른 소스의 팀과 아직 못 이음 |
+| ig_unmatched | @_charitylynn_ 'Charity Lynn' | 인스타에만 있는 이름 — 다른 소스의 팀과 아직 못 이음 |
+| ig_unmatched | @_trugdy '_trugdy' | 인스타에만 있는 이름 — 다른 소스의 팀과 아직 못 이음 |
 
 종류: cell_split = 한 칸 여러 명 중 나누지 않고 둔 것 · alias_conflict = 같은 별칭이 여러 팀에 붙음 · multiple_platform_ids = 한 팀에 플랫폼 번호 여러 개 · ig_multiple_teams = 한 계정이 여러 팀과 맞음 · ig_unmatched = 인스타에만 있는 이름 · platform_namesake = 검색 동명이인. 자동 해결(alias_auto)은 확인 목록 파일에만 기록하고 이 표·건수에서는 뺀다.

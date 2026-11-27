@@ -1,5 +1,5 @@
 {
-  "_설명": "사람이 확인한 별칭 (2026-11-27 시작). 자동 규칙(한영 병기·인스타 이름)으로 못 묶는 같은 팀의 다른 표기를 적는다. scripts/artist_xref.py 가 신뢰도 high 간선으로 넣고, 자동 간선과 함께 충돌 검사(같은 별칭이 다른 대표에 붙으면 버리고 '확인 필요'로 보고)를 받는다. 항목마다 main(대표 이름), aliases(별칭 목록), reason(이유), evidence(근거 — 링크 또는 우리 데이터 설명), checked(확인 날짜 YYYY-MM-DD)가 모두 있어야 한다. 확신이 중간 이하인 쌍(예: nib ↔ nib.archive)은 넣지 말고 docs/candidate_audit.md 의 '확인 필요'에 둔다.",
+  "_설명": "사람이 확인한 별칭 (2026-11-27 시작). 자동 규칙(한영 병기·인스타 이름)으로 못 묶는 같은 팀의 다른 표기를 적는다. scripts/artist_xref.py 가 신뢰도 high 간선으로 넣고, 자동 간선과 함께 충돌 검사(같은 별칭이 다른 대표에 붙으면 버리고 '확인 필요'로 보고)를 받는다. 항목마다 main(대표 이름), aliases(별칭 목록), reason(이유), evidence(근거 — 링크 또는 우리 데이터 설명), checked(확인 날짜 YYYY-MM-DD)가 모두 있어야 한다. 확신이 중간 이하인 쌍(예: nib ↔ nib.archive)은 넣지 말고 docs/candidate_audit.md 의 '확인 필요'에 둔다. 같은 파일의 다른 구역: distinct = 다른 팀(묶지 말 것). names 첫 이름(멤버·개인)은 따로 두고, 겹치는 별칭은 나머지 이름(그룹) 쪽에 남긴다 · platform_ids = 플랫폼 번호 고정(id = 맞는 번호, not = 다른 아티스트로 확인된 번호 — 어디서 왔든 버림) · non_artist_handles = 팀이 아닌 인스타 계정(브랜드·레이블·시장 등). 모든 항목에 reason·evidence·checked 필수.",
   "aliases": [
     {
       "main": "포스트이너서클",
@@ -95,6 +95,172 @@
       "evidence": [
         "https://ko.wikipedia.org/wiki/YB",
         "https://kakaoent.com/pr/detail/215"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "빅나티",
+      "aliases": [
+        "서동현",
+        "BIG Naughty"
+      ],
+      "reason": "같은 사람 — 래퍼 BIG Naughty(빅나티)의 본명이 서동현. 한국힙합어워즈 2022 신인 후보 원문이 '서동현(BIG Naughty)'라 정답 팀이 '서동현'으로 따로 갈라져 있었음",
+      "evidence": [
+        "https://en.wikipedia.org/wiki/Big_Naughty",
+        "https://www.koreanhiphopawards.com/2022/nominees.html"
+      ],
+      "checked": "2026-11-27"
+    }
+  ],
+  "distinct": [
+    {
+      "names": [
+        "민기",
+        "에이티즈"
+      ],
+      "reason": "멤버(그룹) 표기 — 괄호 속 그룹 이름이 별칭으로 읽혀 멤버와 그룹이 같은 별칭을 가짐. 멤버 개인과 그룹은 다른 팀 (ATEEZ 멤버 민기)",
+      "evidence": [
+        "https://en.wikipedia.org/wiki/Ateez"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "names": [
+        "채영",
+        "트와이스"
+      ],
+      "reason": "멤버(그룹) 표기 — 괄호 속 그룹 이름이 별칭으로 읽혀 멤버와 그룹이 같은 별칭을 가짐. 멤버 개인과 그룹은 다른 팀 (TWICE 멤버 채영)",
+      "evidence": [
+        "https://en.wikipedia.org/wiki/Twice"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "names": [
+        "동화",
+        "킥플립"
+      ],
+      "reason": "멤버(그룹) 표기 — 괄호 속 그룹 이름이 별칭으로 읽혀 멤버와 그룹이 같은 별칭을 가짐. 멤버 개인과 그룹은 다른 팀 (KickFlip 멤버 동화)",
+      "evidence": [
+        "https://en.wikipedia.org/wiki/KickFlip"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "names": [
+        "ESON",
+        "The Sound"
+      ],
+      "reason": "멤버(그룹) 표기 — 괄호 속 그룹 이름이 별칭으로 읽혀 멤버와 그룹이 같은 별칭을 가짐. 멤버 개인과 그룹은 다른 팀 — 공연 기록 'ESON(더 사운드)'",
+      "evidence": [
+        "indistreet 공연 기록 2025-06-14 Bender 「MEMORIES」 출연자 'ESON(더 사운드)'"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "names": [
+        "Naiite",
+        "나이테"
+      ],
+      "reason": "이름이 같은 다른 팀 — 멜론 5324101 '나이테 (Naiite)'(멤버 Pepperman·Askii 등)는 정답 팀 밴드 나이테(Nyteh, 4722708)와 다름. 영문 표기 Naiite가 별칭으로 붙지 않게",
+      "evidence": [
+        "https://m.app.melon.com/artist/detail.htm?artistId=5324101",
+        "https://m.app.melon.com/artist/detail.htm?artistId=4722708"
+      ],
+      "checked": "2026-11-27"
+    }
+  ],
+  "platform_ids": [
+    {
+      "team": "나이테",
+      "platform": "melon",
+      "id": "4722708",
+      "not": [
+        "5324101"
+      ],
+      "reason": "정답(펜타포트 슈퍼루키 2026) 원문이 '나이테(Nyteh)' — 멜론 4722708은 'Nyteh', 밴드 나이테·데뷔 2025-12-25(팀 프로필 첫 발매와 같음). 5324101 '나이테 (Naiite)'는 멤버 Pepperman·Askii 등의 다른 팀",
+      "evidence": [
+        "https://m.app.melon.com/artist/detail.htm?artistId=4722708",
+        "https://m.app.melon.com/artist/detail.htm?artistId=5324101",
+        "https://www.kyeonggi.com/article/20260530580137"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "team": "호아",
+      "platform": "melon",
+      "id": "980733",
+      "not": [
+        "2201264"
+      ],
+      "reason": "멜론 980733 '호아'는 그룹·데뷔 2016-05-30(팀 프로필 첫 발매와 같음, 멤버 김규목·지노아 등). 2201264 'HOA'는 정보 없는 다른 항목",
+      "evidence": [
+        "https://m.app.melon.com/artist/detail.htm?artistId=980733",
+        "https://m.app.melon.com/artist/detail.htm?artistId=2201264"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "team": "루시갱",
+      "platform": "spotify",
+      "id": "6bdK4VbII2XlfccYCeK47S",
+      "not": [
+        "6gXEyIkyyFcVrhY2tk8NSy"
+      ],
+      "reason": "스포티파이 6bdK… 'Luci Gang'은 앨범 〈무한궤도〉(2026, 리드머 리뷰)·월 14만 명. 6gX… '루시갱'은 메가믹스 한 곡에만 이름이 걸린 빈 프로필",
+      "evidence": [
+        "https://open.spotify.com/artist/6bdK4VbII2XlfccYCeK47S",
+        "https://open.spotify.com/artist/6gXEyIkyyFcVrhY2tk8NSy",
+        "http://board.rhythmer.net/src/go.php?n=21565&m=view&s=review"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "team": "밴디츠",
+      "platform": "melon",
+      "id": "5182442",
+      "not": [
+        "3752676"
+      ],
+      "reason": "멜론 5182442 '밴디츠'는 그룹·멤버 Ali Safavi 등(부산 2인조 Bandits). 3752676 'Bandits'는 솔로 다른 아티스트",
+      "evidence": [
+        "https://m.app.melon.com/artist/detail.htm?artistId=5182442",
+        "https://m.app.melon.com/artist/detail.htm?artistId=3752676",
+        "https://www.koreatimes.co.kr/amp/southkorea/globalcommunity/20240914/bandits-rules-southeastern-koreas-underground-music-scene"
+      ],
+      "checked": "2026-11-27"
+    }
+  ],
+  "non_artist_handles": [
+    {
+      "handle": "fukuoka_city_market",
+      "reason": "후쿠오카 시장(행사) 계정 — 팀 아님",
+      "evidence": [
+        "인스타 프로필 이름 'Fukuoka City Market'"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "handle": "marshall",
+      "reason": "앰프 브랜드 Marshall 공식 계정 — 팀 아님",
+      "evidence": [
+        "인스타 프로필 이름 'Marshall'"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "handle": "nettwerkmusic",
+      "reason": "음반사 Nettwerk Music Group 계정 — 팀 아님",
+      "evidence": [
+        "인스타 프로필 이름 'Nettwerk Music Group'"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "handle": "smallroommusic",
+      "reason": "태국 인디 레이블 smallroom 계정으로 보임 — 팀 아님",
+      "evidence": [
+        "https://www.believe.com/?p=148533"
       ],
       "checked": "2026-11-27"
     }

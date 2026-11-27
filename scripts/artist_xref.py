@@ -416,6 +416,76 @@ def load_manual_aliases(path: Path = MANUAL_ALIASES) -> list[dict]:
     return entries
 
 
+PLATFORMS = ("melon", "spotify")
+
+
+def _common_problems(e: dict) -> list[str]:
+    return [why for ok, why in (
+        (isinstance(e.get("reason"), str) and e["reason"].strip(), "reason(이유)이 비어 있음"),
+        (isinstance(e.get("evidence"), list) and e["evidence"], "evidence(근거)가 비어 있음"),
+        (isinstance(e.get("checked"), str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", e["checked"]), "checked(확인 날짜)가 YYYY-MM-DD가 아님"),
+    ) if not ok]
+
+
+def _section(data: dict, key: str, check, path) -> list[dict]:
+    entries = data.get(key, [])
+    if not isinstance(entries, list):
+        raise ValueError(f"{path}: '{key}'는 목록이어야 해요")
+    for i, e in enumerate(entries):
+        problems = check(e) + _common_problems(e)
+        if problems:
+            raise ValueError(f"{path} {key} 항목 {i + 1}: {', '.join(problems)}")
+    return entries
+
+
+def load_curation(path: Path | None = None) -> dict:
+    """사람이 확인한 연결표 보정 전부 (config/artist_aliases.json):
+    aliases(같은 팀 별칭) · distinct(다른 팀 — 묶지 말 것, 첫 이름은 따로 두고 겹치는 별칭은 나머지 이름 쪽에) ·
+    platform_ids(플랫폼 번호 고정 — 맞는 번호와 다른 아티스트 번호 not) · non_artist_handles(팀이 아닌 인스타 계정)."""
+    path = Path(path or MANUAL_ALIASES)
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return {"aliases": [], "distinct": [], "platform_ids": [], "non_artist_handles": []}
+    if not isinstance(data, dict):
+        raise ValueError(f"{path}: JSON 객체여야 해요")
+    return {
+        "aliases": load_manual_aliases(path),
+        "distinct": _section(data, "distinct", lambda e: [] if isinstance(e.get("names"), list) and len(
+            [n for n in e["names"] if isinstance(n, str) and n.strip()]) >= 2 else ["names(이름 2개 이상)가 없음"], path),
+        "platform_ids": _section(data, "platform_ids", lambda e: [why for ok, why in (
+            (isinstance(e.get("team"), str) and e["team"].strip(), "team(팀 이름)이 비어 있음"),
+            (e.get("platform") in PLATFORMS, f"platform은 {'/'.join(PLATFORMS)} 중 하나"),
+            (isinstance(e.get("id"), str) and e["id"].strip(), "id(맞는 번호)가 비어 있음"),
+            (isinstance(e.get("not", []), list), "not(다른 아티스트 번호)은 목록"),
+        ) if not ok], path),
+        "non_artist_handles": _section(data, "non_artist_handles", lambda e: [] if isinstance(e.get("handle"), str)
+                                       and e["handle"].strip() else ["handle(계정명)이 비어 있음"], path),
+    }
+
+
+def _apply_distinct(edges: list[tuple], distinct: list[dict]) -> list[tuple]:
+    """'다른 팀' 쌍은 묶지 않는다: 두 이름 사이 직접 연결을 지우고, 첫 이름(멤버·개인)이 나머지 이름(그룹)과 같은 별칭을
+    가지면('민기 (ATEEZ)' · '에이티즈 (ATEEZ)') 첫 이름 쪽 연결만 지운다 → 별칭은 그룹에 남는다."""
+    groups = [[artist_key(n) for n in e["names"] if artist_key(n)] for e in distinct]
+    claimed: dict[str, set[str]] = defaultdict(set)
+    for mk, ak, *_ in edges:
+        claimed[ak].add(mk)
+    drop = set()
+    for keys in groups:
+        first, rest = keys[0], set(keys[1:])
+        drop |= {(a, b) for a in keys for b in keys if a != b}
+        drop |= {(first, ak) for ak, mains in claimed.items() if first in mains and mains & rest}
+    return [e for e in edges if (e[0], e[1]) not in drop]
+
+
+def _pin_platform_ids(platform_ids: list[dict], pins: list[dict]) -> list[dict]:
+    """플랫폼 번호 고정: 다른 아티스트로 확인된 번호(not)는 어디서 왔든 버리고, 맞는 번호를 high 로 더한다."""
+    blocked = {(p["platform"], str(x)) for p in pins for x in p.get("not", [])}
+    kept = [r for r in platform_ids if (r["platform"], str(r["id"])) not in blocked]
+    return kept + [{"name": p["team"], "platform": p["platform"], "id": str(p["id"]), "confidence": "high"} for p in pins]
+
+
 def _manual_edges(entries: list[dict]) -> list[tuple]:
     """사람이 확인한 별칭 → (대표 키, 별칭 키, 'high', 근거) 간선. 충돌 검사는 자동 간선과 함께 받는다."""
     edges = []
@@ -437,15 +507,18 @@ def _settle_conflict(r: dict, g: "_Groups") -> dict:
 
 
 def build_xref(names: list[dict], ig_profiles: list[dict], ig_posts: list[dict],
-               platform_ids: list[dict], manual_aliases: list[dict] | None = None) -> tuple[list[dict], list[dict]]:
+               platform_ids: list[dict], manual_aliases: list[dict] | None = None,
+               distinct: list[dict] | None = None, platform_pins: list[dict] | None = None) -> tuple[list[dict], list[dict]]:
     """원본 이름·인스타·플랫폼 번호 (+ 사람이 확인한 별칭) → (연결표 artists, 사람 확인 목록 review)."""
     review: list[dict] = []
     occ = _expand_names(names, review)
     spell, tables, count = _collect_occurrences(occ)
     base = set(count)
     cands = _ig_candidates(ig_profiles, ig_posts)
-    edges = _drop_conflicts(_alias_edges(occ) + _ig_edges(cands, occ, base, spell)
-                            + _manual_edges(manual_aliases or []), review)
+    edges = _apply_distinct(_alias_edges(occ) + _ig_edges(cands, occ, base, spell) + _manual_edges(manual_aliases or []),
+                            distinct or [])
+    edges = _drop_conflicts(edges, review)
+    platform_ids = _pin_platform_ids(platform_ids, platform_pins or [])
 
     g = _Groups()
     for k in list(spell) + list(base):
@@ -742,6 +815,7 @@ def collect_inputs(raw_dir: Path = RAW_DIR) -> tuple[list, list, list, list]:
     links = _load_json(raw_dir / "state" / "ig_artist_links.json", {})
     non_artists = {h.lower() for h in links.get("non_artists", {})} | {h.lower() for h, v in seen.items() if v == "non_artist"}
     non_artists |= {h.lstrip("@").lower() for h in tracked_account_handles(INSTA_ACCOUNTS)}   # 우리가 따라가는 매거진·공연장·기관 계정
+    non_artists |= {e["handle"].lstrip("@").lower() for e in load_curation()["non_artist_handles"]}   # 사람이 확인한 팀 아닌 계정
     for path in sorted(glob.glob(str(raw_dir / "raw_*.csv"))):
         table = _table_of(path)
         rows = _read_csv(path) if table else []
@@ -773,7 +847,8 @@ def collect_inputs(raw_dir: Path = RAW_DIR) -> tuple[list, list, list, list]:
 # ---------- 요약 문서·실행 ----------
 
 def _stats_lines(artists: list[dict], review: list[dict], names: list[dict], ig_handles: set[str],
-                 manual: list[dict] | None = None) -> list[str]:
+                 manual: list[dict] | None = None, curation: dict | None = None) -> list[str]:
+    cur = curation or {}
     multi_spell = [a for a in artists if len(a["aliases"]) >= 2]
     multi_key = [a for a in artists if len(a["keys"]) >= 2]
     conf_n = Counter(ig["confidence"] for a in artists for ig in a["instagram"])
@@ -797,13 +872,15 @@ def _stats_lines(artists: list[dict], review: list[dict], names: list[dict], ig_
         f"| **정답 팀 중 신호(공연·선정·발매·기사)와 이어진 팀** | {oc['linked_teams']:,} / {oc['outcome_teams']:,}팀 ({pct(oc['linked_teams'], oc['outcome_teams'])}) |",
         f"| └ 그중 연결표로 다른 표기를 묶어서 새로 이어진 팀 | {oc['linked_only_by_xref']:,}팀 |",
         f"| 사람이 확인한 별칭 (`config/artist_aliases.json`) | {len(manual or [])}팀 · 별칭 {sum(len(e['aliases']) for e in manual or [])}개 |",
+        f"| 사람이 확인한 다른 팀 / 플랫폼 번호 고정 / 팀 아닌 인스타 계정 (같은 파일) | "
+        f"{len(cur.get('distinct', []))}쌍 / {len(cur.get('platform_ids', []))}팀 / {len(cur.get('non_artist_handles', []))}개 |",
         f"| 별칭 충돌 자동 해결 (긴 이름이 짧은 이름을 품는 합동 표기 → 별칭은 짧은 쪽) | {len(auto):,}건 |",
         f"| 사람 확인 필요 | {len(review):,}건 ({', '.join(f'{k} {v}' for k, v in kinds.most_common())}) |",
     ]
 
 
 def summarize(artists: list[dict], review: list[dict], names: list[dict], ig_handles: set[str],
-              manual: list[dict] | None = None) -> str:
+              manual: list[dict] | None = None, curation: dict | None = None) -> str:
     """공개용 요약 (숫자·예시만, 개인 경로 없음)."""
     lines = [
         "# 아티스트 연결표 요약 (artist_xref)", "",
@@ -812,7 +889,7 @@ def summarize(artists: list[dict], review: list[dict], names: list[dict], ig_han
         "(업계 말로 '아티스트 매칭·메타데이터 검수'). 문제 찾기는 검증 SQL(`docs/sql/README.md` c02·c06·c08), 고친 표 만들기는 이 스크립트, "
         "결과는 다시 PostgreSQL `ref.artist_xref`(표기 키 → 대표 키)로 넣어 SQL에서 씁니다.",
         "원본 연결표는 실제 수집 데이터라 저장소에 올리지 않고 여기엔 숫자와 예시만 둡니다.", "",
-        "## 숫자", "", *_stats_lines(artists, review, names, ig_handles, manual), "",
+        "## 숫자", "", *_stats_lines(artists, review, names, ig_handles, manual, curation), "",
         "정답↔신호 연결률은 날짜를 따지지 않은 '이름이 이어지는가'만 본 숫자예요. 점수 백테스트의 정답 수는 여기에 "
         "'신호가 정답보다 먼저'·'정답 기간 2025년 이후'·'같은 프로그램 계열 제외' 조건이 더해져 줄어듭니다.", "",
         "확신도: **high** = 다른 소스의 팀 이름과 맞고 계정명도 닮았거나 근거가 2가지 이상 · **mid** = 근거 1가지 · **low** = 인스타에만 있음.", "",
@@ -839,14 +916,16 @@ def main() -> None:
     ap.add_argument("--load-pg", action="store_true", help="PostgreSQL ref.artist_xref 로도 넣기")
     args = ap.parse_args()
     names, ig_profiles, ig_posts, platform_ids = collect_inputs()
-    manual = load_manual_aliases()
-    artists, review = build_xref(names, ig_profiles, ig_posts, platform_ids, manual_aliases=manual)
+    cur = load_curation()
+    manual = cur["aliases"]
+    artists, review = build_xref(names, ig_profiles, ig_posts, platform_ids, manual_aliases=manual,
+                                 distinct=cur["distinct"], platform_pins=cur["platform_ids"])
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     DEFAULT_XREF.write_text(json.dumps(artists, ensure_ascii=False, indent=1), encoding="utf-8")
     REVIEW_PATH.write_text(json.dumps(review, ensure_ascii=False, indent=1), encoding="utf-8")
     handles = {h for h in ({p["handle"].lstrip("@").lower() for p in ig_profiles} | {p["handle"].lower() for p in ig_posts})
                if not NOT_A_HANDLE.search(h)}
-    SUMMARY_MD.write_text(summarize(artists, review, names, handles, manual), encoding="utf-8")
+    SUMMARY_MD.write_text(summarize(artists, review, names, handles, manual, cur), encoding="utf-8")
     n_auto = sum(r["kind"] in AUTO_KINDS for r in review)
     print(f"대표 팀 {len(artists):,} · 확인 필요 {len(review) - n_auto:,} (자동 해결 {n_auto}) → {DEFAULT_XREF.relative_to(ROOT)}, {SUMMARY_MD.relative_to(ROOT)}")
     if args.load_pg:
