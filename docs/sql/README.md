@@ -1,6 +1,6 @@
 # SQL 분석·검증 결과 (PostgreSQL)
 
-_자동 생성: `python3 scripts/run_pg_queries.py` · 2026-11-27 15:14 기준 데이터_
+_자동 생성: `python3 scripts/run_pg_queries.py` · 2026-11-27 15:15 기준 데이터_
 
 모든 쿼리는 `sql/kr/`에 원문이 있어요. 같은 팀 잇기는 대표 팀 키(`team_key` — 연결표 `ref.artist_xref` 우선, 없으면 괄호 별칭), 날짜는 후보 신호 = 기간 끝, 정답 = 기간 첫날로 비교해요 (`sql/kr/00_core_views.sql`).
 
@@ -1045,22 +1045,37 @@ _46행 중 15행만 표시_
 
 ### c05_namesake_risk
 
-- 무엇을 찾나: 동명 팀 의심 — (A) 한 artist_key가 멜론 아티스트 ID 2개 이상에 연결, (B) 2010년 이전 선정 기록과 2024년 이후 공연이 같은 키에 함께 있음.
+- 무엇을 찾나: 동명 팀 의심 — (A) 같은 플랫폼 안에서 한 artist_key가 아티스트 번호 2개 이상에 연결,
+- (C) 플랫폼끼리 첫 발매(데뷔) 연도가 3년 이상 차이(멜론 vs 스포티파이), (B) 2010년 이전 선정 기록과 2024년 이후 공연이 같은 키에 함께 있음.
+- (이전 판은 멜론 번호·스포티파이 번호·인스타 계정을 모두 '멜론 ID'로 세어, 플랫폼마다 번호가 다른 같은 팀을 잘못 잡았음)
 - 왜 문제인가: 이름만으로 팀을 잇기 때문에, 다른 두 팀이 한 팀으로 합쳐지면 연차·첫 발매·적중 계산이 모두 틀어진다.
-- 결과를 보고 할 일: 멜론 ID·활동 연도·장르를 비교해 다른 팀이면 별도 키(예: 이름+ID)로 나누는 수동 매핑을 만든다.
+- 결과를 보고 할 일: 번호·활동 연도·장르를 비교해 다른 팀이면 별도 키(예: 이름+번호)로 나누는 수동 매핑을 만든다.
 
 <details><summary>쿼리 보기</summary>
 
 ```sql
-WITH multi_profile AS (
-    SELECT artist_key,
-           count(DISTINCT artist_source_id) AS melon_id_count,
-           string_agg(DISTINCT artist_text || ' (id ' || artist_source_id || ', 데뷔 '
+WITH multi_profile AS (                         -- (A) 같은 플랫폼 안 여러 번호
+    SELECT artist_key, source,
+           count(DISTINCT artist_source_id) AS id_count,
+           string_agg(DISTINCT artist_text || ' (' || source || ' ' || artist_source_id || ', 데뷔 '
                       || COALESCE(debut_date, first_release_date, '?') || ')', ' | ') AS evidence
     FROM raw.raw_artist_profile
-    WHERE artist_key IS NOT NULL
-    GROUP BY artist_key
+    WHERE artist_key IS NOT NULL AND source IN ('melon', 'spotify')
+    GROUP BY artist_key, source
     HAVING count(DISTINCT artist_source_id) >= 2
+),
+debut AS (                                      -- 플랫폼별 가장 이른 데뷔 연도
+    SELECT artist_key, source,
+           min(left(COALESCE(NULLIF(debut_date, ''), NULLIF(first_release_date, '')), 4))::int AS y
+    FROM raw.raw_artist_profile
+    WHERE artist_key IS NOT NULL AND source IN ('melon', 'spotify')
+      AND COALESCE(NULLIF(debut_date, ''), NULLIF(first_release_date, '')) ~ '^[0-9]{4}'
+    GROUP BY artist_key, source
+),
+debut_gap AS (                                  -- (C) 멜론과 스포티파이의 데뷔 연도 차이
+    SELECT m.artist_key, abs(m.y - s.y) AS gap, '멜론 ' || m.y || ' / 스포티파이 ' || s.y AS evidence
+    FROM debut m JOIN debut s ON s.artist_key = m.artist_key AND s.source = 'spotify'
+    WHERE m.source = 'melon' AND abs(m.y - s.y) >= 3
 ),
 old_selection AS (
     SELECT artist_key, min(announced_start) AS first_sel, min(program) AS program
@@ -1074,8 +1089,11 @@ recent_gig AS (
     WHERE gig_date >= DATE '2024-01-01'
     GROUP BY artist_key
 )
-SELECT 'A: 멜론 ID 여러 개' AS risk_type, artist_key, melon_id_count AS strength, evidence
+SELECT 'A: 같은 플랫폼 번호 여러 개' AS risk_type, artist_key, id_count AS strength, evidence
 FROM multi_profile
+UNION ALL
+SELECT 'C: 플랫폼별 데뷔 3년+ 차이', artist_key, gap, evidence
+FROM debut_gap
 UNION ALL
 SELECT 'B: 2010년 전 선정 + 2024년 후 공연', s.artist_key, g.recent_gigs,
        s.program || ' ' || s.first_sel || ' 선정 / 최근 공연 ' || g.recent_gigs || '회 (마지막 ' || g.last_gig || ')'
@@ -1086,27 +1104,23 @@ ORDER BY risk_type, strength DESC, artist_key;
 
 </details>
 
-결과 56행
+결과 13행
 
 | risk_type | artist_key | strength | evidence |
 |---|---|---|---|
-| A: 멜론 ID 여러 개 | 구구 | 3 | 구구 (GuGu) (id 2897501, 데뷔 2021-04-07) \| 구구 (id 5wpgBWnsCL8y5s5FSwY71k, 데뷔 2021-04-07) \| 구구(GuGu) (id 9u9u_01, 데뷔 ?) |
-| A: 멜론 ID 여러 개 | 블낫블 | 3 | 블낫블 𝐁𝐥𝐮𝐞 𝐢𝐬 𝐍𝐨𝐭 𝐁𝐥𝐮𝐞 (id off.bnb, 데뷔 ?) \| 블낫블(Blue is Not Blue) (id 0uTWf6LJUvbPgJ67K9CVRL, 데뷔 2025-07-29) \| 블낫블(Blue is Not Blue) (id 4408798, 데뷔 2025-07-29) |
-| A: 멜론 ID 여러 개 | luamel | 3 | LUAMEL (루아멜) (id 2299617, 데뷔 2018-10-05) \| LUAMEL (루아멜) (id luamel_official, 데뷔 ?) \| LUAMEL (id 0GP1FM3P7XrmSNz1Nr29Yy, 데뷔 2018-10-05) |
-| A: 멜론 ID 여러 개 | 공원 | 2 | 공원 (id 3563915, 데뷔 2025-03-27) \| 공원 (id 40Gp1pozXyDoTKNkxTbZKQ, 데뷔 2025-06-03) |
-| A: 멜론 ID 여러 개 | 극동아시아타이거즈 | 2 | 극동아시아타이거즈 (id 2863270, 데뷔 2020-04-08) \| 극동아시아타이거즈 (id far_east_asian_tigers, 데뷔 ?) |
-| A: 멜론 ID 여러 개 | 김승주 | 2 | 김승주 (id 2877532, 데뷔 2020-06-30) \| 김승주 (id 7wV6FuZ1nuVpI7rH0jRRuj, 데뷔 2025-07-21) |
-| A: 멜론 ID 여러 개 | 김시온 | 2 | 김시온 (id 6Sb6DraTcNV5zaqWDgMCoa, 데뷔 2023-07-07) \| 김시온 (Kim Sion) (id 2957454, 데뷔 2021-08-10) |
-| A: 멜론 ID 여러 개 | 녹이녹 | 2 | 녹이녹 (id 4099562, 데뷔 2025-02-18) \| 녹이녹 (id bandnokenok, 데뷔 ?) |
-| A: 멜론 ID 여러 개 | 릴리잇머신 | 2 | 릴리 잇 머신 (id 1ogeL4SXrnpTgS0cB917ww, 데뷔 2023-10-06) \| 릴리 잇 머신 (Lilly Eat Machine) (id 3573882, 데뷔 2023-10-06) |
-| A: 멜론 ID 여러 개 | 브로콜리너마저 | 2 | 브로콜리너마저 (id 1gq4XavqmZhqOzEkpFBz1j, 데뷔 2010-11-01) \| 브로콜리너마저 (id 230490, 데뷔 2007-10-31) |
-| A: 멜론 ID 여러 개 | 산만한시선 | 2 | 산만한시선 (id 2aqvIa1gUFcwMDEWOsEdsm, 데뷔 ?) \| 산만한시선 (id 4011774, 데뷔 2024-10-31) |
-| A: 멜론 ID 여러 개 | 산보 | 2 | 산보 (id 2rKxDvJDT1Pv93k4ohx8Cp, 데뷔 2024-09-19) \| 산보 (id 3940959, 데뷔 2024-09-19) |
-| A: 멜론 ID 여러 개 | 삼산 | 2 | 삼산 (id 0Mqb4ZExEqQNOkEFSyZiql, 데뷔 2023-10-13) \| 삼산 (id 3584597, 데뷔 2023-10-13) |
-| A: 멜론 ID 여러 개 | 삼월생 | 2 | 삼월생 (조형민) (id 3130868, 데뷔 2022-09-28) \| 삼월생 (id hohm__j, 데뷔 ?) |
-| A: 멜론 ID 여러 개 | 송소희 | 2 | 송소희 (id 2CqJ2OWIZcSwKtfslMLj7W, 데뷔 ?) \| 송소희 (id 672059, 데뷔 2015-04-23) |
-
-_56행 중 15행만 표시_
+| B: 2010년 전 선정 + 2024년 후 공연 | 김승민 | 3 | yoojaeha_finalist 1989-01-01 선정 / 최근 공연 3회 (마지막 2026-11-28) |
+| B: 2010년 전 선정 + 2024년 후 공연 | 김혁 | 2 | yoojaeha_finalist 1995-01-01 선정 / 최근 공연 2회 (마지막 2026-08-19) |
+| B: 2010년 전 선정 + 2024년 후 공연 | 정다운 | 2 | yoojaeha_finalist 2003-01-01 선정 / 최근 공연 2회 (마지막 2026-09-28) |
+| B: 2010년 전 선정 + 2024년 후 공연 | 김재훈 | 1 | yoojaeha_finalist 2009-01-01 선정 / 최근 공연 1회 (마지막 2026-02-27) |
+| B: 2010년 전 선정 + 2024년 후 공연 | 서정은 | 1 | yoojaeha_finalist 2001-01-01 선정 / 최근 공연 1회 (마지막 2026-08-10) |
+| B: 2010년 전 선정 + 2024년 후 공연 | 심현보 | 1 | yoojaeha_finalist 1992-01-01 선정 / 최근 공연 1회 (마지막 2026-11-07) |
+| B: 2010년 전 선정 + 2024년 후 공연 | 이종일 | 1 | yoojaeha_finalist 1995-01-01 선정 / 최근 공연 1회 (마지막 2025-03-28) |
+| B: 2010년 전 선정 + 2024년 후 공연 | 이주영 | 1 | yoojaeha_finalist 1994-01-01 선정 / 최근 공연 1회 (마지막 2024-09-28) |
+| B: 2010년 전 선정 + 2024년 후 공연 | 정연 | 1 | yoojaeha_finalist 2004-01-01 선정 / 최근 공연 1회 (마지막 2026-07-16) |
+| B: 2010년 전 선정 + 2024년 후 공연 | 조규찬 | 1 | yoojaeha_finalist 1989-01-01 선정 / 최근 공연 1회 (마지막 2027-01-02) |
+| C: 플랫폼별 데뷔 3년+ 차이 | 김승주 | 5 | 멜론 2020 / 스포티파이 2025 |
+| C: 플랫폼별 데뷔 3년+ 차이 | 브로콜리너마저 | 3 | 멜론 2007 / 스포티파이 2010 |
+| C: 플랫폼별 데뷔 3년+ 차이 | 이젤 | 3 | 멜론 2021 / 스포티파이 2024 |
 
 ### c06_multi_person_cells
 
