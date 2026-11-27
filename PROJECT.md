@@ -22,6 +22,7 @@
   - 23시 이후(21시 실행 끝난 뒤) 할 일 목록: ① daily_run.sh에 build_alerts·build_app_extras(venue_tiers·venue_ladder·venue_profiles·city_profiles·lineup_roles·event_stars·build_alerts)·data_checks 줄과 자동 커밋 경로 추가 ② bash scripts/build_app_extras.sh(이미 export된 데이터로) ③ score_tune·source_review·refresh_analyses·data_checks 재실행 ④ 작업자 신호: 멜론 검색 116건(ctx_bceb9be0a756 작업자 4B19191E), 인디고 지방 과거 공연(ctx_9b4c033543da 작업자 AE9AF83A), 영상 백필 collect_videos --backfill --budget 4000(작업자 B7D30BDE) ⑤ hello_rookie CAREER_FILTERED 판단.
   - (23:20) 안티그래비티 사용량 한도(약 00:35 해제) → 앱 단계 2는 Claude 작업자 ctx_2e19e8c40932가 대신(미완성 변경 docs/app 6파일 이어받음, 후보 목록 오류부터). 해제 뒤 안티그래비티는 단계 3부터.
   - 사용자 결정(23:15): 큰 페스티벌(펜타 본무대·GMF·뷰민라 메인) 첫 출연을 정답 B로 '시험'(ctx_68297db725e8) → 결과 보고 후 실제 반영 여부 다시 묻기.
+  - 사용자에게 물을 것(돌아오면 한 번에): ① 큰 페스티벌 메인 무대를 정답 B로 넣을지 — 시험 결과 AUC −0.006, 권고는 화면 정보로만(docs/research_2026-11-27_festivals.md) ② 점수의 '공연장 수'를 최근 2년만 세기 — 성적 같고 상위 300 휴면 팀 23→7(docs/dormant_check.md) ③ 강조색(기본 탄 주황 유지 여부) ④ KOPIS API 키(선택).
 - 21시 자동 실행 끝나면 할 일: daily_run.sh에 build_alerts.py 줄·alerts.json 자동 커밋 추가(실행 중엔 스크립트 수정 금지), 대기 중인 newcomer_check·데뷔 덮어쓰기 묶음(features.sql·candidates.sql·db.js·export·config) 함께 커밋 → export·venue_xref·score_tune 재실행.
 - 21시 자동 실행 끝나면(대기 작업이 깨움, 없으면 records/daily_run.log 확인): 협업 수집 건수 확인 → score_tune(w_collab 포함) 돌려 협업 신호 효과 확인 → 효과 있으면 점수 반영 여부 사용자에게 물음. 인스타 499계정·멜론 100팀·연결표 갱신·출처 재분류 제안이 잘 돌았는지 확인.
 - 작업자 결과 반영 시 daily_run.sh에 넣을 줄은 코디네이터가 넣음(작업자는 알려만 줌).
