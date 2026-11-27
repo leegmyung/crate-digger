@@ -13,7 +13,7 @@ pool AS (                                       -- 후보군: 역할과 상관�
     JOIN signals s ON s.signal_date < c.c AND s.signal_date >= c.c - INTERVAL 3 YEAR
     JOIN teams t ON t.team_key = s.team_key
     LEFT JOIN outcomes o ON o.team_key = t.team_key AND o.counted
-    WHERE t.first_seen >= c.c - INTERVAL 3 YEAR AND t.profile_status <> 'famous'
+    WHERE t.first_seen >= c.c - INTERVAL 3 YEAR AND (c.c < fame_known_from() OR t.profile_status <> 'famous')   -- 유명 판정은 지금 팬 수라 과거 기준일엔 안 씀
       AND NOT EXISTS (SELECT 1 FROM outcomes b WHERE b.team_key = t.team_key AND b.counted AND b.announced_date < c.c)
     GROUP BY c.c, t.team_key
 ),

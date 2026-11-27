@@ -9,15 +9,15 @@ AUC = 정답 팀 하나와 아닌 팀 하나를 골랐을 때 정답 팀 점수�
 
 | 뺀 기준일 | 후보 | 정답 | 고른 가중치(나머지로 고름) | AUC 고른 것 | AUC v0 | AUC 공연 수만 | AUC 갈래 수만 | 상위50 고른 것 | 상위50 v0 |
 |---|---|---|---|---|---|---|---|---|---|
-| 2023-01-01 | 121 | 5 | branch 1 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.667 | 0.657 | 0.545 | 0.708 | 3 | 3 |
-| 2023-07-01 | 515 | 6 | branch 3 · stage 2 · peer 0 · dmz 0 · gigs 0 · outlets 2 · recent 1 · venues 1 · winner 2 · context 1 · collab 0 | 0.723 | 0.755 | 0.544 | 0.582 | 3 | 2 |
-| 2024-01-01 | 794 | 4 | branch 2 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.843 | 0.750 | 0.483 | 0.497 | 1 | 1 |
-| 2024-07-01 | 1,708 | 16 | branch 3 · stage 2 · peer 1 · dmz 0 · gigs 0 · outlets 0.5 · recent 2 · venues 2 · winner 1 · context 1 · collab 0 | 0.725 | 0.802 | 0.725 | 0.589 | 4 | 3 |
-| 2025-01-01 | 2,380 | 23 | branch 1 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.795 | 0.793 | 0.687 | 0.600 | 3 | 4 |
-| 2025-07-01 | 3,010 | 20 | branch 2 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.757 | 0.711 | 0.684 | 0.570 | 3 | 3 |
+| 2023-01-01 | 127 | 10 | branch 1 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.746 | 0.742 | 0.449 | 0.652 | 8 | 8 |
+| 2023-07-01 | 518 | 8 | branch 3 · stage 2 · peer 0 · dmz 0 · gigs 0 · outlets 2 · recent 1 · venues 1 · winner 1 · context 1 · collab 0 | 0.778 | 0.804 | 0.523 | 0.562 | 4 | 4 |
+| 2024-01-01 | 799 | 6 | branch 1 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.885 | 0.822 | 0.483 | 0.497 | 3 | 3 |
+| 2024-07-01 | 1,713 | 17 | branch 3 · stage 2 · peer 1 · dmz 0 · gigs 0 · outlets 1 · recent 1 · venues 1 · winner 0 · context 1 · collab 0 | 0.758 | 0.804 | 0.684 | 0.579 | 4 | 3 |
+| 2025-01-01 | 2,381 | 23 | branch 1 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.795 | 0.793 | 0.687 | 0.600 | 3 | 4 |
+| 2025-07-01 | 3,011 | 20 | branch 2 · stage 1 · peer 0 · dmz 0 · gigs 0 · outlets 1 · recent 0 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.757 | 0.711 | 0.684 | 0.570 | 3 | 3 |
 
-**평균 AUC (뺀 기준일 기준)**: 고른 가중치 0.752 · v0 0.745 · 공연 수만 0.611 · 갈래 수만 0.591
-**상위 50 적중 합계**: 고른 가중치 17 · v0 16 · 고른 가중치가 v0보다 AUC가 높았던 기준일 4/6
+**평균 AUC (뺀 기준일 기준)**: 고른 가중치 0.787 · v0 0.779 · 공연 수만 0.585 · 갈래 수만 0.576
+**상위 50 적중 합계**: 고른 가중치 25 · v0 25 · 고른 가중치가 v0보다 AUC가 높았던 기준일 4/6
 
 ## 추천 가중치 (기준일 전체로 고름)
 
@@ -30,9 +30,9 @@ AUC = 정답 팀 하나와 아닌 팀 하나를 골랐을 때 정답 팀 점수�
 - peer: 0, 1
 - dmz: 0
 - gigs: 0
-- outlets: 0.5, 1, 2
-- recent: 0, 1, 2
-- venues: 1, 2
-- winner: 1, 2
+- outlets: 1, 2
+- recent: 0, 1
+- venues: 1
+- winner: 0, 1, 2
 - context: 0.5, 1
 - collab: 0

@@ -14,6 +14,11 @@
 --      + w_collab×ln(1+기준일 전 신호 기간 안에 '기성 파트너'와 협업한 서로 다른 파트너 수)   ← 스포티파이 협업, 기본 0
 -- 신호 역할: signals.role = discovery 만 점수에 쓴다 (맥락·제외·검증 대기 출처 분류는 config/source_roles.json).
 -- 시점 누수 방지: 신호는 기준일 '전'만, 정답은 기준일 '이후'만. 선정 날짜는 기간의 마지막 날로 저장돼 있어 보수적.
+-- 유명 팀 판정(profile_status = famous)은 '지금' 팬 수(멜론, 2026-11-26부터 수집)라, 그보다 이른 기준일에는 쓰지 않는다
+-- (미래 정보 — 나중에 상 받아 유명해진 팀을 미리 빼 버림, docs/rule_leakage.md). 기준일 당시 정보(연차+신호 수)로 판정한
+-- 대안은 이 데이터에서 빠지는 팀이 0이라 '판정 안 함'과 같다. 팬 수를 날짜별로 쌓은 뒤 다시 정한다.
+
+CREATE OR REPLACE MACRO fame_known_from() AS DATE '2026-11-26';   -- 유명 판정(팬 수)을 쓸 수 있는 가장 이른 기준일
 
 CREATE OR REPLACE MACRO lab_scored(cutoff, lookback_years, newcomer_years, exclude_famous, outcome_tier,
                                    horizon_months, genre, branches,
@@ -118,7 +123,7 @@ pool AS (
     LEFT JOIN after_cut ac USING (team_key)
     LEFT JOIN before_cut bc USING (team_key)
     WHERE COALESCE(t.first_release, t.first_seen) >= cutoff - to_years(CAST(newcomer_years AS INTEGER))   -- 신인: 프로필 첫 발매일 우선, 없으면 우리 데이터 첫 등장
-      AND (NOT exclude_famous OR t.profile_status <> 'famous')
+      AND (NOT exclude_famous OR cutoff < fame_known_from() OR t.profile_status <> 'famous')   -- 과거 기준일엔 지금 팬 수로 안 뺌
       AND (genre = '' OR t.primary_genre = genre)
 )
 SELECT *,

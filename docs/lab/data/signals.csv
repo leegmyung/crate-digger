@@ -3100,8 +3100,6 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 덥덥이오토미삭,큐레이션,rhythmer,리드머,,2024-02-05,,context
 덩기덕봉,공연,sangsangmadang,,,2017-12-19,라이브홀,discovery
 덩기두밥프로젝트,큐레이션,musicy,음악취향Y,,2023-02-20,,discovery
-데낄라올드패션드,공연,indistreet,,,2025-12-20,사운드시티 합정 라이브룸,discovery
-데낄라올드패션드,공연,indistreet,,,2026-05-16,Club FF,discovery
 데님키즈,공연,indistreet,,,2024-02-11,공연장 미정,discovery
 데님키즈,공연,indistreet,,,2024-09-26,Club FF,discovery
 데드버튼즈,공연,sangsangmadang,,,2017-07-23,라이브홀,discovery
@@ -3236,8 +3234,10 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 데킬라올드패션드,공연,indistreet,,,2025-11-02,A.O.R,discovery
 데킬라올드패션드,공연,indistreet,,,2025-12-06,사운드시티 합정 라이브룸,discovery
 데킬라올드패션드,공연,indistreet,,,2025-12-12,A.O.R,discovery
+데킬라올드패션드,공연,indistreet,,,2025-12-20,사운드시티 합정 라이브룸,discovery
 데킬라올드패션드,공연,indistreet,,,2026-02-13,A.O.R,discovery
 데킬라올드패션드,공연,indistreet,,,2026-04-25,언드,discovery
+데킬라올드패션드,공연,indistreet,,,2026-05-16,Club FF,discovery
 데킬라올드패션드,공연,indistreet,,,2026-07-11,Club FF,discovery
 데킬라올드패션드,공연,indistreet,,,2026-09-13,,discovery
 데킬라올드패션드,공연,indistreet,,,2026-10-05,A.O.R,discovery
@@ -6433,12 +6433,6 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 밴드쿼카,공연,indistreet,,,2026-07-16,우주정거장,discovery
 밴드쿼카,공연,indistreet,,,2026-08-13,카페 언플러그드 홍대점,discovery
 밴드트위드,선정·지원,sangsangmadang,band_discovery,2,2019-05-14,,discovery
-밴디츠,공연,indistreet,,,2024-03-09,언드,discovery
-밴디츠,공연,indistreet,,,2026-03-21,유기체,discovery
-밴디츠,공연,indistreet,,,2026-05-03,,discovery
-밴디츠,공연,indistreet,,,2026-05-03,대구 제임스레코드,discovery
-밴디츠,공연,indistreet,,,2026-06-19,HQ광안,discovery
-밴디츠,공연,indistreet,,,2026-10-17,OL'55,discovery
 뱀파이어호텔,공연,indistreet,,,2024-01-28,Club FF,discovery
 뱀파이어호텔,공연,indistreet,,,2024-02-25,Club Victim,discovery
 뱀파이어호텔,공연,indistreet,,,2024-04-12,Club FF,discovery
@@ -11668,15 +11662,15 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 올드잉글리쉬쉽독,큐레이션,musicy,음악취향Y,,2026-09-14,,discovery
 올드잉글리쉬쉽독,공연,indiego,,,2026-11-28,베이비돌,pending
 올드잉글리쉬쉽독,공연,indistreet,,,2026-11-28,베이비돌,discovery
-올드카컬렉션,공연,indistreet,,,2026-05-16,언드,discovery
-올드카컬렉션,공연,indistreet,,,2026-07-12,오방가르드,discovery
 올드카콜렉션,공연,indistreet,,,2025-11-08,언드,discovery
 올드카콜렉션,공연,indistreet,,,2025-12-05,오방가르드,discovery
 올드카콜렉션,공연,indistreet,,,2025-12-07,오방가르드,discovery
 올드카콜렉션,공연,indistreet,,,2026-01-16,오방가르드,discovery
 올드카콜렉션,공연,indistreet,,,2026-04-03,오방가르드,discovery
 올드카콜렉션,공연,indistreet,,,2026-04-30,오방가르드,discovery
+올드카콜렉션,공연,indistreet,,,2026-05-16,언드,discovery
 올드카콜렉션,공연,indistreet,,,2026-05-22,오방가르드,discovery
+올드카콜렉션,공연,indistreet,,,2026-07-12,오방가르드,discovery
 올드카콜렉션,공연,indistreet,,,2026-08-29,,discovery
 올디벗구디,선정·지원,sejong,muse_sejong,3,2026-04-30,,discovery
 올로지,큐레이션,musicy,음악취향Y,,2025-08-18,,discovery
@@ -15623,11 +15617,6 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 칠린호미,큐레이션,hiphople,HIPHOPLE,,2022-10-07,,pending
 칠린호미,큐레이션,hiphople,HIPHOPLE,,2023-06-27,,pending
 칠린호미,큐레이션,hiphople,HIPHOPLE,,2024-02-07,,pending
-칠번국도,공연,indistreet,,,2026-03-14,대구 제임스레코드,discovery
-칠번국도,공연,indistreet,,,2026-04-30,오방가르드,discovery
-칠번국도,공연,indistreet,,,2026-05-02,공연장 미정,discovery
-칠번국도,공연,indistreet,,,2026-05-15,오방가르드,discovery
-칠번국도,공연,indistreet,,,2026-08-07,,discovery
 칠보장,공연,indistreet,,,2024-03-24,Club FF,discovery
 칠보장,공연,indistreet,,,2024-04-21,Club FF,discovery
 칠보장,공연,indistreet,,,2024-05-24,Club Victim,discovery
@@ -17449,16 +17438,15 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 포라빔,공연,indistreet,,,2024-11-13,Club 빵,discovery
 포라빔,공연,indistreet,,,2024-12-18,Club 빵,discovery
 포레스,공연,indistreet,,,2024-09-17,공연장 미정,discovery
+포스트이너서클,공연,indistreet,,,2025-02-14,Club 빵,discovery
+포스트이너서클,공연,indistreet,,,2025-11-08,공상온도,discovery
 포스트이너서클,큐레이션,musicy,음악취향Y,,2025-11-10,,discovery
+포스트이너서클,공연,indistreet,,,2026-01-17,채널1969,discovery
 포스트이너서클,공연,indistreet,,,2026-03-14,언드,discovery
 포스트이너서클,공연,indistreet,,,2026-03-15,오방가르드,discovery
 포스트이너서클,공연,indistreet,,,2026-04-18,카페 언플러그드 홍대점,discovery
 포스트이너서클,공연,indistreet,,,2026-09-28,언플러그드 라운지,discovery
 포스트이너서클,공연,indistreet,,,2026-11-21,공상온도,discovery
-포스트이너써클,공연,indistreet,,,2025-02-14,Club 빵,discovery
-포스트이너써클,공연,indistreet,,,2025-11-08,공상온도,discovery
-포스트이너써클,공연,indistreet,,,2026-01-17,채널1969,discovery
-포스트이너써클,공연,indistreet,,,2026-11-21,공상온도,discovery
 포스트패닉,공연,indistreet,,,2026-10-24,Club FF,discovery
 포유,공연,indistreet,,,2026-07-07,언플러그드 라운지,discovery
 포유,공연,indistreet,,,2026-08-31,카페 언플러그드 홍대점,discovery
@@ -19126,6 +19114,11 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 7번국도,공연,indistreet,,,2025-05-23,오방가르드,discovery
 7번국도,공연,indistreet,,,2025-11-01,오방가르드,discovery
 7번국도,공연,indistreet,,,2025-12-28,유기체,discovery
+7번국도,공연,indistreet,,,2026-03-14,대구 제임스레코드,discovery
+7번국도,공연,indistreet,,,2026-04-30,오방가르드,discovery
+7번국도,공연,indistreet,,,2026-05-02,공연장 미정,discovery
+7번국도,공연,indistreet,,,2026-05-15,오방가르드,discovery
+7번국도,공연,indistreet,,,2026-08-07,,discovery
 밴드7번국도,선정·지원,gbsound,gb_creation,3,2023-11-30,,excluded
 8년만에두번째,큐레이션,hiphople,HIPHOPLE,,2026-08-14,,pending
 제8극장,공연,sangsangmadang,,,2019-05-02,라이브홀,discovery
@@ -19498,13 +19491,19 @@ balantisse,공연,indistreet,,,2026-11-09,카페 언플러그드 홍대점,disco
 balantisse,공연,indistreet,,,2026-12-01,스페이스 한강,discovery
 balimayaproject,큐레이션,visla,VISLA,,2025-10-01,,context
 bana합류,큐레이션,hiphople,HIPHOPLE,,2021-02-24,,pending
+bandits,공연,indistreet,,,2024-03-09,언드,discovery
 bandits,공연,indistreet,,,2024-09-21,서브라이엇 해방촌,discovery
 bandits,공연,indistreet,,,2025-06-07,오방가르드,discovery
 bandits,공연,indistreet,,,2025-08-15,오방가르드,discovery
 bandits,공연,indistreet,,,2025-08-23,꼬뮨,discovery
 bandits,공연,indistreet,,,2025-11-23,오방가르드,discovery
+bandits,공연,indistreet,,,2026-03-21,유기체,discovery
+bandits,공연,indistreet,,,2026-05-03,,discovery
+bandits,공연,indistreet,,,2026-05-03,대구 제임스레코드,discovery
+bandits,공연,indistreet,,,2026-06-19,HQ광안,discovery
 bandits,공연,indistreet,,,2026-08-14,오방가르드,discovery
 bandits,공연,indistreet,,,2026-09-12,리얼라이즈,discovery
+bandits,공연,indistreet,,,2026-10-17,OL'55,discovery
 bandkay,공연,indistreet,,,2024-12-21,Club 빵,discovery
 bandmaroo,공연,indistreet,,,2026-08-07,Club Victim,discovery
 bandmaroo,공연,indistreet,,,2026-11-13,Club Victim,discovery

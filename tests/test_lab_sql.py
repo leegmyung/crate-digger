@@ -63,6 +63,7 @@ def fixture_db():
     con.execute("ALTER TABLE outcomes ADD COLUMN same_house_scored BOOLEAN DEFAULT false")
     con.execute(COLLABS_DDL)      # 협업 데이터가 없을 때와 같은 빈 표 (lab_sql.connect·앱과 같은 정의)
     con.execute((SQL_DIR / "features.sql").read_text(encoding="utf-8"))
+    con.execute("CREATE OR REPLACE MACRO fame_known_from() AS DATE '2000-01-01'")   # 가짜 데이터: 유명 판정을 모든 기준일에 씀
     return con
 
 
@@ -91,6 +92,14 @@ class LabSqlTest(unittest.TestCase):
         self.assertNotIn("c", pool)       # 유명
         self.assertNotIn("d", pool)       # 2010년 첫 등장 → 신인 아님
         self.assertIn("c", self.scored(exclude_famous="false"))
+
+    def test_famous_rule_is_not_used_before_fan_counts_were_collected(self):
+        # 유명 판정은 '지금' 팬 수라, 팬 수를 모으기 시작한 날보다 이른 기준일에는 쓰지 않는다 (미래 정보 방지)
+        self.con.execute("CREATE OR REPLACE MACRO fame_known_from() AS DATE '2025-06-01'")
+        try:
+            self.assertIn("c", self.scored())
+        finally:
+            self.con.execute("CREATE OR REPLACE MACRO fame_known_from() AS DATE '2000-01-01'")
 
     def test_newcomer_uses_profile_first_release_when_known(self):
         self.con.execute("UPDATE teams SET first_release = '2015-01-01' WHERE team_key = 'a'")   # 우리 데이터엔 2024 첫 등장이지만 실제 데뷔는 2015
