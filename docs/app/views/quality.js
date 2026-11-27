@@ -1,15 +1,28 @@
 import { appState, registerChart, setExportContext } from '../state.js';
+import { isRunDropped } from '../db.js';
 import { cssVar, escapeHtml, fmtInt, renderActionBanner, SOURCE_LABELS } from '../ui.js';
+
+function formatDeltaText(cur, prev) {
+  if (prev === null || prev === undefined || prev === '') return '';
+  const c = Number(cur);
+  const p = Number(prev);
+  if (!Number.isFinite(c) || !Number.isFinite(p)) return '';
+  const diff = c - p;
+  if (diff === 0) return ' (전일 동일)';
+  return ` (${diff > 0 ? '+' : ''}${fmtInt(diff)})`;
+}
 
 export async function renderQualityView(root) {
   const meta = appState.meta || {};
   const rowsMeta = meta.rows || {};
+  const prevMeta = (meta.prev_rows && typeof meta.prev_rows === 'object') ? meta.prev_rows : {};
   const dj = appState.dashboardJson || {};
   const sec = dj.sections || {};
   const qualityRows = sec.quality || [];
   const collRows = sec.collection || [];
   const gigsMonth = sec.gigs_by_month || [];
   const collectRuns = Array.isArray(appState.collectJson?.runs) ? appState.collectJson.runs : [];
+  const hasAnyPrevRun = collectRuns.some(r => r.prev_rows !== null && r.prev_rows !== undefined);
   const health = appState.dataHealth;
 
   setExportContext({
@@ -20,6 +33,10 @@ export async function renderQualityView(root) {
   });
 
   const warnCount = qualityRows.filter(q => q.level === 'warn').length;
+  const sigDelta = formatDeltaText(rowsMeta.signals, prevMeta.signals);
+  const teamDelta = formatDeltaText(rowsMeta.teams, prevMeta.teams);
+  const outDelta = formatDeltaText(rowsMeta.outcomes, prevMeta.outcomes);
+
   const bannerHtml = renderActionBanner({
     title: '데이터 수집·품질',
     lead: `마지막 수집 <strong>${escapeHtml(health.lastCollectedDate || meta.data_end || '-')}</strong> (${escapeHtml(health.summaryLabel)}) · 신호 ${fmtInt(rowsMeta.signals)}건 · 팀 ${fmtInt(rowsMeta.teams)}곳 · 점검 주의 ${fmtInt(warnCount)}건.`,
@@ -41,12 +58,12 @@ export async function renderQualityView(root) {
       </div>
       <div class="stat-card">
         <div class="stat-label">신호 · 팀</div>
-        <div class="stat-val">${fmtInt(rowsMeta.signals)}</div>
-        <div class="stat-sub">고유 팀 ${fmtInt(rowsMeta.teams)}곳 · 사진 ${fmtInt(rowsMeta.images || 0)}팀</div>
+        <div class="stat-val">${fmtInt(rowsMeta.signals)}${sigDelta ? `<span class="small muted">${escapeHtml(sigDelta)}</span>` : ''}</div>
+        <div class="stat-sub">고유 팀 ${fmtInt(rowsMeta.teams)}곳${escapeHtml(teamDelta)} · 사진 ${fmtInt(rowsMeta.images || 0)}팀</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">정답 기록</div>
-        <div class="stat-val">${fmtInt(rowsMeta.outcomes)}</div>
+        <div class="stat-val">${fmtInt(rowsMeta.outcomes)}${outDelta ? `<span class="small muted">${escapeHtml(outDelta)}</span>` : ''}</div>
         <div class="stat-sub">집계 대상 ${fmtInt(appState.outcomeRange.counted)}건 (${escapeHtml(appState.outcomeRange.min || '-')}~)</div>
       </div>
     </div>
@@ -59,16 +76,39 @@ export async function renderQualityView(root) {
         </div>
         <div class="table-wrap">
           <table class="data-table">
-            <thead><tr><th>날짜</th><th>소스</th><th class="num">수집 행 수</th><th class="nowrap">상태</th></tr></thead>
+            <thead>
+              <tr>
+                <th>날짜</th>
+                <th>소스</th>
+                <th class="num">수집 행 수</th>
+                ${hasAnyPrevRun ? '<th class="num nowrap">직전 대비</th>' : ''}
+                <th class="nowrap">상태</th>
+              </tr>
+            </thead>
             <tbody>
               ${collectRuns.map(r => {
                 const bad = r.file_ok === false || Number(r.rows) === 0;
+                const dropped = !bad && isRunDropped(r);
+                let prevCell = '';
+                if (hasAnyPrevRun) {
+                  if (r.prev_rows === null || r.prev_rows === undefined) {
+                    prevCell = '<td class="num muted">-</td>';
+                  } else {
+                    const diff = Number(r.rows) - Number(r.prev_rows);
+                    const diffTxt = diff === 0 ? '0' : `${diff > 0 ? '+' : ''}${fmtInt(diff)}`;
+                    prevCell = `<td class="num nowrap ${dropped ? 'sc-warn-inline' : 'muted'}">${escapeHtml(diffTxt)} <span class="small">(${fmtInt(r.prev_rows)}→${fmtInt(r.rows)})</span></td>`;
+                  }
+                }
+                const statusBadge = bad
+                  ? '<span class="badge-warn">확인 필요</span>'
+                  : (dropped ? '<span class="badge-warn">급감</span>' : '<span class="badge-ok">정상</span>');
                 return `
                   <tr>
                     <td class="nowrap mono muted">${escapeHtml(r.date || '-')}</td>
                     <td><strong>${escapeHtml(SOURCE_LABELS[r.source] || r.source)}</strong></td>
                     <td class="num">${fmtInt(r.rows)}</td>
-                    <td class="nowrap">${bad ? '<span class="badge-warn">확인 필요</span>' : '<span class="badge-ok">정상</span>'}</td>
+                    ${prevCell}
+                    <td class="nowrap">${statusBadge}</td>
                   </tr>
                 `;
               }).join('')}

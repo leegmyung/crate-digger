@@ -299,6 +299,15 @@ function indexVideosRows(rows) {
   return map;
 }
 
+export const DROP_CHECK_TABLES = new Set(['raw_kr_gig', 'raw_press', 'raw_kr_release']);
+
+export function isRunDropped(r) {
+  if (!r || r.prev_rows === null || r.prev_rows === undefined) return false;
+  const prev = Number(r.prev_rows);
+  const cur = Number(r.rows);
+  return DROP_CHECK_TABLES.has(String(r.table || '')) && prev >= 20 && cur < prev * 0.3;
+}
+
 /**
  * 자동 데이터 이상 점검 (collect.json + dashboard.json + meta.json).
  * 정상일 때는 배너를 띄우지 않고, 이상이 있을 때만 전 화면 상단에 자동 표시한다.
@@ -330,7 +339,6 @@ export function computeDataHealth(meta = appState.meta, collect = appState.colle
     }
     const latestRuns = [...latestByKey.values()];
     totalSources = latestRuns.length;
-    const DROP_CHECK_TABLES = new Set(['raw_kr_gig', 'raw_press', 'raw_kr_release']);
     const failed = [];
     const zeroRows = [];
     const dropped = [];
@@ -342,11 +350,7 @@ export function computeDataHealth(meta = appState.meta, collect = appState.colle
         zeroRows.push(name);
       } else {
         okSources += 1;
-        if (
-          DROP_CHECK_TABLES.has(String(r.table || '')) &&
-          Number(r.prev_rows) >= 20 &&
-          Number(r.rows) < Number(r.prev_rows) * 0.5
-        ) {
+        if (isRunDropped(r)) {
           dropped.push(`${name}(${r.prev_rows}→${r.rows})`);
         }
       }
@@ -358,7 +362,7 @@ export function computeDataHealth(meta = appState.meta, collect = appState.colle
       pushIssue('warn', `수집 건수 0건 소스 ${zeroRows.length}곳 (${zeroRows.slice(0, 3).join(', ')})`);
     }
     if (dropped.length) {
-      pushIssue('warn', `직전 대비 수집량 50% 이상 급감: ${dropped.slice(0, 3).join(', ')}`);
+      pushIssue('warn', `직전 대비 수집량 급감: ${dropped.slice(0, 3).join(', ')}`);
     }
   } else if (collect?.generated) {
     lastCollectedDate = String(collect.generated).slice(0, 10);
