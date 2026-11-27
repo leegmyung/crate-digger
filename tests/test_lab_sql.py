@@ -53,6 +53,10 @@ def fixture_db():
         CREATE TABLE programs(program VARCHAR, label VARCHAR, kind VARCHAR);
         INSERT INTO programs VALUES ('band_discovery','상상마당 밴드 디스커버리','signal');
     """)
+    con.execute("ALTER TABLE signals ADD COLUMN role VARCHAR DEFAULT 'discovery'")
+    con.execute("UPDATE signals SET role = 'discovery'")
+    con.execute("ALTER TABLE outcomes ADD COLUMN weight INTEGER DEFAULT 1")
+    con.execute("UPDATE outcomes SET weight = CASE WHEN program = 'kma_rookie' THEN 3 ELSE 1 END")
     con.execute((SQL_DIR / "features.sql").read_text(encoding="utf-8"))
     return con
 
@@ -103,13 +107,20 @@ class LabSqlTest(unittest.TestCase):
 
     def test_v1_features_recent_venues_and_peer_winner(self):
         # f는 2024-12-01에 정답 → 2024-12-15 클럽3에서 f와 같이 선 h는 '수상 팀과 같은 무대'
-        self.con.execute("""INSERT INTO signals VALUES ('f','공연','x','',NULL,'2024-12-15','클럽3'),
-                                                       ('h','공연','x','',NULL,'2024-12-15','클럽3'),
-                                                       ('h','공연','x','',NULL,'2024-11-01','클럽2')""")
+        self.con.execute("""INSERT INTO signals VALUES ('f','공연','x','',NULL,'2024-12-15','클럽3','discovery'),
+                                                       ('h','공연','x','',NULL,'2024-12-15','클럽3','discovery'),
+                                                       ('h','공연','x','',NULL,'2024-11-01','클럽2','discovery')""")
         self.con.execute("INSERT INTO teams VALUES ('h','에이치','2024-11-01',NULL,NULL,NULL,'unknown','')")
         h = self.scored()["h"]
         self.assertEqual((h["peer_winner"], h["venues"], h["recent180"]), (1, 2, 2))
         self.assertEqual(self.scored()["a"]["recent180"], 0)   # a의 마지막 신호 2024-07-01은 180일 밖
+
+    def test_context_signals_are_ignored_and_hit_weight_reported(self):
+        self.con.execute("UPDATE signals SET role = 'context' WHERE team_key = 'a' AND branch = '큐레이션'")
+        a = self.scored()["a"]
+        self.assertEqual((a["n_branch"], a["outlets"]), (2, 0))       # 맥락 출처(큐레이션)는 점수에서 빠짐
+        self.assertEqual(a["hit_weight"], 3)                           # kma_rookie = S등급 가중치 3
+        self.assertEqual(self.scored()["b"]["hit_weight"], 1)
 
     def test_backtest_counts_hits_and_random_baseline(self):
         res = {(r["k"], r["method"]): r for r in rows(self.con, "backtest.sql", cutoff="'2025-01-01'", k_list="[1,2,3]")}
@@ -159,6 +170,15 @@ class TeamSqlTest(unittest.TestCase):
         self.assertIn("클럽1", by[("b", "같은 무대")]["detail"])
         self.assertIn(("e", "같은 소속사"), by)
         self.assertNotIn("a", [r["related_team"] for r in out])
+
+    def test_source_scorecard_measures_all_sources_regardless_of_role(self):
+        self.con.execute("UPDATE signals SET role = 'context' WHERE program = 'band_discovery'")
+        out = {r["src"]: r for r in rows(self.con, "source_scorecard.sql", cutoffs="(DATE '2025-01-01')",
+                                          since="'2024-01-01'", horizon_months="24")}
+        bd = out["선정·지원:band_discovery"]
+        self.assertEqual(bd["role"], "context")                  # 맥락 출처도 성적표에는 나옴
+        self.assertEqual((bd["teams"], bd["hits"]), (1, 1))       # a: 2024-03 선정 → 2025-03 정답
+        self.assertEqual(bd["winners_seen"], 1)
 
     def test_team_timeline_newest_first_with_labels(self):
         out = rows(self.con, "team.sql", team_key="'a'")

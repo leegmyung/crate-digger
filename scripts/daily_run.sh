@@ -21,6 +21,8 @@ if command -v aside >/dev/null 2>&1; then
   "$PY" scripts/collect_insta.py || echo "⚠️ 인스타 매거진 수집 실패"
   "$PY" scripts/collect_platforms.py --days 3 || echo "⚠️ 음원 플랫폼 신보 수집 전부 실패 (일부 실패는 위 로그에 ⚠️로 표시)"
   "$PY" scripts/collect_artists.py || echo "⚠️ 아티스트 프로필(멜론) 수집 실패"
+  NAMES="$(ls -t data/raw/review/melon_names_*.txt 2>/dev/null | head -1)"   # 후보·수상 팀 프로필 보강 (하루 최대 100팀, 멜론 일시 차단 피하려고 나눠 받음)
+  [ -n "$NAMES" ] && { "$PY" scripts/collect_artists.py --names-file "$NAMES" || echo "⚠️ 후보 팀 멜론 프로필 보강 실패"; }
 else
   echo "⚠️ aside 명령이 없어 공연·인스타·음원 플랫폼 수집을 건너뜀"
 fi

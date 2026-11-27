@@ -72,7 +72,7 @@ class TeamRowsTest(unittest.TestCase):
 
 class OutcomeRowsTest(unittest.TestCase):
     def test_label_and_boolean(self):
-        row = ex.outcome_rows(OUTCOMES)[0]
+        row = ex.outcome_rows(OUTCOMES, ROLES)[0]
         self.assertEqual(row["program_label"], "한대음 올해의 신인")
         self.assertEqual(row["counted"], "true")
 
@@ -155,6 +155,28 @@ class ImageRowsTest(unittest.TestCase):
                               "b": {"url": None, "source": "spotify"},
                               "c": {"url": "http://i.scdn.co/image/y", "source": "spotify"}})
         self.assertEqual(rows, [{"team_key": "a", "url": "https://i.scdn.co/image/x", "source": "spotify"}])
+
+
+ROLES = {"default_role": "pending",
+         "signals": {"공연:indistreet": {"role": "discovery"}, "큐레이션:izm": {"role": "context"},
+                     "선정·지원:dmz_lineup": {"role": "excluded"}},
+         "outcomes": {"kma_rookie": {"grade": "S", "weight": 3}}}
+
+
+class RoleTest(unittest.TestCase):
+    def test_signal_role_uses_program_for_selection_and_source_otherwise(self):
+        self.assertEqual(ex.signal_role({"branch": "공연", "source": "indistreet", "program": ""}, ROLES), "discovery")
+        self.assertEqual(ex.signal_role({"branch": "큐레이션", "source": "izm", "program": "izm"}, ROLES), "context")
+        self.assertEqual(ex.signal_role({"branch": "선정·지원", "source": "x", "program": "dmz_lineup"}, ROLES), "excluded")
+        self.assertEqual(ex.signal_role({"branch": "발매", "source": "melon", "program": ""}, ROLES), "pending")
+
+    def test_outcome_grade_and_weight_default_b(self):
+        rows = ex.outcome_rows([{"team_key": "a", "program": "kma_rookie", "tier": "final", "announced_date": "2025-01-01",
+                                 "counted": "t"},
+                                {"team_key": "b", "program": "new_prog", "tier": "mid", "announced_date": "2025-01-01",
+                                 "counted": "t"}], ROLES)
+        self.assertEqual((rows[0]["grade"], rows[0]["weight"]), ("S", 3))
+        self.assertEqual((rows[1]["grade"], rows[1]["weight"]), ("B", 1))
 
 
 class ExportTest(unittest.TestCase):

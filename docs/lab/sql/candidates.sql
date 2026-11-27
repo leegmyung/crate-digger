@@ -5,12 +5,12 @@ SELECT team_key, display_name, ROUND(score, 2) AS score, n_branch, best_stage, p
        first_seen, last_seen, primary_genre, profile_status, had_outcome,
        ROUND(pts_branch, 2) AS pts_branch, ROUND(pts_stage, 2) AS pts_stage, ROUND(pts_peer, 2) AS pts_peer,
        ROUND(pts_dmz, 2) AS pts_dmz, ROUND(pts_gigs, 2) AS pts_gigs, ROUND(pts_outlets, 2) AS pts_outlets,
-       ROUND(pts_recent, 2) AS pts_recent, ROUND(pts_venues, 2) AS pts_venues, ROUND(pts_winner, 2) AS pts_winner,
+       ROUND(pts_recent, 2) AS pts_recent, ROUND(pts_venues, 2) AS pts_venues, ROUND(pts_winner, 2) AS pts_winner, ROUND(pts_context, 2) AS pts_context, context_outlets,
        recent180, venues, peer_winner
 FROM lab_scored(DATE {{as_of}}, {{lookback_years}}, {{newcomer_years}}, {{exclude_famous}},
                 'any', 1, {{genre}}, {{branches}},
                 {{w_branch}}, {{w_stage}}, {{w_peer}}, {{w_dmz}}, {{w_gigs}}, {{w_outlets}}, {{outlet_cap}},
-                {{w_recent}}, {{w_venues}}, {{w_winner}})
+                {{w_recent}}, {{w_venues}}, {{w_winner}}, {{w_context}})
 WHERE NOT ({{only_no_outcome}} AND had_outcome)
 ORDER BY score DESC, last_seen DESC, md5(team_key)
 LIMIT {{limit}};

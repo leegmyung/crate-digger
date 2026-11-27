@@ -30,7 +30,7 @@ XREF_FILE = ROOT / "data" / "raw" / "state" / "artist_xref.json"
 RAW_DIR = ROOT / "data" / "raw"
 IMAGE_CACHE = ROOT / "data" / "raw" / "state" / "artist_images.json"
 
-SIGNAL_FIELDS = ["team_key", "branch", "source", "program", "stage_rank", "signal_date", "venue"]
+SIGNAL_FIELDS = ["team_key", "branch", "source", "program", "stage_rank", "signal_date", "venue", "role"]
 TEAM_FIELDS = ["team_key", "display_name", "first_seen", "first_release", "fan_count", "album_count",
                "profile_status", "primary_genre", "agency"]
 LINK_FIELDS = ["team_key", "platform", "url"]
@@ -55,7 +55,9 @@ URL_TEMPLATES = {
 }
 URL_HOSTS = {"melon": "www.melon.com", "genie": "www.genie.co.kr", "bugs": "music.bugs.co.kr",
              "spotify": "open.spotify.com", "instagram": "www.instagram.com", "youtube": "www.youtube.com"}
-OUTCOME_FIELDS = ["team_key", "program", "program_label", "tier", "announced_date", "counted"]
+OUTCOME_FIELDS = ["team_key", "program", "program_label", "tier", "announced_date", "counted", "grade", "weight"]
+ROLES_FILE = ROOT / "config" / "source_roles.json"
+DEFAULT_GRADE = ("B", 1)
 STATUS_PRIORITY = "CASE st.status WHEN 'famous' THEN 4 WHEN 'established' THEN 3 WHEN 'newcomer' THEN 2 ELSE 1 END"
 
 Run = Callable[[str], str]
@@ -151,11 +153,31 @@ def team_rows(rows: List[dict]) -> List[dict]:
     return out
 
 
-def outcome_rows(rows: List[dict]) -> List[dict]:
-    return [{**{k: r.get(k) or "" for k in OUTCOME_FIELDS},
-             "program_label": PROGRAM_NAMES.get(r["program"], r["program"]),
-             "counted": "true" if str(r.get("counted", "")).lower() in ("t", "true", "1") else "false"}
-            for r in rows]
+def load_roles(path: Path = ROLES_FILE) -> dict:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {"default_role": "discovery", "signals": {}, "outcomes": {}}   # 분류표가 없으면 예전처럼 전부 사용
+
+
+def signal_role(row: dict, roles: dict) -> str:
+    """config/source_roles.json 기준 신호 역할. 선정·지원은 프로그램, 나머지는 출처로 찾는다."""
+    branch = row.get("branch", "")
+    name = row.get("program") if branch == "선정·지원" else row.get("source")
+    entry = (roles.get("signals") or {}).get(f"{branch}:{name}") or {}
+    return entry.get("role") or roles.get("default_role", "pending")
+
+
+def outcome_rows(rows: List[dict], roles: dict | None = None) -> List[dict]:
+    grades = ((roles or {}).get("outcomes") or {})
+    out = []
+    for r in rows:
+        g = grades.get(r["program"]) or {}
+        out.append({**{k: r.get(k) or "" for k in OUTCOME_FIELDS},
+                    "program_label": PROGRAM_NAMES.get(r["program"], r["program"]),
+                    "counted": "true" if str(r.get("counted", "")).lower() in ("t", "true", "1") else "false",
+                    "grade": g.get("grade", DEFAULT_GRADE[0]), "weight": g.get("weight", DEFAULT_GRADE[1])})
+    return out
 
 
 def _link_url(platform: str, ref: str) -> str | None:
@@ -292,9 +314,10 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
            image_cache: Callable[[], dict] | None = _image_cache) -> dict:
     use_xref = _has_xref_table(run)
     q = queries(use_xref)
-    signals = _records(run(q["signals"]))
+    roles = load_roles()
+    signals = [{**r, "role": signal_role(r, roles)} for r in _records(run(q["signals"]))]
     teams = team_rows(_records(run(q["teams"])))
-    outcomes = outcome_rows(_records(run(q["outcomes"])))
+    outcomes = outcome_rows(_records(run(q["outcomes"])), roles)
     programs = program_rows(signals, outcomes)
     links = link_rows(_records(run(q["links"])) + (extra_refs() if extra_refs else []))
 

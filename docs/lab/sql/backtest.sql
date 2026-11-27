@@ -7,7 +7,7 @@ WITH scored AS (
     SELECT * FROM lab_scored(DATE {{cutoff}}, {{lookback_years}}, {{newcomer_years}}, {{exclude_famous}},
                              {{outcome_tier}}, {{horizon_months}}, {{genre}}, {{branches}},
                              {{w_branch}}, {{w_stage}}, {{w_peer}}, {{w_dmz}}, {{w_gigs}}, {{w_outlets}}, {{outlet_cap}},
-                {{w_recent}}, {{w_venues}}, {{w_winner}})
+                {{w_recent}}, {{w_venues}}, {{w_winner}}, {{w_context}})
     WHERE NOT had_outcome
 ),
 ranked AS (                                     -- 동점은 팀 키 해시로 고정(매번 같은 결과)

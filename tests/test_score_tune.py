@@ -19,6 +19,15 @@ class MetricTest(unittest.TestCase):
         self.assertEqual(st.hits_at_k([5, 4, 4, 1], [0, 1, 0, 1], ["d", "b", "c", "a"], k=2), 1)
 
 
+class WeightedAucTest(unittest.TestCase):
+    def test_heavier_winner_counts_more(self):
+        # 정답 2팀: 무거운 팀(3)은 맨 위, 가벼운 팀(1)은 맨 아래 → 가중 AUC는 보통 AUC보다 높다
+        scores, weights = [4, 3, 2, 1], [3, 0, 0, 1]
+        self.assertEqual(st.auc(scores, [1, 0, 0, 1]), 0.5)
+        self.assertAlmostEqual(st.weighted_auc(scores, weights), (3 * 1.0 + 1 * 0.0) / 4)
+        self.assertIsNone(st.weighted_auc([1, 2], [0, 0]))
+
+
 class ScoreTest(unittest.TestCase):
     def test_score_matches_v0_formula(self):
         f = {"n_branch": 3, "best_stage": 2, "peer_selected": 1, "dmz": 0, "gigs_1y": 0, "outlets": 5,
