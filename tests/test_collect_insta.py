@@ -2,6 +2,7 @@
 import sys
 import tempfile
 import unittest
+from datetime import date, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -95,6 +96,26 @@ class DueTest(unittest.TestCase):
         last = {"b": "2026-11-25"}
         self.assertEqual([a["handle"] for a in ci.due_accounts(accounts, last, "2026-11-26")], ["a"])
         self.assertEqual([a["handle"] for a in ci.due_accounts(accounts, last, "2026-11-28")], ["a", "b"])
+
+    def test_limit_takes_most_overdue_first(self):
+        accounts = [{"handle": h, "every_days": 1} for h in "abc"]
+        last = {"a": "2026-11-25", "b": "2026-11-20", "c": "2026-11-24"}
+        got = ci.due_accounts(accounts, last, "2026-11-26", limit=2)
+        self.assertEqual([a["handle"] for a in got], ["b", "c"])
+
+    def test_stagger_spreads_new_accounts_over_their_cycle(self):
+        accounts = [{"handle": f"s{i}", "every_days": 7} for i in range(14)] + [{"handle": "old", "every_days": 7}]
+        last = ci.stagger(accounts, {"old": "2026-11-26"}, "2026-11-27")
+        self.assertEqual(last["old"], "2026-11-26")                      # 이미 본 계정은 그대로
+        first_due = {}                                                   # 계정마다 처음 볼 때가 되는 날
+        days = [(date(2026, 11, 27) + timedelta(days=i)).isoformat() for i in range(7)]
+        for d in days:
+            for a in ci.due_accounts(accounts, last, d):
+                first_due.setdefault(a["handle"], d)
+        old_due = first_due.pop("old")
+        per_day = [list(first_due.values()).count(d) for d in days]
+        self.assertEqual(per_day, [2] * 7)                               # 새 계정 14개를 7일에 나눠 → 하루 2개
+        self.assertEqual(old_due, "2026-12-03")                          # 기존 계정은 원래 주기대로
 
 
 if __name__ == "__main__":

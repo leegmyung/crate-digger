@@ -1,21 +1,3879 @@
 {
- "_설명": "인스타 음악 매거진 수집 대상. tier: main=매일, sub=every_days마다. 새 계정은 한 줄 추가. 계정이 사라지면 수집 로그에 표시됨. role: magazine=평론·큐레이션 매체, venue_showcase=공연장·기획 계정(라인업 공지 → 공연 갈래로 셈)",
+ "_설명": "인스타 음악 매거진·큐레이터·공연장 수집 대상. tier: main=매일, sub=every_days(7)마다, venue=공연장(2일마다). 새 계정은 처음 확인일을 주기 안에서 나눠 배정(collect_insta.stagger), 한 번에 최대 260계정. role: magazine=평론·큐레이션 매체, venue_showcase=공연장·기획 계정(라인업 공지 → 공연 갈래로 셈). 후보 원본·선정 근거는 data/raw/review/instagram_*.json(비공개).",
  "accounts": [
-  {"handle": "pushplay_mag", "name": "푸시 플레이 매거진", "tier": "main", "every_days": 1, "role": "magazine"},
-  {"handle": "bdbd.wav", "name": "bdbd", "tier": "main", "every_days": 1, "role": "magazine"},
-  {"handle": "kindiemagazine", "name": "킨디매거진", "tier": "main", "every_days": 1, "role": "magazine"},
-  {"handle": "muzik.street", "name": "들을 거리", "tier": "main", "every_days": 1, "role": "magazine"},
-  {"handle": "muscat_mag", "name": "머스캣 매거진", "tier": "main", "every_days": 1, "role": "magazine"},
-  {"handle": "omichive7", "name": "오미카이브", "tier": "main", "every_days": 1, "role": "magazine"},
-  {"handle": "pub.mag", "name": "펍맥", "tier": "sub", "every_days": 3, "role": "magazine"},
-  {"handle": "stage_magazine", "name": "스테이지 매거진", "tier": "sub", "every_days": 3, "role": "magazine"},
-  {"handle": "ageofband", "name": "AoB 에이오비", "tier": "sub", "every_days": 2, "role": "magazine"},
-  {"handle": "metro_kr", "name": "메트로", "tier": "sub", "every_days": 3, "role": "magazine"},
-  {"handle": "nugsmag", "name": "넋매거진", "tier": "sub", "every_days": 3, "role": "magazine"},
-  {"handle": "debasermagazine", "name": "디베이서매거진", "tier": "sub", "every_days": 3, "role": "magazine"},
-  {"handle": "senggistudio", "name": "생기스튜디오", "tier": "sub", "every_days": 3, "role": "venue_showcase"},
-  {"handle": "hongdaeff", "name": "클럽FF", "tier": "sub", "every_days": 3, "role": "venue_showcase"},
-  {"handle": "rollinghall", "name": "롤링홀", "tier": "sub", "every_days": 3, "role": "venue_showcase"},
-  {"handle": "liveclubday", "name": "라이브클럽데이", "tier": "sub", "every_days": 3, "role": "venue_showcase"}
+  {
+   "handle": "pushplay_mag",
+   "name": "푸시 플레이 매거진",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine"
+  },
+  {
+   "handle": "bdbd.wav",
+   "name": "bdbd",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine"
+  },
+  {
+   "handle": "kindiemagazine",
+   "name": "킨디매거진",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine"
+  },
+  {
+   "handle": "muzik.street",
+   "name": "들을 거리",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine"
+  },
+  {
+   "handle": "muscat_mag",
+   "name": "머스캣 매거진",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine"
+  },
+  {
+   "handle": "omichive7",
+   "name": "오미카이브",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine"
+  },
+  {
+   "handle": "pub.mag",
+   "name": "펍맥",
+   "tier": "sub",
+   "every_days": 3,
+   "role": "magazine"
+  },
+  {
+   "handle": "stage_magazine",
+   "name": "스테이지 매거진",
+   "tier": "sub",
+   "every_days": 3,
+   "role": "magazine"
+  },
+  {
+   "handle": "ageofband",
+   "name": "AoB 에이오비",
+   "tier": "sub",
+   "every_days": 2,
+   "role": "magazine"
+  },
+  {
+   "handle": "metro_kr",
+   "name": "메트로",
+   "tier": "sub",
+   "every_days": 3,
+   "role": "magazine"
+  },
+  {
+   "handle": "nugsmag",
+   "name": "넋매거진",
+   "tier": "sub",
+   "every_days": 3,
+   "role": "magazine"
+  },
+  {
+   "handle": "debasermagazine",
+   "name": "디베이서매거진",
+   "tier": "sub",
+   "every_days": 3,
+   "role": "magazine"
+  },
+  {
+   "handle": "senggistudio",
+   "name": "생기스튜디오",
+   "tier": "sub",
+   "every_days": 3,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "hongdaeff",
+   "name": "클럽FF",
+   "tier": "sub",
+   "every_days": 3,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "rollinghall",
+   "name": "롤링홀",
+   "tier": "sub",
+   "every_days": 3,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "liveclubday",
+   "name": "라이브클럽데이",
+   "tier": "sub",
+   "every_days": 3,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "banding.mag",
+   "name": "BANDing magazine • 밴딩매거진",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "indieroad.official",
+   "name": "인디로드 매거진",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "padomusic_mag",
+   "name": "파도매거진 | 음악인 커뮤니티 | 뮤지션 서포트",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "cok.mag",
+   "name": "COK Music Magazine | 음악 매거진",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "thefiveneedsmag",
+   "name": "THEFIVENEEDS MAGAZINE",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "magazine_of_cmh",
+   "name": "CMH매거진",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "livehouse.seoul",
+   "name": "라이브하우스 LiveHouse",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "space_hangang",
+   "name": "스페이스 한강 Space Hangang",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "clubff_hongdae",
+   "name": "Club FF",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "punk_metal"
+  },
+  {
+   "handle": "gammahall.live",
+   "name": "홍대 공연장 감마홀 (Gamma Hall)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "octavariumlive",
+   "name": "옥타바리움 라이브홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "spacestation2017",
+   "name": "우주정거장(SpaceStation)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "flex.lounge",
+   "name": "플렉스라운지 (본점)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "alivehall",
+   "name": "얼라이브홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "livehall_rock.king",
+   "name": "라이브홀 락왕",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "indie.music.life",
+   "name": "인디 뮤직 라이프",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "fstvl.life",
+   "name": "페스티벌라이프",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "prismhall",
+   "name": "프리즘홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "dreamtheater_livehall",
+   "name": "드림씨어터 라이브홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "clubrealize",
+   "name": "라이브 클럽 리얼라이즈",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "the_vinyl_underground",
+   "name": "바이널언더그라운드 소극장",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "interplayclubbusan",
+   "name": "전람회의그림 / 인터플레이클럽",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "folk_ssw"
+  },
+  {
+   "handle": "ovantgarde",
+   "name": "오방가르드_Ovantgarde",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "live_pub_manhattan",
+   "name": "동성로 맨하탄",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "communeslive",
+   "name": "communeslive",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "rock_club_led_zeppelin",
+   "name": "Rock club Led zeppelin",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "clubheavy",
+   "name": "클럽헤비",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "punk_metal"
+  },
+  {
+   "handle": "livepub_tarock",
+   "name": "염동훈",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "club_never",
+   "name": "손충재",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "punk_metal"
+  },
+  {
+   "handle": "interplay_livemusic",
+   "name": "인터플레이",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "music_crew.planb",
+   "name": "Music Crew PlanB",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "indiejeonju",
+   "name": "인디전주 Indie Jeonju",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "night_flight_jeonju",
+   "name": "전주 야간비행",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "indie_jeju_zero",
+   "name": "인디제주",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "artist_in_jeju",
+   "name": "아티스트인제주",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "club_knock1",
+   "name": "클럽노크 | 라이브•클럽•송도",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "rockcamp_live",
+   "name": "락캠프",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "vinta_suwon",
+   "name": "VINTA",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "clubbbang",
+   "name": "클럽빵 LiveClub BBang, korea first & longest indie",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "mudaeruk",
+   "name": "무대륙",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "jebidabang",
+   "name": "제비다방 JEBIDABANG",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "musinsagarage",
+   "name": "무신사개러지 musinsa garage",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "record_mag",
+   "name": "record magazine 레코드 매거진",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "symsool.mag",
+   "name": "SYMSOOL Magazine 심술 매거진",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "sadam.playlist",
+   "name": "사적인 담화 私談 • 음악 기록집",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "bandking.mag",
+   "name": "BAND KING MAGAZINE",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "paran_skku",
+   "name": "파란",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "music__ground__",
+   "name": "뮤직 그라운드",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "chilimusickorea",
+   "name": "칠리뮤직코리아",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "folk_ssw"
+  },
+  {
+   "handle": "poclanos",
+   "name": "포크라노스 I poclanos",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "afternoon_records",
+   "name": "애프터눈",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "gingerrecords",
+   "name": "진저레코드 Ginger Records & Ginger Studio",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "punk_metal"
+  },
+  {
+   "handle": "gimbabrecords",
+   "name": "김밥레코즈",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "metavox_records",
+   "name": "조남걸",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "zandarifesta",
+   "name": "ZANDARI FESTA 잔다리페스타",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "dmzpeacetrain",
+   "name": "DMZ PEACE TRAIN MUSIC FESTIVAL since 2018",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "koreanmusicawards",
+   "name": "제23회 한국대중음악상 시상식",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "jazzclub_bluehour",
+   "name": "BLUE HOUR JAZZ CLUB | 블루아워 재즈클럽 | 서울재즈바 | 종각재즈바 | 을지로·청계천 재즈",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "seouljazzfestival",
+   "name": "서울재즈페스티벌 Seoul Jazz Festival",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "sub_riot",
+   "name": "SUB RIOT 서브라이엇!",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "subriot_hbc",
+   "name": "SUBRIOT HBC",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "chess154",
+   "name": "Chess154(체스154)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "rustic_jazz",
+   "name": "러스틱재즈",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "boogiewoogieseoul",
+   "name": "부기우기 Boogie Woogie 녹사평 재즈바",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "flatnine_jazzbar",
+   "name": "FLATNINE | 플랫나인 | 재즈바 | JAZZBAR",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "jymiesbar.seoul",
+   "name": "Jymie’s Barㅣ지미스바ㅣ이태원 재즈바",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "cottonclub_seoul",
+   "name": "코튼클럽 | Cotton Club",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "seoulindiemusicfesta",
+   "name": "서울 인디 뮤직 페스타",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "seoul_recordfair",
+   "name": "서울레코드페어",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "mosaicseoul",
+   "name": "MOSAIC 모자이크",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "manhattan_records_seoul",
+   "name": "Manhattan Records Seoul",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "seoulrecord",
+   "name": "서울레코드",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "diverecords_seoul",
+   "name": "Dive Records",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "novvave_records",
+   "name": "노웨이브",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "citypop_pop"
+  },
+  {
+   "handle": "gwangbok_record",
+   "name": "광복레코드",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "hculturecoop",
+   "name": "홍우주사회적협동조합",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "bebop_a_lula_",
+   "name": "삐빳빠룰라",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "jazz_in_various",
+   "name": "베리어스재즈클럽. 대구재즈클럽.",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "_jam_lounge_hongdae",
+   "name": "잼라운지_홍대",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "chord_space",
+   "name": "Chord Space",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "musisis.gn",
+   "name": "경남음악창작소 뮤지시스",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "seoul.indie.platform",
+   "name": "서울마포음악창작소",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "muzit_cj",
+   "name": "충주음악창작소",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "054soundville",
+   "name": "경북음악창작소",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "jazzpresso_record",
+   "name": "재즈프레소 레코드 바",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "jazzclub_janus",
+   "name": "재즈클럽 야누스 JAZZ CLUB JANUS",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "gurumare_theater",
+   "name": "구름아래소극장",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "folk_ssw"
+  },
+  {
+   "handle": "for_rest_live",
+   "name": "숲세권 라이브 (For:Rest LIVE)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "folk_ssw"
+  },
+  {
+   "handle": "newmusic_jeju",
+   "name": "NEW MUSIC IN 제주",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "clubaor",
+   "name": "CLUB A.O.R/클럽aor",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "punk_metal"
+  },
+  {
+   "handle": "yonsei_ullimteo",
+   "name": "연세대학교 중앙밴드동아리 울림터",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "mosaicwest",
+   "name": "MOSAIC WEST 모자이크웨스트",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "festival_thesub",
+   "name": "FESTIVAL THE SUB 페스티벌 더 서브",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "mapocalypse.post",
+   "name": "포스트 마포칼립스",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "jamesrecord",
+   "name": "jamesrecord",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "indiesmoment",
+   "name": "인디스모먼트 indie’s moment",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "koreanindie",
+   "name": "Korean Indie",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "goyoroom",
+   "name": "고요의 방",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "folk_ssw"
+  },
+  {
+   "handle": "walden_samgeori",
+   "name": "월든삼거리",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "folk_ssw"
+  },
+  {
+   "handle": "everysongs.playlist",
+   "name": "에쏭플리ㅣ노래추천",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "citypop_pop"
+  },
+  {
+   "handle": "in_muu_official",
+   "name": "인생뮤직 공식계정",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "club_onair",
+   "name": "클럽온에어 (Club ON-AIR)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "saveourstageskorea",
+   "name": "우무지 | WUMUJI | 복합문화공간",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "ssmadang_live",
+   "name": "KT&G 상상마당 라이브홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "vel.r_live",
+   "name": "Vel.R 벨르(구벨로주 홍대)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "folk_ssw"
+  },
+  {
+   "handle": "cafeveloso",
+   "name": "벨로주(박정용)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "folk_ssw"
+  },
+  {
+   "handle": "strangefruit.seoul",
+   "name": "스트레인지프룻",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "delay_relay",
+   "name": "Delay Relay Festival",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "kuchucamp_",
+   "name": "공중캠프 | 空中キャンプ | kuchu-camp",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "folk_ssw"
+  },
+  {
+   "handle": "mirrorballmusic_official",
+   "name": "미러볼뮤직 Mirrorball Music",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "msbsound",
+   "name": "MAGIC STRAWBERRY SOUND",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "gyeonggimusic",
+   "name": "경기뮤직 GYEONGGI MUSIC",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "ctrsound",
+   "name": "씨티알싸운드",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "huks_music",
+   "name": "헉스 뮤직 Huks Music Official",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "folk_ssw"
+  },
+  {
+   "handle": "spacebrickkorea",
+   "name": "스페이스브릭",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "younggiftedwack",
+   "name": "영기획YOUNG,GIFTED&WACK",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "ruby_records",
+   "name": "RUBY RECORDS 💿 루비레코드",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "punk_metal"
+  },
+  {
+   "handle": "musicguide.kr",
+   "name": "music guide",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "pastelmusic_",
+   "name": "PASTEL MUSIC 파스텔뮤직",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "folk_ssw"
+  },
+  {
+   "handle": "ebsspace",
+   "name": "EBS 스페이스 공감",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "official.onstage",
+   "name": "온스테이지",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "pentaportrf",
+   "name": "Incheon Pentaport Rock Festival",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "busanrockfest",
+   "name": "부산국제록페스티벌",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "letsrockfe",
+   "name": "렛츠락 페스티벌",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "inmufe.official",
+   "name": "경기인디뮤직페스티벌 GYEONGGI INDIE MUSIC FESTIVAL",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "seoulmusicweek_official",
+   "name": "Seoul Music Week / 서울뮤직위크 Official",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "musiclab_busan",
+   "name": "부산음악창작소",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "ulsanmusics",
+   "name": "울산음악창작소",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "gj__peakmusic",
+   "name": "광주음악산업진흥센터",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "dicia_music",
+   "name": "대전음악창작소",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "portrock_incheon",
+   "name": "인천음악창작소 Portrock",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "art_venue_chosok",
+   "name": "속초 소극장 초속",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "cn_music_factory",
+   "name": "충남음악창작소",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "pocheonmusicfactory",
+   "name": "포천음악창작소",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "cosmosruby_",
+   "name": "코스모스x루비 Cosmosruby Live Club",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "punk_metal"
+  },
+  {
+   "handle": "rubysalon_incheon",
+   "name": "인천여관X루비살롱📀rubysalon",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "punk_metal"
+  },
+  {
+   "handle": "slowbyslowly",
+   "name": "S, LO, W",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "for_rest_stage",
+   "name": "숲세권 라이브 | For:Rest Live 공연",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "folk_ssw"
+  },
+  {
+   "handle": "allthatjazz_itaewon",
+   "name": "AllThatJazz_올댓재즈",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "chunnyun.jazz",
+   "name": "천년동안도",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "vislamag",
+   "name": "VISLA",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "cakeshopseoul",
+   "name": "Cakeshop",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "scr_radio",
+   "name": "Seoul Community Radio (SCR)",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "club"
+  },
+  {
+   "handle": "faustseoul",
+   "name": "FAUST",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "mixmag_kr",
+   "name": "Mixmag Korea",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "club"
+  },
+  {
+   "handle": "festivalfestivalseoul",
+   "name": "祝祭 축제",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "habokorea",
+   "name": "HABO 하보",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "club"
+  },
+  {
+   "handle": "vurt_seoul",
+   "name": "vurt",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "visla.fm",
+   "name": "VISLA FM",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "mixmixtv",
+   "name": "MIXMIXTV",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "club"
+  },
+  {
+   "handle": "pistilseoul",
+   "name": "Pistil",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "undercity_culture",
+   "name": "UNDERCITY 언더시티",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "dnb.seoul",
+   "name": "DNB SEOUL",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "carouselseoul",
+   "name": "Carousel Seoul (CRSL)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "fictionseoul",
+   "name": "Fiction Seoul",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "ximxim_seoul",
+   "name": "XIMXIM 심심",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "soundsupply_service",
+   "name": "SoundSupply_Service",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "deepocean_official_",
+   "name": "심해 Deepocean",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "clubnasub",
+   "name": "CLUB NASUB 나수브",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "it.side_music",
+   "name": "It.Side Music",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "bcc_session",
+   "name": "bcc (BAD CHOICE CREW)",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "experimental"
+  },
+  {
+   "handle": "seoulfootwork2025",
+   "name": "서울풋워크 Seoul Footwork",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "bridge.seoul",
+   "name": "BRIDGE",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "galactique_seoul",
+   "name": "GALACTIQUE SEOUL",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "moimprov_seoul",
+   "name": "MoIM (Meeting of Improvising Musicians in Seoul)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "beatology_seoul",
+   "name": "Beatology",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "beat"
+  },
+  {
+   "handle": "seoulexperimental",
+   "name": "seoul experimental",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "experimental"
+  },
+  {
+   "handle": "localbody.blog",
+   "name": "local body",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "dime.mov",
+   "name": "DimeMov (Dimensional Movement)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "beat"
+  },
+  {
+   "handle": "foreignbody.life",
+   "name": "foreign body",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "notesfromcake",
+   "name": "Cake! (Notes from the underground)",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "club"
+  },
+  {
+   "handle": "housession.seoul",
+   "name": "Housession 하우스세션",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "basscamp_crew",
+   "name": "BASSCAMP",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "sacrificing_everything",
+   "name": "The Sacrifice",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "ceilingservice",
+   "name": "ceiling service",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "soapseoul",
+   "name": "Soap",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "orny.place",
+   "name": "Ordinary Place",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "club"
+  },
+  {
+   "handle": "modeci_seoul",
+   "name": "MODECi",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "shelterseoul_",
+   "name": "Shelter",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "boleroseoul",
+   "name": "BOLERO",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "060mag",
+   "name": "060",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "nyapi_seoul",
+   "name": "NYAPI",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "junctionseoul",
+   "name": "Junction Forest",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "ring.seoul",
+   "name": "RING",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "teller.seoul",
+   "name": "Teller",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "volnostseoul",
+   "name": "Volnost",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "hertz.sound",
+   "name": "hertz",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "permit_invites",
+   "name": "PERMIT",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "paper.seoul",
+   "name": "Paper Seoul",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "grainhaus.seoul",
+   "name": "grain haus",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "bbcb.seoul",
+   "name": "BBCB: Beton Brut+Concrete Bar",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "theedgeseoul",
+   "name": "THE EDGE",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "wav_kr",
+   "name": "WAV",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "hardtechnokorea",
+   "name": "HARD TECHNO SEOUL / Ramyun Raves",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "blockpartykorea",
+   "name": "Block Party",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "luka.seoul",
+   "name": "LUKA",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "lvhs.kr",
+   "name": "LoveHaus",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "argaseoul",
+   "name": "ARGA",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "rosso_seoul",
+   "name": "ROSSO",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "atdge_seoul",
+   "name": "atg",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "nue.seoul",
+   "name": "누에 nué",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "180bpm180",
+   "name": "180BPM",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "bulbit.seoul",
+   "name": "bulbit",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "planet_turbo_seoul",
+   "name": "Planet Turbo",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "tcc_seoul",
+   "name": "TechnoCoffeeClub",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "posture_club",
+   "name": "Posture Club",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "banjul_stage",
+   "name": "반쥴 스테이지",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "_www.pider.nxt",
+   "name": "(X)PIDER / OPEN UR MIND",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "__2ndfloor",
+   "name": "2ndfloor",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "thila.seoul",
+   "name": "THILA",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "darklight_seoul",
+   "name": "Darklight Drum and Bass",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "deepoceanlab_gwangju",
+   "name": "심해랩 Deepocean Lab Gwangju",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "beyondthebridgemusic",
+   "name": "Beyond the Bridge",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "gwangheungchang_seoul",
+   "name": "광흥창 狂興娼",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "more_breaks_kr",
+   "name": "More Breaks",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "subculture.society_ssumic",
+   "name": "SS:umic 쑤믹",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "kimchifactoryhomies",
+   "name": "Kimchi Factory Homies",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "wethrowabash",
+   "name": "BASH",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "mudaeruk_b",
+   "name": "무대륙B MUB",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "snailrecordings",
+   "name": "snailrecordings",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "technoeden_official",
+   "name": "테크노동산 technoeden",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "foreignbody.recs",
+   "name": "foreign body - records",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "blanksite_seoul",
+   "name": "Blank Site Seoul",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "asiangoiibberfestival",
+   "name": "괴버 GOiiBBER",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "mushroomhouse_kr",
+   "name": "MUSHROOM HOUSE",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "soleilcollective_",
+   "name": "SOLEIL",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "soar.wav",
+   "name": "SOAR",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "tamago_cor",
+   "name": "卵 tamago",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "dhj.global",
+   "name": "DHJ (do-hwa-ji)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "neurotrain_records",
+   "name": "Neurotrain Records",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "whitelunarmusic",
+   "name": "WHITE LUNAR MUSIC",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "rawheartss",
+   "name": "Raw Hearts",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "tool.seoul",
+   "name": "TOOL Records & Bar",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "afterhourskr",
+   "name": "AFTERHOURS",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "club"
+  },
+  {
+   "handle": "_s_e_a_c_",
+   "name": "세악_서울실험예술인모임",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "venn.seoul",
+   "name": "venn",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "most.seoul",
+   "name": "MOST",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "fromrgb",
+   "name": "RGB",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "girls__gone__wild__",
+   "name": "Girls Gone Wild!",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "h.o.e.seoul",
+   "name": "H.O.Ë",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "timefortolerance",
+   "name": "관용의 시간 Time for Tolerance",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "gestalt_club__",
+   "name": "GESTALT",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "clubaniso",
+   "name": "club aniso",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "gotunlucky",
+   "name": "UNLUCKYME",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "concretejungle_archive",
+   "name": "Concrete Jungle",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "basscore.kr",
+   "name": "BASSCORE",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "moim_channels",
+   "name": "모임채널즈 MoIM CHANNELS",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "seoul_electronic_records",
+   "name": "서울전자레코즈",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "noisenoseoul_",
+   "name": "NOISE NO SEOUL FEST",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "gorani.festival",
+   "name": "Gorani Festival 고라니 페스티벌",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "_bbureka_",
+   "name": "BBUREKA",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "experimental"
+  },
+  {
+   "handle": "clubhorn_official",
+   "name": "HORN",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "t_h_i_r_d_r_a_i_l",
+   "name": "thirdrail",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "net_taskforce",
+   "name": "NET_TASKFORCE",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "foreignbody.club",
+   "name": "foreign body - agency",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "stamina_375ml",
+   "name": "STAMINA",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "club"
+  },
+  {
+   "handle": "ystrdy.tdy.tmrrw",
+   "name": "어제오늘내일 | 뮤직 매거진",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "_muse_on",
+   "name": "뮤즈온 / MUSE ON",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "ilooveband",
+   "name": "I ♥ BAND | 아이러브밴드",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "mondayprojectkr",
+   "name": "먼데이프로젝트 | 인디밴드 | 평일공연활성화",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "today_indiemusic",
+   "name": "오늘의인디음악",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "wavbor_kr",
+   "name": "웨이버 매거진 | WAVBOR MAGAZINE",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "magazine_muve",
+   "name": "뮤직 매거진 뮤브",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "byungwookchung",
+   "name": "정병욱",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "webzineizm",
+   "name": "이즘 IZM",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "k_indie_chart",
+   "name": "K-INDIE CHART 케이인디차트",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "spotifykr",
+   "name": "스포티파이 Spotify Korea",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "hypebeastkr",
+   "name": "HYPEBEAST Korea",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "musicdalin",
+   "name": "선곡의 달인_추천음악",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "millionpopsong",
+   "name": "밀리언팝송 | 음악 매거진",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "rollingstonekorea",
+   "name": "𝐑𝐨𝐥𝐥𝐢𝐧𝐠 𝐒𝐭𝐨𝐧𝐞 𝐊𝐨𝐫𝐞𝐚 | 롤링스톤코리아",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "lyricsmusickr",
+   "name": "리릭 뮤직 • Lyrics Music",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "always_digging",
+   "name": "음악 추천해주는 양파",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "electronic"
+  },
+  {
+   "handle": "k.o.magazine",
+   "name": "KO Magazine",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "jazzavenue_official",
+   "name": "Jazz Avenue",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "gamsungjang",
+   "name": "감성장",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "today4umusic",
+   "name": "오늘의 선곡 - 추천 음악",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "indiepostmedia",
+   "name": "인디포스트 Indiepost",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "bgm.magazine",
+   "name": "BGM 비지엠매거진",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "seobs_bar",
+   "name": "섭스(SEOB's) | Seoul, Korea | 서울재즈바 | 홍대재즈바 | 연남동재즈바 | 끝남동",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "inthe_indie",
+   "name": "인디인디",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "glit.pw",
+   "name": "𝐆𝐋𝐈𝐓 | 글릿",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "kyoyaming",
+   "name": "리뷰합니다",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "cham.mag",
+   "name": "음악 매거진 참",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "1od1ng",
+   "name": "loding",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "hiphop_rnb"
+  },
+  {
+   "handle": "museek.mag",
+   "name": "museek 뮤식 | 음악 매거진",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "mellowow10",
+   "name": "인디밴드 공연 사진 📸/멜로우텐",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "common.listener",
+   "name": "평범한 리스너",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "hiphop_rnb"
+  },
+  {
+   "handle": "ieummmreview",
+   "name": "이런 음악 리뷰",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "hiphop_rnb"
+  },
+  {
+   "handle": "indiemusic_curation_tastezip",
+   "name": "인디뮤직 큐레이션 콘서트 <취향ZIP>",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "yeonnam.live.session",
+   "name": "연남 라이브 세션",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "minorpiece.mag",
+   "name": "minorPiece | 인디음악매거진",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "lab_chasm",
+   "name": "Lab CHASM(랩 캐즘)",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "underadio_",
+   "name": "underadio | 언더라디오",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "rhythmermagazine",
+   "name": "리드머",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "hiphop_rnb"
+  },
+  {
+   "handle": "webzine_spirit",
+   "name": "SPiRiT 웹진",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "v.oct_magazine",
+   "name": "V/oct 볼트퍼옥타브 매거진",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "electronic"
+  },
+  {
+   "handle": "litup.kr",
+   "name": "릿업[인디 공연 플랫폼]",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "k_indiebang",
+   "name": "인디방",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "digging.goodsong",
+   "name": "Digging Good Song I 디깅굿송",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "tooearly__",
+   "name": "tooearly",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "indi_zip",
+   "name": "인디 띵곡 모음 ㅣ 인디추천",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "parkdaham",
+   "name": "Park Daham",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "xiwoong",
+   "name": "x",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "keeper4rang",
+   "name": "사랑함 | 인디문화 아카이브 📸",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "band_folk_jazz_pop"
+  },
+  {
+   "handle": "yosm_23",
+   "name": "요즘",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "mixed"
+  },
+  {
+   "handle": "hausofmatters",
+   "name": "KHL / HAUS OF MATTERS",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "both"
+  },
+  {
+   "handle": "under_hiphop_",
+   "name": "언더그라운드 힙합",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "baundkr",
+   "name": "𝗕𝗮𝘂𝗻𝗱 // 바운드",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "both"
+  },
+  {
+   "handle": "aabyselects",
+   "name": "애비셀렉츠",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "daeguhiphop",
+   "name": "대구힙합페스티벌 | 대구힙페 | 대힙페 | 대구힙합 | 국힙소식",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "khiphyper",
+   "name": "케이힙하이퍼",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "woofer.magazine",
+   "name": "WOOFER | 우퍼 힙합 매거진",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "khiphopdaily",
+   "name": "KHipHop Daily",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "hiphopplaya",
+   "name": "HIPHOPPLAYA 힙합플레이야",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "hiphopplayanews",
+   "name": "HIPHOPPLAYA NEWS",
+   "tier": "main",
+   "every_days": 1,
+   "role": "magazine",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "hiphopplayacalendar",
+   "name": "hiphopplayacalendar",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "hiphopkr",
+   "name": "HiphopKR",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "both"
+  },
+  {
+   "handle": "hhp_mag",
+   "name": "HHP",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "millionhiphop",
+   "name": "밀리언힙합 | 컬처 매거진",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "koreaharlem",
+   "name": "코리아할렘",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "complexkorea",
+   "name": "COMPLEX KOREA",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "dingo_music",
+   "name": "딩고 뮤직 공식 인스타그램",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "both"
+  },
+  {
+   "handle": "beingkawaii_",
+   "name": "Being 可愛い",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "both"
+  },
+  {
+   "handle": "my_playlist.music",
+   "name": "마플뮤",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "both"
+  },
+  {
+   "handle": "seoul_rnb",
+   "name": "Seoul R&B",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "rnb"
+  },
+  {
+   "handle": "kundergroundhiphopawards",
+   "name": "언더그라운드 힙합 어워즈",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "ugs_magazine",
+   "name": "UGS 매거진",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "stoneship_",
+   "name": "STONESHIP",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "newwaveseoul",
+   "name": "New Wave Seoul",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "krucialize",
+   "name": "KRUCIALIZE",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "both"
+  },
+  {
+   "handle": "ugs_undergroundsound",
+   "name": "UGS 언더그라운드사운드",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "dirtyplayrecords",
+   "name": "DIRTY PLAY RECORDS",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "midnight_records_official",
+   "name": "MIDNIGHT RECORDS",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "povmusic.kr",
+   "name": "POV",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "daytona.ent",
+   "name": "Daytona Entertainment",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "allcapsent",
+   "name": "ALL CAPS ENTERTAINMENT",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "kcthecompany",
+   "name": "KC",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "at____area",
+   "name": "AT AREA",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "both"
+  },
+  {
+   "handle": "groovl1nofficial",
+   "name": "GROOVL1N",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "gps_official_kr",
+   "name": "GPS 🇰🇷",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "a1krecords",
+   "name": "A1K",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "silkmothhouse",
+   "name": "실크모스 하우스 SILKMOTH HOUSE",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "260asia_official",
+   "name": "260Asia",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "both"
+  },
+  {
+   "handle": "blessfor.official",
+   "name": "BLESSFOR",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "smbd.official",
+   "name": "SMBD",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "wpdrecords",
+   "name": "wpdrecords",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "yngandrichrecords",
+   "name": "Yng & Rich Records®",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "nevertheless_seoul",
+   "name": "NEVER THE LESS seoul | 네버더레스 서울",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "both"
+  },
+  {
+   "handle": "prismfilter_official",
+   "name": "PRISMFILTER Music Group",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "both"
+  },
+  {
+   "handle": "standardfriends",
+   "name": "STANDARD FRIENDS",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "rnb"
+  },
+  {
+   "handle": "busynessmoney",
+   "name": "Busyness Money Worldwide",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "lbtkrew",
+   "name": "LBT KREW",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "backnforthseoul",
+   "name": "BACKnFORTH",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "crew_da_era_no.1",
+   "name": "크루다에라(CREW DA ERA)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "both"
+  },
+  {
+   "handle": "seoul_cult",
+   "name": "Seoul Cult",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "drt.friends",
+   "name": "DRT",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "hiphopplayashow",
+   "name": "HIPHOPPLAYA SHOW 힙플쇼",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "openmic.moim",
+   "name": "오픈마이크 모:임",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "both"
+  },
+  {
+   "handle": "demhitzkorea",
+   "name": "Demhitz",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "hitdemfolkskorea",
+   "name": "힛뎀폭스코리아 💫",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "skrrparty",
+   "name": "스껄파티",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "101breaktime",
+   "name": "101BREAKTIME",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "w4ckids",
+   "name": "Wackids Destroy Babylon",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "stoned_party_",
+   "name": "돌잔치",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "vibecampus.kr",
+   "name": "VC",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "both"
+  },
+  {
+   "handle": "weloveomm",
+   "name": "omm..",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "both"
+  },
+  {
+   "handle": "unbornsounds",
+   "name": "UNBORN SOUNDS™️",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "rnb"
+  },
+  {
+   "handle": "accessallareas.kr",
+   "name": "AAA",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "hiphopplayafestival",
+   "name": "HIPHOPPLAYA FESTIVAL 힙플페",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "rapbeatfestival",
+   "name": "RAPBEAT 랩비트",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "daeguhiphopfestival",
+   "name": "대구힙합페스티벌 DAEGU HIPHOP FESTIVAL (대힙페)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "deeper_itaewon",
+   "name": "Deeper",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "litlounge_itw",
+   "name": "Lit Lounge Itaewon 릿라운지 이태원",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "bedlamlounge",
+   "name": "이태원베드럼bedlamlounge",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "palvolt_official",
+   "name": "PALVOLT 팔볼트 컴퍼니",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "dj_chanxer",
+   "name": "챈서",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "djwegun",
+   "name": "“Wegun Is My DJ”",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "djpy0",
+   "name": "PYO 표",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "both"
+  },
+  {
+   "handle": "skiida",
+   "name": "skiida",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "both"
+  },
+  {
+   "handle": "hist_dj",
+   "name": "하이스트 디제이",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase",
+   "genre": "hiphop"
+  },
+  {
+   "handle": "highjinkxx",
+   "name": "HIGHJINKX 하이징크스",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "gedative",
+   "name": "gedative",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "omimimimimimimi7",
+   "name": "omilgop",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "iusedtolivemylifeinvain",
+   "name": "박태욱",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "fleet_official_",
+   "name": "FLEET • 플릿",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "jayunakha",
+   "name": "자유낙하",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "mikk.oz",
+   "name": "기묘말",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "theseosroom",
+   "name": "Seo’s Room",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "yihayoon___",
+   "name": "이하윤 Hayoon Yi",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "wakingsuns.seoul",
+   "name": "Waking Suns",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "lone_distance_driver",
+   "name": "lonedistancedriver",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "sarahjulia",
+   "name": "Sarah Julia",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "rhythmer",
+   "name": "rhythmer",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "sungholly17",
+   "name": "Sung Holly",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "oyamada_sohei",
+   "name": "小山田壮平　oyamada sohei",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "koccamusic",
+   "name": "KOCCA MUSIC(코카뮤직)",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "hiphople",
+   "name": "hiphople",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "_100_bell_road_",
+   "name": "벨로드",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "sally_everywhere_",
+   "name": "sally everywhere 샐리에브리웨어",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "west___castle",
+   "name": "west___castle",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "wowchristmasexpress",
+   "name": "wow.christmas.express",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "cafeunplugged",
+   "name": "언플러그드",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "elieword",
+   "name": "elieword",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "vizita_q",
+   "name": "2012 Apocalypticist",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "theshepherdbois",
+   "name": "양치기소년단",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "julywantsmore",
+   "name": "Julywantsmore",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "pcitykorea",
+   "name": "Paradise City | 파라다이스시티",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "pressworks",
+   "name": "PRESSWORKS",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "noir_mardi_mercredi",
+   "name": "NOIR MARDI MERCREDI",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "moodyoon_",
+   "name": "최정윤 / yomm ヨム / Jungyoon Choi",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "twrecords_seoul",
+   "name": "TW RECORDS",
+   "tier": "sub",
+   "every_days": 7,
+   "role": "magazine"
+  },
+  {
+   "handle": "unplugged.lounge",
+   "name": "언플러그드 라운지",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "club_victim",
+   "name": "Club Victim",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "unplugged_stage",
+   "name": "카페 언플러그드 홍대점",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "channel1969.seoul",
+   "name": "채널1969",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "bender_hongdae",
+   "name": "Bender",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "und_space",
+   "name": "언드",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "azito_livehall",
+   "name": "아지토 라이브 홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "babydoll_seoul",
+   "name": "베이비돌",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "club_sharp",
+   "name": "Club Sharp",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "clubfreebird",
+   "name": "클럽 프리버드",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "stimpunkrock_livepub",
+   "name": "스팀펑크락",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "salon.moonbow",
+   "name": "살롱문보우",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "ol55busan",
+   "name": "OL'55",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "gongsangondo",
+   "name": "공상온도",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "purple_hall",
+   "name": "퍼플홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "sangsangmadang__busan",
+   "name": "3층 라이브홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "ssmadang.cc",
+   "name": "사운드홀 로비",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "seendosi",
+   "name": "신도시",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "petsoundsmusicpub",
+   "name": "펫사운즈",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "book7_library",
+   "name": "북두칠성도서관 아트훌",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "art_space_sla",
+   "name": "석촌호수 아뜰리에",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "club_boojik",
+   "name": "부드러운직선",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "locdam_recordbar",
+   "name": "로컬다움 롴돰",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "kumsarock",
+   "name": "금사락",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "yes24livehall_2006",
+   "name": "예스24 라이브홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "1nfntclb",
+   "name": "인피니티클럽",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "rock._.zip",
+   "name": "록집",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "spinandgrind",
+   "name": "신촌 SPIN & GRIND",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "panta.emu",
+   "name": "팡타 개라지",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "a_c_s.official",
+   "name": "ACS",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "liveandloud_music_company",
+   "name": "라이브앤라우드",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "grim.live",
+   "name": "그림라이브하우스",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "morene__sukha",
+   "name": "모래내 극락",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "soundcity.studio",
+   "name": "사운드시티 합정 라이브룸",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "dream_live_hall",
+   "name": "드림홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "ddg_live_hall",
+   "name": "두더지 라이브 홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "seongsuyulmusic",
+   "name": "성수율 뮤직 3F",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "incheon_brewery_tiger",
+   "name": "인천맥주호랑이",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "hqbar_busan",
+   "name": "HQ광안",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "sungwooleatherstage",
+   "name": "성우레더스테이지",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "radiogaga_livehall",
+   "name": "라디오가가",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "club_deep_purple",
+   "name": "클럽 딥퍼플",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "ssmadang.official",
+   "name": "상상마당 대치 아트홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "club_ilmare",
+   "name": "클럽일마레",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "the_musician_korea",
+   "name": "더뮤지션",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "venue_redpoint",
+   "name": "레드포인트",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "tonestudio_live",
+   "name": "톤스튜디오 서울",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "yeonnamspace",
+   "name": "연남스페이스",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "edls_official",
+   "name": "이들스",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "2d_hall",
+   "name": "이디홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "honeyakgwahall",
+   "name": "꿀약과홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "amenohicoffee",
+   "name": "아메노히커피점",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "hai_info",
+   "name": "을지로 H.ai",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "purplenoiselivehall",
+   "name": "퍼플노이즈 라이브홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "shivapub",
+   "name": "쉬바펍",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "whistle_seoul",
+   "name": "휘슬",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "space_soda2002",
+   "name": "SPACE SODA2002",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "mpmg.co.kr",
+   "name": "엠피엠지",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "nol.theater",
+   "name": "NOL 씨어터 합정",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "ecc_samsunghall",
+   "name": "이화여자대학교 삼성홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "harts.music.studio",
+   "name": "에이치아츠",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "organbar_official",
+   "name": "Organ Bar",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "suwonskartrium",
+   "name": "수원SK아트리움 대공연장",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "bhoso_official",
+   "name": "비호소",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "dnd_livehouse",
+   "name": "디앤디",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "prugio_arthall",
+   "name": "푸르지오아트홀",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "depot_basement",
+   "name": "Depot & The BASEMENT",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "wethesangsu",
+   "name": "위더상수",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "graphic.hangang",
+   "name": "그래픽 한강",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "yeonnam5701",
+   "name": "연남5701 (재즈 라이브클럽)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  },
+  {
+   "handle": "entry55_official",
+   "name": "엔트리55 (재즈바)",
+   "tier": "venue",
+   "every_days": 2,
+   "role": "venue_showcase"
+  }
  ]
 }

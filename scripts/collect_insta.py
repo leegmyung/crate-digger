@@ -33,6 +33,7 @@ COLUMNS = [f.name for f in TABLES["raw_press"]["fields"]]
 MAX_NEW_POSTS = 6
 MAX_POST_AGE_DAYS = 14
 SEEN_KEEP = 100
+MAX_ACCOUNTS_PER_RUN = 260   # 한 번에 볼 계정 상한 (계정당 10~20초 → 1시간 안팎, 인스타 차단 위험 관리)
 ACCOUNT_PAUSE_SEC = 0   # 일부러 쉬지 않음 (사용자 지시). 로그인 요구 화면으로 막히면 다시 늘린다
 
 MONTHS = {m: i for i, m in enumerate(
@@ -115,13 +116,35 @@ def to_rows(account, post, collected_at, role="magazine"):
     return [dict(base, artist_text=name, artist_handle=handle) for name, handle in found], None
 
 
-def due_accounts(accounts, last_checked, today):
+def due_accounts(accounts, last_checked, today, limit=None):
+    """볼 때가 된 계정. limit이 있으면 가장 오래 밀린 계정부터 limit개 (처음 보는 계정이 맨 앞)."""
     t = date.fromisoformat(today)
 
-    def due(a):
+    def overdue(a):
         last = last_checked.get(a["handle"])
-        return not last or (t - date.fromisoformat(last)).days >= int(a.get("every_days", 1))
-    return [a for a in accounts if due(a)]
+        every = int(a.get("every_days", 1))
+        return 10 ** 6 if not last else (t - date.fromisoformat(last)).days - every
+
+    due = [a for a in accounts if overdue(a) >= 0]
+    if limit is None:
+        return due
+    return sorted(due, key=lambda a: -overdue(a))[:limit]
+
+
+def stagger(accounts, last_checked, today):
+    """처음 보는 계정의 '지난 확인일'을 주기 안에서 나눠 배정 → 새 계정이 한날 한꺼번에 몰리지 않게.
+    every_days=N인 i번째 새 계정은 오늘부터 i % N일 뒤에 처음 확인된다."""
+    t = date.fromisoformat(today)
+    out = dict(last_checked)
+    count: dict = {}
+    for a in accounts:
+        if a["handle"] in out:
+            continue
+        every = max(1, int(a.get("every_days", 1)))
+        i = count.get(every, 0)
+        count[every] = i + 1
+        out[a["handle"]] = (t - timedelta(days=every - i % every)).isoformat()
+    return out
 
 
 def write_csv(rows, out_dir, day):
@@ -168,7 +191,10 @@ def collect(check_all=False):
     oldest = (now - timedelta(days=MAX_POST_AGE_DAYS)).date().isoformat()
     accounts = _load_json(CONFIG, {}).get("accounts", [])
     state = _load_json(STATE, {"last_checked": {}, "seen": {}})
-    targets = accounts if check_all else due_accounts(accounts, state["last_checked"], today)
+    if not check_all:
+        state["last_checked"] = stagger(accounts, state["last_checked"], today)
+    targets = accounts if check_all else due_accounts(accounts, state["last_checked"], today,
+                                                      limit=MAX_ACCOUNTS_PER_RUN)
     rows, review, report = [], [], []
     for a in targets:
         handle = a["handle"]
