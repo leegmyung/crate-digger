@@ -11,12 +11,14 @@
 **코디네이션 상태 (2026-11-27 밤, 대화가 요약돼도 이걸 보고 이어간다)**
 - 운영 방식: 사용자는 "관여 없이 끝까지". 작업자마다 할 일 3~6개를 미리 쌓아 두고, 결과 보고가 오면 코디네이터(Claude 메인 세션)가 검토(테스트·브라우저 확인) → 커밋·push → 다음 일 추가. 작업자는 커밋 금지. 같은 단계 안은 묻지 않고 진행·보고, 방향·틀 변경만 사용자에게 묻기.
 - Orca 실행: `/Applications/Orca.app/Contents/Resources/bin/orca orchestration send --to dispatch:<id> --subject … --body …` (run run_bb3533879a4f). 작업자 목록: `orca orchestration worker-list --environment local --json`. 같은 작업자에게 보낸 후속 메시지는 새 dispatch id로 이어짐.
-  - 안티그래비티(앱 docs/app/**·dashboard.html): 최근 dispatch ctx_8e6c4abf4272 — 출처 성적표에 분류 사유·재분류 제안, 검증 안내에 정답 등급표(outcome_rules 포함), 팀 상세 '후보' 표시, backtest.js 옛 숫자 갱신.
-  - Claude 작업자 A: 최근 dispatch ctx_73895dbee590 — 후보 상위 300 '인디 신인 아님' 점검(아이돌·기성 팀·비아티스트·중복), docs/candidate_audit.md 제안만 → 적용 여부 사용자에게 묻기.
-  - Claude 작업자 B: 최근 dispatch ctx_eab49a6a465f — 힙합엘이 과거 기록 백필(21~23시 금지) → hiphople 성적표·역할 제안 → collect_superrookie.py(루트노트 WP API·포크라노스) → 성적표. 데뷔 코호트(docs/debut_cohort.md)는 커밋됨.
+  - 안티그래비티(앱 docs/app/**·dashboard.html): 최근 dispatch ctx_4c682ba4e1ab — 후보 목록에 '갓 데뷔' 보기(백지 신인 + 먼저 언급한 출처의 데뷔 코호트 신뢰도, 언급 없음 접기).
+  - Claude 작업자 A: 최근 dispatch ctx_70cee6a8e929 — 힙플쇼 라인업·멜론 트랙제로 이달의 아티스트 복원 가능성 → 수집기 → 성적표(요청은 코디네이터가 반영).
+  - Claude 작업자 B: 최근 dispatch ctx_695e0453f3ca — '같은 집안' 출처↔정답 짝 전수 점검(docs/same_house.md, 규칙 제안만 → 사용자에게 묻기). 힙합엘이는 같은 집안 효과(한국힙합어워즈 공동 주최)라 pending 유지.
   - 정답 정리(2026-11-27 사용자 결정, 커밋 5054911): config/source_roles.json outcome_rules — 후보(nominee·shortlist) 한 등급 아래, 기획사 아이돌 10팀 제외. 교차 검증 0.711/0.712 → 0.752/0.740, 추천 가중치가 v2와 일치.
 - 21시 자동 실행 끝나면(대기 작업이 깨움, 없으면 records/daily_run.log 확인): 협업 수집 건수 확인 → score_tune(w_collab 포함) 돌려 협업 신호 효과 확인 → 효과 있으면 점수 반영 여부 사용자에게 물음. 인스타 499계정·멜론 100팀·연결표 갱신·출처 재분류 제안이 잘 돌았는지 확인.
 - 작업자 결과 반영 시 daily_run.sh에 넣을 줄은 코디네이터가 넣음(작업자는 알려만 줌).
+
+- 2026-11-27 저녁 결정: 이름 Gigle Research(저장소·주소는 crate-digger 그대로), 후보 제외 목록 candidate_rules, 멜론 프로필 하루 한도 없앰(MAX_PROFILES_PER_RUN 1000).
 
 **2026-11-27 밤 갱신 (재개 시 여기부터 — 아래 '저녁 중단 지점'보다 우선)**
 - ✅ 데이터 역할 정제: `config/source_roles.json`(발굴·맥락·제외·검증 대기 + 정답 등급 S3·A2·B1), 문서 `docs/source_roles.md`, 출처 성적표 `docs/lab/sql/source_scorecard.sql`, 누락 방지 테스트 `tests/test_source_roles.py` + 일일 기록 경고. 검증 대기 출처는 기록 3개월 뒤 재평가.
