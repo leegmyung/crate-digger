@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>시안 C · 에디토리얼형 — Gigle Research</title>
+<script>
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem("gigle-mock-theme"); } catch (e) { t = null; }
+    if (t !== "light" && t !== "dark") {
+      t = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&display=swap">
+<style>
+  /* 시안 C — Resident Advisor·The Pudding처럼: 명조 제목 + 고딕 본문, 종이색 바탕, 문장이 숫자보다 먼저.
+     색은 순위 숫자·작은 꼭지(kicker)에만 붉은 잉크 하나. 카드·그림자·배지 없음, 가는 선(괘선)으로만 나눔. */
+  :root {
+    --paper: #f5f2eb; --ink: #1c1a16; --muted: #5f5a51; --faint: #8d877c;
+    --rule: #d9d3c7; --rule-strong: #1c1a16; --hover: #efebe2; --on: #ebe5d8;
+    --red: #a3311d;
+    --serif: "Noto Serif KR", "Nanum Myeongjo", "AppleMyungjo", serif;
+    --sans: "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+  }
+  [data-theme="dark"] {
+    --paper: #13120f; --ink: #ece6da; --muted: #b0a99b; --faint: #7d776c;
+    --rule: #2c2a25; --rule-strong: #ece6da; --hover: #1a1915; --on: #201e19;
+    --red: #e3785f;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: var(--paper); color: var(--ink); font: 15px/1.7 var(--sans); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px 48px; }
+
+  header.mast { padding: 22px 0 0; }
+  .mast-row { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: var(--muted); gap: 12px; }
+  .mast-row .links { display: flex; gap: 14px; align-items: center; }
+  .link-btn { font: inherit; color: var(--muted); background: none; border: 0; border-bottom: 1px solid var(--rule); padding: 0 0 1px; cursor: pointer; text-decoration: none; }
+  .link-btn:hover { color: var(--ink); border-color: var(--ink); }
+  h1.title { font: 900 clamp(34px, 6vw, 64px)/1.05 var(--serif); letter-spacing: -.02em; margin: 14px 0 10px; }
+  .dateline { display: flex; justify-content: space-between; gap: 12px; border-top: 3px double var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 7px 0; font-size: 12.5px; color: var(--muted); }
+
+  main { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr); gap: 0 44px; margin-top: 26px; }
+  .col-head { font: 700 13px var(--serif); letter-spacing: .04em; border-bottom: 1px solid var(--rule-strong); padding-bottom: 6px; margin: 0 0 4px; }
+  ol.chart { list-style: none; margin: 0; padding: 0; }
+  ol.chart li { display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; gap: 4px 12px; align-items: baseline; padding: 12px 6px 12px 0; border-bottom: 1px solid var(--rule); cursor: pointer; }
+  ol.chart li:hover { background: var(--hover); }
+  ol.chart li[aria-selected="true"] { background: var(--on); }
+  ol.chart li:focus-visible { outline: 1px solid var(--ink); outline-offset: -1px; }
+  .no { font: 900 26px/1 var(--serif); color: var(--red); text-align: right; }
+  .who { font: 700 19px/1.3 var(--serif); }
+  .pts { font-size: 12.5px; color: var(--faint); font-variant-numeric: tabular-nums; }
+  .line { grid-column: 2 / 4; font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  article.story { border-left: 1px solid var(--rule); padding-left: 44px; min-width: 0; }
+  .kicker { font-size: 12.5px; color: var(--red); letter-spacing: .03em; }
+  h2.headline { font: 900 clamp(32px, 4.6vw, 52px)/1.1 var(--serif); letter-spacing: -.02em; margin: 6px 0 14px; }
+  .deck { font: 500 19px/1.65 var(--serif); margin: 0 0 20px; }
+  .lead { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 22px; align-items: start; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .photo { width: 180px; height: 180px; object-fit: cover; display: block; filter: grayscale(1) contrast(1.05); }
+  .initial { width: 180px; height: 180px; border: 1px solid var(--rule-strong); display: flex; align-items: center; justify-content: center; font: 900 92px/1 var(--serif); color: var(--ink); }
+  .byline { font-size: 13px; color: var(--muted); }
+  .byline dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 14px; margin: 0; }
+  .byline dt { color: var(--faint); }
+  .byline dd { margin: 0; }
+  h3.sub { font: 700 17px var(--serif); margin: 28px 0 8px; }
+  .leaders { margin: 0; padding: 0; list-style: none; }
+  .leaders li { display: flex; align-items: baseline; gap: 8px; padding: 4px 0; font-size: 14px; }
+  .leaders li .lb { white-space: nowrap; }
+  .leaders li .lb small { color: var(--faint); margin-left: 6px; font-size: 12px; }
+  .leaders li .dots { flex: 1; border-bottom: 1px dotted var(--faint); transform: translateY(-4px); min-width: 20px; }
+  .leaders li .v { font-variant-numeric: tabular-nums; }
+  .leaders li.off { color: var(--faint); }
+  .leaders li.total { border-top: 1px solid var(--rule-strong); margin-top: 6px; padding-top: 8px; font-weight: 700; }
+  .chrono { list-style: none; margin: 0; padding: 0; }
+  .chrono li { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--rule); }
+  .chrono time { font: 700 15px var(--serif); font-variant-numeric: tabular-nums; }
+  .chrono span small { display: block; color: var(--faint); font-size: 12px; }
+  .colophon { margin-top: 26px; font-size: 12px; color: var(--faint); }
+
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; }
+    article.story { border-left: 0; padding-left: 0; border-top: 3px double var(--rule-strong); margin-top: 28px; padding-top: 18px; }
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 0 16px 40px; }
+    .lead { grid-template-columns: 96px minmax(0, 1fr); gap: 14px; }
+    .photo, .initial { width: 96px; height: 96px; }
+    .initial { font-size: 48px; }
+    .deck { font-size: 17px; }
+    .chrono li { grid-template-columns: 92px minmax(0, 1fr); }
+    .chrono time { font-size: 13.5px; }
+    .dateline { flex-direction: column; gap: 2px; }
+    .leaders li .lb small { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="mast">
+    <div class="mast-row">
+      <span>시안 C · 에디토리얼형</span>
+      <span class="links"><a class="link-btn" href="index.html">← 시안 고르기</a><button class="link-btn" id="theme" type="button"></button></span>
+    </div>
+    <h1 class="title">Gigle Research</h1>
+    <div class="dateline"><span>국내 인디 신인 발굴 리포트</span><span id="dateline"></span></div>
+  </header>
+
+  <main>
+    <section aria-labelledby="chart-head">
+      <h2 class="col-head" id="chart-head">이번 주 후보 10</h2>
+      <ol class="chart" id="chart"></ol>
+    </section>
+    <article class="story" id="story" aria-live="polite"></article>
+  </main>
+</div>
+
+<script id="mock-data" type="application/json">{"as_of": "2026-11-27", "pool_size": 5031, "dropped": [{"key": "산하", "name": "산하", "snapshot_rank": 2}, {"key": "데이로터스", "name": "데이로터스", "snapshot_rank": 9}], "components": [{"key": "branch", "label": "갈래 겹침", "desc": "공연·발매·선정·큐레이션 중 몇 갈래에서 보였나", "weight": 1.0}, {"key": "stage", "label": "선정 단계", "desc": "선정·지원 프로그램에서 오른 가장 높은 단계", "weight": 1.0}, {"key": "venues", "label": "공연장 다양성", "desc": "서로 다른 공연장 수", "weight": 1.0}, {"key": "winner", "label": "수상 팀과 같은 무대", "desc": "이미 상을 받은 팀과 같은 공연에 섰나", "weight": 2.0}, {"key": "outlets", "label": "발굴 매거진", "desc": "발굴형 매체(검증된 곳) 소개 수", "weight": 1.0}, {"key": "context", "label": "맥락 매거진", "desc": "맥락 매체 소개 수 (약하게 반영)", "weight": 0.5}], "teams": [{"rank": 1, "key": "품바21", "name": "품바 21", "particle": "은(는)", "score": 11.08, "score_pct": 100, "genre": "록·밴드", "status": "프로필 없음", "first_seen": "2024-02-10", "first_release": "", "last_seen": "2025-05-24", "agency": "", "image": "https://i.scdn.co/image/ab67616d00001e02eed39d61b38a12363dcd0101", "facts": {"n_branch": 3, "best_stage": 4, "venues": 7, "gigs_1y": 0, "recent180": 0, "outlets": 1, "context_outlets": 0, "peer_winner": 1}, "parts": [{"key": "branch", "pts": 2.0, "pct": 100, "raw": "3갈래"}, {"key": "stage", "pts": 4.0, "pct": 100, "raw": "4단계"}, {"key": "venues", "pts": 2.08, "pct": 99, "raw": "7곳"}, {"key": "winner", "pts": 2.0, "pct": 95, "raw": "있음"}, {"key": "outlets", "pts": 1.0, "pct": 96, "raw": "1곳"}, {"key": "context", "pts": 0.0, "pct": 0, "raw": "0곳"}], "clauses": ["공연장 7곳", "선정·지원 4단계", "수상 팀과 같은 무대", "발굴 매거진 1곳"], "events": [{"date": "2025-05-24", "branch": "공연", "label": "인디스트릿 · Club FF"}, {"date": "2025-04-20", "branch": "공연", "label": "인디스트릿 · 금사락"}, {"date": "2025-03-29", "branch": "공연", "label": "인디스트릿 · Club FF"}, {"date": "2025-01-20", "branch": "공연", "label": "인디스트릿 · 언플러그드 라운지"}, {"date": "2025-01-19", "branch": "공연", "label": "인디스트릿 · Club FF"}]}, {"rank": 2, "key": "칩포스트갱", "name": "칩포스트갱", "particle": "은", "score": 7.58, "score_pct": 100, "genre": "", "status": "프로필 없음", "first_seen": "2025-07-18", "first_release": "", "last_seen": "2026-11-15", "agency": "", "image": "", "facts": {"n_branch": 2, "best_stage": 0, "venues": 7, "gigs_1y": 7, "recent180": 4, "outlets": 1, "context_outlets": 3, "peer_winner": 1}, "parts": [{"key": "branch", "pts": 1.0, "pct": 98, "raw": "2갈래"}, {"key": "stage", "pts": 0.0, "pct": 0, "raw": "없음"}, {"key": "venues", "pts": 2.08, "pct": 99, "raw": "7곳"}, {"key": "winner", "pts": 2.0, "pct": 95, "raw": "있음"}, {"key": "outlets", "pts": 1.0, "pct": 96, "raw": "1곳"}, {"key": "context", "pts": 1.5, "pct": 100, "raw": "3곳"}], "clauses": ["최근 1년 공연 7회 · 공연장 7곳", "수상 팀과 같은 무대", "발굴 매거진 1곳", "맥락 매거진 3곳"], "events": [{"date": "2026-11-19", "branch": "큐레이션", "label": "멜론 트랙제로"}, {"date": "2026-11-15", "branch": "공연", "label": "인디스트릿 · 신촌 SPIN & GRIND"}, {"date": "2026-10-14", "branch": "큐레이션", "label": "VISLA"}, {"date": "2026-10-09", "branch": "큐레이션", "label": "weiv"}, {"date": "2026-09-26", "branch": "큐레이션", "label": "overtone"}]}, {"rank": 3, "key": "포져군단", "name": "포져군단", "particle": "은", "score": 7.2, "score_pct": 100, "genre": "록·밴드", "status": "프로필 없음", "first_seen": "2024-09-22", "first_release": "", "last_seen": "2026-11-15", "agency": "", "image": "", "facts": {"n_branch": 2, "best_stage": 2, "venues": 8, "gigs_1y": 22, "recent180": 14, "outlets": 0, "context_outlets": 0, "peer_winner": 1}, "parts": [{"key": "branch", "pts": 1.0, "pct": 98, "raw": "2갈래"}, {"key": "stage", "pts": 2.0, "pct": 99, "raw": "2단계"}, {"key": "venues", "pts": 2.2, "pct": 100, "raw": "8곳"}, {"key": "winner", "pts": 2.0, "pct": 95, "raw": "있음"}, {"key": "outlets", "pts": 0.0, "pct": 0, "raw": "0곳"}, {"key": "context", "pts": 0.0, "pct": 0, "raw": "0곳"}], "clauses": ["최근 1년 공연 22회 · 공연장 8곳", "선정·지원 2단계", "수상 팀과 같은 무대"], "events": [{"date": "2026-11-15", "branch": "공연", "label": "인디스트릿 · 클럽 프리버드"}, {"date": "2026-11-14", "branch": "공연", "label": "인디스트릿 · Club FF"}, {"date": "2026-10-31", "branch": "공연", "label": "인디스트릿 · 클럽 프리버드"}, {"date": "2026-10-17", "branch": "공연", "label": "인디스트릿 · Club FF"}, {"date": "2026-10-04", "branch": "공연", "label": "인디스트릿"}]}, {"rank": 4, "key": "pcr", "name": "PCR", "particle": "은(는)", "score": 6.79, "score_pct": 100, "genre": "록·밴드", "status": "신인", "first_seen": "2025-01-13", "first_release": "2025-01-01", "last_seen": "2026-11-23", "agency": "", "image": "", "facts": {"n_branch": 2, "best_stage": 0, "venues": 5, "gigs_1y": 10, "recent180": 6, "outlets": 1, "context_outlets": 2, "peer_winner": 1}, "parts": [{"key": "branch", "pts": 1.0, "pct": 98, "raw": "2갈래"}, {"key": "stage", "pts": 0.0, "pct": 0, "raw": "없음"}, {"key": "venues", "pts": 1.79, "pct": 98, "raw": "5곳"}, {"key": "winner", "pts": 2.0, "pct": 95, "raw": "있음"}, {"key": "outlets", "pts": 1.0, "pct": 96, "raw": "1곳"}, {"key": "context", "pts": 1.0, "pct": 99, "raw": "2곳"}], "clauses": ["최근 1년 공연 10회 · 공연장 5곳", "수상 팀과 같은 무대", "발굴 매거진 1곳", "맥락 매거진 2곳"], "events": [{"date": "2026-11-23", "branch": "큐레이션", "label": "음악취향Y"}, {"date": "2026-11-20", "branch": "큐레이션", "label": "overtone"}, {"date": "2026-11-18", "branch": "큐레이션", "label": "overtone"}, {"date": "2026-10-18", "branch": "공연", "label": "인디스트릿 · Club FF"}, {"date": "2026-09-12", "branch": "공연", "label": "인디스트릿"}]}, {"rank": 5, "key": "행간소음", "name": "행간소음", "particle": "은", "score": 6.7, "score_pct": 100, "genre": "", "status": "프로필 없음", "first_seen": "2024-01-05", "first_release": "", "last_seen": "2026-11-22", "agency": "", "image": "", "facts": {"n_branch": 2, "best_stage": 0, "venues": 8, "gigs_1y": 5, "recent180": 5, "outlets": 1, "context_outlets": 1, "peer_winner": 1}, "parts": [{"key": "branch", "pts": 1.0, "pct": 98, "raw": "2갈래"}, {"key": "stage", "pts": 0.0, "pct": 0, "raw": "없음"}, {"key": "venues", "pts": 2.2, "pct": 100, "raw": "8곳"}, {"key": "winner", "pts": 2.0, "pct": 95, "raw": "있음"}, {"key": "outlets", "pts": 1.0, "pct": 96, "raw": "1곳"}, {"key": "context", "pts": 0.5, "pct": 88, "raw": "1곳"}], "clauses": ["최근 1년 공연 5회 · 공연장 8곳", "수상 팀과 같은 무대", "발굴 매거진 1곳", "맥락 매거진 1곳"], "events": [{"date": "2026-11-22", "branch": "공연", "label": "인디스트릿 · 생기스튜디오"}, {"date": "2026-09-12", "branch": "공연", "label": "인디스트릿 · 언드"}, {"date": "2026-08-30", "branch": "공연", "label": "인디스트릿 · 생기스튜디오"}, {"date": "2026-08-07", "branch": "공연", "label": "인디스트릿"}, {"date": "2026-06-28", "branch": "공연", "label": "인디스트릿 · Club FF"}]}, {"rank": 6, "key": "세일러허니문", "name": "세일러 허니문", "particle": "은", "score": 6.58, "score_pct": 100, "genre": "", "status": "프로필 없음", "first_seen": "2024-05-05", "first_release": "", "last_seen": "2026-11-13", "agency": "", "image": "", "facts": {"n_branch": 2, "best_stage": 0, "venues": 7, "gigs_1y": 5, "recent180": 5, "outlets": 1, "context_outlets": 1, "peer_winner": 1}, "parts": [{"key": "branch", "pts": 1.0, "pct": 98, "raw": "2갈래"}, {"key": "stage", "pts": 0.0, "pct": 0, "raw": "없음"}, {"key": "venues", "pts": 2.08, "pct": 99, "raw": "7곳"}, {"key": "winner", "pts": 2.0, "pct": 95, "raw": "있음"}, {"key": "outlets", "pts": 1.0, "pct": 96, "raw": "1곳"}, {"key": "context", "pts": 0.5, "pct": 88, "raw": "1곳"}], "clauses": ["최근 1년 공연 5회 · 공연장 7곳", "수상 팀과 같은 무대", "발굴 매거진 1곳", "맥락 매거진 1곳"], "events": [{"date": "2026-11-13", "branch": "공연", "label": "인디스트릿 · 채널1969"}, {"date": "2026-11-07", "branch": "공연", "label": "인디스트릿 · 꼬뮨"}, {"date": "2026-10-22", "branch": "큐레이션", "label": "멜론 트랙제로"}, {"date": "2026-10-11", "branch": "공연", "label": "인디스트릿 · 채널1969"}, {"date": "2026-09-05", "branch": "공연", "label": "인디스트릿"}]}, {"rank": 7, "key": "콘트라젤리", "name": "콘트라젤리", "particle": "는", "score": 6.45, "score_pct": 100, "genre": "", "status": "프로필 없음", "first_seen": "2024-01-07", "first_release": "", "last_seen": "2026-11-14", "agency": "", "image": "https://i.scdn.co/image/ab6761610000517484552052b6b7f206421a7bfa", "facts": {"n_branch": 2, "best_stage": 0, "venues": 6, "gigs_1y": 10, "recent180": 5, "outlets": 1, "context_outlets": 1, "peer_winner": 1}, "parts": [{"key": "branch", "pts": 1.0, "pct": 98, "raw": "2갈래"}, {"key": "stage", "pts": 0.0, "pct": 0, "raw": "없음"}, {"key": "venues", "pts": 1.95, "pct": 99, "raw": "6곳"}, {"key": "winner", "pts": 2.0, "pct": 95, "raw": "있음"}, {"key": "outlets", "pts": 1.0, "pct": 96, "raw": "1곳"}, {"key": "context", "pts": 0.5, "pct": 88, "raw": "1곳"}], "clauses": ["최근 1년 공연 10회 · 공연장 6곳", "수상 팀과 같은 무대", "발굴 매거진 1곳", "맥락 매거진 1곳"], "events": [{"date": "2026-11-27", "branch": "공연", "label": "인디고 · Club Victim"}, {"date": "2026-11-27", "branch": "공연", "label": "인디스트릿 · Club Victim"}, {"date": "2026-11-14", "branch": "공연", "label": "인디스트릿 · 인피니티클럽"}, {"date": "2026-09-27", "branch": "공연", "label": "인디스트릿 · Club Victim"}, {"date": "2026-09-26", "branch": "공연", "label": "인디스트릿 · Club 빵"}]}, {"rank": 8, "key": "폴리아모리", "name": "폴리아모리", "particle": "는", "score": 6.4, "score_pct": 100, "genre": "", "status": "프로필 없음", "first_seen": "2024-06-20", "first_release": "", "last_seen": "2026-11-21", "agency": "", "image": "", "facts": {"n_branch": 2, "best_stage": 0, "venues": 10, "gigs_1y": 9, "recent180": 6, "outlets": 1, "context_outlets": 0, "peer_winner": 1}, "parts": [{"key": "branch", "pts": 1.0, "pct": 98, "raw": "2갈래"}, {"key": "stage", "pts": 0.0, "pct": 0, "raw": "없음"}, {"key": "venues", "pts": 2.4, "pct": 100, "raw": "10곳"}, {"key": "winner", "pts": 2.0, "pct": 95, "raw": "있음"}, {"key": "outlets", "pts": 1.0, "pct": 96, "raw": "1곳"}, {"key": "context", "pts": 0.0, "pct": 0, "raw": "0곳"}], "clauses": ["최근 1년 공연 9회 · 공연장 10곳", "수상 팀과 같은 무대", "발굴 매거진 1곳"], "events": [{"date": "2026-11-21", "branch": "공연", "label": "인디스트릿 · 공상온도"}, {"date": "2026-11-19", "branch": "큐레이션", "label": "멜론 트랙제로"}, {"date": "2026-10-05", "branch": "큐레이션", "label": "음악취향Y"}, {"date": "2026-09-30", "branch": "공연", "label": "인디스트릿 · 벨르"}, {"date": "2026-08-30", "branch": "공연", "label": "인디스트릿"}]}, {"rank": 9, "key": "하즈", "name": "하즈", "particle": "는", "score": 6.4, "score_pct": 100, "genre": "", "status": "프로필 없음", "first_seen": "2024-03-31", "first_release": "", "last_seen": "2026-11-14", "agency": "", "image": "", "facts": {"n_branch": 2, "best_stage": 0, "venues": 10, "gigs_1y": 9, "recent180": 6, "outlets": 1, "context_outlets": 0, "peer_winner": 1}, "parts": [{"key": "branch", "pts": 1.0, "pct": 98, "raw": "2갈래"}, {"key": "stage", "pts": 0.0, "pct": 0, "raw": "없음"}, {"key": "venues", "pts": 2.4, "pct": 100, "raw": "10곳"}, {"key": "winner", "pts": 2.0, "pct": 95, "raw": "있음"}, {"key": "outlets", "pts": 1.0, "pct": 96, "raw": "1곳"}, {"key": "context", "pts": 0.0, "pct": 0, "raw": "0곳"}], "clauses": ["최근 1년 공연 9회 · 공연장 10곳", "수상 팀과 같은 무대", "발굴 매거진 1곳"], "events": [{"date": "2026-11-14", "branch": "공연", "label": "인디스트릿 · Hukez"}, {"date": "2026-10-31", "branch": "공연", "label": "인디스트릿 · 클럽 프리버드"}, {"date": "2026-09-12", "branch": "공연", "label": "인디스트릿 · 감마홀"}, {"date": "2026-07-11", "branch": "공연", "label": "인디스트릿 · 언드"}, {"date": "2026-07-01", "branch": "공연", "label": "인디스트릿 · 공연장 미정"}]}, {"rank": 10, "key": "도그라스트페이지", "name": "도그 라스트 페이지", "particle": "는", "score": 6.2, "score_pct": 100, "genre": "", "status": "프로필 없음", "first_seen": "2024-02-11", "first_release": "", "last_seen": "2026-11-07", "agency": "", "image": "", "facts": {"n_branch": 2, "best_stage": 0, "venues": 8, "gigs_1y": 8, "recent180": 7, "outlets": 1, "context_outlets": 0, "peer_winner": 1}, "parts": [{"key": "branch", "pts": 1.0, "pct": 98, "raw": "2갈래"}, {"key": "stage", "pts": 0.0, "pct": 0, "raw": "없음"}, {"key": "venues", "pts": 2.2, "pct": 100, "raw": "8곳"}, {"key": "winner", "pts": 2.0, "pct": 95, "raw": "있음"}, {"key": "outlets", "pts": 1.0, "pct": 96, "raw": "1곳"}, {"key": "context", "pts": 0.0, "pct": 0, "raw": "0곳"}], "clauses": ["최근 1년 공연 8회 · 공연장 8곳", "수상 팀과 같은 무대", "발굴 매거진 1곳"], "events": [{"date": "2026-11-07", "branch": "공연", "label": "인디스트릿 · 퍼플홀"}, {"date": "2026-08-29", "branch": "공연", "label": "인디스트릿 · Hukez"}, {"date": "2026-08-08", "branch": "공연", "label": "인디스트릿 · Hukez"}, {"date": "2026-07-25", "branch": "공연", "label": "인디스트릿 · Bender"}, {"date": "2026-07-17", "branch": "공연", "label": "인디스트릿 · A.O.R"}]}]}</script>
+<script>
+(function () {
+  "use strict";
+  var DATA = JSON.parse(document.getElementById("mock-data").textContent || "{}");
+  var teams = DATA.teams || [];
+  var comps = DATA.components || [];
+  var selected = 0;
+
+  function h(tag, attrs, kids) {
+    var el = document.createElement(tag);
+    Object.keys(attrs || {}).forEach(function (k) {
+      if (k === "text") el.textContent = attrs[k];
+      else el.setAttribute(k, attrs[k]);
+    });
+    (kids || []).forEach(function (c) { if (c) el.appendChild(c); });
+    return el;
+  }
+  function fmt(n) { return Number(n).toFixed(2); }
+  function comma(n) { return Number(n).toLocaleString("ko-KR"); }
+  function longDate(iso) {
+    var p = (iso || "").split("-");
+    return p.length === 3 ? p[0] + "년 " + Number(p[1]) + "월 " + Number(p[2]) + "일" : "";
+  }
+
+  /* 점수 근거를 기사 문장으로. 숫자는 그대로, 말투만 바꾼다. */
+  function sentences(t) {
+    var f = t.facts, s = [];
+    if (f.gigs_1y && f.venues) s.push("최근 1년 동안 " + f.gigs_1y + "번 무대에 올랐고, 서로 다른 공연장 " + f.venues + "곳을 거쳤다");
+    else if (f.gigs_1y) s.push("최근 1년 동안 " + f.gigs_1y + "번 무대에 올랐다");
+    else if (f.venues) s.push("지금까지 서로 다른 공연장 " + f.venues + "곳에 섰다");
+    if (f.best_stage) s.push("선정·지원 프로그램에서는 " + f.best_stage + "단계까지 올라갔다");
+    if (f.peer_winner) s.push("이미 상을 받은 팀과 같은 무대에 선 기록도 있다");
+    if (f.outlets && f.context_outlets) s.push("발굴형 매체 " + f.outlets + "곳과 맥락 매체 " + f.context_outlets + "곳이 이 팀을 다뤘다");
+    else if (f.outlets) s.push("발굴형 매체 " + f.outlets + "곳이 이 팀을 다뤘다");
+    else if (f.context_outlets) s.push("매체 " + f.context_outlets + "곳이 이 팀을 다뤘다");
+    if (!s.length) return [];
+    s[0] = t.name + t.particle + " " + s[0];
+    return s.map(function (x) { return x + "."; });
+  }
+
+  function renderChart() {
+    var ol = document.getElementById("chart");
+    teams.forEach(function (t, i) {
+      var li = h("li", { tabindex: "0", "aria-selected": i === selected ? "true" : "false" }, [
+        h("span", { class: "no", text: String(t.rank) }),
+        h("span", { class: "who", text: t.name }),
+        h("span", { class: "pts", text: fmt(t.score) }),
+        h("span", { class: "line", text: (t.clauses || []).join(" · ") || t.genre })
+      ]);
+      li.addEventListener("click", function () { select(i, true); });
+      li.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(i, true); }
+        if (e.key === "ArrowDown" && i < teams.length - 1) { e.preventDefault(); select(i + 1, false); ol.children[i + 1].focus(); }
+        if (e.key === "ArrowUp" && i > 0) { e.preventDefault(); select(i - 1, false); ol.children[i - 1].focus(); }
+      });
+      ol.appendChild(li);
+    });
+  }
+
+  function portrait(t) {
+    var initial = h("div", { class: "initial", "aria-hidden": "true", text: (t.name || "?").charAt(0) });
+    if (!/^https:\/\//.test(t.image || "")) return initial;
+    var img = h("img", { class: "photo", src: t.image, alt: t.name + " 사진", width: "180", height: "180", loading: "lazy" });
+    img.addEventListener("error", function () { img.replaceWith(initial); });
+    return img;
+  }
+
+  function renderStory() {
+    var box = document.getElementById("story");
+    box.textContent = "";
+    var t = teams[selected];
+    if (!t) { box.appendChild(h("p", { text: "데이터가 없습니다. scripts/build_design_mocks.py 를 실행하세요." })); return; }
+    var s = sentences(t);
+    box.appendChild(h("div", { class: "kicker", text: ["후보 " + t.rank + "위", t.genre, t.status].filter(Boolean).join(" · ") }));
+    box.appendChild(h("h2", { class: "headline", text: t.name }));
+    box.appendChild(h("p", { class: "deck", text: s.slice(0, 2).join(" ") || "아직 기록이 적은 팀이다." }));
+    var info = [["점수", fmt(t.score) + "점 (후보 " + comma(DATA.pool_size) + "팀 중 " + t.rank + "위)"], ["첫 포착", t.first_seen]];
+    if (t.first_release) info.push(["첫 발매", t.first_release]);
+    if (t.agency) info.push(["소속", t.agency]);
+    info.push(["최근 활동", t.last_seen]);
+    var dl = h("dl");
+    info.forEach(function (r) { dl.appendChild(h("dt", { text: r[0] })); dl.appendChild(h("dd", { text: r[1] })); });
+    var rest = s.slice(2).join(" ");
+    box.appendChild(h("div", { class: "lead" }, [portrait(t), h("div", { class: "byline" }, [dl, rest ? h("p", { text: rest }) : null])]));
+
+    box.appendChild(h("h3", { class: "sub", text: "점수는 어떻게 나왔나" }));
+    var ul = h("ul", { class: "leaders" });
+    t.parts.forEach(function (p, k) {
+      var c = comps[k] || { label: p.key, desc: "" };
+      ul.appendChild(h("li", { class: p.pts ? "" : "off", title: c.desc }, [
+        h("span", { class: "lb" }, [document.createTextNode(c.label), h("small", { text: p.raw })]),
+        h("span", { class: "dots" }), h("span", { class: "v", text: p.pts ? fmt(p.pts) : "—" })
+      ]));
+    });
+    ul.appendChild(h("li", { class: "total" }, [h("span", { class: "lb", text: "합계" }), h("span", { class: "dots" }), h("span", { class: "v", text: fmt(t.score) })]));
+    box.appendChild(ul);
+
+    box.appendChild(h("h3", { class: "sub", text: "최근의 기록" }));
+    box.appendChild(h("ol", { class: "chrono" }, (t.events || []).map(function (e) {
+      return h("li", {}, [h("time", { datetime: e.date, text: e.date.replace(/-/g, ".") }), h("span", {}, [document.createTextNode(e.label), h("small", { text: e.branch })])]);
+    })));
+    box.appendChild(h("p", { class: "colophon", text: "시안용 화면 — " + DATA.as_of + " 실제 데이터로 그렸다. 문장은 점수 근거 숫자에서 자동으로 만든다." }));
+  }
+
+  function select(i, scroll) {
+    selected = i;
+    Array.prototype.forEach.call(document.getElementById("chart").children, function (li, k) {
+      li.setAttribute("aria-selected", k === i ? "true" : "false");
+    });
+    renderStory();
+    if (scroll && window.matchMedia("(max-width: 900px)").matches) {
+      document.getElementById("story").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  var themeBtn = document.getElementById("theme");
+  function themeLabel() { themeBtn.textContent = document.documentElement.getAttribute("data-theme") === "dark" ? "화이트 모드" : "블랙 모드"; }
+  themeBtn.addEventListener("click", function () {
+    var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try { localStorage.setItem("gigle-mock-theme", next); } catch (e) { /* 저장 못 해도 화면은 바뀜 */ }
+    themeLabel();
+  });
+  themeLabel();
+  document.getElementById("dateline").textContent = DATA.as_of ? longDate(DATA.as_of) + " · 후보 " + comma(DATA.pool_size) + "팀 중 상위 10" : "";
+  renderChart();
+  renderStory();
+})();
+</script>
+</body>
+</html>
