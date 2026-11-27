@@ -65,6 +65,13 @@ class DiffTest(unittest.TestCase):
         self.assertEqual(rising[0]["score_gain"], 0.5)
         self.assertEqual(rising[1]["rank_gain"], 5)
 
+    def test_compare_snapshot_seven_days_before_or_nearest_earlier(self):
+        self.assertEqual(ee.compare_date(["2026-11-20", "2026-11-25", "2026-11-26", "2026-11-27"]), "2026-11-20")
+        self.assertEqual(ee.compare_date(["2026-11-18", "2026-11-19", "2026-11-27"]), "2026-11-19")   # 7일 전 이하 중 가장 늦은 것
+        self.assertEqual(ee.compare_date(["2026-11-24", "2026-11-26", "2026-11-27"]), "2026-11-26")   # 7일 전이 없으면 가장 가까운 이전
+        self.assertIsNone(ee.compare_date(["2026-11-27"]))
+        self.assertIsNone(ee.compare_date([]))
+
     def test_group_gigs_same_day_same_venue(self):
         rows = [{"signal_date": "2026-12-01", "venue": "클럽1", "team_key": t, "display_name": t} for t in ("a", "b", "x")]
         rows.append({"signal_date": "2026-12-03", "venue": "", "team_key": "c", "display_name": "c"})

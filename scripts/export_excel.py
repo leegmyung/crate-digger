@@ -4,7 +4,8 @@
 
 숫자는 앱과 같은 계산(docs/lab/sql/*.sql, scripts/lab_sql.py 의 DuckDB)으로 낸다.
 시트: 요약 · 후보 TOP100 · 이번 주 변화 · 다가오는 공연 · 출처 성적표 · 점수 검증 · 정의
-- 새 후보·상승 팀: 최신 두 점수 스냅샷 비교 (앱 getSnapshotDiff 와 같은 규칙: 점수가 올랐거나 순위가 3계단 이상 오름)
+- 새 후보·상승 팀: 최신 점수 스냅샷과 7일 전 스냅샷(없으면 가장 가까운 이전 것) 비교
+  (규칙은 앱 getSnapshotDiff 와 같음: 점수가 올랐거나 순위가 3계단 이상 오름)
 - 2주 내 후보 공연: 기준일~14일, 같은 날·같은 공연장을 한 줄로, 후보(점수 상위 300팀)가 낀 공연만 (앱 '이번 주' 화면과 같음)
 """
 from __future__ import annotations
@@ -29,6 +30,7 @@ CANDIDATE_POOL = 300          # 앱과 같이 상위 300팀을 '후보'로 (공�
 TOP_N = 100                   # 시트에 싣는 후보 수
 GIG_DAYS = 14                 # '다가오는 공연' 범위 (앱 '이번 주' 화면과 같음)
 RISE_RANKS = 3                # 순위가 이만큼 오르면 '상승' (앱 규칙)
+COMPARE_DAYS = 7              # 주간 보고서: 스냅샷이 매일 쌓이므로 7일 전과 비교 (어제 대비가 아니라 '이번 주' 변화)
 BACKTEST_CUTOFFS = ("2024-07-01", "2025-01-01", "2025-07-01")   # docs/source_roles.md 성적표와 같은 기준일
 SCORECARD_SINCE = "2024-01-01"
 WEIGHT_LABELS = {"w_branch": "갈래 수", "w_stage": "선정 단계", "w_peer": "선정 팀과 같은 무대", "w_dmz": "DMZ 출연",
@@ -53,7 +55,7 @@ DEFINITIONS = [
     ("기준선 / 배수(lift)", "기준선 = 후보 전체의 적중률. 배수 = 적중률 ÷ 기준선 (1보다 커야 쓸모 있음)"),
     ("백테스트", "과거 기준일을 정해 그 전 신호만으로 점수를 매기고, 그 뒤 실제 정답으로 채점"),
     ("교차 검증", "기준일 하나를 빼고 나머지로 가중치를 고른 뒤, 뺀 기준일로 채점 (고를 때 안 본 시점)"),
-    ("새 후보 / 상승", "최신 두 점수 스냅샷 비교: 새로 상위 300에 든 팀 / 점수가 올랐거나 순위가 3계단 이상 오른 팀"),
+    ("새 후보 / 상승", "최신 점수 스냅샷을 7일 전(없으면 가장 가까운 이전) 스냅샷과 비교: 새로 상위 300에 든 팀 / 점수가 올랐거나 순위가 3계단 이상 오른 팀"),
     ("신인 기준", "첫 발매 3년 이내 & 발매 10개 이하 (프로필이 없으면 우리 데이터 첫 등장 3년 이내)"),
 ]
 
@@ -75,6 +77,16 @@ def snapshot_diff(latest: Dict[str, Tuple[float, int]], prev: Dict[str, Tuple[fl
     new.sort(key=lambda r: r["rank_now"])
     rising.sort(key=lambda r: (-r["score_gain"], -r["rank_gain"], r["rank_now"]))
     return new, rising
+
+
+def compare_date(dates: List[str]) -> Optional[str]:
+    """스냅샷 날짜들 → 비교할 날짜: 최신보다 COMPARE_DAYS 이상 이전 중 가장 늦은 것, 없으면 최신 바로 앞 것."""
+    ds = sorted(dates)
+    if len(ds) < 2:
+        return None
+    target = (date.fromisoformat(ds[-1]) - timedelta(days=COMPARE_DAYS)).isoformat()
+    before = [d for d in ds[:-1] if d <= target]
+    return before[-1] if before else ds[-2]
 
 
 def group_gigs(rows: List[dict], cand_rank: Dict[str, int]) -> List[dict]:
@@ -139,7 +151,9 @@ def load_context(data_dir: Path = lab_sql.DATA_DIR, tuning_text: Optional[str] =
         next_gig.setdefault(r["team_key"], f"{r['signal_date']} {(r.get('venue') or '').strip() or '공연장 미정'}")
     spotify = {r["team_key"]: r["url"] for r in _read_csv(data_dir / "links.csv") if r.get("platform") == "spotify"}
     snaps = sorted((data_dir / "snapshots").glob("????-??-??.csv")) if (data_dir / "snapshots").is_dir() else []
-    latest, prev = (_snapshot(snaps[-1]) if snaps else {}), (_snapshot(snaps[-2]) if len(snaps) > 1 else {})
+    prev_day = compare_date([p.stem for p in snaps])
+    prev_path = next((p for p in snaps if p.stem == prev_day), None)
+    latest, prev = (_snapshot(snaps[-1]) if snaps else {}), _snapshot(prev_path)
     new, rising = snapshot_diff(latest, prev)
     for r in new + rising:
         r["display_name"] = teams.get(r["team_key"], {}).get("display_name") or r["team_key"]
@@ -150,7 +164,8 @@ def load_context(data_dir: Path = lab_sql.DATA_DIR, tuning_text: Optional[str] =
         tuning_text = TUNING.read_text(encoding="utf-8") if TUNING.exists() else ""
     weights = {k: lab_sql.DEFAULTS[k] for k in WEIGHT_LABELS if k in lab_sql.DEFAULTS}
     return {"as_of": as_of, "candidates": cands, "rank": rank, "teams": teams, "next_gig": next_gig,
-            "spotify": spotify, "new": new, "rising": rising, "snap_dates": [p.stem for p in snaps[-2:]],
+            "spotify": spotify, "new": new, "rising": rising,
+            "snap_dates": [d for d in (prev_day, snaps[-1].stem if snaps else None) if d],
             "gig_events": group_gigs(upcoming, rank), "scorecard": scorecard, "backtests": backtests,
             "tuning": tuning_summary(tuning_text), "weights": weights}
 
