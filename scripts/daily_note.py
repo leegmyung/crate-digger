@@ -6,6 +6,7 @@
 - 공개용: docs/log/<날짜>.md  (그날 커밋, 수집 결과, 지금 단계, 아직 정할 것)
 - 개인용: records/ 엑셀 '작업기록' 시트에 자동 줄 추가 (worklog.py)
 - 분류표(config/source_roles.json)에 없는 새 출처가 랩 데이터에 나오면 경고 한 줄 (사람이 역할을 정하도록)
+- 월요일, 또는 출처 재분류 제안(docs/data/source_review.json, scripts/source_review.py)이 바뀐 날엔 '출처 재분류 제안 n건'
 대화를 바탕으로 한 정리(결정 이유, 지침, 직무 참고)는 Claude가 records/entries/<날짜>.json 으로 따로 남긴다.
 """
 import csv
@@ -18,6 +19,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 ROLES_FILE = ROOT / "config" / "source_roles.json"
 LAB_SIGNALS = ROOT / "docs" / "lab" / "data" / "signals.csv"
+SOURCE_REVIEW = ROOT / "docs" / "data" / "source_review.json"
+MONDAY = 0
 KST = timezone(timedelta(hours=9))
 TABLE_KO = {"raw_kr_release": "발매", "raw_kr_gig": "공연", "raw_press": "평론 신호",
             "raw_kr_selection": "선정·지원", "raw_outcome": "공증"}
@@ -45,7 +48,23 @@ def new_sources(signals_path=LAB_SIGNALS, roles_path=ROLES_FILE):
         return []
 
 
-def render_note(day, commits, runs, board, new_sources=None):
+def review_section(day, review):
+    """월요일이거나 제안이 바뀐 날이면 '출처 재분류 제안' 섹션 줄들, 아니면 []."""
+    if not review:
+        return []
+    is_monday = datetime.strptime(day, "%Y-%m-%d").weekday() == MONDAY
+    if not (is_monday or review.get("suggestions_changed_on") == day):
+        return []
+    items = review.get("suggestions", [])
+    lines = ["", f"## 출처 재분류 제안 {len(items)}건"]
+    lines += [f"- {s['src']} ({s.get('role') or '미분류'}): {s['suggestion']} — {s.get('reason', '')}" for s in items] \
+        or ["- 없음 — 지금 분류가 성적표와 맞음"]
+    if items:
+        lines.append("- 제안만 있음. 바꿀지는 docs/source_roles.md 기준으로 사람이 config/source_roles.json 에서 정함")
+    return lines
+
+
+def render_note(day, commits, runs, board, new_sources=None, review=None):
     now_steps = [s for s in board.get("steps", []) if s.get("status") == "now"]
     todays = [r for r in runs if r["date"] == day]
     open_q = [d["q"] for d in board.get("decisions", []) if d.get("state") == "결정 필요"]
@@ -59,6 +78,7 @@ def render_note(day, commits, runs, board, new_sources=None):
     if new_sources:
         lines += ["", f"⚠️ 분류표에 없는 새 출처 {len(new_sources)}개: {', '.join(new_sources)} "
                       "— config/source_roles.json 에 역할(발굴·맥락·제외·검증 대기)을 정해 주세요"]
+    lines += review_section(day, review)
     lines += ["", "## 아직 정할 것"]
     lines += [f"- {q}" for q in open_q] or ["- 없음"]
     lines += ["", "진행판: https://leegmyung.github.io/crate-digger/", ""]
@@ -99,7 +119,8 @@ def main(argv):
     board = _load(ROOT / "docs" / "data" / "board.json", {})
     out = ROOT / "docs" / "log" / f"{day}.md"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(render_note(day, commits, runs, board, new_sources()), encoding="utf-8")
+    review = _load(SOURCE_REVIEW, None)
+    out.write_text(render_note(day, commits, runs, board, new_sources(), review), encoding="utf-8")
     try:
         import worklog   # 엑셀 도구(openpyxl)는 기록할 때만 — 없으면 아래에서 안내
         worklog.append_entry(worklog.DEFAULT_XLSX, auto_entry(day, commits, runs))

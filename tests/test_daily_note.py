@@ -72,5 +72,32 @@ class NewSourceWarningTest(unittest.TestCase):
             self.assertEqual(dn.new_sources(Path(d) / "none.csv", cfg), [])   # 파일이 없으면 경고 없음
 
 
+class SourceReviewSectionTest(unittest.TestCase):
+    REVIEW = {"suggestions_changed_on": "2026-11-27", "suggestions": [
+        {"src": "공연:a", "role": "discovery", "kind": "demote", "suggestion": "context로 내릴 후보", "reason": "배수 0.8"},
+        {"src": "발매:f", "role": "pending", "kind": "ready", "suggestion": "평가 가능 — 성적표로 판정", "reason": "팀 40"}]}
+
+    def test_monday_shows_section(self):
+        lines = dn.review_section("2026-11-30", self.REVIEW)          # 월요일
+        self.assertIn("## 출처 재분류 제안 2건", lines)
+        self.assertTrue(any("공연:a" in x and "context로 내릴 후보" in x for x in lines))
+
+    def test_changed_day_shows_section_even_if_not_monday(self):
+        self.assertTrue(dn.review_section("2026-11-27", self.REVIEW))  # 금요일, 제안이 바뀐 날
+
+    def test_other_days_hidden(self):
+        self.assertEqual(dn.review_section("2026-11-28", self.REVIEW), [])
+        self.assertEqual(dn.review_section("2026-11-30", None), [])
+
+    def test_monday_with_no_suggestions(self):
+        lines = dn.review_section("2026-11-30", {"suggestions_changed_on": "2026-11-01", "suggestions": []})
+        self.assertIn("## 출처 재분류 제안 0건", lines)
+
+    def test_render_note_includes_section(self):
+        md = dn.render_note("2026-11-30", COMMITS, RUNS, BOARD, review=self.REVIEW)
+        self.assertIn("## 출처 재분류 제안 2건", md)
+        self.assertNotIn("출처 재분류", dn.render_note("2026-11-28", COMMITS, RUNS, BOARD, review=self.REVIEW))
+
+
 if __name__ == "__main__":
     unittest.main()
