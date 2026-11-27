@@ -2,12 +2,14 @@ import {
   appState, getWatchlist, hasCustomWeights, navigateTo, setExportContext,
 } from '../state.js';
 import {
-  getSnapshotDiff, queryCandidates, queryWatchlistEnriched, queryWeeklyDigestExtras,
+  buildNextGigByTeam, getSnapshotDiff, groupUpcomingEvents,
+  queryCandidates, queryUpcomingGigs, queryWatchlistEnriched, queryWeeklyDigestExtras,
 } from '../db.js';
 import {
   avatarHtml, buildWeeklySummaryText, escapeHtml, fmtInt, fmtNum,
-  plainWhyLine, renderEmptyState, spotifyButtonHtml, watchButtonHtml,
-  wireAvatarFallbacks, wireSpotifyButtons, youtubeQuickInfo,
+  formatKoreanShortDate, formatNextGigText, plainWhyLine, renderEmptyState,
+  spotifyButtonHtml, watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
+  youtubeQuickInfo,
 } from '../ui.js';
 
 function renderCardListenAction(r) {
@@ -28,11 +30,29 @@ function renderCardListenAction(r) {
 }
 
 export async function renderTodayView(root) {
-  const [candRows, watchEnriched] = await Promise.all([
+  const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
+  const [candRows, watchEnriched, upcomingRaw] = await Promise.all([
     queryCandidates({ limit: 300 }),
     queryWatchlistEnriched(getWatchlist()),
+    queryUpcomingGigs({ asOf, days: 14 }),
   ]);
   const extras = await queryWeeklyDigestExtras(candRows);
+
+  const candRankMap = new Map();
+  candRows.forEach((r, idx) => {
+    candRankMap.set(r.team_key, {
+      rank: idx + 1,
+      score: r.score,
+      display_name: r.display_name || r.team_key,
+      primary_genre: r.primary_genre || '',
+    });
+  });
+  const nextGigByTeam = buildNextGigByTeam(upcomingRaw);
+  const upcomingCandEvents = groupUpcomingEvents(upcomingRaw, candRankMap).filter(ev => ev.hasCandidate);
+  const upcomingCandTeamSet = new Set();
+  for (const ev of upcomingCandEvents) {
+    for (const t of ev.candidateTeams) upcomingCandTeamSet.add(t.team_key);
+  }
 
   const top5 = candRows.slice(0, 5);
   const diff = getSnapshotDiff(candRows);
@@ -59,7 +79,7 @@ export async function renderTodayView(root) {
     digestText,
     csvLabel: '상위 후보 100팀 CSV 내려받기',
     csvFilename: `crate_digger_top100_${appState.dataEnd || 'export'}.csv`,
-    csvHeaders: ['rank', 'team_key', 'display_name', 'genre', 'score', 'n_branch', 'venues', 'recent180', 'first_seen', 'last_seen'],
+    csvHeaders: ['rank', 'team_key', 'display_name', 'genre', 'score', 'n_branch', 'venues', 'recent180', 'next_gig', 'first_seen', 'last_seen'],
     csvRows: candRows.slice(0, 100).map((r, i) => [
       i + 1,
       r.team_key,
@@ -69,11 +89,13 @@ export async function renderTodayView(root) {
       r.n_branch ?? 0,
       r.venues ?? 0,
       r.recent180 ?? 0,
+      formatNextGigText(nextGigByTeam.get(r.team_key)),
       r.first_seen || '',
       r.last_seen || '',
     ]),
   });
 
+  let upcomingLimit = 5;
   let showAllNew = false;
   let showAllRisers = false;
 
@@ -108,7 +130,9 @@ export async function renderTodayView(root) {
   if (extras.signalStats.total > 0) {
     sentence2Parts.push(`최근 7일간 새 신호 <strong>${fmtInt(extras.signalStats.total)}건</strong>${brSummary ? `(${brSummary})` : ''}`);
   }
-  if (extras.newVideos7d > 0) {
+  if (upcomingCandEvents.length > 0) {
+    sentence2Parts.push(`2주 내 볼 수 있는 후보 공연 <strong>${fmtInt(upcomingCandEvents.length)}건</strong>(${fmtInt(upcomingCandTeamSet.size)}팀)이 잡혔고`);
+  } else if (extras.newVideos7d > 0) {
     sentence2Parts.push(`새 무대 영상 <strong>${fmtInt(extras.newVideos7d)}개</strong>가 잡혔고`);
   }
   const healthTxt = health.ok
@@ -144,10 +168,10 @@ export async function renderTodayView(root) {
           <span class="kpi-chip-lbl">순위·점수 상승</span>
           <strong class="kpi-chip-val">${fmtInt(diff.risers.length)}팀</strong>
         </div>
-        <div class="kpi-chip">
-          <span class="kpi-chip-lbl">최근 7일 새 영상</span>
-          <strong class="kpi-chip-val">${fmtInt(extras.newVideos7d)}개</strong>
-        </div>
+        <a class="kpi-chip" href="#/venues">
+          <span class="kpi-chip-lbl">2주 내 후보 공연</span>
+          <strong class="kpi-chip-val">${fmtInt(upcomingCandEvents.length)}건</strong>
+        </a>
         <div class="kpi-chip">
           <span class="kpi-chip-lbl">최근 7일 새 신호</span>
           <strong class="kpi-chip-val">${fmtInt(extras.signalStats.total)}건</strong>
@@ -164,23 +188,27 @@ export async function renderTodayView(root) {
 
   const hasAnyTop5Img = top5.some(r => appState.imagesByTeam.has(r.team_key));
   const top5Html = top5.length
-    ? `<div class="grid-5">${top5.map((r, i) => `
-        <article class="pick-card">
-          <div class="pick-top">
-            <span class="pick-rank">#${i + 1}${r.primary_genre ? ` · ${escapeHtml(r.primary_genre)}` : ''}</span>
-            <span class="pick-score" title="종합 점수">${fmtNum(r.score, 2)}</span>
-          </div>
-          <a class="pick-head" href="#/team/${encodeURIComponent(r.team_key)}">
-            ${avatarHtml(r.team_key, r.display_name, 48, { shape: 'rounded', genre: r.primary_genre })}
-            <span class="pick-name">${escapeHtml(r.display_name || r.team_key)}</span>
-          </a>
-          <p class="pick-why">${escapeHtml(plainWhyLine(r))}</p>
-          <div class="pick-foot">
-            ${renderCardListenAction(r)}
-            ${watchButtonHtml(r.team_key, r.display_name || r.team_key, true, true)}
-          </div>
-        </article>
-      `).join('')}</div>
+    ? `<div class="grid-5">${top5.map((r, i) => {
+        const ng = nextGigByTeam.get(r.team_key);
+        return `
+          <article class="pick-card">
+            <div class="pick-top">
+              <span class="pick-rank">#${i + 1}${r.primary_genre ? ` · ${escapeHtml(r.primary_genre)}` : ''}</span>
+              <span class="pick-score" title="종합 점수">${fmtNum(r.score, 2)}</span>
+            </div>
+            <a class="pick-head" href="#/team/${encodeURIComponent(r.team_key)}">
+              ${avatarHtml(r.team_key, r.display_name, 48, { shape: 'rounded', genre: r.primary_genre })}
+              <span class="pick-name">${escapeHtml(r.display_name || r.team_key)}</span>
+            </a>
+            <p class="pick-why">${escapeHtml(plainWhyLine(r))}</p>
+            ${ng ? `<div class="pick-next-gig">다음 공연 ${escapeHtml(formatNextGigText(ng))}</div>` : ''}
+            <div class="pick-foot">
+              ${renderCardListenAction(r)}
+              ${watchButtonHtml(r.team_key, r.display_name || r.team_key, true, true)}
+            </div>
+          </article>
+        `;
+      }).join('')}</div>
       <div class="player-slot" id="todayTopPlayerSlot" data-player-slot></div>
       ${hasAnyTop5Img ? '<p class="photo-credit">아티스트 사진 출처: Spotify</p>' : ''}`
     : renderEmptyState({
@@ -259,6 +287,70 @@ export async function renderTodayView(root) {
     : '';
 
   function paint() {
+    const visUpcoming = upcomingCandEvents.slice(0, upcomingLimit);
+    const remUpcoming = upcomingCandEvents.length - visUpcoming.length;
+
+    const upcomingHtml = upcomingCandEvents.length
+      ? `
+        <section class="block" id="todayUpcomingBlock">
+          <div class="block-head">
+            <div>
+              <h2>이번 주·다음 주 볼 수 있는 후보 공연</h2>
+              <span class="block-meta">후보 ${fmtInt(upcomingCandTeamSet.size)}팀 · ${fmtInt(upcomingCandEvents.length)}개 무대 (같은 날·같은 공연장 묶음)</span>
+            </div>
+            <a class="small muted" href="#/venues">공연장·달력 보기 →</a>
+          </div>
+          <ul class="upcoming-list">
+            ${visUpcoming.map(ev => {
+              const dtLabel = formatKoreanShortDate(ev.signal_date);
+              const multiCand = ev.candidateTeams.length >= 2;
+              const otherNames = ev.otherTeams.slice(0, 3).map(t => t.display_name);
+              const otherMore = ev.otherTeams.length - otherNames.length;
+              const coBillHtml = ev.otherTeams.length > 0
+                ? `<div class="cobill-note"><span class="cobill-lbl">함께 서는 팀</span> ${escapeHtml(otherNames.join(', '))}${otherMore > 0 ? ` 외 ${fmtInt(otherMore)}팀` : ''}</div>`
+                : '';
+              return `
+                <li class="upcoming-row">
+                  <div class="upcoming-when">
+                    <span class="upcoming-date">${escapeHtml(dtLabel)}</span>
+                    <span class="upcoming-venue">${escapeHtml(ev.venue)}</span>
+                    ${multiCand ? `<span class="cobill-badge">후보 ${ev.candidateTeams.length}팀 함께 서는 무대</span>` : ''}
+                  </div>
+                  <div class="upcoming-teams-wrap">
+                    <div class="upcoming-teams">
+                      ${ev.candidateTeams.map(t => `
+                        <div class="upcoming-team-chip">
+                          <a class="upcoming-team-link" href="#/team/${encodeURIComponent(t.team_key)}">
+                            ${avatarHtml(t.team_key, t.display_name, 28, { shape: 'circle', genre: t.primary_genre })}
+                            <strong>${escapeHtml(t.display_name)}</strong>
+                            <span class="rank-pill">#${t.rank}</span>
+                          </a>
+                          ${spotifyButtonHtml(t.team_key, true, { iconOnly: true, teamName: t.display_name, slotId: 'todayUpcomingPlayerSlot' })}
+                        </div>
+                      `).join('')}
+                    </div>
+                    ${coBillHtml}
+                  </div>
+                </li>
+              `;
+            }).join('')}
+          </ul>
+          <div class="player-slot" id="todayUpcomingPlayerSlot" data-player-slot></div>
+          ${remUpcoming > 0
+            ? `<div class="more-row" style="margin-top:10px;">
+                 <span>${fmtInt(visUpcoming.length)} / ${fmtInt(upcomingCandEvents.length)}개 무대</span>
+                 <button type="button" class="btn btn-sm" id="btnMoreUpcoming">${fmtInt(Math.min(10, remUpcoming))}건 더 보기</button>
+               </div>`
+            : (upcomingLimit > 5 && upcomingCandEvents.length > 5
+                ? `<div class="more-row" style="margin-top:10px;">
+                     <span>전체 ${fmtInt(upcomingCandEvents.length)}개 무대 표시 중</span>
+                     <button type="button" class="btn btn-sm" id="btnLessUpcoming">접기</button>
+                   </div>`
+                : '')}
+        </section>
+      `
+      : '';
+
     const visNew = showAllNew ? diff.newEntrants.slice(0, 20) : diff.newEntrants.slice(0, 5);
     const visRisers = showAllRisers ? diff.risers.slice(0, 20) : diff.risers.slice(0, 5);
 
@@ -318,6 +410,8 @@ export async function renderTodayView(root) {
         ${top5Html}
       </section>
 
+      ${upcomingHtml}
+
       <div class="grid-2" style="margin-bottom:20px;">
         <section class="block" style="margin-bottom:0;">
           <div class="block-head">
@@ -357,6 +451,8 @@ export async function renderTodayView(root) {
       });
     });
 
+    root.querySelector('#btnMoreUpcoming')?.addEventListener('click', () => { upcomingLimit += 10; paint(); });
+    root.querySelector('#btnLessUpcoming')?.addEventListener('click', () => { upcomingLimit = 5; paint(); });
     root.querySelector('#btnMoreNew')?.addEventListener('click', () => { showAllNew = true; paint(); });
     root.querySelector('#btnMoreRisers')?.addEventListener('click', () => { showAllRisers = true; paint(); });
     root.querySelectorAll('[data-open-team]').forEach(el => {

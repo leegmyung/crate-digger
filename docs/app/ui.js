@@ -68,6 +68,25 @@ export function clampDateDisplay(dateStr) {
   return dateStr > asOf ? asOf : dateStr;
 }
 
+const KO_WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
+
+/** '2026-12-03' → '12/03(목)' */
+export function formatKoreanShortDate(dateStr) {
+  const m = String(dateStr || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!m) return String(dateStr || '-');
+  const d = new Date(Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3])));
+  const wd = KO_WEEKDAYS[d.getUTCDay()] || '';
+  return `${m[2]}/${m[3]}(${wd})`;
+}
+
+/** { signal_date, venue } → '12/03(목) Club FF' */
+export function formatNextGigText(gig) {
+  if (!gig || !gig.signal_date) return '';
+  const dt = formatKoreanShortDate(gig.signal_date);
+  const v = String(gig.venue || '').trim();
+  return v && v !== '공연장 미정' ? `${dt} ${v}` : dt;
+}
+
 export function renderActionBanner({ title, lead, todo, buttonsHtml = '' }) {
   return `
     <div class="action-banner">

@@ -889,6 +889,214 @@ export function getSnapshotDiff(scoredRows = []) {
   return { latestDate, prevDate, newEntrants, risers };
 }
 
+function safeIsoDate(v, fallback = '2026-11-27') {
+  const s = String(v || '').trim();
+  return /^\d{4}-\d{2}-\d{2}$/.test(s) ? s : fallback;
+}
+
+/**
+ * 예정 공연 조회 (signals 직접 쿼리, branch='공연' AND signal_date >= 기준일).
+ * indistreet + indiego 중복 행은 (signal_date, venue, team_key) 기준 DISTINCT 제거.
+ */
+export async function queryUpcomingGigs({ asOf, days = 0 } = {}) {
+  const baseDate = safeIsoDate(asOf || appState.cfg.as_of || appState.dataEnd, '2026-11-27');
+  let endClause = '';
+  if (Number(days) > 0) {
+    const endMs = Date.parse(`${baseDate}T00:00:00Z`) + Number(days) * 86400000;
+    const endDate = new Date(endMs).toISOString().slice(0, 10);
+    endClause = `AND s.signal_date <= DATE '${endDate}'`;
+  }
+  const { rows } = await runRawSql(`
+    SELECT DISTINCT
+      CAST(s.signal_date AS VARCHAR) AS signal_date,
+      COALESCE(NULLIF(TRIM(s.venue), ''), '공연장 미정') AS venue,
+      s.team_key,
+      COALESCE(t.display_name, s.team_key) AS display_name,
+      COALESCE(t.primary_genre, '') AS primary_genre
+    FROM signals s
+    LEFT JOIN teams t USING (team_key)
+    WHERE s.branch = '공연'
+      AND s.signal_date >= DATE '${baseDate}'
+      ${endClause}
+    ORDER BY signal_date ASC, venue ASC, display_name ASC
+  `);
+  return rows;
+}
+
+/**
+ * 같은 날·같은 공연장의 예정 공연을 한 줄(이벤트)로 묶는다.
+ * candRankMap: Map<team_key, { rank, score, display_name, primary_genre }>
+ */
+export function groupUpcomingEvents(rawRows = [], candRankMap = new Map()) {
+  const byKey = new Map();
+  for (const r of rawRows) {
+    const date = String(r.signal_date || '').slice(0, 10);
+    const venue = String(r.venue || '공연장 미정').trim() || '공연장 미정';
+    if (!date || !r.team_key) continue;
+    const evKey = `${date}::${venue}`;
+    let ev = byKey.get(evKey);
+    if (!ev) {
+      ev = {
+        signal_date: date,
+        venue,
+        seenTeams: new Set(),
+        candidateTeams: [],
+        otherTeams: [],
+      };
+      byKey.set(evKey, ev);
+    }
+    if (ev.seenTeams.has(r.team_key)) continue;
+    ev.seenTeams.add(r.team_key);
+
+    const cand = candRankMap.get(r.team_key);
+    if (cand) {
+      ev.candidateTeams.push({
+        team_key: r.team_key,
+        display_name: cand.display_name || r.display_name || r.team_key,
+        primary_genre: cand.primary_genre || r.primary_genre || '',
+        rank: cand.rank,
+        score: cand.score,
+      });
+    } else {
+      ev.otherTeams.push({
+        team_key: r.team_key,
+        display_name: r.display_name || r.team_key,
+        primary_genre: r.primary_genre || '',
+      });
+    }
+  }
+
+  const events = [...byKey.values()].map(ev => {
+    ev.candidateTeams.sort((a, b) => a.rank - b.rank);
+    return {
+      signal_date: ev.signal_date,
+      venue: ev.venue,
+      candidateTeams: ev.candidateTeams,
+      otherTeams: ev.otherTeams,
+      hasCandidate: ev.candidateTeams.length > 0,
+      bestRank: ev.candidateTeams.length ? ev.candidateTeams[0].rank : Infinity,
+      totalTeams: ev.candidateTeams.length + ev.otherTeams.length,
+    };
+  });
+
+  events.sort((a, b) => {
+    const dCmp = a.signal_date.localeCompare(b.signal_date);
+    if (dCmp !== 0) return dCmp;
+    if (a.bestRank !== b.bestRank) return a.bestRank - b.bestRank;
+    return a.venue.localeCompare(b.venue, 'ko');
+  });
+  return events;
+}
+
+/** team_key → 가장 빠른 예정 공연 1건 + 전체 예정 공연 수 */
+export function buildNextGigByTeam(rawRows = []) {
+  const map = new Map();
+  for (const r of rawRows) {
+    const tk = r.team_key;
+    const date = String(r.signal_date || '').slice(0, 10);
+    const venue = String(r.venue || '공연장 미정').trim() || '공연장 미정';
+    if (!tk || !date) continue;
+    const existing = map.get(tk);
+    if (!existing) {
+      map.set(tk, { signal_date: date, venue, count: 1, seen: new Set([`${date}::${venue}`]) });
+    } else {
+      const k = `${date}::${venue}`;
+      if (!existing.seen.has(k)) {
+        existing.seen.add(k);
+        existing.count += 1;
+      }
+      if (date < existing.signal_date) {
+        existing.signal_date = date;
+        existing.venue = venue;
+      }
+    }
+  }
+  return map;
+}
+
+/**
+ * 이번 달(기준일 YYYY-MM) 신인 후보가 많이 선 공연장 TOP 및 공연장별 상위 후보 팀 목록.
+ */
+export async function queryMonthlyNewcomerVenues(candRows = [], asOf = null) {
+  const baseDate = safeIsoDate(asOf || appState.cfg.as_of || appState.dataEnd, '2026-11-27');
+  const ym = baseDate.slice(0, 7);
+  const [yStr, mStr] = ym.split('-');
+  const monthLabel = `${yStr}년 ${Number(mStr)}월`;
+
+  const candMap = new Map();
+  candRows.forEach((r, i) => {
+    candMap.set(r.team_key, { ...r, rank: i + 1 });
+  });
+
+  const { rows } = await runRawSql(`
+    SELECT DISTINCT
+      CAST(s.signal_date AS VARCHAR) AS signal_date,
+      TRIM(s.venue) AS venue,
+      s.team_key,
+      COALESCE(t.display_name, s.team_key) AS display_name,
+      COALESCE(t.primary_genre, '') AS primary_genre
+    FROM signals s
+    LEFT JOIN teams t USING (team_key)
+    WHERE s.branch = '공연'
+      AND SUBSTR(CAST(s.signal_date AS VARCHAR), 1, 7) = '${ym}'
+      AND TRIM(COALESCE(s.venue, '')) <> ''
+      AND TRIM(COALESCE(s.venue, '')) <> '공연장 미정'
+    ORDER BY s.signal_date DESC
+  `);
+
+  const byVenue = new Map();
+  for (const r of rows) {
+    const v = r.venue;
+    if (!v) continue;
+    let entry = byVenue.get(v);
+    if (!entry) {
+      entry = {
+        venue: v,
+        gigKeys: new Set(),
+        allTeams: new Set(),
+        candByKey: new Map(),
+      };
+      byVenue.set(v, entry);
+    }
+    entry.gigKeys.add(`${r.signal_date}::${r.team_key}`);
+    entry.allTeams.add(r.team_key);
+
+    const cand = candMap.get(r.team_key);
+    if (cand) {
+      const prev = entry.candByKey.get(r.team_key);
+      if (!prev) {
+        entry.candByKey.set(r.team_key, {
+          ...cand,
+          lastGigDate: r.signal_date,
+          gigCountMonth: 1,
+        });
+      } else {
+        prev.gigCountMonth += 1;
+        if (r.signal_date > prev.lastGigDate) prev.lastGigDate = r.signal_date;
+      }
+    }
+  }
+
+  const venues = [...byVenue.values()]
+    .map(e => {
+      const candidates = [...e.candByKey.values()].sort((a, b) => a.rank - b.rank);
+      const totalTeams = e.allTeams.size;
+      const candidateCount = candidates.length;
+      return {
+        venue: e.venue,
+        monthGigs: e.gigKeys.size,
+        totalTeams,
+        candidateCount,
+        candidateRatio: totalTeams ? (100 * candidateCount) / totalTeams : 0,
+        candidates,
+      };
+    })
+    .filter(v => v.candidateCount > 0)
+    .sort((a, b) => (b.candidateCount - a.candidateCount) || (b.totalTeams - a.totalTeams) || a.venue.localeCompare(b.venue, 'ko'));
+
+  return { ym, monthLabel, venues };
+}
+
 export function getTeamExternalLinks(teamKey, displayName = '') {
   const dj = appState.dashboardJson;
   if (!dj || !dj.sections) return [];

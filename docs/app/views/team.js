@@ -1,8 +1,8 @@
 import { appState, navigateTo, setExportContext } from '../state.js';
 import { getTeamExternalLinks, queryTeamDetail } from '../db.js';
 import {
-  avatarHtml, avatarSourceOf, escapeHtml, fmtInt, fmtNum, formatSignalDate,
-  PROFILE_LABELS, renderActionBanner, renderScoreBar,
+  avatarHtml, avatarSourceOf, escapeHtml, fmtInt, fmtNum, formatNextGigText,
+  formatSignalDate, PROFILE_LABELS, renderActionBanner, renderScoreBar,
   SOURCE_LABELS, spotifyButtonHtml, spotifyUrlOf, summarizeWhyTeam,
   watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
@@ -67,8 +67,8 @@ export async function renderTeamView(root, teamKey) {
     root.innerHTML = renderActionBanner({
       title: '팀 상세',
       lead: '선택된 팀이 없습니다.',
-      todo: '위쪽 팀 검색 창에서 팀 이름을 입력하거나 후보 탐색에서 팀을 선택하세요.',
-      buttonsHtml: '<a class="btn" href="#/candidates">후보 탐색으로</a>',
+      todo: '위쪽 팀 검색 창에서 팀 이름을 입력하거나 후보 목록에서 팀을 선택하세요.',
+      buttonsHtml: '<a class="btn" href="#/candidates">후보 목록으로</a>',
     });
     return;
   }
@@ -81,7 +81,7 @@ export async function renderTeamView(root, teamKey) {
       title: `팀을 찾을 수 없음: ${teamKey}`,
       lead: '현재 데이터에 해당 팀 키가 없습니다.',
       todo: '위쪽 팀 검색 창에서 정확한 팀 이름을 선택해 주세요.',
-      buttonsHtml: '<a class="btn" href="#/candidates">후보 탐색으로</a>',
+      buttonsHtml: '<a class="btn" href="#/candidates">후보 목록으로</a>',
     });
     return;
   }
@@ -382,6 +382,22 @@ export async function renderTeamView(root, teamKey) {
       ? '<span class="avatar-credit">사진 · YouTube</span>'
       : '';
 
+  const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
+  const upcomingDedup = new Map();
+  for (const s of timeline) {
+    if (s.branch !== '공연') continue;
+    const dt = String(s.signal_date || '').slice(0, 10);
+    if (!dt || dt < asOf) continue;
+    const v = String(s.venue || '').trim() || '공연장 미정';
+    const key = `${dt}::${v}`;
+    if (!upcomingDedup.has(key)) upcomingDedup.set(key, { signal_date: dt, venue: v });
+  }
+  const upcomingList = [...upcomingDedup.values()].sort((a, b) => a.signal_date.localeCompare(b.signal_date));
+  const nextGig = upcomingList[0] || null;
+  const nextGigHtml = nextGig
+    ? `<p class="team-next-gig"><span class="next-gig-pill">다음 공연 ${escapeHtml(formatNextGigText(nextGig))}${upcomingList.length > 1 ? ` 외 ${upcomingList.length - 1}건` : ''}</span></p>`
+    : '';
+
   function paint() {
     root.innerHTML = `
       <div class="team-back-bar">
@@ -396,6 +412,7 @@ export async function renderTeamView(root, teamKey) {
           <div>
             <h1 class="action-banner-title">${escapeHtml(displayName)}</h1>
             <p class="team-subline">${escapeHtml(metaParts.join(' · ') || '기록된 신호 ' + fmtInt(mergedTimeline.length) + '건')}</p>
+            ${nextGigHtml}
           </div>
         </div>
         <div class="action-banner-btns">

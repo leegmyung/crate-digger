@@ -1,96 +1,230 @@
 import { appState, registerChart, setExportContext } from '../state.js';
-import { runRawSql, sqlStringLiteral } from '../db.js';
-import { avatarHtml, cssVar, escapeHtml, fmtInt, renderActionBanner, wireAvatarFallbacks } from '../ui.js';
+import {
+  buildNextGigByTeam, groupUpcomingEvents, queryCandidates,
+  queryMonthlyNewcomerVenues, queryUpcomingGigs,
+} from '../db.js';
+import {
+  avatarHtml, cssVar, escapeHtml, fmtInt, fmtNum, formatKoreanShortDate,
+  formatNextGigText, plainWhyLine, renderActionBanner, spotifyButtonHtml,
+  wireAvatarFallbacks, wireSpotifyButtons,
+} from '../ui.js';
 
 export async function renderVenuesView(root) {
+  const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
+  const [candRows, upcomingRaw] = await Promise.all([
+    queryCandidates({ limit: 300 }),
+    queryUpcomingGigs({ asOf }),
+  ]);
+  const monthly = await queryMonthlyNewcomerVenues(candRows, asOf);
+
+  const candRankMap = new Map();
+  candRows.forEach((r, idx) => {
+    candRankMap.set(r.team_key, {
+      rank: idx + 1,
+      score: r.score,
+      display_name: r.display_name || r.team_key,
+      primary_genre: r.primary_genre || '',
+    });
+  });
+  const nextGigByTeam = buildNextGigByTeam(upcomingRaw);
+  const allUpcomingEvents = groupUpcomingEvents(upcomingRaw, candRankMap);
+  const candUpcomingEvents = allUpcomingEvents.filter(ev => ev.hasCandidate);
+
   const dj = appState.dashboardJson;
-  const venues = dj?.sections?.top_venues || [];
-  const topV = venues[0];
+  const allTimeVenues = dj?.sections?.top_venues || [];
+  const topMonthV = monthly.venues[0];
 
   setExportContext({
-    csvLabel: venues.length ? `공연장·씬 CSV 내려받기 (${fmtInt(venues.length)}곳)` : '',
-    csvFilename: `crate_digger_venues_${appState.dataEnd || 'export'}.csv`,
-    csvHeaders: ['venue', 'gigs', 'teams', 'candidate_teams', 'candidate_ratio_pct'],
-    csvRows: venues.map(v => [
+    csvLabel: monthly.venues.length
+      ? `${monthly.monthLabel} 공연장·씬 CSV 내려받기 (${fmtInt(monthly.venues.length)}곳)`
+      : '',
+    csvFilename: `crate_digger_venues_${monthly.ym || appState.dataEnd || 'export'}.csv`,
+    csvHeaders: ['rank', 'venue', 'candidate_teams', 'total_teams', 'month_gigs', 'candidate_ratio_pct', 'top_candidates'],
+    csvRows: monthly.venues.map((v, idx) => [
+      idx + 1,
       v.venue,
-      v.gigs ?? 0,
-      v.teams ?? 0,
-      v.candidate_teams ?? 0,
-      v.teams ? ((100 * v.candidate_teams) / v.teams).toFixed(1) : '0.0',
+      v.candidateCount,
+      v.totalTeams,
+      v.monthGigs,
+      v.candidateRatio.toFixed(1),
+      v.candidates.slice(0, 5).map(c => `${c.display_name}(#${c.rank})`).join(' / '),
     ]),
   });
 
   const bannerHtml = renderActionBanner({
     title: '공연장·씬',
-    lead: topV
-      ? `가장 많은 공연이 열린 곳은 <strong>${escapeHtml(topV.venue)}</strong>(${fmtInt(topV.gigs)}건, 출연 ${fmtInt(topV.teams)}팀, 후보 ${fmtInt(topV.candidate_teams)}팀)이며, 공연장을 누르면 최근 출연 팀이 열립니다.`
-      : '공연장 요약 데이터를 불러오지 못했습니다.',
+    lead: topMonthV
+      ? `${escapeHtml(monthly.monthLabel)} 신인 후보가 가장 많이 선 공연장은 <strong>${escapeHtml(topMonthV.venue)}</strong>(후보 ${fmtInt(topMonthV.candidateCount)}팀 · 전체 ${fmtInt(topMonthV.totalTeams)}팀)이며, 예정된 후보 무대는 <strong>${fmtInt(candUpcomingEvents.length)}건</strong>입니다.`
+      : '이번 달 공연장 요약 데이터를 불러오는 중입니다.',
   });
 
-  if (!venues.length) {
-    root.innerHTML = `${bannerHtml}<div class="notice">data/dashboard.json의 공연장 요약(top_venues)이 비어 있습니다.</div>`;
-    return;
+  let venueLimit = 8;
+  let expandedVenue = '';
+  let calMode = 'cand'; // 'cand' | 'all'
+  let calLimit = 8;
+  let chartRendered = false;
+
+  function renderVenueRow(v, idx) {
+    const isOpen = expandedVenue === v.venue;
+    const previewCands = v.candidates.slice(0, 4);
+    const bodyCands = v.candidates.slice(0, 10);
+    const extraCands = v.candidates.length - bodyCands.length;
+
+    return `
+      <li class="venue-acc-item ${isOpen ? 'is-open' : ''}">
+        <button type="button" class="venue-acc-head" data-toggle-venue="${escapeHtml(v.venue)}" aria-expanded="${isOpen ? 'true' : 'false'}">
+          <div class="venue-acc-left">
+            <span class="venue-rank">#${idx + 1}</span>
+            <div class="venue-acc-title-col">
+              <strong class="venue-name">${escapeHtml(v.venue)}</strong>
+              <span class="small muted">전체 출연 ${fmtInt(v.totalTeams)}팀 · 후보 비중 ${v.candidateRatio.toFixed(0)}%</span>
+            </div>
+          </div>
+          <div class="venue-acc-right">
+            <div class="avatar-stack" aria-hidden="true">
+              ${previewCands.map(c => avatarHtml(c.team_key, c.display_name, 26, { shape: 'circle', genre: c.primary_genre })).join('')}
+            </div>
+            <span class="badge-new">후보 ${fmtInt(v.candidateCount)}팀</span>
+            <span class="venue-acc-caret" aria-hidden="true">▸</span>
+          </div>
+        </button>
+        ${isOpen ? `
+          <div class="venue-acc-body">
+            <div class="venue-cand-list">
+              ${bodyCands.map(c => {
+                const ng = nextGigByTeam.get(c.team_key);
+                const dateBadge = ng
+                  ? `<span class="next-gig-chip">다음 ${escapeHtml(formatNextGigText(ng))}</span>`
+                  : `<span class="small muted mono">${escapeHtml(formatKoreanShortDate(c.lastGigDate))} 출연</span>`;
+                return `
+                  <div class="venue-cand-row">
+                    <a class="row-team-cell venue-cand-main" href="#/team/${encodeURIComponent(c.team_key)}">
+                      ${avatarHtml(c.team_key, c.display_name, 28, { shape: 'circle', genre: c.primary_genre })}
+                      <div class="row-team-text">
+                        <div class="row-team-name">
+                          <strong>${escapeHtml(c.display_name || c.team_key)}</strong>
+                          <span class="rank-pill">#${c.rank}</span>
+                          <span class="small muted mono">${fmtNum(c.score, 1)}점</span>
+                        </div>
+                        <div class="small muted">${escapeHtml(plainWhyLine(c))}</div>
+                      </div>
+                    </a>
+                    <div class="venue-cand-right">
+                      ${dateBadge}
+                      ${spotifyButtonHtml(c.team_key, true, { iconOnly: true, teamName: c.display_name || c.team_key, slotId: 'venueExpandedPlayerSlot' })}
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+            <div class="player-slot" id="venueExpandedPlayerSlot" data-player-slot></div>
+            ${extraCands > 0 ? `<p class="small muted" style="margin:8px 0 0 0;">외 후보 ${fmtInt(extraCands)}팀이 이번 달 이 무대에 섰습니다.</p>` : ''}
+          </div>
+        ` : ''}
+      </li>
+    `;
   }
 
-  root.innerHTML = `
-    ${bannerHtml}
+  function renderCalendarSection() {
+    const sourceEvents = calMode === 'cand' ? candUpcomingEvents : allUpcomingEvents;
+    const visEvents = sourceEvents.slice(0, calLimit);
+    const remEvents = sourceEvents.length - visEvents.length;
 
-    <section class="block">
-      <div class="block-head">
-        <h2>상위 공연장별 공연 수 · 후보 팀 출연</h2>
-        <span class="block-meta">상위 ${fmtInt(venues.length)}개 공연장</span>
-      </div>
-      <div class="chart-box chart-box-tall"><canvas id="venuesChart"></canvas></div>
-      <div class="table-wrap">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>공연장</th>
-              <th class="num">공연 건수</th>
-              <th class="num">출연 팀</th>
-              <th class="num">후보 팀</th>
-              <th class="num">후보 비중</th>
-            </tr>
-          </thead>
-          <tbody id="venuesTbody">
-            ${venues.map(v => {
-              const ratio = v.teams ? ((100 * v.candidate_teams) / v.teams).toFixed(1) : '0.0';
-              return `
-                <tr class="clickable" tabindex="0" data-venue="${escapeHtml(v.venue)}">
-                  <td><strong>${escapeHtml(v.venue)}</strong></td>
-                  <td class="num">${fmtInt(v.gigs)}</td>
-                  <td class="num">${fmtInt(v.teams)}</td>
-                  <td class="num"><strong>${fmtInt(v.candidate_teams)}팀</strong></td>
-                  <td class="num muted">${ratio}%</td>
-                </tr>
-              `;
-            }).join('')}
-          </tbody>
-        </table>
-      </div>
-    </section>
+    // Group visible events by date
+    const byDate = new Map();
+    for (const ev of visEvents) {
+      if (!byDate.has(ev.signal_date)) byDate.set(ev.signal_date, []);
+      byDate.get(ev.signal_date).push(ev);
+    }
 
-    <section class="block" id="venueDetailBox" hidden>
-      <div class="block-head">
-        <h3 id="venueDetailTitle">공연장 최근 라인업</h3>
-        <span class="block-meta" id="venueDetailMeta"></span>
-      </div>
-      <div class="table-wrap" id="venueDetailBody"></div>
-    </section>
-  `;
+    const dayGroupsHtml = visEvents.length
+      ? [...byDate.entries()].map(([dateStr, evs]) => `
+          <div class="cal-day-group">
+            <div class="cal-day-head">
+              <strong>${escapeHtml(formatKoreanShortDate(dateStr))}</strong>
+              <span class="small muted mono">${escapeHtml(dateStr)} · ${fmtInt(evs.length)}개 공연장</span>
+            </div>
+            <ul class="upcoming-list">
+              ${evs.map(ev => {
+                const primaryTeams = ev.candidateTeams.length ? ev.candidateTeams : ev.otherTeams.slice(0, 4);
+                const extraOther = ev.candidateTeams.length
+                  ? ev.otherTeams
+                  : ev.otherTeams.slice(4);
+                const otherNames = extraOther.slice(0, 3).map(t => t.display_name);
+                const otherMore = extraOther.length - otherNames.length;
+                const multiCand = ev.candidateTeams.length >= 2;
+                return `
+                  <li class="upcoming-row cal-event-row">
+                    <div class="upcoming-when">
+                      <span class="upcoming-venue">${escapeHtml(ev.venue)}</span>
+                      ${multiCand ? `<span class="cobill-badge">후보 ${ev.candidateTeams.length}팀 함께 서는 무대</span>` : ''}
+                    </div>
+                    <div class="upcoming-teams-wrap">
+                      <div class="upcoming-teams">
+                        ${primaryTeams.map(t => `
+                          <div class="upcoming-team-chip">
+                            <a class="upcoming-team-link" href="#/team/${encodeURIComponent(t.team_key)}">
+                              ${avatarHtml(t.team_key, t.display_name, 28, { shape: 'circle', genre: t.primary_genre })}
+                              <strong>${escapeHtml(t.display_name)}</strong>
+                              ${t.rank ? `<span class="rank-pill">#${t.rank}</span>` : ''}
+                            </a>
+                            ${spotifyButtonHtml(t.team_key, true, { iconOnly: true, teamName: t.display_name, slotId: 'venueCalPlayerSlot' })}
+                          </div>
+                        `).join('')}
+                      </div>
+                      ${extraOther.length > 0 ? `<div class="cobill-note"><span class="cobill-lbl">함께 서는 팀</span> ${escapeHtml(otherNames.join(', '))}${otherMore > 0 ? ` 외 ${fmtInt(otherMore)}팀` : ''}</div>` : ''}
+                    </div>
+                  </li>
+                `;
+              }).join('')}
+            </ul>
+          </div>
+        `).join('')
+      : '<p class="muted small" style="margin:0;">예정된 공연 데이터가 없습니다.</p>';
 
-  if (window.Chart) {
+    return `
+      <section class="block" id="upcomingCalendarBlock">
+        <div class="block-head">
+          <div>
+            <h2>다가오는 공연 달력</h2>
+            <span class="block-meta">기준일 ${escapeHtml(asOf)} 이후 예정 공연 · 날짜·공연장별 묶음</span>
+          </div>
+          <div class="chip-group" role="group" aria-label="달력 범위">
+            <button type="button" class="chip-btn ${calMode === 'cand' ? 'active' : ''}" data-cal-mode="cand" aria-pressed="${calMode === 'cand'}">후보 출연 ${fmtInt(candUpcomingEvents.length)}</button>
+            <button type="button" class="chip-btn ${calMode === 'all' ? 'active' : ''}" data-cal-mode="all" aria-pressed="${calMode === 'all'}">전체 공연 ${fmtInt(allUpcomingEvents.length)}</button>
+          </div>
+        </div>
+        ${dayGroupsHtml}
+        <div class="player-slot" id="venueCalPlayerSlot" data-player-slot></div>
+        ${remEvents > 0
+          ? `<div class="more-row" style="margin-top:10px;">
+               <span>${fmtInt(visEvents.length)} / ${fmtInt(sourceEvents.length)}개 무대</span>
+               <button type="button" class="btn btn-sm" id="btnMoreCal">${fmtInt(Math.min(12, remEvents))}건 더 보기</button>
+             </div>`
+          : (calLimit > 8 && sourceEvents.length > 8
+              ? `<div class="more-row" style="margin-top:10px;">
+                   <span>전체 ${fmtInt(sourceEvents.length)}개 무대 표시 중</span>
+                   <button type="button" class="btn btn-sm" id="btnLessCal">접기</button>
+                 </div>`
+              : '')}
+      </section>
+    `;
+  }
+
+  function renderCumulativeChart() {
+    if (chartRendered || !window.Chart || !allTimeVenues.length) return;
     const cv = root.querySelector('#venuesChart');
+    if (!cv) return;
+    chartRendered = true;
     const inkMuted = cssVar('--ink-muted');
     const lineColor = cssVar('--line');
-
     registerChart(new window.Chart(cv.getContext('2d'), {
       type: 'bar',
       data: {
-        labels: venues.map(v => v.venue),
+        labels: allTimeVenues.map(v => v.venue),
         datasets: [
-          { label: '출연 팀', data: venues.map(v => Number(v.teams) || 0), backgroundColor: cssVar('--bar-gigs'), borderRadius: 2 },
-          { label: '후보 팀', data: venues.map(v => Number(v.candidate_teams) || 0), backgroundColor: cssVar('--bar-score'), borderRadius: 2 },
+          { label: '출연 팀', data: allTimeVenues.map(v => Number(v.teams) || 0), backgroundColor: cssVar('--bar-gigs'), borderRadius: 2 },
+          { label: '후보 팀', data: allTimeVenues.map(v => Number(v.candidate_teams) || 0), backgroundColor: cssVar('--bar-score'), borderRadius: 2 },
         ],
       },
       options: {
@@ -109,66 +243,90 @@ export async function renderVenuesView(root) {
     }));
   }
 
-  const venuesTbody = root.querySelector('#venuesTbody');
-  const openVenueRow = async (tr) => {
-    if (!tr) return;
-    const venue = tr.dataset.venue;
-    const box = root.querySelector('#venueDetailBox');
-    const title = root.querySelector('#venueDetailTitle');
-    const meta = root.querySelector('#venueDetailMeta');
-    const body = root.querySelector('#venueDetailBody');
+  function paint() {
+    chartRendered = false;
+    const visVenues = monthly.venues.slice(0, venueLimit);
+    const remVenues = monthly.venues.length - visVenues.length;
 
-    box.hidden = false;
-    title.textContent = `${venue} — 최근 출연 팀`;
-    meta.textContent = '조회 중...';
-    body.innerHTML = '';
+    root.innerHTML = `
+      ${bannerHtml}
 
-    try {
-      const { rows } = await runRawSql(`
-        SELECT s.signal_date, s.team_key, COALESCE(t.display_name, s.team_key) AS display_name,
-               COALESCE(t.primary_genre, '') AS primary_genre, s.source
-        FROM signals s
-        LEFT JOIN teams t USING (team_key)
-        WHERE s.branch = '공연' AND s.venue = ${sqlStringLiteral(venue)}
-        ORDER BY s.signal_date DESC
-        LIMIT 30
-      `);
-      meta.textContent = `최근 ${fmtInt(rows.length)}건`;
-      body.innerHTML = rows.length
-        ? `<table class="data-table">
-            <thead><tr><th class="nowrap">날짜</th><th>팀</th><th>장르</th><th>출처</th></tr></thead>
-            <tbody>${rows.map(r => `
-              <tr>
-                <td class="nowrap mono muted">${escapeHtml(r.signal_date || '-')}</td>
-                <td>
-                  <a class="row-team-cell" href="#/team/${encodeURIComponent(r.team_key)}">
-                    ${avatarHtml(r.team_key, r.display_name, 24, { shape: 'circle', genre: r.primary_genre })}
-                    <strong>${escapeHtml(r.display_name)}</strong>
-                  </a>
-                </td>
-                <td class="muted">${escapeHtml(r.primary_genre || '-')}</td>
-                <td class="muted">${escapeHtml(r.source || '-')}</td>
-              </tr>
-            `).join('')}</tbody>
-          </table>`
-        : '<p class="muted small" style="margin:0;">이 공연장 이름으로 직접 일치하는 신호 행이 없습니다.</p>';
-      wireAvatarFallbacks(body);
-      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    } catch (err) {
-      meta.textContent = '오류';
-      body.innerHTML = `<p class="muted small">${escapeHtml(err.message)}</p>`;
+      <section class="block" id="monthlyVenuesBlock">
+        <div class="block-head">
+          <div>
+            <h2>이번 달 신인이 많이 선 공연장 TOP</h2>
+            <span class="block-meta">${escapeHtml(monthly.monthLabel)} 기준 · 공연장을 누르면 출연한 상위 후보가 펼쳐집니다</span>
+          </div>
+          <span class="block-meta">${fmtInt(monthly.venues.length)}곳</span>
+        </div>
+        ${visVenues.length
+          ? `<ul class="venue-acc-list" id="venueAccList">${visVenues.map((v, i) => renderVenueRow(v, i)).join('')}</ul>`
+          : '<p class="muted small" style="margin:0;">이번 달 후보 출연 공연장이 없습니다.</p>'}
+        ${remVenues > 0
+          ? `<div class="more-row" style="margin-top:10px;">
+               <span>상위 ${fmtInt(visVenues.length)} / ${fmtInt(monthly.venues.length)}곳</span>
+               <button type="button" class="btn btn-sm" id="btnMoreVenues">${fmtInt(Math.min(10, remVenues))}곳 더 보기</button>
+             </div>`
+          : ''}
+      </section>
+
+      ${renderCalendarSection()}
+
+      ${allTimeVenues.length ? `
+        <details class="block venue-cum-fold" id="venueCumFold">
+          <summary class="venue-cum-summary">
+            <strong>누적 공연장 통계 차트 (전체 기간 상위 ${fmtInt(allTimeVenues.length)}곳)</strong>
+            <span class="small muted">펼쳐 보기</span>
+          </summary>
+          <div style="margin-top:14px;">
+            <div class="chart-box chart-box-tall"><canvas id="venuesChart"></canvas></div>
+          </div>
+        </details>
+      ` : ''}
+
+      <p class="photo-credit">아티스트 사진 출처: Spotify</p>
+    `;
+
+    wireAvatarFallbacks(root);
+    wireSpotifyButtons(root);
+
+    root.querySelectorAll('[data-toggle-venue]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const v = btn.dataset.toggleVenue;
+        expandedVenue = (expandedVenue === v) ? '' : v;
+        paint();
+      });
+    });
+
+    root.querySelector('#btnMoreVenues')?.addEventListener('click', () => {
+      venueLimit += 10;
+      paint();
+    });
+
+    root.querySelectorAll('[data-cal-mode]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        calMode = btn.dataset.calMode;
+        calLimit = 8;
+        paint();
+      });
+    });
+
+    root.querySelector('#btnMoreCal')?.addEventListener('click', () => {
+      calLimit += 12;
+      paint();
+    });
+    root.querySelector('#btnLessCal')?.addEventListener('click', () => {
+      calLimit = 8;
+      paint();
+    });
+
+    const cumFold = root.querySelector('#venueCumFold');
+    if (cumFold) {
+      cumFold.addEventListener('toggle', () => {
+        if (cumFold.open) renderCumulativeChart();
+      });
     }
-  };
+  }
 
-  venuesTbody.addEventListener('click', (e) => {
-    openVenueRow(e.target.closest('tr.clickable'));
-  });
-  venuesTbody.addEventListener('keydown', (e) => {
-    if (e.key !== 'Enter' && e.key !== ' ') return;
-    const tr = e.target.closest('tr.clickable');
-    if (tr) {
-      e.preventDefault();
-      openVenueRow(tr);
-    }
-  });
+  paint();
 }
