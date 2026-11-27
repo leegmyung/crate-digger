@@ -335,6 +335,32 @@ def venue_events(html):
     return out
 
 
+def _first_dict(value):
+    """JSON-LD 칸은 객체·목록·문자열 어느 것으로도 온다 — 첫 객체(없으면 빈 객체)."""
+    if isinstance(value, list):
+        return next((v for v in value if isinstance(v, dict)), {})
+    return value if isinstance(value, dict) else {}
+
+
+def _place(location):
+    loc = _first_dict(location)
+    addr = loc.get("address")
+    if isinstance(addr, (dict, list)):
+        a = _first_dict(addr)
+        addr = a.get("streetAddress") or a.get("addressLocality") or ""
+    return {"venue": (loc.get("name") or "").strip(), "address": (addr or "").strip() if isinstance(addr, str) else ""}
+
+
+def _performers(value):
+    items = value if isinstance(value, list) else [value] if value else []
+    out = []
+    for p in items:
+        name, link = (p, "") if isinstance(p, str) else ((p.get("name") or ""), p.get("url") or "") if isinstance(p, dict) else ("", "")
+        if name.strip():
+            out.append({"name": name.strip(), "url": link})
+    return out
+
+
 def parse_event_page(html, url):
     """인디고 공연 페이지의 JSON-LD MusicEvent → aside 상세(DETAIL_JS)와 같은 모양. 없으면 None."""
     for raw in LD_JSON.findall(html or ""):
@@ -345,14 +371,8 @@ def parse_event_page(html, url):
         for ev in data if isinstance(data, list) else [data]:
             if not isinstance(ev, dict) or ev.get("@type") != "MusicEvent":
                 continue
-            loc = ev.get("location") or {}
-            addr = loc.get("address") or {}
-            perf = [{"name": (p.get("name") or "").strip(), "url": p.get("url") or ""}
-                    for p in ([ev["performer"]] if isinstance(ev.get("performer"), dict) else ev.get("performer") or [])]
             return {"url": ev.get("url") or url, "name": ev.get("name", ""), "startDate": ev.get("startDate", ""),
-                    "venue": loc.get("name", ""),
-                    "address": addr.get("streetAddress") or addr.get("addressLocality") or "" if isinstance(addr, dict) else str(addr),
-                    "performers": [p for p in perf if p["name"]]}
+                    **_place(ev.get("location")), "performers": _performers(ev.get("performer"))}
     return None
 
 
@@ -396,7 +416,8 @@ def collect_venue_history(targets, out_dir, today, seen, fetch=http_get, delay=H
             done.add(pid)
             try:
                 detail = parse_event_page(fetch(f"{INDIEGO}/events/{pid}"), f"{INDIEGO}/events/{pid}")
-            except (OSError, ValueError):
+            except (OSError, ValueError, TypeError, AttributeError) as e:   # 한 공연 페이지가 이상해도 전체는 계속
+                print(f"  ⚠️ 공연 페이지 실패 {pid}: {e}", file=sys.stderr)
                 detail = None
             st["fetched"] += 1
             if detail is None:

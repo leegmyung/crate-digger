@@ -126,15 +126,35 @@ def _keys(entry: dict) -> set:
     return {vx.venue_key(n) for n in names if n and not vx.is_generic(n)}
 
 
+INSTA_URL = re.compile(r"instagram\.com/([A-Za-z0-9_.]+)")
+
+
+def instagram_index(master: Sequence[dict]) -> Dict[str, int]:
+    """{인스타 계정(소문자): 마스터 번호} — instagram 칸이 먼저, 다음 근거 링크의 instagram.com/<계정>."""
+    out: Dict[str, int] = {}
+    for i, e in enumerate(master):
+        if e.get("instagram"):
+            out.setdefault(e["instagram"].lower(), i)
+    for i, e in enumerate(master):
+        for s in e.get("sources", []):
+            m = INSTA_URL.search(s.get("url", ""))
+            if m and m.group(1).lower() not in ("p", "explore"):
+                out.setdefault(m.group(1).lower(), i)
+    return out
+
+
 def match_our_venues(master: Sequence[dict], our_names: Iterable[str]) -> Dict[str, int]:
-    """우리 공연장 이름(대표 이름) → 마스터 목록 번호. our_names(옛 표기) 정확히 → 이름·별칭의 정규화 키 순.
+    """우리 공연장 이름(대표 이름) → 마스터 목록 번호. our_names(옛 표기) 정확히 → '@계정'은 인스타 계정 → 이름·별칭의 정규화 키 순.
     '라이브홀'처럼 지점 없는 일반 이름은 our_names 에 적힌 경우만 짝짓는다."""
     exact = {n: i for i, e in enumerate(master) for n in e.get("our_names", [])}
     by_key = {k: i for i, e in enumerate(master) for k in _keys(e)}
+    by_handle = instagram_index(master)
     out: Dict[str, int] = {}
     for n in our_names:
         if n in exact:
             out[n] = exact[n]
+        elif n.startswith("@") and n[1:].lower() in by_handle:
+            out[n] = by_handle[n[1:].lower()]
         elif not vx.is_generic(n) and vx.venue_key(n) in by_key:
             out[n] = by_key[vx.venue_key(n)]
     return out

@@ -85,6 +85,13 @@ class MatchTest(unittest.TestCase):
         got = vk.match_our_venues(master, ["클럽 빵", "라이브홀", "HQ 광안", "어딘가"])
         self.assertEqual(got, {"클럽 빵": 0, "라이브홀": 1, "HQ 광안": 2})
 
+    def test_instagram_handle_venue_matches_by_account(self):
+        # 인스타 라인업 글은 공연장 칸에 계정 이름('@handle')이 들어옴
+        master = [_v("언플러그드 라운지", instagram="unplugged.lounge"),
+                  _v("퍼플홀", city="안양", sources=[{"url": "https://www.instagram.com/purple_hall/", "note": "인스타"}])]
+        got = vk.match_our_venues(master, ["@Unplugged.Lounge", "@purple_hall", "@unbornsounds"])
+        self.assertEqual(got, {"@Unplugged.Lounge": 0, "@purple_hall": 1})
+
     def test_generic_name_does_not_match_without_our_names(self):
         master = [_v("KT&G 상상마당 부산 3층 라이브홀", city="부산")]
         self.assertEqual(vk.match_our_venues(master, ["라이브홀"]), {})

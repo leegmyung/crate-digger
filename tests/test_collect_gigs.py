@@ -232,6 +232,15 @@ class VenueHistoryParseTest(unittest.TestCase):
         self.assertEqual(d["performers"], [{"name": "가상밴드", "url": "https://www.indiego.co.kr/artists/3388-x"}])
         self.assertIsNone(cg.parse_event_page("<html>없음</html>", "u"))
 
+    def test_parse_event_page_location_list_and_string_performer(self):
+        ld = {"@type": "MusicEvent", "name": "x", "startDate": "2026-01-01T19:00:00+09:00",
+              "location": [{"@type": "Place", "name": "가상클럽", "address": "서울 마포구 가상로 1"}, {"name": "둘째"}],
+              "performer": ["문자팀", {"name": "객체팀", "url": "https://www.indiego.co.kr/artists/1-x"}]}
+        html = f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>'
+        d = cg.parse_event_page(html, "https://www.indiego.co.kr/events/1")
+        self.assertEqual((d["venue"], d["address"]), ("가상클럽", "서울 마포구 가상로 1"))
+        self.assertEqual([p["name"] for p in d["performers"]], ["문자팀", "객체팀"])
+
     def test_history_targets_regional_skips_seoul_and_missing_url(self):
         cfg = {"venues": [{"name": "A", "city": "서울", "indiego_url": "https://www.indiego.co.kr/venues/1-a"},
                           {"name": "B", "city": "부산", "indiego_url": "https://www.indiego.co.kr/venues/2-b"},
@@ -274,6 +283,18 @@ class VenueHistoryCollectTest(unittest.TestCase):
         self.assertEqual([r["artist_text"] for r in rows], ["가상밴드", "둘째팀"])
         self.assertEqual({(r["source"], r["collector"]) for r in rows}, {("indiego", "script")})
         self.assertEqual((st["venues"], st["events_past"], st["skipped_seen"], st["fetched"]), (1, 2, 1, 1))
+
+    def test_broken_event_page_is_counted_not_raised(self):
+        pages = {"https://www.indiego.co.kr/venues/2-b": VENUE_HTML}
+
+        def fetch(url):
+            if url in pages:
+                return pages[url]
+            return '<script type="application/ld+json">{"@type": "MusicEvent", "location": 5}</script>'
+        with tempfile.TemporaryDirectory() as d:
+            path, rows, st = cg.collect_venue_history([("B", "https://www.indiego.co.kr/venues/2-b")], Path(d),
+                                                      "2026-11-27", seen=set(), fetch=fetch, delay=0)
+        self.assertEqual(st["fetched"], 2)
 
     def test_failed_page_is_counted_not_raised(self):
         def boom(url):
