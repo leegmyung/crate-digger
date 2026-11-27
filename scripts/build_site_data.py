@@ -15,6 +15,7 @@ from pathlib import Path
 
 import validate_csv
 from normalize import artist_key
+from venue_xref import gig_detail
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"
@@ -41,8 +42,9 @@ def _read(path):
 
 
 def _venue_name(venue_text):
-    """'클럽 빵 (서울 마포구 …)' → '클럽 빵' (주소는 공개하지 않음)"""
-    return (venue_text or "").split(" (")[0].strip()
+    """'클럽 빵 (서울 마포구 …)' → '클럽 빵' (주소는 공개하지 않음).
+    '라이브홀 (KT&G 상상마당 홍대)'처럼 괄호가 지점이면 'KT&G 상상마당 홍대 라이브홀' (venue_xref.gig_detail 과 같은 규칙)."""
+    return gig_detail(venue_text or "")
 
 
 def _add_gig_rows(gigs, rows):

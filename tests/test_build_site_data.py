@@ -93,6 +93,12 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(gigs[1]["venue"], "클럽 빵")                          # 주소는 공개하지 않음
         self.assertEqual(set(gigs[0]), {"date", "time", "venue", "title", "artists", "source", "url"})
 
+    def test_venue_name_keeps_branch_from_paren(self):
+        # 상상마당 옛 표기: 지점이 괄호에 있으면 주소처럼 잘려 나가지 않게 '건물 + 홀'로 (venue_xref 와 같은 규칙)
+        self.assertEqual(bsd._venue_name("라이브홀 (KT&amp;G 상상마당 홍대)"), "KT&G 상상마당 홍대 라이브홀")
+        self.assertEqual(bsd._venue_name("클럽 빵 (서울 마포구 어딘가)"), "클럽 빵")
+        self.assertEqual(bsd._venue_name(None), "")
+
     def test_empty_folder(self):
         with tempfile.TemporaryDirectory() as d:
             data = bsd.build(Path(d), recent_limit=10)
