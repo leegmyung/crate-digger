@@ -13,7 +13,7 @@ except ImportError:  # 시스템 파이썬에는 없을 수 있음
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from lab_sql import DEFAULTS, SQL_DIR, V0_WEIGHTS, fill  # noqa: E402
+from lab_sql import COLLABS_DDL, DEFAULTS, SQL_DIR, V0_WEIGHTS, fill  # noqa: E402
 
 
 def fixture_db():
@@ -57,6 +57,9 @@ def fixture_db():
     con.execute("UPDATE signals SET role = 'discovery'")
     con.execute("ALTER TABLE outcomes ADD COLUMN weight INTEGER DEFAULT 1")
     con.execute("UPDATE outcomes SET weight = CASE WHEN program = 'kma_rookie' THEN 3 ELSE 1 END")
+    con.execute("ALTER TABLE outcomes ADD COLUMN grade VARCHAR")
+    con.execute("UPDATE outcomes SET grade = CASE WHEN weight = 3 THEN 'S' ELSE 'B' END")
+    con.execute(COLLABS_DDL)      # 협업 데이터가 없을 때와 같은 빈 표 (lab_sql.connect·앱과 같은 정의)
     con.execute((SQL_DIR / "features.sql").read_text(encoding="utf-8"))
     return con
 
@@ -121,6 +124,43 @@ class LabSqlTest(unittest.TestCase):
         self.assertEqual((h["peer_winner"], h["venues"], h["recent180"]), (1, 2, 2))
         self.assertEqual(self.scored()["a"]["recent180"], 0)   # a의 마지막 신호 2024-07-01은 180일 밖
 
+    def collab_scored(self, cutoff="2025-01-01", w_collab=1):
+        q = ("SELECT * FROM lab_scored(DATE '{c}', 3, 3, true, 'any', 24, '', "
+             "['공연','선정·지원','발매','큐레이션'], 2, 1, 1, 0.5, 0.5, 1, 3, w_collab := {w}) ORDER BY team_key")
+        cur = self.con.execute(q.format(c=cutoff, w=w_collab))
+        cols = [d[0] for d in cur.description]
+        return {r[0]: dict(zip(cols, r)) for r in cur.fetchall()}
+
+    def test_collab_est_counts_distinct_established_partners_before_cutoff(self):
+        self.con.execute("""INSERT INTO collabs VALUES
+            ('a','p1','파트너1','2024-05-01','feat_on_own',true),
+            ('a','p1','파트너1','2024-08-01','co_lead',true),          -- 같은 파트너는 한 번만
+            ('a','p2','파트너2','2023-01-01','guest_on_partner',true),
+            ('a','p3','파트너3','2024-06-01','feat_on_own',false),      -- 기성 파트너 아님 → 안 셈
+            ('a','p4','파트너4','2025-02-01','feat_on_own',true),       -- 기준일 뒤 → 안 셈 (시점 누수 방지)
+            ('a','p5','파트너5','2021-06-01','feat_on_own',true),       -- 3년 창 밖 → 안 셈
+            ('b','p1','파트너1','2024-12-31','feat_on_own',true)""")
+        pool = self.collab_scored()
+        self.assertEqual(pool["a"]["collab_est"], 2)
+        self.assertEqual(pool["b"]["collab_est"], 1)
+        self.assertEqual(pool["e"]["collab_est"], 0)
+        self.assertAlmostEqual(pool["a"]["pts_collab"], __import__("math").log(3))
+        self.assertAlmostEqual(pool["a"]["score"] - self.collab_scored(w_collab=0)["a"]["score"],
+                               __import__("math").log(3))
+
+    def test_collab_weight_defaults_to_zero_and_empty_table_is_fine(self):
+        base = self.scored()
+        self.assertEqual(base["a"]["collab_est"], 0)
+        self.assertEqual(base["a"]["pts_collab"], 0)
+
+    def test_collab_text_columns_from_header_only_csv_still_work(self):
+        # 헤더만 있는 collabs.csv 를 read_csv_auto 로 읽으면 모든 칸이 글자형 → 계산식이 형 변환으로 견뎌야 함
+        self.con.execute("DROP TABLE collabs")
+        self.con.execute("CREATE TABLE collabs(team_key VARCHAR, partner_key VARCHAR, partner_name VARCHAR, "
+                         "release_date VARCHAR, role VARCHAR, partner_established VARCHAR)")
+        self.con.execute("INSERT INTO collabs VALUES ('a','p1','x','2024-05-01','feat_on_own','true')")
+        self.assertEqual(self.collab_scored()["a"]["collab_est"], 1)
+
     def test_context_signals_are_ignored_and_hit_weight_reported(self):
         self.con.execute("UPDATE signals SET role = 'context' WHERE team_key = 'a' AND branch = '큐레이션'")
         a = self.scored()["a"]
@@ -161,6 +201,7 @@ class TeamSqlTest(unittest.TestCase):
         self.assertIn("상상마당 밴드 디스커버리", out[0]["shared_list"])
         self.assertEqual(out[0]["outcome_label"], "한대음 신인")
         self.assertEqual(out[0]["months_signal_to_outcome"], 12)         # 2024-03 첫 신호 → 2025-03 정답
+        self.assertEqual(out[0]["outcome_grade"], "S")
 
     def test_precedents_ignores_self_and_signals_after_outcome(self):
         keys = [r["past_team"] for r in rows(self.con, "precedents.sql", team_key="'a'")]
