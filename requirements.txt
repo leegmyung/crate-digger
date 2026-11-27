@@ -8,3 +8,5 @@ openpyxl>=3.1
 pytest>=7.0
 # 선택: 랩 SQL 로컬 검증 (tests/test_lab_sql.py, 브라우저 DuckDB-WASM과 같은 문법)
 duckdb>=1.1
+# 선택: BigQuery 문법 변환 (scripts/sql_to_bigquery.py)
+sqlglot>=25
