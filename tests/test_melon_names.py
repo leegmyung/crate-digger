@@ -1,0 +1,90 @@
+"""멜론 프로필 보강 명단(melon_names): 중요한 팀부터, 이미 찾아본 이름은 빼고."""
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import melon_names as mn  # noqa: E402
+
+TEAMS = [{"team_key": k, "display_name": n, "profile_status": s} for k, n, s in [
+    ("a", "에이", "unknown"), ("b", "비", "newcomer"), ("c", "씨", "unknown"), ("d", "디", "unknown"),
+    ("e", "이", "unknown"), ("f", "에프", "unknown"), ("g", "지", "famous"), ("h", "에이치", "unknown")]]
+SNAP = [{"team_key": "c", "score": "9", "rank": "1"}, {"team_key": "b", "score": "8", "rank": "2"},
+        {"team_key": "a", "score": "7", "rank": "3"}, {"team_key": "zz", "score": "6", "rank": "4"}]
+OUTCOMES = [{"team_key": "d", "counted": "true"}, {"team_key": "e", "counted": "false"},
+            {"team_key": "a", "counted": "true"}]
+SIGNALS = [{"team_key": "f", "branch": "공연", "signal_date": "2026-12-05"},
+           {"team_key": "h", "branch": "공연", "signal_date": "2026-12-01"},
+           {"team_key": "e", "branch": "공연", "signal_date": "2026-11-01"},   # 지난 공연
+           {"team_key": "g", "branch": "공연", "signal_date": "2026-12-02"},   # 유명 → 이미 알고 있음
+           {"team_key": "e", "branch": "큐레이션", "signal_date": "2026-12-09"}]
+
+
+def build(**kw):
+    args = dict(snapshot=SNAP, teams=TEAMS, outcomes=OUTCOMES, signals=SIGNALS, matches={}, today="2026-11-27")
+    args.update(kw)
+    return mn.build_names(**args)
+
+
+class OrderTest(unittest.TestCase):
+    def test_priority_snapshot_then_outcomes_then_upcoming_gigs(self):
+        # ① 점수 상위 중 unknown (씨, 에이) ② 센 정답 unknown (디; 에이는 이미 있음) ③ 다가오는 공연 unknown (가까운 순: 에이치, 에프)
+        self.assertEqual(build(), ["씨", "에이", "디", "에이치", "에프"])
+
+    def test_limit_and_top_n_of_snapshot(self):
+        self.assertEqual(build(limit=2), ["씨", "에이"])
+        self.assertEqual(build(snapshot_top=1)[:2], ["씨", "디"])     # 스냅샷은 상위 1팀만 봄
+
+    def test_already_tried_names_are_skipped(self):
+        got = build(matches={"씨": {"id": "1"}, "디": None})
+        self.assertNotIn("씨", got)
+        self.assertNotIn("디", got)          # 못 찾음(null)인데 시도 날짜를 모름 → 빼기
+
+    def test_not_found_retried_after_30_days(self):
+        old = build(matches={"디": None}, attempts={"디": "2026-10-01"})
+        recent = build(matches={"디": None}, attempts={"디": "2026-11-10"})
+        self.assertIn("디", old)
+        self.assertNotIn("디", recent)
+        self.assertNotIn("씨", build(matches={"씨": {"id": "1"}}, attempts={"씨": "2020-01-01"}))   # 찾은 이름은 다시 안 함
+
+    def test_blank_names_and_duplicates(self):
+        teams = TEAMS + [{"team_key": "x", "display_name": " ", "profile_status": "unknown"},
+                         {"team_key": "y", "display_name": "씨", "profile_status": "unknown"}]
+        snap = SNAP + [{"team_key": "x", "score": "5"}, {"team_key": "y", "score": "4"}]
+        got = build(teams=teams, snapshot=snap)
+        self.assertEqual(got.count("씨"), 1)
+        self.assertNotIn(" ", got)
+
+
+class FileTest(unittest.TestCase):
+    def test_latest_snapshot_file(self):
+        with tempfile.TemporaryDirectory() as d:
+            for name in ("2026-11-20.csv", "2026-11-27.csv", "index.json", "notes.csv"):
+                (Path(d) / name).write_text("team_key,score,rank\n", encoding="utf-8")
+            self.assertEqual(mn.latest_snapshot(Path(d)).name, "2026-11-27.csv")
+            self.assertIsNone(mn.latest_snapshot(Path(d) / "none"))
+
+    def test_prune_keeps_recent_seven(self):
+        with tempfile.TemporaryDirectory() as d:
+            for i in range(1, 11):
+                (Path(d) / f"melon_names_2026-11-{i:02d}.txt").write_text("x", encoding="utf-8")
+            (Path(d) / "other.txt").write_text("x", encoding="utf-8")
+            removed = mn.prune_old(Path(d), keep=7)
+            left = sorted(p.name for p in Path(d).glob("melon_names_*.txt"))
+            self.assertEqual(len(removed), 3)
+            self.assertEqual(left[0], "melon_names_2026-11-04.txt")
+            self.assertTrue((Path(d) / "other.txt").exists())
+
+    def test_write_overwrites(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = mn.write_names(Path(d), "2026-11-27", ["가", "나"])
+            p = mn.write_names(Path(d), "2026-11-27", ["다"])
+            self.assertEqual(p.read_text(encoding="utf-8"), "다\n")
+            self.assertEqual(p.name, "melon_names_2026-11-27.txt")
+
+
+if __name__ == "__main__":
+    unittest.main()
