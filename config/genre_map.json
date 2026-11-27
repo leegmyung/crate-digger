@@ -7,7 +7,7 @@
     "hiphop": {
       "label": "힙합",
       "meaning": "랩이 중심인 음악. 붐뱁·트랩·언더그라운드 랩 포함",
-      "tags": ["랩/힙합", "hip hop", "hip-hop", "힙합", "랩", "rap"],
+      "tags": ["랩/힙합", "hip hop", "hip-hop", "hiphop", "힙합", "랩", "rap"],
       "keywords": ["힙합", "hip hop", "hip-hop", "rap", "트랩", "trap"],
       "everynoise": ["korean underground rap", "k-rap", "korean old school hip hop"]
     },
@@ -42,7 +42,7 @@
     "metal": {
       "label": "메탈·하드코어",
       "meaning": "무거운 기타 사운드. 헤비메탈, 메탈코어, 뉴메탈, 둠·스토너, 하드코어 펑크 (2026-11-27 추가 — 상위 후보 표본 검증에서 메탈 계열 7팀이 록·빈칸에 묻혀 따로 둠)",
-      "tags": ["메탈", "헤비메탈", "metal", "heavy metal", "메탈코어", "metalcore", "뉴메탈", "nu metal", "하드코어", "hardcore"],
+      "tags": ["메탈", "헤비메탈", "헤비니스", "metal", "heavy metal", "메탈코어", "metalcore", "뉴메탈", "nu metal", "하드코어", "hardcore"],
       "keywords": ["메탈", "metal", "하드코어", "hardcore"],
       "everynoise": ["korean metal", "korean hardcore"]
     },

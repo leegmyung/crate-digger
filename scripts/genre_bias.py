@@ -45,8 +45,9 @@ def genre_label(value: Optional[str]) -> str:
 
 
 def analysis_genre(value: Optional[str], confidence: Optional[str]) -> str:
-    """비교·분석용 장르: 추정(inferred) 장르는 '미분류'로 — profile·press 장르만 쓴다 (2026-11-27 결정, docs/genre_fill.md)."""
-    return UNCLASSIFIED if (confidence or "") == "inferred" else genre_label(value)
+    """비교·분석용 장르: 추정(inferred·inferred_low) 장르는 '미분류'로 — profile·press 장르만 쓴다
+    (2026-11-27 결정, docs/genre_fill.md). 확신도 칸이 비면(옛 CSV) 장르를 그대로 쓴다."""
+    return genre_label(value) if (confidence or "") in ("", "profile", "press") else UNCLASSIFIED
 
 
 def bias_index(top_share: float, pool_share: float) -> Optional[float]:
@@ -253,7 +254,7 @@ def current_sources(con, day: str, keys: Set[str]) -> Dict[str, Set[str]]:
 
 def genre_source_note(con) -> Dict[str, int]:
     """장르가 어떻게 붙었나: 멜론·발매 태그가 있는 팀 vs 보완 규칙(리드머·힙합어워즈 신인→힙합, 밴드 디스커버리→록)만."""
-    q = ("SELECT COALESCE(NULLIF(primary_genre,''),'') <> '' AND COALESCE(genre_confidence,'') <> 'inferred' AS has_genre, "
+    q = ("SELECT COALESCE(NULLIF(primary_genre,''),'') <> '' AND COALESCE(genre_confidence,'') IN ('', 'profile', 'press') AS has_genre, "
          "profile_status <> 'unknown' AS has_profile, "
          "COUNT(*) FROM teams GROUP BY 1, 2")
     return {f"{'장르' if g else '미분류'}·{'프로필' if p else '프로필 없음'}": n for g, p, n in con.execute(q).fetchall()}

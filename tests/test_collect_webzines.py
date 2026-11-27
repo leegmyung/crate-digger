@@ -320,3 +320,65 @@ class StateTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+MUSICY_DETAIL = (
+    '<dd class="v_album_volume"><strong class="album_t">Volume</strong> <span class="v_album_desc">1</span></dd>'
+    '<dd class="v_album_data"><!-- <strong class="num"></strong> --><strong class="album_t">장르</strong> '
+    '<span class="v_album_desc">록</span></dd>'
+    '<dd class="v_album_data"><strong class="album_t">유통사</strong> <span class="v_album_desc">더 볼트</span></dd>'
+)
+
+
+class GenreTest(unittest.TestCase):
+    """리뷰의 장르 표시 → raw_press.genre (2026-11-28, docs/genre_fill.md). 매체가 붙인 장르 글자를 그대로 남긴다."""
+
+    def test_musicy_detail_genre(self):
+        self.assertEqual(cw.parse_musicy_genre(MUSICY_DETAIL), "록")
+        self.assertEqual(cw.parse_musicy_genre("<html>장르 없음</html>"), "")
+        self.assertEqual(cw.musicy_detail_url("http://musicy.kr/?c=review&s=1&gbn=view&ix=9490"),
+                         "http://musicy.kr/?c=review&s=1&gbn=viewok&ix=9490")
+
+    def test_overtone_comment_genre(self):
+        self.assertEqual(cw.parse_overtone_page("https://overtone.kr/comment/c", OT_COMMENT)["genre"], "ROCK")
+        self.assertEqual(cw.parse_overtone_page("https://overtone.kr/full-review/a", OT_REVIEW)["genre"], "")
+
+    def test_visla_genre_tags_only(self):
+        self.assertEqual(cw.visla_genre(["release talk", "omm..", "indie rock", "바이닐", "앰비언트 트랜스"]),
+                         "indie rock|앰비언트 트랜스")
+        post = wp_post(1, "2026-11-26T16:21:49", "Release Talk | 새 앨범, omm..의 [밥]", "https://visla.kr/feature/1/",
+                       ["FEATURE", "MUSIC"], ["release talk", "omm..", "indie rock", "Folk"])
+        self.assertEqual(cw.parse_visla(post, VISLA_STOP)["genre"], "indie rock|Folk")
+        self.assertEqual(cw.visla_post_id("https://visla.kr/feature/355075/"), "355075")
+        # '실험·기타' 갈래는 키워드가 넓어('world' → 'World cup') VISLA 태그에선 쓰지 않는다
+        self.assertEqual(cw.visla_genre(["Ambient Trance", "World cup", "월드컵", "국악"]), "Ambient Trance")
+
+    def test_rows_carry_genre_and_validate(self):
+        art = cw.article("1", "https://overtone.kr/comment/c", "2026-11-26", "주영 90’s Kids Comments", ["주영"], "1",
+                         "Comment", "90’s Kids", genre="ROCK")
+        rows = cw.to_rows("overtone", "overtone", art, AT)
+        self.assertEqual(rows[0]["genre"], "ROCK")
+        self.assertIn("genre", cw.COLUMNS)
+        with tempfile.TemporaryDirectory() as d:
+            path = cw.write_csv(rows, Path(d), "2026-11-26", "overtone")
+            self.assertEqual([i for i in validate_csv.validate_file(path) if i.level == "error"], [])
+        self.assertEqual(cw.article("1", "u", "2026-11-26", "t", ["a"], "1", "x")["genre"], "")
+
+    def test_backfill_targets_and_reference(self):
+        rows = [{"source": "musicy", "url": "m1", "genre": ""}, {"source": "musicy", "url": "m1", "genre": ""},
+                {"source": "overtone", "url": "o1", "genre": "POP"},          # 이미 장르 있음
+                {"source": "izm", "url": "i1", "genre": ""},                  # 장르 표시 없는 매체
+                {"source": "visla", "url": "v1"}, {"source": "musicy", "url": "m2", "genre": ""}]
+        self.assertEqual(cw.genre_backfill_targets(rows, done={"m2"}), [("musicy", "m1"), ("visla", "v1")])
+        got = cw.backfill_genres([("musicy", "m1"), ("visla", "v1")], lambda s, u: {"m1": "록"}.get(u, ""), delay=0)
+        self.assertEqual([(r["url"], r["source"], r["genre"]) for r in got], [("m1", "musicy", "록"), ("v1", "visla", "")])
+        with tempfile.TemporaryDirectory() as d:
+            ref = Path(d) / "press_genres.csv"
+            self.assertEqual(cw.merge_genre_reference(ref, got, "2026-11-28"), 2)
+            self.assertEqual(cw.merge_genre_reference(ref, [{"url": "m1", "source": "musicy", "genre": "포크"}], "2026-11-29"), 2)
+            with open(ref, encoding="utf-8") as f:
+                saved = {r["url"]: r for r in csv.DictReader(f)}
+            self.assertEqual(saved["m1"]["genre"], "포크")              # 새로 본 값으로 바뀜
+            self.assertEqual(saved["v1"]["checked_at"], "2026-11-28")   # 장르 없음도 '봤음'으로 남김(다시 안 받게)
+            self.assertEqual(cw.load_genre_reference(ref)["m1"], "포크")
+            self.assertEqual(cw.load_genre_reference(Path(d) / "없음.csv"), {})

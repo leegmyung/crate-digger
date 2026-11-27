@@ -27,6 +27,7 @@ class AnalysisGenreTest(unittest.TestCase):
 
     def test_inferred_is_unclassified(self):
         self.assertEqual(gb.analysis_genre("힙합", "inferred"), "미분류")
+        self.assertEqual(gb.analysis_genre("록·밴드", "inferred_low"), "미분류")
         self.assertEqual(gb.analysis_genre("힙합", "profile"), "힙합")
         self.assertEqual(gb.analysis_genre("록·밴드", "press"), "록·밴드")
         self.assertEqual(gb.analysis_genre("록·밴드", None), "록·밴드")    # 확신도 칸이 없는 옛 CSV

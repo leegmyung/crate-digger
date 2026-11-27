@@ -31,6 +31,12 @@ class BaseGenreTest(unittest.TestCase):
         self.assertEqual(gf.base_genre("", "", "band_discovery"), (ROCK, "press"))
         self.assertEqual(gf.base_genre("", "izm", ""), ("", ""))
 
+    def test_press_review_genre_is_press(self):
+        self.assertEqual(gf.base_genre("", "", "", "록"), (ROCK, "press"))              # 매체 리뷰 장르
+        self.assertEqual(gf.base_genre("", "rhythmer", "", "포크|FOLK"), (FOLK, "press"))  # 리뷰 장르가 출처 힌트보다 먼저
+        self.assertEqual(gf.base_genre("록/메탈", "", "", "포크"), (ROCK, "profile"))     # 플랫폼 장르가 먼저
+        self.assertEqual(gf.base_genre("", "", "", "Bossa Nova"), ("", ""))            # 갈래로 못 묶는 글자
+
     def test_team_rows_carry_confidence(self):
         rows = ex.team_rows([
             {"team_key": "a", "raw_genres": "포크/블루스"}, {"team_key": "b", "press_sources": "rhythmer"},
@@ -76,7 +82,7 @@ class FillGenresTest(unittest.TestCase):
 
     def test_needs_two_votes_and_sixty_percent(self):
         r = self.rows()
-        self.assertEqual(r["lone"], ("", ""))                   # 1표
+        self.assertEqual(r["lone"][1], "inferred_low")          # 1표 → 확신 낮음(아래 테스트)
         self.assertEqual(r["mix"], ("", ""))                    # 록1·포크1·힙합1 → 33%
 
     def test_known_teams_unchanged_and_input_not_mutated(self):
@@ -100,6 +106,14 @@ class FillGenresTest(unittest.TestCase):
         r = self.rows(teams, sig)
         self.assertEqual(r["z"], (FOLK, "inferred"))            # 공연장 투표자 5팀 중 포크 80%
         self.assertEqual(r["w"], ("", ""))                      # 투표자 5팀 미만 공연장은 안 씀
+
+    def test_single_vote_is_low_confidence_and_last(self):
+        r = self.rows()
+        self.assertEqual(r["lone"], (ROCK, "inferred_low"))      # 같은 무대 1표뿐 → 확신 낮음
+        teams = self.teams + [t("lone2")]
+        sig = self.sig + [g("lone2", "2024-06-01", "클럽F"), g("lone", "2024-06-01", "클럽F")]
+        self.assertEqual(self.rows(teams, sig)["lone2"], ("", ""))   # 확신 낮음 팀은 투표 안 함
+        self.assertEqual(self.rows(hints={"lone": HIPHOP})["lone"], (HIPHOP, "inferred"))   # 약한 힌트가 먼저
 
     def test_weak_hint_last(self):
         r = self.rows(hints={"y": HIPHOP, "x": HIPHOP})

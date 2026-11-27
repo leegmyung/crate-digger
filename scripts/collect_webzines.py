@@ -12,6 +12,9 @@
   확실하지 않은 글은 data/raw/review/webzines_unparsed_<날짜>.json 에 모은다.
 - 국내/해외 구분이 있는 매체(IZM·리드머·weiv 리뷰)는 국내 글만 받는다.
 - 이미 본 글과 마지막 실행일: data/raw/state/webzines_seen.json (비공개). 다음 실행은 마지막 실행일 14일 전부터 새 글만.
+- 장르(genre 칸, 2026-11-28~): 매체가 붙인 장르 글자를 그대로 — 음악취향Y 글 페이지 '장르', overtone 코멘트 'Genre',
+  VISLA 태그 중 장르 지도(config/genre_map.json)로 묶이는 것. IZM·리드머·weiv는 장르 표시가 없다(docs/genre_fill.md).
+  이미 받은 글의 장르는 --genre-backfill 로 data/raw/reference/press_genres.csv(주소 → 장르)에 따로 모은다(원본은 고치지 않음).
 """
 import argparse
 import csv
@@ -26,6 +29,7 @@ import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
+import genre as genre_mod
 from csv_schema import TABLES
 from normalize import split_artist_cell
 
@@ -34,6 +38,9 @@ CONFIG = ROOT / "config" / "webzines.json"
 RAW_DIR = ROOT / "data" / "raw"
 STATE = RAW_DIR / "state" / "webzines_seen.json"
 REVIEW_DIR = RAW_DIR / "review"
+GENRE_REF = RAW_DIR / "reference" / "press_genres.csv"   # 이미 받은 글의 장르 (--genre-backfill, 주소 → 장르)
+GENRE_SOURCES = ("musicy", "overtone", "visla")           # 리뷰에 장르 표시가 있는 매체
+GENRE_REF_FIELDS = ["url", "source", "genre", "checked_at"]
 USER_AGENT = "crate-digger/0.1 (+https://github.com/leegmyung/crate-digger)"
 KST = timezone(timedelta(hours=9))
 COLUMNS = [f.name for f in TABLES["raw_press"]["fields"]]
@@ -72,10 +79,10 @@ def to_kst_date(stamp):
     return stamp[:10] if re.match(r"^\d{4}-\d{2}-\d{2}", stamp) else ""
 
 
-def article(art_id, url, published_at, title, artists, is_pick, pick_label, release_title="", sponsored=False):
+def article(art_id, url, published_at, title, artists, is_pick, pick_label, release_title="", sponsored=False, genre=""):
     return {"id": str(art_id), "url": url, "published_at": published_at, "title": title,
             "release_title": release_title, "is_pick": is_pick, "pick_label": pick_label,
-            "is_sponsored": "1" if sponsored else "0", "artists": [{"artist": a} for a in artists if a]}
+            "is_sponsored": "1" if sponsored else "0", "artists": [{"artist": a} for a in artists if a], "genre": genre}
 
 
 # ---------- 워드프레스 공통 ----------
@@ -163,7 +170,19 @@ def parse_visla(post, stop):
     pick_label = label or ("Feature" if is_feature else "News")
     sponsored = "SPONSOR" in cats or is_sponsored(" ".join([title] + tags))
     return article(post.get("id"), post.get("link", ""), to_kst_date(post.get("date", "")) or post.get("date", "")[:10],
-                   title, artists, "1" if is_feature or label else "0", pick_label, release, sponsored)
+                   title, artists, "1" if is_feature or label else "0", pick_label, release, sponsored, visla_genre(tags))
+
+
+def visla_genre(tags):
+    """VISLA 태그 중 장르 지도로 큰 갈래에 묶이는 것만 '|'로 (팀 이름·형식 태그는 뺌).
+    '실험·기타'(other) 갈래는 키워드가 넓어('world' → 'World cup' 같은 주제 태그까지) 뺀다."""
+    return "|".join(t.strip() for t in tags if t.strip() and genre_mod.bucket_of(t) not in ("", "other"))
+
+
+def visla_post_id(url):
+    """'https://visla.kr/feature/355075/' → '355075' (워드프레스 글 번호)."""
+    m = re.search(r"/(\d+)/?$", url or "")
+    return m.group(1) if m else ""
 
 
 # ---------- weiv ----------
@@ -273,6 +292,20 @@ def parse_musicy_list(page_html):
     return out
 
 
+MUSICY_GENRE = re.compile(r'<strong class="album_t">\s*장르\s*</strong>\s*<span class="v_album_desc">(.*?)</span>', re.S)
+
+
+def parse_musicy_genre(page_html):
+    """음악취향Y 글 페이지의 '음악 정보' 칸 중 장르 (없으면 '')."""
+    m = MUSICY_GENRE.search(page_html or "")
+    return clean(m.group(1)) if m else ""
+
+
+def musicy_detail_url(url):
+    """목록의 글 주소(gbn=view)는 본문이 비어 있고, 본문·음악 정보는 gbn=viewok 주소에 있다."""
+    return re.sub(r"gbn=view(?=&|$)", "gbn=viewok", url or "")
+
+
 # ---------- overtone ----------
 
 LD_JSON = re.compile(r'<script type="application/ld\+json">(.*?)</script>', re.S)
@@ -318,7 +351,21 @@ def parse_overtone_page(url, page):
             artists = split_artist_cell(clean(m.group(1)))      # 'SUMIN, Slom' → 팀별 (쉼표가 이름인 팀은 그대로)
         r = re.search(r'<span class="comment-title-measure[^"]*"[^>]*>(.*?)</span>', page, re.S)
         release = clean(r.group(1)) if r else ""
-    return article(url, url, published, title, artists, "1", label, release, is_sponsored(title))
+    return article(url, url, published, title, artists, "1", label, release, is_sponsored(title), overtone_genre(page))
+
+
+OT_INFO_BOX = re.compile(r"<div[^>]*>((?:\s*<p[^>]*>[^<]*</p>)+)\s*</div>\s*<div[^>]*>((?:\s*<p[^>]*>.*?</p>)+)\s*</div>", re.S)
+
+
+def overtone_genre(page):
+    """코멘트 글의 정보 칸(Artist·Release·Format·Genre·Rating 이름 줄과 값 줄)에서 Genre 값. 없으면 ''."""
+    for names, values in OT_INFO_BOX.findall(page or ""):
+        keys = [clean(x) for x in re.findall(r"<p[^>]*>(.*?)</p>", names, re.S)]
+        if "Genre" in keys:
+            vals = [clean(x) for x in re.findall(r"<p[^>]*>(.*?)</p>", values, re.S)]
+            i = keys.index("Genre")
+            return vals[i] if i < len(vals) else ""
+    return ""
 
 
 def parse_overtone_sitemap(xml, sections, since):
@@ -337,7 +384,7 @@ def to_rows(source, outlet, art, collected_at):
     base = {"collected_at": collected_at, "source": source, "collector": "script", "outlet": outlet,
             "published_at": art["published_at"], "title": art["title"][:200], "url": art["url"],
             "release_title": art.get("release_title", ""), "is_pick": art["is_pick"], "pick_label": art.get("pick_label", ""),
-            "artist_handle": "", "is_sponsored": "1" if sponsored else "0"}
+            "artist_handle": "", "is_sponsored": "1" if sponsored else "0", "genre": art.get("genre", "")}
     names = list(dict.fromkeys(a["artist"].strip() for a in art["artists"] if a.get("artist", "").strip()))
     return [dict(base, artist_text=n) for n in names]
 
@@ -459,7 +506,18 @@ def fetch_rhythmer(cfg, since):
 
 
 def fetch_musicy(cfg, since):
-    yield from _list_pages(cfg, since, parse_musicy_list)
+    """목록 → 범위 안 글만 글 페이지를 한 번 더 열어 장르를 붙인다 (요청 사이 delay_sec)."""
+    for batch in _list_pages(cfg, since, parse_musicy_list):
+        out = []
+        for art_id, day, art in batch:
+            if day and day >= since:
+                time.sleep(cfg["delay_sec"])
+                try:
+                    art = dict(art, genre=parse_musicy_genre(http_get(musicy_detail_url(art["url"]))))
+                except (urllib.error.URLError, OSError) as e:
+                    print(f"   ⚠️ 음악취향Y 글 장르 읽기 실패 (장르 없이 저장): {art['url']} ({e})", file=sys.stderr)
+            out.append((art_id, day, art))
+        yield out
 
 
 def fetch_overtone(cfg, since, seen=()):
@@ -486,6 +544,100 @@ def fetch_overtone(cfg, since, seen=()):
 
 FETCHERS = {"visla": fetch_visla, "weiv": fetch_weiv, "izm": fetch_izm, "rhythmer": fetch_rhythmer,
             "musicy": fetch_musicy, "overtone": fetch_overtone}
+
+
+# ---------- 이미 받은 글의 장르 (--genre-backfill) ----------
+
+def genre_backfill_targets(rows, done=()):
+    """원본 행들 → 장르를 아직 모르는 (매체, 주소) 목록 (장르 표시가 있는 매체만, 주소마다 한 번, 이미 본 주소 제외)."""
+    out, seen = [], set(done)
+    for r in rows:
+        url, src = r.get("url") or "", r.get("source") or ""
+        if src in GENRE_SOURCES and url and not (r.get("genre") or "").strip() and url not in seen:
+            seen.add(url)
+            out.append((src, url))
+    return out
+
+
+def backfill_genres(targets, fetch_genre, delay=1.0):
+    """(매체, 주소)마다 fetch_genre(매체, 주소) → 장르. 실패한 주소는 빼서 다음에 다시."""
+    out = []
+    for i, (src, url) in enumerate(targets):
+        if i and delay:
+            time.sleep(delay)
+        try:
+            out.append({"url": url, "source": src, "genre": fetch_genre(src, url) or ""})
+        except (urllib.error.URLError, OSError, ValueError) as e:
+            print(f"   ⚠️ 장르 읽기 실패 (다음에 다시): {url} ({e})", file=sys.stderr)
+    return out
+
+
+def load_genre_reference(path=GENRE_REF):
+    """press_genres.csv → {주소: 장르} (장르를 못 찾은 주소는 빈 문자열). 파일이 없으면 {}."""
+    try:
+        with open(path, encoding="utf-8", newline="") as f:
+            return {r["url"]: r.get("genre") or "" for r in csv.DictReader(f) if r.get("url")}
+    except FileNotFoundError:
+        return {}
+
+
+def merge_genre_reference(path, rows, day):
+    """참고 파일에 합친다(같은 주소는 새 값으로, 장르 없음도 '봤음'으로 남김). 합친 뒤 주소 수."""
+    path = Path(path)
+    merged = {}
+    if path.exists():
+        with open(path, encoding="utf-8", newline="") as f:
+            merged = {r["url"]: r for r in csv.DictReader(f) if r.get("url")}
+    for r in rows:
+        merged[r["url"]] = {"url": r["url"], "source": r.get("source", ""), "genre": r.get("genre", ""), "checked_at": day}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=GENRE_REF_FIELDS)
+        w.writeheader()
+        w.writerows(merged[k] for k in sorted(merged))
+    return len(merged)
+
+
+def _visla_genre_by_id(cfg, post_id):
+    post = json.loads(http_get(f"{cfg['api']}/{post_id}?_embed=1"))
+    return visla_genre(wp_terms(post, "post_tag"))
+
+
+def fetch_genre(src, url, config=None):
+    """글 1개의 장르를 매체 페이지(또는 공개 API)에서 다시 읽는다."""
+    cfg = ((config or _load_json(CONFIG, {})).get("outlets") or {}).get(src, {})
+    if src == "musicy":
+        return parse_musicy_genre(http_get(musicy_detail_url(url)))
+    if src == "overtone":
+        return overtone_genre(http_get(url))
+    if src == "visla":
+        pid = visla_post_id(url)
+        return _visla_genre_by_id(cfg, pid) if pid else ""
+    return ""
+
+
+def genre_backfill(only=None, raw_dir=RAW_DIR, ref=GENRE_REF):
+    """원본 raw_press 파일들에서 장르 없는 글을 찾아 참고 파일에 장르를 모은다. 매체별로 쉬고, 50개마다 저장."""
+    config = _load_json(CONFIG, {})
+    rows = []
+    for path in sorted(Path(raw_dir).glob("raw_press_*.csv")):
+        with open(path, encoding="utf-8", newline="") as f:
+            rows.extend(csv.DictReader(f))
+    targets = [t for t in genre_backfill_targets(rows, load_genre_reference(ref)) if not only or t[0] in only]
+    today = f"{datetime.now(KST):%Y-%m-%d}"
+    report = []
+    for src in GENRE_SOURCES:
+        mine = [t for t in targets if t[0] == src]
+        delay = ((config.get("outlets") or {}).get(src) or {}).get("delay_sec", 1.0)
+        found = 0
+        for i in range(0, len(mine), 50):
+            got = backfill_genres(mine[i:i + 50], lambda s, u: fetch_genre(s, u, config), delay)
+            found += sum(1 for r in got if r["genre"])
+            merge_genre_reference(ref, got, today)
+            time.sleep(delay)
+        if mine:
+            report.append(f"✅ {src}: 글 {len(mine)}개 중 장르 찾음 {found} → {Path(ref).name}")
+    return report or ["장르를 다시 볼 글 없음"]
 
 
 # ---------- 실행 ----------
@@ -607,7 +759,12 @@ def main(argv):
     ap.add_argument("--outlet", action="append", help="이 매체만 (여러 번 쓸 수 있음). 꺼진 매체도 지정하면 돈다")
     ap.add_argument("--since", help="이 날짜(YYYY-MM-DD) 이후 글만. 안 쓰면 상태 파일 기준")
     ap.add_argument("--sitemap-file", help="overtone 사이트맵이 안 열릴 때 쓸 로컬 사본 (sitemap.xml)")
+    ap.add_argument("--genre-backfill", action="store_true",
+                    help="이미 받은 글의 장르만 다시 읽어 data/raw/reference/press_genres.csv 에 모은다 (음악취향Y·overtone·VISLA)")
     args = ap.parse_args(argv)
+    if args.genre_backfill:
+        print("\n".join(genre_backfill(set(args.outlet or []))))
+        return 0
     print("\n".join(collect(set(args.outlet or []), args.since, args.sitemap_file)))
     return 0
 
