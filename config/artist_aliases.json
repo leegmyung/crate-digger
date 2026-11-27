@@ -208,6 +208,104 @@
       "reason": "같은 팀 — 한대음 22회 원문 한글 '사운드서플라이서비스', VISLA 소개(2024) 영문 'SoundSupply_Service'",
       "evidence": ["https://namu.wiki/w/%EC%A0%9C22%ED%9A%8C%20%ED%95%9C%EA%B5%AD%EB%8C%80%EC%A4%91%EC%9D%8C%EC%95%85%EC%83%81", "docs/lab/data/signals.csv 'soundsupplyservice'"],
       "checked": "2026-11-27"
+    },
+    {
+      "main": "웬디쏘블루",
+      "aliases": ["웬디소블루"],
+      "reason": "같은 팀 — 된소리만 다른 표기(쏘/소). 두 표기 모두 같은 공연장 '언드'에 나옴",
+      "evidence": ["우리 데이터(인디스트릿 공연): 웬디소블루 2026-03-21 언드 · 웬디쏘블루 2026-05-09 언드 외 유기체 등 6건", "docs/data_checks.md '같은 팀 중복 의심' 표기 흔들림"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "멧차파티",
+      "aliases": ["멧챠파티"],
+      "reason": "같은 팀 — 차/챠 표기 차이. 두 표기 모두 같은 공연장 '아지토 라이브 홀'에 2주 간격으로 나옴",
+      "evidence": ["우리 데이터(인디스트릿 공연): 멧차파티 2026-11-18 · 멧챠파티 2026-12-02, 둘 다 아지토 라이브 홀"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "스티키 레몬슈거",
+      "aliases": ["스틱키레몬슈거"],
+      "reason": "같은 팀(Sticky Lemon Sugar) — 스티키/스틱키 표기 차이. 두 표기 모두 같은 공연장 'Club 빵'",
+      "evidence": ["우리 데이터: 스티키 레몬슈거 2026-06-25 Club 빵(인디스트릿) · 스틱키레몬슈거 2026-11-26 Club 빵(인디고)"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "램넌츠 오브 더 폴른",
+      "aliases": ["렘넌츠 오브 더 폴른", "램넌츠 오브 폴른"],
+      "reason": "같은 팀(Remnants of the Fallen, 메탈 밴드) — 램/렘, '더' 유무만 다른 표기",
+      "evidence": ["우리 데이터: 램넌츠 오브 더 폴른 Club FF 공연 7건(2024~2026) · 렘넌츠 오브 더 폴른 상상마당 선정 2012 · 램넌츠 오브 폴른 상상마당 라이브홀 2018"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "최춘목밴드",
+      "aliases": ["초춘목 밴드"],
+      "reason": "같은 팀 — '초춘목'은 오타. 부산 루키즈 온 더 부락 2026 TOP 10 공식 표기가 '최춘목밴드'",
+      "evidence": ["https://web.archive.org/web/20260813030423/https://busanrockfestival.com/ROOKIES/ (2026 TOP 10)", "우리 데이터: 초춘목 밴드 2026-07-30 Club FF 1건뿐 · 최춘목밴드 공연 14건"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "플라시보정키즈",
+      "aliases": ["플라시보정키스"],
+      "reason": "같은 팀(Placebo Junkies) — 즈/스 표기 차이. 같은 시기(2026 여름) 홍대 클럽 공연",
+      "evidence": ["우리 데이터: 플라시보정키스 2026-06-04 Club FF · 플라시보정키즈 2026-07-11 Club Victim, 음악취향Y 2025-08-11"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "차이니즈 풋볼",
+      "aliases": ["차이니스 풋볼"],
+      "reason": "같은 팀(Chinese Football) — 즈/스 표기 차이. 2026-05-29~31 사흘 연속 내한 공연이 두 표기로 나뉘어 올라감",
+      "evidence": ["우리 데이터(인디스트릿 공연): 차이니스 풋볼 2026-05-29 생기스튜디오·05-31 오방가르드 · 차이니즈 풋볼 2026-05-30 KT&G 상상마당 홍대"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "러브이즈사이클",
+      "aliases": ["러브이스사이클"],
+      "reason": "같은 팀(Love Is Cycle) — 즈/스 표기 차이",
+      "evidence": ["우리 데이터(인디스트릿 공연): 러브이스사이클 2026-05-23 1건 · 러브이즈사이클 2025-12~2026-09 8건"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "퓨처피어클럽",
+      "aliases": ["퓨쳐피어클럽"],
+      "reason": "같은 팀(Future Fear Club) — 퓨처/퓨쳐 표기 차이. 인디스트릿에 아티스트 페이지가 둘이라 공연이 7건씩 나뉨",
+      "evidence": ["우리 데이터(인디스트릿 공연): 퓨처피어클럽 2026-01~10 생기스튜디오·프리즘홀 등 7건 · 퓨쳐피어클럽 2025-11~2026-06 Club FF 7건"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "단편선 순간들",
+      "aliases": ["단편선과순간들"],
+      "reason": "같은 팀(단편선 순간들, Danpyunsun and the Moments) — 공연 목록에 '과'가 붙은 표기",
+      "evidence": ["우리 데이터: 단편선과순간들 2025-04-18 오방가르드 1건 · 단편선 순간들 신호 18건", "인스타 링크 danpyunsun.moments.ens 가 '단편선순간들' 키에 붙어 있음"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "조이풀스",
+      "aliases": ["더조이풀스"],
+      "reason": "같은 팀 — 앞의 '더' 유무만 다른 표기. 같은 홍대 클럽들(Club Victim·프리즘홀·Club 빵·Club FF)",
+      "evidence": ["우리 데이터(인디스트릿 공연): 더조이풀스 2024-03-08 프리즘홀·2025-01-12 Club Victim · 조이풀스 2024~ 33건"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "나인라인즈",
+      "aliases": ["더 나인라인즈"],
+      "reason": "같은 팀 — 앞의 '더' 유무만 다른 표기. 두 표기 모두 같은 공연장 'Club FF'",
+      "evidence": ["우리 데이터(인디스트릿 공연): 더 나인라인즈 2026-01-29·04-04 Club FF · 나인라인즈 2026-05-03·06-07·10-11 Club FF"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "더 스트라이커스",
+      "aliases": ["스트라이커스"],
+      "reason": "같은 팀(The Strikers, 펑크) — 앞의 '더' 유무만 다른 표기. 두 표기 모두 같은 공연장 'Club Victim'",
+      "evidence": ["우리 데이터: 더 스트라이커스 2026-08-22 Club Victim 등 5건(인디스트릿) · 스트라이커스 2026-11-29 Club Victim(인디고)"],
+      "checked": "2026-11-27"
+    },
+    {
+      "main": "양홍원",
+      "aliases": ["YANGHONGWON"],
+      "reason": "같은 사람(래퍼 양홍원) — 공연 목록의 영문 대문자 표기",
+      "evidence": ["우리 데이터: 양홍원 힙합엘이 기사 10건(2021~) · YANGHONGWON 2026-09-05 인디스트릿 공연 1건", "docs/data_checks.md '같은 팀 중복 의심' 로마자 표기"],
+      "checked": "2026-11-27"
     }
   ],
   "distinct": [
@@ -264,6 +362,19 @@
       "evidence": [
         "https://m.app.melon.com/artist/detail.htm?artistId=5324101",
         "https://m.app.melon.com/artist/detail.htm?artistId=4722708"
+      ],
+      "checked": "2026-11-27"
+    },
+    {
+      "names": [
+        "허클베리피",
+        "허클베리핀"
+      ],
+      "reason": "이름이 한 글자 다른 다른 팀 — 허클베리피(Huckleberry P)는 래퍼, 허클베리핀(Huckleberry Finn)은 1998년 데뷔 록 밴드",
+      "evidence": [
+        "https://namu.wiki/w/%ED%97%88%ED%81%B4%EB%B2%A0%EB%A6%AC%ED%94%BC",
+        "https://namu.wiki/w/%ED%97%88%ED%81%B4%EB%B2%A0%EB%A6%AC%ED%95%80",
+        "우리 데이터: 허클베리피는 힙합엘이 기사, 허클베리핀은 트랙제로·상상마당 춘천 공연"
       ],
       "checked": "2026-11-27"
     }

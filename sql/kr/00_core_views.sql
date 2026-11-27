@@ -17,6 +17,10 @@ SELECT s.artist_key, s.alias_key, s.artist_text,
        s.announced_end AS signal_date, s.round AS detail
 FROM raw.raw_kr_selection s
 LEFT JOIN ref.stage_rank sr ON sr.stage = s.stage
+WHERE NOT EXISTS (SELECT 1 FROM raw.raw_kr_selection e   -- 같은 팀·같은 단계는 가장 이른 날짜만 (연도만 알던 옛 행이 나중에 정확한 날짜로 다시 들어온 경우)
+                  WHERE e.program = s.program AND e.round IS NOT DISTINCT FROM s.round
+                    AND e.stage IS NOT DISTINCT FROM s.stage AND e.artist_text = s.artist_text
+                    AND e.announced_end < s.announced_end)
 UNION   -- 같은 날 다시 돌린 파일의 똑같은 줄은 하나로 (UNION = 중복 제거)
 SELECT g.artist_key, g.alias_key, g.artist_text,
        '공연', g.source, NULL, NULL, NULL,

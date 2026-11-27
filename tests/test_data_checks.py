@@ -115,6 +115,63 @@ class LinkageTest(unittest.TestCase):
     def test_squash_keeps_korean_jamo_distinct(self):
         self.assertNotEqual(dc.squash("ㄹㄹ"), dc.squash("ㅈ"))
 
+    def test_variant_norm_folds_common_spelling_wobble(self):
+        for a, b in (("웬디소블루", "웬디쏘블루"), ("퓨처피어클럽", "퓨쳐피어클럽"), ("러브이스사이클", "러브이즈사이클"),
+                     ("마인드애틱", "마인드에틱"), ("멧차파티", "멧챠파티"), ("플레이버대쉬", "플레이버대시"),
+                     ("나인라인즈", "더나인라인즈"), ("릴체리x골드부다", "릴체리골드부다")):
+            self.assertEqual(dc.variant_norm(a), dc.variant_norm(b), (a, b))
+        self.assertNotEqual(dc.variant_norm("허클베리피"), dc.variant_norm("허클베리핀"))
+        self.assertNotEqual(dc.variant_norm("더더"), dc.variant_norm("더"))    # 짧은 이름의 '더'는 떼지 않음
+
+    def test_romanize_hangul(self):
+        self.assertEqual(dc.romanize("양홍원"), "yanghongwon")
+        self.assertEqual(dc.romanize("한결"), "hangyeol")
+        self.assertEqual(dc.romanize("로얄44"), "royal44")
+
+    def test_one_edit_apart(self):
+        self.assertTrue(dc.one_edit_apart("초춘목밴드", "최춘목밴드"))
+        self.assertTrue(dc.one_edit_apart("bugokhawaii", "bukokhawaii"))
+        self.assertTrue(dc.one_edit_apart("오이스터", "오이스터즈"))
+        self.assertFalse(dc.one_edit_apart("abcd", "abdc"))
+        self.assertFalse(dc.one_edit_apart("같음", "같음"))
+
+    def test_duplicate_candidates_kinds(self):
+        keys = ["moss", "themoss", "웬디소블루", "웬디쏘블루", "양홍원", "yanghongwon", "초춘목밴드", "최춘목밴드",
+                "aeil", "veil", "밴드1호", "밴드2호", "추다혜차지스"]
+        links = [{"team_key": "추다혜차지스", "url": "https://www.instagram.com/x/"},
+                 {"team_key": "chudahyechagis추다혜차지스", "url": "https://www.instagram.com/x/"}]
+        got = {(k, a, b) for k, a, b, _ in dc.duplicate_candidates(keys, links)}
+        kinds = {(a, b): k for k, a, b in got}
+        self.assertEqual(kinds[("moss", "themoss")], "띄어쓰기·대소문자·the")
+        self.assertEqual(kinds[("웬디소블루", "웬디쏘블루")], "표기 흔들림")
+        self.assertEqual(kinds[("양홍원", "yanghongwon")], "로마자 표기")
+        self.assertEqual(kinds[("초춘목밴드", "최춘목밴드")], "한 글자 차이")
+        self.assertEqual(kinds[("chudahyechagis추다혜차지스", "추다혜차지스")], "같은 링크 주소")
+        self.assertNotIn(("aeil", "veil"), kinds)        # 짧은 영문 이름은 한 글자 차이로 안 봄 (잡음)
+        self.assertNotIn(("밴드1호", "밴드2호"), kinds)    # 숫자만 다르면 다른 팀
+
+    def test_short_names_spelling_wobble_is_low(self):
+        got = {(a, b): k for k, a, b, _ in dc.duplicate_candidates(["오왠", "오웬", "김재호", "김제호"])}
+        self.assertEqual(got[("오왠", "오웬")], "짧은 이름 표기 흔들림")
+        self.assertEqual(dc.DUP_PRIORITY["짧은 이름 표기 흔들림"], "낮음")
+
+    def test_duplicate_candidates_skip_curated_pairs(self):
+        curated = {"aliases": [{"main": "웬디쏘블루", "aliases": ["웬디소블루"]}],
+                   "distinct": [{"names": ["허클베리 피", "허클베리핀"]}]}
+        got = dc.duplicate_candidates(["웬디소블루", "웬디쏘블루", "허클베리피", "허클베리핀"], [], curated)
+        self.assertEqual(got, [])
+
+    def test_check_duplicate_names_lists_details_by_priority(self):
+        c = dc.check_duplicate_names(["moss", "themoss", "초춘목밴드", "최춘목밴드"])
+        self.assertEqual(c.status, "warn")
+        self.assertTrue(c.details[0].startswith("높음"))
+        self.assertTrue(any("최춘목밴드" in d for d in c.details))
+
+    def test_check_duplicate_names_low_only_passes(self):
+        c = dc.check_duplicate_names(["초춘목밴드", "최춘목밴드"])
+        self.assertEqual(c.status, "pass")     # 한 글자 차이(낮음)만 있으면 목록만 보여 주고 통과
+        self.assertTrue(c.details)
+
 
 class OutcomeTest(unittest.TestCase):
     def test_counted_follows_five_year_rule_for_filtered_programs(self):
@@ -244,6 +301,12 @@ class ReportTest(unittest.TestCase):
         self.assertLess(summary, md.index("## 전체 검사"))
         self.assertLess(md.index("검사 나"), md.index("검사 다"))   # 실패가 경고보다 먼저
         self.assertNotIn("/Users/", md)
+
+    def test_render_adds_detail_section(self):
+        c = dc.Check("dup", "같은 팀 중복 의심", "기준", "값", "warn", "고침", ("높음 · 표기 흔들림 · a ↔ b",))
+        md = dc.render([c], TODAY, {})
+        self.assertIn("## 자세히: 같은 팀 중복 의심", md)
+        self.assertIn("- 높음 · 표기 흔들림 · a ↔ b", md)
 
     def test_render_all_pass(self):
         md = dc.render([dc.Check("a", "검사 가", "기준", "값", "pass", "-")], TODAY, {})

@@ -22,11 +22,12 @@ from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
 from datetime import date, datetime
 from pathlib import Path
-from typing import Callable, Dict, Iterable, List, Optional, Set
+from typing import Callable, Dict, Iterable, List, Optional, Set, Tuple
 from urllib.parse import urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from csv_schema import CAREER_FILTER_YEARS, CAREER_FILTERED  # noqa: E402
+from normalize import artist_key  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_MD = ROOT / "docs" / "data_checks.md"
@@ -58,6 +59,11 @@ TOP_NO_PROFILE_WARN, TOP_NO_PROFILE_FAIL = 0.30, 0.80
 PG_SYNC_TOLERANCE = 0.01     # DB 신호 수와 랩 신호 수가 1% 넘게 다르면 경고
 PG_MISSING_WARN = 0.01       # 팀 이름·날짜 없는 신호가 1% 넘으면 경고
 EXAMPLES = 8                 # 값 칸에 보여 줄 예시 개수
+DETAILS_MAX = 200            # '자세히' 목록에 보여 줄 최대 줄 수
+DUP_MIN_LATIN = 6            # 한 글자 차이·로마자 비교는 영문 6글자 이상만 (짧은 영문 이름은 잡음이 많음)
+DUP_MIN_HANGUL = 4           # 한글은 4글자 이상만
+DUP_PRIORITY = {"띄어쓰기·대소문자·the": "높음", "표기 흔들림": "높음", "같은 링크 주소": "높음",
+                "로마자 표기": "중간", "한 글자 차이": "낮음", "짧은 이름 표기 흔들림": "낮음"}
 
 LINK_HOSTS = {"melon": {"www.melon.com"}, "genie": {"www.genie.co.kr"}, "bugs": {"music.bugs.co.kr"},
               "spotify": {"open.spotify.com"}, "instagram": {"www.instagram.com"},
@@ -73,6 +79,7 @@ class Check:
     value: str
     status: str      # pass / warn / fail / skip
     fix: str
+    details: Tuple[str, ...] = ()   # 문서 아래 '자세히' 구역에 보여 줄 줄 (후보 목록 등)
 
 
 # ---------- 작은 도우미 ----------
@@ -250,17 +257,160 @@ def check_future_signals(signals: List[dict], today: str) -> Check:
     return Check("future_signals", name, rule, value, "warn" if odd else "pass", fix)
 
 
-def check_duplicate_names(team_keys: Iterable[str]) -> Check:
-    name, rule = "같은 팀 중복 의심", "띄어쓰기·대소문자·앞의 the만 다른 팀 키가 있으면 경고"
-    fix = "같은 팀이면 config 연결표(아티스트 별칭)에 묶고, 다른 팀이면 '다른 팀' 구역에 적는다"
-    groups: Dict[str, List[str]] = defaultdict(list)
-    for k in team_keys:
-        s = squash(k)
-        if s:
-            groups[s].append(k)
-    dups = sorted(sorted(v) for v in groups.values() if len(v) > 1)
-    value = f"{len(dups)}묶음" + (": " + _examples(" = ".join(g) for g in dups) if dups else "")
-    return Check("duplicate_names", name, rule, value, "warn" if dups else "pass", fix)
+# 한글 음절 = 초성·중성·종성 번호 (유니코드 가-힣 = 0xAC00 + (초성*21 + 중성)*28 + 종성)
+_RR_INITIAL = ["g", "kk", "n", "d", "tt", "r", "m", "b", "pp", "s", "ss", "", "j", "jj", "ch", "k", "t", "p", "h"]
+_RR_MEDIAL = ["a", "ae", "ya", "yae", "eo", "e", "yeo", "ye", "o", "wa", "wae", "oe", "yo", "u", "wo", "we", "wi",
+              "yu", "eu", "ui", "i"]
+_RR_FINAL = ["", "k", "k", "ks", "n", "nj", "nh", "t", "l", "lk", "lm", "lb", "ls", "lt", "lp", "lh", "m", "p", "ps",
+             "t", "t", "ng", "t", "t", "k", "t", "p", "t"]
+_TENSE = {1: 0, 4: 3, 8: 7, 10: 9, 13: 12}          # ㄲㄸㅃㅆㅉ → ㄱㄷㅂㅅㅈ (쏘블루=소블루)
+_MEDIAL_FOLD = {1: 5, 3: 7, 10: 15, 11: 15}          # ㅐ→ㅔ, ㅒ→ㅖ, ㅙ·ㅚ→ㅞ (애틱=에틱)
+_AFTER_J = {2: 0, 6: 4, 17: 13}                      # ㅈ·ㅊ 뒤 ㅑㅕㅠ → ㅏㅓㅜ (챠=차, 쳐=처, 츄=추)
+
+
+def _syllable(ch: str) -> Optional[Tuple[int, int, int]]:
+    c = ord(ch) - 0xAC00
+    return (c // 588, (c % 588) // 28, c % 28) if 0 <= c < 11172 else None
+
+
+def romanize(text: str) -> str:
+    """한글을 로마자로 (국어의 로마자 표기법 글자 단위, 소리 바뀜은 무시) — 양홍원 → yanghongwon."""
+    out = []
+    for ch in squash(text):
+        p = _syllable(ch)
+        out.append(_RR_INITIAL[p[0]] + _RR_MEDIAL[p[1]] + _RR_FINAL[p[2]] if p else ch)
+    return "".join(out)
+
+
+def _fold_syllable(ch: str) -> str:
+    p = _syllable(ch)
+    if not p:
+        return ch
+    ini, med, fin = p
+    ini = _TENSE.get(ini, ini)
+    med = _MEDIAL_FOLD.get(med, med)
+    if ini in (12, 14):
+        med = _AFTER_J.get(med, med)
+    if ini == 9 and med == 16:               # 쉬 → 시 (대쉬=대시)
+        med = 20
+    if ini == 12 and med == 18 and fin == 0:  # 즈 → 스 (이즈=이스, 키즈=키스)
+        ini = 9
+    return chr(0xAC00 + (ini * 21 + med) * 28 + fin)
+
+
+def variant_norm(key: str) -> str:
+    """표기 흔들림을 접은 비교용 키: 된소리·ㅐ/ㅔ·챠/차·쉬/시·즈/스, 앞의 '더'(3글자 이상 남을 때), 한글 사이 'x'."""
+    s = squash(key)
+    s = re.sub(r"(?<=[가-힣])x(?=[가-힣])", "", s)
+    if s.startswith("더") and len(s) - 1 >= 3:
+        s = s[1:]
+    return "".join(_fold_syllable(ch) for ch in s)
+
+
+def one_edit_apart(a: str, b: str) -> bool:
+    """두 글자열이 정확히 한 글자(바꾸기·넣기·빼기) 차이인가."""
+    if a == b or abs(len(a) - len(b)) > 1:
+        return False
+    if len(a) > len(b):
+        a, b = b, a
+    i = 0
+    while i < len(a) and a[i] == b[i]:
+        i += 1
+    return a[i + 1:] == b[i + 1:] if len(a) == len(b) else a[i:] == b[i + 1:]
+
+
+def _long_enough(s: str) -> bool:
+    return len(s) >= (DUP_MIN_LATIN if re.fullmatch(r"[0-9a-z]+", s) else DUP_MIN_HANGUL)
+
+
+def _one_edit_pairs(sq: Dict[str, str]) -> Set[Tuple[str, str]]:
+    """한 글자씩 뺀 모양이 겹치는 키끼리만 비교 (9천 팀을 모두 짝지으면 느림)."""
+    buckets: Dict[str, Set[str]] = defaultdict(set)
+    for k, s in sq.items():
+        if _long_enough(s):
+            for v in {s} | {s[:i] + s[i + 1:] for i in range(len(s))}:
+                buckets[v].add(k)
+    pairs = set()
+    for ks in buckets.values():
+        ks = sorted(ks)
+        for i, a in enumerate(ks):
+            for b in ks[i + 1:]:
+                diff = set(sq[a]) ^ set(sq[b])
+                if one_edit_apart(sq[a], sq[b]) and not any(c.isdigit() for c in diff):
+                    pairs.add((a, b))
+    return pairs
+
+
+def _curated_groups(curated: Optional[dict]) -> List[Set[str]]:
+    groups = []
+    for e in (curated or {}).get("aliases") or []:
+        groups.append({artist_key(n) for n in [e.get("main", "")] + list(e.get("aliases") or [])})
+    for e in (curated or {}).get("distinct") or []:
+        groups.append({artist_key(n) for n in e.get("names") or []})
+    return groups
+
+
+def duplicate_candidates(team_keys: Iterable[str], links: Iterable[dict] = (),
+                         curated: Optional[dict] = None) -> List[Tuple[str, str, str, str]]:
+    """같은 팀 중복 의심 (종류, 키1, 키2, 메모). 연결표(config/artist_aliases.json)의 같은 팀·다른 팀 짝은 뺀다."""
+    keys = sorted(set(team_keys))
+    sq = {k: squash(k) for k in keys}
+    found: Dict[Tuple[str, str], Tuple[str, str]] = {}
+
+    def add(kind: str, a: str, b: str, note: str = "") -> None:
+        pair = (a, b) if kind == "로마자 표기" else tuple(sorted((a, b)))
+        if pair[0] != pair[1] and tuple(sorted(pair)) not in {tuple(sorted(p)) for p in found}:
+            found[pair] = (kind, note)
+
+    for kind, norm in (("띄어쓰기·대소문자·the", lambda k: sq[k]), ("표기 흔들림", variant_norm)):
+        groups: Dict[str, List[str]] = defaultdict(list)
+        for k in keys:
+            if sq[k]:
+                groups[norm(k)].append(k)
+        for g in groups.values():
+            for i, a in enumerate(g):
+                for b in g[i + 1:]:
+                    short = kind == "표기 흔들림" and not (_long_enough(sq[a]) and _long_enough(sq[b]))
+                    add("짧은 이름 표기 흔들림" if short else kind, a, b)   # 오왠·오웬처럼 짧으면 다른 사람이 흔함
+    by_url: Dict[str, Set[str]] = defaultdict(set)
+    for r in links:
+        if r.get("url") and r.get("team_key"):
+            by_url[r["url"]].add(r["team_key"])
+    for url, ks in sorted(by_url.items()):
+        ks = sorted(ks)
+        for i, a in enumerate(ks):
+            for b in ks[i + 1:]:
+                add("같은 링크 주소", a, b, urlparse(url).netloc)
+    latin = {s: k for k, s in sq.items() if re.fullmatch(r"[0-9a-z]+", s) and len(s) >= DUP_MIN_LATIN}
+    for k, s in sq.items():
+        if re.search("[가-힣]", s) and romanize(s) in latin:
+            add("로마자 표기", k, latin[romanize(s)])
+    for a, b in sorted(_one_edit_pairs(sq)):
+        add("한 글자 차이", a, b)
+    groups = _curated_groups(curated)
+    out = []
+    for (a, b), (kind, note) in found.items():
+        if any(artist_key(a) in g and artist_key(b) in g for g in groups):
+            continue
+        out.append((kind, a, b, note))
+    order = list(DUP_PRIORITY)
+    return sorted(out, key=lambda x: (order.index(x[0]), x[1], x[2]))
+
+
+def check_duplicate_names(team_keys: Iterable[str], links: Iterable[dict] = (), curated: Optional[dict] = None) -> Check:
+    name = "같은 팀 중복 의심"
+    rule = ("띄어쓰기·대소문자·the, 표기 흔들림(쓰/스·애/에·챠/차·즈/스·앞의 더), 같은 링크 주소(높음), 한글 로마자 표기(중간)가 "
+            "있으면 경고 — 한 글자 차이(낮음)는 목록만")
+    fix = "같은 팀이면 config/artist_aliases.json aliases에 근거와 함께 묶고, 다른 팀이면 distinct에 적는다 (목록은 아래 '자세히')"
+    cands = duplicate_candidates(team_keys, links, curated)
+    by_kind = Counter(k for k, _, _, _ in cands)
+    strong = [c for c in cands if DUP_PRIORITY[c[0]] != "낮음"]
+    value = f"{len(cands)}쌍" + (" (" + ", ".join(f"{k} {n}" for k, n in by_kind.items()) + ")" if cands else "")
+    if strong:
+        value += ": " + _examples(f"{a} = {b}" for _, a, b, _ in strong)
+    details = tuple(f"{DUP_PRIORITY[k]} · {k} · {a} ↔ {b}" + (f" ({note})" if note else "")
+                    for k, a, b, note in cands[:DETAILS_MAX])
+    return Check("duplicate_names", name, rule, value, "warn" if strong else "pass", fix, details)
 
 
 # ---------- 정답 ----------
@@ -525,7 +675,7 @@ def run_all(root: Path, today: str, run: Optional[Run]) -> List[Check]:
         check_future_signals(tables["signals"], data_day),
         check_orphan_signals(tables["signals"], keys, excluded),
         check_orphan_side({n: tables[n] for n in ("links", "images", "videos", "collabs")}, keys, excluded),
-        check_duplicate_names(keys),
+        check_duplicate_names(keys, tables["links"], _read_json(root / "config" / "artist_aliases.json")),
         check_counted(tables["outcomes"], teams, set(CAREER_FILTERED), CAREER_FILTER_YEARS),
         check_b_grade_rule(roles, set(CAREER_FILTERED)),
         check_same_house(tables["outcomes"], roles),
@@ -568,6 +718,9 @@ def render(checks: List[Check], today: str, meta: dict) -> str:
     lines += ["## 전체 검사", "", "| 상태 | 검사 | 기준 | 오늘 값 | 고치는 법 |", "|---|---|---|---|---|"]
     lines += [f"| {STATUS_ICON[c.status]} {STATUS_KO[c.status]} | {_cell(c.name)} | {_cell(c.rule)} | {_cell(c.value)} | {_cell(c.fix)} |"
               for c in checks]
+    for c in checks:
+        if c.details:
+            lines += ["", f"## 자세히: {c.name}", ""] + [f"- {_cell(d)}" for d in c.details]
     lines += ["", "기준값은 `scripts/data_checks.py` 맨 위 상수에 있어요. 주소는 모양만 보고 실제로 열어 보지는 않아요.", ""]
     return "\n".join(lines)
 

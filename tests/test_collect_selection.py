@@ -138,6 +138,42 @@ class WriteTest(unittest.TestCase):
         seen = {cs.row_key(rows[0])}
         self.assertEqual(len(cs.drop_seen(rows, seen)), 2)
 
+    def test_drop_seen_lets_a_dated_row_refine_a_year_only_row_once(self):
+        # 예전에 연도만('2026') 저장한 팀도, 날짜가 정확한 행이 오면 한 번은 다시 쓴다 (적재 뷰는 가장 이른 날짜를 씀)
+        year_only = cs.parse_busan(BUSAN_TOP10, URL, AT)                       # seen_on 없음 → '2026'
+        dated = cs.parse_busan(BUSAN_TOP10, URL, AT, seen_on="2026-08-13")
+        later = cs.parse_busan(BUSAN_TOP10, URL, AT, seen_on="2026-11-27")
+        seen = set()
+        self.assertEqual(len(cs.drop_seen(year_only, seen)), 3)
+        refined = cs.drop_seen(dated, seen)
+        self.assertEqual([r["announced_at"] for r in refined], ["2026-08-13"] * 3)
+        self.assertEqual(cs.drop_seen(later, seen), [])    # 이미 날짜를 아는 팀은 다시 안 씀
+
+    def test_drop_seen_first_dated_row_blocks_later_dates(self):
+        seen = set()
+        self.assertEqual(len(cs.drop_seen(cs.parse_busan(BUSAN_TOP10, URL, AT, seen_on="2026-08-13"), seen)), 3)
+        self.assertEqual(cs.drop_seen(cs.parse_busan(BUSAN_TOP10, URL, AT, seen_on="2026-08-14"), seen), [])
+
+    def test_drop_seen_month_only_rows_do_not_repeat(self):
+        seen = set()
+        self.assertTrue(cs.drop_seen(cs.parse_sejong(SEJONG_HTML, AT), seen))
+        self.assertEqual(cs.drop_seen(cs.parse_sejong(SEJONG_HTML, AT), seen), [])
+
+    def test_busan_wayback_snapshots_read_before_live_page(self):
+        # 가장 이른 보관소 날짜가 먼저 와야 drop_seen이 그 날짜를 남긴다
+        def fake_fetch(url):
+            if "cdx" in url:
+                return '[["timestamp"],["20260813030423"]]'
+            return BUSAN_TOP10
+        old_fetch, old_delay = cs.fetch, cs.REQUEST_DELAY_SEC
+        cs.fetch, cs.REQUEST_DELAY_SEC = fake_fetch, 0
+        try:
+            rows = cs.collect_busan("2026-11-27T21:00:00+09:00", wayback=True)
+        finally:
+            cs.fetch, cs.REQUEST_DELAY_SEC = old_fetch, old_delay
+        self.assertEqual(rows[0]["announced_at"], "2026-08-13")
+        self.assertEqual({r["announced_at"] for r in cs.drop_seen(rows, set())}, {"2026-08-13"})
+
 
 if __name__ == "__main__":
     unittest.main()

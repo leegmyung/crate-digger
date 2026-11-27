@@ -174,13 +174,23 @@ def row_key(row):
     return "|".join(row[k] for k in KEY)
 
 
+DAY_MARK = "@day"   # seen에 '<키>@day'가 있으면 그 팀의 발표일을 날짜까지 이미 저장했다는 뜻
+FULL_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
 def drop_seen(rows, seen):
+    """새 팀만 남긴다. 단, 예전에 연도·월까지만 저장한 팀에 날짜가 정확한 행이 오면 한 번은 다시 쓴다
+    (적재 뷰 core.v_signal_base가 같은 키 중 가장 이른 발표일을 쓰므로 연말로 밀린 날짜가 바로잡힌다)."""
     out = []
     for r in rows:
         k = row_key(r)
-        if k not in seen:
-            seen.add(k)
-            out.append(r)
+        dated = bool(FULL_DATE.match(r.get("announced_at") or ""))
+        if k in seen and not (dated and k + DAY_MARK not in seen):
+            continue
+        seen.add(k)
+        if dated:
+            seen.add(k + DAY_MARK)
+        out.append(r)
     return out
 
 
@@ -203,16 +213,16 @@ def fetch(url):
 
 
 def collect_busan(collected_at, wayback=False):
-    rows = parse_busan(fetch(BUSAN_URL), BUSAN_URL, collected_at, seen_on=collected_at[:10])
-    if not wayback:
-        return rows
-    stamps = [r[0] for r in json.loads(fetch(WAYBACK_CDX))[1:]]
-    for ts in stamps:
-        time.sleep(REQUEST_DELAY_SEC)
-        snap = f"https://web.archive.org/web/{ts}/{BUSAN_URL}"
-        seen_on = f"{ts[:4]}-{ts[4:6]}-{ts[6:8]}"
-        rows.extend(parse_busan(fetch(f"https://web.archive.org/web/{ts}id_/{BUSAN_URL}"), snap, collected_at, seen_on))
-    return rows
+    """보관소 사본(오래된 것부터)을 지금 페이지보다 먼저 읽는다 — drop_seen이 가장 이른 '늦어도 이날' 날짜를 남기게."""
+    rows = []
+    if wayback:
+        stamps = [r[0] for r in json.loads(fetch(WAYBACK_CDX))[1:]]
+        for ts in sorted(stamps):
+            time.sleep(REQUEST_DELAY_SEC)
+            snap = f"https://web.archive.org/web/{ts}/{BUSAN_URL}"
+            seen_on = f"{ts[:4]}-{ts[4:6]}-{ts[6:8]}"
+            rows.extend(parse_busan(fetch(f"https://web.archive.org/web/{ts}id_/{BUSAN_URL}"), snap, collected_at, seen_on))
+    return rows + parse_busan(fetch(BUSAN_URL), BUSAN_URL, collected_at, seen_on=collected_at[:10])
 
 
 def collect_sejong(collected_at):

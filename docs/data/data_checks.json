@@ -1,6 +1,6 @@
 {
  "today": "2026-11-27",
- "generated": "2026-11-27T22:53+09:00",
+ "generated": "2026-11-27T23:04+09:00",
  "summary": "통과 14 · 경고 5 · 실패 1",
  "checks": [
   {
@@ -9,7 +9,8 @@
    "rule": "1일 넘게 안 바뀌면 실패",
    "value": "2026-11-27 19:13 (0일 전)",
    "status": "pass",
-   "fix": "daily_run.sh의 export_lab_data.py 줄이 실패했는지 records/daily_run.log 확인"
+   "fix": "daily_run.sh의 export_lab_data.py 줄이 실패했는지 records/daily_run.log 확인",
+   "details": []
   },
   {
    "key": "meta_rows",
@@ -17,7 +18,8 @@
    "rule": "다르면 실패 (내보내기가 중간에 끊긴 것)",
    "value": "표 8개 모두 일치",
    "status": "pass",
-   "fix": ".venv/bin/python scripts/export_lab_data.py 를 다시 돌린다"
+   "fix": ".venv/bin/python scripts/export_lab_data.py 를 다시 돌린다",
+   "details": []
   },
   {
    "key": "row_change",
@@ -25,7 +27,8 @@
    "rule": "어제 20행 이상인 표가 30% 넘게 줄면 실패, 50% 넘게 늘면 경고",
    "value": "비교할 어제 값 없음 (meta.json prev_rows 비어 있음)",
    "status": "skip",
-   "fix": "줄었으면 그날 수집·적재 로그 확인(수집 실패·연결표 오류), 늘었으면 같은 행이 두 번 들어갔는지 확인"
+   "fix": "줄었으면 그날 수집·적재 로그 확인(수집 실패·연결표 오류), 늘었으면 같은 행이 두 번 들어갔는지 확인",
+   "details": []
   },
   {
    "key": "collect_fresh",
@@ -33,7 +36,8 @@
    "rule": "성공 수집이 2일 넘으면 경고, 7일 넘으면 실패",
    "value": "출처 25개 중 오래된 것 0개",
    "status": "pass",
-   "fix": "records/daily_run.log에서 그 출처 줄의 ⚠️를 찾아 수집기를 직접 다시 돌려 본다"
+   "fix": "records/daily_run.log에서 그 출처 줄의 ⚠️를 찾아 수집기를 직접 다시 돌려 본다",
+   "details": []
   },
   {
    "key": "signal_recency",
@@ -41,7 +45,8 @@
    "rule": "공연·발매·큐레이션 출처의 오늘 이전 마지막 신호가 14일 넘으면 경고, 45일 넘거나 없으면 실패 (선정·지원은 제외)",
    "value": "출처 18개 중 오래된 것 0개",
    "status": "pass",
-   "fix": "그 출처 수집기가 새 글을 못 읽는지(사이트 구조 변경) 확인한다 — 원래 드물게 올리는 곳이면 기준에서 뺀다"
+   "fix": "그 출처 수집기가 새 글을 못 읽는지(사이트 구조 변경) 확인한다 — 원래 드물게 올리는 곳이면 기준에서 뺀다",
+   "details": []
   },
   {
    "key": "future_signals",
@@ -49,7 +54,8 @@
    "rule": "공연이 아닌 신호가 미래 날짜면 경고, 공연도 365일 넘게 뒤면 경고",
    "value": "13건: 선정·지원:busanrock 13건",
    "status": "warn",
-   "fix": "그 출처 수집기의 날짜 읽기(연도 추정·발표일 대신 행사일)를 확인한다"
+   "fix": "그 출처 수집기의 날짜 읽기(연도 추정·발표일 대신 행사일)를 확인한다",
+   "details": []
   },
   {
    "key": "orphan_signals",
@@ -57,7 +63,8 @@
    "rule": "제외 목록 팀 말고 팀 표에 없는 신호가 있으면 실패",
    "value": "없는 팀 신호 0건 / 26,534건 (제외 목록 팀 신호 76건은 정상)",
    "status": "pass",
-   "fix": "export_lab_data.py의 signals·teams 쿼리가 같은 sig 조건을 쓰는지 확인 (한쪽만 거르면 생김)"
+   "fix": "export_lab_data.py의 signals·teams 쿼리가 같은 sig 조건을 쓰는지 확인 (한쪽만 거르면 생김)",
+   "details": []
   },
   {
    "key": "orphan_side",
@@ -65,15 +72,145 @@
    "rule": "표마다 팀 표에 없는 팀 비율이 15% 넘으면 경고",
    "value": "links 112/1,100 (10.2%) · images 6/241 (2.5%) · videos 49/1,736 (2.8%)",
    "status": "pass",
-   "fix": "신호 없이 프로필만 받은 팀(멜론 보강 명단)인지, 팀 키 표기가 달라 못 이은 것인지 몇 개 열어 본다"
+   "fix": "신호 없이 프로필만 받은 팀(멜론 보강 명단)인지, 팀 키 표기가 달라 못 이은 것인지 몇 개 열어 본다",
+   "details": []
   },
   {
    "key": "duplicate_names",
    "name": "같은 팀 중복 의심",
-   "rule": "띄어쓰기·대소문자·앞의 the만 다른 팀 키가 있으면 경고",
-   "value": "1묶음: moss = themoss",
+   "rule": "띄어쓰기·대소문자·the, 표기 흔들림(쓰/스·애/에·챠/차·즈/스·앞의 더), 같은 링크 주소(높음), 한글 로마자 표기(중간)가 있으면 경고 — 한 글자 차이(낮음)는 목록만",
+   "value": "127쌍 (띄어쓰기·대소문자·the 1, 표기 흔들림 8, 같은 링크 주소 19, 로마자 표기 15, 한 글자 차이 71, 짧은 이름 표기 흔들림 13): moss = themoss, 넉살x까데호 = 넉살까데호, 리추얼리티 = 리츄얼리티, 릴체리x골드부다 = 릴체리골드부다, 마인드애틱 = 마인드에틱, 모사이코 = 모싸이코, 스태리웨이브 = 스테리웨이브, 앨리워드 = 엘리워드 외 35",
    "status": "warn",
-   "fix": "같은 팀이면 config 연결표(아티스트 별칭)에 묶고, 다른 팀이면 '다른 팀' 구역에 적는다"
+   "fix": "같은 팀이면 config/artist_aliases.json aliases에 근거와 함께 묶고, 다른 팀이면 distinct에 적는다 (목록은 아래 '자세히')",
+   "details": [
+    "높음 · 띄어쓰기·대소문자·the · moss ↔ themoss",
+    "높음 · 표기 흔들림 · 넉살x까데호 ↔ 넉살까데호",
+    "높음 · 표기 흔들림 · 리추얼리티 ↔ 리츄얼리티",
+    "높음 · 표기 흔들림 · 릴체리x골드부다 ↔ 릴체리골드부다",
+    "높음 · 표기 흔들림 · 마인드애틱 ↔ 마인드에틱",
+    "높음 · 표기 흔들림 · 모사이코 ↔ 모싸이코",
+    "높음 · 표기 흔들림 · 스태리웨이브 ↔ 스테리웨이브",
+    "높음 · 표기 흔들림 · 앨리워드 ↔ 엘리워드",
+    "높음 · 표기 흔들림 · 플레이버대쉬 ↔ 플레이버대시",
+    "높음 · 같은 링크 주소 · chudahyechagis추다혜차지스 ↔ 추다혜차지스 (www.instagram.com)",
+    "높음 · 같은 링크 주소 · confinedwhite컨파인드화이트 ↔ 컨파인드화이트 (www.instagram.com)",
+    "높음 · 같은 링크 주소 · fleet ↔ fleet플릿 (www.instagram.com)",
+    "높음 · 같은 링크 주소 · neu노이ノイ ↔ 노이 (www.instagram.com)",
+    "높음 · 같은 링크 주소 · sallyeverywhere샐리에브리웨어 ↔ 샐리에브리웨어 (www.instagram.com)",
+    "높음 · 같은 링크 주소 · sultanofthedisco술탄오브더디스코 ↔ 술탄오브더디스코 (www.instagram.com)",
+    "높음 · 같은 링크 주소 · sunsetrollercoaster ↔ 落日飛車sunsetrollercoaster (www.instagram.com)",
+    "높음 · 같은 링크 주소 · 강지원 ↔ 강지원kangziwon (www.instagram.com)",
+    "높음 · 같은 링크 주소 · 구름 ↔ 구름cloudkohクラウド고형석 (www.instagram.com)",
+    "높음 · 같은 링크 주소 · 나타샤 ↔ 나타샤natasha (www.instagram.com)",
+    "높음 · 같은 링크 주소 · 노이 ↔ 노이ノイ (www.instagram.com)",
+    "높음 · 같은 링크 주소 · 단편선순간들 ↔ 단편선순간들danpyunsunthemomentsensemble (www.instagram.com)",
+    "높음 · 같은 링크 주소 · 대봉 ↔ 대봉debong (www.instagram.com)",
+    "높음 · 같은 링크 주소 · 모우들 ↔ 모우들themows (www.instagram.com)",
+    "높음 · 같은 링크 주소 · 심아일랜드 ↔ 심아일랜드simileland (www.instagram.com)",
+    "높음 · 같은 링크 주소 · 오이스터즈 ↔ 오이스터즈oysters (www.instagram.com)",
+    "높음 · 같은 링크 주소 · 유령서점 ↔ 유령서점ghostbookstore幽靈書店 (www.instagram.com)",
+    "높음 · 같은 링크 주소 · 이파란 ↔ 이파란leeparan (www.instagram.com)",
+    "높음 · 같은 링크 주소 · 이하윤 ↔ 이하윤hayoonyi (www.instagram.com)",
+    "중간 · 로마자 표기 · dj호도리 ↔ djhodori",
+    "중간 · 로마자 표기 · 나미카이 ↔ namikai",
+    "중간 · 로마자 표기 · 논논 ↔ nonnon",
+    "중간 · 로마자 표기 · 디디한 ↔ didihan",
+    "중간 · 로마자 표기 · 로얄44 ↔ royal44",
+    "중간 · 로마자 표기 · 세카코모 ↔ sekakomo",
+    "중간 · 로마자 표기 · 소소욘 ↔ sosoyon",
+    "중간 · 로마자 표기 · 신도시 ↔ sindosi",
+    "중간 · 로마자 표기 · 안덕근99problems ↔ andeokgeun99problems",
+    "중간 · 로마자 표기 · 욘욘 ↔ yonyon",
+    "중간 · 로마자 표기 · 재달 ↔ jaedal",
+    "중간 · 로마자 표기 · 쿠란데 ↔ kurande",
+    "중간 · 로마자 표기 · 판도아쿠 ↔ pandoaku",
+    "중간 · 로마자 표기 · 한결 ↔ hangyeol",
+    "중간 · 로마자 표기 · 해로이키 ↔ haeroiki",
+    "낮음 · 한 글자 차이 · allica ↔ ellica",
+    "낮음 · 한 글자 차이 · amyiee ↔ amyiie",
+    "낮음 · 한 글자 차이 · bbbbomb ↔ bbbomb",
+    "낮음 · 한 글자 차이 · blight ↔ bright",
+    "낮음 · 한 글자 차이 · bugokhawaii ↔ bukokhawaii",
+    "낮음 · 한 글자 차이 · darkmirrorovtragedy ↔ darkmirrorovtregedy",
+    "낮음 · 한 글자 차이 · jaezze ↔ zaezze",
+    "낮음 · 한 글자 차이 · lushroom ↔ nushroom",
+    "낮음 · 한 글자 차이 · maalib ↔ madlib",
+    "낮음 · 한 글자 차이 · maddyxp ↔ madyxp",
+    "낮음 · 한 글자 차이 · nevermind ↔ theneverminds",
+    "낮음 · 한 글자 차이 · pupura ↔ purpura",
+    "낮음 · 한 글자 차이 · reversenrebirth ↔ revesenrebirth",
+    "낮음 · 한 글자 차이 · santiagonicolas ↔ santiagonicols",
+    "낮음 · 한 글자 차이 · shallowleve ↔ shallowlevee",
+    "낮음 · 한 글자 차이 · yln포린 ↔ yln포린등",
+    "낮음 · 한 글자 차이 · 강다니엘 ↔ 허다니엘",
+    "낮음 · 한 글자 차이 · 고니밴드 ↔ 수니밴드",
+    "낮음 · 한 글자 차이 · 나르디스 ↔ 나르키스",
+    "낮음 · 한 글자 차이 · 네메시스 ↔ 네미시스",
+    "낮음 · 한 글자 차이 · 네모난구 ↔ 네모지구",
+    "낮음 · 한 글자 차이 · 다섯번째 ↔ 여섯번째",
+    "낮음 · 한 글자 차이 · 디스맨즈 ↔ 홀스맨즈",
+    "낮음 · 한 글자 차이 · 디에이드 ↔ 디에이팝",
+    "낮음 · 한 글자 차이 · 러버사이즈 ↔ 오버사이즈",
+    "낮음 · 한 글자 차이 · 레드브릭스 ↔ 레이브릭스",
+    "낮음 · 한 글자 차이 · 레인폴띠어리 ↔ 레인폴씨어리",
+    "낮음 · 한 글자 차이 · 루시드림 ↔ 루시드폴",
+    "낮음 · 한 글자 차이 · 리브포레버 ↔ 리브포에버",
+    "낮음 · 한 글자 차이 · 마이호미타 ↔ 마이호미타르",
+    "낮음 · 한 글자 차이 · 머쉬베놈 ↔ 머쉬베놈과",
+    "낮음 · 한 글자 차이 · 모노플로 ↔ 주노플로",
+    "낮음 · 한 글자 차이 · 모사이코 ↔ 모텔사이코",
+    "낮음 · 한 글자 차이 · 미스피츠 ↔ 코스피츠",
+    "낮음 · 한 글자 차이 · 바비돌스 ↔ 바비핀스",
+    "낮음 · 한 글자 차이 · 밴드그린 ↔ 밴드기린",
+    "낮음 · 한 글자 차이 · 비더보이스 ↔ 비치보이스",
+    "낮음 · 한 글자 차이 · 비웨이브 ↔ 영웨이브",
+    "낮음 · 한 글자 차이 · 스트레이 ↔ 스프레이",
+    "낮음 · 한 글자 차이 · 스파게티 ↔ 스파게티즈",
+    "낮음 · 한 글자 차이 · 슬레이터 ↔ 트레이터",
+    "낮음 · 한 글자 차이 · 슬로우빌 ↔ 슬로우쥰",
+    "낮음 · 한 글자 차이 · 슬로우빌 ↔ 슬로우진",
+    "낮음 · 한 글자 차이 · 슬로우쥰 ↔ 슬로우진",
+    "낮음 · 한 글자 차이 · 신스네이크 ↔ 앤스네이크",
+    "낮음 · 한 글자 차이 · 쎄미블루 ↔ 이미블루",
+    "낮음 · 한 글자 차이 · 아이브이 ↔ 아이아이",
+    "낮음 · 한 글자 차이 · 아이브이 ↔ 아이타이",
+    "낮음 · 한 글자 차이 · 아이아이 ↔ 아이오아이",
+    "낮음 · 한 글자 차이 · 아이아이 ↔ 아이타이",
+    "낮음 · 한 글자 차이 · 아이오아 ↔ 아이오아이",
+    "낮음 · 한 글자 차이 · 아이오아 ↔ 아이오와",
+    "낮음 · 한 글자 차이 · 안경잽이 ↔ 안경쟁이",
+    "낮음 · 한 글자 차이 · 에이머스 ↔ 에이체스",
+    "낮음 · 한 글자 차이 · 에이티즈 ↔ 에이퍼즈",
+    "낮음 · 한 글자 차이 · 오아시스 ↔ 오이시스",
+    "낮음 · 한 글자 차이 · 오윤밴드 ↔ 오주밴드",
+    "낮음 · 한 글자 차이 · 오이스터 ↔ 오이스터즈",
+    "낮음 · 한 글자 차이 · 유어마인 ↔ 유얼마인",
+    "낮음 · 한 글자 차이 · 제이비드 ↔ 제이비토",
+    "낮음 · 한 글자 차이 · 지미디아썸 ↔ 지미디어썸",
+    "낮음 · 한 글자 차이 · 컬트게이저 ↔ 컬트케이저",
+    "낮음 · 한 글자 차이 · 크리스마스 ↔ 크리스마스권",
+    "낮음 · 한 글자 차이 · 크리스탈 ↔ 크리스탈티",
+    "낮음 · 한 글자 차이 · 크리스탈 ↔ 크리스피",
+    "낮음 · 한 글자 차이 · 트라이비 ↔ 트레이비",
+    "낮음 · 한 글자 차이 · 트레이비 ↔ 트레이터",
+    "낮음 · 한 글자 차이 · 파라솔웨이브 ↔ 파라솔웨이브스",
+    "낮음 · 한 글자 차이 · 파이브립스 ↔ 파이프립스",
+    "낮음 · 한 글자 차이 · 펑크온파이브 ↔ 펑크온파이어",
+    "낮음 · 한 글자 차이 · 피아노슈게이저 ↔ 피아노슈게이징",
+    "낮음 · 짧은 이름 표기 흔들림 · 김재호 ↔ 김제호",
+    "낮음 · 짧은 이름 표기 흔들림 · 다운 ↔ 따운",
+    "낮음 · 짧은 이름 표기 흔들림 · 더도어벨 ↔ 도어벨",
+    "낮음 · 짧은 이름 표기 흔들림 · 더블리스 ↔ 블리스",
+    "낮음 · 짧은 이름 표기 흔들림 · 보배 ↔ 보베",
+    "낮음 · 짧은 이름 표기 흔들림 · 슬로스 ↔ 슬로쓰",
+    "낮음 · 짧은 이름 표기 흔들림 · 알랜 ↔ 알렌",
+    "낮음 · 짧은 이름 표기 흔들림 · 오왠 ↔ 오왼",
+    "낮음 · 짧은 이름 표기 흔들림 · 오왠 ↔ 오웬",
+    "낮음 · 짧은 이름 표기 흔들림 · 오왼 ↔ 오웬",
+    "낮음 · 짧은 이름 표기 흔들림 · 이재 ↔ 이제",
+    "낮음 · 짧은 이름 표기 흔들림 · 태오 ↔ 테오",
+    "낮음 · 짧은 이름 표기 흔들림 · 파일랫 ↔ 파일렛"
+   ]
   },
   {
    "key": "counted",
@@ -81,7 +218,8 @@
    "rule": "기성 팀이 섞인 정답(burock_main, kma_genre, mucon)은 첫 발매 5년 이내만 셈, 나머지는 모두 셈 — 다르면 실패",
    "value": "불일치 8건 · 확인 못 함 68건(팀 표에 없음) / 정답 723행 — 라쿠나(mucon), 라쿠나(mucon), 루아멜(mucon), 비공정(burock_main), 아월(mucon), 캐치더영(mucon), 캔트비블루(burock_main), 힙노시스테라피(mucon)",
    "status": "fail",
-   "fix": "sql/kr/00_core_views.sql의 v_outcome·v_team_profile과 export_lab_data.py의 팀 표 첫 발매 규칙이 같은지 확인"
+   "fix": "sql/kr/00_core_views.sql의 v_outcome·v_team_profile과 export_lab_data.py의 팀 표 첫 발매 규칙이 같은지 확인",
+   "details": []
   },
   {
    "key": "b_grade_rule",
@@ -89,7 +227,8 @@
    "rule": "source_roles.json에서 B등급('첫 발매 5년 이내 팀만 셈')인 정답이 실제 5년 규칙 목록에 없으면 경고",
    "value": "B등급 4개 중 규칙 밖 1개: hello_rookie",
    "status": "warn",
-   "fix": "그 정답을 csv_schema.CAREER_FILTERED·ref.outcome_tier에 넣거나, 설명에서 5년 규칙 예외라고 적는다"
+   "fix": "그 정답을 csv_schema.CAREER_FILTERED·ref.outcome_tier에 넣거나, 설명에서 5년 규칙 예외라고 적는다",
+   "details": []
   },
   {
    "key": "same_house",
@@ -97,7 +236,8 @@
    "rule": "점수 출처 표시(same_house_scored)는 집안 출처가 있을 때만 — 어긋나면 실패, 규칙이 켜졌는데 표시 0건이면 경고",
    "value": "표시 28건 (점수 출처 포함 3건) · 켜진 짝 3개",
    "status": "pass",
-   "fix": "export_lab_data.same_house_flags와 config same_house(apply=true) 짝을 확인"
+   "fix": "export_lab_data.same_house_flags와 config same_house(apply=true) 짝을 확인",
+   "details": []
   },
   {
    "key": "genre",
@@ -105,7 +245,8 @@
    "rule": "프로필 있는 팀 중 장르 빈칸이 20% 넘으면 경고, 60% 넘으면 실패",
    "value": "프로필 팀 21/459 (4.6%) · 전체 팀 92.6%",
    "status": "pass",
-   "fix": "build_dashboard_data._infer_genres의 장르 이름표에 새 표기(멜론·스포티파이 장르)를 추가한다"
+   "fix": "build_dashboard_data._infer_genres의 장르 이름표에 새 표기(멜론·스포티파이 장르)를 추가한다",
+   "details": []
   },
   {
    "key": "first_release",
@@ -113,7 +254,8 @@
    "rule": "프로필 있는 팀 중 첫 발매일이 있는 비율이 90% 밑이면 경고, 70% 밑이면 실패",
    "value": "프로필 팀 447/459 (97.4%) · 전체 팀 4.9%",
    "status": "pass",
-   "fix": "멜론·스포티파이 프로필 수집기가 발매일을 못 읽는지(페이지 구조 변경) 확인한다"
+   "fix": "멜론·스포티파이 프로필 수집기가 발매일을 못 읽는지(페이지 구조 변경) 확인한다",
+   "details": []
   },
   {
    "key": "url_shapes",
@@ -121,7 +263,8 @@
    "rule": "https가 아니거나 플랫폼 주소가 아니면 이상 — 하나라도 있으면 경고, 2% 넘으면 실패 (주소를 실제로 열어 보지는 않음)",
    "value": "이상 0건 / 1,341건 (0.0%)",
    "status": "pass",
-   "fix": "export_lab_data._link_url·image_rows의 주소 규칙(URL_TEMPLATES·IMAGE_CACHE_HOSTS)을 확인"
+   "fix": "export_lab_data._link_url·image_rows의 주소 규칙(URL_TEMPLATES·IMAGE_CACHE_HOSTS)을 확인",
+   "details": []
   },
   {
    "key": "top_profile",
@@ -129,7 +272,8 @@
    "rule": "프로필(멜론·스포티파이)이 없는 팀 비율이 30% 넘으면 경고, 80% 넘으면 실패 — 프로필이 없으면 신인인지 기성인지 모름",
    "value": "71/100팀 (71.0%) — 상위부터: 품바21, 칩포스트갱, 포져군단, 행간소음, 세일러허니문 외 66",
    "status": "warn",
-   "fix": "scripts/melon_names.py 보강 명단에 점수 상위 팀을 먼저 넣는다 (멜론 상세 페이지 차단이면 스포티파이로)"
+   "fix": "scripts/melon_names.py 보강 명단에 점수 상위 팀을 먼저 넣는다 (멜론 상세 페이지 차단이면 스포티파이로)",
+   "details": []
   },
   {
    "key": "snapshot",
@@ -137,7 +281,8 @@
    "rule": "오늘 스냅샷이 있어야 하고, 제외 목록 팀이나 팀 표에 없는 팀이 들어 있으면 경고",
    "value": "2026-11-27 · 300팀 — 제외 목록 팀 품바21, 세일러허니문, 모임별, 팻햄스터캉뉴, 검엑스, 더더, 딕펑스, 생각의여름 · 팀 표에 없는 팀 nibarchive, bandits, 포스트이너써클",
    "status": "warn",
-   "fix": "export_lab_data.py → lab_snapshot.py 순서로 다시 돌린다 (스냅샷이 옛 팀 표로 계산된 것)"
+   "fix": "export_lab_data.py → lab_snapshot.py 순서로 다시 돌린다 (스냅샷이 옛 팀 표로 계산된 것)",
+   "details": []
   },
   {
    "key": "pg_sync",
@@ -145,7 +290,8 @@
    "rule": "차이가 1% 넘으면 경고",
    "value": "DB 26,534행 · 랩 26,534행",
    "status": "pass",
-   "fix": "적재(load_pg.py) 뒤 export_lab_data.py가 안 돌았거나 실패한 것 — 다시 돌린다"
+   "fix": "적재(load_pg.py) 뒤 export_lab_data.py가 안 돌았거나 실패한 것 — 다시 돌린다",
+   "details": []
   },
   {
    "key": "pg_unknown_programs",
@@ -153,7 +299,8 @@
    "rule": "ref.outcome_tier에 없는 정답 프로그램이 있으면 실패 (조용히 빠짐)",
    "value": "0개",
    "status": "pass",
-   "fix": "csv_schema.OUTCOME_TIER에 등급(mid·final)을 추가하고 다시 적재"
+   "fix": "csv_schema.OUTCOME_TIER에 등급(mid·final)을 추가하고 다시 적재",
+   "details": []
   },
   {
    "key": "pg_no_artist",
@@ -161,7 +308,8 @@
    "rule": "합쳐서 1% 넘으면 경고 (랩에서 빠짐)",
    "value": "팀 없음 7건 · 날짜 없음 0건 / 26,548건 (0.0%)",
    "status": "pass",
-   "fix": "그 출처 수집기의 이름·날짜 읽기를 확인"
+   "fix": "그 출처 수집기의 이름·날짜 읽기를 확인",
+   "details": []
   },
   {
    "key": "pg_career",
@@ -169,7 +317,8 @@
    "rule": "ref.outcome_tier.career_filtered와 csv_schema.CAREER_FILTERED가 다르면 실패",
    "value": "같음 (burock_main, kma_genre, mucon)",
    "status": "pass",
-   "fix": "load_pg.py를 다시 돌려 ref 표를 코드 값으로 맞춘다"
+   "fix": "load_pg.py를 다시 돌려 ref 표를 코드 값으로 맞춘다",
+   "details": []
   }
  ]
 }

@@ -55,7 +55,7 @@ OUTCOME_TIER = {
 OUTCOME_SAME_FAMILY = {"hello_rookie": frozenset({"hello_rookie_year"}),
                        "indiestance": frozenset(), "gg_indiestance": frozenset()}
 # 기성 팀이 많이 섞인 정답: 정답 받을 때 첫 발매 후 CAREER_FILTER_YEARS 이내인 팀만 '신인 정답'으로 센다
-CAREER_FILTERED = frozenset({"burock_main", "mucon", "kma_genre"})
+CAREER_FILTERED = frozenset({"burock_main", "mucon", "kma_genre", "hello_rookie"})   # B등급 = 첫 발매 5년 이내 팀만 (hello_rookie 2026-11-27 추가)
 CAREER_FILTER_YEARS = 5
 
 # 후보 신호용 선정·지원 프로그램 코드 (작고 이른 단계). 정답 코드(PROGRAMS)와 겹치면 안 된다.
