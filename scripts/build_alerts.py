@@ -7,7 +7,15 @@
 알림 종류: 단계 상승 · 새 정답 · 새 선정·지원 · 백지 신인 첫 언급 · 순위 급상승(지난주 스냅샷 대비) · 언급 급증(최근 1주 대 지난 12주 평균) · 큰 공연장 첫 출연
 (config/venue_capacity.json 이 있을 때만) · 같은 무대 수상 팀(새 연결) · 새 공연(앱이 관심 목록 팀만 걸러 보임).
 각 알림 = 종류·팀 키·이름·날짜(그 일이 일어난/일어날 날 — 선정은 기간 끝날이라 미래일 수 있음)·알게 된 날(found_on)·
-한 줄 설명·근거(신호 출처)·중요도. 종류별 상한, 중요도 순. 공개 데이터라 팀 이름까지만 쓴다.
+한 줄 설명·근거(신호 출처)·중요도·같은 팀의 다른 알림 종류(also). 종류별 상한, 중요도 순. 공개 데이터라 팀 이름까지만 쓴다.
+
+'진짜 새 일'만 남기는 규칙 (2026-11-28 점검, docs/alerts_quality.md):
+- 새로 본 신호라도 날짜가 기준일 30일보다 옛날이면(늦게 수집·다시 적재·연결표 변경으로 지문이 바뀐 옛 기록) '오늘 일'이 아니다.
+  → 단계 상승·백지 신인 첫 언급·언급 급증·큰 공연장·같은 무대 수상 팀·순위 급상승은 최근(또는 다가오는) 새 신호가 있을 때만.
+  → 선정·지원은 보여 주되 '늦게 확인'으로 표시하고 중요도를 낮춘다.
+- 단계 상승: 새 남의 언급이 있어야 하고, 지난번 후보 목록에 없던 팀은 기록이 모두 최근인 '진짜 새 팀'이면서 2단계 이상일 때만
+  (첫 신호 1건짜리 새 팀은 알림 아님 — 앱의 새 공연·관심 목록으로 본다).
+- 정렬: 미래 날짜(선정 기간 끝날 등)는 알게 된 날로 친다.
 
 실행: .venv/bin/python scripts/build_alerts.py [--as-of YYYY-MM-DD] [--no-state] [--out 파일]
 """
@@ -32,6 +40,8 @@ STATE = ROOT / "data" / "raw" / "state" / "alerts_state.json"
 CAPACITY = ROOT / "config" / "venue_capacity.json"
 
 WINDOW_DAYS = 7                 # 상태 파일이 없을 때: 기준일 7일 전까지는 이미 본 것
+RECENT_DAYS = 30                # 새로 본 신호라도 이보다 옛날 날짜면 '늦게 알게 된 일'
+LATE_PENALTY = 30               # 늦게 확인한 선정·지원의 중요도 감점
 SNAP_GAP_DAYS = 7               # 순위 비교: 지난주 스냅샷
 RANK_JUMP_MIN = 50              # 이만큼 이상 오르면 급상승
 RANK_TOP = 100                  # 이 순위 안에 든 팀만 급상승·새 진입 알림
@@ -88,6 +98,11 @@ def _mention(s: Signal) -> bool:
     return s.get("branch") != "발매" and s.get("role") != "excluded" and s.get("program") != "dmz_lineup"
 
 
+def is_fresh(s: Signal, as_of: str, days: int = RECENT_DAYS) -> bool:
+    """신호 날짜가 기준일 days 일 전 이후(다가오는 일 포함)인가."""
+    return str(s.get("signal_date") or "") >= _shift(as_of, -days)
+
+
 def _evidence(rows: Iterable[Signal]) -> List[Dict[str, str]]:
     out = []
     for s in list(rows)[:EVIDENCE_MAX]:
@@ -113,12 +128,20 @@ def _by_team(rows: Iterable[Signal]) -> Dict[str, List[Signal]]:
 # ---------- 알림 찾기 ----------
 
 def detect_stage_up(now: Dict[str, int], before: Dict[str, int], teams: Dict[str, str], as_of: str,
-                    new_signals: Sequence[Signal] = ()) -> List[Alert]:
-    """발굴 단계가 오른 팀. 졸업(4)은 새 정답 알림과 겹치고 유명 판정 시작일에 몰려서 뺀다."""
+                    new_signals: Sequence[Signal] = (), first_seen: Optional[Dict[str, str]] = None) -> List[Alert]:
+    """발굴 단계가 오른 팀. 졸업(4)은 새 정답 알림과 겹치고 유명 판정 시작일에 몰려서 뺀다.
+    new_signals = 최근 새 신호. 그중 남의 언급이 있는 팀만(새 신호 없이 재계산으로 바뀐 단계는 뺀다).
+    지난번 후보 목록에 없던 팀은 첫 기록(first_seen)이 최근인 진짜 새 팀이면서 2단계 이상일 때만."""
     new_by = _by_team(s for s in new_signals if _mention(s))
+    first_seen = first_seen or {}
+    recent = _shift(as_of, -RECENT_DAYS)
     out = []
     for team in sorted(now):
         s, b = int(now[team]), int(before.get(team, 0))
+        if not new_by.get(team):
+            continue
+        if team not in before and (s < 2 or str(first_seen.get(team) or "") < recent):
+            continue
         if b < s < 4 and s >= 1:
             text = f"{STAGE_LABELS[b]} → {STAGE_LABELS[s]}" if team in before else f"새로 나타난 팀 — 바로 {STAGE_LABELS[s]}"
             out.append(_alert("stage_up", team, teams, as_of, text,
@@ -126,7 +149,9 @@ def detect_stage_up(now: Dict[str, int], before: Dict[str, int], teams: Dict[str
     return out
 
 
-def detect_new_selection(new_signals: Sequence[Signal], teams: Dict[str, str], programs: Dict[str, str]) -> List[Alert]:
+def detect_new_selection(new_signals: Sequence[Signal], teams: Dict[str, str], programs: Dict[str, str],
+                         as_of: Optional[str] = None) -> List[Alert]:
+    """새 선정·지원. as_of 가 있으면 기준일 RECENT_DAYS 일보다 옛 날짜는 '늦게 확인'(late)으로 표시하고 중요도를 낮춘다."""
     seen: Set[Tuple[str, str]] = set()
     out = []
     for s in new_signals:
@@ -139,8 +164,11 @@ def detect_new_selection(new_signals: Sequence[Signal], teams: Dict[str, str], p
         rank = int(s["stage_rank"]) if s.get("stage_rank") not in (None, "") else None
         step = SELECTION_STAGE.get(rank, "") if rank is not None else ""
         text = f"{programs.get(prog, prog)} {step}".strip()
+        late = bool(as_of) and not is_fresh(s, as_of)
+        if late:
+            text += f" (늦게 확인 — {s.get('signal_date')} 일)"
         out.append(_alert("new_selection", team, teams, str(s.get("signal_date") or ""), text, _evidence([s]),
-                          bonus=5 * (rank or 0)))
+                          bonus=5 * (rank or 0) - (LATE_PENALTY if late else 0), late=late))
     return out
 
 
@@ -175,11 +203,13 @@ def detect_blank_first_mention(new_signals: Sequence[Signal], before: Dict[str, 
 
 
 def detect_rank_jump(now: Dict[str, int], before: Dict[str, int], teams: Dict[str, str], as_of: str,
-                     before_date: str, min_jump: int = RANK_JUMP_MIN, top: int = RANK_TOP) -> List[Alert]:
-    """지난주 스냅샷 대비 순위 급상승 또는 상위권 새 진입 (스냅샷은 상위 300팀만 기록)."""
+                     before_date: str, min_jump: int = RANK_JUMP_MIN, top: int = RANK_TOP,
+                     active: Optional[Set[str]] = None) -> List[Alert]:
+    """지난주 스냅샷 대비 순위 급상승 또는 상위권 새 진입 (스냅샷은 상위 300팀만 기록).
+    active 가 있으면 그 팀(최근 새 신호가 있는 팀)만 — 새 신호 없이 계산 규칙·적재 변화로 오른 순위는 뺀다."""
     out = []
     for team, r in sorted(now.items(), key=lambda kv: kv[1]):
-        if r > top:
+        if r > top or (active is not None and team not in active):
             continue
         b = before.get(team)
         ev = [{"source": "점수 스냅샷", "date": before_date}]
@@ -255,11 +285,15 @@ def venue_tiers(capacity: Optional[dict]) -> Dict[str, str]:
 
 
 def detect_big_venue(new_signals: Sequence[Signal], all_signals: Sequence[Signal], capacity: Optional[dict],
-                     teams: Dict[str, str]) -> List[Alert]:
-    """처음으로 큰 공연장(L·XL)에 선(서는) 팀. 체급 파일이 없으면 건너뜀."""
+                     teams: Dict[str, str], as_of: Optional[str] = None) -> List[Alert]:
+    """처음으로 큰 공연장(L·XL)에 선(서는) 팀. 체급 파일이 없으면 건너뜀.
+    as_of 가 있으면 최근(또는 다가오는) 새 공연만 '첫 출연' 후보이고, 옛 날짜 공연은 새로 본 것이라도 '이미 섰음'으로 친다
+    (연결표가 바뀌어 지문이 새로 생긴 옛 공연·늦게 수집된 지난 공연)."""
     tiers = venue_tiers(capacity)
     if not tiers:
         return []
+    if as_of:
+        new_signals = [s for s in new_signals if is_fresh(s, as_of)]
     new_keys = {signal_key(s) for s in new_signals}
 
     def big(s: Signal) -> bool:
@@ -300,12 +334,18 @@ def peer_winner_pairs(signals: Sequence[Signal], outcomes: Sequence[Dict[str, ob
     return pairs
 
 
-def detect_new_peer_winner(pairs: Dict[str, Tuple[str, str, str, str]], known: Set[str], teams: Dict[str, str]) -> List[Alert]:
-    """새로 생긴 '수상 팀과 같은 무대' 연결 — 팀마다 한 건(수상 팀 이름을 모아서, 가장 최근 무대 날짜)."""
+def detect_new_peer_winner(pairs: Dict[str, Tuple[str, str, str, str]], known: Set[str], teams: Dict[str, str],
+                           as_of: Optional[str] = None,
+                           fresh_gigs: Optional[Set[Tuple[str, str, str]]] = None) -> List[Alert]:
+    """새로 생긴 '수상 팀과 같은 무대' 연결 — 팀마다 한 건(수상 팀 이름을 모아서, 가장 최근 무대 날짜).
+    as_of 가 있으면 최근(또는 다가오는) 무대만, fresh_gigs 가 있으면 그 팀 쪽 공연이 새로 본 최근 공연일 때만
+    (수상 팀 정답·연결표가 바뀌어 옛 무대에 연결이 새로 생긴 것은 뺀다)."""
+    recent = _shift(as_of, -RECENT_DAYS) if as_of else ""
     by_team: Dict[str, List[Tuple[str, str, str]]] = defaultdict(list)
     for key, (a, w, day, venue) in pairs.items():
-        if key not in known:
-            by_team[a].append((day, w, venue))
+        if key in known or day < recent or (fresh_gigs is not None and (a, day, venue) not in fresh_gigs):
+            continue
+        by_team[a].append((day, w, venue))
     out = []
     for a, rows in sorted(by_team.items()):
         rows.sort(reverse=True)
@@ -329,9 +369,15 @@ def boost_candidates(alerts: Sequence[Alert], ranks: Dict[str, int]) -> List[Ale
     return out
 
 
-def rank_and_cap(alerts: Sequence[Alert], caps: Optional[Dict[str, int]] = None, default_cap: int = DEFAULT_CAP) -> List[Alert]:
+def rank_and_cap(alerts: Sequence[Alert], caps: Optional[Dict[str, int]] = None, default_cap: int = DEFAULT_CAP,
+                 as_of: Optional[str] = None) -> List[Alert]:
+    """중요도 순, 같으면 최근 날짜 순. 미래 날짜(선정 기간 끝날 등)는 알게 된 날(as_of)로 친다. 종류별 상한."""
     caps = caps if caps is not None else CAPS
-    ordered = sorted(alerts, key=lambda a: str(a.get("date") or ""), reverse=True)
+
+    def day(a: Alert) -> str:
+        d = str(a.get("date") or "")
+        return min(d, as_of) if as_of and d else d
+    ordered = sorted(alerts, key=day, reverse=True)
     ordered = sorted(ordered, key=lambda a: -float(a["importance"]))
     used: Dict[str, int] = defaultdict(int)
     out = []
@@ -340,6 +386,16 @@ def rank_and_cap(alerts: Sequence[Alert], caps: Optional[Dict[str, int]] = None,
             used[a["type"]] += 1
             out.append(a)
     return out
+
+
+def add_also(alerts: Sequence[Alert], pool: Optional[Sequence[Alert]] = None) -> List[Alert]:
+    """같은 팀의 다른 알림 종류(also) — 한 팀이 여러 종류로 겹쳐 보일 때 앱이 묶어 보일 수 있게.
+    pool(상한 전 찾은 알림 전체)이 있으면 거기서 종류를 모은다. 원본은 바꾸지 않는다."""
+    kinds: Dict[str, List[str]] = defaultdict(list)
+    for a in (pool if pool is not None else alerts):
+        if a["type"] not in kinds[str(a["team_key"])]:
+            kinds[str(a["team_key"])].append(a["type"])
+    return [{**a, "also": [k for k in kinds[str(a["team_key"])] if k != a["type"]]} for a in alerts]
 
 
 # ---------- 기준선 ----------
@@ -380,27 +436,36 @@ def build(data: dict, stages_now: Dict[str, int], stages_before: Dict[str, int],
     before = base.get("stages") or stages_before
     known_sig, known_out, known_pairs = set(base.get("signals", [])), set(base.get("outcomes", [])), set(base.get("pairs", []))
     new_sigs = [s for s in signals if signal_key(s) not in known_sig]
+    fresh = [s for s in new_sigs if is_fresh(s, as_of)]          # 오늘 일로 볼 새 신호 (옛 날짜는 늦게 알게 된 것)
+    first_seen: Dict[str, str] = {}
+    for s in signals:
+        t, d = str(s["team_key"]), str(s.get("signal_date") or "")
+        if d and (t not in first_seen or d < first_seen[t]):
+            first_seen[t] = d
+    fresh_gigs = {(str(s["team_key"]), str(s.get("signal_date") or ""), str(s.get("venue") or ""))
+                  for s in fresh if s.get("branch") == "공연"}
     pairs = peer_winner_pairs(signals, outcomes)
 
-    blank = detect_blank_first_mention(new_sigs, before, teams, data.get("programs", {}))
+    blank = detect_blank_first_mention(fresh, before, teams, data.get("programs", {}))
     blank_teams = {a["team_key"] for a in blank}
     found = (detect_new_outcomes(outcomes, known_out, teams)
-             + detect_new_selection(new_sigs, teams, data.get("programs", {}))
+             + detect_new_selection(new_sigs, teams, data.get("programs", {}), as_of=as_of)
              + blank
-             + [a for a in detect_stage_up(stages_now, before, teams, as_of, new_sigs)
+             + [a for a in detect_stage_up(stages_now, before, teams, as_of, fresh, first_seen)
                 if not (a["team_key"] in blank_teams and int(before.get(a["team_key"], 0)) == 0)]
-             + detect_big_venue(new_sigs, signals, data.get("capacity"), teams)
-             + detect_new_peer_winner(pairs, known_pairs, teams)
-             + detect_spike(signals, new_sigs, teams, as_of)
-             + detect_new_gigs(new_sigs, teams, as_of))
+             + detect_big_venue(new_sigs, signals, data.get("capacity"), teams, as_of=as_of)
+             + detect_new_peer_winner(pairs, known_pairs, teams, as_of=as_of, fresh_gigs=fresh_gigs)
+             + detect_spike(signals, fresh, teams, as_of)
+             + detect_new_gigs(fresh, teams, as_of))
     snap_now, snap_before = data.get("snap_now") or {}, data.get("snap_before") or {}
     dates = data.get("snap_dates") or (None, None)
     if snap_now and snap_before and dates[1]:
-        found += detect_rank_jump(snap_now, snap_before, teams, as_of, dates[1])
+        found += detect_rank_jump(snap_now, snap_before, teams, as_of, dates[1],
+                                  active={str(s["team_key"]) for s in fresh})
     counts = defaultdict(int)
     for a in found:
         counts[a["type"]] += 1
-    alerts = [{**a, "found_on": as_of} for a in rank_and_cap(boost_candidates(found, snap_now))]
+    alerts = [{**a, "found_on": as_of} for a in add_also(rank_and_cap(boost_candidates(found, snap_now), as_of=as_of), pool=found)]
     doc = {
         "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "as_of": as_of,

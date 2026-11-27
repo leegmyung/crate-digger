@@ -35,12 +35,65 @@ class KeyTest(unittest.TestCase):
 
 class DetectTest(unittest.TestCase):
     def test_stage_up(self):
-        now = {"a": 2, "b": 1, "n": 1}
+        now = {"a": 2, "b": 1, "n": 2}
         before = {"a": 1, "b": 1}
-        alerts = ba.detect_stage_up(now, before, TEAMS, AS_OF)
+        fresh = [sig("a", "큐레이션", "2026-11-25", source="musicy"), sig("n", "공연", "2026-11-20", venue="클럽"),
+                 sig("n", "큐레이션", "2026-11-24", source="izm")]
+        alerts = ba.detect_stage_up(now, before, TEAMS, AS_OF, fresh, first_seen={"a": "2025-01-01", "n": "2026-11-20"})
         self.assertEqual([(x["team_key"], x["type"]) for x in alerts], [("a", "stage_up"), ("n", "stage_up")])
         self.assertIn("첫 신호 → 여러 갈래", alerts[0]["text"])
         self.assertIn("새로 나타난 팀", alerts[1]["text"])     # 지난번엔 없던 팀은 '백지 →'라고 쓰지 않음
+
+    def test_stage_up_needs_fresh_new_mention(self):
+        # 새 신호 없이 단계만 바뀐 것(재계산·정답 다시 적재)은 알림 아님 — 2026-11-28 '단계 상승 1,089건' 몰림의 원인
+        self.assertEqual(ba.detect_stage_up({"a": 2}, {"a": 1}, TEAMS, AS_OF, [], first_seen={"a": "2025-01-01"}), [])
+        self.assertEqual(ba.detect_stage_up({"a": 2}, {"a": 1}, TEAMS, AS_OF,
+                                            [sig("a", "발매", "2026-11-25", source="melon")], first_seen={}), [])   # 자기 발매는 언급 아님
+
+    def test_stage_up_new_team_rules(self):
+        fresh = [sig("n", "공연", "2026-11-25", venue="클럽")]
+        # 새 팀 첫 신호 1건(1단계)은 알림 아님 — 인스타 공연 한 줄짜리 팀 수백 개가 몰림
+        self.assertEqual(ba.detect_stage_up({"n": 1}, {}, TEAMS, AS_OF, fresh, first_seen={"n": "2026-11-25"}), [])
+        # 지난번 후보 목록에 없었지만 옛 기록이 있는 팀(신인 판정·연결표가 바뀜)은 '새로 나타난 팀'이 아님
+        two = fresh + [sig("n", "큐레이션", "2026-11-26", source="izm")]
+        self.assertEqual(ba.detect_stage_up({"n": 2}, {}, TEAMS, AS_OF, two, first_seen={"n": "2024-05-01"}), [])
+        self.assertEqual(len(ba.detect_stage_up({"n": 2}, {}, TEAMS, AS_OF, two, first_seen={"n": "2026-11-20"})), 1)
+
+    def test_fresh_signal_window(self):
+        self.assertTrue(ba.is_fresh(sig("a", "공연", "2026-11-01"), AS_OF))
+        self.assertTrue(ba.is_fresh(sig("a", "공연", "2026-12-20"), AS_OF))          # 다가오는 일
+        self.assertFalse(ba.is_fresh(sig("a", "공연", "2026-10-27"), AS_OF))         # 30일보다 옛날 = 늦게 알게 된 일
+
+    def test_new_selection_old_date_marked_late(self):
+        # 부산록페 루키즈처럼 몇 달 전 선정이 오늘 적재된 경우: 보여 주되 '늦게 확인'으로 낮춘다
+        new = [sig("a", "선정·지원", "2026-08-13", source="busanrock", program="burock_rookies", stage_rank=3),
+               sig("b", "선정·지원", "2026-11-25", source="x", program="band_discovery", stage_rank=3)]
+        got = {x["team_key"]: x for x in ba.detect_new_selection(new, TEAMS, {}, as_of=AS_OF)}
+        self.assertTrue(got["a"]["late"])
+        self.assertIn("늦게 확인", got["a"]["text"])
+        self.assertFalse(got["b"]["late"])
+        self.assertLess(got["a"]["importance"], got["b"]["importance"])
+
+    def test_rank_jump_only_for_active_teams(self):
+        # 새 신호 없이 순위만 오른 것(계산 규칙·데이터 다시 적재)은 알림 아님
+        got = ba.detect_rank_jump({"a": 10, "n": 5}, {"a": 90}, TEAMS, AS_OF, "2026-11-20", active={"a"})
+        self.assertEqual([x["team_key"] for x in got], ["a"])
+
+    def test_big_venue_first_ignores_old_and_rekeyed_history(self):
+        cap = {"venues": {"큰홀": {"tier": "L"}}}
+        old_rekeyed = sig("a", "공연", "2025-03-01", venue="큰홀")         # 연결표가 바뀌어 지문이 새로 생긴 옛 공연
+        recent = sig("a", "공연", "2026-12-01", venue="큰홀")
+        late_b = sig("b", "공연", "2026-09-01", venue="큰홀")             # 늦게 수집된 지난 공연
+        new = [old_rekeyed, recent, late_b]
+        self.assertEqual(ba.detect_big_venue(new, new, cap, TEAMS, as_of=AS_OF), [])
+
+    def test_peer_winner_needs_recent_new_gig(self):
+        pairs = {"a|w|2025-06-07|클럽": ("a", "w", "2025-06-07", "클럽"),      # 옛 무대 — 수상 팀 정답·연결표가 바뀌어 새로 생긴 연결
+                 "b|w|2026-11-20|홀": ("b", "w", "2026-11-20", "홀"),          # 최근이지만 b 쪽 공연은 이미 본 것
+                 "n|w|2026-11-22|홀": ("n", "w", "2026-11-22", "홀")}
+        fresh_gigs = {("n", "2026-11-22", "홀")}
+        got = ba.detect_new_peer_winner(pairs, set(), TEAMS, as_of=AS_OF, fresh_gigs=fresh_gigs)
+        self.assertEqual([x["team_key"] for x in got], ["n"])
 
     def test_new_selection_and_outcome(self):
         new = [sig("a", "선정·지원", "2026-11-25", source="x", program="band_discovery", stage_rank=3),
@@ -183,6 +236,25 @@ class RankCapTest(unittest.TestCase):
         got = ba.rank_and_cap(alerts, caps={"new_gig": 2}, default_cap=20)
         self.assertEqual(got[0]["type"], "new_outcome")
         self.assertEqual(sum(1 for a in got if a["type"] == "new_gig"), 2)
+
+    def test_future_dates_sorted_as_found_on(self):
+        # 선정 기간 끝날처럼 미래 날짜는 정렬에서 알게 된 날(as_of)로 친다 — 같은 중요도면 미래 날짜가 맨 위로 가지 않게
+        alerts = [{"type": "new_selection", "importance": 70, "date": "2027-03-01", "team_key": "f"},
+                  {"type": "new_selection", "importance": 70, "date": "2026-11-27", "team_key": "t"},
+                  {"type": "new_selection", "importance": 70, "date": "2026-11-20", "team_key": "o"}]
+        got = ba.rank_and_cap(alerts, caps={}, default_cap=20, as_of=AS_OF)
+        self.assertEqual([a["team_key"] for a in got], ["f", "t", "o"])   # f 는 as_of(11-27)와 같게 → 안정 정렬로 입력 순서
+        alerts[0]["date"] = "2027-03-01"
+        got2 = ba.rank_and_cap(list(reversed(alerts)), caps={}, default_cap=20, as_of=AS_OF)
+        self.assertEqual([a["team_key"] for a in got2], ["t", "f", "o"])
+
+    def test_also_lists_other_types_for_same_team(self):
+        alerts = [{"type": "stage_up", "importance": 50, "date": AS_OF, "team_key": "a"},
+                  {"type": "peer_winner", "importance": 45, "date": AS_OF, "team_key": "a"},
+                  {"type": "new_gig", "importance": 10, "date": AS_OF, "team_key": "b"}]
+        got = {(a["team_key"], a["type"]): a for a in ba.add_also(alerts)}
+        self.assertEqual(got[("a", "stage_up")]["also"], ["peer_winner"])
+        self.assertEqual(got[("b", "new_gig")]["also"], [])
 
     def test_top_candidate_boost(self):
         a = [{"type": "new_gig", "importance": 10, "date": "2026-12-01", "team_key": "a"}]
