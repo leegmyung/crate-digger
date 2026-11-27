@@ -33,6 +33,7 @@ ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"
 STATE_PATH = RAW_DIR / "state" / "hiphople_seen.json"
 REVIEW_DIR = RAW_DIR / "review"
+ITEMS_LOG = REVIEW_DIR / "hiphople_items.jsonl"     # 받은 글 전부 (다시 해석용, 비공개)
 KST = cw.KST
 COLUMNS = cw.COLUMNS
 BASE = "https://hiphople.com"
@@ -51,13 +52,20 @@ BLOCKED_HOURS = (21, 23)         # [21시, 23시) 실행 금지
 
 ITEM_RE = re.compile(r'<a href="/news_kr/(\d+)(?:\?[^"]*)?"><span class="title">(.*?)</span></a>.*?'
                      r'<span class="date">(\d{4})\.(\d{2})\.(\d{2})</span>', re.S)
-KIND = (r"(?:디지털\s*)?(?:싱글|EP|정규\s*\d*\s*집?|정규\s*앨범|미니\s*\d*\s*집?|미니\s*앨범|앨범|믹스테이프|믹스테잎|"
-        r"리믹스|프로젝트\s*앨범|컴필레이션\s*앨범|컴필레이션|OST|신곡|더블\s*싱글)")
 QUOTE_PAIRS = (("“", "”"), ('"', '"'), ("[", "]"), ("〈", "〉"), ("<", ">"), ("「", "」"), ("『", "』"), ("‘", "’"))
-QUOTED = "|".join(f"{re.escape(a)}(?P<q{i}>[^{re.escape(b)}]*){re.escape(b)}" for i, (a, b) in enumerate(QUOTE_PAIRS))
-_REST = rf"{KIND}\s*(?:{QUOTED})?\s*(?:선\s*)?(?:공개|발매)\s*$"
-REST_RE = re.compile(rf"^(?P<more>){_REST}")                          # '이름, 싱글 …'
-REST_MORE_RE = re.compile(rf"^(?P<more>[^,]+?)\s+{_REST}")            # '이름, 이름2 싱글 …' (먼저 위를 시도)
+QUOTED_RE = re.compile("|".join(f"{re.escape(a)}([^{re.escape(b)}]*){re.escape(b)}" for a, b in QUOTE_PAIRS))
+# 끝말: 발매 소식만 받는다 (뮤직비디오·트랙리스트 공개, 발매 예고 포함)
+END_RE = re.compile(r"\s*(?:뮤직비디오|MV|M/V|트랙리스트)?\s*(?:선\s*)?(?:공개|발매|발표)(?:\s*예고)?\s*$")
+# 종류를 나타내는 낱말 (이름 뒤나 쉼표 뒤에 붙음): '정규 2집 선공개 싱글', '새 싱글', '합작', '10월 6일 정규 앨범' 등
+DESC_WORDS = frozenset({"싱글", "EP", "앨범", "정규", "미니", "디지털", "신보", "새", "선공개", "합작", "프로젝트", "컴필레이션",
+                        "믹스테이프", "믹스테잎", "리믹스", "OST", "신곡", "더블", "첫", "리패키지", "스페셜", "곡", "타이틀",
+                        "데뷔", "정규앨범", "미니앨범", "콜라보", "협업", "공동", "LP", "2nd", "1st", "3rd",
+                        "정식", "컴백", "차기", "믹스테입", "디럭스", "버전", "트랙", "솔로", "단독"})
+WITH_PARTNER = re.compile(r"^(?P<name>.+?)(?:과|와)\s*함께한$")   # '경제환과 함께한 싱글' → 경제환
+DESC_NUM = re.compile(r"^\d+(?:집|번째|월|일|th|st|nd|rd)?$")
+# 이름 자리에 이런 낱말이 있으면 발매 소식이 아니거나 팀 이름이 아니라고 보고 버림 (정밀도 우선)
+GENERIC = re.compile(r"음원|컨셉|포토|티저|무대|영상|채널|기념|본선|전곡|프로듀싱|작사|참여|주년|라이브|공연|콘서트|투어|유명|"
+                     r"혐의|대표|신인|멤버|소속|계약|예선|결과|후보|결선|라인업|가요제")
 # 레이블·회사 이름은 팀이 아님 (예: '저스트뮤직, 컴필레이션 앨범 … 공개')
 LABEL_NAME = re.compile(r"(?:뮤직|엔터테인먼트|레코즈|레코드|레이블|records?|music|entertainment|label)$", re.I)
 NAME_SPLIT = re.compile(r"\s+(?:&|x|X|×)\s+|\s*&\s*|\s*×\s*")
@@ -74,26 +82,55 @@ def parse_list_html(page_html: str) -> List[dict]:
     return out
 
 
+def _is_desc(token: str) -> bool:
+    return token in DESC_WORDS or bool(DESC_NUM.match(token))
+
+
+def _strip_desc_suffix(piece: str) -> Tuple[str, bool]:
+    """'판다곰 싱글' → ('판다곰', True). 끝의 종류 낱말을 떼고, 뗀 게 있었는지 함께 돌려준다."""
+    tokens = piece.split()
+    cut = len(tokens)
+    while cut > 0 and _is_desc(tokens[cut - 1]):
+        cut -= 1
+    return " ".join(tokens[:cut]), cut < len(tokens)
+
+
+def _ok_name(name: str) -> bool:
+    return (bool(name) and len(name) <= cw.MAX_SLOT_LEN and name.count(" ") <= MAX_NAME_SPACES
+            and not GENERIC.search(name) and not name.startswith(("<", "〈")))
+
+
 def parse_title(title: str) -> Optional[dict]:
-    """'이름[ & 이름], 싱글 “제목” 공개' → {artists, release_title}. 발매 소식 형식이 아니면 None."""
-    pieces = cw.split_outside_parens(title or "", ",")
-    if len(pieces) < 2:
+    """발매 소식 제목 → {artists, release_title}. 형식이 아니면 None.
+    예: '이름, 싱글 “제목” 공개' · '이름, [제목] 공개' · '이름, 새 싱글 "제목" 발표' · '이름, “제목” 뮤직비디오 공개' ·
+        'A, B, C, EP [제목] 공개' · 'A & B 싱글 “제목” 공개'(쉼표 없음) · '이름, 판다곰 싱글 [제목] 공개'(이름이 쉼표로 이어짐).
+    규칙: 끝말(공개·발매·발표[ 예고])이 있어야 하고, 따옴표 속 제목을 뺀 앞부분을 쉼표로 나눠
+    첫 조각~가운데 조각은 이름, 마지막 조각은 '비었거나 / 종류 낱말만 / 이름+종류 낱말'이어야 한다."""
+    m = END_RE.search(title or "")
+    if not m:
         return None
-    names_part, rest = pieces[0], ", ".join(pieces[1:])
-    m = REST_RE.match(rest.strip()) or REST_MORE_RE.match(rest.strip())
-    if not m or len(names_part) > cw.MAX_SLOT_LEN:
+    head = title[:m.start()]
+    quoted = [g for mm in QUOTED_RE.finditer(head) for g in mm.groups() if g is not None]
+    release = quoted[-1].strip() if quoted else ""
+    pre = re.sub(r"\s+", " ", QUOTED_RE.sub(" ", head)).strip().rstrip(",").strip()
+    pieces = cw.split_outside_parens(pre, ",") if pre else []
+    if not pieces:
         return None
-    more = (m.group("more") or "").strip()            # '양홍원, 판다곰 싱글 …' 처럼 쉼표 뒤에 이어진 이름
-    if len(more) > cw.MAX_SLOT_LEN:
-        return None
-    names = [n.strip() for n in NAME_SPLIT.split(names_part) + (NAME_SPLIT.split(more) if more else []) if n and n.strip()]
-    if not names or any(n.count(" ") > MAX_NAME_SPACES for n in names):
+    first_q = QUOTED_RE.search(head)
+    comma_before_quote = bool(first_q) and head[:first_q.start()].rstrip().endswith(",")   # '이름, [제목] 공개'
+    last_name, had_desc = _strip_desc_suffix(pieces[-1])
+    partner_form = bool(release and WITH_PARTNER.match(pieces[-1].strip()))      # '로꼬, 우원재와 함께한 "X" M/V 공개'
+    if not had_desc and not (release and comma_before_quote) and not partner_form:
+        return None             # 종류 낱말도, '이름, [제목]' 꼴도 아니면 발매 소식이 아님 (예: '…, 2차 예선 결과 공개')
+    name_parts = pieces[:-1] + ([last_name] if last_name else [])
+    name_parts = [WITH_PARTNER.sub(r"\g<name>", p.strip()) for p in name_parts]
+    names = [n.strip() for part in name_parts for n in NAME_SPLIT.split(part) if n and n.strip()]
+    if not names or not all(_ok_name(n) for n in names):
         return None
     names = [n for n in names if not LABEL_NAME.search(n)]
     if not names:
         return None
-    release = next((v for k, v in m.groupdict().items() if k.startswith("q") and v is not None), "")
-    return {"artists": names[:cw.MAX_ARTISTS_PER_ARTICLE], "release_title": release.strip()}
+    return {"artists": names[:cw.MAX_ARTISTS_PER_ARTICLE], "release_title": release}
 
 
 def items_to_rows(items: Sequence[dict], collected_at: str) -> Tuple[List[dict], List[dict]]:
@@ -111,6 +148,41 @@ def items_to_rows(items: Sequence[dict], collected_at: str) -> Tuple[List[dict],
 
 def write_rows(rows: List[dict], out_dir: Path, day: str) -> Path:
     return cw.write_csv(rows, out_dir, day, SOURCE)
+
+
+def read_items(path: Path) -> List[dict]:
+    """받은 글 기록(jsonl) 또는 목록(json)을 읽는다. 같은 글은 하나로(처음 나온 순서)."""
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        return []
+    if text.lstrip().startswith("["):
+        items = json.loads(text)
+    else:
+        items = [json.loads(line) for line in text.splitlines() if line.strip()]
+    seen, out = set(), []
+    for it in items:
+        if it["id"] not in seen:
+            seen.add(it["id"])
+            out.append(it)
+    return out
+
+
+def append_items(path: Path, items: Sequence[dict]) -> None:
+    """받은 글을 모두 남긴다 → 제목 해석 규칙을 고친 뒤 다시 받지 않고 --reparse 로 다시 해석할 수 있게."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "a", encoding="utf-8") as fh:
+        for it in items:
+            fh.write(json.dumps(it, ensure_ascii=False) + "\n")
+
+
+def merge_unparsed(path: Path, items: Sequence[dict]) -> None:
+    """발매 형식이 아닌 글 목록: 같은 날 여러 번 돌려도 덮어쓰지 않고 합친다."""
+    merged = read_items(path)
+    ids = {it["id"] for it in merged}
+    merged += [it for it in items if it["id"] not in ids]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(merged, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
 # ---------- 상태 ----------
@@ -203,7 +275,7 @@ def collect(start_page: int, max_pages: int, since: str, state: dict, read=read_
                 break
             fresh, too_old = select_new(items, state, since)
             fresh_all += fresh
-            page = res["page"] + 1
+            page = res["page"] + (0 if too_old else 1)   # 기준일 경계 쪽은 다음에도 이 쪽부터 (계속 돌려도 쪽 번호가 밀리지 않게)
             print(f"  {res['page']}쪽: 글 {len(items)}건, 새 글 {len(fresh)}건 (가장 오래된 {items[-1]['date']})",
                   file=sys.stderr)
             if too_old:
@@ -214,14 +286,27 @@ def collect(start_page: int, max_pages: int, since: str, state: dict, read=read_
     return fresh_all, page
 
 
+def reparse(path: Path, now: datetime) -> int:
+    """받아 둔 글을 지금 규칙으로 다시 해석해 새 raw_press 파일로 쓴다 (같은 url·팀 줄은 적재 때 하나로 합쳐짐)."""
+    items = read_items(path)
+    rows, unparsed = items_to_rows(items, now.replace(microsecond=0).isoformat())
+    out = write_rows(rows, RAW_DIR, now.date().isoformat()) if rows else None
+    print(f"✅ 다시 해석: 글 {len(items)}건 → {len(rows)}행" + (f" → {out.relative_to(ROOT)}" if out else "")
+          + f" · 발매 형식 아님 {len(unparsed)}건")
+    return 0
+
+
 def main(argv: Sequence[str]) -> int:
     ap = argparse.ArgumentParser(description="힙합엘이 국내 뉴스 (aside 브라우저)")
     ap.add_argument("--backfill", action="store_true", help="과거 기록을 상태 파일의 다음 쪽부터 이어 받기")
     ap.add_argument("--max-pages", type=int, default=DAILY_PAGES)
     ap.add_argument("--since", default=None, help="이 날짜보다 오래된 글이 나오면 멈춤 (YYYY-MM-DD)")
     ap.add_argument("--no-time-guard", action="store_true", help="21~23시에도 실행 (daily_run 안에서만)")
+    ap.add_argument("--reparse", metavar="FILE", help="받아 둔 글(jsonl·json)을 지금 규칙으로 다시 해석만 (브라우저 안 씀)")
     args = ap.parse_args(argv)
     now = datetime.now(KST)
+    if args.reparse:
+        return reparse(Path(args.reparse), now)
     if in_blocked_window(now) and not args.no_time_guard:
         print("⏸ 21:00~23:00에는 매일 자동 수집과 브라우저가 겹치지 않게 실행하지 않아요. 23시 이후에 다시 실행하세요.",
               file=sys.stderr)
@@ -237,12 +322,11 @@ def main(argv: Sequence[str]) -> int:
         since, start = args.since or default, 1
     print(f"힙합엘이 국내 뉴스: {start}쪽부터 최대 {args.max_pages}쪽, {since} 이후", file=sys.stderr)
     fresh, next_page = collect(start, args.max_pages, since, state)
+    append_items(ITEMS_LOG, fresh)
     rows, unparsed = items_to_rows(fresh, now.replace(microsecond=0).isoformat())
     path = write_rows(rows, RAW_DIR, today) if rows else None
     if unparsed:
-        REVIEW_DIR.mkdir(parents=True, exist_ok=True)
-        (REVIEW_DIR / f"hiphople_unparsed_{today}.json").write_text(
-            json.dumps(unparsed, ensure_ascii=False, indent=1), encoding="utf-8")
+        merge_unparsed(REVIEW_DIR / f"hiphople_unparsed_{today}.json", unparsed)
     state = mark_seen(state, [it["id"] for it in fresh],
                       backfill_next_page=next_page if args.backfill else None, today=today)
     save_state(STATE_PATH, state)

@@ -56,6 +56,22 @@ class TitleParseTest(unittest.TestCase):
             "로얄44, EP [it’s only a game] 공개": (["로얄44"], "it’s only a game"),   # 제목 안 ’ (실제 사례)
             "양홍원, 판다곰 싱글 [오보] 공개": (["양홍원", "판다곰"], "오보"),           # 이름이 쉼표로 이어짐 (실제 사례)
             "빈첸, 예스코바 정규 앨범 [VIBA] 공개": (["빈첸", "예스코바"], "VIBA"),
+            # 옛 글 형식 (2023~2026 실제 제목)
+            "재달, [안개 속의 JDL] 공개": (["재달"], "안개 속의 JDL"),
+            "수퍼비, 신보 [before the m.s.g.a] 발매": (["수퍼비"], "before the m.s.g.a"),
+            "머디레드, 새 싱글 \"LOGIC\" 발표": (["머디레드"], "LOGIC"),
+            "루피, 정규 2집 선공개 싱글 \"MOVING\" 발표": (["루피"], "MOVING"),
+            "비프리, “네르갈” 뮤직비디오 공개": (["비프리"], "네르갈"),
+            "기리보이, 씨잼, 블랙넛, EP [asdf] 공개": (["기리보이", "씨잼", "블랙넛"], "asdf"),
+            "최예나 & 나우아임영 싱글 “보기 드문 여자” 공개": (["최예나", "나우아임영"], "보기 드문 여자"),
+            "에픽하이 X 다비치, 싱글 “미장센” 발매 예고": (["에픽하이", "다비치"], "미장센"),
+            "우슬라임 X 매튜, 합작 트랙리스트 공개": (["우슬라임", "매튜"], ""),
+            "버벌진트, [10년동안의오독 II] 발매 예고": (["버벌진트"], "10년동안의오독 II"),
+            "스카이민혁, 10월 6일 정규 앨범 발매 예고": (["스카이민혁"], ""),
+            "드루보이, 정식 데뷔 싱글 \"All I Want Is You\" 발표": (["드루보이"], "All I Want Is You"),
+            "아우릴고트, 경제환과 함께한 싱글 \"SAVE ME\" 발표": (["아우릴고트", "경제환"], "SAVE ME"),
+            "pH-1, 믹스테입 [POP OFF] 발표": (["pH-1"], "POP OFF"),
+            "로꼬, 우원재와 함께한 \"BROKEN IPHONE\" M/V 공개": (["로꼬", "우원재"], "BROKEN IPHONE"),
         }
         for title, (artists, release) in cases.items():
             with self.subTest(title=title):
@@ -64,6 +80,12 @@ class TitleParseTest(unittest.TestCase):
                 self.assertEqual(got["release_title"], release)
 
     def test_non_release_news_is_not_parsed(self):
+        for title in ("김하온, 앨범 컨셉 포토 공개", "에픽하이, ‘EPIKASE 가요제’ 본선 음원 공개",
+                      "앰비션 10주년 기념 \"RED ALERT\" 공개", "로얄44, 유튜브 채널 <로얄왕국> 개설",
+                      "40대 유명 래퍼, 마약류 투약 혐의", "그루비룸, 하이브 신인 튜이드 전곡 프로듀싱",
+                      "DJ 펌킨, AOMG 대표이사직 사임", "하이어뮤직, 컴필레이션 [PINK TAPE] 공개"):
+            with self.subTest(title=title):
+                self.assertIsNone(ch.parse_title(title))
         self.assertIsNone(ch.parse_title("쇼미더머니12, 2차 예선 결과 공개"))
         self.assertIsNone(ch.parse_title("한국힙합어워즈 2027 후보 발표"))
         self.assertIsNone(ch.parse_title("싱글 “무제” 공개"))                    # 쉼표 앞 이름 없음
@@ -96,6 +118,22 @@ class RowsTest(unittest.TestCase):
                 got = list(csv.DictReader(fh))
         self.assertEqual(path.name, "raw_press_2026-11-27_hiphople.csv")
         self.assertEqual(len(got), 3)
+
+
+class ReparseTest(unittest.TestCase):
+    def test_items_log_append_and_reparse(self):
+        items = ch.parse_list_html(LIST_HTML)
+        with tempfile.TemporaryDirectory() as d:
+            log = Path(d) / "items.jsonl"
+            ch.append_items(log, items[:2])
+            ch.append_items(log, items[1:])                       # 겹친 글은 다시 읽을 때 하나로
+            back = ch.read_items(log)
+            unparsed_path = Path(d) / "u.json"
+            ch.merge_unparsed(unparsed_path, [items[2]])
+            ch.merge_unparsed(unparsed_path, [items[2], items[0]])
+            merged = ch.read_items(unparsed_path)
+        self.assertEqual([i["id"] for i in back], ["33807172", "33807166", "33807100"])
+        self.assertEqual(sorted(i["id"] for i in merged), ["33807100", "33807172"])
 
 
 class StateTest(unittest.TestCase):
@@ -134,6 +172,11 @@ class CollectLoopTest(unittest.TestCase):
         self.assertEqual(len(fresh), 6)                           # 1·2쪽 3건씩, 3쪽은 빈 쪽 → 멈춤
         self.assertEqual(nxt, 3)                                  # 다음 실행은 3쪽부터
         self.assertEqual(calls, [[1, 2, 3, 4, 5]])
+
+    def test_since_boundary_page_is_kept(self):
+        fake = lambda batch: [{"page": p, "status": 200, "html": LIST_HTML} for p in batch]   # noqa: E731
+        fresh, nxt = ch.collect(5, 10, "2026-11-22", {"seen": []}, read=fake)
+        self.assertEqual((len(fresh), nxt), (2, 5))               # 5쪽에 기준일보다 오래된 글 → 멈추고 다음도 5쪽
 
     def test_failed_read_keeps_start_page(self):
         fresh, nxt = ch.collect(7, 2, "2026-01-01", {"seen": []}, read=lambda batch: None)
