@@ -11,22 +11,9 @@ except ImportError:  # 시스템 파이썬에는 없을 수 있음
     duckdb = None
 
 ROOT = Path(__file__).resolve().parent.parent
-SQL_DIR = ROOT / "docs" / "lab" / "sql"
 sys.path.insert(0, str(ROOT / "scripts"))
 
-DEFAULTS = {
-    "lookback_years": "3", "newcomer_years": "3", "exclude_famous": "true", "outcome_tier": "'any'",
-    "horizon_months": "24", "genre": "''", "branches": "['공연','선정·지원','발매','큐레이션']",
-    "w_branch": "2", "w_stage": "1", "w_peer": "1", "w_dmz": "0.5", "w_gigs": "0.5", "w_outlets": "1",
-    "outlet_cap": "3", "k_list": "[1,2,3]", "only_no_outcome": "true", "limit": "50",
-}
-
-
-def fill(sql: str, **params: str) -> str:
-    for k, v in {**DEFAULTS, **params}.items():
-        sql = sql.replace("{{" + k + "}}", v)
-    assert "{{" not in sql, sql[sql.index("{{"):sql.index("{{") + 30]
-    return sql
+from lab_sql import DEFAULTS, SQL_DIR, fill  # noqa: E402
 
 
 def fixture_db():
@@ -43,7 +30,10 @@ def fixture_db():
           ('d','공연','x','',NULL,'2010-05-01','클럽2'),
           ('d','공연','x','',NULL,'2024-05-01','클럽2'),
           ('e','선정·지원','x','dmz_lineup',2,'2024-08-01',''),
-          ('f','공연','x','',NULL,'2024-02-01','클럽3');
+          ('f','공연','x','',NULL,'2024-02-01','클럽3'),
+          ('g','선정·지원','x','band_discovery',2,'2026-05-01',''),
+          ('g','공연','x','',NULL,'2026-06-01','클럽1'),
+          ('g','공연','x','',NULL,'2026-07-01','클럽9');
         CREATE TABLE teams(team_key VARCHAR, display_name VARCHAR, first_seen DATE, first_release DATE,
                            fan_count INTEGER, album_count INTEGER, profile_status VARCHAR, primary_genre VARCHAR);
         INSERT INTO teams VALUES
@@ -52,7 +42,8 @@ def fixture_db():
           ('c','씨','2024-05-01',NULL,NULL,NULL,'famous',''),
           ('d','디','2010-05-01',NULL,NULL,NULL,'unknown',''),
           ('e','이','2024-08-01',NULL,NULL,NULL,'unknown',''),
-          ('f','에프','2024-02-01',NULL,NULL,NULL,'unknown','');
+          ('f','에프','2024-02-01',NULL,NULL,NULL,'unknown',''),
+          ('g','지','2026-05-01',NULL,NULL,NULL,'unknown','');
         CREATE TABLE outcomes(team_key VARCHAR, program VARCHAR, program_label VARCHAR, tier VARCHAR,
                               announced_date DATE, counted BOOLEAN);
         INSERT INTO outcomes VALUES
@@ -111,7 +102,7 @@ class LabSqlTest(unittest.TestCase):
         self.assertEqual(self.scored(outcome_tier="'final'")["b"]["is_hit"], 0)
 
     def test_backtest_counts_hits_and_random_baseline(self):
-        res = {(r["k"], r["method"]): r for r in rows(self.con, "backtest.sql", cutoff="'2025-01-01'")}
+        res = {(r["k"], r["method"]): r for r in rows(self.con, "backtest.sql", cutoff="'2025-01-01'", k_list="[1,2,3]")}
         top1 = res[(1, "점수")]
         self.assertEqual(top1["hits"], 1)            # 점수 1위 = a (정답)
         self.assertEqual(top1["pool_n"], 3)          # a, b, e (f는 이미 정답이라 제외)
@@ -119,7 +110,7 @@ class LabSqlTest(unittest.TestCase):
         self.assertAlmostEqual(top1["random_expected"], round(2 / 3, 2))
 
     def test_candidates_sorted_by_score_and_hide_outcome_teams(self):
-        out = rows(self.con, "candidates.sql", as_of="'2025-01-01'")
+        out = rows(self.con, "candidates.sql", as_of="'2025-01-01'", limit="50")
         self.assertEqual(out[0]["team_key"], "a")
         self.assertNotIn("f", [r["team_key"] for r in out])
 
@@ -129,6 +120,30 @@ class LabSqlTest(unittest.TestCase):
         bd = [r for r in out if r["program"] == "band_discovery"][0]
         self.assertEqual((bd["teams"], bd["hits"], bd["label"]), (1, 1, "상상마당 밴드 디스커버리"))
         self.assertTrue(0 <= bd["ci_low"] <= bd["rate"] <= bd["ci_high"] <= 100)
+
+
+@unittest.skipIf(duckdb is None, "duckdb 없음")
+class TeamSqlTest(unittest.TestCase):
+    def setUp(self):
+        self.con = fixture_db()
+
+    def test_precedents_finds_past_winner_with_shared_path(self):
+        out = rows(self.con, "precedents.sql", team_key="'g'")
+        self.assertEqual(out[0]["past_team"], "a")
+        self.assertEqual(out[0]["shared_count"], 2)                     # 밴드 디스커버리 + 클럽1
+        self.assertIn("상상마당 밴드 디스커버리", out[0]["shared_list"])
+        self.assertEqual(out[0]["outcome_label"], "한대음 신인")
+        self.assertEqual(out[0]["months_signal_to_outcome"], 12)         # 2024-03 첫 신호 → 2025-03 정답
+
+    def test_precedents_ignores_self_and_signals_after_outcome(self):
+        keys = [r["past_team"] for r in rows(self.con, "precedents.sql", team_key="'a'")]
+        self.assertNotIn("a", keys)
+        self.assertNotIn("g", keys)                                     # g는 정답 없음
+
+    def test_team_timeline_newest_first_with_labels(self):
+        out = rows(self.con, "team.sql", team_key="'a'")
+        self.assertEqual([str(r["signal_date"]) for r in out], ["2024-07-01", "2024-06-01", "2024-03-01"])
+        self.assertEqual(out[-1]["program_label"], "상상마당 밴드 디스커버리")
 
 
 if __name__ == "__main__":

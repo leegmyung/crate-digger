@@ -31,6 +31,7 @@ fi
 "$PY" scripts/build_dashboard_data.py || echo "⚠️ 데이터 대시보드 갱신 일부 실패"
 "$PY" scripts/run_pg_queries.py || echo "⚠️ SQL 결과 문서 일부 실패"
 "$PY" scripts/export_lab_data.py || echo "⚠️ 랩(설정형 분석 도구) 데이터 갱신 실패"
+"$PY" scripts/lab_snapshot.py || echo "⚠️ 점수 스냅샷 실패 (.venv에 duckdb 필요)"
 "$PY" scripts/daily_note.py "$DAY" || echo "⚠️ 일일 기록 실패"
 
 git add docs/data/collect.json "docs/log/$DAY.md" docs/data/dashboard.json docs/sql/README.md docs/lab/data
