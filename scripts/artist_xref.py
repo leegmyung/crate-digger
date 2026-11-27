@@ -566,6 +566,14 @@ def xref_rows(artists: list[dict]) -> list[tuple[str, str, str, str]]:
     for rec in artists:
         for k in _variant_keys(rec):
             rows.setdefault(k, (k, rec["artist_key"], rec["display_name"], rec["confidence"]))
+    # 연결된 인스타 계정명(확신 high·mid)도 그 팀의 표기로: 인스타 게시물에서 이름 대신 '@oysters.999'만 잡힌 줄을 잇는다.
+    # 팀 이름 키를 다 넣은 뒤에 넣어서, 계정명 키가 다른 팀의 실제 이름 키를 덮어쓰지 않게 한다.
+    for rec in artists:
+        for ig in rec.get("instagram") or []:
+            if ig.get("confidence") in ("high", "mid") and ig.get("handle"):
+                k = artist_key(ig["handle"].lstrip("@"))
+                if k:
+                    rows.setdefault(k, (k, rec["artist_key"], rec["display_name"], ig["confidence"]))
     return list(rows.values())
 
 

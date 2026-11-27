@@ -287,6 +287,20 @@ class PgRowsTest(unittest.TestCase):
         self.assertEqual(rows["peachtruckhijackers"][1], "피치트럭하이재커스")  # load_pg 의 alias_key
         self.assertEqual(len(rows), len(ax.xref_rows(artists)))  # variant_key 중복 없음
 
+    def test_linked_instagram_handles_become_variant_keys(self):
+        # 인스타 게시물에서 이름 대신 계정명만 잡힌 줄('oysters.999')도 그 팀으로 묶이게
+        artists = [{"artist_key": "오이스터즈", "display_name": "오이스터즈", "keys": ["오이스터즈"], "aliases": [],
+                    "confidence": "high",
+                    "instagram": [{"handle": "oysters.999", "confidence": "high"},
+                                  {"handle": "maybe_other", "confidence": "low"}]},
+                   {"artist_key": "다른팀", "display_name": "다른팀", "keys": ["다른팀", "oysters999"], "aliases": [],
+                    "confidence": "high", "instagram": []}]
+        rows = {r[0]: r for r in ax.xref_rows(artists)}
+        self.assertEqual(rows["oysters999"][1], "다른팀")        # 이미 다른 팀 이름 키면 계정명이 덮어쓰지 않음
+        self.assertNotIn("maybeother", rows)                     # 확신 낮은 계정은 안 넣음
+        rows2 = {r[0]: r for r in ax.xref_rows(artists[:1])}
+        self.assertEqual(rows2["oysters999"][1], "오이스터즈")
+
     def test_pg_script_refills_without_drop(self):
         # core 뷰가 ref.artist_xref 를 참조하므로 DROP 대신 비우고 다시 채운다 (한 트랜잭션)
         script = ax.pg_load_script("/tmp/x.csv")
