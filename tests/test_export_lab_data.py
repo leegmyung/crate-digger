@@ -178,6 +178,34 @@ class RoleTest(unittest.TestCase):
         self.assertEqual((rows[0]["grade"], rows[0]["weight"]), ("S", 3))
         self.assertEqual((rows[1]["grade"], rows[1]["weight"]), ("B", 1))
 
+    def test_nominee_is_one_grade_lower_and_winner_kept(self):
+        roles = {**ROLES, "outcome_rules": {"lower_results": ["nominee", "shortlist"]},
+                 "outcomes": {"kma_rookie": {"grade": "S", "weight": 3}, "musicy": {"grade": "A", "weight": 2},
+                              "kma_genre": {"grade": "B", "weight": 1}}}
+        base = {"tier": "final", "announced_date": "2025-01-01", "counted": "t"}
+        rows = ex.outcome_rows([{**base, "team_key": "a", "program": "kma_rookie", "result": "winner"},
+                                {**base, "team_key": "b", "program": "kma_rookie", "result": "nominee"},
+                                {**base, "team_key": "c", "program": "musicy", "result": "shortlist"},
+                                {**base, "team_key": "d", "program": "kma_genre", "result": "nominee"}], roles)
+        got = {r["team_key"]: (r["grade"], r["weight"], r["result"]) for r in rows}
+        self.assertEqual(got["a"], ("S", 3, "winner"))
+        self.assertEqual(got["b"], ("A", 2, "nominee"))
+        self.assertEqual(got["c"], ("B", 1, "shortlist"))
+        self.assertEqual(got["d"], ("B", 1, "nominee"))   # B 아래는 없음
+
+    def test_same_award_nominee_and_winner_keeps_best_row(self):
+        roles = {**ROLES, "outcome_rules": {"lower_results": ["nominee"]}}
+        base = {"team_key": "a", "program": "kma_rookie", "tier": "final", "announced_date": "2025-01-01", "counted": "t"}
+        rows = ex.outcome_rows([{**base, "result": "nominee"}, {**base, "result": "winner"}], roles)
+        self.assertEqual(len(rows), 1)
+        self.assertEqual((rows[0]["grade"], rows[0]["result"]), ("S", "winner"))
+
+    def test_excluded_teams_are_dropped(self):
+        roles = {**ROLES, "outcome_rules": {"excluded_teams": {"투어스": "대형 기획사 아이돌"}}}
+        base = {"program": "kma_rookie", "tier": "final", "announced_date": "2025-01-01", "counted": "t"}
+        rows = ex.outcome_rows([{**base, "team_key": "투어스"}, {**base, "team_key": "인디팀"}], roles)
+        self.assertEqual([r["team_key"] for r in rows], ["인디팀"])
+
 
 class CollabDateTest(unittest.TestCase):
     def test_partial_dates_become_last_day_of_period(self):

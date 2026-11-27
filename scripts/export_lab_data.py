@@ -61,9 +61,10 @@ COLLAB_FIELDS = ["team_key", "partner_key", "partner_name", "release_date", "rol
 # 시점 누수 방지: 모든 비교는 '그 협업 발매일' 기준(그때 이미 기성이었나). 정답·유명 여부도 그 전에 알 수 있던 것만.
 ESTABLISHED_YEARS = 5      # 파트너 첫 발매가 협업보다 5년 이상 앞서면 기성 (신인 기준 3년보다 넉넉히 — 확실한 선배만)
 ESTABLISHED_ALBUMS = 15    # 앨범(싱글 포함) 15개 이상이면 기성 (신인 기준 10개를 확실히 넘는 수준)
-OUTCOME_FIELDS = ["team_key", "program", "program_label", "tier", "announced_date", "counted", "grade", "weight"]
+OUTCOME_FIELDS = ["team_key", "program", "program_label", "tier", "result", "announced_date", "counted", "grade", "weight"]
 ROLES_FILE = ROOT / "config" / "source_roles.json"
 DEFAULT_GRADE = ("B", 1)
+GRADE_LADDER = [("S", 3), ("A", 2), ("B", 1)]   # 후보(nominee 등)는 한 칸 아래, B 아래는 없음
 STATUS_PRIORITY = "CASE st.status WHEN 'famous' THEN 4 WHEN 'established' THEN 3 WHEN 'newcomer' THEN 2 ELSE 1 END"
 
 Run = Callable[[str], str]
@@ -136,7 +137,8 @@ def queries(use_xref: bool) -> Dict[str, str]:
             FROM refs r LEFT JOIN core.v_team_map tm ON tm.variant_key = r.artist_key
             WHERE r.artist_key IS NOT NULL AND r.artist_key <> ''""",
         "outcomes": """-- lab:outcomes
-            SELECT DISTINCT team_key, program, tier, announced_start AS announced_date, counted
+            SELECT DISTINCT team_key, program, tier, COALESCE(result, '') AS result,
+                   announced_start AS announced_date, counted
             FROM core.v_outcome
             WHERE artist_key IS NOT NULL AND artist_key <> '' AND announced_start IS NOT NULL
             ORDER BY team_key, announced_date""",
@@ -174,16 +176,38 @@ def signal_role(row: dict, roles: dict) -> str:
     return entry.get("role") or roles.get("default_role", "pending")
 
 
+def _lower_grade(grade: str, weight) -> tuple:
+    """등급 한 칸 낮추기 (S→A→B, B는 그대로)."""
+    names = [g for g, _ in GRADE_LADDER]
+    if grade not in names:
+        return grade, weight
+    return GRADE_LADDER[min(names.index(grade) + 1, len(names) - 1)]
+
+
 def outcome_rows(rows: List[dict], roles: dict | None = None) -> List[dict]:
-    grades = ((roles or {}).get("outcomes") or {})
-    out = []
+    """정답 행 + 등급. outcome_rules: lower_results(후보·최종 후보 등은 한 등급 아래), excluded_teams(정답에서 뺄 팀과 이유).
+    같은 팀·같은 프로그램·같은 날짜가 후보와 수상으로 둘 다 있으면 가중치가 큰 행 하나만 남긴다."""
+    roles = roles or {}
+    grades = roles.get("outcomes") or {}
+    rules = roles.get("outcome_rules") or {}
+    lower = set(rules.get("lower_results") or [])
+    excluded = rules.get("excluded_teams") or {}
+    best: Dict[tuple, dict] = {}
     for r in rows:
+        if r.get("team_key") in excluded:
+            continue
         g = grades.get(r["program"]) or {}
-        out.append({**{k: r.get(k) or "" for k in OUTCOME_FIELDS},
-                    "program_label": PROGRAM_NAMES.get(r["program"], r["program"]),
-                    "counted": "true" if str(r.get("counted", "")).lower() in ("t", "true", "1") else "false",
-                    "grade": g.get("grade", DEFAULT_GRADE[0]), "weight": g.get("weight", DEFAULT_GRADE[1])})
-    return out
+        grade, weight = g.get("grade", DEFAULT_GRADE[0]), g.get("weight", DEFAULT_GRADE[1])
+        if (r.get("result") or "") in lower:
+            grade, weight = _lower_grade(grade, weight)
+        row = {**{k: r.get(k) or "" for k in OUTCOME_FIELDS},
+               "program_label": PROGRAM_NAMES.get(r["program"], r["program"]),
+               "counted": "true" if str(r.get("counted", "")).lower() in ("t", "true", "1") else "false",
+               "grade": grade, "weight": weight}
+        key = (row["team_key"], row["program"], row["announced_date"])
+        if key not in best or int(weight) > int(best[key]["weight"]):
+            best[key] = row
+    return list(best.values())
 
 
 def _link_url(platform: str, ref: str) -> str | None:
