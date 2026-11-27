@@ -1,0 +1,957 @@
+{
+ "_설명": "공연장 수용 인원과 체급 (scripts/venue_ladder.py 가 읽음). 키 = 공연장 연결표(venue_xref)의 대표 이름 = 랩 signals.csv 의 venue. capacity = 스탠딩 최대(없으면 좌석) — 인디 공연은 대부분 스탠딩이라. 확인 못 한 곳은 capacity·tier 를 비움(null). rank·events = 2026-11-27 랩 데이터에서 그 공연장의 공연 날짜 수 순위. 수용 인원은 '지금' 값이라 공연장이 이전·확장했으면 과거와 다를 수 있음.",
+ "_체급_기준": "capacity 가 tiers 의 max 이하인 첫 체급. 400·1000 경계에 걸친 곳(상상마당 홍대 400)은 아래 체급.",
+ "capacity_basis": "standing_else_seats",
+ "tiers": [
+  {
+   "tier": "S",
+   "max": 150,
+   "뜻": "클럽·카페·소극장 (~150명)"
+  },
+  {
+   "tier": "M",
+   "max": 400,
+   "뜻": "소형 라이브홀 (151~400명) — 웨스트브릿지·프리즘홀·상상마당 홍대"
+  },
+  {
+   "tier": "L",
+   "max": 1000,
+   "뜻": "중형 라이브홀 (401~1,000명) — 롤링홀·무신사 개러지·원더로크홀"
+  },
+  {
+   "tier": "XL",
+   "max": null,
+   "뜻": "대형 (1,001명~) — 예스24 라이브홀"
+  }
+ ],
+ "checked": "2026-11-27",
+ "venues": {
+  "Club 빵": {
+   "rank": 1,
+   "events": 469,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "Club FF": {
+   "rank": 2,
+   "events": 383,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "라이브홀": {
+   "rank": 3,
+   "events": 317,
+   "capacity": 400,
+   "tier": "M",
+   "seats": 150,
+   "standing": 400,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 'KT&G 상상마당 홍대 라이브홀'",
+   "confidence": "medium",
+   "note": "원본 표기 '라이브홀 (KT&G 상상마당 홍대)' — 공연장 연결표가 끝 괄호(지점)를 떼어 대표 이름이 '라이브홀'이 됨. 상상마당 출처 원본은 모두 홍대(544건) 지점",
+   "checked": "2026-11-27"
+  },
+  "언플러그드 라운지": {
+   "rank": 4,
+   "events": 302,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "오방가르드": {
+   "rank": 5,
+   "events": 236,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "카페 언플러그드 홍대점": {
+   "rank": 6,
+   "events": 209,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "Club Victim": {
+   "rank": 7,
+   "events": 192,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "무신사개러지": {
+   "rank": 8,
+   "events": 161,
+   "capacity": 550,
+   "tier": "L",
+   "seats": 280,
+   "standing": 550,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 '무신사 개러지'",
+   "confidence": "high",
+   "note": "헤이팝 공간 정보도 스탠딩 550·좌석 230",
+   "checked": "2026-11-27"
+  },
+  "롤링홀": {
+   "rank": 9,
+   "events": 118,
+   "capacity": 450,
+   "tier": "L",
+   "seats": 200,
+   "standing": 450,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본)",
+   "confidence": "high",
+   "note": "다른 자료: 스탠딩 최대 400명(ktriptips), 600명(Time Out 서울) — 나무위키 값을 씀",
+   "checked": "2026-11-27"
+  },
+  "A.O.R": {
+   "rank": 10,
+   "events": 97,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "Bender": {
+   "rank": 11,
+   "events": 90,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "언드": {
+   "rank": 12,
+   "events": 89,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "스트레인지 프룻": {
+   "rank": 13,
+   "events": 84,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "생기스튜디오": {
+   "rank": 14,
+   "events": 73,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "채널1969": {
+   "rank": 15,
+   "events": 73,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "유기체": {
+   "rank": 16,
+   "events": 66,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "스페이스 한강": {
+   "rank": 17,
+   "events": 64,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "우주정거장": {
+   "rank": 18,
+   "events": 63,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "Cafe PPnF": {
+   "rank": 19,
+   "events": 57,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "KT&G 상상마당 홍대 라이브홀": {
+   "rank": 20,
+   "events": 50,
+   "capacity": 400,
+   "tier": "M",
+   "seats": 150,
+   "standing": 400,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본)",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  },
+  "3층 라이브홀": {
+   "rank": 21,
+   "events": 48,
+   "capacity": 500,
+   "tier": "L",
+   "seats": 217,
+   "standing": 500,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 'KT&G 상상마당 부산 라이브홀'",
+   "confidence": "medium",
+   "note": "원본 표기 '3층 라이브홀 (KT&G 상상마당 부산)' — 공연장 연결표가 끝 괄호(지점)를 떼어 대표 이름이 '3층 라이브홀'이 됨. 상상마당 출처 원본은 모두 부산 지점",
+   "checked": "2026-11-27"
+  },
+  "우무지": {
+   "rank": 22,
+   "events": 43,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "살롱문보우": {
+   "rank": 23,
+   "events": 42,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "아지토 라이브 홀": {
+   "rank": 24,
+   "events": 37,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "벨르": {
+   "rank": 25,
+   "events": 37,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "사운드홀 로비": {
+   "rank": 26,
+   "events": 36,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "상상마당 춘천 사운드홀 로비 공연 — 로비라 사운드홀 수용 인원을 쓰지 않음"
+  },
+  "Hukez": {
+   "rank": 27,
+   "events": 34,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "Club Sharp": {
+   "rank": 28,
+   "events": 33,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "대구 제임스레코드": {
+   "rank": 29,
+   "events": 32,
+   "capacity": 200,
+   "tier": "M",
+   "seats": 100,
+   "standing": 200,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 '제임스레코드'",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  },
+  "꼬뮨": {
+   "rank": 30,
+   "events": 31,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "예스24 원더로크홀": {
+   "rank": 31,
+   "events": 29,
+   "capacity": 686,
+   "tier": "L",
+   "seats": 376,
+   "standing": 686,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본)",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  },
+  "KT&G상상마당 부산": {
+   "rank": 32,
+   "events": 29,
+   "capacity": 500,
+   "tier": "L",
+   "seats": 217,
+   "standing": 500,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 'KT&G 상상마당 부산 라이브홀'",
+   "confidence": "medium",
+   "note": "지점 이름만 적힌 표기 — 대부분 라이브홀 공연으로 보고 라이브홀 값을 씀(루프탑 등 다른 공간 공연이 섞일 수 있음)",
+   "checked": "2026-11-27"
+  },
+  "베이비돌": {
+   "rank": 33,
+   "events": 29,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "사운드홀": {
+   "rank": 34,
+   "events": 28,
+   "capacity": 450,
+   "tier": "L",
+   "seats": 200,
+   "standing": 450,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 'KT&G 상상마당 춘천 사운드홀'",
+   "confidence": "medium",
+   "note": "원본 표기 '사운드홀 (KT&G 상상마당 춘천)' — 공연장 연결표가 끝 괄호(지점)를 떼어 대표 이름이 '사운드홀'이 됨. 상상마당 출처 원본은 모두 춘천 지점",
+   "checked": "2026-11-27"
+  },
+  "인천여관X루비살롱": {
+   "rank": 35,
+   "events": 27,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "공상온도": {
+   "rank": 36,
+   "events": 26,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "KT&G 상상마당 부산 3층 라이브홀": {
+   "rank": 37,
+   "events": 26,
+   "capacity": 500,
+   "tier": "L",
+   "seats": 217,
+   "standing": 500,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 'KT&G 상상마당 부산 라이브홀'",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  },
+  "북두칠성도서관 아트훌": {
+   "rank": 38,
+   "events": 26,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "클럽 프리버드": {
+   "rank": 39,
+   "events": 22,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "OL'55": {
+   "rank": 40,
+   "events": 21,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "리얼라이즈": {
+   "rank": 41,
+   "events": 20,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "클럽헤비": {
+   "rank": 42,
+   "events": 20,
+   "capacity": 200,
+   "tier": "M",
+   "seats": null,
+   "standing": 200,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 '대구 클럽 헤비'",
+   "confidence": "medium",
+   "note": "표에 좌석 수 없음, 대구 남구",
+   "checked": "2026-11-27"
+  },
+  "스팀펑크락": {
+   "rank": 43,
+   "events": 20,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "프리즘홀": {
+   "rank": 44,
+   "events": 19,
+   "capacity": 250,
+   "tier": "M",
+   "seats": 100,
+   "standing": 250,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본)",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  },
+  "KT&G 상상마당 춘천 사운드홀": {
+   "rank": 45,
+   "events": 16,
+   "capacity": 450,
+   "tier": "L",
+   "seats": 200,
+   "standing": 450,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본)",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  },
+  "스페이스브릭": {
+   "rank": 46,
+   "events": 14,
+   "capacity": 350,
+   "tier": "M",
+   "seats": 150,
+   "standing": 350,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본)",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  },
+  "로컬다움 롴돰": {
+   "rank": 47,
+   "events": 14,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "제이에스아트홀&뮤직바": {
+   "rank": 48,
+   "events": 13,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "아트홀": {
+   "rank": 49,
+   "events": 12,
+   "capacity": 422,
+   "tier": "L",
+   "seats": 422,
+   "standing": null,
+   "source": "https://visitgangnam.net/en/places/ktg-sangsang-madang-daechi-art-hall",
+   "source_note": "방문강남 안내 422석 (강남구 소식지도 같은 숫자)",
+   "confidence": "medium",
+   "note": "원본 표기 '아트홀 (KT&G 상상마당 대치)' — 공연장 연결표가 끝 괄호(지점)를 떼어 대표 이름이 '아트홀'이 됨. 상상마당 출처 원본은 모두 대치 지점",
+   "checked": "2026-11-27"
+  },
+  "펫사운즈": {
+   "rank": 50,
+   "events": 12,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "금사락": {
+   "rank": 51,
+   "events": 11,
+   "capacity": 500,
+   "tier": "L",
+   "seats": 200,
+   "standing": 500,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본)",
+   "confidence": "high",
+   "note": "부산 금정구",
+   "checked": "2026-11-27"
+  },
+  "퍼플홀": {
+   "rank": 52,
+   "events": 11,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "웨스트브릿지 라이브홀": {
+   "rank": 53,
+   "events": 10,
+   "capacity": 300,
+   "tier": "M",
+   "seats": 150,
+   "standing": 300,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본)",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  },
+  "신도시": {
+   "rank": 54,
+   "events": 10,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "축제": {
+   "rank": 55,
+   "events": 8,
+   "capacity": null,
+   "tier": null,
+   "not_venue": true,
+   "note": "공연장이 아니라 '축제'로 적힌 행(여러 곳) — 체급 판정에서 뺌"
+  },
+  "락클럽 Bar 레드제플린": {
+   "rank": 56,
+   "events": 8,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "사상인디스테이션 소란동": {
+   "rank": 57,
+   "events": 7,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "무대륙": {
+   "rank": 58,
+   "events": 6,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "상상마당 대치 아트홀": {
+   "rank": 59,
+   "events": 6,
+   "capacity": 422,
+   "tier": "L",
+   "seats": 422,
+   "standing": null,
+   "source": "https://visitgangnam.net/en/places/ktg-sangsang-madang-daechi-art-hall",
+   "source_note": "방문강남 안내 422석 (강남구 소식지도 같은 숫자)",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  },
+  "구름아래소극장": {
+   "rank": 60,
+   "events": 6,
+   "capacity": 200,
+   "tier": "M",
+   "seats": 200,
+   "standing": null,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본)",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  },
+  "보헤미안 소극장": {
+   "rank": 61,
+   "events": 6,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "팡타 개라지": {
+   "rank": 62,
+   "events": 6,
+   "capacity": 200,
+   "tier": "M",
+   "seats": 90,
+   "standing": 200,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 '팡타개라지'",
+   "confidence": "medium",
+   "note": "표가 깨져 행 맞춤이 불확실(링크 제목이 건물 이름)",
+   "checked": "2026-11-27"
+  },
+  "언더시티": {
+   "rank": 63,
+   "events": 6,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "숲세권 라이브 카인드스퀘어점": {
+   "rank": 64,
+   "events": 6,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "얼라이브홀": {
+   "rank": 65,
+   "events": 5,
+   "capacity": 200,
+   "tier": "M",
+   "seats": 100,
+   "standing": 200,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본)",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  },
+  "더뮤지션": {
+   "rank": 66,
+   "events": 5,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "석촌호수 아뜰리에": {
+   "rank": 67,
+   "events": 5,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "모래내 극락": {
+   "rank": 68,
+   "events": 5,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "락캠프": {
+   "rank": 69,
+   "events": 5,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "CJ아지트 광흥창": {
+   "rank": 70,
+   "events": 5,
+   "capacity": 250,
+   "tier": "M",
+   "seats": 130,
+   "standing": 250,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본)",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  },
+  "벨로주 홍대": {
+   "rank": 71,
+   "events": 4,
+   "capacity": 200,
+   "tier": "M",
+   "seats": 115,
+   "standing": 200,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본)",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  },
+  "베리어스 재즈클럽": {
+   "rank": 72,
+   "events": 4,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "현대카드 언더스테이지": {
+   "rank": 73,
+   "events": 4,
+   "capacity": 378,
+   "tier": "M",
+   "seats": 188,
+   "standing": 378,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본)",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  },
+  "톤스튜디오 서울": {
+   "rank": 74,
+   "events": 4,
+   "capacity": 100,
+   "tier": "S",
+   "seats": 50,
+   "standing": 100,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본)",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  },
+  "부드러운직선": {
+   "rank": 75,
+   "events": 4,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "옥타바리움 라이브홀": {
+   "rank": 76,
+   "events": 4,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "신촌 SPIN & GRIND": {
+   "rank": 77,
+   "events": 4,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "두더지 라이브 홀": {
+   "rank": 78,
+   "events": 4,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "성수율 뮤직 3F": {
+   "rank": 79,
+   "events": 4,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "긱 라이브 하우스": {
+   "rank": 80,
+   "events": 4,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "제비다방": {
+   "rank": 81,
+   "events": 4,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "KT&G 상상마당 춘천": {
+   "rank": 82,
+   "events": 4,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "지점 이름만 — 공간(사운드홀·야외·구름다리)을 알 수 없음"
+  },
+  "고요의 방": {
+   "rank": 83,
+   "events": 4,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "감마홀": {
+   "rank": 84,
+   "events": 4,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "라이브소극장 락왕": {
+   "rank": 85,
+   "events": 4,
+   "capacity": 340,
+   "tier": "M",
+   "seats": 140,
+   "standing": 340,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 '라이브홀 락왕'",
+   "confidence": "medium",
+   "note": "표 이름은 '라이브홀 락왕'(대구 중구) — 같은 곳으로 봄",
+   "checked": "2026-11-27"
+  },
+  "카페 아이다호": {
+   "rank": 86,
+   "events": 3,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "롤러코스터": {
+   "rank": 87,
+   "events": 3,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "인터플레이": {
+   "rank": 88,
+   "events": 3,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "록집": {
+   "rank": 89,
+   "events": 3,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "NC문화재단 Stage Black": {
+   "rank": 90,
+   "events": 3,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "라이브앤라우드": {
+   "rank": 91,
+   "events": 3,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "이들스": {
+   "rank": 92,
+   "events": 3,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "대전 음악창작소": {
+   "rank": 93,
+   "events": 3,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "서브라이엇 해방촌": {
+   "rank": 94,
+   "events": 3,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "인천맥주호랑이": {
+   "rank": 95,
+   "events": 3,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "클럽 온에어": {
+   "rank": 96,
+   "events": 3,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "인피니티클럽": {
+   "rank": 97,
+   "events": 3,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "KT&G 상상마당 부산 13층 루프탑": {
+   "rank": 98,
+   "events": 2,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "그린빈 버찌라이브하우스": {
+   "rank": 99,
+   "events": 2,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "연남장": {
+   "rank": 100,
+   "events": 2,
+   "capacity": null,
+   "tier": null,
+   "checked": "2026-11-27",
+   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+  },
+  "예스24 라이브홀": {
+   "rank": null,
+   "events": 2,
+   "capacity": 2037,
+   "tier": "XL",
+   "seats": 1051,
+   "standing": 2037,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 '예스24 라이브홀 (1,000석 이상 표)'",
+   "confidence": "high",
+   "checked": "2026-11-27"
+  }
+ }
+}
