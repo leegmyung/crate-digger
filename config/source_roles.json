@@ -165,6 +165,10 @@
     "협업:spotify": {
       "role": "pending",
       "reason": "스포티파이 협업(피처링), 2026-11-27부터 수집 — 아직 성적 없음. 점수에는 w_collab(기본 0)로 따로 연결"
+    },
+    "반응:youtube": {
+      "role": "pending",
+      "reason": "무대 영상 조회수 7일 증가량(scripts/collect_video_stats.py) — 2026-11-27부터 기록, 아직 성적 없음"
     }
   },
   "outcomes": {
