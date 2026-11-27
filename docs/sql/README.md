@@ -1,6 +1,6 @@
 # SQL 분석·검증 결과 (PostgreSQL)
 
-_자동 생성: `python3 scripts/run_pg_queries.py` · 2026-11-26 23:02 기준 데이터_
+_자동 생성: `python3 scripts/run_pg_queries.py` · 2026-11-27 10:07 기준 데이터_
 
 모든 쿼리는 `sql/kr/`에 원문이 있어요. 같은 팀 잇기는 정규화 이름 키(`artist_key`, 괄호 별칭 `alias_key`), 날짜는 후보 신호 = 기간 끝, 정답 = 기간 첫날로 비교해요 (`sql/kr/00_core_views.sql`).
 
@@ -101,7 +101,7 @@ ORDER BY sort_group, 적중률_pct DESC, 신호_팀수 DESC;
 | muse_sejong | 24 | 1 | 4.2 |
 | dmz_lineup | 52 | 0 | 0.0 |
 | gb_creation | 21 | 0 | 0.0 |
-| (기준선: 모든 신호 팀) | 1580 | 29 | 1.8 |
+| (기준선: 모든 신호 팀) | 2871 | 43 | 1.5 |
 
 ### a02_lead_time
 
@@ -170,13 +170,14 @@ ORDER BY CASE WHEN l.branch = '(전체)' THEN 0 ELSE 1 END, 팀수 DESC;
 
 </details>
 
-결과 3행
+결과 4행
 
 | 갈래 | 팀수 | 정답_팀_전체 | 중앙값_개월 | 최소_개월 | 최대_개월 | 6개월_이상_pct | 12개월_이상_pct | 24개월_이상_pct |
 |---|---|---|---|---|---|---|---|---|
-| (전체) | 50 | 78 | 12.7 | 0.1 | 46.6 | 74.0 | 54.0 | 24.0 |
-| 공연 | 49 | 78 | 11.4 | 0.1 | 44.3 | 73.5 | 49.0 | 16.3 |
-| 선정·지원 | 8 | 78 | 32.1 | 1.3 | 46.6 | 87.5 | 75.0 | 62.5 |
+| (전체) | 71 | 90 | 12.2 | 0.1 | 46.6 | 76.1 | 50.7 | 26.8 |
+| 공연 | 49 | 90 | 11.4 | 0.1 | 44.3 | 71.4 | 49.0 | 16.3 |
+| 큐레이션 | 40 | 90 | 8.3 | 0.1 | 39.8 | 65.0 | 37.5 | 22.5 |
+| 선정·지원 | 8 | 90 | 32.1 | 1.3 | 46.6 | 87.5 | 75.0 | 62.5 |
 
 ### a03_mid_to_final
 
@@ -234,10 +235,11 @@ ORDER BY 최종_전환율_pct DESC, 중간_팀수 DESC;
 
 </details>
 
-결과 6행
+결과 7행
 
 | 중간_프로그램 | 중간_팀수 | 최종까지_팀수 | 최종_전환율_pct | 평균_걸린_개월 | 중간_첫날짜 | 중간_끝날짜 |
 |---|---|---|---|---|---|---|
+| kma_genre | 5 | 3 | 60.0 | 6.0 | 2025-02-06 | 2026-02-05 |
 | indiestance | 10 | 4 | 40.0 | 0.7 | 2025-08-17 | 2026-10-17 |
 | mucon | 3 | 1 | 33.3 | 0.3 | 2025-06-16 | 2026-07-13 |
 | museon_final | 25 | 6 | 24.0 | 6.2 | 2025-05-12 | 2026-06-04 |
@@ -291,27 +293,27 @@ ORDER BY v.version DESC, 정답_건수 DESC, v.program;
 
 </details>
 
-결과 22행
+결과 26행
 
 | 버전 | 정답_프로그램 | 정답_건수 | 프로필_있음 | 연차_중앙값 | 1년미만 | 1_3년 | 3_5년 | 5년이상 | 신인기준_통과율_pct |
 |---|---|---|---|---|---|---|---|---|---|
 | 전체 | museon_final | 25 | 16 | 2.6 | 1 | 8 | 5 | 2 | 37.5 |
 | 전체 | hello_rookie_year | 21 | 11 | 1.8 | 4 | 7 | 0 | 0 | 90.9 |
 | 전체 | penta_superrookie | 20 | 13 | 2.6 | 1 | 7 | 1 | 4 | 46.2 |
+| 전체 | khha_rookie | 14 | 0 |  | 0 | 0 | 0 | 0 |  |
 | 전체 | burock_main | 13 | 13 | 2.7 | 2 | 5 | 6 | 0 | 46.2 |
 | 전체 | kma_rookie | 13 | 6 | 0.8 | 3 | 2 | 1 | 0 | 66.7 |
 | 전체 | cj_tuneup | 12 | 8 | 5.6 | 0 | 1 | 0 | 7 | 0.0 |
 | 전체 | hello_rookie | 10 | 4 | 1.1 | 2 | 2 | 0 | 0 | 75.0 |
 | 전체 | indiestance | 10 | 7 | 2.6 | 1 | 3 | 2 | 1 | 28.6 |
+| 전체 | kma_genre | 6 | 6 | 2.3 | 2 | 1 | 3 | 0 | 50.0 |
 | 전체 | musicy_rookie | 5 | 0 |  | 0 | 0 | 0 | 0 |  |
 | 전체 | mucon | 3 | 3 | 3.6 | 0 | 1 | 1 | 1 | 0.0 |
 | 전체 | izm_rookie | 1 | 0 |  | 0 | 0 | 0 | 0 |  |
-| 동명제외 | museon_final | 25 | 16 | 2.6 | 1 | 8 | 5 | 2 | 37.5 |
-| 동명제외 | hello_rookie_year | 21 | 11 | 1.8 | 4 | 7 | 0 | 0 | 90.9 |
-| 동명제외 | penta_superrookie | 20 | 13 | 2.6 | 1 | 7 | 1 | 4 | 46.2 |
-| 동명제외 | burock_main | 13 | 13 | 2.7 | 2 | 5 | 6 | 0 | 46.2 |
+| 동명제외 | museon_final | 15 | 6 | 2.5 | 0 | 3 | 3 | 0 | 16.7 |
+| 동명제외 | khha_rookie | 14 | 0 |  | 0 | 0 | 0 | 0 |  |
 
-_22행 중 15행만 표시_
+_26행 중 15행만 표시_
 
 ### a05_cross_branch_now
 
@@ -365,27 +367,27 @@ LIMIT 50;
 
 </details>
 
-결과 36행
+결과 50행
 
 | 표시_이름 | 팀_키 | 갈래_수 | 갈래_목록 | 신호_건수 | 최근_날짜 | 이미_정답 |
 |---|---|---|---|---|---|---|
-| 다다다 | 다다다 | 3 | 공연, 발매, 선정·지원 | 8 | 2026-11-26 | Y |
-| 혁오 | 혁오 | 3 | 공연, 발매, 큐레이션 | 4 | 2026-11-25 |  |
+| 다다다 | 다다다 | 3 | 공연, 발매, 선정·지원 | 9 | 2026-11-27 | Y |
+| 신인류 | 신인류 | 3 | 공연, 발매, 큐레이션 | 9 | 2026-11-25 | Y |
+| 혁오 | 혁오 | 3 | 공연, 발매, 큐레이션 | 6 | 2026-11-25 |  |
+| 다브다 | 다브다 | 3 | 공연, 발매, 큐레이션 | 5 | 2026-11-24 |  |
+| 이케이 (EK) | 이케이 | 3 | 공연, 발매, 큐레이션 | 4 | 2026-11-24 |  |
+| 술탄 오브 더 디스코 | 술탄오브더디스코 | 3 | 공연, 발매, 큐레이션 | 5 | 2026-11-23 |  |
+| 피치트럭하이재커스 | 피치트럭하이재커스 | 3 | 공연, 선정·지원, 큐레이션 | 8 | 2026-11-19 | Y |
+| 키라라 | 키라라 | 2 | 공연, 큐레이션 | 8 | 2026-11-27 |  |
+| 대소콜링 | 대소콜링 | 2 | 공연, 발매 | 5 | 2026-11-27 |  |
+| 빈스프라우트 | 빈스프라우트 | 2 | 공연, 큐레이션 | 4 | 2026-11-27 |  |
+| 도빛나리 | 도빛나리 | 2 | 공연, 큐레이션 | 3 | 2026-11-27 |  |
+| 킬카이저 | 킬카이저 | 2 | 공연, 큐레이션 | 3 | 2026-11-27 |  |
+| 나이테 | 나이테 | 2 | 공연, 큐레이션 | 14 | 2026-11-26 | Y |
 | 고고학 (Gogohawk) | 고고학 | 2 | 공연, 발매 | 7 | 2026-11-26 | Y |
-| 사뮈 | 사뮈 | 2 | 공연, 발매 | 5 | 2026-11-26 |  |
-| 블낫블 | 블낫블 | 2 | 공연, 큐레이션 | 5 | 2026-11-26 | Y |
 | Sign of Elma | signofelma | 2 | 공연, 발매 | 5 | 2026-11-26 |  |
-| 박영석 | 박영석 | 2 | 공연, 발매 | 4 | 2026-11-26 |  |
-| 대소콜링 | 대소콜링 | 2 | 공연, 발매 | 3 | 2026-11-26 |  |
-| 나디야 | 나디야 | 2 | 공연, 발매 | 3 | 2026-11-26 |  |
-| 삼월생 | 삼월생 | 2 | 공연, 큐레이션 | 9 | 2026-11-25 |  |
-| 신인류 | 신인류 | 2 | 공연, 발매 | 8 | 2026-11-25 | Y |
-| 유령서점 | 유령서점 | 2 | 공연, 큐레이션 | 5 | 2026-11-25 |  |
-| 히미츠 | 히미츠 | 2 | 공연, 발매 | 5 | 2026-11-25 |  |
-| 이을 (E.ul) | 이을 | 2 | 공연, 발매 | 4 | 2026-11-25 |  |
-| 아륜 | 아륜 | 2 | 공연, 발매 | 4 | 2026-11-25 |  |
 
-_36행 중 15행만 표시_
+_50행 중 15행만 표시_
 
 ### a06_tastemaker_venues
 
@@ -645,20 +647,178 @@ ORDER BY 구분, sort_key;
 
 | 구분 | 항목 | 발매_수 | 비율_pct |
 |---|---|---|---|
-| 1) 플랫폼 수 분포 | 1개 플랫폼 | 58 | 56.3 |
-| 1) 플랫폼 수 분포 | 2개 플랫폼 | 25 | 24.3 |
-| 1) 플랫폼 수 분포 | 3개 플랫폼 | 14 | 13.6 |
-| 1) 플랫폼 수 분포 | 4개 플랫폼 | 6 | 5.8 |
+| 1) 플랫폼 수 분포 | 1개 플랫폼 | 73 | 60.8 |
+| 1) 플랫폼 수 분포 | 2개 플랫폼 | 26 | 21.7 |
+| 1) 플랫폼 수 분포 | 3개 플랫폼 | 13 | 10.8 |
+| 1) 플랫폼 수 분포 | 4개 플랫폼 | 8 | 6.7 |
 | 2) 유통사 상위10 | 미러볼뮤직 | 12 | 16.7 |
 | 2) 유통사 상위10 | 주식회사 뮤즈플랫폼 | 12 | 0.0 |
 | 2) 유통사 상위10 | 사운드리퍼블리카 | 8 | 62.5 |
-| 2) 유통사 상위10 | 마운드미디어 | 7 | 85.7 |
-| 2) 유통사 상위10 | (주)지니뮤직 | 6 | 66.7 |
+| 2) 유통사 상위10 | 마운드미디어 | 7 | 100.0 |
+| 2) 유통사 상위10 | 지니뮤직, STONE MUSIC | 6 | 50.0 |
+| 2) 유통사 상위10 | (주)지니뮤직 | 6 | 83.3 |
+| 2) 유통사 상위10 | YG PLUS | 6 | 33.3 |
+| 2) 유통사 상위10 | 카카오엔터테인먼트 | 5 | 20.0 |
 | 2) 유통사 상위10 | 주식회사 코부코 | 5 | 0.0 |
-| 2) 유통사 상위10 | p!nk | 4 | 100.0 |
-| 2) 유통사 상위10 | 워너뮤직코리아 | 3 | 66.7 |
-| 2) 유통사 상위10 | 캔디드뮤직 | 3 | 66.7 |
-| 2) 유통사 상위10 | 주식회사 퍼플파인 엔터테인먼트 | 3 | 33.3 |
+| 2) 유통사 상위10 | 워너뮤직/ADA | 4 | 50.0 |
+
+### a09_score_v0_backtest
+
+- 질문: 손으로 정한 점수 v0로 '그때 기준' 상위 K팀을 뽑았다면, 그중 몇 팀이 나중에 실제로 정답(신인상·주요 신인 프로그램)을 받았나? 무작위·단순 기준보다 나은가?
+- 왜 중요한가: 점수가 쓸모 있으려면 '미래를 모르는 상태'에서 뽑은 상위 목록이 무작위보다 정답을 많이 담아야 한다(백테스트).
+- 읽는 법: 기준일(cutoff) 전 3년 신호만으로 점수를 매기고, 기준일 뒤 정답으로 채점한다. 적중률 = 상위 K팀 중 정답 팀 비율,
+- 배수 = 적중률 ÷ 기준율(후보 전체의 정답 비율 = 무작위로 K팀 뽑았을 때 기대값). 배수가 1보다 크면 무작위보다 낫다.
+- 비교 방법: '점수 v0' / '공연 수만' / '갈래 수만' / '무작위'(기준율 × K).
+- 점수 v0 (가중치는 데이터에 맞춰 조정하지 않은 손 규칙 — 과적합 방지, PROJECT.md 점수 규칙 후보 그대로):
+- 2 × (갈래 수 − 1) + 선정 최고 단계(STAGE_RANK 0~4) + 1 × 선정 팀과 같은 무대 + 0.5 × DMZ 출연
+- + 0.5 × ln(1 + 직전 1년 공연 수) + 1 × min(큐레이션 매체 수, 3)
+- 데이터 주의: 정답이 모두 2025년 이후라 '중간 정답 보유'·'이미 정답 팀과 같은 무대' 신호는 기준일 전에 생길 수 없어
+- '선정(selected 이상) 팀과 같은 무대'로 대신했다. 발매 갈래는 2026-11 이후만 있어 백테스트에 안 쓴다.
+- 신인 대용: 멜론 프로필이 대부분 없어서 '우리 데이터에 처음 나온 지 3년 이내' 팀만 후보로 둔다(없으면 이센스·9와숫자들 같은
+- 기성 팀이 DMZ·큐레이션 덕에 상위를 차지함). DMZ 출연은 선정 단계에서 빼고 0.5 가점으로만 센다.
+- 유명 팀 제외는 지금의 멜론 프로필 기준이라 약간의 미래 정보가 섞인다(프로필 없는 팀은 그대로 둔다).
+- 기준일 뒤 관찰 기간이 2026-11까지로 짧아(17~23개월) 나중에 정답을 받을 팀이 '틀림'으로 세어질 수 있다.
+
+<details><summary>쿼리 보기</summary>
+
+```sql
+WITH params AS (
+    SELECT DATE '2025-01-01' AS cutoff UNION ALL
+    SELECT DATE '2025-07-01'
+),
+alias_map AS (                                        -- 별칭 키 → 대표 키 (예: samui → 사뮈)
+    SELECT alias_key, MIN(artist_key) AS main_key
+    FROM core.v_signal
+    WHERE alias_key IS NOT NULL AND alias_key <> '' AND alias_key <> artist_key
+    GROUP BY alias_key
+),
+sig AS (                                              -- 기준일 전 3년 신호, 팀 키 통일
+    SELECT p.cutoff, COALESCE(am.main_key, s.artist_key) AS team_key,
+           s.branch, s.program, s.stage_rank, s.signal_date, s.detail
+    FROM core.v_signal s
+    JOIN params p ON s.signal_date <  p.cutoff
+                 AND s.signal_date >= p.cutoff - INTERVAL '3 years'
+    LEFT JOIN alias_map am ON am.alias_key = s.artist_key
+    WHERE s.artist_key IS NOT NULL AND s.artist_key <> ''
+),
+outcome AS (                                          -- 센 정답, 팀 키 통일
+    SELECT COALESCE(am.main_key, o.artist_key) AS team_key, MIN(o.announced_start) AS first_outcome
+    FROM core.v_outcome o
+    LEFT JOIN alias_map am ON am.alias_key = o.artist_key
+    WHERE o.counted
+    GROUP BY 1
+),
+selected_team AS (                                    -- 선정(selected 이상)된 팀과 그 날짜
+    SELECT cutoff, team_key, MIN(signal_date) AS selected_on
+    FROM sig WHERE branch = '선정·지원' AND stage_rank >= 3
+    GROUP BY 1, 2
+),
+gig AS (
+    SELECT DISTINCT cutoff, team_key, signal_date AS gig_date, detail AS venue
+    FROM sig WHERE branch = '공연' AND COALESCE(detail, '') NOT IN ('', '공연장 미정')
+),
+peer AS (                                             -- 공연 당시 이미 선정된 다른 팀과 같은 날·같은 공연장에 섬
+    SELECT DISTINCT a.cutoff, a.team_key
+    FROM gig a
+    JOIN gig b ON b.cutoff = a.cutoff AND b.gig_date = a.gig_date AND b.venue = a.venue AND b.team_key <> a.team_key
+    JOIN selected_team st ON st.cutoff = b.cutoff AND st.team_key = b.team_key AND st.selected_on <= a.gig_date
+),
+feat AS (
+    SELECT s.cutoff, s.team_key,
+           COUNT(DISTINCT s.branch)                                                        AS n_branch,
+           COALESCE(MAX(CASE WHEN s.program <> 'dmz_lineup' THEN s.stage_rank END), 0)     AS best_stage,   -- DMZ는 아래 가점으로만
+           MAX(CASE WHEN s.program = 'dmz_lineup' THEN 1 ELSE 0 END)                       AS dmz,
+           COUNT(DISTINCT CASE WHEN s.branch = '공연' AND s.signal_date >= s.cutoff - INTERVAL '1 year'
+                               THEN s.signal_date END)                                     AS gigs_1y,
+           COUNT(DISTINCT CASE WHEN s.branch = '큐레이션' THEN s.program END)               AS outlets
+    FROM sig s
+    GROUP BY s.cutoff, s.team_key
+),
+first_seen AS (                                       -- 우리 데이터 전체에서 팀이 처음 나온 날 (상상마당 공연은 2010~)
+    SELECT COALESCE(am.main_key, s.artist_key) AS team_key, MIN(s.signal_date) AS first_seen
+    FROM core.v_signal s
+    LEFT JOIN alias_map am ON am.alias_key = s.artist_key
+    WHERE s.artist_key IS NOT NULL AND s.artist_key <> ''
+    GROUP BY 1
+),
+pool AS (                                             -- 후보: 기준일 전에 정답 없음, 유명 팀 아님, 처음 나온 지 3년 이내(신인 대용)
+    SELECT f.*,
+           CASE WHEN pe.team_key IS NOT NULL THEN 1 ELSE 0 END AS peer_selected,
+           CASE WHEN o.first_outcome >= f.cutoff THEN 1 ELSE 0 END AS is_hit
+    FROM feat f
+    LEFT JOIN peer pe ON pe.cutoff = f.cutoff AND pe.team_key = f.team_key
+    LEFT JOIN outcome o ON o.team_key = f.team_key
+    LEFT JOIN core.v_artist_status st ON st.artist_key = f.team_key
+    JOIN first_seen fs ON fs.team_key = f.team_key
+    WHERE fs.first_seen >= f.cutoff - INTERVAL '3 years'
+      AND (o.first_outcome IS NULL OR o.first_outcome >= f.cutoff)
+      AND COALESCE(st.status, 'unknown') <> 'famous'
+),
+scored AS (
+    SELECT p.*,
+           2 * (n_branch - 1) + best_stage + peer_selected + 0.5 * dmz
+           + 0.5 * LN(1 + gigs_1y) + LEAST(outlets, 3)                                     AS score_v0
+    FROM pool p
+),
+ranked AS (                                           -- 동점은 팀 키 해시로 고정(매번 같은 결과)
+    SELECT cutoff, is_hit,
+           ROW_NUMBER() OVER (PARTITION BY cutoff ORDER BY score_v0 DESC, MD5(team_key)) AS r_score,
+           ROW_NUMBER() OVER (PARTITION BY cutoff ORDER BY gigs_1y  DESC, MD5(team_key)) AS r_gigs,
+           ROW_NUMBER() OVER (PARTITION BY cutoff ORDER BY n_branch DESC, MD5(team_key)) AS r_branch
+    FROM scored
+),
+base AS (
+    SELECT cutoff, COUNT(*) AS pool_n, SUM(is_hit) AS pool_hits, 1.0 * SUM(is_hit) / COUNT(*) AS base_rate
+    FROM scored GROUP BY cutoff
+),
+ks AS (SELECT 20 AS k UNION ALL SELECT 50 UNION ALL SELECT 100 UNION ALL SELECT 200),
+result AS (
+    SELECT r.cutoff, ks.k, '점수 v0' AS method, SUM(CASE WHEN r.r_score  <= ks.k THEN r.is_hit ELSE 0 END) AS hits
+    FROM ranked r CROSS JOIN ks GROUP BY 1, 2
+    UNION ALL
+    SELECT r.cutoff, ks.k, '공연 수만', SUM(CASE WHEN r.r_gigs   <= ks.k THEN r.is_hit ELSE 0 END)
+    FROM ranked r CROSS JOIN ks GROUP BY 1, 2
+    UNION ALL
+    SELECT r.cutoff, ks.k, '갈래 수만', SUM(CASE WHEN r.r_branch <= ks.k THEN r.is_hit ELSE 0 END)
+    FROM ranked r CROSS JOIN ks GROUP BY 1, 2
+)
+SELECT res.cutoff                                         AS 기준일,
+       b.pool_n                                           AS 후보_팀수,
+       b.pool_hits                                        AS 이후_정답_팀수,
+       res.k                                              AS 상위_k,
+       res.method                                         AS 방법,
+       res.hits                                           AS 맞힌_팀수,
+       ROUND(100.0 * res.hits / res.k, 1)                 AS 적중률_pct,
+       ROUND(b.base_rate * res.k, 1)                      AS 무작위_기대_팀수,
+       ROUND(res.hits / NULLIF(b.base_rate * res.k, 0), 1) AS 무작위_대비_배수
+FROM result res
+JOIN base b ON b.cutoff = res.cutoff
+ORDER BY res.cutoff, res.k, res.method;
+```
+
+</details>
+
+결과 24행
+
+| 기준일 | 후보_팀수 | 이후_정답_팀수 | 상위_k | 방법 | 맞힌_팀수 | 적중률_pct | 무작위_기대_팀수 | 무작위_대비_배수 |
+|---|---|---|---|---|---|---|---|---|
+| 2025-01-01 | 2583 | 29 | 20 | 갈래 수만 | 1 | 5.0 | 0.2 | 4.5 |
+| 2025-01-01 | 2583 | 29 | 20 | 공연 수만 | 0 | 0.0 | 0.2 | 0.0 |
+| 2025-01-01 | 2583 | 29 | 20 | 점수 v0 | 2 | 10.0 | 0.2 | 8.9 |
+| 2025-01-01 | 2583 | 29 | 50 | 갈래 수만 | 2 | 4.0 | 0.6 | 3.6 |
+| 2025-01-01 | 2583 | 29 | 50 | 공연 수만 | 2 | 4.0 | 0.6 | 3.6 |
+| 2025-01-01 | 2583 | 29 | 50 | 점수 v0 | 2 | 4.0 | 0.6 | 3.6 |
+| 2025-01-01 | 2583 | 29 | 100 | 갈래 수만 | 2 | 2.0 | 1.1 | 1.8 |
+| 2025-01-01 | 2583 | 29 | 100 | 공연 수만 | 4 | 4.0 | 1.1 | 3.6 |
+| 2025-01-01 | 2583 | 29 | 100 | 점수 v0 | 3 | 3.0 | 1.1 | 2.7 |
+| 2025-01-01 | 2583 | 29 | 200 | 갈래 수만 | 6 | 3.0 | 2.2 | 2.7 |
+| 2025-01-01 | 2583 | 29 | 200 | 공연 수만 | 8 | 4.0 | 2.2 | 3.6 |
+| 2025-01-01 | 2583 | 29 | 200 | 점수 v0 | 7 | 3.5 | 2.2 | 3.1 |
+| 2025-07-01 | 3252 | 21 | 20 | 갈래 수만 | 1 | 5.0 | 0.1 | 7.7 |
+| 2025-07-01 | 3252 | 21 | 20 | 공연 수만 | 1 | 5.0 | 0.1 | 7.7 |
+| 2025-07-01 | 3252 | 21 | 20 | 점수 v0 | 1 | 5.0 | 0.1 | 7.7 |
+
+_24행 중 15행만 표시_
 
 ## 데이터 검증 SQL
 
@@ -755,21 +915,21 @@ LIMIT 30;
 
 | artist_key | variant_count | total_rows | spellings |
 |---|---|---|---|
+| 컨파인드화이트 | 5 | 26 | 컨파인드화이트 [20, gig] \| 컨파인드 화이트 [3, outcome] \| 컨파인드 화이트 (Confined White) [1, press] \| 컨파인드 화이트(Confined White) [1, outcome] \| 컨파인드화이트 (Confined White) [1, press] |
+| 릴리잇머신 | 4 | 18 | 릴리잇머신 [14, gig] \| 릴리 잇 머신 [2, outcome/profile] \| 릴리 잇 머신 (Lilly Eat Machine) [1, profile] \| 릴리잇머신 (Lily Eat Machine) [1, press] |
+| 피치트럭하이재커스 | 4 | 17 | 피치트럭하이재커스 [12, gig/outcome/selection] \| 피치트럭하이재커스 (Peach Truck Hijackers) [3, press] \| 피치 트럭 하이재커스(Peach Truck Hijackers) [1, outcome] \| 피치트럭 하이재커스(Peach Truck Hijackers) [1, outcome] |
+| 터치드 | 4 | 11 | 터치드 [6, gig/outcome] \| 터치드 (Touched) [3, press] \| 터치드(Touched) [1, selection] \| 터치드(TOUCHED) [1, profile] |
+| 술탄오브더디스코 | 4 | 7 | 술탄 오브 더 디스코 [4, gig/release/selection] \| 술탄오브더디스코 [1, gig] \| 술탄 오브 더 디스코 (Sultan Of The Disco) [1, press] \| 술탄오브더디스코 (Sultan Of The Disco) [1, press] |
+| 카코포니 | 4 | 7 | 카코포니 [3, gig] \| 카코포니 (cacophony) [2, press] \| 카코포니 (Cacophony) [1, press] \| 카코포니(Cacophony) [1, gig] |
+| 오티스림 | 4 | 6 | 오티스림 [3, gig/outcome/selection] \| 오티스 림 [1, press] \| 오티스 림 (Otis Lim) [1, press] \| 오티스림 (Otis Lim) [1, press] |
+| 유라 | 4 | 6 | 유라 [2, press] \| 유라 (Youra) [2, press] \| 유라 (youra) [1, press] \| 유라(youra) [1, press] |
+| 오코예 | 4 | 5 | 오코예(O'KOYE) [2, outcome/press] \| 오코예 (O'KOYE) [1, press] \| 오코예 (O’Koye) [1, press] \| 오코예 (O’KOYE) [1, press] |
+| 사비나앤드론즈 | 4 | 4 | 사비나앤드론즈 [1, gig] \| 사비나 앤 드론즈 [1, outcome] \| 사비나 앤 드론즈 (Savina & Drones) [1, press] \| 사비나앤드론즈 (Savina & Drones) [1, press] |
+| 사이먼도미닉 | 4 | 4 | 사이먼 도미닉 [1, gig] \| 사이먼 도미닉 (Simon Dominic) [1, press] \| 사이먼 도미닉(Simon Dominic) [1, press] \| 사이먼도미닉 (Simon Dominic) [1, press] |
+| 라이엇키즈 | 3 | 49 | 라이엇키즈 [47, gig] \| 라이엇키즈 (Riot Kidz) [1, press] \| 라이엇 키즈(RIOT KIDZ) [1, selection] |
 | 더바스타즈 | 3 | 28 | 더 바스타즈 [26, gig] \| 더 바스타즈 (The Vastards) [1, profile] \| 더 바스타즈(The Vastards) [1, outcome] |
-| 컨파인드화이트 | 3 | 24 | 컨파인드화이트 [20, gig] \| 컨파인드 화이트 [3, outcome] \| 컨파인드 화이트(Confined White) [1, outcome] |
-| 다다다 | 3 | 21 | 다다다 [18, gig/outcome/selection] \| 다다다 (DADADA) [2, profile/release] \| 다다다(DADADA) [1, outcome] |
-| 브로큰발렌타인 | 3 | 21 | 브로큰 발렌타인 [19, gig/outcome] \| 브로큰발렌타인 [1, gig] \| 브로큰 발렌타인 (Broken Valentine) [1, profile] |
-| 다브다 | 3 | 19 | 다브다 [15, gig/selection] \| 다브다 (Dabda) [3, release] \| 다브다(Dabda) [1, release] |
-| 밴드기린 | 3 | 18 | 밴드 기린 [13, gig] \| 밴드기린 [4, gig/outcome/selection] \| 밴드기린(BandKirin) [1, profile] |
-| 릴리잇머신 | 3 | 16 | 릴리잇머신 [14, gig] \| 릴리 잇 머신 [1, outcome] \| 릴리 잇 머신 (Lilly Eat Machine) [1, profile] |
-| 피치트럭하이재커스 | 3 | 14 | 피치트럭하이재커스 [12, gig/outcome/selection] \| 피치 트럭 하이재커스(Peach Truck Hijackers) [1, outcome] \| 피치트럭 하이재커스(Peach Truck Hijackers) [1, outcome] |
-| 고고학 | 3 | 9 | 고고학 (Gogohawk) [5, profile/release] \| 고고학 [3, gig/outcome] \| 고고학(Gogohawk) [1, release] |
-| 사뮈 | 3 | 9 | 사뮈 (Samui) [5, profile/release] \| 사뮈 [3, gig/selection] \| 사뮈(Samui) [1, release] |
-| 리도어 | 3 | 8 | 리도어 [6, gig/outcome] \| 리도어 (Redoor) [1, profile] \| 리도어(Redoor) [1, outcome] |
-| 터치드 | 3 | 8 | 터치드 [6, gig/outcome] \| 터치드(Touched) [1, selection] \| 터치드(TOUCHED) [1, profile] |
-| 결 | 3 | 7 | 결 (KYUL) [5, release] \| 결 [1, gig] \| 결(KYUL) [1, release] |
-| 윤새 | 3 | 4 | 윤새 [2, gig] \| 윤새 (Yunsae) [1, profile] \| 윤새(Yunsae) [1, outcome] |
-| 그냥 | 3 | 3 | 그＿냥 [1, gig] \| 그_냥 [1, gig] \| 그__냥 [1, gig] |
+| 콘트라젤리 | 3 | 28 | 콘트라젤리 [26, gig/press] \| 콘트라젤리 (Kontrajelly) [1, press] \| 콘트라젤리 (KONTRAJELLY) [1, press] |
+| 키라라 | 3 | 24 | 키라라 [19, gig/press/selection] \| 키라라 (KIRARA) [4, press] \| 키라라 (Kirara) [1, press] |
 
 _30행 중 15행만 표시_
 
@@ -811,27 +971,27 @@ ORDER BY is_drop DESC, tbl, source, collected_date DESC;
 
 </details>
 
-결과 17행
+결과 27행
 
 | tbl | source | collected_date | rows_n | prev_date | prev_rows | change_pct | is_drop |
 |---|---|---|---|---|---|---|---|
+| raw_artist_profile | instagram | 2026-11-27 | 19 | 2026-11-26 | 107 | -82.2 | t |
+| raw_artist_profile | instagram | 2026-11-26 | 107 |  |  |  | f |
 | raw_artist_profile | melon | 2026-11-26 | 83 |  |  |  | f |
+| raw_artist_profile | spotify | 2026-11-26 | 43 |  |  |  | f |
 | raw_kr_gig | indiego | 2026-11-26 | 427 |  |  |  | f |
 | raw_kr_gig | indistreet | 2026-11-26 | 14192 |  |  |  | f |
 | raw_kr_gig | sangsangmadang | 2026-11-26 | 849 |  |  |  | f |
 | raw_kr_release | bugs | 2026-11-26 | 70 |  |  |  | f |
 | raw_kr_release | flo | 2026-11-26 | 39 |  |  |  | f |
 | raw_kr_release | genie | 2026-11-26 | 46 |  |  |  | f |
-| raw_kr_release | melon | 2026-11-26 | 40 |  |  |  | f |
+| raw_kr_release | melon | 2026-11-26 | 62 |  |  |  | f |
 | raw_kr_release | poclanos | 2026-11-26 | 33 |  |  |  | f |
 | raw_kr_selection | busanrock | 2026-11-26 | 13 |  |  |  | f |
 | raw_kr_selection | dmz | 2026-11-26 | 152 |  |  |  | f |
 | raw_kr_selection | gbsound | 2026-11-26 | 33 |  |  |  | f |
-| raw_kr_selection | sangsangmadang | 2026-11-26 | 118 |  |  |  | f |
-| raw_kr_selection | sejong | 2026-11-26 | 36 |  |  |  | f |
-| raw_kr_selection | yjh | 2026-11-26 | 349 |  |  |  | f |
 
-_17행 중 15행만 표시_
+_27행 중 15행만 표시_
 
 ### c04_missing_fields
 
@@ -884,7 +1044,7 @@ ORDER BY tbl, check_name, problem_pct DESC, source;
 
 </details>
 
-결과 44행
+결과 46행
 
 | tbl | source_or_program | check_name | total_rows | problem_rows | problem_pct |
 |---|---|---|---|---|---|
@@ -898,13 +1058,13 @@ ORDER BY tbl, check_name, problem_pct DESC, source;
 | raw_kr_release | bugs | distributor_text 없음 | 70 | 0 | 0.0 |
 | raw_kr_release | flo | distributor_text 없음 | 39 | 0 | 0.0 |
 | raw_kr_release | genie | distributor_text 없음 | 46 | 0 | 0.0 |
-| raw_kr_release | melon | distributor_text 없음 | 40 | 0 | 0.0 |
+| raw_kr_release | melon | distributor_text 없음 | 62 | 0 | 0.0 |
 | raw_kr_release | bugs | genre 없음 | 70 | 0 | 0.0 |
 | raw_kr_release | flo | genre 없음 | 39 | 0 | 0.0 |
 | raw_kr_release | genie | genre 없음 | 46 | 0 | 0.0 |
-| raw_kr_release | melon | genre 없음 | 40 | 0 | 0.0 |
+| raw_kr_release | melon | genre 없음 | 62 | 0 | 0.0 |
 
-_44행 중 15행만 표시_
+_46행 중 15행만 표시_
 
 ### c05_namesake_risk
 
@@ -949,20 +1109,27 @@ ORDER BY risk_type, strength DESC, artist_key;
 
 </details>
 
-결과 10행
+결과 48행
 
 | risk_type | artist_key | strength | evidence |
 |---|---|---|---|
-| B: 2010년 전 선정 + 2024년 후 공연 | 김승민 | 3 | yoojaeha_finalist 1989-01-01 선정 / 최근 공연 3회 (마지막 2026-11-28) |
-| B: 2010년 전 선정 + 2024년 후 공연 | 김혁 | 2 | yoojaeha_finalist 1995-01-01 선정 / 최근 공연 2회 (마지막 2026-08-19) |
-| B: 2010년 전 선정 + 2024년 후 공연 | 정다운 | 2 | yoojaeha_finalist 2003-01-01 선정 / 최근 공연 2회 (마지막 2026-09-28) |
-| B: 2010년 전 선정 + 2024년 후 공연 | 김재훈 | 1 | yoojaeha_finalist 2009-01-01 선정 / 최근 공연 1회 (마지막 2026-02-27) |
-| B: 2010년 전 선정 + 2024년 후 공연 | 서정은 | 1 | yoojaeha_finalist 2001-01-01 선정 / 최근 공연 1회 (마지막 2026-08-10) |
-| B: 2010년 전 선정 + 2024년 후 공연 | 심현보 | 1 | yoojaeha_finalist 1992-01-01 선정 / 최근 공연 1회 (마지막 2026-11-07) |
-| B: 2010년 전 선정 + 2024년 후 공연 | 이종일 | 1 | yoojaeha_finalist 1995-01-01 선정 / 최근 공연 1회 (마지막 2025-03-28) |
-| B: 2010년 전 선정 + 2024년 후 공연 | 이주영 | 1 | yoojaeha_finalist 1994-01-01 선정 / 최근 공연 1회 (마지막 2024-09-28) |
-| B: 2010년 전 선정 + 2024년 후 공연 | 정연 | 1 | yoojaeha_finalist 2004-01-01 선정 / 최근 공연 1회 (마지막 2026-07-16) |
-| B: 2010년 전 선정 + 2024년 후 공연 | 조규찬 | 1 | yoojaeha_finalist 1989-01-01 선정 / 최근 공연 1회 (마지막 2027-01-02) |
+| A: 멜론 ID 여러 개 | 구구 | 3 | 구구 (GuGu) (id 2897501, 데뷔 2021-04-07) \| 구구 (id 5wpgBWnsCL8y5s5FSwY71k, 데뷔 2021-04-07) \| 구구(GuGu) (id 9u9u_01, 데뷔 ?) |
+| A: 멜론 ID 여러 개 | 블낫블 | 3 | 블낫블 𝐁𝐥𝐮𝐞 𝐢𝐬 𝐍𝐨𝐭 𝐁𝐥𝐮𝐞 (id off.bnb, 데뷔 ?) \| 블낫블(Blue is Not Blue) (id 0uTWf6LJUvbPgJ67K9CVRL, 데뷔 2025-07-29) \| 블낫블(Blue is Not Blue) (id 4408798, 데뷔 2025-07-29) |
+| A: 멜론 ID 여러 개 | luamel | 3 | LUAMEL (루아멜) (id 2299617, 데뷔 2018-10-05) \| LUAMEL (루아멜) (id luamel_official, 데뷔 ?) \| LUAMEL (id 0GP1FM3P7XrmSNz1Nr29Yy, 데뷔 2018-10-05) |
+| A: 멜론 ID 여러 개 | 공원 | 2 | 공원 (id 3563915, 데뷔 2025-03-27) \| 공원 (id 40Gp1pozXyDoTKNkxTbZKQ, 데뷔 2025-06-03) |
+| A: 멜론 ID 여러 개 | 김승주 | 2 | 김승주 (id 2877532, 데뷔 2020-06-30) \| 김승주 (id 7wV6FuZ1nuVpI7rH0jRRuj, 데뷔 2025-07-21) |
+| A: 멜론 ID 여러 개 | 김시온 | 2 | 김시온 (id 6Sb6DraTcNV5zaqWDgMCoa, 데뷔 2023-07-07) \| 김시온 (Kim Sion) (id 2957454, 데뷔 2021-08-10) |
+| A: 멜론 ID 여러 개 | 릴리잇머신 | 2 | 릴리 잇 머신 (id 1ogeL4SXrnpTgS0cB917ww, 데뷔 2023-10-06) \| 릴리 잇 머신 (Lilly Eat Machine) (id 3573882, 데뷔 2023-10-06) |
+| A: 멜론 ID 여러 개 | 브로콜리너마저 | 2 | 브로콜리너마저 (id 1gq4XavqmZhqOzEkpFBz1j, 데뷔 2010-11-01) \| 브로콜리너마저 (id 230490, 데뷔 2007-10-31) |
+| A: 멜론 ID 여러 개 | 산만한시선 | 2 | 산만한시선 (id 2aqvIa1gUFcwMDEWOsEdsm, 데뷔 ?) \| 산만한시선 (id 4011774, 데뷔 2024-10-31) |
+| A: 멜론 ID 여러 개 | 산보 | 2 | 산보 (id 2rKxDvJDT1Pv93k4ohx8Cp, 데뷔 2024-09-19) \| 산보 (id 3940959, 데뷔 2024-09-19) |
+| A: 멜론 ID 여러 개 | 삼산 | 2 | 삼산 (id 0Mqb4ZExEqQNOkEFSyZiql, 데뷔 2023-10-13) \| 삼산 (id 3584597, 데뷔 2023-10-13) |
+| A: 멜론 ID 여러 개 | 송소희 | 2 | 송소희 (id 2CqJ2OWIZcSwKtfslMLj7W, 데뷔 ?) \| 송소희 (id 672059, 데뷔 2015-04-23) |
+| A: 멜론 ID 여러 개 | 신인류 | 2 | 신인류 (id 2298840, 데뷔 2018-09-26) \| 신인류 (id 6hqKJovR688oBXggv1iCGF, 데뷔 ?) |
+| A: 멜론 ID 여러 개 | 우륵과풍각쟁이들 | 2 | 우륵과 풍각쟁이들 (id 3QQr6mc2bkCf1znKo4uUUa, 데뷔 2025-09-16) \| 우륵과 풍각쟁이들 (id 4581741, 데뷔 2025-09-16) |
+| A: 멜론 ID 여러 개 | 우수현 | 2 | 우수현 (id 0JjuaT60jLgBmyqcMkTDjD, 데뷔 2024-01-24) \| 우수현 (id 3458321, 데뷔 2024-01-24) |
+
+_48행 중 15행만 표시_
 
 ### c06_multi_person_cells
 
@@ -1023,7 +1190,7 @@ ORDER BY tbl, total_rows DESC;
 
 </details>
 
-결과 10행
+결과 18행
 
 | tbl | pattern | distinct_values | total_rows | top_examples |
 |---|---|---|---|---|
@@ -1032,11 +1199,18 @@ ORDER BY tbl, total_rows DESC;
 | gig | 쉼표 나열 | 4 | 4 | 저, 밴드맨이 됩니다 (1) \| 고요, 비눗방울, 우주 (1) \| Black Country, New Road (1) \| Moon, Night & Starts (1) |
 | gig | x 협업 | 2 | 4 | 블랙홀 X 방수미 (2) \| Love X Stereo (2) |
 | gig | / 나열 | 2 | 2 | 펜타클 (Pentacle)  서경대학교 / 더티슈 (Dirty Shoe)  경희대학교 / 울림터 (Ullimteo) 연세대학교 / 마젠타 (Magenta) 국민대학교 / 데스티니 (Destiny)  숙명여자대학교 (1) \| Sunn-Row w/ WeDaBand (1) |
-| outcome | & 연결 | 1 | 1 | yonglee & the DOLTANG (1) |
+| outcome | & 연결 | 2 | 2 | 정지수 & Baroque in Blue (1) \| yonglee & the DOLTANG (1) |
+| press | 쉼표 나열 | 28 | 31 | SUMIN, Slom (2) \| Sun Gin, 격 (2) \| Tyler, The Creator (2) \| 데미지 없이도 끌어올린 타격감, 김도언 (1) \| 카더가든 (Car, the garden) (1) |
+| press | & 연결 | 26 | 27 | Maalib & WRKMS (2) \| 슬라이 앤 더 패밀리 스톤 (Sly & The Family Stone) (1) \| 사비나 앤 드론즈 (Savina & Drones) (1) \| 재키 와이 & 방달 (1) \| 키드 밀리 & 오카시 (1) |
+| press | / 나열 | 4 | 5 | Model/Actriz (2) \| 시월 (Cwar) / 반타01 (VANTA01) (1) \| 제이미 / 박지민 (Jamie) (1) \| 케이에이치씨/모리벳 (khc/moribet) (1) |
+| press | x 협업 | 2 | 2 | 데이지둠 (Love X Stereo (1) \| 투모로우바이투게더 (Tomorrow X Together) (1) |
+| profile | 쉼표 나열 | 2 | 2 | 클럽빵 LiveClub BBang, korea first & longest indie (1) \| 구름, cloud koh, クラウド, 고형석 (1) |
+| profile | / 나열 | 2 | 2 | 뮤즈온 / MUSE ON (1) \| 坂東祐大 / Yuta Bandoh (1) |
+| profile | / 한영 병기(대개 한 팀) | 2 | 2 | 대봉 / Debong (1) \| CHUDAHYE_CHAGIS / 추다혜차지스 (1) |
+| profile | & 연결 | 1 | 1 | 단편선 순간들 Danpyunsun & The Moments Ensemble (1) |
 | selection | 쉼표 나열 | 19 | 19 | 김수현, 임상현 (1) \| 김태균, 염정업 (1) \| 김현범, 성낙원 (1) \| 나현진, 최민규 (1) \| 박수정, 김민지 (1) |
-| selection | x 협업 | 4 | 4 | 김사월 X 김해원 (1) \| 이날치 X 앰비규어스댄스컴퍼니 (1) \| 헬리비젼 X 김오키 (1) \| 씨피카 X 김도언 X 낸시보이 (1) |
-| selection | 외 N명 | 2 | 2 | 이차형 외 2명 (1) \| 이미지 외 4명 (1) |
-| selection | & 연결 | 1 | 1 | Sweet & light (1) |
+
+_18행 중 15행만 표시_
 
 ### c07_duplicate_keys
 
@@ -1110,11 +1284,11 @@ ORDER BY extra_rows DESC;
 | tbl | total_rows | dup_keys | extra_rows | extra_pct | keys_in_2plus_files | examples |
 |---|---|---|---|---|---|---|
 | raw_kr_gig | 15468 | 469 | 469 | 3.0 | 469 | https://indistreet.com/gigs/2026-11-26-%EA%B7%B8%EB%A3%A8%EB%B8%8C%EC%9E%AC%EC%A6%88%EB%8D%B0%EC%9D%B4-groove-in-november-1126-mly4qbnlzw9ligj6fmalu16i \| Groover Kim & Jazzup Band x2 [raw_kr_gig_2026-11-26_indistreet_212810.csv, raw_kr_gig_2026-11-26_indistreet.csv] https://indistreet.com/gigs/2026-11-26-%EB%85%B8%EB%9E%98%ED%95%98%EB%8A%94-%EC%8B%9C%EC%9D%B8-%EB%B0%95%EC%9D%B8%ED%9D%AC-%EC%BD%98%EC%84%9C%ED%8A%B8-%EC%84%9C%EC%9A%B8-1126-doyp4fygtwysv13gfd7maeou \| 박인희 x2 [raw_kr_gig_2026-11-26_indistreet_212810.csv, raw_kr_gig_2026-11-26_indistreet.csv] https://indistreet.com/gigs/2026-11-26-%EB%A8%BC%EB%8D%B0%EC%9D%B4%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-in-%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%81%B4%EB%9F%BD-mombrimz-%EB%8B%A8%EB%8F%85%EC%BD%98%EC%84%9C%ED%8A%B8-rungxk3vk7o4enrytviw61p8 \| MOMBRIMZ x2 [raw_kr_gig_2026-11-26_indistreet_212810.csv, raw_kr_gig_2026-11-26_indistreet.csv] |
-| raw_kr_release | 228 | 36 | 36 | 15.8 | 36 | melon:12885474 \| 한올 x2 [raw_kr_release_2026-11-26_melon_214103.csv, raw_kr_release_2026-11-26_melon.csv] melon:14418214 \| 109 x2 [raw_kr_release_2026-11-26_melon_214103.csv, raw_kr_release_2026-11-26_melon.csv] melon:14965365 \| Aden (에이든) x2 [raw_kr_release_2026-11-26_melon_214103.csv, raw_kr_release_2026-11-26_melon.csv] |
-| raw_press | 121 | 0 | 0 | 0.0 | 0 |  |
-| raw_artist_profile | 83 | 0 | 0 | 0.0 | 0 |  |
+| raw_kr_release | 250 | 36 | 36 | 14.4 | 36 | melon:12885474 \| 한올 x2 [raw_kr_release_2026-11-26_melon_214103.csv, raw_kr_release_2026-11-26_melon.csv] melon:14418214 \| 109 x2 [raw_kr_release_2026-11-26_melon_214103.csv, raw_kr_release_2026-11-26_melon.csv] melon:14965365 \| Aden (에이든) x2 [raw_kr_release_2026-11-26_melon_214103.csv, raw_kr_release_2026-11-26_melon.csv] |
+| raw_press | 4150 | 0 | 0 | 0.0 | 0 |  |
+| raw_artist_profile | 252 | 0 | 0 | 0.0 | 0 |  |
 | raw_kr_selection | 701 | 0 | 0 | 0.0 | 0 |  |
-| raw_outcome | 240 | 0 | 0 | 0.0 | 0 |  |
+| raw_outcome | 438 | 0 | 0 | 0.0 | 0 |  |
 
 ### c08_html_entities_and_handles
 
@@ -1154,7 +1328,7 @@ ORDER BY issue, rows_n DESC, tbl, artist_text;
 
 </details>
 
-결과 51행
+결과 59행
 
 | issue | tbl | artist_text | rows_n |
 |---|---|---|---|
@@ -1168,11 +1342,11 @@ ORDER BY issue, rows_n DESC, tbl, artist_text;
 | B: 인스타 계정명 모양 | press | fleet_official_ | 2 |
 | B: 인스타 계정명 모양 | press | inaekkum_official | 2 |
 | B: 인스타 계정명 모양 | press | lunedi_niverse | 2 |
+| B: 인스타 계정명 모양 | press | omm.. | 2 |
 | B: 인스타 계정명 모양 | press | oysters.999 | 2 |
 | B: 인스타 계정명 모양 | press | sally_everywhere_ | 2 |
 | B: 인스타 계정명 모양 | press | wemakeeachother_ | 2 |
 | B: 인스타 계정명 모양 | gig | autopilot77_77 | 1 |
-| B: 인스타 계정명 모양 | gig | sfc.jgr | 1 |
 
-_51행 중 15행만 표시_
+_59행 중 15행만 표시_
 
