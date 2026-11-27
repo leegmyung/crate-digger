@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-11-27T10:34:18+09:00",
+  "generated_at": "2026-11-27T10:35:27+09:00",
   "data_end": "2026-11-27",
   "uses_artist_xref": true,
   "rows": {
-    "signals": 19933,
-    "teams": 7362,
-    "outcomes": 438,
+    "signals": 19994,
+    "teams": 7377,
+    "outcomes": 734,
     "programs": 19
   }
 }

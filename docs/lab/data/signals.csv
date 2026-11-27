@@ -13,6 +13,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 シャッポ,큐레이션,overtone,overtone,,2026-07-24,
 タデクイ,큐레이션,overtone,overtone,,2026-03-08,
 タデクイ,큐레이션,overtone,overtone,,2026-06-03,
+トクマルシュゴ,큐레이션,overtone,overtone,,2026-10-14,
 ハク,큐레이션,overtone,overtone,,2025-01-12,
 ハルカミライ,공연,indistreet,,,2024-07-20,롤링홀
 ブランデ戦記,큐레이션,overtone,overtone,,2025-05-24,
@@ -889,6 +890,11 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 근처,공연,indistreet,,,2025-11-08,언플러그드 라운지
 근처,공연,indistreet,,,2025-11-30,스팀펑크락
 글라이드,공연,indistreet,,,2026-09-10,Club FF
+글렌체크,큐레이션,izm,IZM,,2023-04-01,
+글렌체크,큐레이션,visla,VISLA,,2023-09-12,
+글렌체크,큐레이션,visla,VISLA,,2023-12-19,
+글렌체크,큐레이션,visla,VISLA,,2024-03-25,
+글렌체크,선정·지원,dmz,dmz_lineup,2,2024-06-30,
 글루,공연,indistreet,,,2024-03-22,Club FF
 글루,공연,indistreet,,,2024-05-03,Club FF
 글루,공연,indistreet,,,2024-06-07,Club FF
@@ -4068,6 +4074,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 리프,공연,indistreet,,,2026-06-19,Club FF
 리프,공연,indistreet,,,2026-07-04,Club FF
 리프,공연,indistreet,,,2026-08-07,Club FF
+리프,공연,indistreet,,,2026-08-15,
 리프,공연,indistreet,,,2026-09-26,Club FF
 리프,공연,indistreet,,,2026-10-24,클럽 프리버드
 리프,공연,indistreet,,,2026-11-15,우무지
@@ -4096,6 +4103,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 릴리잇머신,큐레이션,musicy,음악취향Y,,2026-11-09,
 릴모쉬핏,큐레이션,izm,IZM,,2023-04-01,
 릴모쉬핏,큐레이션,izm,IZM,,2025-01-23,
+릴베쉬람코,큐레이션,overtone,overtone,,2025-02-19,
 릴보이,공연,indistreet,,,2024-12-13,무신사개러지
 릴보이,큐레이션,izm,IZM,,2024-12-26,
 릴보이,큐레이션,izm,IZM,,2025-07-14,
@@ -4588,6 +4596,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 몬스타엑스,큐레이션,izm,IZM,,2025-08-27,
 몬스타엑스,공연,indistreet,,,2026-09-06,
 몬큐,공연,indistreet,,,2026-11-12,아지토 라이브 홀
+몰라시스템,큐레이션,overtone,overtone,,2025-10-27,
 몰라시스템,공연,indistreet,,,2026-10-13,스트레인지 프룻
 몰라시스템,공연,indistreet,,,2026-11-20,생기스튜디오
 못,공연,sangsangmadang,,,2017-11-04,아트홀
@@ -4731,7 +4740,9 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 문시연,공연,indistreet,,,2026-09-11,우주정거장
 문없는집,공연,indistreet,,,2026-04-30,오방가르드
 문없는집,공연,indistreet,,,2026-05-16,오방가르드
+문없는집,큐레이션,overtone,overtone,,2026-05-21,
 문없는집,공연,indistreet,,,2026-06-12,롤링홀
+문없는집,큐레이션,overtone,overtone,,2026-11-23,
 문웅주,공연,indistreet,,,2026-10-24,베이비돌
 문정선,큐레이션,izm,IZM,,2025-02-24,
 문혜진,공연,indistreet,,,2026-11-08,살롱문보우
@@ -5269,6 +5280,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 방탄소년단,큐레이션,izm,IZM,,2026-03-22,
 방탄소년단,큐레이션,izm,IZM,,2026-03-23,
 방탄소년단,큐레이션,izm,IZM,,2026-03-24,
+방탄소년단,큐레이션,overtone,overtone,,2026-03-26,
 방탄소년단,큐레이션,izm,IZM,,2026-06-25,
 방향족,공연,indistreet,,,2024-11-17,라디오가가
 배가영,큐레이션,musicy,음악취향Y,,2025-12-15,
@@ -5593,6 +5605,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 벤치위레오,공연,indistreet,,,2026-06-12,Club FF
 벤치위레오,공연,indistreet,,,2026-11-06,Hukez
 변재환,공연,indistreet,,,2026-07-17,언플러그드 라운지
+변정아,큐레이션,overtone,overtone,,2026-05-02,
 변지환,공연,indistreet,,,2026-03-15,A.O.R
 변하은,공연,indistreet,,,2024-02-16,롤링홀
 변하은,공연,indistreet,,,2026-09-20,언플러그드 라운지
@@ -6031,6 +6044,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 비오,공연,indistreet,,,2026-09-05,
 비와이,큐레이션,izm,IZM,,2023-10-01,
 비와이,큐레이션,rhythmer,리드머,,2026-06-07,
+비와이,큐레이션,overtone,overtone,,2026-06-10,
 비와이,큐레이션,izm,IZM,,2026-06-20,
 비와이,공연,indistreet,,,2026-09-04,예스24 원더로크홀
 비웨이브,큐레이션,izm,IZM,,2024-10-22,
@@ -6657,6 +6671,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 선망,공연,indistreet,,,2024-04-24,Club 빵
 선명,공연,indistreet,,,2025-04-18,Cafe PPnF
 선명,큐레이션,musicy,음악취향Y,,2026-05-04,
+선명,큐레이션,overtone,overtone,,2026-05-19,
 선미,큐레이션,izm,IZM,,2023-11-01,
 선미,큐레이션,izm,IZM,,2025-09-11,
 선미,큐레이션,izm,IZM,,2025-12-16,
@@ -6700,6 +6715,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 선앤메어,공연,indistreet,,,2026-02-06,오방가르드
 선앤메어,공연,indistreet,,,2026-03-27,Club FF
 선앤메어,공연,indistreet,,,2026-03-29,카페 언플러그드 홍대점
+선우예권,큐레이션,overtone,overtone,,2026-05-25,
 선우정아,큐레이션,izm,IZM,,2023-08-01,
 선우정아,큐레이션,musicy,음악취향Y,,2024-07-29,
 선우정아,큐레이션,izm,IZM,,2024-08-18,
@@ -7943,6 +7959,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 실리카겔,선정·지원,dmz,dmz_lineup,2,2024-06-30,
 실리카겔,큐레이션,izm,IZM,,2025-07-27,
 실리카겔,공연,indistreet,,,2026-08-02,
+실리카겔,큐레이션,overtone,overtone,,2026-08-21,
 실리카겔,큐레이션,overtone,overtone,,2026-08-25,
 실리카겔,큐레이션,musicy,음악취향Y,,2026-08-31,
 실림,공연,indistreet,,,2026-07-01,카페 언플러그드 홍대점
@@ -8673,6 +8690,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 양반들,공연,indistreet,,,2026-09-06,
 양반들,공연,indistreet,,,2026-09-13,
 양방언,공연,sangsangmadang,,,2021-08-08,라이브홀
+양방언,큐레이션,overtone,overtone,,2026-11-15,
 양상상,공연,indistreet,,,2024-01-17,Club 빵
 양상상,공연,indistreet,,,2024-03-06,Club 빵
 양상상,공연,indistreet,,,2024-05-29,Club 빵
@@ -8910,6 +8928,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 에스파,큐레이션,izm,IZM,,2026-05-20,
 에스파,큐레이션,musicy,음악취향Y,,2026-06-08,
 에스파,큐레이션,izm,IZM,,2026-06-10,
+에스파,큐레이션,overtone,overtone,,2026-06-13,
 에스피오네,큐레이션,visla,VISLA,,2026-10-28,
 에이다인,공연,indistreet,,,2025-11-23,언플러그드 라운지
 에이다인,공연,indistreet,,,2026-08-14,카페 언플러그드 홍대점
@@ -9026,6 +9045,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 엔믹스,큐레이션,overtone,overtone,,2025-03-18,
 엔믹스,큐레이션,izm,IZM,,2025-03-31,
 엔믹스,큐레이션,musicy,음악취향Y,,2025-03-31,
+엔믹스,큐레이션,overtone,overtone,,2025-04-02,
 엔믹스,큐레이션,izm,IZM,,2025-04-17,
 엔믹스,큐레이션,overtone,overtone,,2025-10-16,
 엔믹스,큐레이션,izm,IZM,,2025-10-22,
@@ -9203,6 +9223,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 영지,큐레이션,weiv,weiv,,2025-03-26,
 영진이네,선정·지원,yjh,yoojaeha_finalist,3,2016-12-31,
 영케이,큐레이션,izm,IZM,,2023-09-01,
+영케이,큐레이션,overtone,overtone,,2026-08-08,
 영케이,큐레이션,musicy,음악취향Y,,2026-08-10,
 영케이,공연,indistreet,,,2026-09-05,
 영케이,큐레이션,izm,IZM,,2026-10-10,
@@ -9888,6 +9909,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 우회로,공연,indistreet,,,2026-07-24,Club 빵
 우희준,큐레이션,overtone,overtone,,2025-04-21,
 우희준,큐레이션,overtone,overtone,,2025-08-18,
+우희준,큐레이션,overtone,overtone,,2025-12-16,
 우희준,공연,indistreet,,,2025-12-26,유기체
 우희준,공연,indistreet,,,2026-06-20,오방가르드
 우희준,큐레이션,musicy,음악취향Y,,2026-08-10,
@@ -9898,6 +9920,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 우희준,공연,indistreet,,,2026-11-01,신도시
 우희준,공연,indistreet,,,2026-11-25,신도시
 우희준,공연,indistreet,,,2026-11-28,세종 음악창작소 누리락
+우희준인터뷰,큐레이션,overtone,overtone,,2025-08-18,
 운치밴드,공연,indistreet,,,2026-09-04,우주정거장
 울,큐레이션,musicy,음악취향Y,,2024-05-20,
 울,공연,indistreet,,,2024-06-09,Club FF
@@ -10001,6 +10024,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 원재규,선정·지원,yjh,yoojaeha_finalist,3,2000-12-31,
 원조뫼를,선정·지원,sejong,muse_sejong,3,2024-05-31,
 원종현오디세이,공연,indistreet,,,2026-03-21,무신사개러지
+원진,큐레이션,overtone,overtone,,2026-11-21,
 원투쓰리포다,공연,indistreet,,,2024-11-23,채널1969
 원투쓰리포다,공연,indistreet,,,2025-03-01,Bender
 원퍼센트,공연,indiego,,,2026-11-28,축제
@@ -10175,6 +10199,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 유라,큐레이션,musicy,음악취향Y,,2023-07-17,
 유라,큐레이션,rhythmer,리드머,,2023-12-06,
 유라,큐레이션,visla,VISLA,,2024-01-29,
+유라,큐레이션,overtone,overtone,,2025-03-29,
 유라,큐레이션,musicy,음악취향Y,,2026-07-20,
 유랑,공연,indistreet,,,2025-07-16,Club 빵
 유랑,공연,indistreet,,,2025-08-27,Club 빵
@@ -10231,6 +10256,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 유수,큐레이션,izm,IZM,,2026-09-10,
 유수림,공연,indistreet,,,2024-02-11,공연장 미정
 유수빈,공연,indistreet,,,2026-08-24,카페 언플러그드 홍대점
+유스투스아이히혼,큐레이션,overtone,overtone,,2026-10-04,
 유스티나스,공연,indistreet,,,2026-11-07,Club 빵
 유스티나스,공연,indiego,,,2026-11-29,스트레인지프룻
 유스티나스,공연,indistreet,,,2026-11-29,스트레인지 프룻
@@ -11789,6 +11815,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 전진희,공연,indistreet,,,2026-11-22,톤스튜디오 서울
 전진희,공연,indistreet,,,2026-11-28,톤스튜디오 서울
 전진희,공연,indistreet,,,2026-11-29,톤스튜디오 서울
+전진희인터뷰,큐레이션,overtone,overtone,,2025-08-06,
 전찬준,공연,indistreet,,,2024-11-24,생기스튜디오
 전파납치,공연,indistreet,,,2024-01-13,Club Victim
 전파납치,공연,indistreet,,,2024-01-18,Club 빵
@@ -12906,6 +12933,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 최정철,공연,sangsangmadang,,,2021-11-27,아트홀
 최정철,공연,indistreet,,,2026-10-02,벨르
 최제니,공연,indistreet,,,2026-08-29,
+최제니,큐레이션,overtone,overtone,,2026-10-20,
 최제니,공연,indistreet,,,2026-10-31,신촌 SPIN & GRIND
 최제니,공연,indiego,,,2026-11-28,비호소
 최지송,공연,indistreet,,,2024-12-14,공연장 미정
@@ -13031,6 +13059,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 칩포스트갱,공연,indistreet,,,2026-08-29,
 칩포스트갱,공연,indistreet,,,2026-09-13,
 칩포스트갱,큐레이션,musicy,음악취향Y,,2026-09-21,
+칩포스트갱,큐레이션,overtone,overtone,,2026-09-26,
 칩포스트갱,큐레이션,weiv,weiv,,2026-10-09,
 칩포스트갱,큐레이션,visla,VISLA,,2026-10-14,
 칩포스트갱,공연,indistreet,,,2026-11-15,신촌 SPIN & GRIND
@@ -13386,6 +13415,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 쾅프로그램,공연,indistreet,,,2026-08-14,오방가르드
 쾅프로그램,공연,indistreet,,,2026-08-16,아메노히커피점
 쾅프로그램,공연,indistreet,,,2026-08-30,
+쾅프로그램,큐레이션,overtone,overtone,,2026-09-03,
 쾅프로그램,공연,indistreet,,,2026-09-05,
 쾅프로그램,공연,indistreet,,,2026-09-06,
 쾅프로그램,공연,indistreet,,,2026-09-13,
@@ -13416,6 +13446,8 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 쿠란데,공연,indistreet,,,2026-10-11,A.O.R
 쿠란데,공연,indistreet,,,2026-10-29,Club FF
 쿠란데,공연,indistreet,,,2026-11-11,클럽 프리버드
+쿠로이와아스카,큐레이션,overtone,overtone,,2025-04-30,
+쿠로이와아스카,큐레이션,overtone,overtone,,2025-06-09,
 쿠인,공연,indistreet,,,2026-02-28,언플러그드 라운지
 쿠인,공연,indistreet,,,2026-10-23,카페 언플러그드 홍대점
 쿠잉,공연,sangsangmadang,,,2024-08-11,라이브홀
@@ -13632,7 +13664,9 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 키라라,큐레이션,musicy,음악취향Y,,2025-01-13,
 키라라,큐레이션,visla,VISLA,,2025-02-17,
 키라라,큐레이션,izm,IZM,,2025-03-03,
+키라라,큐레이션,overtone,overtone,,2025-03-12,
 키라라,큐레이션,izm,IZM,,2025-03-19,
+키라라,큐레이션,overtone,overtone,,2025-03-26,
 키라라,큐레이션,izm,IZM,,2025-04-04,
 키라라,공연,indistreet,,,2025-04-19,무신사개러지
 키라라,선정·지원,dmz,dmz_lineup,2,2025-06-30,
@@ -13691,6 +13725,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 키키,큐레이션,musicy,음악취향Y,,2025-08-18,
 키키,큐레이션,izm,IZM,,2026-02-03,
 키키,큐레이션,izm,IZM,,2026-02-07,
+키키,큐레이션,overtone,overtone,,2026-08-16,
 키키,큐레이션,izm,IZM,,2026-08-31,
 키타,공연,indistreet,,,2026-08-22,오방가르드
 킥플립,큐레이션,izm,IZM,,2025-01-13,
@@ -14113,6 +14148,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 파란노을,큐레이션,visla,VISLA,,2023-03-31,
 파란노을,큐레이션,izm,IZM,,2024-03-01,
 파란노을,큐레이션,izm,IZM,,2024-05-01,
+파란노을,큐레이션,overtone,overtone,,2024-08-16,
 파란노을,큐레이션,izm,IZM,,2024-09-06,
 파란노을,큐레이션,visla,VISLA,,2025-03-26,
 파란노을,큐레이션,izm,IZM,,2026-10-01,
@@ -14199,6 +14235,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 팔로알토,큐레이션,izm,IZM,,2026-10-20,
 팔로알토,공연,indistreet,,,2026-11-01,아지토 라이브 홀
 팔칠댄스,공연,sangsangmadang,,,2022-09-05,라이브홀
+팔칠댄스,큐레이션,visla,VISLA,,2024-05-23,
 팔칠댄스,공연,indistreet,,,2025-01-24,Club FF
 팔칠댄스,공연,indistreet,,,2025-03-23,Club FF
 팔칠댄스,공연,indistreet,,,2025-11-16,벨로주 홍대
@@ -14670,6 +14707,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 피에타,공연,sangsangmadang,,,2024-07-06,라이브홀
 피에타,공연,indistreet,,,2025-05-11,Club FF
 피에타,공연,indistreet,,,2026-05-25,롤링홀
+피엘,공연,indistreet,,,2024-01-21,롤링홀
 피원하모니,큐레이션,izm,IZM,,2023-06-01,
 피원하모니,큐레이션,izm,IZM,,2024-03-01,
 피원하모니,큐레이션,izm,IZM,,2026-03-24,
@@ -14899,6 +14937,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 한세,큐레이션,musicy,음악취향Y,,2025-07-21,
 한솔,공연,indistreet,,,2026-09-02,카페 언플러그드 홍대점
 한수민밴드,선정·지원,yjh,yoojaeha_finalist,3,2006-12-31,
+한수진,큐레이션,overtone,overtone,,2026-10-01,
 한시인,공연,indistreet,,,2026-10-24,벨르
 한영애,선정·지원,dmz,dmz_lineup,2,2022-10-31,
 한예,큐레이션,musicy,음악취향Y,,2026-01-19,
@@ -15570,6 +15609,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 1부송민섭밴드,공연,sangsangmadang,,,2019-05-04,라이브홀
 100gecs,큐레이션,visla,VISLA,,2023-02-17,
 100gecs,큐레이션,visla,VISLA,,2023-03-23,
+100kgold,큐레이션,overtone,overtone,,2026-03-21,
 109,공연,indistreet,,,2026-01-24,북두칠성도서관 아트훌
 109,발매,bugs,,,2026-11-26,
 109,발매,melon,,,2026-11-26,
@@ -15776,7 +15816,6 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 87댄스,공연,indistreet,,,2026-05-14,무신사개러지
 87댄스,공연,indistreet,,,2026-09-06,
 87댄스,공연,indistreet,,,2026-09-11,예스24 원더로크홀
-87dance,큐레이션,visla,VISLA,,2024-05-23,
 밴드88,큐레이션,musicy,음악취향Y,,2025-07-14,
 밴드88,공연,indistreet,,,2025-09-19,오방가르드
 88balaz,공연,indistreet,,,2024-11-22,오방가르드
@@ -16000,6 +16039,7 @@ arcadia,발매,bugs,,,2026-11-26,
 archenemy,공연,indistreet,,,2024-04-24,무신사개러지
 archie,큐레이션,visla,VISLA,,2024-02-02,
 archie,큐레이션,visla,VISLA,,2025-03-14,
+archie,큐레이션,overtone,overtone,,2025-04-28,
 archie,공연,indistreet,,,2026-05-16,생기스튜디오
 archie,공연,indistreet,,,2026-06-26,생기스튜디오
 ardhitopramono,공연,indistreet,,,2026-10-04,
@@ -16203,6 +16243,7 @@ bluewhaill,공연,indistreet,,,2026-02-24,언플러그드 라운지
 bluewhaill,공연,indistreet,,,2026-07-09,스페이스 한강
 bluez,선정·지원,yjh,yoojaeha_finalist,3,2007-12-31,
 blumepopo,큐레이션,overtone,overtone,,2025-03-11,
+blumepopo,큐레이션,overtone,overtone,,2026-01-11,
 blur,큐레이션,visla,VISLA,,2023-05-25,
 blur,큐레이션,visla,VISLA,,2024-06-10,
 bob,공연,indistreet,,,2026-07-29,언플러그드 라운지
@@ -16312,6 +16353,7 @@ cecilebelieve,큐레이션,visla,VISLA,,2024-08-13,
 centimillimental,공연,indistreet,,,2025-04-12,무신사개러지
 centimillimental,공연,indistreet,,,2025-12-06,무신사개러지
 cephalo,큐레이션,visla,VISLA,,2025-11-10,
+cephalo,큐레이션,overtone,overtone,,2026-06-13,
 cephalo,공연,indistreet,,,2026-09-18,벨르
 cero,공연,sangsangmadang,,,2018-09-15,라이브홀
 cero,큐레이션,visla,VISLA,,2026-10-08,
@@ -16698,6 +16740,7 @@ doguul,공연,indistreet,,,2026-07-12,Club Victim
 doguul,공연,indistreet,,,2026-08-29,공연장 미정
 doguul,공연,indiego,,,2026-11-29,클럽 딥퍼플
 dokkaebi,큐레이션,visla,VISLA,,2025-09-22,
+dokkaebi,큐레이션,overtone,overtone,,2026-02-14,
 首振りdolls,공연,indistreet,,,2026-09-06,Bender
 돌피킥비밥dolphykickbebop,공연,indistreet,,,2026-10-17,신도시
 dominicfike,큐레이션,visla,VISLA,,2023-04-27,
@@ -16935,6 +16978,7 @@ firr,공연,indistreet,,,2026-08-08,Hukez
 firr,공연,indistreet,,,2026-10-25,우무지
 fkatwigs,큐레이션,visla,VISLA,,2024-03-25,
 fkatwigs,큐레이션,visla,VISLA,,2025-02-04,
+fkatwigs,큐레이션,overtone,overtone,,2025-02-15,
 fleet,공연,indistreet,,,2025-03-13,Club FF
 fleet,공연,indistreet,,,2026-01-23,우무지
 fleet,공연,indistreet,,,2026-03-13,A.O.R
@@ -17052,6 +17096,7 @@ gdjyb,큐레이션,weiv,weiv,,2025-07-15,
 gedative,큐레이션,instagram,@pub.mag,,2026-11-22,
 gedative,큐레이션,instagram,@pub.mag,,2026-11-23,
 gedative,큐레이션,instagram,@pub.mag,,2026-11-24,
+geese,큐레이션,overtone,overtone,,2026-02-08,
 genzi,공연,indistreet,,,2024-04-05,클럽헤비
 geoffreylewis,공연,indistreet,,,2024-09-21,서브라이엇 해방촌
 geoffreylewis,공연,indistreet,,,2026-09-12,
@@ -17073,11 +17118,6 @@ givogi,큐레이션,visla,VISLA,,2023-03-29,
 gizmo,공연,indistreet,,,2024-11-09,Club FF
 gizmo,공연,indistreet,,,2026-11-14,클럽 프리버드
 glaive,큐레이션,visla,VISLA,,2025-10-20,
-glencheck,큐레이션,izm,IZM,,2023-04-01,
-glencheck,큐레이션,visla,VISLA,,2023-09-12,
-glencheck,큐레이션,visla,VISLA,,2023-12-19,
-glencheck,큐레이션,visla,VISLA,,2024-03-25,
-glencheck,선정·지원,dmz,dmz_lineup,2,2024-06-30,
 gliiico,큐레이션,visla,VISLA,,2024-06-25,
 gloowhale,공연,indistreet,,,2026-10-21,아지토 라이브 홀
 glowmoss,공연,indistreet,,,2026-10-29,카페 언플러그드 홍대점
@@ -17149,6 +17189,7 @@ hanumankind,큐레이션,visla,VISLA,,2025-03-12,
 hardons,공연,indistreet,,,2026-09-12,
 hardons,공연,indistreet,,,2026-09-18,리얼라이즈
 hardons,공연,indistreet,,,2026-09-19,베이비돌
+harrystyles,큐레이션,overtone,overtone,,2026-03-10,
 hary,공연,indistreet,,,2026-08-09,얼라이브홀
 hashswan,공연,indistreet,,,2026-07-11,스페이스브릭
 hashswan,공연,indistreet,,,2026-09-05,
@@ -17333,6 +17374,7 @@ islander,공연,indistreet,,,2026-11-19,우주정거장
 isyanasarasvati,공연,indistreet,,,2026-08-01,
 itta,큐레이션,visla,VISLA,,2024-04-22,
 ivits,공연,indistreet,,,2024-04-21,롤링홀
+ivy,큐레이션,overtone,overtone,,2025-10-30,
 ivy,공연,indistreet,,,2026-11-28,벨르
 iz,공연,sangsangmadang,,,2019-09-28,라이브홀
 izoko,공연,indistreet,,,2026-09-13,
@@ -17451,6 +17493,7 @@ jpbs,공연,indistreet,,,2025-10-17,오방가르드
 jpegmafia,큐레이션,visla,VISLA,,2023-04-03,
 jpegmafia,큐레이션,visla,VISLA,,2024-08-06,
 jpegmafia,큐레이션,visla,VISLA,,2025-05-24,
+jpegmafia,큐레이션,overtone,overtone,,2026-05-29,
 jrs,큐레이션,musicy,음악취향Y,,2024-01-15,
 jue,큐레이션,musicy,음악취향Y,,2023-03-20,
 jue,큐레이션,visla,VISLA,,2025-03-25,
@@ -17658,6 +17701,7 @@ kyarypamyupamyu,공연,indistreet,,,2026-11-21,
 kyband,공연,indistreet,,,2026-07-11,스트레인지 프룻
 l2y,발매,genie,,,2026-11-24,
 labdabu,큐레이션,visla,VISLA,,2026-09-18,
+labdabu,큐레이션,overtone,overtone,,2026-09-19,
 laflemme,공연,indistreet,,,2026-06-19,생기스튜디오
 lagalbi,공연,indistreet,,,2026-09-13,
 lamp,공연,sangsangmadang,,,2018-09-08,라이브홀
@@ -17696,12 +17740,12 @@ lemonradio,공연,indistreet,,,2026-11-26,카페 언플러그드 홍대점
 lennartwiehe,큐레이션,visla,VISLA,,2023-03-27,
 lennykravitz,큐레이션,visla,VISLA,,2023-11-10,
 leroy,큐레이션,visla,VISLA,,2025-06-23,
+lesrallizesdnuds,큐레이션,overtone,overtone,,2024-11-05,
 letmeknow,공연,indistreet,,,2026-04-11,예스24 라이브홀
 lialia,큐레이션,visla,VISLA,,2023-12-01,
 liberalia,공연,indistreet,,,2026-04-25,제이에스아트홀&뮤직바
 libero,공연,indistreet,,,2025-12-05,스페이스 한강
 lieullieul,공연,indistreet,,,2024-12-24,Club Victim
-lif,공연,indistreet,,,2026-08-15,
 lifeguard,큐레이션,visla,VISLA,,2025-06-10,
 lik1024,큐레이션,instagram,@kindiemagazine,,2026-11-19,
 like라이크앙상블,공연,indistreet,,,2025-03-22,공연장 미정
@@ -17783,6 +17827,7 @@ lucyvalentine,공연,indistreet,,,2026-08-29,
 lucyvalentine,공연,indistreet,,,2026-09-13,
 lucyvalentine,공연,indistreet,,,2026-10-10,베이비돌
 lucyvalentine,공연,indistreet,,,2026-11-14,인피니티클럽
+ludwigberger,큐레이션,overtone,overtone,,2025-07-24,
 lukejmurray,큐레이션,visla,VISLA,,2024-02-20,
 lukenowave,공연,indistreet,,,2026-09-11,
 lukenowave,공연,indistreet,,,2026-09-12,
@@ -17816,6 +17861,7 @@ macdemarco,큐레이션,visla,VISLA,,2025-06-30,
 machinegirl,큐레이션,overtone,overtone,,2024-10-25,
 machinegirl,큐레이션,overtone,overtone,,2025-11-11,
 macmiller,큐레이션,overtone,overtone,,2025-01-21,
+macmiller,큐레이션,overtone,overtone,,2025-02-19,
 madalitsoband,공연,indistreet,,,2026-08-17,스트레인지 프룻
 maddyxp,큐레이션,overtone,overtone,,2026-01-23,
 madisonbeer,큐레이션,overtone,overtone,,2026-01-27,
@@ -17846,6 +17892,7 @@ manami,큐레이션,visla,VISLA,,2024-02-20,
 mandarinjuice,공연,indistreet,,,2026-08-03,카페 언플러그드 홍대점
 mandarinjuice,공연,indistreet,,,2026-10-04,스페이스 한강
 mandyindiana,큐레이션,overtone,overtone,,2026-02-20,
+mandyindiana,큐레이션,overtone,overtone,,2026-02-27,
 mangogirl,공연,indistreet,,,2026-10-24,Club Victim
 mangroveelima,공연,indistreet,,,2025-02-06,Club FF
 manh,공연,indistreet,,,2026-11-26,무신사개러지
@@ -18015,6 +18062,7 @@ momaready,큐레이션,visla,VISLA,,2025-01-14,
 mombrimz,큐레이션,musicy,음악취향Y,,2026-07-27,
 mombrimz,공연,indistreet,,,2026-07-31,Club Victim
 mombrimz,공연,indistreet,,,2026-08-27,Club FF
+mombrimz,큐레이션,overtone,overtone,,2026-10-31,
 mombrimz,공연,indiego,,,2026-11-26,공상온도
 mombrimz,공연,indistreet,,,2026-11-26,공상온도
 mombrimz,공연,indiego,,,2026-11-28,언플러그드
@@ -18059,6 +18107,7 @@ morsecode,큐레이션,visla,VISLA,,2024-05-07,
 moruka,큐레이션,visla,VISLA,,2026-07-17,
 moruka,큐레이션,overtone,overtone,,2026-07-19,
 moruka,큐레이션,musicy,음악취향Y,,2026-07-20,
+moruka,큐레이션,overtone,overtone,,2026-08-19,
 moruka,큐레이션,weiv,weiv,,2026-08-27,
 mosburger,큐레이션,visla,VISLA,,2024-04-16,
 mospiran,공연,indistreet,,,2026-02-28,채널1969
@@ -18155,6 +18204,7 @@ necta,큐레이션,visla,VISLA,,2024-11-06,
 necta,큐레이션,overtone,overtone,,2025-03-18,
 necta,큐레이션,visla,VISLA,,2025-03-19,
 necta,큐레이션,musicy,음악취향Y,,2025-03-24,
+necta,큐레이션,overtone,overtone,,2025-05-11,
 necta,큐레이션,visla,VISLA,,2025-09-01,
 necta,큐레이션,visla,VISLA,,2026-03-31,
 necta,큐레이션,overtone,overtone,,2026-04-03,
@@ -18355,6 +18405,7 @@ okashii,큐레이션,overtone,overtone,,2024-10-02,
 oklou,큐레이션,visla,VISLA,,2024-09-24,
 oklou,큐레이션,overtone,overtone,,2025-02-10,
 oklou,큐레이션,visla,VISLA,,2025-02-18,
+oklou,큐레이션,overtone,overtone,,2025-06-30,
 oliviadean,큐레이션,overtone,overtone,,2025-10-07,
 oliviasong,공연,indistreet,,,2026-09-12,
 olixl,큐레이션,visla,VISLA,,2025-08-29,
@@ -18365,6 +18416,7 @@ ologiheibe,큐레이션,overtone,overtone,,2025-11-07,
 om,큐레이션,overtone,overtone,,2026-03-09,
 oma,공연,indistreet,,,2025-06-11,무신사개러지
 omm,큐레이션,visla,VISLA,,2025-06-12,
+omm,큐레이션,overtone,overtone,,2025-09-09,
 omm,큐레이션,visla,VISLA,,2026-11-26,
 on,공연,indistreet,,,2026-08-01,우주정거장
 on,공연,indistreet,,,2026-10-22,우주정거장
@@ -18499,6 +18551,7 @@ pcr,큐레이션,musicy,음악취향Y,,2025-01-13,
 pcr,공연,indistreet,,,2025-03-01,Club FF
 pcr,큐레이션,visla,VISLA,,2025-07-09,
 pcr,큐레이션,overtone,overtone,,2025-08-05,
+pcr,큐레이션,overtone,overtone,,2025-08-22,
 pcr,큐레이션,overtone,overtone,,2026-02-13,
 pcr,공연,indistreet,,,2026-03-07,Club FF
 pcr,공연,indistreet,,,2026-04-30,오방가르드
@@ -18579,7 +18632,6 @@ pissectomy,공연,indistreet,,,2025-08-30,리얼라이즈
 pixey,큐레이션,visla,VISLA,,2024-08-07,
 pixies,공연,indistreet,,,2026-08-02,
 pjmorton,공연,indistreet,,,2024-03-15,무신사개러지
-pl,공연,indistreet,,,2024-01-21,롤링홀
 playboicarti,큐레이션,overtone,overtone,,2024-09-16,
 playboicarti,큐레이션,visla,VISLA,,2024-09-23,
 playboicarti,큐레이션,visla,VISLA,,2025-03-16,
@@ -18963,6 +19015,7 @@ shane,발매,melon,,,2026-11-24,
 shanghaiqiutian,공연,indistreet,,,2025-05-22,Club FF
 shapednoise,큐레이션,visla,VISLA,,2023-07-19,
 sharonvanettentheattachmenttheory,큐레이션,overtone,overtone,,2025-02-16,
+sharppins,큐레이션,overtone,overtone,,2026-09-25,
 shedept,공연,indistreet,,,2026-11-13,우무지
 sheensunn,공연,indistreet,,,2024-12-14,공연장 미정
 shelly,큐레이션,visla,VISLA,,2025-07-15,
@@ -19030,6 +19083,7 @@ skeletalremains,공연,indistreet,,,2024-08-31,Club Victim
 skeptafredagain,큐레이션,overtone,overtone,,2025-09-12,
 skindred,큐레이션,overtone,overtone,,2026-05-07,
 skinnychase,큐레이션,overtone,overtone,,2024-08-01,
+skinnychase,큐레이션,overtone,overtone,,2024-08-11,
 skrillex,큐레이션,visla,VISLA,,2023-03-21,
 skrillex,큐레이션,overtone,overtone,,2025-04-09,
 skrillex,큐레이션,visla,VISLA,,2025-04-09,
@@ -19363,6 +19417,7 @@ thenewpornographers,큐레이션,visla,VISLA,,2023-01-13,
 theoparrish,큐레이션,visla,VISLA,,2024-07-15,
 theoralcigarettes,공연,indistreet,,,2026-11-20,
 theorchestra,큐레이션,overtone,overtone,,2025-04-10,
+theorchestra,큐레이션,overtone,overtone,,2025-10-12,
 theorchestra,큐레이션,overtone,overtone,,2025-11-07,
 thepooh,공연,indistreet,,,2025-06-21,공연장 미정
 thequeer,공연,indistreet,,,2026-11-19,우주정거장
@@ -19478,6 +19533,8 @@ treaks,공연,indistreet,,,2026-09-05,
 최창순trio,공연,indistreet,,,2026-02-22,스트레인지 프룻
 triplesmsnz,큐레이션,overtone,overtone,,2025-11-28,
 triplesvisionaryvision,큐레이션,overtone,overtone,,2024-10-24,
+troopersalute,큐레이션,overtone,overtone,,2025-07-11,
+troopersalute,큐레이션,overtone,overtone,,2025-10-05,
 troopersalute,큐레이션,overtone,overtone,,2026-06-23,
 troopersalute,큐레이션,overtone,overtone,,2026-06-30,
 truebluesband,공연,indistreet,,,2024-04-19,언드
@@ -19504,6 +19561,7 @@ tvontheradio,큐레이션,visla,VISLA,,2024-12-10,
 twentyonepilots,큐레이션,overtone,overtone,,2025-09-15,
 twice,큐레이션,overtone,overtone,,2024-12-09,
 twice,큐레이션,overtone,overtone,,2025-07-15,
+twice,큐레이션,overtone,overtone,,2026-10-28,
 twilliams,큐레이션,visla,VISLA,,2024-02-14,
 twoshell,큐레이션,visla,VISLA,,2023-08-17,
 twoshell,큐레이션,visla,VISLA,,2024-03-25,
@@ -19518,6 +19576,7 @@ tyve,공연,indistreet,,,2026-12-01,스페이스 한강
 uffie,큐레이션,visla,VISLA,,2025-04-10,
 ugoslabier,공연,indistreet,,,2024-08-27,Club Victim
 uing,공연,indistreet,,,2026-08-01,우주정거장
+ukukasai,큐레이션,overtone,overtone,,2024-12-12,
 ultrabird,공연,indistreet,,,2024-08-17,퍼플홀
 unchained,큐레이션,visla,VISLA,,2024-04-12,
 underflow언더플로우,공연,indistreet,,,2024-11-21,Club 빵
@@ -19535,6 +19594,7 @@ underflow언더플로우,공연,indistreet,,,2026-10-10,인천여관X루비살�
 underscores,큐레이션,visla,VISLA,,2024-07-02,
 underscores,큐레이션,visla,VISLA,,2025-11-11,
 underscores,큐레이션,overtone,overtone,,2026-03-26,
+underscores,큐레이션,overtone,overtone,,2026-04-12,
 underverse,공연,indistreet,,,2026-09-19,공연장 미정
 unfade,공연,indistreet,,,2025-02-22,그린빈 버찌라이브하우스
 uni,공연,indistreet,,,2024-10-10,Club FF
@@ -19860,6 +19920,7 @@ ygbrazilianlab,공연,indistreet,,,2026-11-21,채널1969
 yhwhnailgun,큐레이션,overtone,overtone,,2025-03-31,
 yhwhnailgun,큐레이션,visla,VISLA,,2025-04-08,
 yhwhnailgun,큐레이션,overtone,overtone,,2026-06-17,
+yhwhnailgun,큐레이션,overtone,overtone,,2026-06-23,
 yigitoglu,공연,indistreet,,,2026-11-21,언더시티
 yihayoon,공연,instagram,@senggistudio,,2026-11-14,@senggistudio
 yippee,공연,indistreet,,,2024-01-11,Club FF

@@ -1,59 +1,92 @@
 team_key,program,program_label,tier,announced_date,counted
 가리온,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 가재발,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+가호,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+가호,mucon,뮤콘(MU:CON),mid,2022-08-16,false
 강산에,burock_main,부산록페 본무대,mid,2026-09-04,false
 강아솔,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 강아솔,kma_genre,한대음 장르 부문,mid,2025-02-27,false
 강윤미,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+거니,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 검은잎들,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 고고학,kma_genre,한대음 장르 부문,mid,2026-02-05,true
 고고학,mucon,뮤콘(MU:CON),mid,2026-07-13,true
 고고학,burock_main,부산록페 본무대,mid,2026-09-04,true
+고스트클럽,khha_rookie,한국힙합어워즈 신인,final,2024-02-27,true
+공공구,khha_rookie,한국힙합어워즈 신인,final,2023-03-09,true
 공원,cj_tuneup,CJ 튠업,final,2025-06-26,true
 공원,kma_rookie,한대음 올해의 신인,final,2026-02-05,true
 공원,burock_main,부산록페 본무대,mid,2026-09-04,true
+곽태풍,cj_tuneup,CJ 튠업,final,2022-05-24,true
+곽태풍,museon_final,뮤즈온 최종,mid,2023-06-21,true
+곽태풍,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 구구,indiestance,인디스땅스 결선,mid,2026-10-17,true
 구남과여라이딩스텔라,mucon,뮤콘(MU:CON),mid,2025-06-16,false
+권기백,khha_rookie,한국힙합어워즈 신인,final,2022-03-10,true
 권나무,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 권나무,kma_genre,한대음 장르 부문,mid,2026-02-26,false
 권오선,khha_rookie,한국힙합어워즈 신인,final,2025-01-15,true
 권진아,burock_main,부산록페 본무대,mid,2026-09-04,false
+그레이바이실버,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 그레이바이실버,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 그레이바이실버,kma_genre,한대음 장르 부문,mid,2026-02-26,false
 그레이바이실버,mucon,뮤콘(MU:CON),mid,2026-07-13,false
+그리즐리,mucon,뮤콘(MU:CON),mid,2021-09-02,false
+그리즐리,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+그리즐리,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 그리즐리,mucon,뮤콘(MU:CON),mid,2025-06-16,false
+극동아시아타이거즈,penta_superrookie,펜타포트 슈퍼루키,mid,2024-06-29,true
 극동아시아타이거즈,burock_main,부산록페 본무대,mid,2026-09-04,false
+글렌체크,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+기수,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+기수,mucon,뮤콘(MU:CON),mid,2024-05-10,false
+김늑,penta_superrookie,펜타포트 슈퍼루키,mid,2023-07-01,true
+김늑,museon_final,뮤즈온 최종,mid,2024-06-03,true
+김뜻돌,kma_rookie,한대음 올해의 신인,final,2021-02-28,true
+김뜻돌,museon_final,뮤즈온 최종,mid,2022-06-07,true
+김뜻돌,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+김뜻돌,cj_tuneup,CJ 튠업,final,2024-05-30,true
 김뜻돌,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 김뜻돌,mucon,뮤콘(MU:CON),mid,2025-06-16,false
 김뜻돌,burock_main,부산록페 본무대,mid,2026-09-04,false
 김민희,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 김사월,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+김상민그는감히전설이라고할수있다,khha_rookie,한국힙합어워즈 신인,final,2024-02-27,true
 김성규,burock_main,부산록페 본무대,mid,2026-09-04,false
 김수철,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+김승주,museon_final,뮤즈온 최종,mid,2024-06-03,true
 김승주,mucon,뮤콘(MU:CON),mid,2025-06-16,true
 김승주,cj_tuneup,CJ 튠업,final,2025-06-26,true
 김승주,penta_superrookie,펜타포트 슈퍼루키,mid,2025-06-28,true
 김시온,museon_final,뮤즈온 최종,mid,2026-06-04,true
 김예찬,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 김윤아,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+김제형,cj_tuneup,CJ 튠업,final,2022-05-24,true
 김주환,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 김지혜,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 김창완,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 김푸름,museon_final,뮤즈온 최종,mid,2025-05-12,true
+김필,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+김필,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 김활성,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 까데호,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 까치산,mucon,뮤콘(MU:CON),mid,2026-07-13,false
 까치산,burock_main,부산록페 본무대,mid,2026-09-04,false
 나르디스,museon_final,뮤즈온 최종,mid,2026-06-04,true
 나르디스,hello_rookie_year,올해의 헬로루키,final,2026-08-31,true
+나상현씨밴드,museon_final,뮤즈온 최종,mid,2021-06-16,true
 나상현씨밴드,mucon,뮤콘(MU:CON),mid,2026-07-13,false
 나오주성,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 나윤선,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 나이테,penta_superrookie,펜타포트 슈퍼루키,mid,2026-05-30,true
+나인티오원,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 남예지,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 남예지,kma_genre,한대음 장르 부문,mid,2025-02-27,false
+너드커넥션,museon_final,뮤즈온 최종,mid,2021-06-16,true
 너드커넥션,burock_main,부산록페 본무대,mid,2026-09-04,false
+노링크,kma_rookie,한대음 올해의 신인,final,2024-02-29,true
 노선,khha_rookie,한국힙합어워즈 신인,final,2025-01-15,true
+노윤하,khha_rookie,한국힙합어워즈 신인,final,2023-03-09,true
 노이,museon_final,뮤즈온 최종,mid,2026-06-04,true
 녹이녹,hello_rookie,헬로루키 월간,mid,2026-04-28,true
 녹이녹,hello_rookie_year,올해의 헬로루키,final,2026-08-31,true
@@ -62,75 +95,143 @@ team_key,program,program_label,tier,announced_date,counted
 놀이도감,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 놀이도감,kma_genre,한대음 장르 부문,mid,2026-02-26,false
 놀이도감,burock_main,부산록페 본무대,mid,2026-09-04,false
+누모리,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 누모리,mucon,뮤콘(MU:CON),mid,2026-07-13,false
 누빔,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+뉴진스,kma_rookie,한대음 올해의 신인,final,2023-03-05,true
+뉴클리어이디엇츠,penta_superrookie,펜타포트 슈퍼루키,mid,2022-07-09,true
 다다다,indiestance,인디스땅스 결선,mid,2025-09-20,true
 다다다,burock_main,부산록페 본무대,mid,2026-09-04,true
+다린,museon_final,뮤즈온 최종,mid,2022-06-07,true
+다민이,khha_rookie,한국힙합어워즈 신인,final,2023-03-09,true
+다브다,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+다브다,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+다브다,mucon,뮤콘(MU:CON),mid,2024-05-10,false
+다섯,cj_tuneup,CJ 튠업,final,2024-05-30,true
+다양성,penta_superrookie,펜타포트 슈퍼루키,mid,2024-06-29,true
+다정,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+다정,hello_rookie_year,올해의 헬로루키,final,2022-11-24,true
+다크비,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 단감자,burock_main,부산록페 본무대,mid,2026-09-04,true
 단편선순간들,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 단편선순간들,kma_genre,한대음 장르 부문,mid,2025-02-27,false
 단편선순간들,mucon,뮤콘(MU:CON),mid,2025-06-16,false
+달란트,museon_final,뮤즈온 최종,mid,2021-06-16,true
+달란트,mucon,뮤콘(MU:CON),mid,2022-08-16,false
 더바스타즈,penta_superrookie,펜타포트 슈퍼루키,mid,2025-06-09,true
+더보울스,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+더보울스,mucon,뮤콘(MU:CON),mid,2024-05-10,false
+더블유트웬티포,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+더픽스,penta_superrookie,펜타포트 슈퍼루키,mid,2023-07-01,true
+더픽스,indiestance,인디스땅스 결선,mid,2023-10-14,true
 데이네버체인지,museon_final,뮤즈온 최종,mid,2025-05-12,true
 데이먼스이어,burock_main,부산록페 본무대,mid,2026-09-04,false
 뎁트,mucon,뮤콘(MU:CON),mid,2025-06-16,false
 뎁트,mucon,뮤콘(MU:CON),mid,2026-07-13,false
+동이,kma_rookie,한대음 올해의 신인,final,2024-02-29,true
+두억시니,kma_rookie,한대음 올해의 신인,final,2021-02-28,true
 둘라밤,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 둘롬,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 드래곤포니,burock_main,부산록페 본무대,mid,2026-09-04,false
+드링킹소년소녀합창단,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+드링킹소년소녀합창단,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 드링킹소년소녀합창단,mucon,뮤콘(MU:CON),mid,2026-07-13,false
+드비타,khha_rookie,한국힙합어워즈 신인,final,2021-02-27,true
+드비타,kma_rookie,한대음 올해의 신인,final,2021-02-28,true
+라쿠나,cj_tuneup,CJ 튠업,final,2021-05-01,true
+라쿠나,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+라쿠나,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+러브엑스테레오,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+러브엑스테레오,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 레이지본,burock_main,부산록페 본무대,mid,2026-09-04,false
 로맨틱펀치,burock_main,부산록페 본무대,mid,2026-09-04,false
 로스오브인펙션,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 로시,mucon,뮤콘(MU:CON),mid,2026-07-13,false
+루달스,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 루시,burock_main,부산록페 본무대,mid,2026-09-04,false
 루시갱,mucon,뮤콘(MU:CON),mid,2026-07-13,false
 루시드폴,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+루아멜,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 루아멜,indiestance,인디스땅스 결선,mid,2025-08-17,true
+르세라핌,kma_rookie,한대음 올해의 신인,final,2023-03-05,true
+리도어,museon_final,뮤즈온 최종,mid,2021-06-16,true
 리도어,cj_tuneup,CJ 튠업,final,2026-04-27,true
 리도어,burock_main,부산록페 본무대,mid,2026-09-04,false
 리베로시스,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+리치맨과그루브나이스,mucon,뮤콘(MU:CON),mid,2024-05-10,false
+리프,penta_superrookie,펜타포트 슈퍼루키,mid,2024-06-29,true
 릴리잇머신,penta_superrookie,펜타포트 슈퍼루키,mid,2026-05-30,true
 마리아킴,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 마일드비츠,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 마일드비츠,kma_genre,한대음 장르 부문,mid,2025-02-27,false
+마치,museon_final,뮤즈온 최종,mid,2023-06-21,true
+마치,cj_tuneup,CJ 튠업,final,2024-05-30,true
 말로,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 말로,kma_genre,한대음 장르 부문,mid,2026-02-26,false
 매미,mucon,뮤콘(MU:CON),mid,2026-07-13,false
+머드더스튜던트,khha_rookie,한국힙합어워즈 신인,final,2022-03-10,true
 머티리얼스파운드,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+메스그램,museon_final,뮤즈온 최종,mid,2021-06-16,true
+메스그램,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 메쓰카멜,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 모노폴리,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+모스크바서핑클럽,hello_rookie_year,올해의 헬로루키,final,2022-11-24,true
+모스크바서핑클럽,penta_superrookie,펜타포트 슈퍼루키,mid,2023-07-01,true
+모허,penta_superrookie,펜타포트 슈퍼루키,mid,2024-06-29,true
 모허,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 모허,kma_genre,한대음 장르 부문,mid,2025-02-27,false
+문미향,kma_rookie,한대음 올해의 신인,final,2024-02-29,true
+문종업,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 미역수염,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 미역수염,kma_genre,한대음 장르 부문,mid,2025-02-27,false
+민수,cj_tuneup,CJ 튠업,final,2023-06-07,true
 밀레나,museon_final,뮤즈온 최종,mid,2025-05-12,true
 밀레나,cj_tuneup,CJ 튠업,final,2025-06-26,true
+바닐라무스,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+바비핀스,penta_superrookie,펜타포트 슈퍼루키,mid,2022-07-09,true
 박은옥,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 박지하,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 반도,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 반도,kma_genre,한대음 장르 부문,mid,2025-02-27,false
 배철수,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+백승호,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 백예린,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 밴드기린,burock_main,부산록페 본무대,mid,2026-09-04,false
+범진,cj_tuneup,CJ 튠업,final,2023-06-07,true
+범진,museon_final,뮤즈온 최종,mid,2023-06-21,true
+베리코이버니,museon_final,뮤즈온 최종,mid,2023-06-21,true
+베이비야나,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 봉제인간,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+불고기디스코,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+불고기디스코,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 불고기디스코,mucon,뮤콘(MU:CON),mid,2025-06-16,false
+뷰렛,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 뷰렛,mucon,뮤콘(MU:CON),mid,2025-06-16,false
 브라운,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 브로콜리너마저,burock_main,부산록페 본무대,mid,2026-09-04,false
 브로큰발렌타인,burock_main,부산록페 본무대,mid,2026-09-04,false
 블낫블,museon_final,뮤즈온 최종,mid,2026-06-04,true
+블라,cj_tuneup,CJ 튠업,final,2024-05-30,true
+블랙스완,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+블리처스,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 비공정,penta_superrookie,펜타포트 슈퍼루키,mid,2025-06-28,true
 비공정,indiestance,인디스땅스 결선,mid,2025-08-17,true
 비공정,burock_main,부산록페 본무대,mid,2026-09-04,false
+비디씨,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+비비,khha_rookie,한국힙합어워즈 신인,final,2021-02-27,true
+비비,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 비비,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 비비,kma_genre,한대음 장르 부문,mid,2025-02-27,false
 비비,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+비아이지,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+비오,khha_rookie,한국힙합어워즈 신인,final,2022-03-10,true
 비프리,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 비프리,kma_genre,한대음 장르 부문,mid,2025-02-27,false
 비프리,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 사비나앤드론즈,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+사우스클럽,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 사운드서플라이서비스,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+사운드힐즈,indiestance,인디스땅스 결선,mid,2023-10-14,true
 사훈,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 산만한시선,kma_genre,한대음 장르 부문,mid,2025-02-06,true
 산만한시선,kma_rookie,한대음 올해의 신인,final,2025-02-06,true
@@ -147,9 +248,15 @@ team_key,program,program_label,tier,announced_date,counted
 산보,hello_rookie_year,올해의 헬로루키,final,2026-08-31,true
 산보,burock_main,부산록페 본무대,mid,2026-09-04,true
 산보,hello_rookie_year,올해의 헬로루키,final,2026-10-02,true
+삼산,museon_final,뮤즈온 최종,mid,2024-06-03,true
 삼산,kma_rookie,한대음 올해의 신인,final,2025-02-06,true
 삼산,penta_superrookie,펜타포트 슈퍼루키,mid,2026-05-18,true
 상자루,mucon,뮤콘(MU:CON),mid,2025-06-16,false
+새소년,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+샤이보이토비,khha_rookie,한국힙합어워즈 신인,final,2024-02-27,true
+서동현,khha_rookie,한국힙합어워즈 신인,final,2022-03-10,true
+서리,mucon,뮤콘(MU:CON),mid,2024-05-10,false
+서보경,kma_rookie,한대음 올해의 신인,final,2021-02-28,true
 서울부인,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 선우정아,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 세이수미,kma_genre,한대음 장르 부문,mid,2026-02-05,false
@@ -157,39 +264,75 @@ team_key,program,program_label,tier,announced_date,counted
 소울딜리버리,mucon,뮤콘(MU:CON),mid,2026-07-13,false
 소음발광,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 소음발광,kma_genre,한대음 장르 부문,mid,2025-02-27,false
+소이에,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+솔루션스,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+솔루션스,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+솔루션스,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 송골매,burock_main,부산록페 본무대,mid,2026-09-04,false
 송소희,cj_tuneup,CJ 튠업,final,2025-06-26,true
 송소희,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 수민,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 수민,kma_genre,한대음 장르 부문,mid,2025-02-27,false
+숨비,museon_final,뮤즈온 최종,mid,2023-06-21,true
+스월비,khha_rookie,한국힙합어워즈 신인,final,2021-02-27,true
 스카웨이커스,burock_main,부산록페 본무대,mid,2026-09-04,false
+스쿼시바인즈,kma_rookie,한대음 올해의 신인,final,2021-02-28,true
+스킵잭,penta_superrookie,펜타포트 슈퍼루키,mid,2022-07-09,true
+스테이씨,kma_rookie,한대음 올해의 신인,final,2022-03-01,true
+스트릿베이비,khha_rookie,한국힙합어워즈 신인,final,2024-02-27,true
 슬롬,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 슬롬,kma_genre,한대음 장르 부문,mid,2025-02-27,false
 시스템서울,khha_rookie,한국힙합어워즈 신인,final,2026-01-14,true
+시온,kma_rookie,한대음 올해의 신인,final,2023-03-05,true
+시온,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+시온,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 시온,mucon,뮤콘(MU:CON),mid,2025-06-16,false
 식케이,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 식케이,kma_genre,한대음 장르 부문,mid,2026-02-26,false
+신스,kma_rookie,한대음 올해의 신인,final,2022-03-01,true
+신스,khha_rookie,한국힙합어워즈 신인,final,2022-03-10,true
 신아람,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+신유미,museon_final,뮤즈온 최종,mid,2021-06-16,true
 신인류,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 신인류,kma_genre,한대음 장르 부문,mid,2026-02-26,false
 신인류,cj_tuneup,CJ 튠업,final,2026-04-27,true
 신인류,burock_main,부산록페 본무대,mid,2026-09-04,false
 신지항,khha_rookie,한국힙합어워즈 신인,final,2026-01-14,true
 신지항,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+실리카겔,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 실리카겔,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+심아일랜드,indiestance,인디스땅스 결선,mid,2024-10-12,true
 심아일랜드,museon_final,뮤즈온 최종,mid,2025-05-12,true
 심아일랜드,penta_superrookie,펜타포트 슈퍼루키,mid,2025-06-28,true
 심아일랜드,mucon,뮤콘(MU:CON),mid,2026-07-13,true
 심아일랜드,burock_main,부산록페 본무대,mid,2026-09-04,true
+써드아이,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+써드아이,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+썸머소울,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+쏜애플,mucon,뮤콘(MU:CON),mid,2021-09-02,false
+쏜애플,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 쓰다,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+아도이,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 아도이,burock_main,부산록페 본무대,mid,2026-09-04,false
+아디오스오디오,museon_final,뮤즈온 최종,mid,2021-06-16,true
+아리아즈,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+아사달,penta_superrookie,펜타포트 슈퍼루키,mid,2024-06-29,true
 아시안스파이스하우스,penta_superrookie,펜타포트 슈퍼루키,mid,2026-05-30,true
+아월,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+아월,mucon,뮤콘(MU:CON),mid,2024-05-10,false
+아월,penta_superrookie,펜타포트 슈퍼루키,mid,2024-06-29,true
 아월,mucon,뮤콘(MU:CON),mid,2025-06-16,false
 아이,mucon,뮤콘(MU:CON),mid,2026-07-13,false
+아이디얼스,cj_tuneup,CJ 튠업,final,2022-05-24,true
+아이브,kma_rookie,한대음 올해의 신인,final,2023-03-05,true
 아이유,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 아일릿,kma_rookie,한대음 올해의 신인,final,2025-02-06,true
+안녕바다,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+안예은,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 안지원,musicy_rookie,음악취향Y 올해의 신인,final,2025-12-29,true
 알레프,burock_main,부산록페 본무대,mid,2026-09-04,false
+알렉사,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+애니멀다이버스,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 애니멀다이버스,mucon,뮤콘(MU:CON),mid,2026-07-13,false
 앤드오어,mucon,뮤콘(MU:CON),mid,2025-06-16,false
 야자수,burock_main,부산록페 본무대,mid,2026-09-04,false
@@ -201,35 +344,56 @@ team_key,program,program_label,tier,announced_date,counted
 양치기소년단,burock_main,부산록페 본무대,mid,2026-09-04,true
 양카일,khha_rookie,한국힙합어워즈 신인,final,2025-01-15,true
 에디앤더브릭스,museon_final,뮤즈온 최종,mid,2026-06-04,true
+에스나,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+에스파,kma_rookie,한대음 올해의 신인,final,2022-03-01,true
 에이트레인,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+에이퍼즈,mucon,뮤콘(MU:CON),mid,2022-08-16,false
 에피,khha_rookie,한국힙합어워즈 신인,final,2026-01-14,true
 에피,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 에피,khha_rookie,한국힙합어워즈 신인,final,2026-02-11,true
 엑스디너리히어로즈,burock_main,부산록페 본무대,mid,2026-09-04,true
 엔플라잉,burock_main,부산록페 본무대,mid,2026-09-04,false
+엘라스트,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+엘리스,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+연정,museon_final,뮤즈온 최종,mid,2024-06-03,true
 염따,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 염소의뿔개의심장,hello_rookie,헬로루키 월간,mid,2026-08-31,true
 염소의뿔개의심장,hello_rookie_year,올해의 헬로루키,final,2026-08-31,true
 염소의뿔개의심장,hello_rookie_year,올해의 헬로루키,final,2026-10-02,true
 영웨이브,museon_final,뮤즈온 최종,mid,2025-05-12,true
+예빛,cj_tuneup,CJ 튠업,final,2021-05-01,true
 예빛,mucon,뮤콘(MU:CON),mid,2026-07-13,false
+예서,museon_final,뮤즈온 최종,mid,2021-06-16,true
+오메가엑스,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+오션프롬더블루,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+오열,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 오월오일,cj_tuneup,CJ 튠업,final,2025-06-26,true
 오월오일,burock_main,부산록페 본무대,mid,2026-09-04,false
+오이글리,khha_rookie,한국힙합어워즈 신인,final,2022-03-10,true
 오이스터즈,cj_tuneup,CJ 튠업,final,2026-04-27,true
 오이스터즈,museon_final,뮤즈온 최종,mid,2026-06-04,true
 오이스터즈,burock_main,부산록페 본무대,mid,2026-09-04,true
+오존,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 오코예,khha_rookie,한국힙합어워즈 신인,final,2025-01-15,true
 오코예,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+오티스림,museon_final,뮤즈온 최종,mid,2024-06-03,true
 오티스림,mucon,뮤콘(MU:CON),mid,2025-06-16,false
+오프더메뉴,cj_tuneup,CJ 튠업,final,2022-05-24,true
+오헬렌,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 옥상달빛,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 올데이프로젝트,izm_rookie,이즘 올해의 신인,final,2025-12-21,true
 올데이프로젝트,kma_rookie,한대음 올해의 신인,final,2026-02-05,true
 올디벗구디,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+왈리,khha_rookie,한국힙합어워즈 신인,final,2024-02-27,true
+왓에버댓민즈,indiestance,인디스땅스 결선,mid,2023-10-14,true
 용리와돌아온탕자들,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 우륵과풍각쟁이들,penta_superrookie,펜타포트 슈퍼루키,mid,2026-05-30,true
 우수현,museon_final,뮤즈온 최종,mid,2026-06-04,true
 우예린,mucon,뮤콘(MU:CON),mid,2025-06-16,false
 우즈,burock_main,부산록페 본무대,mid,2026-09-04,false
+우지원,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+우진영,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+우진영,mucon,뮤콘(MU:CON),mid,2022-08-16,false
 우희준,musicy_rookie,음악취향Y 올해의 신인,final,2025-12-29,true
 우희준,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 우희준,kma_rookie,한대음 올해의 신인,final,2026-02-05,true
@@ -237,18 +401,39 @@ team_key,program,program_label,tier,announced_date,counted
 우희준,kma_rookie,한대음 올해의 신인,final,2026-02-26,true
 우희준,hello_rookie,헬로루키 월간,mid,2026-08-31,true
 우희준,hello_rookie_year,올해의 헬로루키,final,2026-08-31,true
+원슈타인,khha_rookie,한국힙합어워즈 신인,final,2021-02-27,true
+위댄스,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+위아영,museon_final,뮤즈온 최종,mid,2021-06-16,true
+유다빈밴드,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+유다빈밴드,museon_final,뮤즈온 최종,mid,2023-06-21,true
+유다빈밴드,mucon,뮤콘(MU:CON),mid,2024-05-10,false
+유라,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 유인원,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+유하,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 윤다혜,khha_rookie,한국힙합어워즈 신인,final,2026-01-14,true
 윤다혜,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 윤다혜,kma_genre,한대음 장르 부문,mid,2026-02-26,false
+윤마치,mucon,뮤콘(MU:CON),mid,2024-05-10,false
+윤마치,indiestance,인디스땅스 결선,mid,2024-08-14,true
 윤마치,burock_main,부산록페 본무대,mid,2026-09-04,false
+윤새,museon_final,뮤즈온 최종,mid,2021-06-16,true
+윤새,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 윤새,penta_superrookie,펜타포트 슈퍼루키,mid,2025-06-09,true
 윤석철트리오,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 윤준,museon_final,뮤즈온 최종,mid,2026-06-04,true
+윤지영,cj_tuneup,CJ 튠업,final,2022-05-24,true
+윤지영,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 율음,khha_rookie,한국힙합어워즈 신인,final,2025-01-15,true
 율음,khha_rookie,한국힙합어워즈 신인,final,2025-02-28,true
+이디오테잎,mucon,뮤콘(MU:CON),mid,2022-08-16,false
 이디오테잎,burock_main,부산록페 본무대,mid,2026-09-04,false
 이랑,mucon,뮤콘(MU:CON),mid,2025-06-16,false
+이루리,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+이무진,kma_rookie,한대음 올해의 신인,final,2022-03-01,true
+이바다,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+이상웅,indiestance,인디스땅스 결선,mid,2024-08-14,true
+이상의날개,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+이상의날개,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 이선지,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 이승윤,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 이승윤,kma_genre,한대음 장르 부문,mid,2025-02-27,false
@@ -257,7 +442,10 @@ team_key,program,program_label,tier,announced_date,counted
 이승윤,kma_genre,한대음 장르 부문,mid,2026-02-26,false
 이승윤,burock_main,부산록페 본무대,mid,2026-09-04,false
 이영지,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+이젤,museon_final,뮤즈온 최종,mid,2024-06-03,true
 이젤,indiestance,인디스땅스 결선,mid,2025-08-17,true
+이주영,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+이주영,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 이준형,mucon,뮤콘(MU:CON),mid,2025-06-16,false
 이지카이트,museon_final,뮤즈온 최종,mid,2026-06-04,true
 이찬혁,kma_genre,한대음 장르 부문,mid,2026-02-05,false
@@ -265,6 +453,7 @@ team_key,program,program_label,tier,announced_date,counted
 이츠,burock_main,부산록페 본무대,mid,2026-09-04,false
 이파란,museon_final,뮤즈온 최종,mid,2026-06-04,true
 일레인,mucon,뮤콘(MU:CON),mid,2025-06-16,false
+임금비,mucon,뮤콘(MU:CON),mid,2022-08-16,false
 임미정,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 임미정,kma_genre,한대음 장르 부문,mid,2026-02-26,false
 임지수,mucon,뮤콘(MU:CON),mid,2025-06-16,false
@@ -274,10 +463,15 @@ team_key,program,program_label,tier,announced_date,counted
 장범준,burock_main,부산록페 본무대,mid,2026-09-04,false
 장키키,museon_final,뮤즈온 최종,mid,2025-05-12,true
 재키,mucon,뮤콘(MU:CON),mid,2025-06-16,false
+잭킹콩,museon_final,뮤즈온 최종,mid,2022-06-07,true
+잭킹콩,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+저드,museon_final,뮤즈온 최종,mid,2024-06-03,true
+저스트비,mucon,뮤콘(MU:CON),mid,2022-08-16,false
 전진희,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 정수민,kma_genre,한대음 장르 부문,mid,2026-02-05,true
 정수민,museon_final,뮤즈온 최종,mid,2026-06-04,true
 정수민,burock_main,부산록페 본무대,mid,2026-09-04,true
+정우,museon_final,뮤즈온 최종,mid,2023-06-21,true
 정우,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 정우,burock_main,부산록페 본무대,mid,2026-09-04,false
 정우석,cj_tuneup,CJ 튠업,final,2025-06-26,true
@@ -286,10 +480,17 @@ team_key,program,program_label,tier,announced_date,counted
 정인,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 정인,kma_genre,한대음 장르 부문,mid,2025-02-27,false
 정태춘,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+제이미,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+제이유나,cj_tuneup,CJ 튠업,final,2021-05-01,true
+제이유나,museon_final,뮤즈온 최종,mid,2022-06-07,true
+제이유나,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+조광일,khha_rookie,한국힙합어워즈 신인,final,2021-02-27,true
 조월,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+조정민,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 조해인,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 존박,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 존박,kma_genre,한대음 장르 부문,mid,2025-02-27,false
+죠지,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 주영,mucon,뮤콘(MU:CON),mid,2025-06-16,false
 주혜린,kma_genre,한대음 장르 부문,mid,2025-02-06,true
 주혜린,kma_rookie,한대음 올해의 신인,final,2025-02-06,true
@@ -298,19 +499,33 @@ team_key,program,program_label,tier,announced_date,counted
 지드래곤,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 지드래곤,kma_genre,한대음 장르 부문,mid,2025-02-27,false
 지바노프,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+지셀,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+지소쿠리클럽,hello_rookie_year,올해의 헬로루키,final,2022-11-24,true
+지소쿠리클럽,cj_tuneup,CJ 튠업,final,2023-06-07,true
+지소쿠리클럽,mucon,뮤콘(MU:CON),mid,2024-05-10,false
+지올팍,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 진보,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+진저,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 청요일,penta_superrookie,펜타포트 슈퍼루키,mid,2026-05-18,true
 체인리액션,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+초록불꽃소년단,penta_superrookie,펜타포트 슈퍼루키,mid,2023-07-01,true
 초록불꽃소년단,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+최고은,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 최미루,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 최미루,kma_rookie,한대음 올해의 신인,final,2025-02-06,true
+최유리,museon_final,뮤즈온 최종,mid,2021-06-16,true
+최유리,cj_tuneup,CJ 튠업,final,2022-05-24,true
+최인경,museon_final,뮤즈온 최종,mid,2023-06-21,true
 최제니,hello_rookie,헬로루키 월간,mid,2026-07-20,true
 최제니,hello_rookie_year,올해의 헬로루키,final,2026-08-31,true
 추다혜차지스,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 추다혜차지스,kma_genre,한대음 장르 부문,mid,2026-02-26,false
 카더가든,burock_main,부산록페 본무대,mid,2026-09-04,false
 카디,burock_main,부산록페 본무대,mid,2026-09-04,true
+카코포니,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+카코포니,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 캐치더영,mucon,뮤콘(MU:CON),mid,2026-07-13,false
+캔트비블루,indiestance,인디스땅스 결선,mid,2024-08-14,true
 캔트비블루,museon_final,뮤즈온 최종,mid,2025-05-12,true
 캔트비블루,cj_tuneup,CJ 튠업,final,2026-04-27,true
 캔트비블루,burock_main,부산록페 본무대,mid,2026-09-04,false
@@ -318,32 +533,66 @@ team_key,program,program_label,tier,announced_date,counted
 컨파인드화이트,hello_rookie,헬로루키 월간,mid,2026-06-19,true
 컨파인드화이트,indiestance,인디스땅스 결선,mid,2026-08-10,true
 컨파인드화이트,hello_rookie_year,올해의 헬로루키,final,2026-08-31,true
+케빈오,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+케이티,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 코코케이,museon_final,뮤즈온 최종,mid,2026-06-04,true
+코토바,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+코토바,penta_superrookie,펜타포트 슈퍼루키,mid,2023-07-01,true
+코토바,mucon,뮤콘(MU:CON),mid,2024-05-10,false
+콧,cj_tuneup,CJ 튠업,final,2021-05-01,true
 콰이,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 쿤디판다,mucon,뮤콘(MU:CON),mid,2025-06-16,false
+큐더트럼펫,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 큐엠,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+크래커,mucon,뮤콘(MU:CON),mid,2024-05-10,false
+크랙베리,penta_superrookie,펜타포트 슈퍼루키,mid,2023-07-01,true
+크램,penta_superrookie,펜타포트 슈퍼루키,mid,2022-07-09,true
+크리스피,cj_tuneup,CJ 튠업,final,2023-06-07,true
 크리스피,penta_superrookie,펜타포트 슈퍼루키,mid,2025-06-28,true
+키라라,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 키라라,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 키라라,kma_genre,한대음 장르 부문,mid,2026-02-26,false
 키라스,mucon,뮤콘(MU:CON),mid,2026-07-13,false
 키스누,mucon,뮤콘(MU:CON),mid,2025-06-16,false
+키스오브라이프,kma_rookie,한대음 올해의 신인,final,2024-02-29,true
+킹덤,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 타이거디스코,burock_main,부산록페 본무대,mid,2026-09-04,false
+터치드,mucon,뮤콘(MU:CON),mid,2023-05-17,true
+터치드,cj_tuneup,CJ 튠업,final,2024-05-30,true
+터치드,museon_final,뮤즈온 최종,mid,2024-06-03,true
 터치드,burock_main,부산록페 본무대,mid,2026-09-04,false
 테종,museon_final,뮤즈온 최종,mid,2025-05-12,true
 테종,indiestance,인디스땅스 결선,mid,2025-08-17,true
 테호,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+텐거,mucon,뮤콘(MU:CON),mid,2022-08-16,false
 토카이,burock_main,부산록페 본무대,mid,2026-09-04,true
 투데이올드스니커즈,penta_superrookie,펜타포트 슈퍼루키,mid,2025-06-09,true
 투어스,kma_rookie,한대음 올해의 신인,final,2025-02-06,true
+투지,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 투지,mucon,뮤콘(MU:CON),mid,2026-07-13,false
+튜즈데이비치클럽,hello_rookie_year,올해의 헬로루키,final,2022-11-24,true
+트라이비,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+트레이비,khha_rookie,한국힙합어워즈 신인,final,2024-02-27,true
+트렌드지,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+티공이사,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 티어라이너,mucon,뮤콘(MU:CON),mid,2026-07-13,false
+팔칠댄스,museon_final,뮤즈온 최종,mid,2022-06-07,true
+팔칠댄스,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+팔칠댄스,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 팔칠댄스,mucon,뮤콘(MU:CON),mid,2025-06-16,false
+퍼지퍼그,penta_superrookie,펜타포트 슈퍼루키,mid,2022-07-09,true
 포쳐군단,penta_superrookie,펜타포트 슈퍼루키,mid,2026-05-18,true
 포포모,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+폴로다레드,khha_rookie,한국힙합어워즈 신인,final,2023-03-09,true
 푸디토리움,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 프랭클리,penta_superrookie,펜타포트 슈퍼루키,mid,2025-06-09,true
 프랭클리,burock_main,부산록페 본무대,mid,2026-09-04,false
+프레젠트,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+프루던스,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+프림로즈,mucon,뮤콘(MU:CON),mid,2024-05-10,false
+플리키뱅,khha_rookie,한국힙합어워즈 신인,final,2023-03-09,true
 플리키뱅,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+피엘,museon_final,뮤즈온 최종,mid,2021-06-16,true
 피치트럭하이재커스,musicy_rookie,음악취향Y 올해의 신인,final,2025-12-29,true
 피치트럭하이재커스,kma_genre,한대음 장르 부문,mid,2026-02-05,true
 피치트럭하이재커스,kma_rookie,한대음 올해의 신인,final,2026-02-05,true
@@ -353,34 +602,66 @@ team_key,program,program_label,tier,announced_date,counted
 피치트럭하이재커스,hello_rookie_year,올해의 헬로루키,final,2026-08-31,true
 피치트럭하이재커스,hello_rookie_year,올해의 헬로루키,final,2026-10-02,true
 피컨데이션,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+픽시,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 핍핍,hello_rookie,헬로루키 월간,mid,2026-05-22,true
 핍핍,hello_rookie_year,올해의 헬로루키,final,2026-08-31,true
+핑크판타지,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 하경,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+하넬,kma_rookie,한대음 올해의 신인,final,2024-02-29,true
+하야나,museon_final,뮤즈온 최종,mid,2021-06-16,true
+하이키,kma_rookie,한대음 올해의 신인,final,2024-02-29,true
 하진,mucon,뮤콘(MU:CON),mid,2026-07-13,false
 하츠웨이브,burock_main,부산록페 본무대,mid,2026-09-04,true
+한로로,hello_rookie_year,올해의 헬로루키,final,2022-11-24,true
+한로로,kma_rookie,한대음 올해의 신인,final,2023-03-05,true
+한로로,cj_tuneup,CJ 튠업,final,2023-06-07,true
 한로로,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 한로로,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 한로로,burock_main,부산록페 본무대,mid,2026-09-04,false
 한요한,burock_main,부산록페 본무대,mid,2026-09-04,false
 한즈,museon_final,뮤즈온 최종,mid,2026-06-04,true
 한즈,mucon,뮤콘(MU:CON),mid,2026-07-13,false
+핫이슈,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+해리빅버튼,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 해서웨이,burock_main,부산록페 본무대,mid,2026-09-04,false
+해파리,kma_rookie,한대음 올해의 신인,final,2022-03-01,true
+해파리,mucon,뮤콘(MU:CON),mid,2022-08-16,false
 해파리,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+향,cj_tuneup,CJ 튠업,final,2024-05-30,true
+향,indiestance,인디스땅스 결선,mid,2024-08-14,true
 향,penta_superrookie,펜타포트 슈퍼루키,mid,2025-06-28,true
 향우회,penta_superrookie,펜타포트 슈퍼루키,mid,2026-05-18,true
+허성현,museon_final,뮤즈온 최종,mid,2021-06-16,true
+헤이맨,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 혁오,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+호미들,khha_rookie,한국힙합어워즈 신인,final,2021-02-27,true
 호아,mucon,뮤콘(MU:CON),mid,2025-06-16,false
 호아,burock_main,부산록페 본무대,mid,2026-09-04,false
 홀리마운틴,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 홍선미,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+홍이삭,cj_tuneup,CJ 튠업,final,2021-05-01,true
+홍이삭,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+홍해,cj_tuneup,CJ 튠업,final,2021-05-01,true
+화노,penta_superrookie,펜타포트 슈퍼루키,mid,2022-07-09,true
+화노,hello_rookie_year,올해의 헬로루키,final,2022-11-24,true
+화노,museon_final,뮤즈온 최종,mid,2023-06-21,true
 화사,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 황민왕,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 휘나,museon_final,뮤즈온 최종,mid,2025-05-12,true
 희규,burock_main,부산록페 본무대,mid,2026-09-04,false
+히미츠,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+히미츠,mucon,뮤콘(MU:CON),mid,2023-05-17,false
+히미츠,mucon,뮤콘(MU:CON),mid,2024-05-10,false
+힙노시스테라피,cj_tuneup,CJ 튠업,final,2023-06-07,true
+힙노시스테라피,mucon,뮤콘(MU:CON),mid,2024-05-10,false
 힙노시스테라피,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 힙노시스테라피,burock_main,부산록페 본무대,mid,2026-09-04,false
+1db,indiestance,인디스땅스 결선,mid,2023-10-14,true
+2z,mucon,뮤콘(MU:CON),mid,2021-08-10,false
 5149,musicy_rookie,음악취향Y 올해의 신인,final,2025-12-29,true
 64ksana,mucon,뮤콘(MU:CON),mid,2026-07-13,false
+9001,museon_final,뮤즈온 최종,mid,2022-06-07,true
+9001,mucon,뮤콘(MU:CON),mid,2022-08-16,false
 aiai,mucon,뮤콘(MU:CON),mid,2026-07-13,false
 ambidjack,khha_rookie,한국힙합어워즈 신인,final,2025-01-15,true
 axmxp,burock_main,부산록페 본무대,mid,2026-09-04,false
@@ -391,7 +672,9 @@ bojvck,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 cjamm,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 cnblue,burock_main,부산록페 본무대,mid,2026-09-04,false
 d82,burock_main,부산록페 본무대,mid,2026-09-04,false
+dineon,museon_final,뮤즈온 최종,mid,2022-06-07,true
 ek,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+g0nny,museon_final,뮤즈온 최종,mid,2024-06-03,true
 hersh,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 hukkyshibaseki,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 hukkyshibaseki,kma_genre,한대음 장르 부문,mid,2025-02-27,false
@@ -399,9 +682,12 @@ hwi,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 jeb,burock_main,부산록페 본무대,mid,2026-09-04,false
 jihyeleeorchestra,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 jihyeleeorchestra,kma_genre,한대음 장르 부문,mid,2025-02-27,false
+jisokury,museon_final,뮤즈온 최종,mid,2022-06-07,true
 johnstowell,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 kik,burock_main,부산록페 본무대,mid,2026-09-04,false
+kimyujin,kma_rookie,한대음 올해의 신인,final,2023-03-05,true
 kisu,mucon,뮤콘(MU:CON),mid,2025-06-16,false
+lavndr,museon_final,뮤즈온 최종,mid,2022-06-07,true
 lilmoshpit,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 lilmoshpit,kma_genre,한대음 장르 부문,mid,2026-02-26,false
 melki,musicy_rookie,음악취향Y 올해의 신인,final,2025-12-29,true
@@ -419,21 +705,31 @@ necta,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 netgala,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 netgala,kma_genre,한대음 장르 부문,mid,2025-02-27,false
 nowimyoung,khha_rookie,한국힙합어워즈 신인,final,2026-01-14,true
+nsw윤,khha_rookie,한국힙합어워즈 신인,final,2023-03-09,true
+onthedal,museon_final,뮤즈온 최종,mid,2022-06-07,true
 peppertones,burock_main,부산록페 본무대,mid,2026-09-04,false
 rakunelama,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 rakunelama,kma_rookie,한대음 올해의 신인,final,2026-02-05,true
+redc,museon_final,뮤즈온 최종,mid,2024-06-03,true
 rye,mucon,뮤콘(MU:CON),mid,2025-06-16,false
+sema,indiestance,인디스땅스 결선,mid,2023-10-14,true
 sole,kma_genre,한대음 장르 부문,mid,2025-02-06,false
 sunsetrollercoaster落日飛車,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+surl,mucon,뮤콘(MU:CON),mid,2022-08-16,false
+surl,mucon,뮤콘(MU:CON),mid,2023-05-17,false
 swimrabbit,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+t1419,mucon,뮤콘(MU:CON),mid,2021-08-10,false
+trpp,mucon,뮤콘(MU:CON),mid,2022-08-16,false
 tuesdaybeachclub,burock_main,부산록페 본무대,mid,2026-09-04,false
 viceversa,kma_genre,한대음 장르 부문,mid,2026-02-05,false
+w24,museon_final,뮤즈온 최종,mid,2021-06-16,true
 w24,mucon,뮤콘(MU:CON),mid,2025-06-16,false
 w24,mucon,뮤콘(MU:CON),mid,2026-07-13,false
 wahwahwah,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 wahwahwah,kma_genre,한대음 장르 부문,mid,2026-02-26,false
 wahwahwah,burock_main,부산록페 본무대,mid,2026-09-04,false
 wavetoearth,kma_genre,한대음 장르 부문,mid,2025-02-06,false
+woshi,museon_final,뮤즈온 최종,mid,2023-06-21,true
 yb,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 yetsuby,kma_genre,한대음 장르 부문,mid,2026-02-05,false
 yongleethedoltang,mucon,뮤콘(MU:CON),mid,2026-07-13,false
