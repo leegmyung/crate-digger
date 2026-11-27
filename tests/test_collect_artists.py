@@ -146,6 +146,25 @@ class SearchIdTest(unittest.TestCase):
         self.assertEqual(ca.match_candidate("12BH", [["12", "12BH", ""], ["3201955", "12BH", ""]])["id"], "3201955")
 
 
+class ProfileFallbackTest(unittest.TestCase):
+    """2026-11-28: 멜론 아티스트 상세(detail.htm)가 '페이지를 찾을 수 없습니다'로 바뀜 → 정보 상자가 비면 아티스트 채널(timeline.htm)로
+    다시 읽는다 (이름·팬 수·활동유형·데뷔는 나오고, 소속사·장르·국적은 채널에 없어 빈칸)."""
+
+    def test_profile_js_falls_back_to_timeline_when_info_is_empty(self):
+        js = ca._js(["3810290"])
+        self.assertIn(ca.ARTIST_FALLBACK_URL, js)
+        self.assertIn("if (!p.info)", js)
+        self.assertIn("timeline.htm", ca.ARTIST_FALLBACK_URL)
+
+    def test_timeline_page_parses_to_a_row(self):
+        page = {"info": """<div class="wrap_atist_info"><p class="title_atist"><strong class="none">아티스트명</strong>오예본</p>
+<dl class="atist_info clfix"><dt>활동유형</dt><dd>솔로</dd></dl></div>""", "fan": "47",
+                "dl": ["활동유형 솔로 수상이력 2024 유재하 음악경연대회|동상 더보기"], "albums": "앨범(2)",
+                "album_dates": ["2025.03.21", "2024.06.12"]}
+        row = ca.to_row("3810290", ca.parse_melon_artist(page), AT)
+        self.assertEqual((row["artist_text"], row["first_release_date"], row["fan_count"]), ("오예본", "2024-06-12", "47"))
+
+
 class ResilienceTest(unittest.TestCase):
     def test_failed_batch_is_skipped_and_reported(self):
         from unittest import mock

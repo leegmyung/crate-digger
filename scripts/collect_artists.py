@@ -52,6 +52,9 @@ MELON_ID_IN_URL = re.compile(r"artistId=(\d+)")
 KST = timezone(timedelta(hours=9))
 COLUMNS = [f.name for f in TABLES["raw_artist_profile"]["fields"]]
 ARTIST_URL = "https://www.melon.com/artist/detail.htm?artistId={id}"
+# 2026-11-28부터 상세(detail.htm)가 '페이지를 찾을 수 없습니다'로 나와 정보 상자가 비면 아티스트 채널로 다시 읽는다
+# (채널에는 이름·팬 수·활동유형·데뷔가 있고 소속사·장르·국적은 없음 → 그 칸은 빈칸)
+ARTIST_FALLBACK_URL = "https://www.melon.com/artist/timeline.htm?artistId={id}"
 ALBUM_URL = "https://www.melon.com/artist/album.htm?artistId={id}"
 BATCH = 10
 DEFAULT_LIMIT = 200
@@ -172,13 +175,15 @@ def _js(ids):
   const out = {{}};
   for (const id of {json.dumps(ids)}) {{
     try {{
-      let t = await openTab({json.dumps(ARTIST_URL)}.replace('{{id}}', id)); await sleep({PAGE_WAIT_MS});
-      const p = await t.evaluate(() => ({{
+      const readInfo = (tab) => tab.evaluate(() => ({{
         info: document.querySelector('.wrap_atist_info')?.outerHTML || '',
         fan: document.querySelector('#d_like_count')?.innerText || '',
         dl: [...document.querySelectorAll('dl')].map(d => d.innerText.replace(/\\s+/g, ' ')).slice(0, 12)
       }}));
+      let t = await openTab({json.dumps(ARTIST_URL)}.replace('{{id}}', id)); await sleep({PAGE_WAIT_MS});
+      let p = await readInfo(t);
       await closeTab(t);
+      if (!p.info) {{ t = await openTab({json.dumps(ARTIST_FALLBACK_URL)}.replace('{{id}}', id)); await sleep({PAGE_WAIT_MS}); p = await readInfo(t); await closeTab(t); }}
       t = await openTab({json.dumps(ALBUM_URL)}.replace('{{id}}', id)); await sleep({PAGE_WAIT_MS});
       p.albums = (await t.evaluate(() => (document.body.innerText.match(/앨범\\s*\\(\\s*\\d+\\s*\\)/) || [''])[0]));
       const dates = () => t.evaluate(() => [...document.querySelectorAll('.cnt_view')].map(e => e.innerText.trim()));

@@ -103,6 +103,18 @@
       "evidence": ["https://www.tenasia.co.kr/article/2016112812624", "https://en.wikipedia.org/wiki/Ahn_Ye-eun"],
       "checked": "2026-11-27"
     },
+    "도그라스트페이지": {
+      "debut": "2020-01-01",
+      "reason": "Dog Last Page, 공식 인스타그램(band_doglastpage)에 6년 전(2020년) 홍대 공연 게시물 — 늦어도 2020년부터 활동 (연도만 확인, 첫 발매일을 찾으면 바꾼다). 멜론 검색으로는 못 찾음",
+      "evidence": ["https://www.instagram.com/band_doglastpage/", "http://musicy.kr/?c=review&s=1&gbn=view&ix=8996"],
+      "checked": "2026-11-28"
+    },
+    "스핏온마이툼": {
+      "debut": "2020-01-01",
+      "reason": "Spit On My Tomb, 벅스 아티스트 정보 '데뷔 2020'·2020년 결성 데스·스래시 메탈, 2021 'Necrosis', 2025 정규 (연도만 확인)",
+      "evidence": ["https://www.instagram.com/spitonmytomb/", "https://www.tonplein.com/"],
+      "checked": "2026-11-28"
+    },
     "세일러허니문": {
       "debut": "2022-01-01",
       "reason": "Sailor Honeymoon, 2022년부터 활동 (연도만 확인). 이미 주목받는 팀이라 후보 제외 목록(config/source_roles.json candidate_rules)에도 있음 — 제외를 풀어도 신인 판정이 맞게 데뷔일을 같이 둔다",
