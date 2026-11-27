@@ -9,3 +9,31 @@
 
 /* 메뉴 묶음 사이 간격 (홈 / 찾기 / 내 것 / 검증) */
 .nav-list > .nav-group-label { margin-top: var(--space-3, 12px); }
+
+/* ---------- 넓은 화면 정리 (1920·2560px) ----------
+   기본 .view-main 은 1280px 에서 멈춰 넓은 화면 오른쪽이 비었다. 표·목록 화면은 넓게, 읽는 화면은 적당히.
+   body[data-layout] 은 app.js layoutKind() 가 화면마다 붙인다. */
+body[data-layout="read"] .view-main {
+  max-width: 1440px;
+}
+
+body[data-layout="table"] .view-main {
+  max-width: 2040px;
+}
+
+@media (min-width: 1680px) {
+  .view-main {
+    padding: var(--space-6) var(--space-6) var(--space-6) 40px;
+  }
+}
+
+/* 2560px 같은 아주 넓은 화면: 최대 폭에 닿은 본문이 왼쪽에 붙어 오른쪽이 크게 비지 않도록 가운데로 */
+@media (min-width: 2200px) {
+  body[data-layout="read"] .view-main {
+    max-width: 1560px;
+  }
+
+  body[data-layout] .view-main {
+    margin-inline: auto;
+  }
+}

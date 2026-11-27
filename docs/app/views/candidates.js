@@ -1079,7 +1079,7 @@ export async function renderCandidatesView(root) {
 
     // Register current filtered & sorted rows with unified Export menu
     setExportContext({
-      csvLabel: `후보 목록 CSV 내려받기 (${fmtInt(list.length)}팀)`,
+      csvLabel: `발굴 결과 CSV 내려받기 (${fmtInt(list.length)}팀)`,
       csvFilename: lastCandCsvSpec.filename,
       csvHeaders: lastCandCsvSpec.headers,
       csvRows: lastCandCsvSpec.rows,

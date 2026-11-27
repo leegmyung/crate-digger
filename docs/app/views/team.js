@@ -14,6 +14,7 @@ import {
   renderTableCsvBtn, roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml,
   spotifyUrlOf, summarizeWhyTeam, TERMS, triggerTableCsvExport,
   watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
+  routeBackLabel,
 } from '../ui.js';
 import { mountTeamGraphBlock } from './graph.js';
 import { compareButtonHtml, renderTeamFactsHtml } from './team_head.js';
@@ -180,10 +181,10 @@ function renderMonthlyBarsHtml(timeline, endDateStr) {
 export async function renderTeamView(root, teamKey) {
   if (!teamKey) {
     root.innerHTML = renderEmptyState({
-      message: '선택된 팀이 없습니다. 위 검색창에서 찾거나 후보 목록에서 팀을 골라 주세요.',
+      message: '선택된 팀이 없습니다. 위 검색창에서 찾거나 발굴·차트에서 팀을 골라 주세요.',
       showReset: false,
-      actionLabel: '후보 목록에서 고르기',
-      actionHref: '#/candidates',
+      actionLabel: '발굴에서 고르기',
+      actionHref: '#/discover',
     });
     return;
   }
@@ -212,10 +213,10 @@ export async function renderTeamView(root, teamKey) {
 
   if (!profile && !scored && !timeline.length) {
     root.innerHTML = renderEmptyState({
-      message: `'${teamKey}' 팀의 기록을 찾지 못했습니다. 위 검색창에서 다른 이름으로 찾거나 후보 목록을 확인해 주세요.`,
+      message: `'${teamKey}' 팀의 기록을 찾지 못했습니다. 위 검색창에서 다른 이름으로 찾거나 발굴·차트를 확인해 주세요.`,
       showReset: false,
-      actionLabel: '후보 목록에서 고르기',
-      actionHref: '#/candidates',
+      actionLabel: '발굴에서 고르기',
+      actionHref: '#/discover',
     });
     return;
   }
@@ -328,18 +329,9 @@ export async function renderTeamView(root, teamKey) {
     csvRows: teamTlCsvSpec?.rows || [],
   });
 
-  const backLabels = {
-    today: '이번 주 브리핑',
-    candidates: '후보 목록',
-    venues: '공연장·씬',
-    venue: '공연장 상세',
-    watchlist: '관심 목록',
-    verify: '점수 신뢰도·검증',
-    scorecard: '출처 성적표',
-    quality: '데이터 수집·품질',
-  };
-  const backRoute = appState.prevRoute && backLabels[appState.prevRoute] ? appState.prevRoute : 'today';
-  const backLabel = backLabels[backRoute] || '이번 주 브리핑';
+  // 이전 화면 이름(메뉴 이름) — 모르면 홈
+  const backRoute = appState.prevRoute && routeBackLabel(appState.prevRoute) && appState.prevRoute !== 'team' ? appState.prevRoute : 'today';
+  const backLabel = routeBackLabel(backRoute) || '홈';
 
   const imgSrc = avatarSourceOf(teamKey);
   const spUrl = spotifyUrlOf(teamKey);
@@ -466,7 +458,7 @@ export async function renderTeamView(root, teamKey) {
       ` : renderNoRecordLine('현재 필터·기간 조건 안의 점수가 없습니다')}
       <p class="score-role-note">
         점수에는 발굴 출처만, 맥락 매체는 약하게 반영합니다. 검증 대기·제외 출처는 아래 활동 기록에서 참고용으로만 보여 줍니다.
-        <a href="#/scorecard">출처 성적표 보기 ↗</a>
+        <a href="#/verify/scorecard">출처 성적표 보기 ↗</a>
       </p>
     </section>
   `;

@@ -11,6 +11,7 @@ import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, gradeBadgeHtml,
   INFO_TIPS, infoTip, renderActionBanner, spotifyButtonHtml,
   wireAvatarFallbacks, wireSpotifyButtons,
+  routeBackLabel,
 } from '../ui.js';
 
 const TIER_META = {
@@ -233,16 +234,10 @@ export async function renderVenueView(root, venueName) {
   const notes = profilesData?.notes || {};
   const showGroups = groupRecentShows(recentShowRows, effectiveAsOf);
 
-  const backLabels = {
-    venues: '공연장 목록',
-    team: '팀 상세',
-    today: '이번 주 브리핑',
-    candidates: '후보 목록',
-    watchlist: '관심 목록',
-  };
-  const backRoute = appState.prevRoute && backLabels[appState.prevRoute] ? appState.prevRoute : 'venues';
+  // 이전 화면 이름(메뉴 이름) — 모르면 공연장 목록
+  const backRoute = appState.prevRoute && routeBackLabel(appState.prevRoute) && appState.prevRoute !== 'venue' ? appState.prevRoute : 'venues';
   const backParam = backRoute === 'team' ? (appState.prevParam || '') : '';
-  const backLabel = backLabels[backRoute] || '공연장 목록';
+  const backLabel = routeBackLabel(backRoute) || '공연장';
 
   const showsCsvSpec = showGroups.length ? {
     filename: `crate_digger_venue_${cleanVenue.replace(/[^a-zA-Z0-9가-힣_-]+/g, '_')}_${effectiveAsOf}.csv`,
@@ -372,7 +367,7 @@ export async function renderVenueView(root, venueName) {
   const subOn = isVenueSubscribed(cleanVenue);
   const actionsHtml = `
     <div class="venue-hero-actions">
-      <button type="button" class="btn btn-sm${subOn ? ' btn-active' : ''}" id="btnVenueSub" aria-pressed="${subOn}" title="여기 처음 선 신인·큰 공연장 첫 무대·새 공연을 관심 목록과 브리핑에서 알려 줍니다">${subOn ? '★ 구독 중' : '☆ 이 공연장 구독'}</button>
+      <button type="button" class="btn btn-sm${subOn ? ' btn-active' : ''}" id="btnVenueSub" aria-pressed="${subOn}" title="여기 처음 선 신인·큰 공연장 첫 무대·새 공연을 내 목록과 홈에서 알려 줍니다">${subOn ? '★ 구독 중' : '☆ 이 공연장 구독'}</button>
       <a class="team-report-link" href="${escapeHtml(reportUrl)}" target="_blank" rel="noopener noreferrer" title="공개 저장소 이슈로 접수돼요 — 개인 연락처는 적지 마세요">정보가 틀려요 ↗</a>
     </div>`;
   const disc = profile?.discovery || null;

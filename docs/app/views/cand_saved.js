@@ -54,7 +54,7 @@ export function renderSavedRowHtml() {
     <section class="saved-row" aria-label="저장한 필터">
       <span class="saved-lbl">저장한 필터</span>
       <div class="saved-list">
-        ${list.length ? list.map(it => chipHtml(it, currentHash)).join('') : '<span class="small muted">아직 없음 — 지금 조건을 저장하면 이번 주 브리핑에서 새로 맞는 팀을 알려 줍니다</span>'}
+        ${list.length ? list.map(it => chipHtml(it, currentHash)).join('') : '<span class="small muted">아직 없음 — 지금 조건을 저장하면 홈에서 새로 맞는 팀을 알려 줍니다</span>'}
       </div>
       ${ui.saving ? newFormHtml() : `<button type="button" class="cf-add-btn" data-saved-new="1"${full ? ` disabled title="저장 필터는 ${SAVED_MAX}개까지입니다"` : ''}>+ 이 필터 저장</button>`}
       ${ui.notice ? `<p class="saved-notice small muted" role="status">${escapeHtml(ui.notice)}</p>` : ''}
@@ -120,7 +120,7 @@ export function wireSavedRow(host) {
     if (form.dataset.savedNewForm) {
       const res = addSavedFilter({ name, hash: buildHashUrl('candidates', ''), spec: specFromState(appState) });
       ui.notice = !res.ok ? res.reason
-        : (res.persisted ? `'${res.item.name}' 저장 — 이번 주 브리핑에서 새로 맞는 팀을 보여 줍니다`
+        : (res.persisted ? `'${res.item.name}' 저장 — 홈에서 새로 맞는 팀을 보여 줍니다`
           : `'${res.item.name}' 저장 — 브라우저 저장이 막혀 이 탭을 닫으면 사라집니다`);
       ui.saving = false;
     } else if (form.dataset.savedRenameForm) {

@@ -8,6 +8,15 @@ import { appState } from '../state.js';
 import { escapeHtml, fmtInt, formatAlertBaselineNote, SOURCE_LABELS } from '../ui.js';
 
 const GROUP_FIRST = 5;
+/** 알림 종류 → 팀 페이지 탭 (정보 구조 v2: 알림·사건에서 팀으로 갈 땐 해당 탭으로) */
+const ALERT_TEAM_TAB = {
+  new_gig: 'gigs', big_venue_first: 'gigs', peer_winner: 'network', rank_jump: 'score',
+  new_outcome: 'events', new_selection: 'events', stage_up: 'events', blank_first_mention: 'events', spike: 'events',
+};
+export function alertTeamHref(a) {
+  const tab = ALERT_TEAM_TAB[a.type] || 'events';
+  return `#/team/${encodeURIComponent(a.team_key)}/${tab}`;
+}
 const COLLAPSED_TYPES = new Set(['new_gig']); // 수가 많아 접어 둠
 const UP_TYPES = new Set(['stage_up', 'rank_jump', 'spike']);
 /** 알림 종류 → event_stars.csv 사건 종류(같은 팀·같은 날이면 별점을 빌려 씀) */
@@ -66,7 +75,7 @@ export function alertRowHtml({ a, stars }, { isWatch = false, isSubVenue = false
         <summary>
           ${chipHtml}
           ${starsMini(stars)}
-          <a class="today-alert-team" href="#/team/${encodeURIComponent(a.team_key)}"><strong>${escapeHtml(a.name || a.team_key)}</strong></a>
+          <a class="today-alert-team" href="${alertTeamHref(a)}"><strong>${escapeHtml(a.name || a.team_key)}</strong></a>
           ${relBadge}
           <span class="today-alert-text${textCls}">${escapeHtml(a.text)}</span>
           <span class="today-alert-meta mono">${escapeHtml(a.date || '')}</span>
@@ -127,7 +136,7 @@ export function renderAlertsCardHtml(alertsData, st) {
   const watchSorted = sortAlerts(st.watchAlerts, st.eventStarsMap);
   const visWatch = st.showAllWatch ? watchSorted.slice(0, 20) : watchSorted.slice(0, 6);
   const watchHtml = watchSorted.length ? `
-    <div class="today-alerts-watch" aria-label="관심 목록 팀 알림">
+    <div class="today-alerts-watch" aria-label="관심 팀 알림">
       <div class="today-alerts-watch-head">
         <strong>관심 팀 알림</strong>
         <span class="small muted">${fmtInt(watchSorted.length)}건</span>
@@ -173,7 +182,7 @@ export function renderSpikeSentencesHtml(spikes, opts = {}) {
     .map(a => `
       <li class="spike-row">
         <details>
-          <summary><span class="spike-text">${escapeHtml(spikeSentence(a))}</span> <a class="inline-team-link" href="#/team/${encodeURIComponent(a.team_key)}">팀 보기 →</a></summary>
+          <summary><span class="spike-text">${escapeHtml(spikeSentence(a))}</span> <a class="inline-team-link" href="${alertTeamHref(a)}">팀 사건 보기 →</a></summary>
           <div class="alert-evidence">${evidenceItems(a) ? `<ul>${evidenceItems(a)}</ul>` : '<p class="small muted">근거 목록이 없습니다.</p>'}</div>
         </details>
       </li>`).join('');

@@ -84,7 +84,7 @@ export async function renderVenuesView(root) {
 
   setExportContext({
     csvLabel: venuesCsvSpec
-      ? `${monthly.monthLabel} 공연장·씬 CSV 내려받기 (${fmtInt(monthly.venues.length)}곳)`
+      ? `${monthly.monthLabel} 공연장 CSV 내려받기 (${fmtInt(monthly.venues.length)}곳)`
       : '',
     csvFilename: venuesCsvSpec?.filename || '',
     csvHeaders: venuesCsvSpec?.headers || [],

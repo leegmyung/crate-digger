@@ -630,6 +630,29 @@ export function renderNoRecordLine(detail = '', { lastChecked } = {}) {
   return `<p class="no-record-line"${titleAttr}>— 아직 기록 없음${escapeHtml(tail)}</p>`;
 }
 
+/**
+ * '← 이전 화면' 버튼 이름 — 정보 구조 v2 메뉴 이름으로(홈·발굴·차트·공연장·도시·페스티벌·알림·내 목록·검증·검색 결과).
+ * 모르는 화면이면 null (부르는 쪽이 기본값으로).
+ */
+export function routeBackLabel(route) {
+  switch (route) {
+    case 'today': return '홈';
+    case 'candidates': return appState.candTab === 'debut' ? '차트' : '발굴';
+    case 'charts': return '차트';
+    case 'venues':
+      if (appState.venuesTab === 'city') return '도시';
+      if (appState.venuesTab === 'festival') return '페스티벌';
+      return '공연장';
+    case 'venue': return '공연장 페이지';
+    case 'team': return '팀 페이지';
+    case 'alerts': return '알림';
+    case 'watchlist': return '내 목록';
+    case 'search': return '검색 결과';
+    case 'verify': case 'quality': case 'sql': return '검증';
+    default: return null;
+  }
+}
+
 export function renderEmptyState({
   title = '',
   message = '조건에 맞는 결과가 없습니다. 필터 조건을 줄여 보거나 초기화해 확인해 보세요.',

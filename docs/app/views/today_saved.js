@@ -50,7 +50,7 @@ function itemHtml(it, res) {
   return `
     <li class="today-saved-item">
       <div class="today-saved-head">
-        <button type="button" class="today-saved-name" data-saved-apply="${escapeHtml(it.id)}" title="후보 목록에서 이 필터로 보기">${escapeHtml(it.name)}</button>
+        <button type="button" class="today-saved-name" data-saved-apply="${escapeHtml(it.id)}" title="발굴에서 이 필터로 보기">${escapeHtml(it.name)}</button>
         <span class="today-saved-count${n ? ' is-up' : ''}">${n ? `새로 ${fmtInt(n)}팀` : '새 팀 없음'}</span>
         <span class="small muted">지금 ${fmtInt(res.total)}팀${moveNote}</span>
       </div>

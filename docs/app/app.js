@@ -213,7 +213,7 @@ function updateNavActive() {
     if (wAlerts.length > 0) {
       alertBadge.hidden = false;
       alertBadge.textContent = `관심 알림 ${fmtInt(wAlerts.length)}`;
-      const tip = `관심 목록 팀의 최근 알림 ${fmtInt(wAlerts.length)}건 (새 공연 포함) — 알림 센터에서 보기`;
+      const tip = `관심 팀의 최근 알림 ${fmtInt(wAlerts.length)}건 (새 공연 포함) — 알림 센터에서 보기`;
       alertBadge.title = tip;
       alertBadge.setAttribute('aria-label', tip);
     } else {
@@ -411,6 +411,19 @@ function initTheme() {
 
 // ---------- View Dispatcher ----------
 
+/**
+ * 화면 폭 종류(넓은 화면 정리): 표·목록 화면은 넓게, 읽는 화면은 적당히 (css/shell.css body[data-layout]).
+ * table = 발굴·차트·공연장 목록·씬·검증 표·SQL·데이터 품질 / read = 홈·팀·공연장·도시·페스티벌·알림·내 목록·검색
+ */
+function layoutKind() {
+  const r = appState.route;
+  if (r === 'candidates' || r === 'charts' || r === 'sql' || r === 'quality') return 'table';
+  if (r === 'verify') return 'table';
+  if (r === 'venues' && appState.venuesTab !== 'city' && appState.venuesTab !== 'festival') return 'table';
+  if (r === 'venues' && !appState.venuesCity && !appState.festivalName) return 'table';   // 도시·페스티벌 목록
+  return 'read';
+}
+
 async function renderCurrentView() {
   if (!appState.ready) return;
   const seq = ++renderSeq;
@@ -421,6 +434,7 @@ async function renderCurrentView() {
   renderAnomalyBanner();
   closeMobileNav();
   hideRowHoverPreview();
+  document.body.dataset.layout = layoutKind();
 
   if (!appState.cfg.branches.length) {
     setGlobalError('갈래(공연·선정·지원·발매·큐레이션)를 최소 1개 이상 선택해 주세요.');

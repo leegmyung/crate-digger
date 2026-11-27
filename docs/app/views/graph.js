@@ -445,7 +445,7 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
     } else if (node.node_type === 'venue' && node.node_key) {
       actionBtn = `<button type="button" class="btn btn-sm graph-insp-action" data-go-venue="${escapeHtml(node.node_key)}">공연장 상세 보기 →</button>`;
     } else if (node.node_type === 'scene' && node.node_key) {
-      actionBtn = `<button type="button" class="btn btn-sm graph-insp-action" data-go-scene="${escapeHtml(node.node_key)}">공연장·씬 보기 →</button>`;
+      actionBtn = `<button type="button" class="btn btn-sm graph-insp-action" data-go-scene="${escapeHtml(node.node_key)}">씬 보기 →</button>`;
     }
 
     inspectorEl.innerHTML = `
