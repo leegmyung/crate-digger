@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-28T00:34:36+09:00",
+ "generated": "2026-11-28T00:48:56+09:00",
  "runs": [
   {
    "date": "2026-11-28",
@@ -101,8 +101,8 @@
    "date": "2026-11-27",
    "source": "instagram",
    "table": "raw_press",
-   "rows": 2441,
-   "file_ok": false,
+   "rows": 1724,
+   "file_ok": true,
    "prev_rows": null
   },
   {
