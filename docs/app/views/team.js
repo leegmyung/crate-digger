@@ -168,6 +168,7 @@ export async function renderTeamView(root, teamKey) {
         ['이미 상 받은 팀과 같은 무대', scored.pts_winner],
         ['발굴 매체 (' + fmtInt(scored.outlets) + '곳)', scored.pts_outlets],
         ['맥락 매체 (' + fmtInt(scored.context_outlets ?? 0) + '곳)', scored.pts_context],
+        ['협업(기성 아티스트 ' + fmtInt(scored.collab_est ?? 0) + '명)', scored.pts_collab],
         ['선정 팀과 같은 무대', scored.pts_peer],
         ['DMZ 출연', scored.pts_dmz],
         ['최근 1년 공연 (' + fmtInt(scored.gigs_1y) + '일)', scored.pts_gigs],

@@ -73,7 +73,7 @@ export async function renderBacktestView(root) {
   }
 
   const slidersHtml = WEIGHT_FIELDS.map(f => `
-    <div class="slider-row">
+    <div class="slider-row${f.muted ? ' slider-row-muted' : ''}"${f.muted ? ' title="협업 데이터가 쌓이면 점수에 반영됩니다"' : ''}>
       <div class="slider-label">
         <label for="bt_${f.key}">${f.label}</label>
         <span class="mono" id="btval_${f.key}">${f.isInt ? c[f.key] : Number(c[f.key]).toFixed(1)}</span>
@@ -225,11 +225,12 @@ export async function renderBacktestView(root) {
         <div>
           <div class="small muted" style="font-weight:700;margin-bottom:6px;">점수 가중치 (전체 화면 공통 적용)</div>
           <div class="preset-bar" role="group" aria-label="점수 가중치 프리셋">
-            <button type="button" class="btn btn-sm ${getMatchingWeightPreset(c) === 'v1' ? 'btn-active' : ''}" data-weight-preset="v1">v1 (교차 검증으로 고름)</button>
-            <button type="button" class="btn btn-sm ${getMatchingWeightPreset(c) === 'v0' ? 'btn-active' : ''}" data-weight-preset="v0">v0 (처음 손으로 정함)</button>
+            <button type="button" class="btn btn-sm ${getMatchingWeightPreset(c) === 'v2' ? 'btn-active' : ''}" data-weight-preset="v2">v2 (기본, 정제 후 교차 검증)</button>
+            <button type="button" class="btn btn-sm ${getMatchingWeightPreset(c) === 'v1' ? 'btn-active' : ''}" data-weight-preset="v1">v1</button>
+            <button type="button" class="btn btn-sm ${getMatchingWeightPreset(c) === 'v0' ? 'btn-active' : ''}" data-weight-preset="v0">v0</button>
           </div>
           <p class="preset-note">
-            기본값 v1은 기준일 빼기 교차 검증으로 고른 가중치입니다 (평균 AUC 0.651 → 0.701).
+            기본값 v2는 출처 정제 뒤 기준일 빼기 교차 검증으로 고른 가중치입니다 (평균 AUC 0.692 → 0.721).
             <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/score_tuning.md" target="_blank" rel="noopener noreferrer">선정 과정 보기 ↗</a>
           </p>
           <div class="slider-grid">${slidersHtml}</div>

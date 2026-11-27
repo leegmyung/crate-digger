@@ -27,6 +27,20 @@ export const WATCH_STATUSES = [
 
 // Single source of truth for scoring weights (matches docs/lab/sql/features.sql & docs/score_tuning.md)
 export const WEIGHT_PRESETS = {
+  v2: {
+    w_branch: 1,
+    w_stage: 1,
+    w_peer: 0,
+    w_dmz: 0,
+    w_gigs: 0,
+    w_outlets: 1,
+    outlet_cap: 3,
+    w_recent: 0,
+    w_venues: 1,
+    w_winner: 2,
+    w_context: 0.5,
+    w_collab: 0,
+  },
   v1: {
     w_branch: 2,
     w_stage: 2,
@@ -39,6 +53,7 @@ export const WEIGHT_PRESETS = {
     w_venues: 2,
     w_winner: 1,
     w_context: 0,
+    w_collab: 0,
   },
   v0: {
     w_branch: 2,
@@ -52,10 +67,11 @@ export const WEIGHT_PRESETS = {
     w_venues: 0,
     w_winner: 0,
     w_context: 0,
+    w_collab: 0,
   },
 };
 
-export const DEFAULT_WEIGHTS = { ...WEIGHT_PRESETS.v1 };
+export const DEFAULT_WEIGHTS = { ...WEIGHT_PRESETS.v2 };
 
 export const WEIGHT_FIELDS = [
   { key: 'w_branch', label: '갈래 수 (갈래−1)', min: 0, max: 5, step: 0.5, isInt: false },
@@ -69,6 +85,7 @@ export const WEIGHT_FIELDS = [
   { key: 'w_peer', label: '선정 팀과 같은 무대', min: 0, max: 3, step: 0.5, isInt: false },
   { key: 'w_dmz', label: 'DMZ 출연', min: 0, max: 3, step: 0.5, isInt: false },
   { key: 'w_gigs', label: '최근 1년 공연 ln(1+n)', min: 0, max: 3, step: 0.5, isInt: false },
+  { key: 'w_collab', label: '협업(기성 아티스트) — 데이터 수집 중', min: 0, max: 3, step: 0.5, isInt: false, muted: true },
 ];
 
 export const WEIGHT_KEYS = Object.keys(DEFAULT_WEIGHTS);

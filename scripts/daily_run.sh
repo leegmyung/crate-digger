@@ -40,10 +40,11 @@ fi
 "$PY" scripts/collect_artist_images.py || echo "⚠️ 아티스트 사진 수집 일부 실패"
 "$PY" scripts/export_lab_data.py || echo "⚠️ 랩(설정형 분석 도구) 데이터 갱신 실패"
 "$PY" scripts/source_review.py || echo "⚠️ 출처 재분류 제안 실패"
+if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then "$PY" scripts/export_excel.py || echo "⚠️ 주간 엑셀 실패"; fi   # 월요일만
 "$PY" scripts/lab_snapshot.py || echo "⚠️ 점수 스냅샷 실패 (.venv에 duckdb 필요)"
 "$PY" scripts/daily_note.py "$DAY" || echo "⚠️ 일일 기록 실패"
 
-git add docs/data/collect.json "docs/log/$DAY.md" docs/data/dashboard.json docs/sql/README.md docs/lab/data docs/data/source_review.json
+git add docs/data/collect.json "docs/log/$DAY.md" docs/data/dashboard.json docs/sql/README.md docs/lab/data docs/data/source_review.json docs/report
 if git diff --cached --quiet; then
   echo "바뀐 내용 없음 → 커밋 안 함"
 else

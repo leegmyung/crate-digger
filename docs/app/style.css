@@ -1089,6 +1089,14 @@ table.data-table tbody tr.baseline-row td {
 }
 
 .slider-row { margin-bottom: 4px; }
+.slider-row-muted {
+  opacity: 0.52;
+  transition: opacity 0.15s ease;
+}
+.slider-row-muted:hover,
+.slider-row-muted:focus-within {
+  opacity: 0.85;
+}
 .slider-label {
   display: flex;
   justify-content: space-between;

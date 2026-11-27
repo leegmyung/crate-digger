@@ -14,9 +14,13 @@ const MANUAL_BUNDLES = {
 };
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const VERSIONED_PREFIXES = ['lab/data/', 'lab/sql/', 'data/'];
 
 let dbInstance = null;
 let connInstance = null;
+let assetVersion = '';
+let macroReloadAttempted = false;
+let macroReloadPromise = null;
 
 // ---------- Arrow JS value normalization ----------
 
@@ -71,10 +75,64 @@ function arrowToRows(table) {
   return { columns: fields.map(f => f.name), rows };
 }
 
+function isLabScoredError(sql, err) {
+  if (!sql || !String(sql).includes('lab_scored')) return false;
+  const msg = String(err?.message || err || '');
+  return /lab_scored|does not support the supplied arguments|Macro/i.test(msg);
+}
+
+async function reloadLabMacrosOnce() {
+  if (macroReloadPromise) return macroReloadPromise;
+  if (macroReloadAttempted) return false;
+  macroReloadAttempted = true;
+  macroReloadPromise = (async () => {
+    try {
+      const reloadOpts = { cache: 'reload', bust: true };
+      const [featSql, btSql, candSql, sigHitSql, scorecardSql, precSql, teamSql, relSql] = await Promise.all([
+        fetchText('lab/sql/features.sql', false, reloadOpts),
+        fetchText('lab/sql/backtest.sql', true, reloadOpts),
+        fetchText('lab/sql/candidates.sql', true, reloadOpts),
+        fetchText('lab/sql/signal_hits.sql', true, reloadOpts),
+        fetchText('lab/sql/source_scorecard.sql', true, reloadOpts),
+        fetchText('lab/sql/precedents.sql', true, reloadOpts),
+        fetchText('lab/sql/team.sql', true, reloadOpts),
+        fetchText('lab/sql/related.sql', true, reloadOpts),
+      ]);
+      if (!featSql) return false;
+      await connInstance.query(featSql);
+      appState.sqlTemplates.features = featSql;
+      if (btSql) appState.sqlTemplates.backtest = btSql;
+      if (candSql) appState.sqlTemplates.candidates = candSql;
+      if (sigHitSql) appState.sqlTemplates.signal_hits = sigHitSql;
+      if (scorecardSql) appState.sqlTemplates.source_scorecard = scorecardSql;
+      if (precSql) appState.sqlTemplates.precedents = precSql;
+      if (teamSql) appState.sqlTemplates.team = teamSql;
+      if (relSql) appState.sqlTemplates.related = relSql;
+      return true;
+    } catch (_) {
+      return false;
+    } finally {
+      macroReloadPromise = null;
+    }
+  })();
+  return macroReloadPromise;
+}
+
 export async function runRawSql(sql) {
   if (!connInstance) throw new Error('DuckDB-WASM이 아직 초기화되지 않았습니다.');
-  const res = await connInstance.query(sql);
-  return arrowToRows(res);
+  try {
+    const res = await connInstance.query(sql);
+    return arrowToRows(res);
+  } catch (err) {
+    if ((!macroReloadAttempted || macroReloadPromise) && isLabScoredError(sql, err)) {
+      const reloaded = await reloadLabMacrosOnce();
+      if (reloaded) {
+        const res = await connInstance.query(sql);
+        return arrowToRows(res);
+      }
+    }
+    throw err;
+  }
 }
 
 // ---------- Strict placeholder validation ----------
@@ -160,6 +218,7 @@ export function buildParams(overrides = {}) {
     w_venues: sqlNum(c.w_venues, 0, 10, DEFAULT_WEIGHTS.w_venues),
     w_winner: sqlNum(c.w_winner, 0, 10, DEFAULT_WEIGHTS.w_winner),
     w_context: sqlNum(c.w_context, 0, 10, DEFAULT_WEIGHTS.w_context),
+    w_collab: sqlNum(c.w_collab, 0, 10, DEFAULT_WEIGHTS.w_collab),
     k_list: sqlKList(c.k_list),
     only_no_outcome: sqlBool(overrides.only_no_outcome !== undefined ? overrides.only_no_outcome : c.only_no_outcome),
     limit: sqlInt(overrides.limit !== undefined ? overrides.limit : c.limit, 10, 1000, 100),
@@ -169,9 +228,19 @@ export function buildParams(overrides = {}) {
 
 // ---------- Bootstrap ----------
 
-async function fetchText(path, optional = false) {
+function resolveFetchUrl(path, bust = true) {
+  if (!bust || !assetVersion) return path;
+  if (!VERSIONED_PREFIXES.some(prefix => path.startsWith(prefix))) return path;
+  const sep = path.includes('?') ? '&' : '?';
+  return `${path}${sep}v=${encodeURIComponent(assetVersion)}`;
+}
+
+async function fetchText(path, optional = false, opts = {}) {
+  const { cache, bust = true } = opts;
+  const url = resolveFetchUrl(path, bust);
+  const init = cache ? { cache } : undefined;
   try {
-    const r = await fetch(path);
+    const r = await fetch(url, init);
     if (!r.ok) {
       if (optional) return null;
       throw new Error(`${path} 불러오기 실패 (HTTP ${r.status})`);
@@ -183,9 +252,12 @@ async function fetchText(path, optional = false) {
   }
 }
 
-async function fetchJson(path, optional = false) {
+async function fetchJson(path, optional = false, opts = {}) {
+  const { cache, bust = true } = opts;
+  const url = resolveFetchUrl(path, bust);
+  const init = cache ? { cache } : undefined;
   try {
-    const r = await fetch(path);
+    const r = await fetch(url, init);
     if (!r.ok) {
       if (optional) return null;
       throw new Error(`${path} 불러오기 실패 (HTTP ${r.status})`);
@@ -442,8 +514,13 @@ export function computeDataHealth(meta = appState.meta, collect = appState.colle
 
 export async function bootstrapData(onStatus = () => {}) {
   onStatus('데이터·SQL·DuckDB-WASM 불러오는 중...');
+  const enginePromise = initEngine();
+  const meta = await fetchJson('lab/data/meta.json', false, { cache: 'no-store', bust: false });
+  assetVersion = meta?.generated_at ? String(meta.generated_at) : String(Date.now());
+  macroReloadAttempted = false;
+  macroReloadPromise = null;
+
   const [
-    meta,
     sigCsv,
     teamsCsv,
     outCsv,
@@ -460,7 +537,6 @@ export async function bootstrapData(onStatus = () => {}) {
     dashJson,
     collectJson,
   ] = await Promise.all([
-    fetchJson('lab/data/meta.json'),
     fetchText('lab/data/signals.csv'),
     fetchText('lab/data/teams.csv'),
     fetchText('lab/data/outcomes.csv'),
@@ -476,7 +552,7 @@ export async function bootstrapData(onStatus = () => {}) {
     fetchJson('lab/data/snapshots/index.json', true),
     fetchJson('data/dashboard.json', true),
     fetchJson('data/collect.json', true),
-    initEngine(),
+    enginePromise,
   ]);
 
   appState.meta = meta;
@@ -679,18 +755,18 @@ export async function queryTeamDetail(teamKey) {
 
   const scoreSql = `
     SELECT team_key, display_name, ROUND(score, 2) AS score, n_branch, best_stage,
-           peer_selected, dmz, gigs_1y, outlets, context_outlets, recent180, venues, peer_winner,
+           peer_selected, dmz, gigs_1y, outlets, context_outlets, collab_est, recent180, venues, peer_winner,
            first_seen, last_seen, primary_genre, profile_status, had_outcome,
            ROUND(pts_branch, 2) AS pts_branch, ROUND(pts_stage, 2) AS pts_stage,
            ROUND(pts_peer, 2) AS pts_peer, ROUND(pts_dmz, 2) AS pts_dmz,
            ROUND(pts_gigs, 2) AS pts_gigs, ROUND(pts_outlets, 2) AS pts_outlets,
-           ROUND(pts_context, 2) AS pts_context,
+           ROUND(pts_context, 2) AS pts_context, ROUND(pts_collab, 2) AS pts_collab,
            ROUND(pts_recent, 2) AS pts_recent, ROUND(pts_venues, 2) AS pts_venues,
            ROUND(pts_winner, 2) AS pts_winner
     FROM lab_scored(DATE ${p.as_of}, ${p.lookback_years}, 50, false,
                     'any', 1, '', ${p.branches},
                     ${p.w_branch}, ${p.w_stage}, ${p.w_peer}, ${p.w_dmz}, ${p.w_gigs}, ${p.w_outlets}, ${p.outlet_cap},
-                    ${p.w_recent}, ${p.w_venues}, ${p.w_winner}, ${p.w_context})
+                    ${p.w_recent}, ${p.w_venues}, ${p.w_winner}, ${p.w_context}, ${p.w_collab})
     WHERE team_key = ${keyLit}
     LIMIT 1
   `;
@@ -798,7 +874,7 @@ export async function queryWatchlistEnriched(watchItems) {
       FROM lab_scored(DATE ${p.as_of}, ${p.lookback_years}, 50, false,
                       'any', 1, '', ${p.branches},
                       ${p.w_branch}, ${p.w_stage}, ${p.w_peer}, ${p.w_dmz}, ${p.w_gigs}, ${p.w_outlets}, ${p.outlet_cap},
-                      ${p.w_recent}, ${p.w_venues}, ${p.w_winner}, ${p.w_context})
+                      ${p.w_recent}, ${p.w_venues}, ${p.w_winner}, ${p.w_context}, ${p.w_collab})
       WHERE team_key IN (${keys})
     `),
     runRawSql(`
