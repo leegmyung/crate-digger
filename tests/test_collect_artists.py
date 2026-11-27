@@ -217,6 +217,34 @@ class RetryTest(unittest.TestCase):
                 ca.collect_from_outcomes(10, ["딕펑스", "옛3"], today="2026-11-28")
         self.assertEqual(got, ["454254", "3000003"])
 
+    def test_profiles_are_saved_chunk_by_chunk(self):
+        # 오래 걸리는 수집이 중간에 끊겨도 받은 만큼은 남게, 묶음마다 저장·상태 갱신
+        import json
+        from unittest import mock
+        matches = {f"팀{i}": {"id": str(3000000 + i), "name": f"팀{i}"} for i in range(5)}
+        calls = []
+
+        def fake_fetch(ids):
+            calls.append(list(ids))
+            if len(calls) == 2:
+                raise KeyboardInterrupt   # 두 번째 묶음에서 끊김
+            return {i: {} for i in ids}
+
+        with tempfile.TemporaryDirectory() as d:
+            m, a, st = Path(d) / "m.json", Path(d) / "a.json", Path(d) / "seen.json"
+            m.write_text(json.dumps(matches, ensure_ascii=False), encoding="utf-8")
+            with mock.patch.object(ca, "MATCH_STATE", m), mock.patch.object(ca, "ATTEMPTS_STATE", a), \
+                    mock.patch.object(ca, "STATE", st), mock.patch.object(ca, "SAVE_EVERY", 2), \
+                    mock.patch.object(ca, "RAW_DIR", Path(d)), \
+                    mock.patch.object(ca, "search_artists", return_value=({}, [])), \
+                    mock.patch.object(ca, "parse_melon_artist", return_value={"name": "x"}), \
+                    mock.patch.object(ca, "to_row", side_effect=lambda i, prof, now: {"artist_source_id": i}), \
+                    mock.patch.object(ca, "write_csv", return_value=Path(d) / "out.csv"), \
+                    mock.patch.object(ca, "fetch_profiles", side_effect=fake_fetch):
+                with self.assertRaises(KeyboardInterrupt):
+                    ca.collect_from_outcomes(10, list(matches), today="2026-11-28")
+            self.assertEqual(sorted(json.loads(st.read_text(encoding="utf-8"))), ["3000000", "3000001"])
+
     def test_shares_constants_with_melon_names(self):
         import melon_names
         self.assertIs(ca.due_for_search, melon_names.due_for_search)

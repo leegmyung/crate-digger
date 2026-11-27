@@ -39,6 +39,7 @@ ARTIST_URL = "https://www.melon.com/artist/detail.htm?artistId={id}"
 ALBUM_URL = "https://www.melon.com/artist/album.htm?artistId={id}"
 BATCH = 10
 DEFAULT_LIMIT = 200
+SAVE_EVERY = 20             # 프로필 이만큼 받을 때마다 저장·상태 갱신 (긴 수집이 끊겨도 받은 만큼 남게)
 MAX_PROFILES_PER_RUN = 1000  # 프로필 페이지 읽기 상한 — 사용자 지시(2026-11-27)로 하루 100팀 한도를 없애고 밀린 것을 한 번에 받음
 REPL_TIMEOUT_SEC = 300
 PAGE_WAIT_MS = 2500
@@ -305,12 +306,18 @@ def collect_from_outcomes(limit, names=None, today=None):
     ids = list(dict.fromkeys(ids))[:MAX_PROFILES_PER_RUN]   # 한 번 실행이 너무 길어지지 않게 (남은 팀은 다음 실행에)
     if not ids:
         return None, len(todo), 0
-    now = datetime.now(KST).replace(microsecond=0)
-    pages = fetch_profiles(ids)
-    rows = [r for r in (to_row(i, parse_melon_artist(pages.get(i, {})), now.isoformat()) for i in ids) if r]
-    path = write_csv(rows, RAW_DIR, f"{now:%Y-%m-%d}") if rows else None
-    STATE.write_text(json.dumps(sorted(seen | {r["artist_source_id"] for r in rows})), encoding="utf-8")
-    return path, len(todo), len(rows)
+    path, total = None, 0
+    for k in range(0, len(ids), SAVE_EVERY):
+        chunk = ids[k:k + SAVE_EVERY]
+        now = datetime.now(KST).replace(microsecond=0)
+        pages = fetch_profiles(chunk)
+        rows = [r for r in (to_row(i, parse_melon_artist(pages.get(i, {})), now.isoformat()) for i in chunk) if r]
+        if rows:
+            path = write_csv(rows, RAW_DIR, f"{now:%Y-%m-%d}")
+            seen |= {r["artist_source_id"] for r in rows}
+            STATE.write_text(json.dumps(sorted(seen)), encoding="utf-8")
+            total += len(rows)
+    return path, len(todo), total
 
 
 def main(argv):
