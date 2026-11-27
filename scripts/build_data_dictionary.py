@@ -42,6 +42,8 @@ COLUMN_DOC: Dict[str, str] = {
     "release_type": "발매 형태 (single·EP·LP 등)", "label_text": "기획사·레이블", "track_count": "수록곡 수, 곡",
     "release_url": "발매 페이지 주소", "distributor_text": "유통사",
     "gig_date": "공연 날짜", "gig_time": "공연 시작 시각", "venue_text": "공연장 (괄호 안 주소 포함)", "gig_url": "공연 페이지 주소",
+    "lineup_order": "실제 출연 순서 (1 = 첫 무대, 공연 설명의 타임테이블에서만 — 없으면 빈 칸)",
+    "lineup_time": "그 팀 무대 시작 시각 (타임테이블)", "lineup_size": "그 공연 페이지의 출연 팀 수",
     "outlet": "매체·계정 이름", "published_at": "게시일", "release_title": "다룬 곡·앨범 제목",
     "is_pick": "추천·선정 글이면 1", "pick_label": "추천 꼭지 이름 (venue_lineup = 공연장 라인업 공지 → 공연 갈래로 셈)",
     "artist_handle": "태그된 아티스트 인스타 계정", "is_sponsored": "협찬·광고 글이면 1 (신호에서 뺌)",

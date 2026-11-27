@@ -36,6 +36,75 @@ INDISTREET_DETAIL = {
 }
 
 
+TIMETABLE_DESC = """금요일 밤 메탈 공연!
+𝐓𝐢𝐦𝐞 𝐓𝐚𝐛𝐥𝐞
+coffin girl - 07:00 ~ 07:40
+NGTTG - 07:40 ~ 08:20
+CrossX - 08:20 ~ 09:00
+Noiz Place - 09:00 ~ 09:40
+RNHN - 09:40 ~ 10:20
+Goyō - 10:20 ~ 11:00
+DJ-CEЯEBRUM - 11:00 ~ 11:40"""
+
+LINEUP_DETAIL = {
+    "url": "https://www.indiego.co.kr/events/1805-coffin-maiden-and-the-grave",
+    "name": "Coffin, Maiden, and the Grave", "startDate": "2026-11-27T19:00:00+09:00",
+    "venue": "인피니티클럽", "address": "서울 서대문구",
+    "description": TIMETABLE_DESC,
+    "performers": [{"name": n, "url": ""} for n in
+                   ("NGTTG", "Noiz Place", "하늘 (RNHN)", "고요 (Goyō)", "coffin girl", "CrossX")],
+}
+
+
+class LineupTest(unittest.TestCase):
+    """출연 순서: 페이지의 출연 팀 목록 순서는 실제 순서가 아닐 수 있어(인디고 예: 목록 첫 팀 ≠ 첫 무대), 설명의 타임테이블에서만 읽는다."""
+
+    def test_timetable_order_and_times(self):
+        names = [p["name"] for p in LINEUP_DETAIL["performers"]]
+        got = cg.lineup_positions(names, TIMETABLE_DESC, "19:00")
+        self.assertEqual(got["coffin girl"], (1, "19:00"))
+        self.assertEqual(got["NGTTG"], (2, "19:40"))
+        self.assertEqual(got["하늘 (RNHN)"], (5, "21:40"))      # 괄호 속 영문 이름으로도 찾음
+        self.assertEqual(got["고요 (Goyō)"], (6, "22:20"))
+        self.assertEqual(len(got), 6)
+
+    def test_no_timetable_means_no_order(self):
+        self.assertEqual(cg.lineup_positions(["A밴드", "B밴드"], "멋진 공연입니다", "19:00"), {})
+        self.assertEqual(cg.lineup_positions(["A밴드", "B밴드"], "", ""), {})
+
+    def test_single_match_is_not_an_order(self):
+        self.assertEqual(cg.lineup_positions(["A밴드", "B밴드"], "A밴드 19:30 단독 무대", "19:00"), {})
+
+    def test_24h_times_kept(self):
+        got = cg.lineup_positions(["A밴드", "B밴드"], "19:30 A밴드\n20:20 B밴드", "19:00")
+        self.assertEqual(got, {"A밴드": (1, "19:30"), "B밴드": (2, "20:20")})
+
+    def test_rows_carry_lineup_columns(self):
+        rows = cg.to_rows("indiego", LINEUP_DETAIL, AT)
+        by = {r["artist_text"]: r for r in rows}
+        self.assertEqual({r["lineup_size"] for r in rows}, {"6"})
+        self.assertEqual((by["coffin girl"]["lineup_order"], by["coffin girl"]["lineup_time"]), ("1", "19:00"))
+        self.assertEqual(by["CrossX"]["lineup_order"], "3")
+
+    def test_rows_without_timetable_have_blank_order(self):
+        rows = cg.to_rows("indiego", INDIEGO_DETAIL, AT)
+        self.assertEqual({(r["lineup_order"], r["lineup_time"], r["lineup_size"]) for r in rows}, {("", "", "2")})
+
+    def test_detail_js_reads_description(self):
+        self.assertIn("description", cg.DETAIL_JS)
+
+    def test_written_file_passes_validation_and_old_header_still_ok(self):
+        with tempfile.TemporaryDirectory() as d:
+            path = cg.write_csv(cg.to_rows("indiego", LINEUP_DETAIL, AT), Path(d), "indiego", "2026-11-27")
+            self.assertFalse([i for i in validate_csv.validate_file(path) if i.level == "error"])
+            old = Path(d) / "raw_kr_gig_2026-11-20_indiego.csv"
+            old_cols = [c for c in cg.COLUMNS if not c.startswith("lineup_")]
+            old.write_text(",".join(old_cols) + "\n" + ",".join(
+                {"collected_at": AT, "source": "indiego", "collector": "aside", "gig_date": "2026-11-20",
+                 "artist_text": "A", "gig_url": "https://x/1"}.get(c, "") for c in old_cols) + "\n", encoding="utf-8")
+            self.assertFalse([i for i in validate_csv.validate_file(old) if i.level == "error"])
+
+
 class ToRowsTest(unittest.TestCase):
     def test_indiego_one_row_per_unique_performer(self):
         rows = cg.to_rows("indiego", INDIEGO_DETAIL, AT)

@@ -169,6 +169,10 @@ TABLES = {
             F("artist_source_id"),
             F("gig_url", "url", True),
             F("artist_url", "url"),
+            # 라인업 (선택 칸, 2026-11-27~ collect_gigs 일반 수집부터 — 옛 파일·다른 수집기는 빈 값)
+            F("lineup_order", "int_pos"),   # 실제 출연 순서(1 = 첫 무대) — 설명의 타임테이블에서만, 없으면 빈 값
+            F("lineup_time", "time_hm"),    # 그 팀 무대 시작 시각(타임테이블)
+            F("lineup_size", "int_pos"),    # 그 공연 페이지의 출연 팀 수
         ],
         "key": ("source", "gig_url", "artist_text"),
     },

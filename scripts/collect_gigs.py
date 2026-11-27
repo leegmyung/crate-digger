@@ -20,6 +20,7 @@ import re
 import subprocess
 import sys
 import time
+import unicodedata
 import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
@@ -73,8 +74,10 @@ await (async () => {
         const perf = [].concat(ev.performer || []).map(p => ({ name: (p.name || '').trim(), url: p.url || '' }));
         const anchors = [...document.querySelectorAll('a[href*="/artists/"]')]
           .map(a => ({ name: a.innerText.replace(/\\s+/g, ' ').trim(), url: a.href })).filter(p => p.name);
+        const og = document.querySelector('meta[property="og:description"]');
         return { url: location.href, name: ev.name || document.title, startDate: ev.startDate || '',
                  venue: loc.name || '', address: (loc.address && (loc.address.streetAddress || loc.address.addressLocality)) || '',
+                 description: ev.description || (og && og.content) || '',
                  performers: perf.length ? perf : anchors };
       });
       out.push(d);
@@ -136,6 +139,51 @@ def _to_kst(start):
     return datetime.fromisoformat(m.group(1)).replace(tzinfo=timezone.utc).astimezone(KST).isoformat()
 
 
+TIME_IN_LINE = re.compile(r"(\d{1,2})\s*[:시]\s*(\d{2})")
+MIN_NAME_LEN = 2   # 타임테이블에서 찾을 이름 최소 길이(정규화 뒤) — 한 글자 이름은 우연히 겹침
+
+
+def _norm_name(text):
+    return re.sub(r"[\W_]+", "", unicodedata.normalize("NFKC", text or "").lower())
+
+
+def _name_variants(name):
+    """'하늘 (RNHN)' → 전체·괄호 밖·괄호 안 이름 (정규화, MIN_NAME_LEN 글자 이상)."""
+    outside = re.sub(r"\s*[\(\[].*?[\)\]]\s*", " ", name)
+    inside = " ".join(re.findall(r"[\(\[](.*?)[\)\]]", name))
+    return {v for v in (_norm_name(name), _norm_name(outside), _norm_name(inside)) if len(v) >= MIN_NAME_LEN}
+
+
+def _slot_time(hh, mm, gig_time):
+    """'07:00'처럼 오전·오후 없이 적힌 저녁 무대는 공연 시작 시각(19:00)에 맞춰 19:00으로."""
+    if gig_time and re.match(r"^\d{2}:\d{2}$", gig_time):
+        start = int(gig_time[:2])
+        if hh < 12 <= start and hh + 12 >= start - 1:
+            hh += 12
+    return f"{hh % 24:02d}:{mm:02d}"
+
+
+def lineup_positions(names, description, gig_time=""):
+    """공연 설명의 타임테이블(시각이 적힌 줄)에서 출연 팀 순서·무대 시작 시각을 읽는다 → {이름: (순서, 'HH:MM')}.
+    페이지의 출연 팀 목록 순서는 실제 무대 순서와 다를 수 있어(예: 인디고 목록 첫 팀 ≠ 첫 무대) 쓰지 않는다.
+    두 팀 이상이 시각 있는 줄에서 찾아질 때만 순서로 인정한다(아니면 빈 결과)."""
+    lines = re.split(r"[\r\n]+|<br\s*/?>", unicodedata.normalize("NFKC", description or ""))
+    variants = {n: _name_variants(n) for n in names}
+    found = {}
+    for i, line in enumerate(lines):
+        t = TIME_IN_LINE.search(line)
+        if not t:
+            continue
+        norm = _norm_name(line)
+        for n, vs in variants.items():
+            if n not in found and any(v in norm for v in vs):
+                found[n] = (i, _slot_time(int(t.group(1)), int(t.group(2)), gig_time))
+    if len(found) < 2:
+        return {}
+    ordered = sorted(found, key=lambda n: found[n][0])
+    return {n: (k + 1, found[n][1]) for k, n in enumerate(ordered)}
+
+
 def to_rows(site, detail, collected_at):
     start = _to_kst(detail.get("startDate", ""))
     m = re.match(r"^(\d{4}-\d{2}-\d{2})(?:T(\d{2}:\d{2}))?", start)
@@ -151,15 +199,18 @@ def to_rows(site, detail, collected_at):
         "venue_text": f"{venue} ({address})" if venue and address else venue or address,
         "gig_url": detail["url"],
     }
-    rows, seen = [], set()
+    performers, seen = [], set()
     for p in detail.get("performers", []):
         name = (p.get("name") or "").strip()
-        if not name or name in seen:
-            continue
-        seen.add(name)
-        url = p.get("url") or ""
+        if name and name not in seen:
+            seen.add(name)
+            performers.append((name, p.get("url") or ""))
+    order = lineup_positions([n for n, _ in performers], detail.get("description", ""), base["gig_time"])
+    rows = []
+    for name, url in performers:
+        pos, slot = order.get(name, ("", ""))
         rows.append(dict(base, artist_text=name, artist_source_id=_source_id(site, url, "artists") if url else "",
-                         artist_url=url))
+                         artist_url=url, lineup_order=str(pos), lineup_time=slot, lineup_size=str(len(performers))))
     return rows
 
 

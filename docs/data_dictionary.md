@@ -229,6 +229,9 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `artist_source_id` | 출처 안의 아티스트 번호 | 글자 |
 | `gig_url` | 공연 페이지 주소 | 주소(URL) |
 | `artist_url` | 출처의 아티스트 페이지 주소 | 주소(URL) |
+| `lineup_order` | 실제 출연 순서 (1 = 첫 무대, 공연 설명의 타임테이블에서만 — 없으면 빈 칸) | 정수(1 이상) |
+| `lineup_time` | 그 팀 무대 시작 시각 (타임테이블) | 시각 HH:MM |
+| `lineup_size` | 그 공연 페이지의 출연 팀 수 | 정수(1 이상) |
 
 ### `raw_press`
 
