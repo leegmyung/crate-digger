@@ -5,7 +5,7 @@
   f 다른 정답을 먼저 받아 후보에서 빠짐 · d 유명 팀 제외(판정 가능한 날 fame_known_from() 이후만) · c 신인 규칙(첫 발매·첫 등장 3년 넘음)
   a 기준일 전 3년 안에 어느 출처에도 신호 없음 · b 신호는 있지만 검증 대기·제외 출처뿐 → 그 출처를 발굴로 넣었으면 몇 위였나
   e 점수는 있었지만 순위가 낮음 → 상위 100 팀들은 흔히 있는데 이 팀엔 없던 특징
-후보군·점수·순위 규칙은 score_tune.features()·score()·hits_at_k()와 같다(동점은 팀 키 순).
+후보군·점수·순위 규칙은 score_tune.features()·score()·hits_at_k()와 같다(동점은 앱처럼 마지막 신호 최근 순 → md5).
 멜론 프로필(first_release)이 늘면 결과가 바뀌므로 언제든 다시 돌린다.
 
 실행: .venv/bin/python scripts/missed_analysis.py   → docs/missed_analysis.md
@@ -21,6 +21,7 @@ from typing import Dict, List, Optional, Sequence, Tuple
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import lab_sql  # noqa: E402
 import score_tune as st  # noqa: E402
+from score_model import ANALYSIS_GENRE_SQL  # noqa: E402  (추정 장르는 미분류 — genre_bias.analysis_genre 와 같은 규칙)
 
 OUT = lab_sql.ROOT / "docs" / "missed_analysis.md"
 SINCE = date(2025, 1, 1)
@@ -57,8 +58,9 @@ def minus_months(d: date, months: int) -> date:
 
 
 def ranks(rows: Sequence[dict]) -> Dict[str, int]:
-    """점수 높은 순 순위 (동점은 팀 키 순 — score_tune.hits_at_k 와 같은 규칙)."""
-    order = sorted(rows, key=lambda r: (-float(r["score"]), r["team_key"]))
+    """점수 높은 순 순위 — 앱과 같은 순서(score_tune.app_order: 반올림 점수 → 마지막 신호 최근 순 → md5)."""
+    idx = st.app_order([float(r["score"]) for r in rows], [r["team_key"] for r in rows], [r.get("last_seen") for r in rows])
+    order = [rows[i] for i in idx]
     return {r["team_key"]: i for i, r in enumerate(order, 1)}
 
 
@@ -168,7 +170,7 @@ def team_info(con, k: str, cutoff: date, outcome_date: Optional[date] = None) ->
              AND s.signal_date < DATE '{c}' - INTERVAL {LOOKBACK_YEARS} YEAR),
           (SELECT COUNT(*) FROM signals s WHERE s.team_key = t.team_key AND s.signal_date < DATE '{c}'
              AND s.signal_date >= DATE '{c}' - INTERVAL {LOOKBACK_YEARS} YEAR AND s.role IN ('discovery','context')),
-          t.first_release, t.first_seen, COALESCE(NULLIF(t.primary_genre, ''), '미분류'), t.display_name,
+          t.first_release, t.first_seen, {ANALYSIS_GENRE_SQL}, t.display_name,
           (SELECT COUNT(*) FROM signals s WHERE s.team_key = t.team_key AND s.signal_date >= DATE '{c}'
              AND s.signal_date < DATE '{od}')
         FROM teams t WHERE t.team_key = ?""", [k]).fetchone()

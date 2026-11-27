@@ -129,8 +129,16 @@ def _stack(data: Dict[str, List[dict]], keep: Sequence[str]) -> List[dict]:
     return [r for c in keep for r in data[c]]
 
 
-def _wauc(rows: Sequence[dict], scores: Sequence[float]) -> Optional[float]:
-    return st.weighted_auc(list(scores), [float(r.get("hit_weight") or 0) for r in rows])
+def _decimals(key: str) -> Optional[int]:
+    """손 공식은 앱처럼 소수 둘째 자리로 반올림해 순서를 매기고, 앱에 안 보이는 로지스틱 점수는 반올림하지 않는다."""
+    return None if key == "lr" else st.APP_SCORE_DECIMALS
+
+
+def _wauc(rows: Sequence[dict], scores: Sequence[float],
+          decimals: Optional[int] = st.APP_SCORE_DECIMALS) -> Optional[float]:
+    """앱 순서 기준 가중 AUC (동점은 마지막 신호 최근 순 → md5, score_tune.app_auc)."""
+    return st.app_auc([float(v) for v in scores], [float(r.get("hit_weight") or 0) for r in rows],
+                      [r["team_key"] for r in rows], [r.get("last_seen") for r in rows], decimals=decimals)
 
 
 def choose_l2(data: Dict[str, List[dict]], grid: Sequence[float] = L2_GRID) -> float:
@@ -143,7 +151,7 @@ def choose_l2(data: Dict[str, List[dict]], grid: Sequence[float] = L2_GRID) -> f
             train = _stack(data, [c for c in cutoffs if c != held])
             if not any(r["is_hit"] for r in train):
                 continue
-            v = _wauc(data[held], train_logistic(train, l2).predict(data[held]))
+            v = _wauc(data[held], train_logistic(train, l2).predict(data[held]), decimals=None)
             if v is not None:
                 vals.append(v)
         mean = sum(vals) / len(vals) if vals else float("-inf")
@@ -170,12 +178,14 @@ def forward_folds(cutoffs: Sequence[str], horizon_months: int) -> List[Tuple[str
 
 # ---------- 평가 ----------
 
-def metrics(rows: Sequence[dict], scores: Sequence[float]) -> dict:
+def metrics(rows: Sequence[dict], scores: Sequence[float], decimals: Optional[int] = st.APP_SCORE_DECIMALS) -> dict:
+    """앱 순서 기준 지표 (score_tune.evaluate 와 같은 규칙). 로지스틱은 decimals=None."""
     s = [float(v) for v in scores]
     y = [int(r["is_hit"]) for r in rows]
-    keys = [r["team_key"] for r in rows]
-    return {"auc": _wauc(rows, s), "plain_auc": st.auc(s, y), "hits20": st.hits_at_k(s, y, keys, 20),
-            "hits50": st.hits_at_k(s, y, keys, 50), "n": len(rows), "pos": sum(y)}
+    order = st.app_order(s, [r["team_key"] for r in rows], [r.get("last_seen") for r in rows], decimals=decimals)
+    return {"auc": st.ranked_weighted_auc(order, [float(r.get("hit_weight") or 0) for r in rows]),
+            "plain_auc": st.ranked_weighted_auc(order, y), "hits20": sum(y[i] for i in order[:20]),
+            "hits50": sum(y[i] for i in order[:50]), "n": len(rows), "pos": sum(y)}
 
 
 def hand_scores(rows: Sequence[dict], w: Dict[str, float]) -> List[float]:
@@ -192,16 +202,26 @@ def weight_vector(w: Dict[str, float]) -> np.ndarray:
     return np.array([float(w.get(V2_KEY[name], 0)) for name, _ in FEATURES])
 
 
-def weighted_auc_matrix(scores: np.ndarray, weights: np.ndarray) -> np.ndarray:
-    """scores(팀 × 가중치 후보)의 열마다 st.weighted_auc 와 같은 값. 정답이나 비정답이 없으면 nan."""
+def round_app_matrix(scores: np.ndarray) -> np.ndarray:
+    """score_tune._round_app 과 같은 반올림(앱 ROUND(score, 2))을 행렬 전체에."""
+    m = 10 ** st.APP_SCORE_DECIMALS
+    return np.copysign(np.floor(np.abs(scores) * m + 0.5 + 1e-9) / m, scores)
+
+
+def weighted_auc_matrix(scores: np.ndarray, weights: np.ndarray, ties: np.ndarray) -> np.ndarray:
+    """scores(팀 × 가중치 후보)의 열마다 st.app_auc 와 같은 값(앱처럼 반올림, 동점은 ties 순 = st.tie_ranks).
+    정답이나 비정답이 없으면 nan."""
     pos, neg = weights > 0, weights == 0
     if not pos.any() or not neg.any():
         return np.full(scores.shape[1], np.nan)
+    scores = round_app_matrix(scores)
     sp, sn, wp = scores[pos], scores[neg], weights[pos]
+    tp, tn = ties[pos][:, None, None], ties[neg][None, :, None]
     out = np.empty(scores.shape[1])
     for a in range(0, scores.shape[1], GRID_CHUNK):
         p, n = sp[:, None, a:a + GRID_CHUNK], sn[None, :, a:a + GRID_CHUNK]
-        frac = ((n < p).sum(axis=1) + 0.5 * (n == p).sum(axis=1)) / sn.shape[0]   # 정답 × 후보
+        below = (n < p) | ((n == p) & (tn > tp))                                  # 비정답이 정답보다 아래
+        frac = below.sum(axis=1) / sn.shape[0]   # 정답 × 후보
         out[a:a + GRID_CHUNK] = (wp[:, None] * frac).sum(axis=0) / wp.sum()
     return out
 
@@ -216,7 +236,8 @@ def grid_table(data: Dict[str, List[dict]]) -> Tuple[List[dict], Dict[str, Dict[
     for c, rows in data.items():
         with np.errstate(all="ignore"):      # macOS Accelerate 의 가짜 경고 (값은 테스트로 손 공식과 같음을 확인)
             s = np.round(np.array([feature_vector(r) for r in rows]) @ wmat, SCORE_DECIMALS)
-        aucs = weighted_auc_matrix(s, np.array([float(r.get("hit_weight") or 0) for r in rows]))
+        ties = np.array(st.tie_ranks([r["team_key"] for r in rows], [r.get("last_seen") for r in rows]))
+        aucs = weighted_auc_matrix(s, np.array([float(r.get("hit_weight") or 0) for r in rows]), ties)
         for i, v in enumerate(aucs):
             table[str(i)][c] = None if np.isnan(v) else float(v)
     return grid, table
@@ -243,7 +264,7 @@ def paired_bootstrap(per_cut: Dict[str, Tuple[List[dict], Dict[str, np.ndarray]]
             neg = [i for i, r in enumerate(rows) if not r["is_hit"]]
             idx = np.concatenate([rng.choice(pos, len(pos)), rng.choice(neg, len(neg))])
             sub = [rows[i] for i in idx]
-            va, vb = _wauc(sub, a[idx]), _wauc(sub, b[idx])
+            va, vb = _wauc(sub, a[idx], _decimals(a_key)), _wauc(sub, b[idx], _decimals(b_key))
             if va is not None and vb is not None:
                 d.append(va - vb)
         diffs.append(sum(d) / len(d))
@@ -369,7 +390,7 @@ def _loco_rows(data: Dict[str, List[dict]], w2: Dict[str, float], grid: List[dic
                   "grid": np.array(hand_scores(rows, grid[pick_best(table, train_cuts)])),
                   "lr": train_logistic(_stack(data, train_cuts), l2).predict(rows),
                   "g": np.array(hand_scores(rows, refs["g"])), "b": np.array(hand_scores(rows, refs["b"]))}
-        m = {k: metrics(rows, v) for k, v in scores.items()}
+        m = {k: metrics(rows, v, _decimals(k)) for k, v in scores.items()}
         per_cut[held] = (rows, scores)
         for key, mm in m.items():
             if mm["auc"] is not None:
@@ -384,8 +405,8 @@ def _loco_rows(data: Dict[str, List[dict]], w2: Dict[str, float], grid: List[dic
     mean = {k: sum(v) / len(v) for k, v in agg.items()}
 
     def wins(a: str, b: str) -> int:
-        return sum(1 for c in cutoffs if (_wauc(per_cut[c][0], per_cut[c][1][a]) or 0)
-                   > (_wauc(per_cut[c][0], per_cut[c][1][b]) or 0))
+        return sum(1 for c in cutoffs if (_wauc(per_cut[c][0], per_cut[c][1][a], _decimals(a)) or 0)
+                   > (_wauc(per_cut[c][0], per_cut[c][1][b], _decimals(b)) or 0))
     return rows_md, {"mean": mean, "hits": hits, "wins_lr_grid": wins("lr", "grid"), "wins_lr_v2": wins("lr", "v2"),
                      "per_cut": per_cut, "l2s": l2s}
 
@@ -396,7 +417,7 @@ def _forward_rows(data: Dict[str, List[dict]], w2: Dict[str, float], grid: List[
     for test, train in forward_folds(st.CUTOFFS, st.HORIZON_MONTHS):
         l2 = choose_l2({c: data[c] for c in train}) if len(train) > 1 else max(L2_GRID)
         rows = data[test]
-        m_lr = metrics(rows, train_logistic(_stack(data, train), l2).predict(rows))
+        m_lr = metrics(rows, train_logistic(_stack(data, train), l2).predict(rows), decimals=None)
         m_gr = metrics(rows, hand_scores(rows, grid[pick_best(table, train)]))
         m_v2 = metrics(rows, hand_scores(rows, w2))
         n_pos = sum(int(r["is_hit"]) for r in _stack(data, train))
@@ -559,10 +580,20 @@ def _group(leads: Sequence[dict], key) -> Dict[str, List[float]]:
     return out
 
 
+# 분석용 장르: 추정(inferred) 장르는 '미분류' — genre_bias.analysis_genre 와 같은 규칙 (2026-11-27 결정, docs/genre_fill.md)
+ANALYSIS_GENRE_SQL = ("CASE WHEN COALESCE(t.genre_confidence, '') = 'inferred' THEN '미분류' "
+                      "ELSE COALESCE(NULLIF(TRIM(t.primary_genre), ''), '미분류') END")
+
+
+def team_genres(con) -> Dict[str, str]:
+    """팀 → 분석용 장르 (추정 장르는 미분류)."""
+    return dict(con.execute(f"SELECT t.team_key, {ANALYSIS_GENRE_SQL} FROM teams t").fetchall())
+
+
 def section_lead(con) -> Tuple[List[str], dict]:
     signals = _rows(con, LEAD_SIGNAL_SQL)
     outcomes = _rows(con, LEAD_OUTCOME_SQL)
-    genre = {k: (g or "").strip() or "미분류" for k, g in con.execute("SELECT team_key, primary_genre FROM teams").fetchall()}
+    genre = team_genres(con)
     role = {s["source"]: s["role"] for s in signals}
     start = {}
     for s in signals:

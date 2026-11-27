@@ -144,7 +144,8 @@ class EvaluateTest(unittest.TestCase):
         # 기준일 3개. v2 점수는 모두 같고(구분 못 함), 새 특징 f 는 정답 팀만 1 → 더하면 좋아져야 함
         self.data, self.extra = {}, {}
         for c in ("c1", "c2", "c3"):
-            rows = [_row(f"{c}h", hit=1, weight=2)] + [_row(f"{c}n{i}") for i in range(5)]
+            rows = ([_row(f"{c}h", hit=1, weight=2, last_seen=date(2020, 1, 1))]      # 동점이면 맨 아래(가장 오래됨)
+                    + [_row(f"{c}n{i}", last_seen=date(2024, 1, 1)) for i in range(5)])
             self.data[c] = rows
             self.extra[c] = {r["team_key"]: {"f": 1.0 if r["is_hit"] else 0.0} for r in rows}
 
@@ -158,7 +159,7 @@ class EvaluateTest(unittest.TestCase):
         for c in self.data:
             self.assertGreater(res["picks"][c], 0)
             self.assertEqual(res["cv"][c]["auc"], 1.0)
-            self.assertEqual(res["base"][c]["auc"], 0.5)
+            self.assertEqual(res["base"][c]["auc"], 0.0)          # 앱 순서: 동점 → 마지막 신호 최근 순
         self.assertGreater(res["cv_mean"], res["base_mean"])
         self.assertEqual(res["cv_hits"]["hits20"], 3)
 

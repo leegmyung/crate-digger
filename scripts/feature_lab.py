@@ -266,12 +266,13 @@ def feature_scale(data: Dict[str, List[dict]], extra: Extra, feat: str) -> float
 
 
 def metrics(rows: Sequence[dict], scores: Sequence[float]) -> dict:
+    """앱 순서 기준 지표 (score_tune.evaluate 와 같은 규칙: 반올림 점수 → 마지막 신호 최근 순 → md5)."""
     y = [int(r["is_hit"]) for r in rows]
-    keys = [r["team_key"] for r in rows]
-    hw = [float(r.get("hit_weight") or 0) for r in rows]
-    return {"auc": st.weighted_auc(scores, hw), "plain_auc": st.auc(scores, y),
-            "hits20": st.hits_at_k(scores, y, keys, 20), "hits50": st.hits_at_k(scores, y, keys, 50),
-            "hits100": st.hits_at_k(scores, y, keys, 100)}
+    order = st.app_order(scores, [r["team_key"] for r in rows], [r.get("last_seen") for r in rows])
+    return {"auc": st.ranked_weighted_auc(order, [float(r.get("hit_weight") or 0) for r in rows]),
+            "plain_auc": st.ranked_weighted_auc(order, y),
+            "hits20": sum(y[i] for i in order[:20]), "hits50": sum(y[i] for i in order[:50]),
+            "hits100": sum(y[i] for i in order[:100])}
 
 
 def _mean(vals: Iterable[Optional[float]]) -> float:
@@ -503,21 +504,19 @@ def interpret(res: dict) -> List[str]:
            "- **지켜볼 것** (조금 오르지만 기준 미달 — 데이터가 쌓이면 다시): " + (", ".join(
                f"{NAMES[f]}({gain(f)})" for f in watch) or "없음"),
            "- **효과 없음·나빠짐**: " + (", ".join(f"{NAMES[f]}({gain(f)})" for f in drop) or "없음"), ""]
-    if watch:
+    tb = singles[watch[0]]["tiebreak_mean"] - singles[watch[0]]["base_mean"] if watch else 0.0
+    if watch and tb >= ADOPT_MIN_GAIN:   # 동점 가르기만으로 의미 있게 오를 때만 이 제안을 쓴다
         f = watch[0]
         w = singles[f]["full_pick"]
         order = "작은 팀" if w < 0 else "큰 팀"
-        tb = singles[f]["tiebreak_mean"] - singles[f]["base_mean"]
         out += [f"가장 가까운 후보는 **{NAMES[f]}**(가중치 {w:g}). 가중치를 {TIEBREAK_W:g}로 거의 없애 **v2가 같은 팀끼리의 "
                 f"순서만** 정하게 해도(기준일 6개로 계산, 참고) 평균 AUC가 {tb:+.3f} 오른다 — 효과 대부분이 동점 가르기에서 나온다. "
                 f"점수 정의를 바꾸지 않고도, 앱·리포트 정렬에서 v2 점수가 같을 때 '{NAMES[f]}' 값이 {order}을 먼저 두는 방법으로 "
                 "같은 효과를 낼 수 있다(제안).", ""]
-        if f == "last_gap_years" and app_ties_by_recency():
-            out += ["**이미 앱은 이렇게 정렬한다**: 후보 목록(`docs/lab/sql/candidates.sql`)이 `ORDER BY score DESC, last_seen DESC`라 "
-                    "점수가 같으면 최근 신호가 있는 팀이 위다. 그런데 교차 검증(`score_tune`)은 동점을 AUC에선 절반, 상위 K에선 "
-                    "팀 이름 순으로 처리한다 — **앱이 실제로 보여 주는 순위는 보고된 숫자보다 조금 낫다**. "
-                    "**요청(코디네이터)**: `score_tune`의 상위 K 동점 순서를 앱과 같게(last_seen 최신순) 맞추고, AUC에도 같은 "
-                    "동점 가르기를 쓰면 문서 숫자가 앱과 일치한다(점수 정의는 그대로).", ""]
+    if app_ties_by_recency():
+        out += ["**동점 순서**: 지표는 앱 후보 목록(`docs/lab/sql/candidates.sql`)과 같은 순서로 잰다 — 반올림 점수 → "
+                "마지막 신호 최근 순 → md5(team_key). 그래서 v2 기준선에 '최근 신호 우선' 동점 가르기가 이미 들어 있다"
+                "(2026-11-27 첫 실험 때는 동점을 절반·팀 이름 순으로 쳐서 '마지막 신호 후 공백'이 +0.012로 보였다).", ""]
     if adopt:
         out.append("**요청(코디네이터)**: 채택 후보는 `docs/lab/sql/features.sql`의 `lab_scored`에 기본 0인 인자로 넣고"
                    f"(예: `w_{adopt[0]} := 0`), 같은 계산을 SQL로 옮긴 뒤 `score_tune.GRID`에 그 인자를 넣어 다시 고른다. "

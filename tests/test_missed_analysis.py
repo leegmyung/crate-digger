@@ -16,9 +16,26 @@ class DateTest(unittest.TestCase):
 
 
 class RankTest(unittest.TestCase):
-    def test_rank_ties_by_key_like_hits_at_k(self):
+    def test_rank_ties_like_app(self):
         rows = [{"team_key": "b", "score": 3}, {"team_key": "a", "score": 3}, {"team_key": "c", "score": 5}]
-        self.assertEqual(ma.ranks(rows), {"c": 1, "a": 2, "b": 3})
+        self.assertEqual(ma.ranks(rows), {"c": 1, "a": 2, "b": 3})          # md5('a') < md5('b')
+        rows[0]["last_seen"], rows[1]["last_seen"] = "2025-01-01", "2024-01-01"
+        self.assertEqual(ma.ranks(rows), {"c": 1, "b": 2, "a": 3})          # 마지막 신호 최근 순이 먼저
+
+
+class TeamInfoGenreTest(unittest.TestCase):
+    def test_inferred_genre_is_unclassified(self):
+        import duckdb
+        con = duckdb.connect()
+        con.execute("CREATE MACRO fame_known_from() AS DATE '2026-11-26'")
+        con.execute("CREATE TABLE outcomes(team_key VARCHAR, counted BOOLEAN, announced_date DATE)")
+        con.execute("CREATE TABLE signals(team_key VARCHAR, signal_date DATE, role VARCHAR)")
+        con.execute("CREATE TABLE teams(team_key VARCHAR, profile_status VARCHAR, first_release DATE, first_seen DATE, "
+                    "primary_genre VARCHAR, genre_confidence VARCHAR, display_name VARCHAR)")
+        con.execute("INSERT INTO teams VALUES ('a','unknown',NULL,'2024-01-01','힙합','inferred','A'), "
+                    "('b','unknown',NULL,'2024-01-01','힙합','profile','B')")
+        self.assertEqual(ma.team_info(con, "a", date(2025, 1, 1))["genre"], "미분류")
+        self.assertEqual(ma.team_info(con, "b", date(2025, 1, 1))["genre"], "힙합")
 
 
 class ClassifyTest(unittest.TestCase):

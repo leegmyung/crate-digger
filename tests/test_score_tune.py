@@ -1,10 +1,16 @@
 """score_tune: 기준일 하나를 빼고 가중치를 고른 뒤 뺀 기준일로 채점(교차 검증)."""
+import hashlib
 import sys
+from datetime import date
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import score_tune as st  # noqa: E402
+
+
+def _md5(k):
+    return hashlib.md5(k.encode("utf-8")).hexdigest()
 
 
 class MetricTest(unittest.TestCase):
@@ -14,9 +20,11 @@ class MetricTest(unittest.TestCase):
         self.assertEqual(st.auc([1, 1, 1, 1], [1, 0, 1, 0]), 0.5)      # 동점은 절반
         self.assertIsNone(st.auc([1, 2], [0, 0]))                      # 정답 없음
 
-    def test_hits_at_k_breaks_ties_by_key_not_label(self):
-        self.assertEqual(st.hits_at_k([5, 4, 4, 1], [0, 1, 0, 1], ["d", "c", "b", "a"], k=2), 0)
-        self.assertEqual(st.hits_at_k([5, 4, 4, 1], [0, 1, 0, 1], ["d", "b", "c", "a"], k=2), 1)
+    def test_hits_at_k_breaks_ties_by_md5_not_label(self):
+        # 마지막 신호가 없으면 앱처럼 md5(team_key) 순 — md5('c') < md5('b') 라 c가 먼저
+        self.assertLess(_md5("c"), _md5("b"))
+        self.assertEqual(st.hits_at_k([5, 4, 4, 1], [0, 1, 0, 1], ["d", "c", "b", "a"], k=2), 1)
+        self.assertEqual(st.hits_at_k([5, 4, 4, 1], [0, 1, 0, 1], ["d", "b", "c", "a"], k=2), 0)
 
 
 class WeightedAucTest(unittest.TestCase):
@@ -51,6 +59,83 @@ class CollabGridTest(unittest.TestCase):
         self.assertEqual(st.active_grid(empty)["w_collab"], (0,))
         self.assertEqual(st.active_grid(some)["w_collab"], (0, 0.5, 1, 2))
         self.assertEqual(st.active_grid(empty)["w_branch"], st.GRID["w_branch"])
+
+
+class AppOrderTest(unittest.TestCase):
+    """동점 처리를 앱 후보 목록(candidates.sql: ROUND(score,2) DESC, last_seen DESC, md5(team_key))과 같게."""
+
+    def test_ties_by_recent_last_seen_then_missing_last(self):
+        order = st.app_order([1, 1, 1, 2], ["a", "b", "c", "d"],
+                             [date(2024, 1, 1), date(2025, 1, 1), None, date(2020, 1, 1)])
+        self.assertEqual(order, [3, 1, 0, 2])                       # d(점수 2) → b(최근) → a → c(날짜 없음은 맨 뒤)
+
+    def test_same_last_seen_falls_back_to_md5(self):
+        keys = ["x", "y", "z"]
+        order = st.app_order([1, 1, 1], keys, ["2024-05-01"] * 3)   # 글자 날짜도 받음
+        self.assertEqual([keys[i] for i in order], sorted(keys, key=_md5))
+
+    def test_no_rounding_option_for_model_scores(self):
+        # 앱에 안 보이는 모델 점수(로지스틱)는 반올림 없이, 동점 순서만 같게
+        self.assertEqual(st.app_order([1.004, 1.001], ["a", "b"], [date(2024, 1, 1), date(2025, 1, 1)], decimals=None),
+                         [0, 1])
+
+    def test_scores_rounded_to_two_decimals_like_app(self):
+        # 1.004 와 1.001 은 앱에서 둘 다 1.00 → 마지막 신호가 최근인 쪽이 위
+        self.assertEqual(st.app_order([1.004, 1.001], ["a", "b"], [date(2024, 1, 1), date(2025, 1, 1)]), [1, 0])
+        self.assertEqual(st.app_order([1.01, 1.001], ["a", "b"], [date(2024, 1, 1), date(2025, 1, 1)]), [0, 1])
+
+    def test_hits_at_k_uses_last_seen(self):
+        seen_hit_recent = [date(2020, 1, 1), date(2025, 1, 1), date(2024, 1, 1), date(2020, 1, 1)]
+        seen_hit_old = [date(2020, 1, 1), date(2023, 1, 1), date(2024, 1, 1), date(2020, 1, 1)]
+        args = ([5, 4, 4, 1], [0, 1, 0, 1], ["d", "c", "b", "a"])
+        self.assertEqual(st.hits_at_k(*args, k=2, last_seen=seen_hit_recent), 1)
+        self.assertEqual(st.hits_at_k(*args, k=2, last_seen=seen_hit_old), 0)
+
+    def test_ranked_auc_counts_negatives_below_each_hit(self):
+        # 순서(위→아래): 정답(3) · 비정답 · 정답(1) · 비정답 → (3×2/2 + 1×1/2) / 4
+        weights = [3, 0, 1, 0]
+        self.assertAlmostEqual(st.ranked_weighted_auc([0, 1, 2, 3], weights), (3 * 1.0 + 1 * 0.5) / 4)
+        self.assertIsNone(st.ranked_weighted_auc([0, 1], [0, 0]))
+
+    def test_app_auc_breaks_ties_instead_of_half(self):
+        scores, weights = [1, 1, 1, 1], [2, 0, 0, 0]
+        seen = [date(2025, 1, 1), date(2024, 1, 1), date(2024, 1, 1), date(2023, 1, 1)]
+        self.assertEqual(st.weighted_auc(scores, weights), 0.5)                     # 옛 방식: 동점은 절반
+        self.assertEqual(st.app_auc(scores, weights, ["h", "a", "b", "c"], seen), 1.0)   # 앱 순서: 정답이 맨 위
+
+    def test_evaluate_uses_app_order(self):
+        base = {"n_branch": 1, "best_stage": 0, "peer_selected": 0, "dmz": 0, "gigs_1y": 0, "outlets": 0,
+                "recent180": 0, "venues": 0, "peer_winner": 0}
+        rows = [{**base, "team_key": "h", "is_hit": 1, "hit_weight": 2, "last_seen": date(2025, 1, 1)}] + [
+            {**base, "team_key": f"n{i}", "is_hit": 0, "hit_weight": 0, "last_seen": date(2023, 1, 1)} for i in range(4)]
+        e = st.evaluate({"c": rows}, dict(st.V0_WEIGHTS))["c"]
+        self.assertEqual(e["auc"], 1.0)
+        self.assertEqual(e["plain_auc"], 1.0)
+        self.assertEqual(e["hits20"], 1)
+
+    def test_features_query_returns_last_seen(self):
+        class Cur:
+            description = [("team_key",), ("last_seen",)]
+
+            def fetchall(self):
+                return [("a", date(2024, 1, 1))]
+
+        class Con:
+            def execute(self, q):
+                self.q = q
+                return Cur()
+        con = Con()
+        rows = st.features(con, "2025-01-01")
+        self.assertIn("last_seen", con.q)
+        self.assertEqual(rows[0]["last_seen"], date(2024, 1, 1))
+
+
+class TieRuleNoteTest(unittest.TestCase):
+    def test_note_has_reason_and_before_after(self):
+        note = st.tie_rule_note({"pick": 0.8, "v0": 0.79}, {"pick": 25, "v0": 22})
+        self.assertIn("앱 후보 목록과 같게", note)
+        self.assertIn("→ 0.800", note)
+        self.assertIn("→ 25", note)
 
 
 class LocoTest(unittest.TestCase):

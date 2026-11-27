@@ -44,25 +44,32 @@ def genre_label(value: Optional[str]) -> str:
     return v or UNCLASSIFIED
 
 
+def analysis_genre(value: Optional[str], confidence: Optional[str]) -> str:
+    """비교·분석용 장르: 추정(inferred) 장르는 '미분류'로 — profile·press 장르만 쓴다 (2026-11-27 결정, docs/genre_fill.md)."""
+    return UNCLASSIFIED if (confidence or "") == "inferred" else genre_label(value)
+
+
 def bias_index(top_share: float, pool_share: float) -> Optional[float]:
     """쏠림 지수 = 상위 N 안 비율 ÷ 후보군 비율. 1이면 고르게, 1보다 크면 위로 쏠림, 작으면 아래로."""
     return top_share / pool_share if pool_share else None
 
 
-def top_indices(scores: Sequence[float], keys: Sequence[str], n: int) -> List[int]:
-    """점수 상위 n개 위치. 동점은 팀 키 순(score_tune.hits_at_k 와 같은 규칙)."""
-    order = sorted(range(len(scores)), key=lambda i: (-scores[i], keys[i]))
-    return sorted(order[:n])
+def top_indices(scores: Sequence[float], keys: Sequence[str], n: int,
+                last_seen: Optional[Sequence] = None) -> List[int]:
+    """점수 상위 n개 위치. 순서는 앱과 같다(score_tune.app_order: 반올림 점수 → 마지막 신호 최근 순 → md5)."""
+    return sorted(st.app_order(scores, keys, last_seen)[:n])
 
 
 def _wauc(rows: Sequence[dict]) -> Optional[float]:
-    return st.weighted_auc([float(r["score"]) for r in rows], [float(r.get("hit_weight") or 0) for r in rows])
+    return st.app_auc([float(r["score"]) for r in rows], [float(r.get("hit_weight") or 0) for r in rows],
+                      [r["team_key"] for r in rows], [r.get("last_seen") for r in rows])
 
 
 def _tops(by_cutoff: Dict[str, List[dict]], top_n: int) -> List[dict]:
     out = []
     for rows in by_cutoff.values():
-        idx = top_indices([float(r["score"]) for r in rows], [r["team_key"] for r in rows], top_n)
+        idx = top_indices([float(r["score"]) for r in rows], [r["team_key"] for r in rows], top_n,
+                          [r.get("last_seen") for r in rows])
         out.extend(rows[i] for i in idx)
     return out
 
@@ -100,7 +107,8 @@ def overall_row(by_cutoff: Dict[str, List[dict]], top_n: int = TOP_N) -> dict:
 
 def composition(rows: Sequence[dict], top_n: int = TOP_N) -> List[dict]:
     """한 날짜 후보의 장르 구성: 상위 top_n 안 vs 후보 전체."""
-    idx = set(top_indices([float(r["score"]) for r in rows], [r["team_key"] for r in rows], top_n))
+    idx = set(top_indices([float(r["score"]) for r in rows], [r["team_key"] for r in rows], top_n,
+                          [r.get("last_seen") for r in rows]))
     n_top = len(idx)
     counts: Dict[str, List[int]] = defaultdict(lambda: [0, 0])
     for i, r in enumerate(rows):
@@ -141,8 +149,9 @@ def profile_missing_share(rows: Sequence[dict]) -> Dict[str, float]:
 
 
 def within_genre_ranks(rows: Sequence[dict]) -> Dict[str, Tuple[int, int]]:
-    """팀 → (전체 순위, 장르 안 순위). 동점은 팀 키 순."""
-    order = sorted(rows, key=lambda r: (-float(r["score"]), r["team_key"]))
+    """팀 → (전체 순위, 장르 안 순위). 순서는 앱과 같다(score_tune.app_order)."""
+    idx = st.app_order([float(r["score"]) for r in rows], [r["team_key"] for r in rows], [r.get("last_seen") for r in rows])
+    order = [rows[i] for i in idx]
     seen: Dict[str, int] = defaultdict(int)
     out = {}
     for i, r in enumerate(order, 1):
@@ -210,7 +219,9 @@ def genre_source_hits(by_cutoff: Dict[str, List[dict]], team_src: Dict[str, Dict
 # ---------- 데이터 ----------
 
 def team_genres(con) -> Dict[str, str]:
-    return {k: genre_label(g) for k, g in con.execute("SELECT team_key, primary_genre FROM teams").fetchall()}
+    """팀 → 분석용 장르 (추정 장르는 미분류). teams 에 genre_confidence 칸이 있어야 한다(lab_sql.connect 가 없으면 만듦)."""
+    q = "SELECT team_key, primary_genre, genre_confidence FROM teams"
+    return {k: analysis_genre(g, c) for k, g, c in con.execute(q).fetchall()}
 
 
 def backtest_data(con, genres: Dict[str, str]) -> Dict[str, List[dict]]:
@@ -224,7 +235,8 @@ def backtest_data(con, genres: Dict[str, str]) -> Dict[str, List[dict]]:
 
 def current_rows(con, day: str) -> List[dict]:
     rows = lab_sql.query(con, "candidates.sql", as_of=f"'{day}'", limit=str(CURRENT_LIMIT))
-    return [{**r, "genre": genre_label(r.get("primary_genre")), "score": float(r["score"])} for r in rows]
+    genres = team_genres(con)                       # 추정 장르는 미분류 (candidates.sql 의 primary_genre 대신)
+    return [{**r, "genre": genres.get(r["team_key"], UNCLASSIFIED), "score": float(r["score"])} for r in rows]
 
 
 def current_sources(con, day: str, keys: Set[str]) -> Dict[str, Set[str]]:
@@ -241,7 +253,8 @@ def current_sources(con, day: str, keys: Set[str]) -> Dict[str, Set[str]]:
 
 def genre_source_note(con) -> Dict[str, int]:
     """장르가 어떻게 붙었나: 멜론·발매 태그가 있는 팀 vs 보완 규칙(리드머·힙합어워즈 신인→힙합, 밴드 디스커버리→록)만."""
-    q = ("SELECT COALESCE(NULLIF(primary_genre,''),'') <> '' AS has_genre, profile_status <> 'unknown' AS has_profile, "
+    q = ("SELECT COALESCE(NULLIF(primary_genre,''),'') <> '' AND COALESCE(genre_confidence,'') <> 'inferred' AS has_genre, "
+         "profile_status <> 'unknown' AS has_profile, "
          "COUNT(*) FROM teams GROUP BY 1, 2")
     return {f"{'장르' if g else '미분류'}·{'프로필' if p else '프로필 없음'}": n for g, p, n in con.execute(q).fetchall()}
 

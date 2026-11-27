@@ -82,14 +82,31 @@ class LogisticTest(unittest.TestCase):
         self.assertGreater(s[0], s[1])                          # 공연장 많은 팀이 위
 
 
+class TeamGenreTest(unittest.TestCase):
+    def test_inferred_genre_counts_as_unclassified(self):
+        import duckdb
+        con = duckdb.connect()
+        con.execute("CREATE TABLE teams(team_key VARCHAR, primary_genre VARCHAR, genre_confidence VARCHAR)")
+        con.execute("INSERT INTO teams VALUES ('a','힙합','inferred'), ('b','힙합','profile'), ('c','',NULL), ('d','록·밴드',NULL)")
+        self.assertEqual(sm.team_genres(con), {"a": "미분류", "b": "힙합", "c": "미분류", "d": "록·밴드"})
+
+
 class GridTest(unittest.TestCase):
-    def test_vectorized_weighted_auc_matches_score_tune(self):
+    def test_vectorized_weighted_auc_matches_score_tune_app_order(self):
         rng = np.random.default_rng(1)
-        scores = rng.integers(0, 4, size=(60, 3)).astype(float)      # 동점이 많게
+        scores = rng.integers(0, 4, size=(60, 3)).astype(float) + 0.001 * rng.integers(0, 3, size=(60, 3))  # 반올림 동점 포함
         weights = [3 if i % 10 == 0 else (1 if i % 13 == 0 else 0) for i in range(60)]
-        got = sm.weighted_auc_matrix(scores, np.array(weights, dtype=float))
+        keys = [f"t{i}" for i in range(60)]
+        seen = [f"2024-0{1 + i % 9}-01" if i % 7 else None for i in range(60)]
+        ties = sm.st.tie_ranks(keys, seen)
+        got = sm.weighted_auc_matrix(scores, np.array(weights, dtype=float), np.array(ties))
         for g in range(3):
-            self.assertAlmostEqual(got[g], sm.st.weighted_auc(list(scores[:, g]), weights))
+            self.assertAlmostEqual(got[g], sm.st.app_auc(list(scores[:, g]), weights, keys, seen))
+
+    def test_logistic_metrics_not_rounded(self):
+        rows = [_row("h", 1, 1), _row("n")]
+        self.assertEqual(sm.metrics(rows, [0.004, 0.001], decimals=None)["auc"], 1.0)
+        self.assertEqual(sm.metrics(rows, [0.004, 0.001])["auc"], sm.st.app_auc([0, 0], [1, 0], ["h", "n"]))
 
     def test_grid_matrix_score_equals_hand_formula(self):
         r = _row("a", n_branch=2, best_stage=3, venues=2, recent180=1, peer_winner=1, outlets=4, context_outlets=2)

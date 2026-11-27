@@ -4,6 +4,8 @@
 지표: 가중 AUC(정답 팀이 후보 전체 중 위쪽에 있는 정도, 0.5 = 무작위, 1 = 완벽 — 정답 등급 S=3·A=2·B=1로 가중,
       config/source_roles.json) — 상위 K 적중 수보다 덜 흔들림. 등급 없는 보통 AUC도 함께 적는다.
       보조로 상위 50팀 적중 수.
+순서: 앱 후보 목록(docs/lab/sql/candidates.sql)과 같다 — ROUND(score, 2) 높은 순 → 마지막 신호 최근 순 → md5(team_key).
+      AUC도 이 순서로 매긴다(동점을 절반으로 치지 않음, 2026-11-27부터 — 문서 숫자가 앱 화면 순위와 같도록).
 특징값은 브라우저와 같은 계산식(docs/lab/sql/features.sql의 lab_scored)에서 가져온다.
 
 실행: .venv/bin/python scripts/score_tune.py   → docs/score_tuning.md
@@ -11,9 +13,11 @@
 from __future__ import annotations
 
 import bisect
+import hashlib
 import itertools
 import math
 import sys
+from datetime import date
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence
 
@@ -32,6 +36,9 @@ GRID = {"w_branch": (0, 1, 2, 3), "w_stage": (1, 2, 3), "w_peer": (0, 1), "w_dmz
         "w_winner": (0, 1, 2), "w_context": (0, 0.25, 0.5, 1),   # 맥락 매체(기준선 이하 큰 매거진)는 약하게 — 차등
         "w_collab": (0, 0.5, 1, 2)}   # 기성 파트너와의 협업(스포티파이) — 데이터가 없으면 active_grid 가 0만 남김
 OUT = lab_sql.ROOT / "docs" / "score_tuning.md"
+# 순위 규칙을 앱과 같게 바꾸기 직전(옛 규칙: AUC 동점 절반·상위 K 팀 이름 순)의 결과 — 같은 랩 데이터로 잰 값, 문서 머리말 비교용
+TIE_RULE_CHANGE = {"date": "2026-11-27", "data": "랩 데이터 2026-11-27 20:36", "pick": 0.786, "v0": 0.783,
+                   "hits_pick": 23, "hits_v0": 22}
 
 
 # ---------- 지표 ----------
@@ -78,10 +85,69 @@ def weighted_auc(scores: Sequence[float], weights: Sequence[float]) -> Optional[
     return acc / total
 
 
-def hits_at_k(scores: Sequence[float], labels: Sequence[int], keys: Sequence[str], k: int) -> int:
-    """점수 상위 k팀 중 정답 수. 동점은 팀 키 순(정답 여부로 순서가 바뀌지 않게)."""
-    order = sorted(range(len(scores)), key=lambda i: (-scores[i], keys[i]))
-    return sum(labels[i] for i in order[:k])
+# ---------- 앱과 같은 순서 (docs/lab/sql/candidates.sql: ROUND(score, 2) DESC, last_seen DESC, md5(team_key)) ----------
+
+APP_SCORE_DECIMALS = 2      # 앱은 ROUND(score, 2) AS score 로 정렬한다
+
+
+def _round_app(x: float, decimals: int = APP_SCORE_DECIMALS) -> float:
+    """DuckDB ROUND 처럼 반올림(0.5는 0에서 먼 쪽). 부동소수 오차로 동점이 깨지지 않게 아주 작은 여유를 둔다."""
+    m = 10 ** decimals
+    return math.copysign(math.floor(abs(x) * m + 0.5 + 1e-9) / m, x)
+
+
+def _day(d) -> Optional[int]:
+    if d is None or d == "":
+        return None
+    return (d if isinstance(d, date) else date.fromisoformat(str(d)[:10])).toordinal()
+
+
+def tie_ranks(keys: Sequence[str], last_seen: Optional[Sequence] = None) -> List[int]:
+    """점수가 같을 때의 순서(0 = 먼저): 마지막 신호 최근 순(없으면 맨 뒤) → md5(team_key) 순. 정답 여부와 무관."""
+    seen = [_day(d) for d in last_seen] if last_seen is not None else [None] * len(keys)
+    md5 = [hashlib.md5(str(k).encode("utf-8")).hexdigest() for k in keys]
+    order = sorted(range(len(keys)), key=lambda i: (seen[i] is None, -(seen[i] or 0), md5[i]))
+    ranks = [0] * len(keys)
+    for pos, i in enumerate(order):
+        ranks[i] = pos
+    return ranks
+
+
+def app_order(scores: Sequence[float], keys: Sequence[str], last_seen: Optional[Sequence] = None,
+              ties: Optional[Sequence[int]] = None, decimals: Optional[int] = APP_SCORE_DECIMALS) -> List[int]:
+    """앱 후보 목록과 같은 순서(위 → 아래)의 위치 목록. ties 를 주면(미리 계산한 tie_ranks) 다시 계산하지 않는다.
+    decimals=None 이면 반올림하지 않는다(앱에 표시되지 않는 모델 점수용 — 동점 순서만 같게)."""
+    ties = ties if ties is not None else tie_ranks(keys, last_seen)
+    rounded = [float(v) for v in scores] if decimals is None else [_round_app(float(v), decimals) for v in scores]
+    return sorted(range(len(scores)), key=lambda i: (-rounded[i], ties[i]))
+
+
+def ranked_weighted_auc(order: Sequence[int], weights: Sequence[float]) -> Optional[float]:
+    """순서(위 → 아래)가 정해졌을 때의 가중 AUC: 정답 팀마다 '자기보다 아래 있는 비정답 비율'을 등급 가중 평균."""
+    neg = sum(1 for w in weights if not w)
+    total = sum(w for w in weights if w)
+    if not neg or not total:
+        return None
+    acc, neg_above = 0.0, 0
+    for i in order:
+        if weights[i]:
+            acc += weights[i] * (neg - neg_above) / neg
+        else:
+            neg_above += 1
+    return acc / total
+
+
+def app_auc(scores: Sequence[float], weights: Sequence[float], keys: Sequence[str],
+            last_seen: Optional[Sequence] = None, ties: Optional[Sequence[int]] = None,
+            decimals: Optional[int] = APP_SCORE_DECIMALS) -> Optional[float]:
+    """앱이 보여 주는 순서 기준 가중 AUC (동점을 절반으로 치지 않고 앱처럼 가른다)."""
+    return ranked_weighted_auc(app_order(scores, keys, last_seen, ties, decimals), weights)
+
+
+def hits_at_k(scores: Sequence[float], labels: Sequence[int], keys: Sequence[str], k: int,
+              last_seen: Optional[Sequence] = None, decimals: Optional[int] = APP_SCORE_DECIMALS) -> int:
+    """앱 순서로 상위 k팀 중 정답 수 (동점은 마지막 신호 최근 순 → md5(team_key), 정답 여부로 순서가 바뀌지 않게)."""
+    return sum(labels[i] for i in app_order(scores, keys, last_seen, decimals=decimals)[:k])
 
 
 def score(f: dict, w: dict) -> float:
@@ -116,7 +182,7 @@ def loco_pick(table: Dict[str, Dict[str, Optional[float]]]) -> Dict[str, str]:
 def features(con, cutoff: str) -> List[dict]:
     zero = {k: "0" for k, _ in V0_WEIGHTS}
     q = ("SELECT team_key, n_branch, best_stage, peer_selected, dmz, gigs_1y, outlets, recent180, venues, "
-         "peer_winner, context_outlets, collab_est, is_hit, hit_weight "
+         "peer_winner, context_outlets, collab_est, is_hit, hit_weight, last_seen "
          "FROM lab_scored(DATE '{c}', 3, 3, true, 'any', {h}, '', ['공연','선정·지원','발매','큐레이션'], "
          "{w_branch}, {w_stage}, {w_peer}, {w_dmz}, {w_gigs}, {w_outlets}, {cap}, {w_recent}, {w_venues}, "
          "{w_winner}, {w_context}, w_collab := {w_collab}) WHERE NOT had_outcome")
@@ -125,15 +191,22 @@ def features(con, cutoff: str) -> List[dict]:
     return [dict(zip(cols, r)) for r in cur.fetchall()]
 
 
-def evaluate(data: Dict[str, List[dict]], w: dict) -> Dict[str, dict]:
+def data_ties(data: Dict[str, List[dict]]) -> Dict[str, List[int]]:
+    """기준일마다 동점 순서(tie_ranks) — 가중치와 무관하니 한 번만 계산해 evaluate 에 넘긴다."""
+    return {c: tie_ranks([r["team_key"] for r in rows], [r.get("last_seen") for r in rows]) for c, rows in data.items()}
+
+
+def evaluate(data: Dict[str, List[dict]], w: dict, ties: Optional[Dict[str, List[int]]] = None) -> Dict[str, dict]:
+    """기준일마다 앱 순서 기준 지표: 가중 AUC(auc)·보통 AUC(plain_auc)·상위 20/50 적중."""
+    ties = ties or data_ties(data)
     out = {}
     for c, rows in data.items():
         s = [score(r, w) for r in rows]
         y = [int(r["is_hit"]) for r in rows]
-        keys = [r["team_key"] for r in rows]
         hit_w = [float(r.get("hit_weight") or 0) for r in rows]
-        out[c] = {"auc": weighted_auc(s, hit_w), "plain_auc": auc(s, y),
-                  "hits50": hits_at_k(s, y, keys, 50), "hits20": hits_at_k(s, y, keys, 20),
+        order = app_order(s, [], ties=ties[c])
+        out[c] = {"auc": ranked_weighted_auc(order, hit_w), "plain_auc": ranked_weighted_auc(order, y),
+                  "hits50": sum(y[i] for i in order[:50]), "hits20": sum(y[i] for i in order[:20]),
                   "n": len(rows), "pos": sum(y)}
     return out
 
@@ -154,13 +227,24 @@ def tune(con=None) -> dict:
     grid = [dict(zip(space, combo)) for combo in itertools.product(*space.values())]
     grid = [w for w in grid if any(w.values())]
     names = {i: w for i, w in enumerate(grid)}
-    evals = {i: evaluate(data, w) for i, w in names.items()}
+    ties = data_ties(data)
+    evals = {i: evaluate(data, w, ties) for i, w in names.items()}
     table = {str(i): {c: e[c]["auc"] for c in CUTOFFS} for i, e in evals.items()}
     picks = loco_pick(table)
     refs = {"점수 v0": dict(V0_WEIGHTS), "공연 수만": _single("w_gigs"), "갈래 수만": _single("w_branch")}
-    ref_evals = {k: evaluate(data, w) for k, w in refs.items()}
+    ref_evals = {k: evaluate(data, w, ties) for k, w in refs.items()}
     return {"data": data, "grid": grid, "names": names, "evals": evals, "table": table, "picks": picks,
             "ref_evals": ref_evals}
+
+
+def tie_rule_note(mean: Dict[str, float], hits: Dict[str, int]) -> str:
+    """머리말 한 줄: 순위 규칙을 앱과 같게 바꾼 이유와 전후 숫자."""
+    b = TIE_RULE_CHANGE
+    return (f"**순위 규칙 변경 ({b['date']})**: 동점 처리를 앱 후보 목록과 같게 바꿨다(점수 → 마지막 신호 최근 순 → md5). "
+            "전에는 AUC에서 동점을 절반으로, 상위 K에서 팀 이름 순으로 쳐서 문서 숫자가 앱 화면 순위와 달랐다. "
+            f"같은 데이터({b['data']})로 전 → 후: 고른 가중치 평균 AUC {b['pick']:.3f} → {mean.get('pick', float('nan')):.3f}, "
+            f"v0 {b['v0']:.3f} → {mean.get('v0', float('nan')):.3f}, 상위 50 적중 합계 고른 것 {b['hits_pick']} → {hits['pick']}, "
+            f"v0 {b['hits_v0']} → {hits['v0']}.\n")
 
 
 def main(res: Optional[dict] = None) -> int:
@@ -174,7 +258,8 @@ def main(res: Optional[dict] = None) -> int:
              "기준일 하나를 빼고 나머지 기준일의 평균 AUC가 가장 높은 가중치를 고른 뒤, **뺀 기준일**에서 채점했다(고를 때 안 본 시점).",
              f"관찰 기간 {HORIZON_MONTHS}개월(2025-07-01은 데이터 끝 2026-11까지라 약 17개월), 신호 3년·신인 3년·유명 팀 제외. "
              f"가중치 후보 {len(grid):,}가지.", "",
-             "AUC = 정답 팀 하나와 아닌 팀 하나를 골랐을 때 정답 팀 점수가 더 높을 확률(0.5 = 무작위). "
+             "AUC = 정답 팀 하나와 아닌 팀 하나를 골랐을 때 **앱 순위에서** 정답 팀이 더 위에 있을 확률(0.5 = 무작위). "
+             "순위는 앱 후보 목록과 같다 — 점수(소수 둘째 자리) 높은 순 → 마지막 신호 최근 순 → md5(team_key). "
              "아래 AUC는 정답 등급 가중(S=3·A=2·B=1). 점수에는 '발굴 신호' 출처만 쓴다(config/source_roles.json).", "",
              "| 뺀 기준일 | 후보 | 정답 | 고른 가중치(나머지로 고름) | AUC 고른 것 | AUC v0 | AUC 공연 수만 | AUC 갈래 수만 | 상위50 고른 것 | 상위50 v0 |",
              "|---|---|---|---|---|---|---|---|---|---|"]
@@ -192,6 +277,7 @@ def main(res: Optional[dict] = None) -> int:
         hits["pick"] += e["hits50"]
         hits["v0"] += r0["hits50"]
     mean = {k: sum(v) / len(v) for k, v in sums.items() if v}
+    lines.insert(4, tie_rule_note(mean, hits))
     wins = sum(1 for c in CUTOFFS
                if (evals[int(picks[c])][c]["auc"] or 0) > (ref_evals["점수 v0"][c]["auc"] or 0))
     lines += ["", f"**평균 AUC (뺀 기준일 기준)**: 고른 가중치 {mean['pick']:.3f} · v0 {mean['v0']:.3f} · "

@@ -22,9 +22,34 @@ class LabelTest(unittest.TestCase):
         self.assertIsNone(gb.bias_index(0.2, 0))
 
 
+class AnalysisGenreTest(unittest.TestCase):
+    """비교·분석은 profile·press 장르만 — 추정(inferred) 장르는 '미분류'로 (2026-11-27 결정, docs/genre_fill.md)."""
+
+    def test_inferred_is_unclassified(self):
+        self.assertEqual(gb.analysis_genre("힙합", "inferred"), "미분류")
+        self.assertEqual(gb.analysis_genre("힙합", "profile"), "힙합")
+        self.assertEqual(gb.analysis_genre("록·밴드", "press"), "록·밴드")
+        self.assertEqual(gb.analysis_genre("록·밴드", None), "록·밴드")    # 확신도 칸이 없는 옛 CSV
+        self.assertEqual(gb.analysis_genre("", ""), "미분류")
+
+    def test_team_genres_skip_inferred(self):
+        try:
+            import duckdb
+        except ImportError:
+            self.skipTest("duckdb 없음")
+        con = duckdb.connect()
+        con.execute("CREATE TABLE teams(team_key VARCHAR, primary_genre VARCHAR, genre_confidence VARCHAR)")
+        con.execute("INSERT INTO teams VALUES ('a','힙합','profile'), ('b','힙합·R&B','inferred'), ('c','',''), ('d','록·밴드','press')")
+        self.assertEqual(gb.team_genres(con), {"a": "힙합", "b": "미분류", "c": "미분류", "d": "록·밴드"})
+
+
 class TopTest(unittest.TestCase):
-    def test_top_indices_tie_break_by_key_like_hits_at_k(self):
-        self.assertEqual(gb.top_indices([5, 4, 4, 1], ["d", "c", "b", "a"], 2), [0, 2])
+    def test_top_indices_tie_break_like_app(self):
+        # 앱 순서: 마지막 신호 없으면 md5(team_key) 순 (md5('c') < md5('b'))
+        self.assertEqual(gb.top_indices([5, 4, 4, 1], ["d", "c", "b", "a"], 2), [0, 1])
+        # 마지막 신호가 더 최근인 b 가 먼저
+        seen = ["2020-01-01", "2023-01-01", "2025-01-01", "2020-01-01"]
+        self.assertEqual(gb.top_indices([5, 4, 4, 1], ["d", "c", "b", "a"], 2, seen), [0, 2])
 
 
 class GenreTableTest(unittest.TestCase):
