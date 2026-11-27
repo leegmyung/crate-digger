@@ -2,7 +2,7 @@ import { appState, navigateTo, registerChart, syncHash } from '../state.js';
 import { queryEgoNetwork, queryNodeExpansion, querySceneNetwork } from '../db.js';
 import {
   avatarHtml, cssVar, escapeHtml, fmtInt, fmtNum,
-  formatNextGigText, formatSourceKey, TERMS, wireAvatarFallbacks,
+  formatNextGigText, formatSourceKey, ROLE_META, roleBadgeHtml, TERMS, wireAvatarFallbacks,
 } from '../ui.js';
 
 let nextGraphInstanceId = 1;
@@ -137,6 +137,21 @@ function describeRelationEdge(l) {
   return parts.join(' · ');
 }
 
+function nodeSignalRole(node) {
+  if (!node || (node.node_type !== 'program' && node.node_type !== 'outlet')) return '';
+  const r = String(node.role || node.detail || '').trim();
+  return ROLE_META[r] ? r : '';
+}
+
+function isUnscoredSourceNode(node) {
+  const r = nodeSignalRole(node);
+  return r === 'pending' || r === 'excluded';
+}
+
+function unscoredTooltipText(role) {
+  return ROLE_META[role]?.unscoredTitle || '점수에 안 쓰는 출처 — 검증 대기';
+}
+
 function formatInspectorDetail(node, egoId, links) {
   if (!node) return '';
   const parts = [];
@@ -147,7 +162,14 @@ function formatInspectorDetail(node, egoId, links) {
     parts.push(TYPE_LABELS[node.node_type] || node.node_type);
     if (node.primary_genre) parts.push(node.primary_genre);
     if (node.node_type === 'outcome' && node.grade) parts.push(`${node.grade}등급`);
-    if (node.detail) parts.push(node.detail);
+    const srcRole = nodeSignalRole(node);
+    if (srcRole) {
+      if (!isUnscoredSourceNode(node)) {
+        parts.push(ROLE_META[srcRole].fullLabel);
+      }
+    } else if (node.detail) {
+      parts.push(node.detail);
+    }
   }
   const deg = links.reduce((acc, l) => {
     const s = typeof l.source === 'object' ? l.source.id : l.source;
@@ -235,6 +257,7 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
             <span class="graph-leg-item"><i class="graph-swatch is-program"></i>선정·지원</span>
             <span class="graph-leg-item"><i class="graph-swatch is-outlet"></i>${escapeHtml(TERMS.outlet)}</span>
             <span class="graph-leg-item"><i class="graph-swatch is-scene"></i>씬 묶음</span>
+            <span class="graph-leg-item" title="점수에 안 쓰는 출처 — 검증 대기·제외">${roleBadgeHtml('pending', { context: 'timeline', compact: true })}점수 미반영</span>
           </div>
 
           <div class="graph-inspector" data-graph-inspector>
@@ -410,6 +433,10 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
     const linksArr = [...linksMap.values()];
     const detailTxt = formatInspectorDetail(node, egoId, linksArr);
     const badgeCls = `is-${node.node_type}`;
+    const srcRole = nodeSignalRole(node);
+    const refBadgeHtml = isUnscoredSourceNode(node)
+      ? roleBadgeHtml(srcRole, { context: 'timeline', compact: true })
+      : '';
     const noteHtml = statusNote ? `<span class="graph-insp-status">${escapeHtml(statusNote)}</span>` : '';
 
     let actionBtn = '';
@@ -423,6 +450,7 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
       <div class="graph-insp-main">
         <span class="graph-type-pill ${badgeCls}">${escapeHtml(TYPE_LABELS[node.node_type] || node.node_type)}</span>
         <strong class="graph-insp-name">${escapeHtml(node.label)}</strong>
+        ${refBadgeHtml}
         <span class="graph-insp-detail">${escapeHtml(detailTxt)}</span>
         ${noteHtml}
       </div>
@@ -508,7 +536,8 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
       const isDimmed = Boolean(nbrs && !nbrs.has(d.id));
       const isSelected = d.id === selectedId;
       const isHovered = d.id === hoveredId;
-      g.attr('opacity', isDimmed ? 0.16 : 1);
+      const unscored = isUnscoredSourceNode(d);
+      g.attr('opacity', isDimmed ? 0.16 : (unscored && !isSelected && !isHovered ? 0.78 : 1));
 
       // Update shape colors for current White / True Black theme
       if (d.node_type === 'ego') {
@@ -551,6 +580,9 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
 
       g.select('.gn-label')
         .attr('fill', isSelected || isHovered || d.node_type === 'ego' ? pal.ink : pal.muted)
+        .attr('stroke', pal.bg);
+      g.select('.gn-ref-tag')
+        .attr('fill', pal.muted)
         .attr('stroke', pal.bg);
     });
   }
@@ -691,11 +723,18 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
       .attr('stroke-width', linkWidth)
       .attr('stroke-dasharray', d => (d.relation === 'same_agency' ? '4 3' : (d.relation === 'scene' ? '2 3' : null)))
       .on('mouseenter', function (evt, d) {
-        const sLbl = typeof d.source === 'object' ? d.source.label : d.source;
-        const tLbl = typeof d.target === 'object' ? d.target.label : d.target;
+        const sObj = typeof d.source === 'object' ? d.source : null;
+        const tObj = typeof d.target === 'object' ? d.target : null;
+        const sLbl = sObj ? sObj.label : d.source;
+        const tLbl = tObj ? tObj.label : d.target;
         const desc = describeRelationEdge(d);
-        const extra = d.detail && d.relation === 'co_stage' ? `<div class="gt-sub">${escapeHtml(d.detail)}</div>` : '';
-        showTooltip(evt, `<strong>${escapeHtml(sLbl)} ↔ ${escapeHtml(tLbl)}</strong><div class="gt-sub">${escapeHtml(desc)}</div>${extra}`);
+        const unscoredNode = isUnscoredSourceNode(tObj) ? tObj : (isUnscoredSourceNode(sObj) ? sObj : null);
+        const unscoredRole = unscoredNode ? nodeSignalRole(unscoredNode) : '';
+        const refBadge = unscoredRole ? roleBadgeHtml(unscoredRole, { context: 'timeline', compact: true }) : '';
+        const extra = d.detail && d.relation === 'co_stage'
+          ? `<div class="gt-sub">${escapeHtml(d.detail)}</div>`
+          : (unscoredRole ? `<div class="gt-sub">${escapeHtml(unscoredTooltipText(unscoredRole))}</div>` : '');
+        showTooltip(evt, `<div class="gt-head"><strong>${escapeHtml(sLbl)} ↔ ${escapeHtml(tLbl)}</strong>${refBadge}</div><div class="gt-sub">${escapeHtml(desc)}</div>${extra}`);
       })
       .on('mousemove', positionTooltip)
       .on('mouseleave', hideTooltip);
@@ -814,7 +853,7 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
           .text(String(d.grade || '상').toUpperCase());
       } else if (d.node_type === 'program') {
         const s = r * 1.5;
-        g.append('rect')
+        const rect = g.append('rect')
           .attr('class', 'gn-base')
           .attr('x', -s / 2)
           .attr('y', -s / 2)
@@ -823,6 +862,7 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
           .attr('rx', 2.5)
           .attr('transform', 'rotate(45)')
           .attr('stroke-width', 1.6);
+        if (isUnscoredSourceNode(d)) rect.attr('stroke-dasharray', '3 2');
       } else if (d.node_type === 'scene') {
         g.append('circle')
           .attr('class', 'gn-base')
@@ -839,10 +879,11 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
           .text(`#${d.node_key}`);
       } else {
         // outlet
-        g.append('circle')
+        const circle = g.append('circle')
           .attr('class', 'gn-base')
           .attr('r', r)
           .attr('stroke-width', 1.5);
+        if (isUnscoredSourceNode(d)) circle.attr('stroke-dasharray', '3 2');
       }
 
       g.append('text')
@@ -856,6 +897,22 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
         .attr('stroke-linejoin', 'round')
         .style('pointer-events', 'none')
         .text(shortLabel(d.label, d.node_type === 'ego' ? 18 : 13));
+
+      if (isUnscoredSourceNode(d)) {
+        const srcRole = nodeSignalRole(d);
+        g.append('title').text(unscoredTooltipText(srcRole));
+        g.append('text')
+          .attr('class', 'gn-ref-tag')
+          .attr('y', r + 24)
+          .attr('text-anchor', 'middle')
+          .attr('font-size', 9)
+          .attr('font-weight', 600)
+          .attr('paint-order', 'stroke')
+          .attr('stroke-width', 2.5)
+          .attr('stroke-linejoin', 'round')
+          .style('pointer-events', 'none')
+          .text(TERMS.unscored);
+      }
     });
 
     const nodeMerged = nodeEnter.merge(nodeJoin);
@@ -865,12 +922,20 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
         hoveredId = d.id;
         applyHighlightAndTheme();
         const typeLbl = TYPE_LABELS[d.node_type] || d.node_type;
-        const sub = d.detail || d.primary_genre || '';
+        const srcRole = nodeSignalRole(d);
+        const unscored = isUnscoredSourceNode(d);
+        const refBadge = unscored ? roleBadgeHtml(srcRole, { context: 'timeline', compact: true }) : '';
+        let sub = '';
+        if (srcRole) {
+          sub = unscored ? unscoredTooltipText(srcRole) : ROLE_META[srcRole].fullLabel;
+        } else {
+          sub = d.detail || d.primary_genre || '';
+        }
         const actionHint = d.node_type === 'team' && d.id !== egoId
           ? '클릭: 연결 펼치기 · 더블클릭: 팀 상세'
           : (d.expanded ? '연결 펼쳐짐' : '클릭: 연결 펼치기');
         showTooltip(evt, `
-          <strong>${escapeHtml(d.label)}</strong>
+          <div class="gt-head"><strong>${escapeHtml(d.label)}</strong>${refBadge}</div>
           <div class="gt-sub">${escapeHtml(typeLbl)}${sub ? ` · ${escapeHtml(sub)}` : ''}</div>
           <div class="gt-hint">${escapeHtml(actionHint)}</div>
         `);

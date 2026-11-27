@@ -201,7 +201,7 @@ async function renderDebutCandidatesView(root) {
             </label>
           </div>
           <p class="small muted" style="margin:8px 0 0 0;">
-            기준일(${escapeHtml(asOf)}) 전 12개월 안에 첫 발매가 있고 첫 발매 이전 신호가 0건인 팀만 모았습니다.
+            기준일(${escapeHtml(asOf)}) 전 12개월 안에 첫 발매가 있고 첫 발매 이전 외부 신호가 0건인 팀만 모았습니다. 자기 발매(발매 갈래)는 언급으로 세지 않습니다.
           </p>
         </div>
       </details>

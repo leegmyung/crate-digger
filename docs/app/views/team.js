@@ -460,8 +460,8 @@ export async function renderTeamView(root, teamKey) {
     const visibleTl = showAllTimeline ? mergedTimeline : mergedTimeline.slice(0, 8);
     const moreTl = mergedTimeline.length - visibleTl.length;
     const legendText = hasUnscored
-      ? `표시: <strong>발굴</strong> 점수 반영 · <strong>맥락</strong> 참고·약하게 반영 · <strong>${escapeHtml(TERMS.unscored)}</strong> 검증 대기 또는 제외 출처 (흐리게 표시)`
-      : '표시: <strong>발굴</strong> 점수 반영 · <strong>맥락</strong> 참고·약하게 반영';
+      ? `표시: <strong>발굴</strong> 점수 반영 · <strong>맥락</strong> 약하게 반영 · <strong>${escapeHtml(TERMS.unscored)}</strong> 점수에 안 쓰는 출처(검증 대기·제외, 흐리게 표시)`
+      : '표시: <strong>발굴</strong> 점수 반영 · <strong>맥락</strong> 약하게 반영';
 
     return `
       <div class="block-head">

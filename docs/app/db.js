@@ -88,10 +88,11 @@ async function reloadLabMacrosOnce() {
   macroReloadPromise = (async () => {
     try {
       const reloadOpts = { cache: 'reload', bust: true };
-      const [featSql, btSql, candSql, sigHitSql, scorecardSql, debutScorecardSql, precSql, teamSql, relSql, egoSql, sceneNetSql] = await Promise.all([
+      const [featSql, btSql, candSql, debutCandSql, sigHitSql, scorecardSql, debutScorecardSql, precSql, teamSql, relSql, egoSql, sceneNetSql] = await Promise.all([
         fetchText('lab/sql/features.sql', false, reloadOpts),
         fetchText('lab/sql/backtest.sql', true, reloadOpts),
         fetchText('lab/sql/candidates.sql', true, reloadOpts),
+        fetchText('lab/sql/debut_candidates.sql', true, reloadOpts),
         fetchText('lab/sql/signal_hits.sql', true, reloadOpts),
         fetchText('lab/sql/source_scorecard.sql', true, reloadOpts),
         fetchText('lab/sql/source_scorecard_debut.sql', true, reloadOpts),
@@ -106,6 +107,7 @@ async function reloadLabMacrosOnce() {
       appState.sqlTemplates.features = featSql;
       if (btSql) appState.sqlTemplates.backtest = btSql;
       if (candSql) appState.sqlTemplates.candidates = candSql;
+      if (debutCandSql) appState.sqlTemplates.debut_candidates = debutCandSql;
       if (sigHitSql) appState.sqlTemplates.signal_hits = sigHitSql;
       if (scorecardSql) appState.sqlTemplates.source_scorecard = scorecardSql;
       if (debutScorecardSql) appState.sqlTemplates.source_scorecard_debut = debutScorecardSql;
@@ -575,6 +577,7 @@ export async function bootstrapData(onStatus = () => {}) {
     featSql,
     btSql,
     candSql,
+    debutCandSql,
     sigHitSql,
     scorecardSql,
     debutScorecardSql,
@@ -595,6 +598,7 @@ export async function bootstrapData(onStatus = () => {}) {
     fetchText('lab/sql/features.sql'),
     fetchText('lab/sql/backtest.sql'),
     fetchText('lab/sql/candidates.sql'),
+    fetchText('lab/sql/debut_candidates.sql', true),
     fetchText('lab/sql/signal_hits.sql'),
     fetchText('lab/sql/source_scorecard.sql', true),
     fetchText('lab/sql/source_scorecard_debut.sql', true),
@@ -620,6 +624,7 @@ export async function bootstrapData(onStatus = () => {}) {
     features: featSql || '',
     backtest: btSql || '',
     candidates: candSql || '',
+    debut_candidates: debutCandSql || '',
     signal_hits: sigHitSql || '',
     source_scorecard: scorecardSql || '',
     source_scorecard_debut: debutScorecardSql || '',
@@ -1579,76 +1584,25 @@ export async function queryDebutScorecard({
 }
 
 /**
- * 기준일 전 12개월 안에 첫 발매(teams.first_release)가 있고 첫 발매 전 신호가 없는 '백지 신인'을 조회한다.
- * 점수는 features.sql의 lab_scored() 매크로로 현재 가중치 그대로 계산한다.
+ * docs/lab/sql/debut_candidates.sql을 브라우저 DuckDB에서 실행해
+ * 기준일 전 12개월 안에 첫 발매(teams.first_release)가 있고 첫 발매 전 외부 신호가 없는 '백지 신인'을 조회한다.
+ * 자기 발매(발매 갈래)는 언급으로 세지 않으며, 점수는 features.sql의 lab_scored() 매크로로 계산한다.
  */
 export async function queryDebutCandidates(overrides = {}) {
   const p = buildParams(overrides);
   const asOfStr = p.as_of.slice(1, -1);
 
-  const sql = `
-    WITH blank AS (
-      SELECT t.team_key,
-             COALESCE(t.display_name, t.team_key) AS display_name,
-             t.primary_genre,
-             t.first_release,
-             t.profile_status,
-             EXISTS(
-               SELECT 1 FROM outcomes o
-               WHERE o.team_key = t.team_key AND o.counted AND o.announced_date < DATE ${p.as_of}
-             ) AS had_outcome
-      FROM teams t
-      WHERE t.first_release IS NOT NULL
-        AND t.first_release >= DATE ${p.as_of} - to_months(12)
-        AND t.first_release <= DATE ${p.as_of}
-        AND NOT (${p.exclude_famous} AND COALESCE(t.profile_status, '') = 'famous')
-        AND (${p.genre} = '' OR t.primary_genre = ${p.genre})
-        AND NOT EXISTS (
-          SELECT 1 FROM signals s
-          WHERE s.team_key = t.team_key AND s.signal_date < t.first_release
-        )
-    ),
-    filtered AS (
-      SELECT * FROM blank
-      WHERE NOT (${p.only_no_outcome} AND had_outcome)
-    ),
-    scored AS (
-      SELECT team_key, ROUND(score, 2) AS score, n_branch, best_stage,
-             gigs_1y, venues, outlets, context_outlets, recent180, peer_winner, last_seen,
-             ROUND(pts_branch, 2) AS pts_branch, ROUND(pts_stage, 2) AS pts_stage,
-             ROUND(pts_peer, 2) AS pts_peer, ROUND(pts_dmz, 2) AS pts_dmz,
-             ROUND(pts_gigs, 2) AS pts_gigs, ROUND(pts_outlets, 2) AS pts_outlets,
-             ROUND(pts_recent, 2) AS pts_recent, ROUND(pts_venues, 2) AS pts_venues,
-             ROUND(pts_winner, 2) AS pts_winner, ROUND(pts_context, 2) AS pts_context
-      FROM lab_scored(DATE ${p.as_of}, ${p.lookback_years}, 50, false,
-                      'any', 1, '', ${p.branches},
-                      ${p.w_branch}, ${p.w_stage}, ${p.w_peer}, ${p.w_dmz}, ${p.w_gigs}, ${p.w_outlets}, ${p.outlet_cap},
-                      ${p.w_recent}, ${p.w_venues}, ${p.w_winner}, ${p.w_context}, ${p.w_collab})
-    ),
-    post_mentions AS (
-      SELECT f.team_key,
-             s.branch || ':' || CASE WHEN s.branch = '선정·지원' THEN s.program ELSE s.source END AS src,
-             ANY_VALUE(s.role) AS role,
-             MIN(s.signal_date) AS first_mention_date,
-             DATE_DIFF('day', f.first_release, MIN(s.signal_date))::INT AS days_to_mention,
-             COUNT(*)::INT AS mention_cnt
-      FROM filtered f
-      JOIN signals s ON s.team_key = f.team_key
-                    AND s.signal_date >= f.first_release
-                    AND s.signal_date <= DATE ${p.as_of}
-      GROUP BY f.team_key, f.first_release, src
-    )
-    SELECT f.team_key, f.display_name, f.primary_genre, f.first_release, f.profile_status, f.had_outcome,
-           sc.score, sc.n_branch, sc.best_stage, sc.gigs_1y, sc.venues, sc.outlets,
-           sc.context_outlets, sc.recent180, sc.peer_winner, sc.last_seen,
-           sc.pts_branch, sc.pts_stage, sc.pts_peer, sc.pts_dmz, sc.pts_gigs,
-           sc.pts_outlets, sc.pts_recent, sc.pts_venues, sc.pts_winner, sc.pts_context,
-           pm.src, pm.role, pm.first_mention_date, pm.days_to_mention, pm.mention_cnt
-    FROM filtered f
-    LEFT JOIN scored sc ON sc.team_key = f.team_key
-    LEFT JOIN post_mentions pm ON pm.team_key = f.team_key
-    ORDER BY COALESCE(sc.score, -1) DESC, f.first_release DESC, pm.days_to_mention ASC NULLS LAST, pm.src ASC
-  `;
+  let tpl = appState.sqlTemplates.debut_candidates;
+  if (!tpl) {
+    tpl = await fetchText('lab/sql/debut_candidates.sql', true);
+    if (tpl) appState.sqlTemplates.debut_candidates = tpl;
+  }
+  if (!tpl) {
+    return { asOf: asOfStr, total: 0, mentioned: [], unmentioned: [] };
+  }
+
+  const sql = fillTemplate(tpl, p);
+  appState.lastSql.debut_candidates = sql;
 
   const { rows } = await runRawSql(sql);
   const byTeam = new Map();
@@ -1662,25 +1616,6 @@ export async function queryDebutCandidates(overrides = {}) {
         profile_status: r.profile_status || '',
         had_outcome: Boolean(r.had_outcome),
         score: r.score !== null && r.score !== undefined ? Number(r.score) : null,
-        n_branch: Number(r.n_branch) || 0,
-        best_stage: Number(r.best_stage) || 0,
-        gigs_1y: Number(r.gigs_1y) || 0,
-        venues: Number(r.venues) || 0,
-        outlets: Number(r.outlets) || 0,
-        context_outlets: Number(r.context_outlets) || 0,
-        recent180: Number(r.recent180) || 0,
-        peer_winner: Number(r.peer_winner) || 0,
-        last_seen: r.last_seen || '',
-        pts_branch: Number(r.pts_branch) || 0,
-        pts_stage: Number(r.pts_stage) || 0,
-        pts_peer: Number(r.pts_peer) || 0,
-        pts_dmz: Number(r.pts_dmz) || 0,
-        pts_gigs: Number(r.pts_gigs) || 0,
-        pts_outlets: Number(r.pts_outlets) || 0,
-        pts_recent: Number(r.pts_recent) || 0,
-        pts_venues: Number(r.pts_venues) || 0,
-        pts_winner: Number(r.pts_winner) || 0,
-        pts_context: Number(r.pts_context) || 0,
         mentions: [],
       });
     }

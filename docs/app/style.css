@@ -4854,6 +4854,23 @@ body.graph-modal-open {
   white-space: nowrap;
 }
 
+.role-badge.is-compact {
+  padding: 0 5px;
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+.graph-tooltip .gt-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.graph-tooltip .gt-head strong {
+  display: inline;
+}
+
 @media (max-width: 640px) {
   .today-explore-strip {
     grid-template-columns: 1fr;

@@ -163,6 +163,7 @@ export const appState = {
   lastSql: {
     backtest: '',
     candidates: '',
+    debut_candidates: '',
     signals: '',
     scorecard: '',
     debut_scorecard: '',
@@ -176,6 +177,7 @@ export const appState = {
     features: '',
     backtest: '',
     candidates: '',
+    debut_candidates: '',
     signal_hits: '',
     source_scorecard: '',
     source_scorecard_debut: '',

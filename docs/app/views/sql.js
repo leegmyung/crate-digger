@@ -33,6 +33,7 @@ export async function renderSqlView(root) {
         <select id="sqlPresetSel" class="select" aria-label="SQL 예시 선택">
           <option value="">예시 SQL 불러오기...</option>
           <option value="candidates">방금 돌린 지금 후보 SQL</option>
+          <option value="debut_candidates">방금 돌린 갓 데뷔 후보 SQL</option>
           <option value="backtest">방금 돌린 백테스트 SQL</option>
           <option value="signals">방금 돌린 신호별 적중률 SQL</option>
           <option value="scorecard">방금 돌린 출처 성적표 SQL</option>
@@ -109,6 +110,7 @@ export async function renderSqlView(root) {
     const k = e.target.value;
     if (!k) return;
     if (k === 'candidates') editor.value = appState.lastSql.candidates || appState.sqlTemplates.candidates;
+    else if (k === 'debut_candidates') editor.value = appState.lastSql.debut_candidates || appState.sqlTemplates.debut_candidates;
     else if (k === 'backtest') editor.value = appState.lastSql.backtest || appState.sqlTemplates.backtest;
     else if (k === 'signals') editor.value = appState.lastSql.signals || appState.sqlTemplates.signal_hits;
     else if (k === 'scorecard') editor.value = appState.lastSql.scorecard || appState.sqlTemplates.source_scorecard;

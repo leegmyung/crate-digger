@@ -8,7 +8,7 @@ export const TERMS = {
   source: '출처',
   outlet: '매체',
   pending: '검증 대기',
-  unscored: '참고·점수 미반영',
+  unscored: '참고',
 };
 
 export const SOURCE_LABELS = {
@@ -60,14 +60,16 @@ export const ROLE_META = {
   pending: {
     label: '검증 대기',
     fullLabel: '검증 대기',
-    timelineLabel: TERMS.unscored,
-    title: '참고·점수 미반영 (검증 대기): 수집 기간이 짧거나 검토 중이라 점수에 반영하지 않습니다.',
+    timelineLabel: '참고',
+    unscoredTitle: '점수에 안 쓰는 출처 — 검증 대기',
+    title: '점수에 안 쓰는 출처 — 검증 대기: 수집 기간이 짧거나 검토 중이라 점수에 반영하지 않습니다.',
   },
   excluded: {
     label: '제외',
     fullLabel: '제외',
-    timelineLabel: TERMS.unscored,
-    title: '참고·점수 미반영 (점수 제외): 과거 검증에서 변별력이 없어 점수에서 제외됩니다.',
+    timelineLabel: '참고',
+    unscoredTitle: '점수에 안 쓰는 출처 — 제외',
+    title: '점수에 안 쓰는 출처 — 제외: 과거 검증에서 변별력이 없어 점수에서 제외됩니다.',
   },
 };
 
@@ -103,10 +105,17 @@ export function roleBadgeHtml(role, opts = {}) {
   const key = ROLE_META[role] ? role : 'pending';
   const m = ROLE_META[key];
   const isTimeline = opts.context === 'timeline';
+  const isUnscored = key === 'pending' || key === 'excluded';
   const txt = isTimeline ? m.timelineLabel : (opts.full ? m.fullLabel : m.label);
-  const unscoredCls = isTimeline && (key === 'pending' || key === 'excluded') ? ' is-unscored' : '';
-  const tip = opts.title ? `${m.fullLabel} — ${opts.title}` : m.title;
-  return `<span class="role-badge is-${key}${unscoredCls}" title="${escapeHtml(tip)}">${escapeHtml(txt)}</span>`;
+  const unscoredCls = isTimeline && isUnscored ? ' is-unscored' : '';
+  const compactCls = opts.compact ? ' is-compact' : '';
+  let tip;
+  if (isTimeline && isUnscored) {
+    tip = opts.title ? `${m.unscoredTitle} (${opts.title})` : m.unscoredTitle;
+  } else {
+    tip = opts.title ? `${m.fullLabel} — ${opts.title}` : m.title;
+  }
+  return `<span class="role-badge is-${key}${unscoredCls}${compactCls}" title="${escapeHtml(tip)}">${escapeHtml(txt)}</span>`;
 }
 
 export function gradeBadgeHtml(grade, opts = {}) {
