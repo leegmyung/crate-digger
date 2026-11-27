@@ -16,9 +16,9 @@ TABLES = ("signals", "teams", "outcomes", "programs")
 DEFAULTS: Dict[str, str] = {
     "lookback_years": "3", "newcomer_years": "3", "exclude_famous": "true", "outcome_tier": "'any'",
     "horizon_months": "24", "genre": "''", "branches": "['공연','선정·지원','발매','큐레이션']",
-    # 점수 v1 기본 가중치 (docs/score_tuning.md: 기준일 하나씩 빼고 고른 교차 검증, 평균 AUC 0.651 → 0.701)
-    "w_branch": "2", "w_stage": "2", "w_peer": "0", "w_dmz": "0", "w_gigs": "0", "w_outlets": "0.5",
-    "outlet_cap": "3", "w_recent": "1", "w_venues": "2", "w_winner": "1", "w_context": "0",
+    # 점수 v2 기본 가중치 (2026-11-27): 발굴 신호만 + 맥락 매체 약하게, 정답 등급 가중 교차 검증(docs/score_tuning.md)
+    "w_branch": "1", "w_stage": "1", "w_peer": "0", "w_dmz": "0", "w_gigs": "0", "w_outlets": "1",
+    "outlet_cap": "3", "w_recent": "0", "w_venues": "1", "w_winner": "2", "w_context": "0.5",
     "k_list": "[20,50,100,200]", "only_no_outcome": "true", "limit": "100",
 }
 V0_WEIGHTS: Dict[str, str] = {"w_branch": "2", "w_stage": "1", "w_peer": "1", "w_dmz": "0.5", "w_gigs": "0.5",
