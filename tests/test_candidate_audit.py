@@ -30,6 +30,8 @@ class MelonEvidenceTest(unittest.TestCase):
         self.assertEqual(ca.max_album_number(["모임 별, 정규 3집 수록 예정 트랙 선공개", "[Single-Out] 「x」"]), 3)
         self.assertEqual(ca.max_album_number(["2nd Album 발매", "4집 리뷰"]), 4)
         self.assertEqual(ca.max_album_number(["첫 EP"]), 0)
+        self.assertEqual(ca.max_album_number(["제4집단, 새 싱글 발매"]), 0)        # 팀 이름 '제4집단'은 앨범 횟수가 아님
+        self.assertEqual(ca.max_album_number(["정규 2집을 낸 밴드"]), 2)
 
 
 class NonTeamTest(unittest.TestCase):
@@ -73,6 +75,21 @@ class DuplicateTest(unittest.TestCase):
         out = ca.find_duplicates(rows, {}, {}, cobilled={("포스트이너서클", "포스트이너써클")})
         self.assertEqual(len(out), 1)
         self.assertIn("같은 공연", out[0]["reason"])
+
+
+class RankWindowTest(unittest.TestCase):
+    """301~600위처럼 범위를 넓혀 볼 때: 범위 안 팀만 분류하고, 중복 쌍은 한쪽이라도 범위 안이면 보고."""
+
+    def test_window_and_output_name(self):
+        self.assertEqual(ca.rank_window(300, 600), (301, 600))
+        self.assertEqual(ca.out_name("2026-11-27", 1, 300), "candidate_audit_2026-11-27.csv")
+        self.assertEqual(ca.out_name("2026-11-27", 301, 600), "candidate_audit_2026-11-27_301-600.csv")
+
+    def test_pairs_touching_window(self):
+        rank_of = {"a": 10, "b": 350, "c": 20, "d": 500}
+        pairs = [{"a": "a", "b": "c"}, {"a": "a", "b": "b"}, {"a": "b", "b": "d"}]
+        got = ca.pairs_in_window(pairs, rank_of, 301)
+        self.assertEqual([(p["a"], p["b"]) for p in got], [("a", "b"), ("b", "d")])
 
 
 class ClassifyTest(unittest.TestCase):

@@ -1,6 +1,7 @@
 """후보 점검 — 점수 v2 상위 후보 중 '인디 신인 발굴 대상'이 아닌 팀을 근거와 함께 찾는다 (제안만, 규칙 적용 안 함).
 
     .venv/bin/python scripts/candidate_audit.py     # → data/raw/review/candidate_audit_<날짜>.csv (비공개), docs/candidate_audit.md
+    .venv/bin/python scripts/candidate_audit.py --skip 300 --top 600   # 301~600위 → candidate_audit_<날짜>_301-600.csv
 
 유형: a 기획사 아이돌·오디션 / b 기성인데 프로필이 없어 신인으로 잡힘 / c 팀이 아닌 이름 / d 같은 팀이 두 이름 /
       e 데이터 오류(멜론 번호가 이름 속 숫자로 잘못 들어감)
@@ -57,7 +58,7 @@ def parse_desc(desc: str) -> dict:
 
 
 def max_album_number(titles: List[str]) -> int:
-    nums = [int(m) for t in titles for m in re.findall(r"(\d+)\s*집", t)]
+    nums = [int(m) for t in titles for m in re.findall(r"(?<!제)(\d+)\s*집(?!단)", t)]
     nums += [int(m) for t in titles for m in re.findall(r"(\d+)(?:st|nd|rd|th)\s*album", t, re.I)]
     return max(nums, default=0)
 
@@ -132,6 +133,19 @@ def classify_team(cand: dict, agency: str, melon_id: str, desc: str, titles: Lis
     return out
 
 
+def rank_window(skip: int, top: int) -> Tuple[int, int]:
+    return skip + 1, top
+
+
+def out_name(day: str, start: int, end: int) -> str:
+    """기본(1~300위)은 예전 이름 그대로 — 멜론 보강 명단(melon_names.latest_audit)이 이 이름만 읽는다."""
+    return f"candidate_audit_{day}.csv" if (start, end) == (1, TOP_N) else f"candidate_audit_{day}_{start}-{end}.csv"
+
+
+def pairs_in_window(pairs: List[dict], rank_of: Dict[str, int], start: int) -> List[dict]:
+    return [p for p in pairs if max(rank_of[p["a"]], rank_of[p["b"]]) >= start]
+
+
 # ---------- 실행 ----------
 
 def _evidence_maps():
@@ -152,12 +166,18 @@ def _evidence_maps():
     return idx, melon, titles
 
 
-def main() -> int:
+def main(argv: Optional[List[str]] = None) -> int:
+    import argparse
     import lab_sql
+    ap = argparse.ArgumentParser(description="후보 점검 (제안만)")
+    ap.add_argument("--skip", type=int, default=0, help="앞 순위 몇 팀을 건너뛸지 (301위부터면 300)")
+    ap.add_argument("--top", type=int, default=TOP_N, help="몇 위까지 볼지")
+    args = ap.parse_args(argv)
+    start, end = rank_window(args.skip, args.top)
     con = lab_sql.connect()
     meta = json.loads((lab_sql.DATA_DIR / "meta.json").read_text(encoding="utf-8"))
     as_of = meta.get("data_end") or date.today().isoformat()
-    cands = lab_sql.query(con, "candidates.sql", as_of=f"'{as_of}'", limit=str(TOP_N))
+    cands = lab_sql.query(con, "candidates.sql", as_of=f"'{as_of}'", limit=str(end))
     teams = {t["team_key"]: t for t in csv.DictReader(open(lab_sql.DATA_DIR / "teams.csv", encoding="utf-8"))}
     ids: Dict[str, dict] = defaultdict(dict)
     for r in csv.DictReader(open(lab_sql.DATA_DIR / "links.csv", encoding="utf-8")):
@@ -173,6 +193,8 @@ def main() -> int:
         mid = ids[k].get("melon") or m.get("id") or (idx["artists"].get(k) or {}).get("melon_id") or ""
         if mid and "melon" not in ids[k] and valid_melon_id(mid):
             ids[k]["melon"] = mid
+        if rank < start:                  # 범위 앞 팀은 중복 비교용 번호만 채우고 분류는 안 함
+            continue
         for f in classify_team(c, (teams.get(k) or {}).get("agency", ""), mid, m.get("desc", ""), titles.get(k, [])):
             findings.append({"rank": rank, "team_key": k, "display_name": c["display_name"], "score": c["score"], **f})
     gigs = defaultdict(set)
@@ -181,19 +203,19 @@ def main() -> int:
             gigs[(s["signal_date"], s["venue"])].add(s["team_key"])
     cobilled = {tuple(sorted((a, b))) for t in gigs.values() for a in t for b in t if a < b}
     rank_of = {c["team_key"]: i for i, c in enumerate(cands, 1)}
-    for p in find_duplicates(cands, ids, aliases, cobilled):
+    for p in pairs_in_window(find_duplicates(cands, ids, aliases, cobilled), rank_of, start):
         findings.append({"rank": min(rank_of[p["a"]], rank_of[p["b"]]), "team_key": f"{p['a']} / {p['b']}",
                          "display_name": f"{p['a']} / {p['b']}", "score": "", "type": "d", "evidence": p["reason"],
                          "action": "같은 팀이면 연결표에 별칭으로 묶기 (사람 확인)"})
     findings.sort(key=lambda f: (f["type"], f["rank"]))
-    out = RAW / "review" / f"candidate_audit_{as_of}.csv"
+    out = RAW / "review" / out_name(as_of, start, end)
     out.parent.mkdir(parents=True, exist_ok=True)
     with open(out, "w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["type", "rank", "team_key", "display_name", "score", "evidence", "action"])
         w.writeheader()
         w.writerows(findings)
     counts = Counter(f["type"] for f in findings)
-    print(f"✅ 후보 점검 {as_of} 상위 {len(cands)}팀 → {out.relative_to(ROOT)} 유형별 {dict(sorted(counts.items()))}")
+    print(f"✅ 후보 점검 {as_of} {start}~{min(end, len(cands))}위 → {out.relative_to(ROOT)} 유형별 {dict(sorted(counts.items()))}")
     for f in findings:
         print(f"  {f['type']} {f['rank']:>3} {f['display_name']} · {f['evidence']}")
     return 0
