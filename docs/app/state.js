@@ -428,12 +428,14 @@ function parseHashString(hash) {
   appState.festivalName = '';
   if ((head === 'team' || head === 'venue') && segs[1]) {
     const tabs = head === 'team' ? TEAM_TABS : VENUE_TABS;
+    // 키·이름은 encodeURIComponent 라 '/'가 %2F 로 들어감 → 세 번째 칸이 있으면 그건 탭(모르는 탭이면 개요)
     const last = segs[segs.length - 1];
-    const hasTab = segs.length >= 3 && tabs.includes(last);
+    const hasTabSeg = segs.length >= 3;
+    const tab = hasTabSeg && tabs.includes(last) ? last : 'overview';
     appState.route = head;
-    appState.routeParam = _dec((hasTab ? segs.slice(1, -1) : segs.slice(1)).join('/'));
-    if (head === 'team') appState.teamTab = hasTab ? last : 'overview';
-    else appState.venueTab = hasTab ? last : 'overview';
+    appState.routeParam = _dec((hasTabSeg ? segs.slice(1, -1) : segs.slice(1)).join('/'));
+    if (head === 'team') appState.teamTab = tab;
+    else appState.venueTab = tab;
   } else if (head === 'home') {
     appState.route = 'today';
   } else if (head === 'discover') {

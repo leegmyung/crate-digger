@@ -17,7 +17,7 @@ function scoreItemDefs(s) {
   return [
     { key: 'branch', label: `갈래 수 (${fmtInt(s.n_branch)}개)`, pts: s.pts_branch, pct: 'branch_pct' },
     { key: 'stage', label: `선정 최고 단계 (${fmtInt(s.best_stage)})`, pts: s.pts_stage, pct: 'stage_pct' },
-    { key: 'venues', label: `서로 다른 공연장 (${fmtInt(s.venues)}곳)`, pts: s.pts_venues, pct: 'venues_pct' },
+    { key: 'venues', label: `최근 2년 서로 다른 공연장 (${fmtInt(s.venues)}곳)`, pts: s.pts_venues, pct: 'venues_pct' },
     { key: 'recent', label: `최근 6개월 활동 (${fmtInt(s.recent180)}건)`, pts: s.pts_recent },
     { key: 'winner', label: '이미 상 받은 팀과 같은 무대', pts: s.pts_winner, pct: 'winner_pct' },
     { key: 'outlets', label: `발굴 매체 (${fmtInt(s.outlets)}곳)`, pts: s.pts_outlets, pct: 'outlets_pct' },

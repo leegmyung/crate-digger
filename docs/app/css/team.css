@@ -1,2 +1,13 @@
 /* 정보 구조 v2 묶음 C 팀 페이지 탭 (docs/app_structure_v2.md 4절)
    이 묶음의 스타일은 이 파일에만 — style.css 는 건드리지 않는다. 색은 var(--토큰)만. */
+
+/* 팀 페이지 탭 (views/team_tabs.js) — 기존 .team-toc(위에 붙는 띠) 모양을 그대로 쓰고 탭 표시만 더함 */
+.team-tabs { overflow-x: auto; scrollbar-width: none; }
+.team-tabs::-webkit-scrollbar { display: none; }
+.team-tab { white-space: nowrap; min-height: 44px; display: inline-flex; align-items: center; }
+.team-tab-n { color: var(--ink-muted); font-weight: 400; font-variant-numeric: tabular-nums; margin-left: 4px; }
+.team-tabpanel { margin-top: var(--space-3, 12px); }
+.team-tabpanel[hidden] { display: none; }
+.team-evidence-line { margin: var(--space-2, 8px) 0 var(--space-4, 16px); color: var(--ink-muted); font-size: var(--text-xs, 12px); }
+.team-evidence-line a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.team-evidence-line a:hover { color: var(--accent); }

@@ -43,7 +43,7 @@ export function renderTeamFactsHtml(f) {
 /** '비교' = 같은 장르 후보들 사이에서 색 지도로 보기 (장르를 모르면 전체 후보) */
 export function compareButtonHtml(genre) {
   const g = genre && genre !== '미분류' ? genre : '';
-  const href = `#/candidates?view=heat${g ? `&genre=${encodeURIComponent(g)}` : ''}`;
+  const href = `#/discover?view=heat${g ? `&genre=${encodeURIComponent(g)}` : ''}`;
   const title = g ? `${g} 후보들과 색 지도로 비교` : '전체 후보와 색 지도로 비교';
   return `<a class="btn" href="${escapeHtml(href)}" title="${escapeHtml(title)}">비교</a>`;
 }

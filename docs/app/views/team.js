@@ -16,7 +16,8 @@ import {
   watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
 import { mountTeamGraphBlock } from './graph.js';
-import { compareButtonHtml, renderTeamFactsHtml, renderTeamTocHtml, wireTeamToc } from './team_head.js';
+import { compareButtonHtml, renderTeamFactsHtml } from './team_head.js';
+import { activeTeamTab, renderTeamTabsHtml, teamPanelHtml, wireTeamTabs } from './team_tabs.js';
 import {
   queryScenePeerWinners, renderChangeRowHtml, renderTeamStatusBarsHtml, wireChangeRow,
 } from './team_pulse.js';
@@ -664,17 +665,10 @@ export async function renderTeamView(root, teamKey) {
     genre,
   });
   const pulseCtx = { timeline, asOf, rc: rcRow };
-  const tocHtml = renderTeamTocHtml([
-    { id: 'teamPulseBlock', label: '요약' },
-    { id: 'teamScoreBlock', label: '근거' },
-    { id: 'teamGraphSection', label: '관계' },
-    { id: 'teamActivityBlock', label: '사건' },
-    { id: 'teamGigsBlock', label: '공연' },
-    { id: 'teamPrecedentsBlock', label: '선례' },
-    ...(videos.length ? [{ id: 'teamVideosBlock', label: '영상' }] : []),
-  ]);
+  const activeTab = activeTeamTab();
+  const tabsHtml = renderTeamTabsHtml(teamKey, activeTab, { videos: videos.length || 0 });
 
-  // Exact requested flow: 요약 → 점수 근거 → 관계망 → 활동 기록 → 비슷한 과거 수상 팀 → 영상
+  // 정보 구조 v2: 고정 머리 + 탭 7개 (개요·점수·사건·공연·관계·영상·선례) — docs/app_structure_v2.md 2-3
   root.innerHTML = `
     <div class="team-back-bar">
       <button type="button" class="btn btn-sm" id="btnTeamBack">← ${escapeHtml(backLabel)}</button>
@@ -707,38 +701,43 @@ export async function renderTeamView(root, teamKey) {
     </div>
     <div class="player-slot" id="teamPlayerSlot" data-player-slot></div>
 
-    ${tocHtml}
+    ${tabsHtml}
 
-    <section class="block team-pulse" id="teamPulseBlock" aria-label="상태와 변화">
-      ${renderTeamStatusBarsHtml({ stageInfo, scored, timeline, sceneWinners, asOf })}
-      ${renderChangeRowHtml(pulseCtx)}
-    </section>
+    ${teamPanelHtml('overview', activeTab, `
+      <section class="block team-pulse" id="teamPulseBlock" aria-label="상태와 변화">
+        ${renderTeamStatusBarsHtml({ stageInfo, scored, timeline, sceneWinners, asOf })}
+        ${renderChangeRowHtml(pulseCtx)}
+      </section>
+      ${summarySectionHtml}
+    `)}
 
-    ${summarySectionHtml}
+    ${teamPanelHtml('score', activeTab, scoreSectionHtml)}
 
-    ${scoreSectionHtml}
+    ${teamPanelHtml('events', activeTab, '<section class="block" id="teamActivityBlock"></section>')}
 
-    <div id="teamGraphSection" class="team-graph-section">
-      <div id="teamGraphHost" class="team-graph-host"></div>
-      ${related.length ? `
-        <details class="info-fold team-related-fold" id="teamRelatedFold">
-          <summary>같은 무대 · 같은 소속사 목록 표로 보기 (${fmtInt(related.length)}팀)</summary>
-          <div class="info-fold-body" id="teamRelatedBody"></div>
-        </details>
-      ` : ''}
-    </div>
-
-    <section class="block" id="teamActivityBlock"></section>
-
-    <section class="block" id="teamGigsBlock">${renderGigBlockHtml({
+    ${teamPanelHtml('gigs', activeTab, `<section class="block" id="teamGigsBlock">${renderGigBlockHtml({
       teamKey, asOf, gigActs, venueMeta, lineupMap,
       teamCity: appState.teamCitiesByTeam.get(teamKey) || null,
       upcomingList,
-    })}</section>
+    })}</section>`)}
 
-    <section class="block" id="teamPrecedentsBlock"></section>
+    ${teamPanelHtml('network', activeTab, `
+      <div id="teamGraphSection" class="team-graph-section">
+        <div id="teamGraphHost" class="team-graph-host"></div>
+        ${related.length ? `
+          <details class="info-fold team-related-fold" id="teamRelatedFold">
+            <summary>같은 무대 · 같은 소속사 목록 표로 보기 (${fmtInt(related.length)}팀)</summary>
+            <div class="info-fold-body" id="teamRelatedBody"></div>
+          </details>
+        ` : ''}
+      </div>
+    `)}
 
-    ${videos.length ? '<section class="block" id="teamVideosBlock"></section>' : ''}
+    ${teamPanelHtml('videos', activeTab, videos.length
+      ? '<section class="block" id="teamVideosBlock"></section>'
+      : '<section class="block"><h2>영상</h2><p class="muted">아직 연결된 무대 영상이 없어요.</p></section>')}
+
+    ${teamPanelHtml('precedents', activeTab, '<section class="block" id="teamPrecedentsBlock"></section>')}
 
     <div class="team-report-bar">
       <a class="team-report-link" href="${escapeHtml(reportUrl)}" target="_blank" rel="noopener noreferrer" title="공개 저장소 이슈로 접수돼요 — 개인 연락처는 적지 마세요">정보가 틀려요 ↗</a>
@@ -747,7 +746,6 @@ export async function renderTeamView(root, teamKey) {
 
   wireAvatarFallbacks(root);
   wireSpotifyButtons(root, root.querySelector('#teamPlayerSlot'));
-  wireTeamToc(root);
   wireChangeRow(root, pulseCtx);
   wireScoreBlock(root, scoreCtx);
 
@@ -814,14 +812,18 @@ export async function renderTeamView(root, teamKey) {
   paintPrecedents();
   paintVideos();
 
-  const graphHost = root.querySelector('#teamGraphHost');
-  if (graphHost) {
-    mountTeamGraphBlock(graphHost, {
-      teamKey,
-      displayName,
-      primaryGenre: genre,
-    });
-  }
+  // 관계망 그림은 '관계' 탭이 처음 보일 때 그린다 (숨은 칸에서 그리면 크기가 0이 됨)
+  const tabs = wireTeamTabs(root, (tab) => {
+    if (tab !== 'network') return;
+    const graphHost = root.querySelector('#teamGraphHost');
+    if (graphHost) {
+      mountTeamGraphBlock(graphHost, {
+        teamKey,
+        displayName,
+        primaryGenre: genre,
+      });
+    }
+  });
 
   root.querySelector('#btnTeamBack')?.addEventListener('click', () => {
     navigateTo(backRoute, backRoute === 'venue' ? (appState.prevParam || '') : '');
@@ -835,6 +837,7 @@ export async function renderTeamView(root, teamKey) {
 
   root.querySelector('[data-scroll-videos]')?.addEventListener('click', (e) => {
     e.preventDefault();
-    root.querySelector('#teamVideosBlock')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    tabs.show('videos');
+    root.querySelector('#teamTabs')?.scrollIntoView({ block: 'start' });
   });
 }
