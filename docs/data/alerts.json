@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-28T01:14:00+09:00",
+ "generated_at": "2026-11-28T01:18:38+09:00",
  "as_of": "2026-11-28",
  "baseline": {
   "kind": "state",
@@ -37,7 +37,7 @@
   "new_selection": 10,
   "blank_first_mention": 1,
   "stage_up": 88,
-  "big_venue_first": 18,
+  "big_venue_first": 29,
   "peer_winner": 303,
   "spike": 3,
   "new_gig": 365,
@@ -48,7 +48,7 @@
   "new_selection": 10,
   "blank_first_mention": 1,
   "stage_up": 20,
-  "big_venue_first": 18,
+  "big_venue_first": 20,
   "peer_winner": 20,
   "rank_jump": 20,
   "spike": 3,
@@ -1599,7 +1599,7 @@
      "source": "instagram",
      "program": "@pistilseoul",
      "date": "2026-11-24",
-     "venue": "@pistilseoul"
+     "venue": "Pistil"
     }
    ],
    "importance": 60,
@@ -1679,7 +1679,7 @@
      "source": "instagram",
      "program": "@pistilseoul",
      "date": "2026-11-24",
-     "venue": "@pistilseoul"
+     "venue": "Pistil"
     }
    ],
    "importance": 60,
@@ -1765,7 +1765,7 @@
      "source": "instagram",
      "program": "@pistilseoul",
      "date": "2026-11-24",
-     "venue": "@pistilseoul"
+     "venue": "Pistil"
     }
    ],
    "importance": 60,
@@ -1823,7 +1823,7 @@
      "source": "instagram",
      "program": "@rosso_seoul",
      "date": "2026-11-21",
-     "venue": "@rosso_seoul"
+     "venue": "ROSSO"
     },
     {
      "branch": "큐레이션",
@@ -1851,7 +1851,7 @@
      "source": "instagram",
      "program": "@pistilseoul",
      "date": "2026-11-13",
-     "venue": "@pistilseoul"
+     "venue": "Pistil"
     },
     {
      "branch": "큐레이션",
@@ -2351,6 +2351,29 @@
   {
    "type": "big_venue_first",
    "type_label": "큰 공연장 첫 출연",
+   "team_key": "rnbseoul",
+   "name": "rnb.seoul",
+   "date": "2026-11-18",
+   "text": "큰 공연장 첫 출연 — Blank Site Seoul (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@blanksite_seoul",
+     "date": "2026-11-18",
+     "venue": "Blank Site Seoul"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [
+    "stage_up"
+   ],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
    "team_key": "sangsangcinema",
    "name": "sangsangcinema",
    "date": "2026-11-18",
@@ -2445,6 +2468,27 @@
      "source": "indiego",
      "date": "2026-11-16",
      "venue": "무신사개러지"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [],
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
+   "team_key": "brokenoneskr",
+   "name": "brokenones_kr",
+   "date": "2026-11-14",
+   "text": "큰 공연장 첫 출연 — Blank Site Seoul (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@blanksite_seoul",
+     "date": "2026-11-14",
+     "venue": "Blank Site Seoul"
     }
    ],
    "importance": 55,
