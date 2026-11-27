@@ -13,7 +13,7 @@ import { applySavedFilter, listSavedFilters } from '../saved_filters.js';
 import { alertsForSubscribedVenues, listVenueSubs, toggleVenueSub } from '../venue_subs.js';
 import { isoMinusDays } from '../components/team_metrics.js';
 import {
-  alertMatchesVenueSub, alertRowHtml, safeAlertType, sortAlerts, spikeSentence,
+  alertMatchesVenueSub, alertRowHtml, alertsCarryStars, safeAlertType, sortAlerts, spikeSentence,
 } from './today_alerts.js';
 import { renderEvidenceFooterHtml, summarizeFilterSpec } from './mine.js';
 import {
@@ -64,9 +64,11 @@ function matchesPeriod(alert, days, asOf) {
 }
 
 export async function renderAlertsView(root) {
+  // 별점 파일(event_stars.csv)은 alerts.json 이 별점을 직접 담아 오지 않을 때만 받는다
+  const alertsP = loadAlertsJson().catch(() => null);
   const [alertsData, eventStarsMap] = await Promise.all([
-    loadAlertsJson().catch(() => null),
-    loadEventStars().catch(() => null),
+    alertsP,
+    alertsP.then(a => (alertsCarryStars(a) ? null : loadEventStars().catch(() => null))),
   ]);
 
   const initial = parseAlertsHashParams();

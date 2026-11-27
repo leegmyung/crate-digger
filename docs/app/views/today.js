@@ -23,7 +23,7 @@ import {
   formatKoreanShortDate, formatNextGigText, spotifyButtonHtml,
   watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
-import { renderHomeAlertsSummaryHtml } from './today_alerts.js';
+import { alertsCarryStars, renderHomeAlertsSummaryHtml } from './today_alerts.js';
 import { fillSavedCard, renderSavedCardShellHtml } from './today_saved.js';
 import { renderVenueSubsHtml } from './venue_subs_view.js';
 import { renderOnboardingStripHtml } from '../components/onboarding_cards.js';
@@ -152,7 +152,8 @@ export async function renderTodayView(root) {
     loadAlertsJson().catch(() => null),
     Promise.resolve(homeEventStars === undefined ? null : homeEventStars),
   ]);
-  const extras = await queryWeeklyDigestExtras(candRows);
+  // 홈 화면엔 영상이 안 보이므로 영상 표(videos.csv)를 받지 않는다. 브리핑 글의 '새 무대 영상 수'는 복사할 때 채움(app.js digest)
+  const extras = await queryWeeklyDigestExtras(candRows, { videos: false });
 
   const candRankMap = new Map();
   candRows.forEach((r, idx) => {
@@ -176,7 +177,7 @@ export async function renderTodayView(root) {
   const health = appState.dataHealth || { ok: true, totalSources: 0, okSources: 0, summaryLabel: '수집 정상' };
 
   // Register unified export context (weekly digest text + top 100 candidates CSV)
-  const digestText = buildWeeklySummaryText({
+  const digestText = extras.newVideos7d == null ? null : buildWeeklySummaryText({
     dataEnd: appState.dataEnd,
     prevDate: diff.prevDate,
     latestDate: diff.latestDate,
@@ -187,6 +188,7 @@ export async function renderTodayView(root) {
     top5,
     health,
   });
+  if (digestText == null) appState.weeklyDigestText = ''; // 예전 글이 남지 않게 — 복사할 때 새로 만듦
   setExportContext({
     digestText,
     csvLabel: '상위 후보 100팀 CSV 내려받기',
@@ -260,7 +262,8 @@ export async function renderTodayView(root) {
       subVenues,
       limit: 5,
     });
-    if (homeEventStars === undefined) {
+    // alerts.json 알림마다 stars 칸이 있으면 별점 파일을 받을 필요가 없다
+    if (homeEventStars === undefined && !alertsCarryStars(alertsData)) {
       loadEventStars().then(m => {
         homeEventStars = m || null;
         const el = root.querySelector('#todayAlertsBlock');

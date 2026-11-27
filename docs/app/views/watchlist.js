@@ -8,11 +8,11 @@ import {
   appState, getWatchlist, getWatchlistViewMode, setExportContext,
   setWatchlistViewMode, setWatchStatus, syncHash, toggleWatch, WATCH_STATUSES,
 } from '../state.js';
-import { loadAlertsJson, queryWatchlistEnriched } from '../db.js';
+import { ensureVideosLoaded, loadAlertsJson, queryWatchlistEnriched } from '../db.js';
 import { loadEventStars } from '../db_team_extras.js';
 import { listSavedFilters } from '../saved_filters.js';
 import { listVenueSubs } from '../venue_subs.js';
-import { renderWatchWeeklySummaryHtml } from './today_alerts.js';
+import { alertsCarryStars, renderWatchWeeklySummaryHtml } from './today_alerts.js';
 import {
   fillMineFiltersMatches, normalizeMineTab, renderEvidenceFooterHtml,
   renderMineFiltersPanelHtml, renderMineTabsHtml, renderMineVenuesPanelHtml,
@@ -68,10 +68,13 @@ export async function renderWatchlistView(root) {
 
   async function loadAll() {
     const raw = getWatchlist();
+    // 별점 파일(event_stars.csv)은 alerts.json 이 별점을 직접 담아 오지 않을 때만 받는다
+    const alertsP = loadAlertsJson().catch(() => null);
     const [enriched, alerts, stars] = await Promise.all([
       queryWatchlistEnriched(raw),
-      loadAlertsJson().catch(() => null),
-      loadEventStars().catch(() => null),
+      alertsP,
+      alertsP.then(a => (alertsCarryStars(a) ? null : loadEventStars().catch(() => null))),
+      ensureVideosLoaded().catch(() => null), // '영상' 버튼(스포티파이·유튜브 채널 없는 팀)용
     ]);
     rows = enriched;
     alertsData = alerts;

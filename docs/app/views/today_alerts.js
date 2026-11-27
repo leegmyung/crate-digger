@@ -24,7 +24,19 @@ const STAR_KINDS = {
   new_outcome: 'outcome', new_selection: 'selection', big_venue_first: 'big_venue_first', blank_first_mention: 'first_mention',
 };
 
+/** alerts.json 의 알림마다 stars 칸이 있으면 true — 그러면 event_stars.csv(2.4MB)를 받을 필요가 없다 */
+export function alertsCarryStars(alertsData) {
+  const list = alertsData?.alerts;
+  return Array.isArray(list) && list.length > 0
+    && list.every(a => a && Object.prototype.hasOwnProperty.call(a, 'stars'));
+}
+
 export function alertStars(a, eventStarsMap) {
+  // alerts.json 이 별점을 직접 담아 오면(stars 칸) 그걸 쓴다 — 홈이 event_stars.csv(2.4MB)를 안 받아도 되게
+  if (a && Object.prototype.hasOwnProperty.call(a, 'stars')) {
+    const n = Number(a.stars);
+    return a.stars != null && Number.isFinite(n) ? n : null;
+  }
   const kind = STAR_KINDS[a.type];
   if (!kind || !eventStarsMap) return null;
   const hit = (eventStarsMap.get(a.team_key) || []).find(e => e.kind === kind && e.date === a.date);

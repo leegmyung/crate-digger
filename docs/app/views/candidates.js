@@ -3,7 +3,7 @@ import {
   setExportContext, setTableDensity, syncHash,
 } from '../state.js';
 import {
-  buildNextGigByTeam, getSnapshotDiff, queryCandidates, queryDebutCandidates,
+  buildNextGigByTeam, ensureVideosLoaded, getSnapshotDiff, queryCandidates, queryDebutCandidates,
   queryDebutScorecard, queryDiscoveryStages, queryRankChange, queryRisingPreset,
   queryTopPrecedent, queryUpcomingGigs,
 } from '../db.js';
@@ -174,6 +174,7 @@ async function renderDebutCandidatesView(root) {
   const [debutData, debutScorecard] = await Promise.all([
     queryDebutCandidates({ as_of: asOf }),
     queryDebutScorecard({ horizonMonths: c.horizon_months || 24 }),
+    ensureVideosLoaded().catch(() => null), // 표의 '영상' 버튼(스포티파이·유튜브 채널 없는 팀)용
   ]);
 
   if (!VALID_DEBUT_SORT_COLS.has(appState.debutSort?.col)) {
@@ -617,6 +618,7 @@ export async function renderCandidatesView(root) {
     queryRankChange({ as_of: asOf }),
     isRisingPreset ? queryRisingPreset() : Promise.resolve(null),
     loadVenueLadder(),
+    ensureVideosLoaded().catch(() => null), // 표의 '영상' 버튼(스포티파이·유튜브 채널 없는 팀)용
   ]);
   // 가장 큰 무대 체급(venue_ladder.json teams[].max) — 발굴 '체급' 필터
   const TIER_RANK = { S: 1, M: 2, L: 3, XL: 4 };

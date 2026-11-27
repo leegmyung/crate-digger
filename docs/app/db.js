@@ -27,6 +27,41 @@ let rawAuxCsv = { links: null, videos: null, images: null };
 let auxTablesCreated = false;
 let auxTablesPromise = null;
 
+// 무대 영상(videos.csv, 약 0.7MB)은 시작 때 받지 않고 쓰는 화면(팀·발굴·차트·내 목록·SQL)에서 처음 한 번만 받는다 (속도 점검 2026-11-28)
+let videosAvailable = false;  // meta.json 에 영상 행이 있는지
+let videosPromise = null;     // 받는 중·받은 결과 (한 번 받으면 다시 안 받음)
+let videosReady = false;
+
+/** 영상 표를 이미 받았는지 */
+export function isVideosLoaded() {
+  return videosReady;
+}
+
+/**
+ * 영상 표를 필요할 때 받는다 → appState.videosByTeam. 실패하면 빈 표로 두고 다음 호출 때 다시 시도.
+ * @returns {Promise<Map<string, object[]>>}
+ */
+export function ensureVideosLoaded() {
+  if (videosReady) return Promise.resolve(appState.videosByTeam);
+  if (!videosAvailable) {
+    videosReady = true;
+    return Promise.resolve(appState.videosByTeam);
+  }
+  if (!videosPromise) {
+    videosPromise = fetchText('lab/data/videos.csv', true).then(txt => {
+      if (txt == null) {
+        videosPromise = null;
+        return appState.videosByTeam;
+      }
+      rawAuxCsv = { ...rawAuxCsv, videos: txt };
+      appState.videosByTeam = indexVideosRows(parseCsvObjects(txt));
+      videosReady = true;
+      return appState.videosByTeam;
+    });
+  }
+  return videosPromise;
+}
+
 // Bounded LRU query caches (cleared on bootstrap / macro reload)
 const QUERY_CACHE_MAX = 20;
 const candidatesCache = new Map();       // keyWithoutLimit -> { limit, rows }
@@ -739,6 +774,7 @@ export async function ensureAuxDuckDbTables() {
   if (auxTablesCreated || !dbInstance || !connInstance) return;
   if (auxTablesPromise) return auxTablesPromise;
   auxTablesPromise = (async () => {
+    await ensureVideosLoaded();
     const reg = [];
     let sql = '';
     if (rawAuxCsv.links) {
@@ -778,7 +814,9 @@ export async function bootstrapData(onStatus = () => {}) {
   clearQueryCaches();
 
   const hasLinksMeta = !meta?.rows || meta.rows.links === undefined || meta.rows.links > 0;
-  const hasVideosMeta = Boolean(meta?.rows && Number(meta.rows.videos) > 0);
+  videosAvailable = Boolean(meta?.rows && Number(meta.rows.videos) > 0);
+  videosPromise = null;
+  videosReady = false;
   const hasImagesMeta = Boolean(meta?.rows && Number(meta.rows.images) > 0);
 
   // Chain snapshot CSV fetches right after snapshots/index.json so there is no post-DB waterfall
@@ -815,7 +853,6 @@ export async function bootstrapData(onStatus = () => {}) {
     snapBundle,
     collectJson,
     linksCsv,
-    videosCsv,
     imagesCsv,
   ] = await Promise.all([
     fetchText('lab/data/signals.csv'),
@@ -828,12 +865,11 @@ export async function bootstrapData(onStatus = () => {}) {
     snapBundlePromise,
     fetchJson('data/collect.json', true),
     hasLinksMeta ? fetchText('lab/data/links.csv', true) : Promise.resolve(null),
-    hasVideosMeta ? fetchText('lab/data/videos.csv', true) : Promise.resolve(null),
     hasImagesMeta ? fetchText('lab/data/images.csv', true) : Promise.resolve(null),
     enginePromise,
   ]);
 
-  rawAuxCsv = { links: linksCsv, videos: videosCsv, images: imagesCsv };
+  rawAuxCsv = { links: linksCsv, videos: null, images: imagesCsv };
   appState.meta = meta;
   appState.dataEnd = meta?.data_end || '2026-11-27';
   appState.collectJson = collectJson;
@@ -916,7 +952,7 @@ export async function bootstrapData(onStatus = () => {}) {
   appState.teamCitiesByTeam = new Map();
   appState.programLabels = parseProgramsCsvMap(progCsv);
   appState.linksByTeam = indexLinksRows(parseCsvObjects(linksCsv));
-  appState.videosByTeam = indexVideosRows(parseCsvObjects(videosCsv));
+  appState.videosByTeam = new Map();
   const parsedImgs = parseImagesCsv(imagesCsv);
   appState.imagesByTeam = parsedImgs.urlMap;
   appState.imageMetaByTeam = parsedImgs.metaMap;
@@ -1318,6 +1354,7 @@ export async function querySourceScorecard({
 }
 
 export async function queryTeamDetail(teamKey) {
+  const videosP = ensureVideosLoaded().catch(() => null); // 다른 질의와 같이 받기
   const keyLit = sqlStringLiteral(teamKey);
   const p = buildParams({ team_key: teamKey });
   const todayIso = localTodayIso();
@@ -1428,6 +1465,7 @@ export async function queryTeamDetail(teamKey) {
     }
   }
 
+  await videosP;
   const result = {
     profile: profileRes.rows[0] || null,
     scored: scoreRes.rows[0] || null,
@@ -1526,8 +1564,11 @@ export async function queryWatchlistEnriched(watchItems) {
  * 주간 브리핑 보조 통계:
  * 1) 최근 7일(또는 직전 스냅샷 이후) 새 신호 건수 및 갈래별 분포
  * 2) 최근 7일 공개 새 영상 수 + 상위 후보 중 최근 무대/공식 영상 최대 3개
+ * opts.videos=false 면 영상 표를 새로 받지 않는다 (아직 안 받았으면 newVideos7d=null, 영상 목록 빈칸)
  */
-export async function queryWeeklyDigestExtras(candRows = []) {
+export async function queryWeeklyDigestExtras(candRows = [], { videos = true } = {}) {
+  if (videos) await ensureVideosLoaded().catch(() => null);
+  const videosKnown = isVideosLoaded();
   const endDate = appState.snapshots.latestDate || appState.dataEnd || '2026-11-27';
   const prevDate = appState.snapshots.prevDate;
   const startDate = prevDate || new Date(Date.parse(`${endDate}T00:00:00Z`) - 7 * 86400000).toISOString().slice(0, 10);
@@ -1619,7 +1660,7 @@ export async function queryWeeklyDigestExtras(candRows = []) {
     startDate,
     endDate,
     signalStats: { total: totalSignals, byBranch },
-    newVideos7d,
+    newVideos7d: videosKnown ? newVideos7d : null,
     recentStageVideos: picked.slice(0, 3),
   };
 }
