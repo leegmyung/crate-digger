@@ -441,3 +441,4 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `선정·지원:gb_creation` | 제외 | 적중 0/58팀 |
 | `협업:spotify` | 검증 대기 | 스포티파이 협업(피처링), 2026-11-27부터 수집 — 아직 성적 없음. 점수에는 w_collab(기본 0)로 따로 연결 |
 | `반응:youtube` | 검증 대기 | 무대 영상 조회수 7일 증가량(scripts/collect_video_stats.py) — 2026-11-27부터 기록, 아직 성적 없음 |
+| `큐레이션:hiphople` | 검증 대기 | 힙합엘이 국내 뉴스(발매 소식) — 2026-11-27 추가. 기성 팀 비중이 커서 과거 기록 백필 후 출처 성적표로 판정 (조사: docs/research_2026-11-27_hiphop_rnb_sources.md) |
