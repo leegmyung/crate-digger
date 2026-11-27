@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-**Crate Digger** — Bandcamp 신인 발굴 대시보드 프로젝트. 자세한 내용은 `PROJECT.md`(방향·결정·할 일), `README.md`(실행 방법), `HISTORY.md`(진행 기록)를 먼저 읽는다.
+**Gigle Research (기글 리서치)** — 국내 인디 신인 발굴 대시보드 프로젝트 (2026-11-27 이름 변경, 옛 이름 Crate Digger · 저장소 이름은 crate-digger 그대로). 자세한 내용은 `PROJECT.md`(방향·결정·할 일), `README.md`(실행 방법), `HISTORY.md`(진행 기록)를 먼저 읽는다.
 - **세션을 시작하면 `PROJECT.md`의 '0. 재개 지점'부터 확인하고, 멈춘 작업을 이어서 한다** (사용량 한도·인터넷 끊김 대비). 큰 작업 단위가 끝날 때마다 그 칸을 갱신한다.
 
 - GitHub 저장소: https://github.com/leegmyung/crate-digger (공개)

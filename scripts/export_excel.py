@@ -216,7 +216,7 @@ def _finish(ws, freeze: bool = True) -> None:
 
 
 def _summary(ws, ctx: dict, st: dict) -> None:
-    ws["A1"], ws["A1"].font = "Crate Digger 주간 보고서", st["title"]
+    ws["A1"], ws["A1"].font = "Gigle Research 주간 보고서", st["title"]
     events = ctx["gig_events"]
     gig_teams = {c for ev in events for c in ev["candidates"]}
     rows = [("기준일 (데이터 끝)", ctx["as_of"]),

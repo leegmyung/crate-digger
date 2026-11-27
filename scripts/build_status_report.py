@@ -257,13 +257,13 @@ def render_html(rep: dict) -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>진행 점검표 · Crate Digger</title>
+<title>진행 점검표 · Gigle Research</title>
 <style>{CSS}</style>
 </head>
 <body>
 <main>
 <header>
-<p class="muted">Crate Digger · 진행 점검표 (자동 생성)</p>
+<p class="muted">Gigle Research · 진행 점검표 (자동 생성)</p>
 <h1>파이프라인 점검표</h1>
 <p class="muted">기준 {_e(rep['today'])} · 만든 시각 {_e(rep['generated'])} · 공개 파일만 읽어 계산 · <a href="index.html">진행판으로</a></p>
 </header>
