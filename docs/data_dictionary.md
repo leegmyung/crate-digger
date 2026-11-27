@@ -73,6 +73,7 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `program` | 프로그램 코드 (선정·지원 또는 정답) | — |
 | `program_label` | 프로그램 한글 이름 | — |
 | `tier` | 정답 단계 (final 최종 / mid 중간) | — |
+| `result` | 결과 (winner 수상 / nominee 후보 / shortlist 최종 후보 — 후보는 한 등급 아래) | — |
 | `announced_date` | 정답 발표일 (일부만 알면 기간의 첫날 — 보수적) | — |
 | `counted` | 센 정답인지 (기성 팀 연차 규칙 통과) true/false | — |
 | `grade` | 정답 등급 S·A·B | — |
@@ -281,7 +282,7 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `program` | 프로그램 코드 (선정·지원 또는 정답) | 코드(정해진 값) |
 | `round` | 회차 | 글자 |
 | `announced_at` | 발표일 | 날짜(연·월만도 가능) |
-| `result` | 결과 (선정·수상·후보 등) | 코드(정해진 값) |
+| `result` | 결과 (winner 수상 / nominee 후보 / shortlist 최종 후보 — 후보는 한 등급 아래) | 코드(정해진 값) |
 | `artist_text` | 출처에 적힌 아티스트 이름 그대로 | 글자 |
 | `url` | 원문 주소 | 주소(URL) |
 | `note` | 메모 | 글자 |

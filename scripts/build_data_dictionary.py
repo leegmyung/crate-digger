@@ -54,6 +54,7 @@ COLUMN_DOC: Dict[str, str] = {
     "first_seen": "우리 데이터에 처음 나온 날", "first_release": "프로필 첫 발매일 (없으면 빈 칸)",
     "profile_status": "팀 상태 (newcomer 신인 / established 기성 / famous 유명 / unknown 프로필 없음)",
     "primary_genre": "대표 장르", "program_label": "프로그램 한글 이름", "tier": "정답 단계 (final 최종 / mid 중간)",
+    "result": "결과 (winner 수상 / nominee 후보 / shortlist 최종 후보 — 후보는 한 등급 아래)",
     "announced_date": "정답 발표일 (일부만 알면 기간의 첫날 — 보수적)", "counted": "센 정답인지 (기성 팀 연차 규칙 통과) true/false",
     "grade": "정답 등급 S·A·B", "weight": "정답 등급 가중치 (S=3·A=2·B=1)",
     "platform": "플랫폼 (spotify·melon·instagram·youtube 등)", "kind": "영상 종류 (stage 무대·official_live·official·search)",
