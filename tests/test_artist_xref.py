@@ -332,6 +332,24 @@ class PgRowsTest(unittest.TestCase):
         self.assertIn("건너뜀", msg)
 
 
+class CollectInputsMelonIdTest(unittest.TestCase):
+    """멜론 번호 1,000 미만(이름 속 숫자를 번호로 잘못 읽은 값: 12BH→12, D82→82)은 연결표에 쓰지 않는다."""
+
+    def test_short_melon_ids_dropped_from_profiles_and_matches(self):
+        with tempfile.TemporaryDirectory() as d:
+            raw = Path(d)
+            (raw / "state").mkdir()
+            (raw / "raw_artist_profile_2026-11-27_melon.csv").write_text(
+                "source,artist_source_id,artist_text\nmelon,82,김명남\nmelon,3201955,12BH\n", encoding="utf-8")
+            (raw / "state" / "outcome_melon_match.json").write_text(json.dumps(
+                {"D82": {"id": "82", "namesakes": 1}, "9B2": {"id": "9"}, "새팀": {"id": "3000007"}, "없음": None}),
+                encoding="utf-8")
+            (raw / "state" / "spotify_match.json").write_text(json.dumps({"D82": {"id": "4abc"}}), encoding="utf-8")
+            _, _, _, ids = ax.collect_inputs(raw)
+        got = {(r["platform"], r["id"]) for r in ids}
+        self.assertEqual(got, {("melon", "3201955"), ("melon", "3000007"), ("spotify", "4abc")})
+
+
 class LoadXrefTest(unittest.TestCase):
     def test_round_trip(self):
         artists = [{"artist_key": "피치트럭하이재커스", "display_name": "피치트럭하이재커스",

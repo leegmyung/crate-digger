@@ -4,6 +4,8 @@
 
 매일 21시 실행에서 collect_artists.py --names-file 이 이 명단을 하루 최대 100팀씩 받는다.
 프로필(첫 발매일·팬 수)이 없는 팀(profile_status='unknown')을 '중요한 순서'로 줄 세운다:
+  ⓪ 최신 후보 점검(data/raw/review/candidate_audit_<날짜>.csv)의 (b) '기성인데 프로필이 없어 신인으로 잡힘' 팀 — 순위 순.
+     멜론 번호는 찾았지만 프로필을 아직 못 받은 팀도 넣는다 (수집기가 명단 순서대로 프로필을 먼저 받음)
   ① 최신 점수 스냅샷(docs/lab/data/snapshots/<날짜>.csv) 상위 300팀 — 점수 순
   ② 센 정답(counted)을 받은 팀 — 정답 팀의 연차를 알아야 신인 기준을 검증할 수 있음
   ③ 다가오는 공연(오늘 이후)이 있는 팀 — 공연 날짜가 가까운 순
@@ -25,6 +27,7 @@ LAB = ROOT / "docs" / "lab" / "data"
 SNAPSHOT_DIR = LAB / "snapshots"
 MATCHES = ROOT / "data" / "raw" / "state" / "outcome_melon_match.json"
 ATTEMPTS = ROOT / "data" / "raw" / "state" / "melon_match_attempts.json"   # {이름: 마지막 시도 날짜} (있을 때만)
+PROFILE_SEEN = ROOT / "data" / "raw" / "state" / "artist_profile_seen.json"   # 이미 받은 멜론 프로필 번호 목록
 OUT_DIR = ROOT / "data" / "raw" / "review"
 SNAPSHOT_TOP = 300     # 점수 상위 몇 팀까지 볼지
 LIMIT = 300            # 명단 최대 줄 수 (하루 100팀씩 사흘치)
@@ -50,9 +53,18 @@ def due_for_search(name: str, matches: dict, attempts: dict, today: str) -> bool
 
 def build_names(snapshot: List[dict], teams: List[dict], outcomes: List[dict], signals: List[dict],
                 matches: dict, today: str, attempts: Optional[dict] = None,
-                snapshot_top: int = SNAPSHOT_TOP, limit: int = LIMIT) -> List[str]:
+                snapshot_top: int = SNAPSHOT_TOP, limit: int = LIMIT,
+                priority: Optional[List[str]] = None, profiled: Optional[set] = None) -> List[str]:
     info = {t["team_key"]: t for t in teams}
     attempts = attempts or {}
+    priority = list(priority or [])
+    profiled = {str(p) for p in (profiled or ())}
+
+    def wanted(key: str, name: str) -> bool:
+        if due_for_search(name, matches, attempts, today):
+            return True
+        m = matches.get(name)                # 0순위 팀: 번호는 있는데 프로필을 아직 못 받았으면 넣기
+        return key in priority and isinstance(m, dict) and str(m.get("id", "")) not in profiled
 
     def ranked_snapshot() -> List[str]:
         rows = sorted(snapshot, key=lambda r: -float(r.get("score") or 0))[:snapshot_top]
@@ -68,17 +80,28 @@ def build_names(snapshot: List[dict], teams: List[dict], outcomes: List[dict], s
 
     out: List[str] = []
     seen = set()
-    for key in [*ranked_snapshot(), *winners, *gigs]:
+    for key in [*priority, *ranked_snapshot(), *winners, *gigs]:
         t = info.get(key)
         name = (t or {}).get("display_name", "").strip()
         if not t or t.get("profile_status") != "unknown" or not name or name in seen:
             continue
         seen.add(name)
-        if due_for_search(name, matches, attempts, today):
+        if wanted(key, name):
             out.append(name)
         if len(out) >= limit:
             break
     return out
+
+
+def audit_priority(rows: List[dict]) -> List[str]:
+    """후보 점검 결과에서 (b) 팀 키를 순위 순으로."""
+    b = [r for r in rows if r.get("type") == "b" and str(r.get("rank", "")).isdigit()]
+    return [r["team_key"] for r in sorted(b, key=lambda r: int(r["rank"]))]
+
+
+def latest_audit(folder: Path = OUT_DIR) -> Optional[Path]:
+    files = sorted(folder.glob("candidate_audit_????-??-??.csv")) if folder.is_dir() else []
+    return files[-1] if files else None
 
 
 def latest_snapshot(folder: Path = SNAPSHOT_DIR) -> Optional[Path]:
@@ -117,11 +140,19 @@ def _json(path: Path) -> dict:
 
 def main() -> int:
     today = date.today().isoformat()
+    audit = latest_audit()
+    priority = audit_priority(_csv(audit))
+    try:
+        profiled = set(json.loads(PROFILE_SEEN.read_text(encoding="utf-8")))
+    except (OSError, ValueError):
+        profiled = set()
     names = build_names(_csv(latest_snapshot()), _csv(LAB / "teams.csv"), _csv(LAB / "outcomes.csv"),
-                        _csv(LAB / "signals.csv"), _json(MATCHES), today, _json(ATTEMPTS))
+                        _csv(LAB / "signals.csv"), _json(MATCHES), today, _json(ATTEMPTS),
+                        priority=priority, profiled=profiled)
     path = write_names(OUT_DIR, today, names)
     removed = prune_old(OUT_DIR)
     print(f"✅ 멜론 보강 명단 {len(names)}팀 → {path.relative_to(ROOT)}"
+          + (f" · 0순위(후보 점검 b) {len(priority)}팀 ← {audit.name}" if audit else "")
           + (f" (오래된 명단 {len(removed)}개 정리)" if removed else ""))
     return 0
 

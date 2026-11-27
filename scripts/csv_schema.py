@@ -63,8 +63,10 @@ SELECTION_SOURCES = {
     "mapoindie", "kocca", "gwmf", "seoulbusking", "gcon", "ebs", "contest",
     "rollinghall", "senggi", "liveclubday", "tumblbug", "manual",
     "busanrock", "sejong", "gbsound", "yjh", "sangsangmadang", "dmz",
+    "routenote", "poclanos",    # 슈퍼루키챌린지 (루트노트 블로그·포크라노스 크레딧)
 }
 SELECTION_PROGRAMS = {
+    "superrookie",              # 루트노트 슈퍼루키챌린지 (라운드별 선정)
     "indiscovery",              # 마포 인디스커버리
     "museon_document",          # 뮤즈온 서류통과 (최종은 정답 museon_final)
     "our_musician",             # KOCCA 우리 음악인 축제
@@ -102,6 +104,7 @@ SAME_PROGRAM = {
 NO_LINKED_OUTCOME = frozenset({
     "indiscovery", "our_musician", "gw_creation", "seoul_busking", "regional_contest", "cmyk",
     "senggi_curation", "liveclubday", "tumblbug_debut", "muse_sejong", "gb_creation", "yoojaeha_finalist", "band_discovery", "dmz_lineup",
+    "superrookie",
 })
 
 

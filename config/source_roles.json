@@ -173,6 +173,10 @@
     "큐레이션:hiphople": {
       "role": "pending",
       "reason": "힙합엘이 국내 뉴스(발매 소식) — 2026-11-27 추가. 기성 팀 비중이 커서 과거 기록 백필 후 출처 성적표로 판정 (조사: docs/research_2026-11-27_hiphop_rnb_sources.md)"
+    },
+    "선정·지원:superrookie": {
+      "role": "pending",
+      "reason": "루트노트 슈퍼루키챌린지 라운드 선정 — 2026-11-27 추가(시즌 14~17·보컬 시즌). 작고 이른 단계라 후보 신호, 성적표로 판정 예정"
     }
   },
   "outcomes": {

@@ -76,8 +76,8 @@ class RowTest(unittest.TestCase):
 
 class MatchTest(unittest.TestCase):
     CANDS = [["3940959", "산보", "대한민국/혼성/그룹 음악장르 인디음악"],
-             ["111", "산보 (Sanbo)", "대한민국/남성/솔로 음악장르 트로트"],
-             ["222", "산보라", "대한민국/여성/솔로"]]
+             ["1110001", "산보 (Sanbo)", "대한민국/남성/솔로 음악장르 트로트"],
+             ["2220002", "산보라", "대한민국/여성/솔로"]]
 
     def test_name_keys_include_alias(self):
         self.assertEqual(ca.name_keys("BØJEONG(비공정)"), {"bjeong", "비공정"} | {ca.artist_key("BØJEONG")})
@@ -88,8 +88,8 @@ class MatchTest(unittest.TestCase):
         self.assertEqual((m["id"], m["namesakes"]), ("3940959", 2))   # '산보 (Sanbo)'도 키가 같음 → 동명 2팀
 
     def test_alias_match(self):
-        m = ca.match_candidate("피치트럭 하이재커스(Peach Truck Hijackers)", [["9", "Peach Truck Hijackers", ""]])
-        self.assertEqual(m["id"], "9")
+        m = ca.match_candidate("피치트럭 하이재커스(Peach Truck Hijackers)", [["3000009", "Peach Truck Hijackers", ""]])
+        self.assertEqual(m["id"], "3000009")
 
     def test_no_match(self):
         self.assertIsNone(ca.match_candidate("없는팀", self.CANDS))
@@ -97,6 +97,31 @@ class MatchTest(unittest.TestCase):
     def test_placeholder_ids_are_never_matched(self):   # 멜론 '여러 아티스트' 같은 공용 번호(0, 1)
         self.assertIsNone(ca.match_candidate("Various Artists", [["1", "Various Artists", ""], ["0", "Various Artists", ""]]))
         self.assertEqual(ca.match_candidate("산보", [["0", "산보", ""]] + self.CANDS)["id"], "3940959")
+
+
+class SearchIdTest(unittest.TestCase):
+    """멜론 검색 결과 링크에서 번호 읽기 — 이름 속 숫자를 번호로 잘못 읽던 버그 (12BH→12 등)."""
+    HREF = "javascript:searchLog('web_artist','ARTIST','AR','{name}','');melon.link.goArtistDetail('{id}');"
+
+    def test_id_from_goartistdetail_not_first_number(self):
+        for name, mid in (("12BH", "3201955"), ("D82", "2876543"), ("닥터코어911", "2765432"), ("9B2", "3456789"),
+                          ("hathaw9y", "3012345")):
+            self.assertEqual(ca.melon_id_from_href(self.HREF.format(name=name, id=mid)), mid, name)
+
+    def test_short_or_placeholder_ids_rejected(self):
+        self.assertEqual(ca.melon_id_from_href("javascript:melon.link.goArtistDetail('12');"), "")
+        self.assertEqual(ca.melon_id_from_href("javascript:melon.link.goArtistDetail('1');"), "")
+        self.assertEqual(ca.melon_id_from_href("javascript:void(0)"), "")
+        self.assertFalse(ca.valid_melon_id("911"))
+        self.assertTrue(ca.valid_melon_id("2140277"))
+
+    def test_search_js_uses_goartistdetail_pattern(self):
+        js = ca._search_js(["12BH"])
+        self.assertIn("goArtistDetail\\(", js)                          # 첫 숫자가 아니라 goArtistDetail( 뒤 숫자
+
+    def test_match_candidate_ignores_short_ids(self):
+        self.assertIsNone(ca.match_candidate("12BH", [["12", "12BH", ""]]))
+        self.assertEqual(ca.match_candidate("12BH", [["12", "12BH", ""], ["3201955", "12BH", ""]])["id"], "3201955")
 
 
 class ResilienceTest(unittest.TestCase):
@@ -138,9 +163,9 @@ class RetryTest(unittest.TestCase):
             return json.loads(m.read_text(encoding="utf-8")), json.loads(a.read_text(encoding="utf-8"))
 
     def test_new_names_are_searched_and_attempt_dates_recorded(self):
-        matches, attempts = self.run_collect(["새팀"], {}, None, "2026-11-28", results={"새팀": [["7", "새팀", ""]]})
+        matches, attempts = self.run_collect(["새팀"], {}, None, "2026-11-28", results={"새팀": [["3000007", "새팀", ""]]})
         self.assertEqual(self.searched, ["새팀"])
-        self.assertEqual(matches["새팀"]["id"], "7")
+        self.assertEqual(matches["새팀"]["id"], "3000007")
         self.assertEqual(attempts, {"새팀": "2026-11-28"})
 
     def test_existing_null_without_date_is_only_dated_on_first_run(self):
@@ -152,13 +177,13 @@ class RetryTest(unittest.TestCase):
 
     def test_null_retried_after_retry_days_and_found(self):
         matches, attempts = self.run_collect(["옛팀"], {"옛팀": None}, {"옛팀": "2026-10-20"}, "2026-11-28",
-                                             results={"옛팀": [["9", "옛팀", ""]]})
+                                             results={"옛팀": [["3000009", "옛팀", ""]]})
         self.assertEqual(self.searched, ["옛팀"])
-        self.assertEqual(matches["옛팀"]["id"], "9")
+        self.assertEqual(matches["옛팀"]["id"], "3000009")
         self.assertEqual(attempts["옛팀"], "2026-11-28")
 
     def test_null_not_retried_within_retry_days_and_found_never_retried(self):
-        self.run_collect(["옛팀", "찾은팀"], {"옛팀": None, "찾은팀": {"id": "5", "name": "찾은팀"}},
+        self.run_collect(["옛팀", "찾은팀"], {"옛팀": None, "찾은팀": {"id": "3000005", "name": "찾은팀"}},
                          {"옛팀": "2026-11-10", "찾은팀": "2020-01-01"}, "2026-11-28")
         self.assertEqual(self.searched, [])
 
@@ -170,10 +195,27 @@ class RetryTest(unittest.TestCase):
 
     def test_alias_search_also_records_attempt(self):
         matches, attempts = self.run_collect(["피치트럭(Peach Truck)"], {}, None, "2026-11-28",
-                                             results={"Peach Truck": [["3", "Peach Truck", ""]]})
+                                             results={"Peach Truck": [["3000003", "Peach Truck", ""]]})
         self.assertEqual(self.searched, ["피치트럭", "Peach Truck"])
-        self.assertEqual(matches["피치트럭(Peach Truck)"]["id"], "3")
+        self.assertEqual(matches["피치트럭(Peach Truck)"]["id"], "3000003")
         self.assertEqual(attempts["피치트럭(Peach Truck)"], "2026-11-28")
+
+    def test_profiles_of_listed_names_are_fetched_first(self):
+        # 받을 프로필이 상한(MAX_PROFILES_PER_RUN)보다 많으면 명단 순서(0순위 = 후보 점검 b 팀)대로 먼저 받음
+        import json
+        from unittest import mock
+        matches = {f"옛{i}": {"id": str(3000000 + i), "name": f"옛{i}"} for i in range(5)}
+        matches["딕펑스"] = {"id": "454254", "name": "딕펑스"}
+        got = []
+        with tempfile.TemporaryDirectory() as d:
+            m, a, st = Path(d) / "m.json", Path(d) / "a.json", Path(d) / "seen.json"
+            m.write_text(json.dumps(matches, ensure_ascii=False), encoding="utf-8")
+            with mock.patch.object(ca, "MATCH_STATE", m), mock.patch.object(ca, "ATTEMPTS_STATE", a), \
+                    mock.patch.object(ca, "STATE", st), mock.patch.object(ca, "MAX_PROFILES_PER_RUN", 2), \
+                    mock.patch.object(ca, "search_artists", return_value=({}, [])), \
+                    mock.patch.object(ca, "fetch_profiles", side_effect=lambda ids: got.extend(ids) or {}):
+                ca.collect_from_outcomes(10, ["딕펑스", "옛3"], today="2026-11-28")
+        self.assertEqual(got, ["454254", "3000003"])
 
     def test_shares_constants_with_melon_names(self):
         import melon_names

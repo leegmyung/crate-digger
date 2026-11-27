@@ -658,6 +658,16 @@ def _ig_posts(rows: list[dict], non_artists: set[str]) -> list[dict]:
             for r in rows if r.get("artist_handle") and r["artist_handle"].lstrip("@").lower() not in non_artists]
 
 
+MIN_MELON_ID = 1_000   # 이보다 작은 멜론 번호는 버림 — 검색 결과에서 이름 속 숫자를 번호로 잘못 읽은 값 (12BH→12, D82→82)
+
+
+def _usable_id(platform: str, pid) -> bool:
+    s = str(pid or "")
+    if platform != "melon":
+        return bool(s)
+    return s.isdigit() and int(s) >= MIN_MELON_ID
+
+
 def collect_inputs(raw_dir: Path = RAW_DIR) -> tuple[list, list, list, list]:
     """data/raw 원본 → build_xref 입력 4가지 (names, ig_profiles, ig_posts, platform_ids)."""
     name_count: Counter = Counter()
@@ -679,14 +689,14 @@ def collect_inputs(raw_dir: Path = RAW_DIR) -> tuple[list, list, list, list]:
                 continue
             if r.get("artist_text"):
                 name_count[(table, r["artist_text"])] += 1
-            if table in ("profile", "release") and src in ("melon", "spotify") and r.get("artist_source_id"):
+            if table in ("profile", "release") and src in ("melon", "spotify") and _usable_id(src, r.get("artist_source_id")):
                 platform_ids.append({"name": r["artist_text"], "platform": src, "id": r["artist_source_id"], "confidence": "high"})
     for h, v in links.items():
         if h != "non_artists" and h.lower() not in non_artists and isinstance(v, dict):
             ig_profiles.append({"handle": h, "name": v.get("name", ""), "source": "ig_artist_links"})
     for fname, platform in (("outcome_melon_match.json", "melon"), ("spotify_match.json", "spotify")):
         for name, m in _load_json(raw_dir / "state" / fname, {}).items():
-            if isinstance(m, dict) and m.get("id"):
+            if isinstance(m, dict) and _usable_id(platform, m.get("id")):
                 conf = "high" if int(m.get("namesakes") or 1) <= 1 else "mid"
                 platform_ids.append({"name": name, "platform": platform, "id": str(m["id"]), "confidence": conf})
     names = [{"table": t, "name": n, "count": c} for (t, n), c in name_count.items()]

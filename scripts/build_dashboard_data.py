@@ -46,6 +46,7 @@ STAGE_KR = {
 
 # 프로그램 코드 → 한국어 표시 이름 (차트에 영어 코드가 그대로 보이지 않도록)
 PROGRAM_NAMES = {
+    "superrookie": "슈퍼루키챌린지",
     "band_discovery": "상상마당 밴드 디스커버리",
     "yoojaeha_finalist": "유재하 음악경연대회 본선",
     "muse_sejong": "세종 뮤즈세종",

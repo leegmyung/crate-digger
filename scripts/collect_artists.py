@@ -102,12 +102,25 @@ def name_keys(name):
 
 
 INVALID_IDS = {"0", "1"}   # 멜론 공용 번호('여러 아티스트' 등) — 실제 팀이 아님
+MIN_MELON_ID = 1_000       # 이보다 작은 번호는 실제 아티스트 번호가 아님 (이름 속 숫자를 잘못 읽은 경우: 12BH→12)
+_DETAIL_ID = re.compile(r"goArtistDetail\(['\"]?(\d+)")
+
+
+def valid_melon_id(mid) -> bool:
+    s = str(mid or "")
+    return s.isdigit() and s not in INVALID_IDS and int(s) >= MIN_MELON_ID
+
+
+def melon_id_from_href(href: str) -> str:
+    """검색 결과 링크에서 아티스트 번호 — goArtistDetail('번호') 안의 숫자만 (앞쪽 searchLog 의 이름 속 숫자 무시)."""
+    m = _DETAIL_ID.search(href or "")
+    return m.group(1) if m and valid_melon_id(m.group(1)) else ""
 
 
 def match_candidate(name, candidates):
     """멜론 검색 결과 [[번호, 이름, 설명], ...] 중 이름 키가 같은 후보. 같은 키가 여럿이면 namesakes>1 (검수 대상)."""
     want = name_keys(name)
-    hits = [c for c in candidates if str(c[0]) not in INVALID_IDS and name_keys(c[1]) & want]
+    hits = [c for c in candidates if valid_melon_id(c[0]) and name_keys(c[1]) & want]
     if not hits:
         return None
     return {"id": hits[0][0], "name": hits[0][1], "desc": hits[0][2] if len(hits[0]) > 2 else "", "namesakes": len(hits)}
@@ -175,7 +188,7 @@ def _search_js(names):
       out[n] = await t.evaluate(() => {{
         const seen = new Set(); const res = [];
         for (const a of document.querySelectorAll('a[href*="goArtistDetail"]')) {{
-          const id = ((a.getAttribute('href') || '').match(/\\d+/) || [''])[0]; const name = a.innerText.trim();
+          const mm = (a.getAttribute('href') || '').match(/goArtistDetail\\(['"]?(\\d+)/); const id = mm && Number(mm[1]) >= {MIN_MELON_ID} ? mm[1] : ''; const name = a.innerText.trim();
           if (!id || !name || seen.has(id)) continue; seen.add(id);
           const box = a.closest('li, div'); res.push([id, name, box ? box.innerText.replace(/\\s+/g, ' ').slice(0, 160) : '']);
         }}
@@ -287,7 +300,8 @@ def collect_from_outcomes(limit, names=None, today=None):
         seen = set(json.loads(STATE.read_text(encoding="utf-8")))
     except (OSError, json.JSONDecodeError):
         seen = set()
-    ids = [m["id"] for m in matches.values() if m and m["id"] not in seen and m["id"] not in INVALID_IDS]
+    listed = [matches.get(n) for n in dict.fromkeys(names)]     # 명단 순서가 먼저 (0순위 = 후보 점검 b 팀)
+    ids = [m["id"] for m in [*listed, *matches.values()] if m and m["id"] not in seen and valid_melon_id(m["id"])]
     ids = list(dict.fromkeys(ids))[:MAX_PROFILES_PER_RUN]   # 한 번 실행이 너무 길어지지 않게 (남은 팀은 다음 실행에)
     if not ids:
         return None, len(todo), 0

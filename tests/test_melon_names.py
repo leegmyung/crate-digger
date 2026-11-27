@@ -59,6 +59,32 @@ class OrderTest(unittest.TestCase):
         self.assertNotIn(" ", got)
 
 
+class AuditPriorityTest(unittest.TestCase):
+    """후보 점검 (b) '기성인데 프로필이 없어 신인으로 잡힘' 팀을 명단 맨 앞(0순위)에 — 첫 발매일로 신인 판정되게."""
+
+    def test_audit_teams_come_first(self):
+        self.assertEqual(build(priority=["h", "a"]), ["에이치", "에이", "씨", "디", "에프"])
+
+    def test_priority_team_already_matched_but_without_profile_is_included(self):
+        # 멜론 번호는 찾았지만 프로필을 아직 못 받은 팀 → 명단에 넣어야 수집기가 그 프로필을 먼저 받음
+        got = build(priority=["h"], matches={"에이치": {"id": "3000001"}, "씨": {"id": "3000002"}}, profiled=set())
+        self.assertEqual(got[0], "에이치")
+        self.assertNotIn("씨", got)                                   # 0순위가 아닌 팀은 기존 규칙 그대로
+        self.assertNotIn("에이치", build(priority=["h"], matches={"에이치": {"id": "3000001"}}, profiled={"3000001"}))
+
+    def test_audit_priority_reads_b_rows_in_rank_order(self):
+        rows = [{"type": "b", "rank": "45", "team_key": "모임별"}, {"type": "c", "rank": "3", "team_key": "x"},
+                {"type": "b", "rank": "16", "team_key": "검은잎들"}, {"type": "e", "rank": "1", "team_key": "12bh"}]
+        self.assertEqual(mn.audit_priority(rows), ["검은잎들", "모임별"])
+
+    def test_latest_audit_file(self):
+        with tempfile.TemporaryDirectory() as d:
+            for day in ("2026-11-26", "2026-11-27"):
+                (Path(d) / f"candidate_audit_{day}.csv").write_text("type,rank,team_key\n", encoding="utf-8")
+            self.assertEqual(mn.latest_audit(Path(d)).name, "candidate_audit_2026-11-27.csv")
+            self.assertIsNone(mn.latest_audit(Path(d) / "없음"))
+
+
 class FileTest(unittest.TestCase):
     def test_latest_snapshot_file(self):
         with tempfile.TemporaryDirectory() as d:
