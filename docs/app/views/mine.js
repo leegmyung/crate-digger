@@ -271,6 +271,7 @@ export function renderEvidenceFooterHtml({ extraNote = '' } = {}) {
       </div>
       <div class="home-evidence-links">
         <a href="#/verify/backtest">점수 검증·성적표 →</a>
+        <a href="#/verify/grades">정답 규칙 →</a>
         <a href="#/verify/quality">데이터 품질 →</a>
       </div>
     </footer>

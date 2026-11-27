@@ -19,8 +19,10 @@ import {
 } from '../ui.js';
 import {
   formatRankDeltaHtml, matchesReleaseMonths, RELEASE_MONTH_OPTIONS,
-  renderCandFilterBarHtml,
+  renderCandPanelHtml, renderCandResultsBarHtml,
 } from '../components/cand_filters.js';
+import { loadVenueLadder } from '../db_venue.js';
+import { renderChartTabsHtml } from './charts.js';
 import { buildHeatRows, nextHeatSort, renderHeatmapHtml } from './candidates_heatmap.js';
 import { queryPeerCompare } from '../db_peer.js';
 import { wireSavedRow } from './cand_saved.js';
@@ -102,27 +104,6 @@ function renderRowListenControl(r) {
   return naCell('연결된 스포티파이·유튜브 링크가 없습니다');
 }
 
-function renderCandTabsHtml(activeTab) {
-  return `
-    <div class="sub-tabs cand-sub-tabs" role="tablist" aria-label="후보 목록 보기 전환">
-      <button type="button" class="sub-tab-btn ${activeTab === 'all' ? 'active' : ''}" role="tab" aria-selected="${activeTab === 'all' ? 'true' : 'false'}" data-cand-tab="all">전체 후보</button>
-      <button type="button" class="sub-tab-btn ${activeTab === 'debut' ? 'active' : ''}" role="tab" aria-selected="${activeTab === 'debut' ? 'true' : 'false'}" data-cand-tab="debut">갓 데뷔</button>
-    </div>
-  `;
-}
-
-function wireCandTabs(root) {
-  root.querySelectorAll('[data-cand-tab]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const next = btn.dataset.candTab;
-      if (next === appState.candTab) return;
-      appState.candTab = next;
-      syncHash(true);
-      window.dispatchEvent(new CustomEvent('app:route'));
-    });
-  });
-}
-
 function sortDebutRows(rows, col, dir) {
   const safeCol = VALID_DEBUT_SORT_COLS.has(col) ? col : 'score';
   const mult = dir === 'asc' ? 1 : -1;
@@ -202,7 +183,7 @@ async function renderDebutCandidatesView(root) {
   let lastDebutCsvSpec = { filename: `crate_digger_debut_${asOf}.csv`, headers: [], rows: [] };
 
   const bannerHtml = renderActionBanner({
-    title: '후보 목록',
+    title: '갓 데뷔',
     lead: debutData.total
       ? `기준일(${escapeHtml(asOf)}) 전 12개월 내 첫 발매·사전 신호 없는 백지 신인 <strong>${fmtInt(debutData.total)}팀</strong>(언급 있음 ${fmtInt(debutData.mentioned.length)}팀 · 아직 언급 없음 ${fmtInt(debutData.unmentioned.length)}팀)입니다.`
       : `기준일(${escapeHtml(asOf)}) 전 12개월 내 조건에 맞는 백지 신인이 없습니다.`,
@@ -236,8 +217,8 @@ async function renderDebutCandidatesView(root) {
     : '아직 어느 출처에도 언급되지 않은 백지 신인은 선행 발굴 후보로 따로 모아 둡니다.';
 
   root.innerHTML = `
+    ${renderChartTabsHtml('debut')}
     ${bannerHtml}
-    ${renderCandTabsHtml('debut')}
 
     <section class="inline-filter-bar" aria-label="갓 데뷔 필터">
       <div class="inline-filter-row">
@@ -313,7 +294,6 @@ async function renderDebutCandidatesView(root) {
     <p class="photo-credit" id="debutPhotoCredit" hidden>아티스트 사진 출처: Spotify</p>
   `;
 
-  wireCandTabs(root);
 
   function closeDebutPreviewRows() {
     const tbody = root.querySelector('#debutTbody');
@@ -625,13 +605,17 @@ export async function renderCandidatesView(root) {
 
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
   const isRisingPreset = appState.candPreset === 'rising';
-  const [rawRows, upcomingRaw, stageData, rankChangeData, risingRaw] = await Promise.all([
+  const [rawRows, upcomingRaw, stageData, rankChangeData, risingRaw, ladder] = await Promise.all([
     queryCandidates(),
     queryUpcomingGigs({ asOf }),
     queryDiscoveryStages({ as_of: asOf }),
     queryRankChange({ as_of: asOf }),
     isRisingPreset ? queryRisingPreset() : Promise.resolve(null),
+    loadVenueLadder(),
   ]);
+  // 가장 큰 무대 체급(venue_ladder.json teams[].max) — 발굴 '체급' 필터
+  const TIER_RANK = { S: 1, M: 2, L: 3, XL: 4 };
+  const maxTierOf = key => ladder?.teams?.[key]?.max || '';
 
   const c = appState.cfg;
   const nextGigByTeam = buildNextGigByTeam(upcomingRaw);
@@ -846,6 +830,9 @@ export async function renderCandidatesView(root) {
     moves: { new: newCount, riser: riserCount, upcoming: upcomingCount },
     hasCityData,
     nonSeoul: nonSeoulCount,
+    cities: defaultRows.reduce((m, r) => (r.home_city ? m.set(r.home_city, (m.get(r.home_city) || 0) + 1) : m), new Map()),
+    hasLadder: Boolean(ladder?.teams),
+    tiers: Object.fromEntries(['S', 'M', 'L'].map(t => [t, defaultRows.filter(r => TIER_RANK[maxTierOf(r.team_key)] && TIER_RANK[maxTierOf(r.team_key)] <= TIER_RANK[t]).length])),
     presets: {
       debut12: releaseMonthCounts[12],
       blank: blankRows.length,
@@ -867,7 +854,7 @@ export async function renderCandidatesView(root) {
 
   const topName = defaultRows[0] ? `${defaultRows[0].display_name} (${fmtNum(defaultRows[0].score, 2)}점)` : '없음';
   const bannerHtml = renderActionBanner({
-    title: '후보 목록',
+    title: '요약',
     lead: defaultRows.length
       ? `신인 후보 상위 <strong>${fmtInt(defaultRows.length)}팀</strong> 중 1위는 <strong>${escapeHtml(topName)}</strong>이며, 예정 공연이 잡힌 팀은 <strong>${fmtInt(upcomingCount)}팀</strong>입니다.`
       : '현재 조건에 맞는 신인 후보가 없습니다.',
@@ -878,10 +865,19 @@ export async function renderCandidatesView(root) {
     : (rankChangeData?.weekDate ? `지난주(${rankChangeData.weekDate})` : '이전 스냅샷');
 
   root.innerHTML = `
+    <div class="discover-head">
+      <h1 class="discover-title">발굴</h1>
+      <p class="small muted">왼쪽 조건으로 내 기준의 신인 후보를 찾습니다 · 정해진 순위표는 <a href="#/charts">차트</a> · 점수가 얼마나 맞았는지는 <a href="#/verify/backtest">검증</a></p>
+    </div>
     ${bannerHtml}
-    ${renderCandTabsHtml('all')}
-    <div id="candSavedHost"></div>
-    <div id="candFilterBarHost"></div>
+    <div class="discover-layout" id="candFilterBarHost">
+    <aside class="discover-panel" id="candPanel" aria-label="발굴 필터">
+      <div class="dp-head"><strong>필터</strong><button type="button" class="btn btn-sm dp-close" id="candPanelClose" aria-label="필터 닫기">닫기</button></div>
+      <div id="candSavedHost"></div>
+      <div id="candPanelHost"></div>
+    </aside>
+    <div class="discover-results">
+    <div id="candResultsBar"></div>
 
     <div class="block" style="padding:0;overflow:hidden;">
       <div class="table-bar">
@@ -920,6 +916,8 @@ export async function renderCandidatesView(root) {
       <div class="more-row" id="candMoreRow" hidden></div>
     </div>
     <p class="photo-credit" id="candPhotoCredit" hidden>아티스트 사진 출처: Spotify</p>
+    </div>
+    </div>
   `;
 
   function updateColumnCoverage(list) {
@@ -1027,6 +1025,13 @@ export async function renderCandidatesView(root) {
     if (regionFilter === 'non_seoul') {
       list = list.filter(r => r.home_city && r.home_city !== '서울');
     }
+    // 발굴 패널의 새 조건: 활동 도시 · 가장 큰 무대 체급 상한 · 장르를 골랐을 때 추정 장르 빼기
+    if (appState.candCity) list = list.filter(r => r.home_city === appState.candCity);
+    if (appState.candTier) {
+      const cap = TIER_RANK[appState.candTier];
+      list = list.filter(r => TIER_RANK[maxTierOf(r.team_key)] && TIER_RANK[maxTierOf(r.team_key)] <= cap);
+    }
+    if (appState.candGenreInf === 'exclude' && c.genre) list = list.filter(r => r.genre_confidence !== 'inferred');
 
     if (moveFilter === 'new') list = list.filter(r => r.is_new);
     else if (moveFilter === 'riser') list = list.filter(r => Boolean(r.riser));
@@ -1280,7 +1285,6 @@ export async function renderCandidatesView(root) {
     });
   }
 
-  wireCandTabs(root);
   paintTable();
 
   root.querySelector('#btnCandCsv')?.addEventListener('click', () => {
@@ -1291,12 +1295,18 @@ export async function renderCandidatesView(root) {
 
   function renderFilterBar({ focusId = '', caret = null } = {}) {
     if (!host) return;
-    host.innerHTML = renderCandFilterBarHtml({
-      appState,
-      counts: filterCounts,
-      mobileOpen: mobileFilterOpen,
-      popoverOpen,
-    });
+    const panelHost = host.querySelector('#candPanelHost');
+    const barHost = host.querySelector('#candResultsBar');
+    if (panelHost) {
+      // 접힌 묶음 상태를 다시 그려도 유지
+      const closed = [...panelHost.querySelectorAll('details.dp-group:not([open]) > summary')].map(x => x.textContent.trim());
+      panelHost.innerHTML = renderCandPanelHtml({ appState, counts: filterCounts });
+      panelHost.querySelectorAll('details.dp-group > summary').forEach(sm => {
+        if (closed.includes(sm.textContent.trim())) sm.parentElement.removeAttribute('open');
+      });
+    }
+    if (barHost) barHost.innerHTML = renderCandResultsBarHtml({ appState });
+    host.querySelector('#candPanel')?.classList.toggle('is-open', mobileFilterOpen);
     if (focusId) {
       const el = host.querySelector(`#${focusId}`);
       if (el) {
@@ -1350,6 +1360,9 @@ export async function renderCandidatesView(root) {
     const local = {
       rm: () => { appState.candReleaseMonths = 0; },
       region: () => { appState.candRegion = ''; },
+      city: () => { appState.candCity = ''; },
+      tier: () => { appState.candTier = ''; },
+      ginf: () => { appState.candGenreInf = ''; },
       stage: () => { appState.candStage = ''; },
       move: () => { appState.candMove = ''; },
       query: () => { appState.candQuery = ''; },
@@ -1404,6 +1417,14 @@ export async function renderCandidatesView(root) {
       appState.candReleaseMonths = Number(d.setRm) || 0;
       return refreshLocal();
     }
+    if (d.setTier !== undefined) {
+      appState.candTier = ['S', 'M', 'L'].includes(d.setTier) ? d.setTier : '';
+      return refreshLocal();
+    }
+    if (t.id === 'candPanelClose') {
+      mobileFilterOpen = false;
+      return renderFilterBar();
+    }
     if (d.setRegion !== undefined) {
       appState.candRegion = d.setRegion || '';
       return refreshLocal();
@@ -1457,6 +1478,14 @@ export async function renderCandidatesView(root) {
       appState.cfg.only_no_outcome = el.checked;
     } else if (el.id === 'candLimitSel') {
       appState.cfg.limit = Number(el.value) || 100;
+    } else if (el.id === 'candCitySel') {
+      appState.candCity = el.value || '';
+      refreshLocal();
+      return;
+    } else if (el.id === 'candGenreInfChk') {
+      appState.candGenreInf = el.checked ? '' : 'exclude';
+      refreshLocal();
+      return;
     } else if (el.id === 'candPeriodSel') {
       appState.cfg.period_days = Number(el.value) || 0;
     } else {

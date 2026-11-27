@@ -52,7 +52,7 @@ export async function renderSignalsView(root) {
     title: '신호별 적중률',
     lead: leadParts.join(' ') || '조건에 해당하는 신호 적중률 데이터가 없습니다.',
     todo: '신뢰구간 폭이 넓거나 표본이 10팀 미만(흐린 줄)인 프로그램은 아직 참고용으로만 보고, 기준일을 바꿔 일관성을 확인하세요.',
-    buttonsHtml: '<a class="btn" href="#/evidence">리드타임·중간→최종 근거 보기</a>',
+    buttonsHtml: '<a class="btn" href="#/verify/evidence">리드타임·중간→최종 근거 보기</a>',
   });
 
   root.innerHTML = `

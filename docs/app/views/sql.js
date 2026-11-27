@@ -4,6 +4,7 @@ import {
   escapeHtml, fmtInt, friendlySqlError, renderActionBanner,
   renderTableCsvBtn, triggerTableCsvExport,
 } from '../ui.js';
+import { renderVerifyNavHtml } from './verify.js';
 
 let savedEditorText = '';
 
@@ -21,6 +22,7 @@ export async function renderSqlView(root) {
     'SELECT branch, COUNT(*) AS rows, COUNT(DISTINCT team_key) AS teams FROM signals GROUP BY branch ORDER BY rows DESC;';
 
   root.innerHTML = `
+    ${renderVerifyNavHtml('sql')}
     ${bannerHtml}
 
     <div class="schema-box">

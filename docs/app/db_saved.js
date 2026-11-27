@@ -10,6 +10,7 @@ import {
 } from './db.js';
 import { isoMinusDays } from './components/team_metrics.js';
 import { filterSavedRows, newMatches } from './components/saved_match.js';
+import { loadVenueLadder } from './db_venue.js';
 
 const cache = new Map(); // JSON(spec)|asOf -> rows
 const CACHE_MAX = 24;
@@ -59,8 +60,11 @@ export async function querySavedMatches(spec, asOf) {
   const firstRelease = new Map(appState.firstReleaseByTeam);
   for (const s of stageData?.rows || []) if (s.first_release && !firstRelease.has(s.team_key)) firstRelease.set(s.team_key, s.first_release);
   const homeCity = new Map([...appState.teamCitiesByTeam].map(([k, v]) => [k, v.home_city]));
+  const ladder = spec.tier ? await loadVenueLadder() : null;
+  const maxTier = new Map(Object.entries(ladder?.teams || {}).map(([k, v]) => [k, v?.max]));
+  const genreConf = appState.genreConfidenceByTeam || new Map();
 
-  const matched = filterSavedRows(rows, spec, asOf, { stageByTeam, firstRelease, homeCity })
+  const matched = filterSavedRows(rows, spec, asOf, { stageByTeam, firstRelease, homeCity, maxTier, genreConf })
     .map(r => ({ team_key: r.team_key, display_name: r.display_name || r.team_key }));
   return remember(key, matched);
 }

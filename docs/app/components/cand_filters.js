@@ -95,6 +95,15 @@ export function buildActiveFilterChips(appState) {
   if (!c.only_no_outcome) {
     chips.push({ key: 'only_no_outcome', label: `${TERMS.priorOutcome} 포함`, removable: true });
   }
+  if (appState.candCity) {
+    chips.push({ key: 'city', label: `활동 도시: ${appState.candCity}`, removable: true });
+  }
+  if (appState.candTier) {
+    chips.push({ key: 'tier', label: `가장 큰 무대 ≤ ${appState.candTier}`, removable: true });
+  }
+  if (appState.candGenreInf === 'exclude' && c.genre) {
+    chips.push({ key: 'ginf', label: '추정 장르 빼기', removable: true });
+  }
   if (appState.candQuery && appState.candQuery.trim()) {
     chips.push({ key: 'query', label: `검색: ${appState.candQuery.trim()}`, removable: true });
   }
@@ -102,202 +111,112 @@ export function buildActiveFilterChips(appState) {
   return chips;
 }
 
-/**
- * 2-1/2-2: 문장형 프리셋 줄 + 한 줄 필터 바 + '+ 필터 추가' 묶음 메뉴 HTML을 생성한다.
- */
-export function renderCandFilterBarHtml({
-  appState,
-  counts,
-  mobileOpen = false,
-  popoverOpen = false,
-}) {
-  const c = appState.cfg;
-  const activeChips = buildActiveFilterChips(appState);
-  const removableCount = activeChips.filter(ch => ch.removable).length;
-  const activePresetId = appState.candPreset
+const TIER_OPTIONS = [['S', 'S만 (~150명)'], ['M', 'M 이하 (~400명)'], ['L', 'L 이하 (~1,000명)']];
+
+function activePresetOf(appState) {
+  return appState.candPreset
     || (Number(appState.candReleaseMonths) === 12 && !appState.candStage && !appState.candRegion ? 'debut12'
       : appState.candStage === '0' && !appState.candReleaseMonths && !appState.candRegion ? 'blank'
         : appState.candStage === '3' && !appState.candReleaseMonths && !appState.candRegion ? 'selected'
           : appState.candRegion === 'non_seoul' && !appState.candStage && !appState.candReleaseMonths ? 'regional'
             : '');
+}
 
+function optBtn(attr, value, label, cnt, active) {
+  const cntHtml = cnt === null || cnt === undefined ? '' : `<span class="cf-opt-cnt">${typeof cnt === 'number' ? fmtInt(cnt) : escapeHtml(cnt)}</span>`;
+  return `<button type="button" class="cf-opt-btn${active ? ' is-active' : ''}" ${attr}="${escapeHtml(value)}" aria-pressed="${active ? 'true' : 'false'}"><span>${escapeHtml(label)}</span>${cntHtml}</button>`;
+}
+
+function group(title, body, open = true, tipHtml = '') {
+  return `<details class="dp-group"${open ? ' open' : ''}><summary class="dp-group-title">${escapeHtml(title)}${tipHtml}</summary><div class="dp-group-body">${body}</div></details>`;
+}
+
+/**
+ * 발굴(#/discover) 왼쪽 필터 패널 — 프리셋 + 팀(장르·추정 장르·지역·도시) · 단계(발굴 단계·첫 발매 N개월) ·
+ * 신호(갈래·가장 큰 무대 체급) · 변화(최근 활동·새로 들어옴/상승/예정 공연·떠오르는 팀) · 세부 기준.
+ * 버튼·입력의 data-·id 는 예전 필터 줄과 같아 candidates.js 의 연결을 그대로 쓴다. 항목마다 해당 팀 수.
+ */
+export function renderCandPanelHtml({ appState, counts }) {
+  const c = appState.cfg;
+  const activePresetId = activePresetOf(appState);
   const presetsHtml = CAND_PRESETS.map(p => {
-    const isActive = activePresetId === p.id;
     const cnt = counts.presets?.[p.id];
-    const cntTxt = (cnt !== null && cnt !== undefined) ? `<span class="cf-preset-cnt">${fmtInt(cnt)}</span>` : '';
-    return `
-      <span class="cf-preset-item">
-        <button type="button" class="cf-preset-btn${isActive ? ' is-active' : ''}" data-cand-preset="${p.id}" aria-pressed="${isActive ? 'true' : 'false'}">
-          <span>${escapeHtml(p.label)}</span>${cntTxt}
-        </button>${infoTip(p.tipTitle, p.tip, { compact: true })}
-      </span>
-    `;
+    const isActive = activePresetId === p.id;
+    return `<span class="cf-preset-item"><button type="button" class="cf-preset-btn${isActive ? ' is-active' : ''}" data-cand-preset="${p.id}" aria-pressed="${isActive ? 'true' : 'false'}"><span>${escapeHtml(p.label)}</span>${cnt !== null && cnt !== undefined ? `<span class="cf-preset-cnt">${fmtInt(cnt)}</span>` : ''}</button>${infoTip(p.tipTitle, p.tip, { compact: true })}</span>`;
   }).join('');
 
-  const chipsHtml = activeChips.map(ch => (
-    ch.removable
-      ? `<span class="cf-chip" data-chip-key="${escapeHtml(ch.key)}">
-          <span>${escapeHtml(ch.label)}</span>
-          <button type="button" class="cf-chip-x" data-remove-filter="${escapeHtml(ch.key)}" aria-label="${escapeHtml(ch.label)} 필터 지우기">×</button>
-        </span>`
-      : `<span class="cf-chip is-derived" title="프리셋에 포함된 조건입니다">${escapeHtml(ch.label)}</span>`
-  )).join('');
-
-  const genreMenuItems = [
-    `<button type="button" class="cf-opt-btn${!c.genre ? ' is-active' : ''}" data-set-genre=""><span>전체 장르</span><span class="cf-opt-cnt">${fmtInt(counts.total)}</span></button>`,
-    ...appState.validGenres.slice(0, 14).map(g => {
-      const cnt = counts.genres.get(g) || 0;
-      const active = c.genre === g;
-      return `<button type="button" class="cf-opt-btn${active ? ' is-active' : ''}" data-set-genre="${escapeHtml(g)}"><span>${escapeHtml(g)}</span><span class="cf-opt-cnt">${fmtInt(cnt)}</span></button>`;
-    }),
-  ].join('');
-
-  const releaseMenuItems = [
-    `<button type="button" class="cf-opt-btn${!appState.candReleaseMonths ? ' is-active' : ''}" data-set-rm="0"><span>전체</span><span class="cf-opt-cnt">${fmtInt(counts.total)}</span></button>`,
-    ...RELEASE_MONTH_OPTIONS.map(m => {
-      const cnt = counts.releaseMonths[m] || 0;
-      const active = Number(appState.candReleaseMonths) === m;
-      return `<button type="button" class="cf-opt-btn${active ? ' is-active' : ''}" data-set-rm="${m}"><span>${m}개월 이내</span><span class="cf-opt-cnt">${fmtInt(cnt)}</span></button>`;
-    }),
-  ].join('');
-
-  const stageMenuItems = STAGE_ORDER.map(code => {
-    const meta = STAGE_META[code];
-    const cnt = counts.stages[code] || 0;
-    const active = appState.candStage === String(code);
-    const suffix = code === 4 ? ' (숨김)' : '';
-    return `<button type="button" class="cf-opt-btn${active ? ' is-active' : ''}" data-stage-chip="${code}" aria-pressed="${active ? 'true' : 'false'}"><span>${escapeHtml(meta.short)}${suffix}</span><span class="cf-opt-cnt">${fmtInt(cnt)}</span></button>`;
-  }).join('');
-
-  const branchMenuItems = ALL_BRANCHES.map(b => {
-    const active = c.branches.includes(b);
-    const cnt = counts.branches[b] || 0;
-    return `<button type="button" class="cf-opt-btn${active ? ' is-active' : ''}" data-branch-chip="${escapeHtml(b)}" aria-pressed="${active ? 'true' : 'false'}"><span>${escapeHtml(b)}</span><span class="cf-opt-cnt">${fmtInt(cnt)}</span></button>`;
-  }).join('');
-
-  const moveMenuItems = [
-    ['new', '새로 들어옴', counts.moves.new || 0],
-    ['riser', '상승', counts.moves.riser || 0],
-    ['upcoming', '예정 공연', counts.moves.upcoming || 0],
-  ].map(([key, lbl, cnt]) => {
-    const active = appState.candMove === key;
-    return `<button type="button" class="cf-opt-btn${active ? ' is-active' : ''}" data-move-chip="${key}" aria-pressed="${active ? 'true' : 'false'}"><span>${escapeHtml(lbl)}</span><span class="cf-opt-cnt">${fmtInt(cnt)}</span></button>`;
-  }).join('');
-
+  const genres = [optBtn('data-set-genre', '', '전체 장르', counts.total, !c.genre),
+    ...appState.validGenres.slice(0, 14).map(g => optBtn('data-set-genre', g, g, counts.genres.get(g) || 0, c.genre === g))].join('');
+  const genreInf = `<label class="cf-crit-check dp-sub"><input type="checkbox" id="candGenreInfChk" ${appState.candGenreInf === 'exclude' ? '' : 'checked'} ${c.genre ? '' : 'disabled'}><span>추정 장르 팀도 포함${c.genre ? '' : ' (장르를 고르면)'}</span></label>`;
   const regionActive = appState.candRegion === 'non_seoul';
-  const isHeat = appState.candView === 'heat';
-  const regionCnt = counts.nonSeoul;
-  const regionCntTxt = counts.hasCityData ? fmtInt(regionCnt) : '준비 중';
+  const cityOpts = [...(counts.cities || new Map()).entries()].sort((a, b) => b[1] - a[1]);
+  const citySel = counts.hasCityData
+    ? `<select id="candCitySel" class="select dp-select" aria-label="활동 도시"><option value="">모든 도시</option>${cityOpts.map(([n, k]) => `<option value="${escapeHtml(n)}"${appState.candCity === n ? ' selected' : ''}>${escapeHtml(n)} (${fmtInt(k)})</option>`).join('')}</select>`
+    : '<p class="small muted dp-sub">팀별 활동 도시 자료(team_cities.csv)가 아직 없습니다.</p>';
+  const teamBody = `
+    <div class="dp-label">장르</div><div class="cf-pop-opts cf-pop-scroll">${genres}</div>${genreInf}
+    <div class="dp-label">지역</div><div class="cf-pop-opts">${optBtn('data-set-region', regionActive ? '' : 'non_seoul', '지방 씬 (서울 외)', counts.hasCityData ? counts.nonSeoul : '준비 중', regionActive)}</div>
+    <div class="dp-label">활동 도시</div>${citySel}`;
+
+  const stages = STAGE_ORDER.map(code => optBtn('data-stage-chip', String(code), `${STAGE_META[code].short}${code === 4 ? ' (기본 숨김)' : ''}`, counts.stages[code] || 0, appState.candStage === String(code))).join('');
+  const releases = [optBtn('data-set-rm', '0', '전체', counts.total, !appState.candReleaseMonths),
+    ...RELEASE_MONTH_OPTIONS.map(m => optBtn('data-set-rm', String(m), `${m}개월 이내`, counts.releaseMonths[m] || 0, Number(appState.candReleaseMonths) === m))].join('');
+  const stageBody = `<div class="dp-label">발굴 단계${infoTip('발굴 단계', INFO_TIPS.discovery_stage, { compact: true })}</div><div class="cf-pop-opts">${stages}</div>
+    <div class="dp-label">첫 발매 N개월</div><div class="cf-pop-opts">${releases}</div>`;
+
+  const branches = ALL_BRANCHES.map(b => optBtn('data-branch-chip', b, b, counts.branches[b] || 0, c.branches.includes(b))).join('');
+  const tiers = counts.hasLadder
+    ? [optBtn('data-set-tier', '', '체급 상관없음', counts.total, !appState.candTier),
+      ...TIER_OPTIONS.map(([t, lbl]) => optBtn('data-set-tier', t, lbl, counts.tiers?.[t] ?? 0, appState.candTier === t))].join('')
+    : '<p class="small muted">공연장 체급 사다리 자료(venue_ladder.json)가 아직 없습니다.</p>';
+  const signalBody = `<div class="dp-label">신호 갈래</div><div class="cf-pop-opts">${branches}</div>
+    <div class="dp-label">가장 큰 무대 체급</div><div class="cf-pop-opts">${tiers}</div>
+    <p class="small muted dp-sub">체급을 모르는 공연장만 선 팀은 체급을 고르면 빠집니다</p>`;
+
+  const moves = [['new', '새로 들어옴'], ['riser', '상승'], ['upcoming', '예정 공연']]
+    .map(([k, lbl]) => optBtn('data-move-chip', k, lbl, counts.moves[k] || 0, appState.candMove === k)).join('');
+  const periodSel = `<select id="candPeriodSel" class="select dp-select" aria-label="최근 활동 기간">
+      ${[[0, '전체 기간 (3년)'], [30, '최근 30일'], [90, '최근 90일'], [180, '최근 180일'], [365, '최근 365일']].map(([v, l]) => `<option value="${v}" ${Number(c.period_days) === v ? 'selected' : ''}>${l}</option>`).join('')}
+    </select>`;
+  const changeBody = `<div class="dp-label">최근 활동 (마지막 신호)</div>${periodSel}
+    <div class="dp-label">변화</div><div class="cf-pop-opts">${moves}</div>
+    <div class="dp-label">떠오르는 팀 조건</div><div class="cf-pop-opts">${optBtn('data-cand-preset', 'rising', '떠오르는 팀만 (최근 30일 언급 ↑)', counts.presets?.rising ?? null, appState.candPreset === 'rising')}</div>`;
+
+  const criteriaBody = `<div class="cf-pop-criteria">
+      <label class="cf-crit-row"><span>신인 기준(년)</span><input type="number" id="candNewcomerInp" class="input input-num" min="1" max="15" value="${c.newcomer_years}"></label>
+      <label class="cf-crit-check"><input type="checkbox" id="candExcludeFamous" ${c.exclude_famous ? 'checked' : ''}><span>유명 팀 제외</span></label>
+      <label class="cf-crit-check"><input type="checkbox" id="candOnlyNoOutcome" ${c.only_no_outcome ? 'checked' : ''}><span>${escapeHtml(TERMS.priorOutcome)} 팀 제외</span></label>
+      <label class="cf-crit-row"><span>조회 상한</span><select id="candLimitSel" class="select" aria-label="조회 상한">${[50, 100, 200].map(n => `<option value="${n}" ${c.limit === n ? 'selected' : ''}>${n}팀</option>`).join('')}</select></label>
+    </div>`;
 
   return `
-    <section class="inline-filter-bar cf-shell${mobileOpen ? ' is-mobile-open' : ''}" aria-label="후보 목록 필터">
-      <div class="cf-presets-row" role="group" aria-label="문장형 프리셋">
-        <span class="cf-presets-lbl">프리셋</span>
-        <div class="cf-presets-list">${presetsHtml}</div>
+    <div class="dp-presets"><div class="dp-label">프리셋</div><div class="cf-presets-list">${presetsHtml}</div></div>
+    ${group('팀', teamBody)}
+    ${group('단계', stageBody)}
+    ${group('신호', signalBody)}
+    ${group('변화', changeBody)}
+    ${group('세부 기준', criteriaBody, false)}
+    <p class="small muted dp-foot">조건은 주소에 남습니다 · 발굴 단계 4(졸업)는 기본 숨김</p>`;
+}
+
+/** 발굴 결과 위 줄 — 조건 꼬리표(ⓧ) · 모두 지우기 · 검색 · 보기 [표 | 색 지도] · (휴대폰) 필터 열기 */
+export function renderCandResultsBarHtml({ appState }) {
+  const activeChips = buildActiveFilterChips(appState);
+  const removableCount = activeChips.filter(ch => ch.removable).length;
+  const isHeat = appState.candView === 'heat';
+  const chipsHtml = activeChips.map(ch => (ch.removable
+    ? `<span class="cf-chip" data-chip-key="${escapeHtml(ch.key)}"><span>${escapeHtml(ch.label)}</span><button type="button" class="cf-chip-x" data-remove-filter="${escapeHtml(ch.key)}" aria-label="${escapeHtml(ch.label)} 필터 지우기">×</button></span>`
+    : `<span class="cf-chip is-derived" title="프리셋에 포함된 조건입니다">${escapeHtml(ch.label)}</span>`)).join('');
+  return `
+    <div class="dr-bar">
+      <button type="button" class="btn btn-sm dr-filter-toggle" id="candMobileFilterToggle" aria-controls="candPanel">필터${removableCount ? ` <span class="cf-count-num">${removableCount}</span>` : ''}</button>
+      <input type="search" id="candFilterInput" class="input dr-search" value="${escapeHtml(appState.candQuery || '')}" placeholder="팀·장르·이유 검색..." aria-label="결과 안에서 팀 검색">
+      <div class="cf-view-switch" role="group" aria-label="보기 전환">
+        <button type="button" class="cf-view-btn${isHeat ? '' : ' is-active'}" data-cand-view="" aria-pressed="${isHeat ? 'false' : 'true'}">표</button>
+        <button type="button" class="cf-view-btn${isHeat ? ' is-active' : ''}" data-cand-view="heat" aria-pressed="${isHeat ? 'true' : 'false'}" title="팀 × 신호 8개를 진하기(1~5단계)로 보기">색 지도</button>
       </div>
-
-      <div class="cf-mobile-bar">
-        <button type="button" class="cf-mobile-toggle" id="candMobileFilterToggle" aria-expanded="${mobileOpen ? 'true' : 'false'}" aria-controls="candFilterBody">
-          <span>필터${removableCount ? ` ${removableCount}` : ''}</span>
-          <span class="cf-caret" aria-hidden="true">${mobileOpen ? '▴' : '▾'}</span>
-        </button>
-        <input type="search" id="candFilterInputMobile" class="input cf-mobile-search" value="${escapeHtml(appState.candQuery || '')}" placeholder="팀·장르·이유 검색..." aria-label="모바일 팀 검색">
-      </div>
-
-      <div class="cf-bar" id="candFilterBody">
-        <div class="cf-left">
-          <div class="cf-add-wrap">
-            <button type="button" class="cf-count-btn${removableCount > 0 ? ' has-active' : ''}" id="candFilterCountBtn" aria-expanded="${popoverOpen ? 'true' : 'false'}" aria-controls="candFilterPopover">
-              필터${removableCount > 0 ? ` <span class="cf-count-num">${removableCount}</span>` : ''}
-            </button>
-            <button type="button" class="cf-add-btn" id="candAddFilterBtn" aria-expanded="${popoverOpen ? 'true' : 'false'}" aria-controls="candFilterPopover">
-              + 필터 추가
-            </button>
-
-            <div class="cf-popover" id="candFilterPopover" ${popoverOpen ? '' : 'hidden'} role="dialog" aria-label="필터 추가 메뉴">
-              <div class="cf-pop-grid">
-                <div class="cf-pop-group">
-                  <div class="cf-pop-title">팀 · 장르</div>
-                  <div class="cf-pop-opts cf-pop-scroll">${genreMenuItems}</div>
-                </div>
-
-                <div class="cf-pop-group">
-                  <div class="cf-pop-title">팀 · 첫 발매 N개월</div>
-                  <div class="cf-pop-opts">${releaseMenuItems}</div>
-                  <div class="cf-pop-title" style="margin-top:10px;">팀 · 지역</div>
-                  <div class="cf-pop-opts">
-                    <button type="button" class="cf-opt-btn${regionActive ? ' is-active' : ''}" data-set-region="${regionActive ? '' : 'non_seoul'}" aria-pressed="${regionActive ? 'true' : 'false'}">
-                      <span>지방 씬 (서울 외)</span>
-                      <span class="cf-opt-cnt">${escapeHtml(regionCntTxt)}</span>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="cf-pop-group">
-                  <div class="cf-pop-title">발굴 단계${infoTip('발굴 단계', INFO_TIPS.discovery_stage, { compact: true })}</div>
-                  <div class="cf-pop-opts">${stageMenuItems}</div>
-                  <div class="cf-pop-title" style="margin-top:10px;">변화</div>
-                  <div class="cf-pop-opts">${moveMenuItems}</div>
-                </div>
-
-                <div class="cf-pop-group">
-                  <div class="cf-pop-title">신호 갈래</div>
-                  <div class="cf-pop-opts">${branchMenuItems}</div>
-                  <div class="cf-pop-title" style="margin-top:10px;">세부 기준</div>
-                  <div class="cf-pop-criteria">
-                    <label class="cf-crit-row">
-                      <span>신인 기준(년)</span>
-                      <input type="number" id="candNewcomerInp" class="input input-num" min="1" max="15" value="${c.newcomer_years}">
-                    </label>
-                    <label class="cf-crit-check">
-                      <input type="checkbox" id="candExcludeFamous" ${c.exclude_famous ? 'checked' : ''}>
-                      <span>유명 팀 제외</span>
-                    </label>
-                    <label class="cf-crit-check">
-                      <input type="checkbox" id="candOnlyNoOutcome" ${c.only_no_outcome ? 'checked' : ''}>
-                      <span>${escapeHtml(TERMS.priorOutcome)} 팀 제외</span>
-                    </label>
-                    <label class="cf-crit-row">
-                      <span>조회 상한</span>
-                      <select id="candLimitSel" class="select" aria-label="조회 상한">
-                        <option value="50" ${c.limit === 50 ? 'selected' : ''}>50팀</option>
-                        <option value="100" ${c.limit === 100 ? 'selected' : ''}>100팀</option>
-                        <option value="200" ${c.limit === 200 ? 'selected' : ''}>200팀</option>
-                      </select>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="cf-pop-foot">
-                <span class="small muted">발굴 단계 4(졸업)는 기본 숨김 · 조건은 주소에 저장됩니다</span>
-                <button type="button" class="btn btn-sm" id="candCloseFilterPop">닫기</button>
-              </div>
-            </div>
-          </div>
-
-          <input type="search" id="candFilterInput" class="input cf-inline-search" value="${escapeHtml(appState.candQuery || '')}" placeholder="팀·장르·이유 검색..." aria-label="표 안에서 팀 검색">
-
-          ${chipsHtml ? `<div class="cf-chips" aria-label="적용된 필터">${chipsHtml}</div>` : ''}
-          ${removableCount > 0 ? '<button type="button" class="cf-clear-btn" data-action="reset-filters">모두 지우기</button>' : ''}
-        </div>
-
-        <div class="cf-right">
-          <select id="candPeriodSel" class="select cf-period-sel" aria-label="최근 활동 기간">
-            <option value="0" ${Number(c.period_days) === 0 ? 'selected' : ''}>전체 기간 (3년)</option>
-            <option value="30" ${Number(c.period_days) === 30 ? 'selected' : ''}>최근 30일</option>
-            <option value="90" ${Number(c.period_days) === 90 ? 'selected' : ''}>최근 90일</option>
-            <option value="180" ${Number(c.period_days) === 180 ? 'selected' : ''}>최근 180일</option>
-            <option value="365" ${Number(c.period_days) === 365 ? 'selected' : ''}>최근 365일</option>
-          </select>
-
-          <div class="cf-view-switch" role="group" aria-label="보기 전환">
-            <button type="button" class="cf-view-btn${isHeat ? '' : ' is-active'}" data-cand-view="" aria-pressed="${isHeat ? 'false' : 'true'}">표</button>
-            <button type="button" class="cf-view-btn${isHeat ? ' is-active' : ''}" data-cand-view="heat" aria-pressed="${isHeat ? 'true' : 'false'}" title="팀 × 신호 8개를 진하기(1~5단계)로 보기">색 지도</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  `;
+    </div>
+    ${chipsHtml ? `<div class="cf-chips dr-chips" aria-label="적용된 조건">${chipsHtml}${removableCount > 0 ? '<button type="button" class="cf-clear-btn" data-action="reset-filters">모두 지우기</button>' : ''}</div>` : ''}`;
 }
 
 /**

@@ -8,6 +8,7 @@ import { isoMinusDays } from './team_metrics.js';
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const NAME_MAX = 60;
 const GRADUATED = 4;
+const TIER_RANK = { S: 1, M: 2, L: 3, XL: 4 };
 
 /** 기준일(asOf)에서 N개월 전 ISO 날짜(YYYY-MM-DD) */
 export function subtractMonthsIso(asOf, months) {
@@ -42,14 +43,20 @@ export function specFromState(s) {
     query: String(s.candQuery || '').trim(),
     periodDays: Number(cfg.period_days) || 0,
     moveIgnored: Boolean(s.candMove),
+    city: String(s.candCity || ''),
+    tier: String(s.candTier || ''),
+    genreInf: String(s.candGenreInf || ''),
+    genre: String(cfg.genre || ''),
   };
 }
 
 /**
  * 후보 행에 저장 필터의 화면 쪽 조건(단계·첫 발매·지역·기간·검색어)을 건다. 원본은 바꾸지 않는다.
  * @param {object[]} rows 후보 SQL 결과(또는 단계 0·4 행)
- * @param {{ stage?: string, rm?: number, region?: string, query?: string, periodDays?: number }} spec
- * @param {{ stageByTeam: Map, firstRelease: Map, homeCity: Map }} ctx
+ * @param {{ stage?: string, rm?: number, region?: string, query?: string, periodDays?: number,
+ *           city?: string, tier?: string, genreInf?: string, genre?: string }} spec
+ * @param {{ stageByTeam: Map, firstRelease: Map, homeCity: Map, maxTier?: Map, genreConf?: Map }} ctx
+ *   city = 활동 도시 · tier = 가장 큰 무대 체급 상한(S·M·L, 체급 모르는 팀은 뺌) · genreInf 'exclude' = 장르를 골랐을 때 추정 장르 팀 빼기
  */
 export function filterSavedRows(rows, spec, asOf, ctx) {
   const stage = String(spec.stage || '');
@@ -64,6 +71,12 @@ export function filterSavedRows(rows, spec, asOf, ctx) {
       if (!city || city === '서울') return false;
     }
     if (fromDate && !(r.last_seen && String(r.last_seen).slice(0, 10) >= fromDate)) return false;
+    if (spec.city && (ctx.homeCity.get(r.team_key) || '') !== spec.city) return false;
+    if (spec.tier) {
+      const rank = TIER_RANK[ctx.maxTier?.get(r.team_key)];
+      if (!rank || rank > TIER_RANK[spec.tier]) return false;
+    }
+    if (spec.genreInf === 'exclude' && spec.genre && ctx.genreConf?.get(r.team_key) === 'inferred') return false;
     if (q) {
       const hay = `${r.display_name || ''} ${r.team_key || ''} ${r.primary_genre || ''}`.toLowerCase();
       if (!hay.includes(q)) return false;

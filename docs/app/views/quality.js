@@ -4,6 +4,7 @@ import {
   cssVar, ensureChartJs, escapeHtml, fmtInt,
   renderActionBanner, renderTableCsvBtn, SOURCE_LABELS, triggerTableCsvExport,
 } from '../ui.js';
+import { renderVerifyNavHtml } from './verify.js';
 
 function formatDeltaText(cur, prev) {
   if (prev === null || prev === undefined || prev === '') return '';
@@ -63,6 +64,7 @@ export async function renderQualityView(root) {
   });
 
   root.innerHTML = `
+    ${renderVerifyNavHtml('quality')}
     ${bannerHtml}
 
     <div class="stat-row">

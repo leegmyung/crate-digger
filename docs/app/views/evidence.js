@@ -25,7 +25,7 @@ export async function renderEvidenceView(root) {
       ? `정답 ${fmtInt(leadSummary.outcome_teams)}팀 중 <strong>${fmtInt(leadSummary.with_prior_signal)}팀(${pctPrior}%)</strong>에서 사전 신호가 잡혔고, 첫 신호부터 정답까지 중앙값은 <strong>${fmtNum(leadSummary.median_months, 1)}개월</strong>입니다.`
       : 'dashboard.json 요약 근거 데이터를 불러오지 못했습니다.',
     todo: '선행 포착 시점과 중간→최종 전환율을 확인한 뒤 점수 검증 화면에서 관찰 기간·가중치를 조정해 보세요.',
-    buttonsHtml: '<a class="btn" href="#/backtest">점수 검증으로</a>',
+    buttonsHtml: '<a class="btn" href="#/verify/backtest">점수 검증으로</a>',
   });
 
   if (!dj) {

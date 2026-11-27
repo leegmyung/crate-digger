@@ -39,7 +39,7 @@ export const LEGACY_ROUTES = {
   scorecard: 'verify/scorecard',
 };
 
-export const VERIFY_TABS = ['backtest', 'signals', 'evidence', 'scorecard'];
+export const VERIFY_TABS = ['backtest', 'scorecard', 'grades', 'signals', 'evidence'];
 
 export const WATCH_STATUSES = [
   { id: 'watching', label: '지켜보는 중' },
@@ -246,6 +246,9 @@ export const appState = {
   candRegion: '', // '' | 'non_seoul'
   candPreset: '', // '' | 'debut12' | 'blank' | 'selected' | 'regional' | 'rising'
   candView: '', // '' (표) | 'heat' (색 지도)
+  candCity: '', // 발굴: 활동 도시(team_cities home_city) — 주소 hcity
+  candTier: '', // 발굴: 가장 큰 무대 체급 상한 '' | 'S' | 'M' | 'L' — 주소 maxtier
+  candGenreInf: '', // 발굴: '' = 추정 장르 포함 | 'exclude' = 장르 고를 때 추정 장르 팀 빼기 — 주소 ginf=0
   scFilter: 'all', // 'all' | 'discovery' | 'context' | 'excluded' | 'pending' | 'mismatch'
   scSort: { col: 'winners_seen', dir: 'desc' },
   venuesCalMode: 'cand', // 'cand' | 'all'
@@ -265,6 +268,9 @@ export function resetViewFilters() {
   appState.candRegion = '';
   appState.candPreset = '';
   appState.candView = '';
+  appState.candCity = '';
+  appState.candTier = '';
+  appState.candGenreInf = '';
   appState.scFilter = 'all';
   appState.scSort = { col: 'winners_seen', dir: 'desc' };
   appState.venuesCalMode = 'cand';
@@ -357,9 +363,11 @@ export function legacyToNew(pathPart, queryPart) {
   } else if (head === 'candidates') {
     next = (segs[1] === 'debut' || p.get('ctab') === 'debut') ? 'charts/debut' : 'discover';
     p.delete('ctab');
-  } else if (head === 'venues' && (p.has('vmode') || segs[1] === 'city' || segs[1] === 'festival')) {
-    const mode = segs[1] === 'city' || segs[1] === 'festival' ? segs[1] : p.get('vmode');
+  } else if (head === 'venues' && (p.has('vmode') || p.get('tab') === 'city' || p.get('tab') === 'festival' || segs[1] === 'city' || segs[1] === 'festival')) {
+    const tabParam = p.get('tab') === 'city' || p.get('tab') === 'festival' ? p.get('tab') : '';
+    const mode = segs[1] === 'city' || segs[1] === 'festival' ? segs[1] : (tabParam || p.get('vmode'));
     p.delete('vmode');
+    if (tabParam) p.delete('tab');
     if (mode === 'city') {
       const city = (p.get('city') || '').trim();
       p.delete('city');
@@ -496,6 +504,9 @@ function parseHashString(hash) {
     appState.candPreset = VALID_PRESETS.has(pr) ? pr : '';
     const vw = p.get('view') || '';
     appState.candView = VALID_CAND_VIEWS.has(vw) ? vw : '';
+    appState.candCity = (p.get('hcity') || '').slice(0, 30);
+    appState.candTier = ['S', 'M', 'L'].includes(p.get('maxtier')) ? p.get('maxtier') : '';
+    appState.candGenreInf = p.get('ginf') === '0' ? 'exclude' : '';
     const sortCol = p.get('sort') || '';
     const sortDir = p.get('dir') === 'asc' ? 'asc' : (p.get('dir') === 'desc' ? 'desc' : '');
     if (appState.candTab === 'debut') {
@@ -680,6 +691,9 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
       if (appState.candRegion && VALID_REGIONS.has(appState.candRegion)) p.set('region', appState.candRegion);
       if (appState.candPreset && VALID_PRESETS.has(appState.candPreset)) p.set('preset', appState.candPreset);
       if (appState.candView && VALID_CAND_VIEWS.has(appState.candView)) p.set('view', appState.candView);
+      if (appState.candCity) p.set('hcity', appState.candCity);
+      if (appState.candTier) p.set('maxtier', appState.candTier);
+      if (appState.candGenreInf === 'exclude') p.set('ginf', '0');
       const cs = appState.candSort || { col: 'score', dir: 'desc' };
       if (cs.col !== 'score' || cs.dir !== 'desc') {
         p.set('sort', cs.col);

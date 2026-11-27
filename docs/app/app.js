@@ -27,7 +27,7 @@ const VIEW_LOADERS = {
   quality: () => import('./views/quality.js').then(m => m.renderQualityView),
   sql: () => import('./views/sql.js').then(m => m.renderSqlView),
   // 정보 구조 v2: 아직 화면이 없는 새 주소 (묶음 F·G·B에서 진짜 화면으로 교체)
-  charts: () => import('./views/placeholder.js').then(m => m.renderPlaceholderView),
+  charts: () => import('./views/charts.js').then(m => m.renderChartsView),   // 묶음 F
   alerts: () => import('./views/alerts.js').then(m => m.renderAlertsView),
   search: () => import('./views/search.js').then(m => m.renderSearchView),
 };
@@ -116,7 +116,7 @@ function setGlobalError(msg, rawErr = null) {
       <p class="global-err-msg">${escapeHtml(msg)}</p>
       <div class="global-err-actions">
         <button type="button" class="btn btn-sm btn-primary" data-action="retry-view">다시 불러오기</button>
-        <a class="btn btn-sm" href="#/quality">데이터 수집·품질 보기</a>
+        <a class="btn btn-sm" href="#/verify/quality">데이터 수집·품질 보기</a>
       </div>
       ${rawText ? `
         <details class="global-err-details">
@@ -145,7 +145,7 @@ function renderAnomalyBanner() {
       <strong>데이터 수집 확인 필요</strong>
       <span>${escapeHtml(summary)}</span>
     </div>
-    <a class="btn btn-sm" href="#/quality">수집 현황 보기</a>
+    <a class="btn btn-sm" href="#/verify/quality">수집 현황 보기</a>
   `;
   el.hidden = false;
 }
@@ -213,7 +213,7 @@ function updateNavActive() {
     if (wAlerts.length > 0) {
       alertBadge.hidden = false;
       alertBadge.textContent = `관심 알림 ${fmtInt(wAlerts.length)}`;
-      const tip = `관심 목록 팀의 최근 알림 ${fmtInt(wAlerts.length)}건 (새 공연 포함) — 브리핑에서 보기`;
+      const tip = `관심 목록 팀의 최근 알림 ${fmtInt(wAlerts.length)}건 (새 공연 포함) — 알림 센터에서 보기`;
       alertBadge.title = tip;
       alertBadge.setAttribute('aria-label', tip);
     } else {
@@ -555,16 +555,6 @@ function wireGlobalEvents() {
   window.addEventListener('app:export-ctx', updateExportMenuUI);
   window.addEventListener('app:toast', (e) => {
     if (e.detail) showToast(String(e.detail));
-  });
-
-  document.getElementById('topWatchAlertsBadge')?.addEventListener('click', (e) => {
-    if (appState.route === 'today') {
-      const target = document.getElementById('todayAlertsBlock');
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
   });
 
   // Allow live health recomputation (also helpful for automated verification)
