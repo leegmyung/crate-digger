@@ -21,7 +21,7 @@ RELEASE_SOURCES = {
 }
 GIG_SOURCES = {"indiego", "indistreet", "sangsangmadang", "manual"}
 PRESS_SOURCES = {"musicy", "rhythmer", "liak", "izm", "weiv", "youtube", "rss", "manual",
-                 "visla", "overtone", "instagram", "hiphople"}
+                 "visla", "overtone", "instagram", "hiphople", "trackzero"}
 OUTCOME_SOURCES = {"manual", "aside"}
 
 RELEASE_TYPES = {"single", "EP", "LP", "OST", "compilation"}
