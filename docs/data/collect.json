@@ -1,6 +1,14 @@
 {
- "generated": "2026-11-27T13:36:07+09:00",
+ "generated": "2026-11-28T00:19:21+09:00",
  "runs": [
+  {
+   "date": "2026-11-28",
+   "source": "spotify",
+   "table": "raw_artist_profile",
+   "rows": 33,
+   "file_ok": true,
+   "prev_rows": 43
+  },
   {
    "date": "2026-11-27",
    "source": "visla",
@@ -8,6 +16,30 @@
    "rows": 1063,
    "file_ok": true,
    "prev_rows": null
+  },
+  {
+   "date": "2026-11-27",
+   "source": "trackzero",
+   "table": "raw_press",
+   "rows": 2912,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-27",
+   "source": "superrookie",
+   "table": "raw_kr_selection",
+   "rows": 104,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-27",
+   "source": "poclanos",
+   "table": "raw_kr_release",
+   "rows": 5,
+   "file_ok": true,
+   "prev_rows": 33
   },
   {
    "date": "2026-11-27",
@@ -21,15 +53,23 @@
    "date": "2026-11-27",
    "source": "melon",
    "table": "raw_artist_profile",
-   "rows": 205,
+   "rows": 518,
    "file_ok": true,
    "prev_rows": 83
   },
   {
    "date": "2026-11-27",
+   "source": "melon",
+   "table": "raw_kr_release",
+   "rows": 11,
+   "file_ok": true,
+   "prev_rows": 62
+  },
+  {
+   "date": "2026-11-27",
    "source": "manual",
    "table": "raw_outcome",
-   "rows": 505,
+   "rows": 1054,
    "file_ok": true,
    "prev_rows": 240
   },
@@ -40,6 +80,62 @@
    "rows": 19,
    "file_ok": true,
    "prev_rows": 107
+  },
+  {
+   "date": "2026-11-27",
+   "source": "instagram",
+   "table": "raw_press",
+   "rows": 1745,
+   "file_ok": false,
+   "prev_rows": 121
+  },
+  {
+   "date": "2026-11-27",
+   "source": "indistreet",
+   "table": "raw_kr_gig",
+   "rows": 317,
+   "file_ok": true,
+   "prev_rows": 14192
+  },
+  {
+   "date": "2026-11-27",
+   "source": "indiego",
+   "table": "raw_kr_gig",
+   "rows": 240,
+   "file_ok": true,
+   "prev_rows": 427
+  },
+  {
+   "date": "2026-11-27",
+   "source": "hiphople",
+   "table": "raw_press",
+   "rows": 3565,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-27",
+   "source": "genie",
+   "table": "raw_kr_release",
+   "rows": 19,
+   "file_ok": true,
+   "prev_rows": 46
+  },
+  {
+   "date": "2026-11-27",
+   "source": "flo",
+   "table": "raw_kr_release",
+   "rows": 5,
+   "file_ok": true,
+   "prev_rows": 39
+  },
+  {
+   "date": "2026-11-27",
+   "source": "bugs",
+   "table": "raw_kr_release",
+   "rows": 32,
+   "file_ok": true,
+   "prev_rows": 70
   },
   {
    "date": "2026-11-26",
@@ -228,908 +324,487 @@
  ],
  "recent_releases": [
   {
-   "released_at": "2026-11-26",
-   "artist": "오존(O3ohn)",
-   "title": "Qualia",
+   "released_at": "2026-11-27",
+   "artist": "ecru (에크루)",
+   "title": "Necessary",
    "type": "LP",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858510"
+   "url": "https://music.bugs.co.kr/album/20859057"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "여백",
-   "title": "화백(花白)",
+   "released_at": "2026-11-27",
+   "artist": "mermerme (멀멀미)",
+   "title": "boys don't cry",
+   "type": "LP",
+   "source": "bugs",
+   "url": "https://music.bugs.co.kr/album/20858909"
+  },
+  {
+   "released_at": "2026-11-27",
+   "artist": "사심사",
+   "title": "사심사",
+   "type": "LP",
+   "source": "bugs",
+   "url": "https://music.bugs.co.kr/album/20858382"
+  },
+  {
+   "released_at": "2026-11-27",
+   "artist": "난쟁이푸른양(nanpooyang)",
+   "title": "비존재",
+   "type": "LP",
+   "source": "bugs",
+   "url": "https://music.bugs.co.kr/album/20858300"
+  },
+  {
+   "released_at": "2026-11-27",
+   "artist": "오월오일 ( 五月五日 )",
+   "title": "그 마음은 곧, 평화",
+   "type": "LP",
+   "source": "bugs",
+   "url": "https://music.bugs.co.kr/album/4158921"
+  },
+  {
+   "released_at": "2026-11-27",
+   "artist": "Maggie’s Garden",
+   "title": "Oh, Caroline",
    "type": "EP",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858003"
+   "url": "https://music.bugs.co.kr/album/41162001"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "대소콜링",
-   "title": "Blush My Mind!",
+   "released_at": "2026-11-27",
+   "artist": "최돈명",
+   "title": "세상 모든 모난 돌들에게",
    "type": "EP",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20857974"
+   "url": "https://music.bugs.co.kr/album/20858448"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "그린베이지 (greenbeige)",
-   "title": "LOVE ?",
+   "released_at": "2026-11-27",
+   "artist": "버니앤텔 (bunny&TeLL)",
+   "title": "우리의 모든 사랑에게",
    "type": "EP",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20855714"
+   "url": "https://music.bugs.co.kr/album/20858316"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "109",
-   "title": "Zzz...",
+   "released_at": "2026-11-27",
+   "artist": "정재연",
+   "title": "Where All My Worries Are Buried",
    "type": "EP",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/4153003"
+   "url": "https://music.bugs.co.kr/album/20857100"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "Arcadia",
-   "title": "Standing on Hollow",
+   "released_at": "2026-11-27",
+   "artist": "softpicasso",
+   "title": "mumbling.....",
+   "type": "EP",
+   "source": "bugs",
+   "url": "https://music.bugs.co.kr/album/20854077"
+  },
+  {
+   "released_at": "2026-11-27",
+   "artist": "Verdant Conves (버던트 컨벡스)",
+   "title": "I Tried To Become Someone You'll Remember",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858649"
+   "url": "https://music.bugs.co.kr/album/20859209"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "좌윤수",
-   "title": "Midnight Romance",
+   "released_at": "2026-11-27",
+   "artist": "원의독백",
+   "title": "나의 원",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858504"
+   "url": "https://music.bugs.co.kr/album/20859003"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "이태희",
-   "title": "찌질한 밤 (Redux)",
+   "released_at": "2026-11-27",
+   "artist": "어디든",
+   "title": "모험가",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858498"
+   "url": "https://music.bugs.co.kr/album/20858925"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "한림(Hanlim)",
-   "title": "좋은 이별은 있었어 (Last Scene)",
+   "released_at": "2026-11-27",
+   "artist": "장영훈",
+   "title": "믿음소망사랑 Page.2",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858460"
+   "url": "https://music.bugs.co.kr/album/20858893"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "2o25F(이오이오프)",
-   "title": "리시안셔스",
+   "released_at": "2026-11-27",
+   "artist": "Paper ℃up (페이퍼컵)",
+   "title": "주근깨 여인과 백발의 신사",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858452"
+   "url": "https://music.bugs.co.kr/album/20858873"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "add (에드)",
-   "title": "wake up in your arms",
+   "released_at": "2026-11-27",
+   "artist": "황성수",
+   "title": "Heaven's Door",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858405"
+   "url": "https://music.bugs.co.kr/album/20858835"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "범삭",
-   "title": "우연",
+   "released_at": "2026-11-27",
+   "artist": "치인",
+   "title": "GYARU!",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858387"
+   "url": "https://music.bugs.co.kr/album/20858817"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "낭만",
-   "title": "이 불행도 영원할 순 없겠지",
+   "released_at": "2026-11-27",
+   "artist": "롯데월드 어드벤처",
+   "title": "지금부터 시작이야",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858325"
+   "url": "https://music.bugs.co.kr/album/20858745"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "TODAY LOVER",
-   "title": "겨울을 느껴요",
+   "released_at": "2026-11-27",
+   "artist": "문주",
+   "title": "You Are The Only One",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858314"
+   "url": "https://music.bugs.co.kr/album/20858694"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "HanGroove (한그루브)",
-   "title": "술래인 채로",
+   "released_at": "2026-11-27",
+   "artist": "이도 (iido)",
+   "title": "머물지마오",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858267"
+   "url": "https://music.bugs.co.kr/album/20858639"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "나디야",
-   "title": "나디야",
+   "released_at": "2026-11-27",
+   "artist": "Gjade",
+   "title": "采配",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858225"
+   "url": "https://music.bugs.co.kr/album/20858541"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "머무르",
-   "title": "있어도 그만 없어도 그만",
+   "released_at": "2026-11-27",
+   "artist": "플린 (Fleen)",
+   "title": "하루하루 (with. sido)",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858131"
+   "url": "https://music.bugs.co.kr/album/20858493"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "원앙빌라",
-   "title": "보통사람의 노래",
+   "released_at": "2026-11-27",
+   "artist": "Zen Alone (젠얼론)",
+   "title": "어느날 갑자기",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858025"
+   "url": "https://music.bugs.co.kr/album/20858214"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "이아슬",
-   "title": "눈이 내린다",
+   "released_at": "2026-11-27",
+   "artist": "RegnarTs",
+   "title": "blnk.",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20858004"
+   "url": "https://music.bugs.co.kr/album/20858035"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "김석준",
-   "title": "나 혼자만",
+   "released_at": "2026-11-27",
+   "artist": "손지연",
+   "title": "synch breath",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20857935"
+   "url": "https://music.bugs.co.kr/album/20857546"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "Sign of Elma",
-   "title": "Melting Rain",
+   "released_at": "2026-11-27",
+   "artist": "니구름",
+   "title": "樂園[낙원]",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20857925"
+   "url": "https://music.bugs.co.kr/album/20857502"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "미즈이로 (Mizuiro)",
-   "title": "Lyla",
+   "released_at": "2026-11-27",
+   "artist": "임정찬",
+   "title": "별자리",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20857545"
+   "url": "https://music.bugs.co.kr/album/20857289"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "Brick(브릭)",
-   "title": "고백 준비 (feat. lewyn)",
+   "released_at": "2026-11-27",
+   "artist": "The Hidden Elephant",
+   "title": "We're One Big Sad Monster",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20857270"
+   "url": "https://music.bugs.co.kr/album/20857262"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "사뮈(Samui)",
-   "title": "진심",
+   "released_at": "2026-11-27",
+   "artist": "이라온",
+   "title": "마음의 한계",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20856656"
+   "url": "https://music.bugs.co.kr/album/20855958"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "결(KYUL)",
-   "title": "세탁",
+   "released_at": "2026-11-27",
+   "artist": "Airs",
+   "title": "Another World",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20856271"
+   "url": "https://music.bugs.co.kr/album/20855907"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "박영석",
-   "title": "낮에 뜬 달",
+   "released_at": "2026-11-27",
+   "artist": "황찬욱",
+   "title": "색바람",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/20855715"
+   "url": "https://music.bugs.co.kr/album/20855421"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "고고학(Gogohawk)",
-   "title": "오솔길 〈산울림 50주년 기념 프로젝트〉",
+   "released_at": "2026-11-27",
+   "artist": "조은재",
+   "title": "냉장고",
    "type": "single",
    "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/4158914"
+   "url": "https://music.bugs.co.kr/album/4158925"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "sammy",
-   "title": "how do I leave?",
-   "type": "single",
-   "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/4158913"
+   "released_at": "2026-11-27",
+   "artist": "오월오일 ( 五月五日 )",
+   "title": "그 마음은 곧, 평화",
+   "type": "LP",
+   "source": "flo",
+   "url": "https://www.music-flo.com/detail/album/467989459/albumtrack"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "하렌 (Haren)",
-   "title": "담아 둘게",
-   "type": "single",
-   "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/4158866"
-  },
-  {
-   "released_at": "2026-11-26",
-   "artist": "에피톤 프로젝트(Epitone Project)",
-   "title": "겨울",
-   "type": "single",
-   "source": "bugs",
-   "url": "https://music.bugs.co.kr/album/4158826"
-  },
-  {
-   "released_at": "2026-11-26",
-   "artist": "에피톤 프로젝트",
-   "title": "겨울",
+   "released_at": "2026-11-27",
+   "artist": "이라온",
+   "title": "마음의 한계",
    "type": "single",
    "source": "flo",
-   "url": "https://www.music-flo.com/detail/album/467829870/albumtrack"
+   "url": "https://www.music-flo.com/detail/album/467374566/albumtrack"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "사뮈 (Samui)",
-   "title": "진심",
+   "released_at": "2026-11-27",
+   "artist": "황성수",
+   "title": "Heaven's Door",
    "type": "single",
    "source": "flo",
-   "url": "https://www.music-flo.com/detail/album/467452064/albumtrack"
+   "url": "https://www.music-flo.com/detail/album/467989854/albumtrack"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "고고학 (Gogohawk)",
-   "title": "오솔길 〈산울림 50주년 기념 프로젝트〉",
+   "released_at": "2026-11-27",
+   "artist": "손지연",
+   "title": "synch breath",
    "type": "single",
    "source": "flo",
-   "url": "https://www.music-flo.com/detail/album/467905755/albumtrack"
+   "url": "https://www.music-flo.com/detail/album/467683859/albumtrack"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "Brick (브릭)",
-   "title": "고백 준비 (feat. lewyn)",
-   "type": "single",
-   "source": "flo",
-   "url": "https://www.music-flo.com/detail/album/467598822/albumtrack"
-  },
-  {
-   "released_at": "2026-11-26",
-   "artist": "하렌 (Haren)",
-   "title": "담아 둘게",
-   "type": "single",
-   "source": "flo",
-   "url": "https://www.music-flo.com/detail/album/467904525/albumtrack"
-  },
-  {
-   "released_at": "2026-11-26",
-   "artist": "결 (KYUL)",
-   "title": "세탁",
-   "type": "single",
-   "source": "flo",
-   "url": "https://www.music-flo.com/detail/album/467448412/albumtrack"
-  },
-  {
-   "released_at": "2026-11-26",
-   "artist": "Aden (에이든)",
-   "title": "피노키오 </3 (feat. ILHOON)",
-   "type": "single",
-   "source": "flo",
-   "url": "https://www.music-flo.com/detail/album/465508050/albumtrack"
-  },
-  {
-   "released_at": "2026-11-26",
-   "artist": "머무르",
-   "title": "있어도 그만 없어도 그만",
-   "type": "single",
-   "source": "flo",
-   "url": "https://www.music-flo.com/detail/album/467870850/albumtrack"
-  },
-  {
-   "released_at": "2026-11-26",
-   "artist": "After Thoughts",
-   "title": "Somewhere Else Entirely",
+   "released_at": "2026-11-27",
+   "artist": "Maggie’s Garden",
+   "title": "Oh, Caroline",
    "type": "EP",
    "source": "flo",
-   "url": "https://www.music-flo.com/detail/album/467937819/albumtrack"
+   "url": "https://www.music-flo.com/detail/album/467026929/albumtrack"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "한림",
-   "title": "좋은 이별은 있었어 (Last Scene)",
-   "type": "single",
-   "source": "flo",
-   "url": "https://www.music-flo.com/detail/album/467922427/albumtrack"
-  },
-  {
-   "released_at": "2026-11-26",
-   "artist": "이아슬",
-   "title": "눈이 내린다",
-   "type": "single",
-   "source": "flo",
-   "url": "https://www.music-flo.com/detail/album/467840245/albumtrack"
-  },
-  {
-   "released_at": "2026-11-26",
-   "artist": "sammy",
-   "title": "how do I leave?",
-   "type": "single",
-   "source": "flo",
-   "url": "https://www.music-flo.com/detail/album/467904860/albumtrack"
-  },
-  {
-   "released_at": "2026-11-26",
-   "artist": "미즈이로 (Mizuiro)",
-   "title": "Lyla",
-   "type": "single",
-   "source": "flo",
-   "url": "https://www.music-flo.com/detail/album/467682384/albumtrack"
-  },
-  {
-   "released_at": "2026-11-26",
-   "artist": "베카",
-   "title": "Merry 성탄",
-   "type": "single",
-   "source": "flo",
-   "url": "https://www.music-flo.com/detail/album/467986218/albumtrack"
-  },
-  {
-   "released_at": "2026-11-26",
-   "artist": "베카",
-   "title": "Merry 성탄",
+   "released_at": "2026-11-27",
+   "artist": "물푸레",
+   "title": "종이별 서랍",
    "type": "",
    "source": "genie",
-   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88507509"
+   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88507973"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "하람",
-   "title": "1-7",
+   "released_at": "2026-11-27",
+   "artist": "조은재",
+   "title": "냉장고",
    "type": "",
    "source": "genie",
-   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88503621"
+   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88507340"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "낭만",
-   "title": "이 불행도 영원할 순 없겠지",
+   "released_at": "2026-11-27",
+   "artist": "도라밍",
+   "title": "하고 싶은 건 다 할 거야",
    "type": "",
    "source": "genie",
-   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88502850"
+   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88506442"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "TODAY LOVER",
-   "title": "겨울을 느껴요",
+   "released_at": "2026-11-27",
+   "artist": "플린 (Fleen)",
+   "title": "하루하루 (with. sido)",
    "type": "",
    "source": "genie",
-   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88502799"
+   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88503823"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "HanGroove (한그루브)",
-   "title": "술래인 채로",
+   "released_at": "2026-11-27",
+   "artist": "김은비 (gimeunbee)",
+   "title": "ferro",
    "type": "",
    "source": "genie",
-   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88502427"
+   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88497877"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "코드포",
-   "title": "chessboard-TheJapan 1st Single Album",
+   "released_at": "2026-11-27",
+   "artist": "니구름",
+   "title": "樂園[낙원]",
    "type": "",
    "source": "genie",
-   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88502399"
+   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88485343"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "고고학 (Gogohawk)",
-   "title": "오솔길 〈산울림 50주년 기념 프로젝트〉",
+   "released_at": "2026-11-27",
+   "artist": "정재연",
+   "title": "Where All My Worries Are Buried",
    "type": "",
    "source": "genie",
-   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88502100"
+   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88480748"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "ONDO PROJECT",
-   "title": "오늘 쉬어도 될까요",
+   "released_at": "2026-11-27",
+   "artist": "Airs",
+   "title": "Another World",
    "type": "",
    "source": "genie",
-   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88499653"
+   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88466627"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "화지서이",
-   "title": "까만 눈, 하얀 눈",
+   "released_at": "2026-11-27",
+   "artist": "이찬희 & 최예진",
+   "title": "HERE, HEART Part.2",
    "type": "",
    "source": "genie",
-   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88499652"
+   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88466542"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "YUSIL",
-   "title": "Ευρυδικη",
+   "released_at": "2026-11-27",
+   "artist": "황찬욱",
+   "title": "색바람",
    "type": "",
    "source": "genie",
-   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88499650"
+   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88452780"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "NOULNABI",
-   "title": "금성송",
+   "released_at": "2026-11-27",
+   "artist": "softpicasso",
+   "title": "mumbling.....",
    "type": "",
    "source": "genie",
-   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88499559"
+   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88432770"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "이아슬",
-   "title": "눈이 내린다",
-   "type": "",
-   "source": "genie",
-   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88498201"
+   "released_at": "2026-11-27",
+   "artist": "오월오일 ( 五月五日 )",
+   "title": "그 마음은 곧, 평화",
+   "type": "LP",
+   "source": "melon",
+   "url": "https://www.melon.com/album/detail.htm?albumId=15209164"
   },
   {
-   "released_at": "2026-11-26",
-   "artist": "용기내 친구들",
-   "title": "Own My Way",
-   "type": "",
-   "source": "genie",
-   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88481108"
-  },
-  {
-   "released_at": "2026-11-26",
-   "artist": "박영석",
-   "title": "낮에 뜬 달",
-   "type": "",
-   "source": "genie",
-   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88465441"
-  },
-  {
-   "released_at": "2026-11-26",
-   "artist": "그린베이지 (greenbeige)",
-   "title": "LOVE ?",
-   "type": "",
-   "source": "genie",
-   "url": "https://www.genie.co.kr/detail/albumInfo?axnm=88465398"
-  },
-  {
-   "released_at": "2026-11-26",
-   "artist": "에피톤 프로젝트",
-   "title": "겨울",
+   "released_at": "2026-11-27",
+   "artist": "이라온",
+   "title": "마음의 한계",
    "type": "single",
    "source": "melon",
-   "url": "https://www.melon.com/album/detail.htm?albumId=15199474"
+   "url": "https://www.melon.com/album/detail.htm?albumId=15204075"
+  },
+  {
+   "released_at": "2026-11-27",
+   "artist": "Maggie’s Garden",
+   "title": "Oh, Caroline",
+   "type": "EP",
+   "source": "melon",
+   "url": "https://www.melon.com/album/detail.htm?albumId=15209737"
+  },
+  {
+   "released_at": "2026-11-27",
+   "artist": "손지연",
+   "title": "synch breath",
+   "type": "single",
+   "source": "melon",
+   "url": "https://www.melon.com/album/detail.htm?albumId=15210008"
+  },
+  {
+   "released_at": "2026-11-27",
+   "artist": "치인",
+   "title": "GYARU!",
+   "type": "single",
+   "source": "melon",
+   "url": "https://www.melon.com/album/detail.htm?albumId=15210017"
+  },
+  {
+   "released_at": "2026-11-27",
+   "artist": "키드밀리 (Kid Milli)",
+   "title": "MAINSTREAM2",
+   "type": "LP",
+   "source": "melon",
+   "url": "https://www.melon.com/album/detail.htm?albumId=15209754"
+  },
+  {
+   "released_at": "2026-11-27",
+   "artist": "OKASHII",
+   "title": "MAINSTREAM2",
+   "type": "LP",
+   "source": "melon",
+   "url": "https://www.melon.com/album/detail.htm?albumId=15209754"
+  },
+  {
+   "released_at": "2026-11-27",
+   "artist": "ASH ISLAND",
+   "title": "GOOD MOURNING",
+   "type": "single",
+   "source": "melon",
+   "url": "https://www.melon.com/album/detail.htm?albumId=15209985"
+  },
+  {
+   "released_at": "2026-11-27",
+   "artist": "Slevin",
+   "title": "Ebb & Flow",
+   "type": "LP",
+   "source": "melon",
+   "url": "https://www.melon.com/album/detail.htm?albumId=15204137"
+  },
+  {
+   "released_at": "2026-11-27",
+   "artist": "폴킴",
+   "title": "My Only One",
+   "type": "single",
+   "source": "melon",
+   "url": "https://www.melon.com/album/detail.htm?albumId=15209734"
+  },
+  {
+   "released_at": "2026-11-27",
+   "artist": "나르샤 (Brown Eyed Girls)",
+   "title": "어느 별에서 왔길래",
+   "type": "single",
+   "source": "melon",
+   "url": "https://www.melon.com/album/detail.htm?albumId=15209700"
+  },
+  {
+   "released_at": "2026-11-27",
+   "artist": "이라온",
+   "title": "마음의 한계",
+   "type": "single",
+   "source": "poclanos",
+   "url": "https://poclanos.com/album/%eb%a7%88%ec%9d%8c%ec%9d%98-%ed%95%9c%ea%b3%84/"
   }
  ],
  "upcoming_gigs": [
-  {
-   "date": "2026-11-27",
-   "time": "09:00",
-   "venue": "이화여자대학교 삼성홀",
-   "title": "노래하는 시인 박인희 콘서트 [서울] (11/27)",
-   "artists": [
-    "박인희"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-%EB%85%B8%EB%9E%98%ED%95%98%EB%8A%94-%EC%8B%9C%EC%9D%B8-%EB%B0%95%EC%9D%B8%ED%9D%AC-%EC%BD%98%EC%84%9C%ED%8A%B8-%EC%84%9C%EC%9A%B8-1127-ji8me8ztjsfo5mfsoc8fxwp3"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "10:00",
-   "venue": "아지토 라이브 홀",
-   "title": "난파란 단독 콘서트: 허공에서",
-   "artists": [
-    "난파란"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-%EB%82%9C%ED%8C%8C%EB%9E%80-%EB%8B%A8%EB%8F%85-%EC%BD%98%EC%84%9C%ED%8A%B8-%ED%97%88%EA%B3%B5%EC%97%90%EC%84%9C-jas1kn65hkoum9f8ikq69lv2"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "10:30",
-   "venue": "Club Victim",
-   "title": "ROCKERS ON FRIDAY vol.111",
-   "artists": [
-    "시네마스퀘어",
-    "콘트라젤리",
-    "IGNITE",
-    "HELLFIRE SURFERS"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-rockers-on-friday-vol.111-gm06cl1wpghrj3712cwn0bjd"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "10:30",
-   "venue": "공상온도",
-   "title": "도빛나리 첫 EP &lt;둥근포크(Round Fol(r)k)&gt; 발매 쇼케이스",
-   "artists": [
-    "도빛나리"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-%EB%8F%84%EB%B9%9B%EB%82%98%EB%A6%AC-%EC%B2%AB-ep-%EB%91%A5%EA%B7%BC%ED%8F%AC%ED%81%ACround-folrk-%EB%B0%9C%EB%A7%A4-%EC%87%BC%EC%BC%80%EC%9D%B4%EC%8A%A4-sqest7iw3h7z8sd815iotrd4"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "10:30",
-   "venue": "베짱이홀",
-   "title": "박강수 콘서트: 11월, 가을의 위로",
-   "artists": [
-    "박강수"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-%EB%B0%95%EA%B0%95%EC%88%98-%EC%BD%98%EC%84%9C%ED%8A%B8-11%EC%9B%94-%EA%B0%80%EC%9D%84%EC%9D%98-%EC%9C%84%EB%A1%9C-nrwyg3jpdkhw3278getmw9nl"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "10:30",
-   "venue": "우무지",
-   "title": "첫 마디 프로젝트 - 빈스프라우트 BEANSPROUT",
-   "artists": [
-    "빈스프라우트"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-%EC%B2%AB-%EB%A7%88%EB%94%94-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%B9%88%EC%8A%A4%ED%94%84%EB%9D%BC%EC%9A%B0%ED%8A%B8-beansprout-j0767j57phnzg8376pjdamhj"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "10:30",
-   "venue": "채널1969",
-   "title": "헤어짐과 재회",
-   "artists": [
-    "한울",
-    "대소콜링",
-    "리프",
-    "갓 오브 유니버스"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-%ED%97%A4%EC%96%B4%EC%A7%90%EA%B3%BC-%EC%9E%AC%ED%9A%8C-r8grxpnl0abo8nfev68tvfo9"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "11:00",
-   "venue": "JS 아트홀",
-   "title": "VOMITORY LIVE [서울]",
-   "artists": [
-    "킬카이저",
-    "Vomitory"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-vomitory-live-%EC%84%9C%EC%9A%B8-vub0abnc7s5by5ouqfqm4cqr"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "11:00",
-   "venue": "롤링홀",
-   "title": "Biuret 4 Seasons : Winter",
-   "artists": [
-    "뷰렛",
-    "개화"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-biuret-4-seasons-winter-kttatypfb84iez2epderfj3v"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "11:00",
-   "venue": "살롱문보우",
-   "title": "열두달",
-   "artists": [
-    "배인혁"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-%EC%97%B4%EB%91%90%EB%8B%AC-n4t9bcsmviyay159pteevzen"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "11:00",
-   "venue": "생기스튜디오",
-   "title": "Time for Tolerance – The Fire",
-   "artists": [
-    "와이프 마테리얼",
-    "나비춤",
-    "쾅프로그램",
-    "비지타 큐"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-time-for-tolerance-the-fire-g60vc8wjskpumaeuuzs5dxu9"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "11:00",
-   "venue": "수상한창고",
-   "title": "수상한스테이지 (11.27)",
-   "artists": [
-    "라용수",
-    "복희",
-    "에고이데"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-%EC%88%98%EC%83%81%ED%95%9C%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80-11.27-csxqjdoqktz5extfbk69qw8l"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "11:00",
-   "venue": "스트레인지 프룻",
-   "title": "참으로 이상한 열매들 (THE STRANGE FRUITS)",
-   "artists": [
-    "MOANZY",
-    "에이트레인",
-    "Bright House",
-    "양동욱 밴드"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-%EC%B0%B8%EC%9C%BC%EB%A1%9C-%EC%9D%B4%EC%83%81%ED%95%9C-%EC%97%B4%EB%A7%A4%EB%93%A4-the-strange-fruits-hnh6q2l664z5ziaenaz74sx6"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "11:00",
-   "venue": "에이치아츠",
-   "title": "찰리재즈퀄텟, ONLY FOR JAZZ [대구] (11월)",
-   "artists": [
-    "찰리재즈오케스트라"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-%EC%B0%B0%EB%A6%AC%EC%9E%AC%EC%A6%88%ED%80%84%ED%85%9F-only-for-jazz-%EB%8C%80%EA%B5%AC-11%EC%9B%94-ybjcd53j9cqyxd9jqkm6yhrs"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "11:00",
-   "venue": "카페 언플러그드 홍대점",
-   "title": "주목",
-   "artists": [
-    "MORLOW",
-    "별도표기",
-    "산호극장"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-%EC%A3%BC%EB%AA%A9-a9jhw3lm4gdcq2dv89825y1h"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "11:00",
-   "venue": "펫사운즈",
-   "title": "Midnight Madnight Vol.13 by DJ Jay",
-   "artists": [
-    "CUTTY"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-midnight-madnight-vol.13-by-dj-jay-d2qchi87b8vkgvohhkza3d91"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "11:00",
-   "venue": "현대카드 언더스테이지",
-   "title": "현대카드 Curated 109, Tahiti 80",
-   "artists": [
-    "TAHITI 80"
-   ],
-   "source": "indistreet",
-   "url": "https://indistreet.com/gigs/2026-11-27-%ED%98%84%EB%8C%80%EC%B9%B4%EB%93%9C-curated-109-tahiti-80-e0fnacc4alqzpurs1ofa2nhh"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "19:00",
-   "venue": "KT&G 상상마당 부산",
-   "title": "[ONE HOUR] 예빛",
-   "artists": [
-    "예빛"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1516-one-hour-%EC%98%88%EB%B9%9B"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "19:00",
-   "venue": "인피니티클럽",
-   "title": "Coffin, Maiden, and the Grave",
-   "artists": [
-    "NGTTG",
-    "Noiz Place",
-    "하늘",
-    "고요",
-    "coffin girl",
-    "CrossX"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1805-coffin-maiden-and-the-grave"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "19:30",
-   "venue": "NC문화재단 STAGE BLACK",
-   "title": "[2026 STAGE 100: MUSIC]",
-   "artists": [
-    "트리오 크레도"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1532-2026-stage-100-music"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "19:30",
-   "venue": "VICTIM",
-   "title": "ROCKERS ON FRIDAY vol.111",
-   "artists": [
-    "콘트라젤리",
-    "시네마스퀘어",
-    "이그나이트",
-    "불지옥서퍼즈"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1508-rockers-on-friday-vol-111"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "19:30",
-   "venue": "공상온도",
-   "title": "둥근포크(Round Fol(r)k)",
-   "artists": [
-    "도빛나리"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1767-%EB%91%A5%EA%B7%BC%ED%8F%AC%ED%81%AC-round-fol-r-k"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "19:30",
-   "venue": "라이브앤라우드",
-   "title": "LIVEHOLICNITE 2026",
-   "artists": [
-    "디어데몬",
-    "우기",
-    "이상한술집"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/2019-liveholicnite-2026"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "19:30",
-   "venue": "우무지",
-   "title": "첫 마디 프로젝트",
-   "artists": [
-    "빈스프라우트"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1539-%EC%B2%AB-%EB%A7%88%EB%94%94-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "19:30",
-   "venue": "채널1969",
-   "title": "헤어짐과 재회",
-   "artists": [
-    "한울",
-    "대소콜링",
-    "리프",
-    "갓 오브 유니버스"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1547-%ED%97%A4%EC%96%B4%EC%A7%90%EA%B3%BC-%EC%9E%AC%ED%9A%8C"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "19:30",
-   "venue": "클럽 빵",
-   "title": "먼 바다에서 만남",
-   "artists": [
-    "마이베리엔드",
-    "9B2",
-    "조이풀스",
-    "노백",
-    "다다다"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1994-%EB%A8%BC-%EB%B0%94%EB%8B%A4%EC%97%90%EC%84%9C-%EB%A7%8C%EB%82%A8"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "20:00",
-   "venue": "JS 아트홀",
-   "title": "VOMITORY LIVE IN SEOUL 2026",
-   "artists": [
-    "칼카이져"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1462-vomitory-live-in-seoul-2026"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "20:00",
-   "venue": "고요의 방",
-   "title": "서교동 0번지, 고요의 방 EP.05",
-   "artists": [
-    "이고요",
-    "서승현"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1962-%EC%84%9C%EA%B5%90%EB%8F%99-0%EB%B2%88%EC%A7%80-%EA%B3%A0%EC%9A%94%EC%9D%98-%EB%B0%A9-ep-05"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "20:00",
-   "venue": "롤링홀",
-   "title": "Biuret 4 Seasons : Winter",
-   "artists": [
-    "뷰렛",
-    "개화"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1534-biuret-4-seasons-winter"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "20:00",
-   "venue": "모래내 극락",
-   "title": "MRN Groove 데카당(DECADENT) LIVE",
-   "artists": [
-    "데카당"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1969-mrn-groove-%EB%8D%B0%EC%B9%B4%EB%8B%B9-decadent-live"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "20:00",
-   "venue": "생기스튜디오",
-   "title": "Time for Tolerance – The Fire",
-   "artists": [
-    "와이프 마테리얼",
-    "나비춤",
-    "쾅프로그램",
-    "비지타 큐"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1709-time-for-tolerance-the-fire"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "20:00",
-   "venue": "스트레인지프룻",
-   "title": "참으로 이상한 열매들",
-   "artists": [
-    "에이트레인",
-    "브라이트하우스",
-    "MOANZY",
-    "양동욱 밴드"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1929-%EC%B0%B8%EC%9C%BC%EB%A1%9C-%EC%9D%B4%EC%83%81%ED%95%9C-%EC%97%B4%EB%A7%A4%EB%93%A4"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "20:00",
-   "venue": "제비다방",
-   "title": "딕펑스(DPNS)",
-   "artists": [
-    "딕펑스"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/2026-%EB%94%95%ED%8E%91%EC%8A%A4-dpns"
-  },
-  {
-   "date": "2026-11-27",
-   "time": "20:00",
-   "venue": "축제",
-   "title": "<𝗥𝗢𝗟𝗟 𝗢𝗩𝗘𝗥 𝗣𝗟𝗔𝗬 𝗗𝗘𝗔𝗗>",
-   "artists": [
-    "키라라",
-    "DDD",
-    "영다이",
-    "요한 일렉트릭 바흐",
-    "최태현"
-   ],
-   "source": "indiego",
-   "url": "https://www.indiego.co.kr/events/1839"
-  },
   {
    "date": "2026-11-28",
    "time": "05:00",
@@ -1610,7 +1285,7 @@
   {
    "date": "2026-11-28",
    "time": "13:00",
-   "venue": "OL&apos;55",
+   "venue": "OL'55",
    "title": "The Soul Experiment presents Midnight Drive",
    "artists": [
     "The Soul Experiment"
@@ -2588,7 +2263,7 @@
   {
    "date": "2026-12-02",
    "time": "10:00",
-   "venue": "KT&amp;G상상마당 부산",
+   "venue": "KT&G상상마당 부산",
    "title": "END AND",
    "artists": [
     "정도기",
@@ -2665,6 +2340,20 @@
    ],
    "source": "indistreet",
    "url": "https://indistreet.com/gigs/2026-12-02-%EB%A8%BC%EB%8D%B0%EC%9D%B4%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%8B%9C%EC%A6%8C9-with-%EB%AF%B8%EB%9F%AC%EB%B3%BC%EB%AE%A4%EC%A7%81-%EC%9D%B4%EA%B8%80%EB%A3%A8%EB%B2%A0%EC%9D%B4-%EC%A0%95%EA%B7%9C-3%EC%A7%91-%EB%B0%9C%EB%A7%A4-%EC%BD%98%EC%84%9C%ED%8A%B8-%EC%82%BC%E4%B8%89-szvcikr4slli8grzilpwijwg"
+  },
+  {
+   "date": "2026-12-02",
+   "time": "19:00",
+   "venue": "채널1969",
+   "title": "수요 초대석 vol.125 라이브드로잉 오픈 스튜디오: 블랑과 음악친구들",
+   "artists": [
+    "무이",
+    "푸른유랑",
+    "마고",
+    "씨클"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2078-%EC%88%98%EC%9A%94-%EC%B4%88%EB%8C%80%EC%84%9D-vol-125-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%93%9C%EB%A1%9C%EC%9E%89-%EC%98%A4%ED%94%88-%EC%8A%A4%ED%8A%9C%EB%94%94%EC%98%A4-%EB%B8%94%EB%9E%91%EA%B3%BC-%EC%9D%8C%EC%95%85%EC%B9%9C%EA%B5%AC%EB%93%A4"
   },
   {
    "date": "2026-12-02",
@@ -2888,6 +2577,449 @@
    "url": "https://www.indiego.co.kr/events/2015-%EC%A1%B0%EA%B8%88%EC%9D%80-%EC%9D%B4%EB%A5%B8-%EC%97%B0%EB%A7%90%ED%8C%8C%ED%8B%B0"
   },
   {
+   "date": "2026-12-04",
+   "time": "18:00",
+   "venue": "축제",
+   "title": "BCC 1주년 (12/4)",
+   "artists": [
+    "Hirikari",
+    "기나이직",
+    "유령빛",
+    "Riff Fool",
+    "우륵과 풍각쟁이들",
+    "Uncivilized Girls Memory",
+    "K특급모텔"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-bcc-1%EC%A3%BC%EB%85%84-124-mobspqvklwl2d6u90xqlj7xc"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "18:30",
+   "venue": "Club FF",
+   "title": "WALKING WITH YOU@FF",
+   "artists": [
+    "더티슈",
+    "PNR",
+    "줄라이원츠모어",
+    "구구",
+    "나타샤"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-walking-with-youff-x3savfwvpwqlsizyeygd0008"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "18:30",
+   "venue": "클럽FF",
+   "title": "Eyes Without a Face",
+   "artists": [
+    "피스 앤 로맨스",
+    "구구",
+    "나타샤",
+    "더티슈",
+    "줄라이원츠모어"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2073-eyes-without-a-face"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "19:00",
+   "venue": "KT&G 상상마당 부산",
+   "title": "[ONE HOUR] 감귤서리단",
+   "artists": [
+    "감귤서리단"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1513-one-hour-%EA%B0%90%EA%B7%A4%EC%84%9C%EB%A6%AC%EB%8B%A8"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "19:00",
+   "venue": "KT&G상상마당 부산",
+   "title": "ONE HOUR : 2026년 12월 (12/4)",
+   "artists": [
+    "감귤서리단"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-one-hour-2026%EB%85%84-12%EC%9B%94-124-t9oswu0oruw7h0broqiliyjk"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "19:00",
+   "venue": "언더시티",
+   "title": "RISD KOREA Artist Ball 2026 - GWA HAGAE(과하게) &quot;Unapologetically&quot;",
+   "artists": [
+    "CITYBOY FROM SEOUL",
+    "SEUNG SUL"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-risd-korea-artist-ball-2026-gwa-hagae%EA%B3%BC%ED%95%98%EA%B2%8C-unapologetically-esfrn78gz18egp5anm7l12b1"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "19:00",
+   "venue": "클럽 프리버드",
+   "title": "NO TURNING BACK",
+   "artists": [
+    "Aeil",
+    "로프리스",
+    "노백",
+    "산사람",
+    "프리윌"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-no-turning-back-uzpojh54b8kdpeu76x2223fl"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "19:00",
+   "venue": "프리버드",
+   "title": "NO TURNING BACK",
+   "artists": [
+    "노백",
+    "에일",
+    "프리윌",
+    "로프리스",
+    "산사람"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1898-no-turning-back"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "19:30",
+   "venue": "Club Victim",
+   "title": "ROCKERS ON FRIDAY vol.112",
+   "artists": [
+    "Sticky Lemon Sugar",
+    "OVERDRIVE ADVENTURE",
+    "얼스 바운드",
+    "글라이드"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-rockers-on-friday-vol.112-ftwupkv0x3exg2qh59p7exrg"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "19:30",
+   "venue": "KT&G 상상마당 홍대 라이브홀",
+   "title": "Mass Of The Fermenting Dregs World Tour: Iwaou with Dabda [서울]",
+   "artists": [
+    "다브다",
+    "MASS OF THE FERMENTING DREGS"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-mass-of-the-fermenting-dregs-world-tour-iwaou-with-dabda-%EC%84%9C%EC%9A%B8-e7653g6el1eh94tk6exobkcg"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "19:30",
+   "venue": "VICTIM",
+   "title": "ROCKERS ON FRIDAY vol.112",
+   "artists": [
+    "스틱키레몬슈거",
+    "오버드라이브어드벤처",
+    "얼스바운드",
+    "글라이드"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1889-rockers-on-friday-vol-112"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "19:30",
+   "venue": "구름아래소극장",
+   "title": "스모킹 건 김목경 &amp; 블루스 밴드 콘서트",
+   "artists": [
+    "김목경 &amp; 블루스밴드"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-%EC%8A%A4%EB%AA%A8%ED%82%B9-%EA%B1%B4-%EA%B9%80%EB%AA%A9%EA%B2%BD-%EB%B8%94%EB%A3%A8%EC%8A%A4-%EB%B0%B4%EB%93%9C-%EC%BD%98%EC%84%9C%ED%8A%B8-cfsy7ct5qmvbcv2ky6vgtctp"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "19:30",
+   "venue": "베이비돌",
+   "title": "DREAM DELIVERY SERVICE",
+   "artists": [
+    "토마토맛",
+    "기쿠하시",
+    "옥센프리"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1862-dream-delivery-service"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "19:30",
+   "venue": "베이비돌",
+   "title": "인디펜던트 베뉴데이 Vol.5: DREAM DELIVERY SERVICE",
+   "artists": [
+    "기쿠하시",
+    "토마토맛",
+    "옥센프리"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-%EC%9D%B8%EB%94%94%ED%8E%9C%EB%8D%98%ED%8A%B8-%EB%B2%A0%EB%89%B4%EB%8D%B0%EC%9D%B4-vol.5-dream-delivery-service-fofveuhl18g8oew8z5a6fvkx"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "19:30",
+   "venue": "언플러그드 라운지",
+   "title": "Our Film :Scenes of Youth",
+   "artists": [
+    "다운",
+    "만평",
+    "불나방들"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1897-our-film-scenes-of-youth"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "19:30",
+   "venue": "언플러그드 라운지",
+   "title": "[Our Film]",
+   "artists": [
+    "다운",
+    "만평",
+    "불나방들"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-our-film-joc9gdfqisghx8eo10xnzeqw"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "19:30",
+   "venue": "우주정거장",
+   "title": "집집 LIVE",
+   "artists": [
+    "아로아로",
+    "청록",
+    "페이브모티브"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2037-%EC%A7%91%EC%A7%91-live"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "19:30",
+   "venue": "우주정거장",
+   "title": "집집라이브 F101",
+   "artists": [
+    "R.O.R.O",
+    "청록",
+    "FaveMotive"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-%EC%A7%91%EC%A7%91%EB%9D%BC%EC%9D%B4%EB%B8%8C-f101-tr6bqoy1mqo48ia50ox9zw94"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "20:00",
+   "venue": "CJ아지트 광흥창",
+   "title": "SCHOOL NIGHT SEOUL",
+   "artists": [
+    "TYSON",
+    "KAYLA",
+    "SDY",
+    "PARK PIL KYU"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-school-night-seoul-nga6ndkwjfuliih4ud67rvmc"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "20:00",
+   "venue": "록집",
+   "title": "나무를 심는 마음으로",
+   "artists": [
+    "산하",
+    "염소의 뿔 개의 심장"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1924-%EB%82%98%EB%AC%B4%EB%A5%BC-%EC%8B%AC%EB%8A%94-%EB%A7%88%EC%9D%8C%EC%9C%BC%EB%A1%9C"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "20:00",
+   "venue": "롤링홀",
+   "title": "S,LO,W SERIES. 03",
+   "artists": [
+    "올드 잉글리쉬 쉽독",
+    "더베인",
+    "다섯"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1849-s-lo-w-series-03"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "20:00",
+   "venue": "마포아트센터 아트홀맥",
+   "title": "김기태 연말 콘서트: 2026 Mapo Winter Edition",
+   "artists": [
+    "김기태"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-%EA%B9%80%EA%B8%B0%ED%83%9C-%EC%97%B0%EB%A7%90-%EC%BD%98%EC%84%9C%ED%8A%B8-2026-mapo-winter-edition-m2yd318x7tklpbge5dg8lbai"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "20:00",
+   "venue": "모래내 극락",
+   "title": "Marshall Live from 월하정인",
+   "artists": [
+    "스웰시티",
+    "해서웨이"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/1947-marshall-live-from-%EC%9B%94%ED%95%98%EC%A0%95%EC%9D%B8"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "20:00",
+   "venue": "무신사개러지",
+   "title": "[29CM STAGE] 11th STAGE – 노이즈가든",
+   "artists": [
+    "노이즈가든"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-29cm-stage-11th-stage-%EB%85%B8%EC%9D%B4%EC%A6%88%EA%B0%80%EB%93%A0-kdxtwzk5751ewq4zs3nyal6g"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "20:00",
+   "venue": "벨르",
+   "title": "남유선 정규 4집 &apos;The Moments of Life&apos; 발매 기념 공연",
+   "artists": [
+    "남유선",
+    "이규진",
+    "임채선",
+    "류형곤",
+    "김선빈",
+    "김기환",
+    "윤지현",
+    "이호찬"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-%EB%82%A8%EC%9C%A0%EC%84%A0-%EC%A0%95%EA%B7%9C-4%EC%A7%91-the-moments-of-life-%EB%B0%9C%EB%A7%A4-%EA%B8%B0%EB%85%90-%EA%B3%B5%EC%97%B0-rraksybr632ca18xesjrtiyl"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "20:00",
+   "venue": "숲세권 라이브 카인드스퀘어점",
+   "title": "숲세권 라이브, 예함 단독 공연: 흰 코스모스",
+   "artists": [
+    "예함"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-%EC%88%B2%EC%84%B8%EA%B6%8C-%EB%9D%BC%EC%9D%B4%EB%B8%8C-%EC%98%88%ED%95%A8-%EB%8B%A8%EB%8F%85-%EA%B3%B5%EC%97%B0-%ED%9D%B0-%EC%BD%94%EC%8A%A4%EB%AA%A8%EC%8A%A4-d7wneryxh53v4jfref2hwk5f"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "20:00",
+   "venue": "스페이스 한강",
+   "title": "지풀 첫번째 단독공연 &lt;나의 호수&gt;",
+   "artists": [
+    "지풀"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-%EC%A7%80%ED%92%80-%EC%B2%AB%EB%B2%88%EC%A7%B8-%EB%8B%A8%EB%8F%85%EA%B3%B5%EC%97%B0-%EB%82%98%EC%9D%98-%ED%98%B8%EC%88%98-bj02mkr9e5bd2e0j2ebay6o7"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "20:00",
+   "venue": "스페이스브릭",
+   "title": "baby selects, 2slimey Live in Seoul",
+   "artists": [
+    "2slimey",
+    "CHITKEY"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-baby-selects-2slimey-live-in-seoul-xb6igzh0edkl6uk3p6es86x7"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "20:00",
+   "venue": "예스24 원더로크홀",
+   "title": "HIPHOPPLAYA SHOW VOL.66",
+   "artists": [
+    "ASH ISLAND",
+    "Royal 44",
+    "스키니브라운",
+    "LOV3RBOI",
+    "BIG 9ULPO"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-hiphopplaya-show-vol.66-gw34awakyleofq7q9by9tara"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "20:00",
+   "venue": "이화여자대학교 삼성홀",
+   "title": "박정현 소극장 콘서트: 이음 (12/4)",
+   "artists": [
+    "박정현"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-%EB%B0%95%EC%A0%95%ED%98%84-%EC%86%8C%EA%B7%B9%EC%9E%A5-%EC%BD%98%EC%84%9C%ED%8A%B8-%EC%9D%B4%EC%9D%8C-124-bh1d6j10ff58bfe8vuke312g"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "20:00",
+   "venue": "톤스튜디오 서울",
+   "title": "TONE STUDIO LIVE, 안다영",
+   "artists": [
+    "안다영"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-tone-studio-live-%EC%95%88%EB%8B%A4%EC%98%81-taowpke0h7uqdkdhbfz63254"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "20:00",
+   "venue": "프리즘홀",
+   "title": "Super Rookie Challenge: Vocal Seaeon 1, Round 3",
+   "artists": [
+    "심각한 개구리",
+    "이진석",
+    "전다운",
+    "휘나",
+    "이지카이트",
+    "Blue.D",
+    "김보경",
+    "Pill Black",
+    "YUL2",
+    "Kimmy King",
+    "김모레",
+    "김아이",
+    "필로",
+    "KUEN",
+    "Meenj",
+    "Nomad",
+    "SURYNE",
+    "SYD"
+   ],
+   "source": "indistreet",
+   "url": "https://indistreet.com/gigs/2026-12-04-super-rookie-challenge-vocal-seaeon-1-round-3-ytmwm6fnfbb8c2fphwutsu1r"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "20:30",
+   "venue": "뮤지크",
+   "title": "Three Paths, One Horizon",
+   "artists": [
+    "급한노새",
+    "클라우드팩토리",
+    "다이퍼스"
+   ],
+   "source": "indiego",
+   "url": "https://www.indiego.co.kr/events/2005-three-paths-one-horizon"
+  },
+  {
    "date": "2026-12-11",
    "time": "",
    "venue": "KT&G 상상마당 홍대 라이브홀",
@@ -2966,6 +3098,838 @@
   }
  ],
  "selections": [
+  {
+   "program": "superrookie",
+   "round": "Vocal S1 R2",
+   "stage": "lineup",
+   "announced_at": "2026-10-25",
+   "artist": "Huiii",
+   "url": "https://routenote.com/radar/super-rookie-challenge-before-i-go-review-rb-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "Vocal S1 R2",
+   "stage": "lineup",
+   "announced_at": "2026-10-25",
+   "artist": "J",
+   "url": "https://routenote.com/radar/super-rookie-challenge-before-i-go-review-rb-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "Vocal S1 R2",
+   "stage": "lineup",
+   "announced_at": "2026-10-25",
+   "artist": "M’ewn",
+   "url": "https://routenote.com/radar/super-rookie-challenge-before-i-go-review-rb-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "Vocal S1 R2",
+   "stage": "lineup",
+   "announced_at": "2026-10-25",
+   "artist": "YUNILI",
+   "url": "https://routenote.com/radar/super-rookie-challenge-before-i-go-review-rb-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "Vocal S1 R2",
+   "stage": "lineup",
+   "announced_at": "2026-10-25",
+   "artist": "Chadasom",
+   "url": "https://routenote.com/radar/super-rookie-challenge-before-i-go-review-rb-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "Vocal S1 R2",
+   "stage": "lineup",
+   "announced_at": "2026-10-25",
+   "artist": "Brenny",
+   "url": "https://routenote.com/radar/super-rookie-challenge-before-i-go-review-rb-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "Vocal S1 R2",
+   "stage": "lineup",
+   "announced_at": "2026-10-25",
+   "artist": "심각한 개구리",
+   "url": "https://routenote.com/radar/super-rookie-challenge-before-i-go-review-rb-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "Vocal S1 R1",
+   "stage": "lineup",
+   "announced_at": "2026-10-15",
+   "artist": "blushii",
+   "url": "https://routenote.com/radar/super-rookie-challenge-overload-review-seven-rb-voices/"
+  },
+  {
+   "program": "superrookie",
+   "round": "Vocal S1 R1",
+   "stage": "lineup",
+   "announced_at": "2026-10-15",
+   "artist": "CHOIJIJI",
+   "url": "https://routenote.com/radar/super-rookie-challenge-overload-review-seven-rb-voices/"
+  },
+  {
+   "program": "superrookie",
+   "round": "Vocal S1 R1",
+   "stage": "lineup",
+   "announced_at": "2026-10-15",
+   "artist": "Paper Cup",
+   "url": "https://routenote.com/radar/super-rookie-challenge-overload-review-seven-rb-voices/"
+  },
+  {
+   "program": "superrookie",
+   "round": "Vocal S1 R1",
+   "stage": "lineup",
+   "announced_at": "2026-10-15",
+   "artist": "YUL2",
+   "url": "https://routenote.com/radar/super-rookie-challenge-overload-review-seven-rb-voices/"
+  },
+  {
+   "program": "superrookie",
+   "round": "Vocal S1 R1",
+   "stage": "lineup",
+   "announced_at": "2026-10-15",
+   "artist": "KEVIN PARK",
+   "url": "https://routenote.com/radar/super-rookie-challenge-overload-review-seven-rb-voices/"
+  },
+  {
+   "program": "superrookie",
+   "round": "Vocal S1 R1",
+   "stage": "lineup",
+   "announced_at": "2026-10-15",
+   "artist": "Xinssy",
+   "url": "https://routenote.com/radar/super-rookie-challenge-overload-review-seven-rb-voices/"
+  },
+  {
+   "program": "superrookie",
+   "round": "Vocal S1 R1",
+   "stage": "lineup",
+   "announced_at": "2026-10-15",
+   "artist": "Minjeong",
+   "url": "https://routenote.com/radar/super-rookie-challenge-overload-review-seven-rb-voices/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "DICTO",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "Klama",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "Artifex",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "Poeta",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "JIJI",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "X33D(씨드)",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "송영찬",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "CHLALSDUD(찰스듀드)",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "태영",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "제갈진(Jegal Jin)",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "HRDN(하딘)",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "DIGI",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "JSN .Paak",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "M’ewn(뮌)",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "Haus",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S17 R1",
+   "stage": "lineup",
+   "announced_at": "2026-03-24",
+   "artist": "Ruud(루드)",
+   "url": "http://routenote.com/kr/blog/hip-hop-super-rookie-challenge-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%e3%80%88season-17-round-1-cypher%e3%80%89-%eb%b0%9c%eb%a7%a4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S16 R1",
+   "stage": "lineup",
+   "announced_at": "2025-08-19",
+   "artist": "Team 3bo",
+   "url": "http://routenote.com/kr/blog/%ea%b3%b5%ec%97%b0-%e2%9a%a1%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c-16-%eb%9d%bc%ec%9a%b4%eb%93%9c-1-%ed%99%8d%eb%8c%80-%ed%9e%99%ed%95%a9/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S16 R1",
+   "stage": "lineup",
+   "announced_at": "2025-08-07",
+   "artist": "ENZO",
+   "url": "http://routenote.com/kr/blog/%f0%9f%8e%a4-%ed%9e%99%ed%95%a9-%ec%84%9c%eb%b0%94%ec%9d%b4%eb%b2%8c-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c-16-%eb%9d%bc%ec%9d%b8/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S16 R1",
+   "stage": "lineup",
+   "announced_at": "2025-08-07",
+   "artist": "₩ANNI",
+   "url": "http://routenote.com/kr/blog/%f0%9f%8e%a4-%ed%9e%99%ed%95%a9-%ec%84%9c%eb%b0%94%ec%9d%b4%eb%b2%8c-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c-16-%eb%9d%bc%ec%9d%b8/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S16 R1",
+   "stage": "lineup",
+   "announced_at": "2025-08-07",
+   "artist": "18crew",
+   "url": "http://routenote.com/kr/blog/%f0%9f%8e%a4-%ed%9e%99%ed%95%a9-%ec%84%9c%eb%b0%94%ec%9d%b4%eb%b2%8c-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c-16-%eb%9d%bc%ec%9d%b8/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S16 R1",
+   "stage": "lineup",
+   "announced_at": "2025-08-07",
+   "artist": "D1PSOWNIK (딥소닉)",
+   "url": "http://routenote.com/kr/blog/%f0%9f%8e%a4-%ed%9e%99%ed%95%a9-%ec%84%9c%eb%b0%94%ec%9d%b4%eb%b2%8c-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c-16-%eb%9d%bc%ec%9d%b8/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S16 R1",
+   "stage": "lineup",
+   "announced_at": "2025-08-07",
+   "artist": "Dante",
+   "url": "http://routenote.com/kr/blog/%f0%9f%8e%a4-%ed%9e%99%ed%95%a9-%ec%84%9c%eb%b0%94%ec%9d%b4%eb%b2%8c-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c-16-%eb%9d%bc%ec%9d%b8/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S16 R1",
+   "stage": "lineup",
+   "announced_at": "2025-08-07",
+   "artist": "J Kim & Holidayhvre",
+   "url": "http://routenote.com/kr/blog/%f0%9f%8e%a4-%ed%9e%99%ed%95%a9-%ec%84%9c%eb%b0%94%ec%9d%b4%eb%b2%8c-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c-16-%eb%9d%bc%ec%9d%b8/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S16 R1",
+   "stage": "lineup",
+   "announced_at": "2025-08-07",
+   "artist": "Nate Fidel",
+   "url": "http://routenote.com/kr/blog/%f0%9f%8e%a4-%ed%9e%99%ed%95%a9-%ec%84%9c%eb%b0%94%ec%9d%b4%eb%b2%8c-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c-16-%eb%9d%bc%ec%9d%b8/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S16 R1",
+   "stage": "lineup",
+   "announced_at": "2025-08-07",
+   "artist": "RUCID",
+   "url": "http://routenote.com/kr/blog/%f0%9f%8e%a4-%ed%9e%99%ed%95%a9-%ec%84%9c%eb%b0%94%ec%9d%b4%eb%b2%8c-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c-16-%eb%9d%bc%ec%9d%b8/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S16 R1",
+   "stage": "lineup",
+   "announced_at": "2025-08-07",
+   "artist": "Seomalone (서말론)",
+   "url": "http://routenote.com/kr/blog/%f0%9f%8e%a4-%ed%9e%99%ed%95%a9-%ec%84%9c%eb%b0%94%ec%9d%b4%eb%b2%8c-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c-16-%eb%9d%bc%ec%9d%b8/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S16 R1",
+   "stage": "lineup",
+   "announced_at": "2025-08-07",
+   "artist": "wuso",
+   "url": "http://routenote.com/kr/blog/%f0%9f%8e%a4-%ed%9e%99%ed%95%a9-%ec%84%9c%eb%b0%94%ec%9d%b4%eb%b2%8c-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c-16-%eb%9d%bc%ec%9d%b8/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S16 R1",
+   "stage": "lineup",
+   "announced_at": "2025-08-07",
+   "artist": "Yany",
+   "url": "http://routenote.com/kr/blog/%f0%9f%8e%a4-%ed%9e%99%ed%95%a9-%ec%84%9c%eb%b0%94%ec%9d%b4%eb%b2%8c-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c-16-%eb%9d%bc%ec%9d%b8/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S16 R1",
+   "stage": "lineup",
+   "announced_at": "2025-08-07",
+   "artist": "서록",
+   "url": "http://routenote.com/kr/blog/%f0%9f%8e%a4-%ed%9e%99%ed%95%a9-%ec%84%9c%eb%b0%94%ec%9d%b4%eb%b2%8c-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c-16-%eb%9d%bc%ec%9d%b8/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S16 R1",
+   "stage": "lineup",
+   "announced_at": "2025-08-07",
+   "artist": "아포네 (Ahfoné)",
+   "url": "http://routenote.com/kr/blog/%f0%9f%8e%a4-%ed%9e%99%ed%95%a9-%ec%84%9c%eb%b0%94%ec%9d%b4%eb%b2%8c-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c-16-%eb%9d%bc%ec%9d%b8/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S16 R1",
+   "stage": "lineup",
+   "announced_at": "2025-08-07",
+   "artist": "천하은",
+   "url": "http://routenote.com/kr/blog/%f0%9f%8e%a4-%ed%9e%99%ed%95%a9-%ec%84%9c%eb%b0%94%ec%9d%b4%eb%b2%8c-%ec%8a%88%ed%8d%bc%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c-16-%eb%9d%bc%ec%9d%b8/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "GTC",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "홍시은",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "POYD",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "천하은",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "맹건호",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "YellaBoyz",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "FFANY",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "SIWON",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "Lagin",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "Xmyroz",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "최유담",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "이로아",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "huka",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "서록",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "도루코",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R2",
+   "stage": "lineup",
+   "announced_at": "2025-04-10",
+   "artist": "백시열",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%94%ac-%ec%8b%a0%ec%98%88%eb%93%a4%ec%9d%84-%ed%95%9c%eb%88%88%ec%97%90-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "selected",
+   "announced_at": "2025-03-25",
+   "artist": "huka",
+   "url": "http://routenote.com/kr/blog/%ec%9a%b0%ec%8a%b9%ec%9e%90-%ea%b3%b5%ea%b0%9c-%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c15-round-1-top4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "selected",
+   "announced_at": "2025-03-25",
+   "artist": "서록",
+   "url": "http://routenote.com/kr/blog/%ec%9a%b0%ec%8a%b9%ec%9e%90-%ea%b3%b5%ea%b0%9c-%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c15-round-1-top4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "selected",
+   "announced_at": "2025-03-25",
+   "artist": "천하은",
+   "url": "http://routenote.com/kr/blog/%ec%9a%b0%ec%8a%b9%ec%9e%90-%ea%b3%b5%ea%b0%9c-%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c15-round-1-top4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "selected",
+   "announced_at": "2025-03-25",
+   "artist": "최유담",
+   "url": "http://routenote.com/kr/blog/%ec%9a%b0%ec%8a%b9%ec%9e%90-%ea%b3%b5%ea%b0%9c-%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0%ec%a7%80-%ec%8b%9c%ec%a6%8c15-round-1-top4/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "lineup",
+   "announced_at": "2025-03-13",
+   "artist": "YUNILI",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%9d%98-%ec%83%88%eb%a1%9c%ec%9a%b4-%eb%ac%bc%ea%b2%b0%ec%9d%b4-%ec%98%a8%eb%8b%a4-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "lineup",
+   "announced_at": "2025-03-13",
+   "artist": "huka",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%9d%98-%ec%83%88%eb%a1%9c%ec%9a%b4-%eb%ac%bc%ea%b2%b0%ec%9d%b4-%ec%98%a8%eb%8b%a4-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "lineup",
+   "announced_at": "2025-03-13",
+   "artist": "천하은",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%9d%98-%ec%83%88%eb%a1%9c%ec%9a%b4-%eb%ac%bc%ea%b2%b0%ec%9d%b4-%ec%98%a8%eb%8b%a4-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "lineup",
+   "announced_at": "2025-03-13",
+   "artist": "DNYDK",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%9d%98-%ec%83%88%eb%a1%9c%ec%9a%b4-%eb%ac%bc%ea%b2%b0%ec%9d%b4-%ec%98%a8%eb%8b%a4-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "lineup",
+   "announced_at": "2025-03-13",
+   "artist": "gillass",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%9d%98-%ec%83%88%eb%a1%9c%ec%9a%b4-%eb%ac%bc%ea%b2%b0%ec%9d%b4-%ec%98%a8%eb%8b%a4-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "lineup",
+   "announced_at": "2025-03-13",
+   "artist": "Klama",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%9d%98-%ec%83%88%eb%a1%9c%ec%9a%b4-%eb%ac%bc%ea%b2%b0%ec%9d%b4-%ec%98%a8%eb%8b%a4-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "lineup",
+   "announced_at": "2025-03-13",
+   "artist": "Keylight",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%9d%98-%ec%83%88%eb%a1%9c%ec%9a%b4-%eb%ac%bc%ea%b2%b0%ec%9d%b4-%ec%98%a8%eb%8b%a4-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "lineup",
+   "announced_at": "2025-03-13",
+   "artist": "ETHN",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%9d%98-%ec%83%88%eb%a1%9c%ec%9a%b4-%eb%ac%bc%ea%b2%b0%ec%9d%b4-%ec%98%a8%eb%8b%a4-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "lineup",
+   "announced_at": "2025-03-13",
+   "artist": "RUSH",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%9d%98-%ec%83%88%eb%a1%9c%ec%9a%b4-%eb%ac%bc%ea%b2%b0%ec%9d%b4-%ec%98%a8%eb%8b%a4-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "lineup",
+   "announced_at": "2025-03-13",
+   "artist": "이규진",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%9d%98-%ec%83%88%eb%a1%9c%ec%9a%b4-%eb%ac%bc%ea%b2%b0%ec%9d%b4-%ec%98%a8%eb%8b%a4-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "lineup",
+   "announced_at": "2025-03-13",
+   "artist": "최유담",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%9d%98-%ec%83%88%eb%a1%9c%ec%9a%b4-%eb%ac%bc%ea%b2%b0%ec%9d%b4-%ec%98%a8%eb%8b%a4-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "lineup",
+   "announced_at": "2025-03-13",
+   "artist": "18crew",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%9d%98-%ec%83%88%eb%a1%9c%ec%9a%b4-%eb%ac%bc%ea%b2%b0%ec%9d%b4-%ec%98%a8%eb%8b%a4-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S15 R1",
+   "stage": "lineup",
+   "announced_at": "2025-03-13",
+   "artist": "서록",
+   "url": "http://routenote.com/kr/blog/%ed%9e%99%ed%95%a9%ec%9d%98-%ec%83%88%eb%a1%9c%ec%9a%b4-%eb%ac%bc%ea%b2%b0%ec%9d%b4-%ec%98%a8%eb%8b%a4-super-rookie-challenge%ec%8a%88%ed%8d%bc-%eb%a3%a8%ed%82%a4-%ec%b1%8c%eb%a6%b0/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R2",
+   "stage": "lineup",
+   "announced_at": "2024-10-14",
+   "artist": "최유담",
+   "url": "https://poclanos.com/album/season-14-round-2-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R2",
+   "stage": "lineup",
+   "announced_at": "2024-10-14",
+   "artist": "X33D (씨드)",
+   "url": "https://poclanos.com/album/season-14-round-2-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R2",
+   "stage": "lineup",
+   "announced_at": "2024-10-14",
+   "artist": "지성찬 X buddah’s belly (부다스 벨리)",
+   "url": "https://poclanos.com/album/season-14-round-2-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R2",
+   "stage": "lineup",
+   "announced_at": "2024-10-14",
+   "artist": "SAM",
+   "url": "https://poclanos.com/album/season-14-round-2-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R2",
+   "stage": "lineup",
+   "announced_at": "2024-10-14",
+   "artist": "필로 (PiLO)",
+   "url": "https://poclanos.com/album/season-14-round-2-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R2",
+   "stage": "lineup",
+   "announced_at": "2024-10-14",
+   "artist": "화수목",
+   "url": "https://poclanos.com/album/season-14-round-2-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R2",
+   "stage": "lineup",
+   "announced_at": "2024-10-14",
+   "artist": "토스트보이",
+   "url": "https://poclanos.com/album/season-14-round-2-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R2",
+   "stage": "lineup",
+   "announced_at": "2024-10-14",
+   "artist": "대니딕 (DNYDK)",
+   "url": "https://poclanos.com/album/season-14-round-2-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R2",
+   "stage": "lineup",
+   "announced_at": "2024-10-14",
+   "artist": "NWV",
+   "url": "https://poclanos.com/album/season-14-round-2-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R2",
+   "stage": "lineup",
+   "announced_at": "2024-10-14",
+   "artist": "Young Krow",
+   "url": "https://poclanos.com/album/season-14-round-2-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R2",
+   "stage": "lineup",
+   "announced_at": "2024-10-14",
+   "artist": "yemin",
+   "url": "https://poclanos.com/album/season-14-round-2-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R2",
+   "stage": "lineup",
+   "announced_at": "2024-10-14",
+   "artist": "KNOCKONMYDOOR",
+   "url": "https://poclanos.com/album/season-14-round-2-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R2",
+   "stage": "lineup",
+   "announced_at": "2024-10-14",
+   "artist": "서록",
+   "url": "https://poclanos.com/album/season-14-round-2-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R2",
+   "stage": "lineup",
+   "announced_at": "2024-10-14",
+   "artist": "VIEWS IN I (뷰즈인아이)",
+   "url": "https://poclanos.com/album/season-14-round-2-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R1",
+   "stage": "lineup",
+   "announced_at": "2024-09-12",
+   "artist": "CLADI",
+   "url": "https://poclanos.com/album/season-14-round-1-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R1",
+   "stage": "lineup",
+   "announced_at": "2024-09-12",
+   "artist": "X33D(씨드)",
+   "url": "https://poclanos.com/album/season-14-round-1-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R1",
+   "stage": "lineup",
+   "announced_at": "2024-09-12",
+   "artist": "류시형",
+   "url": "https://poclanos.com/album/season-14-round-1-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R1",
+   "stage": "lineup",
+   "announced_at": "2024-09-12",
+   "artist": "기적의 삼총사",
+   "url": "https://poclanos.com/album/season-14-round-1-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R1",
+   "stage": "lineup",
+   "announced_at": "2024-09-12",
+   "artist": "재림",
+   "url": "https://poclanos.com/album/season-14-round-1-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R1",
+   "stage": "lineup",
+   "announced_at": "2024-09-12",
+   "artist": "JA!L",
+   "url": "https://poclanos.com/album/season-14-round-1-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R1",
+   "stage": "lineup",
+   "announced_at": "2024-09-12",
+   "artist": "Kima Escobar",
+   "url": "https://poclanos.com/album/season-14-round-1-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R1",
+   "stage": "lineup",
+   "announced_at": "2024-09-12",
+   "artist": "NWV",
+   "url": "https://poclanos.com/album/season-14-round-1-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R1",
+   "stage": "lineup",
+   "announced_at": "2024-09-12",
+   "artist": "OneAve",
+   "url": "https://poclanos.com/album/season-14-round-1-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R1",
+   "stage": "lineup",
+   "announced_at": "2024-09-12",
+   "artist": "DNYDK",
+   "url": "https://poclanos.com/album/season-14-round-1-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R1",
+   "stage": "lineup",
+   "announced_at": "2024-09-12",
+   "artist": "Shane",
+   "url": "https://poclanos.com/album/season-14-round-1-cypher/"
+  },
+  {
+   "program": "superrookie",
+   "round": "S14 R1",
+   "stage": "lineup",
+   "announced_at": "2024-09-12",
+   "artist": "SAM",
+   "url": "https://poclanos.com/album/season-14-round-1-cypher/"
+  },
   {
    "program": "yoojaeha_finalist",
    "round": "9회",
@@ -3733,841 +4697,18 @@
    "announced_at": "2022",
    "artist": "범진",
    "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "33회",
-   "stage": "selected",
-   "announced_at": "2022",
-   "artist": "별17",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "33회",
-   "stage": "selected",
-   "announced_at": "2022",
-   "artist": "김하루",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "32회",
-   "stage": "selected",
-   "announced_at": "2021",
-   "artist": "김승주",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "32회",
-   "stage": "selected",
-   "announced_at": "2021",
-   "artist": "Red C",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "32회",
-   "stage": "selected",
-   "announced_at": "2021",
-   "artist": "김효린",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "32회",
-   "stage": "selected",
-   "announced_at": "2021",
-   "artist": "나지현",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "32회",
-   "stage": "selected",
-   "announced_at": "2021",
-   "artist": "이찬희",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "32회",
-   "stage": "selected",
-   "announced_at": "2021",
-   "artist": "FRankly",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "32회",
-   "stage": "selected",
-   "announced_at": "2021",
-   "artist": "노아윤",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "32회",
-   "stage": "selected",
-   "announced_at": "2021",
-   "artist": "조영남",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "32회",
-   "stage": "selected",
-   "announced_at": "2021",
-   "artist": "담담구구",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "32회",
-   "stage": "selected",
-   "announced_at": "2021",
-   "artist": "강민",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "31회",
-   "stage": "selected",
-   "announced_at": "2020",
-   "artist": "터치드(Touched)",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "31회",
-   "stage": "selected",
-   "announced_at": "2020",
-   "artist": "지환",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "31회",
-   "stage": "selected",
-   "announced_at": "2020",
-   "artist": "evenif",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "31회",
-   "stage": "selected",
-   "announced_at": "2020",
-   "artist": "mong_gle(몽글)",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "31회",
-   "stage": "selected",
-   "announced_at": "2020",
-   "artist": "토르토르",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "31회",
-   "stage": "selected",
-   "announced_at": "2020",
-   "artist": "노동자3071",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "31회",
-   "stage": "selected",
-   "announced_at": "2020",
-   "artist": "숨비",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "31회",
-   "stage": "selected",
-   "announced_at": "2020",
-   "artist": "Lacuna(라쿠나)",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "31회",
-   "stage": "selected",
-   "announced_at": "2020",
-   "artist": "나상현씨밴드",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "31회",
-   "stage": "selected",
-   "announced_at": "2020",
-   "artist": "권월",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "30회",
-   "stage": "selected",
-   "announced_at": "2019",
-   "artist": "김효진",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "30회",
-   "stage": "selected",
-   "announced_at": "2019",
-   "artist": "송예린",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "30회",
-   "stage": "selected",
-   "announced_at": "2019",
-   "artist": "이찬주",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "30회",
-   "stage": "selected",
-   "announced_at": "2019",
-   "artist": "방랑자메리",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "30회",
-   "stage": "selected",
-   "announced_at": "2019",
-   "artist": "제이유나",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "30회",
-   "stage": "selected",
-   "announced_at": "2019",
-   "artist": "황세영",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "30회",
-   "stage": "selected",
-   "announced_at": "2019",
-   "artist": "홍하",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "30회",
-   "stage": "selected",
-   "announced_at": "2019",
-   "artist": "신지훈",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "30회",
-   "stage": "selected",
-   "announced_at": "2019",
-   "artist": "니쥬",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "30회",
-   "stage": "selected",
-   "announced_at": "2019",
-   "artist": "kohyo",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "2회",
-   "stage": "selected",
-   "announced_at": "1990",
-   "artist": "고찬용",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "2회",
-   "stage": "selected",
-   "announced_at": "1990",
-   "artist": "박인영",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "2회",
-   "stage": "selected",
-   "announced_at": "1990",
-   "artist": "이필수",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "2회",
-   "stage": "selected",
-   "announced_at": "1990",
-   "artist": "박은혜",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "2회",
-   "stage": "selected",
-   "announced_at": "1990",
-   "artist": "이유화",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "2회",
-   "stage": "selected",
-   "announced_at": "1990",
-   "artist": "김수용",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "2회",
-   "stage": "selected",
-   "announced_at": "1990",
-   "artist": "박영렬(나들)",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "2회",
-   "stage": "selected",
-   "announced_at": "1990",
-   "artist": "유태임",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "2회",
-   "stage": "selected",
-   "announced_at": "1990",
-   "artist": "안태영",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "2회",
-   "stage": "selected",
-   "announced_at": "1990",
-   "artist": "김지나",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "29회",
-   "stage": "selected",
-   "announced_at": "2018",
-   "artist": "최유리",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "29회",
-   "stage": "selected",
-   "announced_at": "2018",
-   "artist": "더치트랩",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "29회",
-   "stage": "selected",
-   "announced_at": "2018",
-   "artist": "김민주(김훨)",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "29회",
-   "stage": "selected",
-   "announced_at": "2018",
-   "artist": "공예빈",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "29회",
-   "stage": "selected",
-   "announced_at": "2018",
-   "artist": "문근영(해파, 시옷과 바람)",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "29회",
-   "stage": "selected",
-   "announced_at": "2018",
-   "artist": "신한태",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "29회",
-   "stage": "selected",
-   "announced_at": "2018",
-   "artist": "김종진",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "29회",
-   "stage": "selected",
-   "announced_at": "2018",
-   "artist": "송예림",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "29회",
-   "stage": "selected",
-   "announced_at": "2018",
-   "artist": "쟁반땅콩",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "29회",
-   "stage": "selected",
-   "announced_at": "2018",
-   "artist": "킨츠크로이",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "29회",
-   "stage": "selected",
-   "announced_at": "2018",
-   "artist": "메룬즈",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "28회",
-   "stage": "selected",
-   "announced_at": "2017",
-   "artist": "이호재 팀",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "28회",
-   "stage": "selected",
-   "announced_at": "2017",
-   "artist": "김지범",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "28회",
-   "stage": "selected",
-   "announced_at": "2017",
-   "artist": "박수정, 김민지",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "28회",
-   "stage": "selected",
-   "announced_at": "2017",
-   "artist": "김수현, 임상현",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "28회",
-   "stage": "selected",
-   "announced_at": "2017",
-   "artist": "손휘준",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "28회",
-   "stage": "selected",
-   "announced_at": "2017",
-   "artist": "허정혁(시옷과 바람)",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "28회",
-   "stage": "selected",
-   "announced_at": "2017",
-   "artist": "강단비",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "28회",
-   "stage": "selected",
-   "announced_at": "2017",
-   "artist": "권지윤",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "28회",
-   "stage": "selected",
-   "announced_at": "2017",
-   "artist": "김제호",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "28회",
-   "stage": "selected",
-   "announced_at": "2017",
-   "artist": "한나비",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "27회",
-   "stage": "selected",
-   "announced_at": "2016",
-   "artist": "장희원,윤덕호",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "27회",
-   "stage": "selected",
-   "announced_at": "2016",
-   "artist": "백두인",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "27회",
-   "stage": "selected",
-   "announced_at": "2016",
-   "artist": "박희수",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "27회",
-   "stage": "selected",
-   "announced_at": "2016",
-   "artist": "조애란",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "27회",
-   "stage": "selected",
-   "announced_at": "2016",
-   "artist": "박한 세상",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "27회",
-   "stage": "selected",
-   "announced_at": "2016",
-   "artist": "김민수",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "27회",
-   "stage": "selected",
-   "announced_at": "2016",
-   "artist": "주예빈",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "27회",
-   "stage": "selected",
-   "announced_at": "2016",
-   "artist": "장유경",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "27회",
-   "stage": "selected",
-   "announced_at": "2016",
-   "artist": "박소은",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "27회",
-   "stage": "selected",
-   "announced_at": "2016",
-   "artist": "영진이네",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "26회",
-   "stage": "selected",
-   "announced_at": "2015",
-   "artist": "공세영",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "26회",
-   "stage": "selected",
-   "announced_at": "2015",
-   "artist": "최윤희",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "26회",
-   "stage": "selected",
-   "announced_at": "2015",
-   "artist": "일진 좋은 날",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "26회",
-   "stage": "selected",
-   "announced_at": "2015",
-   "artist": "임주은",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "26회",
-   "stage": "selected",
-   "announced_at": "2015",
-   "artist": "황민재,박채현",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "26회",
-   "stage": "selected",
-   "announced_at": "2015",
-   "artist": "뱃사공(수림, 백찬영)",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "26회",
-   "stage": "selected",
-   "announced_at": "2015",
-   "artist": "김정은",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "26회",
-   "stage": "selected",
-   "announced_at": "2015",
-   "artist": "한정훈",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "26회",
-   "stage": "selected",
-   "announced_at": "2015",
-   "artist": "박지원, 강철",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "26회",
-   "stage": "selected",
-   "announced_at": "2015",
-   "artist": "구정현",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "25회",
-   "stage": "selected",
-   "announced_at": "2014",
-   "artist": "이신영",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "25회",
-   "stage": "selected",
-   "announced_at": "2014",
-   "artist": "조소정",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "25회",
-   "stage": "selected",
-   "announced_at": "2014",
-   "artist": "안시온",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "25회",
-   "stage": "selected",
-   "announced_at": "2014",
-   "artist": "백승환",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "25회",
-   "stage": "selected",
-   "announced_at": "2014",
-   "artist": "정신혜",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "25회",
-   "stage": "selected",
-   "announced_at": "2014",
-   "artist": "익명의 시인들",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "25회",
-   "stage": "selected",
-   "announced_at": "2014",
-   "artist": "유후",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "25회",
-   "stage": "selected",
-   "announced_at": "2014",
-   "artist": "Sweet & light",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "25회",
-   "stage": "selected",
-   "announced_at": "2014",
-   "artist": "조여진, 이나래",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "25회",
-   "stage": "selected",
-   "announced_at": "2014",
-   "artist": "퍼플커튼",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "24회",
-   "stage": "selected",
-   "announced_at": "2013",
-   "artist": "민주",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "24회",
-   "stage": "selected",
-   "announced_at": "2013",
-   "artist": "이설아",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "24회",
-   "stage": "selected",
-   "announced_at": "2013",
-   "artist": "일상다반사",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "24회",
-   "stage": "selected",
-   "announced_at": "2013",
-   "artist": "홍이삭",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "24회",
-   "stage": "selected",
-   "announced_at": "2013",
-   "artist": "다방(D'AVANT)",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "24회",
-   "stage": "selected",
-   "announced_at": "2013",
-   "artist": "김다수",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "24회",
-   "stage": "selected",
-   "announced_at": "2013",
-   "artist": "유보영(유하)",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "24회",
-   "stage": "selected",
-   "announced_at": "2013",
-   "artist": "영원",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "24회",
-   "stage": "selected",
-   "announced_at": "2013",
-   "artist": "아몬드",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "24회",
-   "stage": "selected",
-   "announced_at": "2013",
-   "artist": "이예린",
-   "url": "https://www.yjh.or.kr/History"
-  },
-  {
-   "program": "yoojaeha_finalist",
-   "round": "23회",
-   "stage": "selected",
-   "announced_at": "2012",
-   "artist": "조강지처",
-   "url": "https://www.yjh.or.kr/History"
   }
  ],
  "cross_branch": [
+  {
+   "artist": "다다다",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
   {
    "artist": "다브다",
    "branches": [
@@ -4614,6 +4755,14 @@
    ]
   },
   {
+   "artist": "12BH",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "9와 숫자들",
    "branches": [
     "공연",
@@ -4622,10 +4771,34 @@
    ]
   },
   {
+   "artist": "Colde (콜드)",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "Dante",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원"
+   ]
+  },
+  {
    "artist": "EK",
    "branches": [
     "공연",
     "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "Lacuna(라쿠나)",
+   "branches": [
+    "공연",
+    "선정·지원",
     "큐레이션"
    ]
   },
@@ -4663,6 +4836,14 @@
   },
   {
    "artist": "극동아시아타이거즈",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김늑",
    "branches": [
     "공연",
     "선정·지원",
@@ -4742,6 +4923,14 @@
    ]
   },
   {
+   "artist": "김해원",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "까데호",
    "branches": [
     "공연",
@@ -4782,7 +4971,7 @@
    ]
   },
   {
-   "artist": "놀이도감",
+   "artist": "노리플라이",
    "branches": [
     "공연",
     "선정·지원",
@@ -4790,11 +4979,19 @@
    ]
   },
   {
-   "artist": "다다다",
+   "artist": "노브레인",
    "branches": [
     "공연",
-    "발매",
-    "선정·지원"
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "놀이도감",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
    ]
   },
   {
@@ -4814,7 +5011,39 @@
    ]
   },
   {
+   "artist": "동영",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "라이엇 키즈(RIOT KIDZ)",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "라이프 앤 타임",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "레이브릭스",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "로스오브인펙션",
    "branches": [
     "공연",
     "선정·지원",
@@ -4878,6 +5107,14 @@
    ]
   },
   {
+   "artist": "민채영",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "바밍타이거",
    "branches": [
     "공연",
@@ -4910,7 +5147,31 @@
    ]
   },
   {
+   "artist": "밴드기린",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "뱃사공(수림, 백찬영)",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "버둥",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "범진",
    "branches": [
     "공연",
     "선정·지원",
@@ -4950,6 +5211,14 @@
    ]
   },
   {
+   "artist": "삼산",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "새소년",
    "branches": [
     "공연",
@@ -4974,7 +5243,23 @@
    ]
   },
   {
+   "artist": "소금",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "소음발광",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "숨비",
    "branches": [
     "공연",
     "선정·지원",
@@ -5006,6 +5291,14 @@
    ]
   },
   {
+   "artist": "시인을 위하여",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "신지훈",
    "branches": [
     "공연",
@@ -5015,6 +5308,14 @@
   },
   {
    "artist": "실리카겔",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "심아일랜드",
    "branches": [
     "공연",
     "선정·지원",
@@ -5062,7 +5363,39 @@
    ]
   },
   {
+   "artist": "야자수",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "양치기소년단",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "얼스바운드",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "연정",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "예람",
    "branches": [
     "공연",
     "선정·지원",
@@ -5074,6 +5407,22 @@
    "branches": [
     "공연",
     "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "오예본",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "오월오일",
+   "branches": [
+    "공연",
+    "발매",
     "큐레이션"
    ]
   },
@@ -5095,6 +5444,14 @@
   },
   {
    "artist": "와와와",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "우주왕복선싸이드미러",
    "branches": [
     "공연",
     "선정·지원",
@@ -5134,7 +5491,7 @@
    ]
   },
   {
-   "artist": "잔나비",
+   "artist": "이주영",
    "branches": [
     "공연",
     "선정·지원",
@@ -5142,233 +5499,11 @@
    ]
   },
   {
-   "artist": "전기뱀장어",
+   "artist": "이토마토",
    "branches": [
     "공연",
     "선정·지원",
     "큐레이션"
-   ]
-  },
-  {
-   "artist": "전유동",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "전자양",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "전호권",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "정밀아",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "조규찬",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "죠지",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "지소쿠리클럽",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "천둥오리",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "청요일",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "초록불꽃소년단",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "최유리",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "최춘목밴드",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "카더가든",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "컨트리공방",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "코토바",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "크라잉넛",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "키라라",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "터치드(Touched)",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "토카이(Tokai)",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "품바21",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "피치트럭하이재커스",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "한로로",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "해파",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "홍이삭",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "히미츠 (HeMeets)",
-   "branches": [
-    "공연",
-    "발매",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "힙노시스테라피",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "109",
-   "branches": [
-    "공연",
-    "발매"
-   ]
-  },
-  {
-   "artist": "12BH",
-   "branches": [
-    "공연",
-    "선정·지원"
    ]
   }
  ]

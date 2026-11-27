@@ -1,9 +1,5 @@
 {
-  "prev_rows": {},
-  "generated_at": "2026-11-27T19:13:16+09:00",
-  "data_end": "2026-11-27",
-  "uses_artist_xref": true,
-  "rows": {
+  "prev_rows": {
     "signals": 26534,
     "teams": 9096,
     "outcomes": 723,
@@ -13,5 +9,18 @@
     "images": 241,
     "collabs": 0
   },
-  "scene_communities": 244
+  "generated_at": "2026-11-28T00:19:35+09:00",
+  "data_end": "2026-11-28",
+  "uses_artist_xref": true,
+  "rows": {
+    "signals": 27664,
+    "teams": 9720,
+    "outcomes": 1272,
+    "programs": 19,
+    "links": 1280,
+    "videos": 2346,
+    "images": 243,
+    "collabs": 0
+  },
+  "scene_communities": 274
 }
