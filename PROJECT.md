@@ -5,16 +5,16 @@
 > 대화 흐름 전체는 [HISTORY.md](HISTORY.md). 이 문서는 Claude Code 세션(2026-11-23 ~ 11-26)에서 정리한 방향, 결정 사항, 조사 결과, 할 일을 모은 것입니다.
 > 대화 원문은 포함되지 않았습니다. 2026-11-26 기준.
 
-## 0. 재개 지점 (중단되면 여기부터) — 마지막 갱신 2026-11-27 오후
+## 0. 재개 지점 (중단되면 여기부터) — 마지막 갱신 2026-11-27 저녁
 사용량 한도·인터넷 끊김으로 멈추면 다음 세션은 이 칸부터 본다. 수집기는 `data/raw/state/*.json`에 '이미 받은 것'을 기록하므로 같은 명령을 다시 돌리면 이어서 받는다.
 
-**2026-11-27 오후 현재 (재개 시 여기부터)**
-- ✅ 통합 앱 `docs/dashboard.html` + `docs/app/*` (왼쪽 패널 10화면·전역 선택 창·오늘 볼 것/새로 뜬 팀·팀 상세(선례·관련 팀·플랫폼 메뉴·무대 영상)·관심 목록·설정형 백테스트·SQL 실행). 데이터 `docs/lab/data/*`(export_lab_data.py), 계산식 `docs/lab/sql/*`(테스트 tests/test_lab_sql.py, .venv duckdb), 매일 스냅샷 lab_snapshot.py, 무대 영상 collect_videos.py(YouTube API, .env 키).
-- ✅ 이름 묶기 artist_xref, 공연장 묶기 venue_xref, 과거 정답 2021~2024, README·docs/methods.md.
-- ✅ 인스타 후보 수집 끝 → `config/insta_accounts.json` 499계정(매거진 main 매일·sub 주 1회·공연장 2일마다, 하루 약 230, 실행당 260 상한).
-- ✅ 점수 v1 (docs/score_tuning.md, 평균 AUC 0.651→0.701), 앱 테마·가독성.
-- ⏳ 멜론 프로필: `.venv/bin/python scripts/collect_artists.py --names-file data/raw/review/melon_names_2026-11-27.txt` 반복 (남은 수 = outcome_melon_match의 id − artist_profile_seen). 끝나면 load_pg → artist_xref --load-pg → 00_core_views → export_lab_data → lab_snapshot → build_dashboard_data → 커밋.
-- 다음: 멜론 프로필 481팀(aside 비면, 신인 판단·링크·소속사 늘어남) → 점수 개선(한 기준일 빼고 맞추는 교차 검증) → 디자인(사용자가 말하면).
+**2026-11-27 저녁 중단 지점 (재개 시 여기부터)** — 점검표: https://claude.ai/artifact/9pA1fPyVYqpRgBEEYqAA6x
+- ⏳ **안티그래비티(Orca 작업자, dispatch ctx_bd4ee4946ae3)**: 앱 구조 재설계 1차 구현 중 (사용자 승인: 매일 보는 4메뉴=이번 주 브리핑·후보 목록·공연장·관심 목록 + 접힌 고급·검증, 상단=기준일·팀 검색·내보내기·테마, 자동 이상 배너). 제안서 `docs/research_2026-11-27_ops_dashboards.md`. 끝나면 검토(브라우저로 화면·콘솔 확인) → 커밋 → 링크 보고. 커밋은 코디네이터만.
+- ⚠️ **멜론 프로필 멈춤 — 원인 찾음**: 멜론이 아티스트 상세 페이지 주소를 바꿈. `scripts/collect_artists.py`의 `ARTIST_URL = .../artist/detail.htm?artistId=` → "페이지를 찾을 수 없습니다"(앨범 페이지 album.htm은 정상). 새 주소는 페이지 안 `melon.link.goArtistDetail(id,'2')`(상세정보)가 가는 곳 — 확인하던 중 중단. 할 일: 새 주소 확인 → ARTIST_URL·선택자(.wrap_atist_info, #d_like_count, dl) 맞추기 → 테스트 → `.venv/bin/python scripts/collect_artists.py --names-file data/raw/review/melon_names_2026-11-27.txt` 반복(남은 214팀). 또 outcome_melon_match.json에 잘못된 id '0','1'이 있음 → 제외 규칙 추가.
+- ⏳ 협업·피처링(`collect_spotify_collabs.py`): 스포티파이 한도로 0건, 오늘 21시 자동 실행부터 이어짐. 데이터 생기면 '기성 아티스트와 협업' 신호 → 백테스트(정답보다 먼저인지) → 효과 있으면 점수 반영(점수 정의 변경이라 사용자 확인).
+- ✅ 오늘 끝낸 것: 점수 v1(교차 검증 AUC 0.651→0.701), 스포티파이 미리 듣기·사진 241팀(스포티파이·유튜브만 남김), 무대 영상 1,736개, 인스타 추적 499계정, 공연장 묶기 237→205, 과거 정답 2021~2024, prev_rows(수집 급감 경고용).
+- 남은 작은 일: validate_csv에 raw_video·raw_collab 형식 등록(지금 형식 검사 1건 실패 표시), 유튜브 채널 썸네일(스포티파이 없는 팀 사진), 이름 애매 97건·공연장 31건 사람 확인.
+- 규칙: 같은 단계 안은 묻지 않고 진행·보고, 방향·다음 단계·틀 변경은 먼저 묻기.
 
 **진행 중이던 것**
 - [ ] (2026-11-27 시작) **전 장르 확장** — 사용자: "모든 장르에서 구현", "인스타 매거진 500개 이상 리스트업"
