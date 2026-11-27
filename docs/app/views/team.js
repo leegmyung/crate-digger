@@ -260,7 +260,92 @@ export async function renderTeamView(root, teamKey) {
       const visibleTl = showAllTimeline ? mergedTimeline : mergedTimeline.slice(0, 10);
       const moreTl = mergedTimeline.length - visibleTl.length;
       const hasNonDiscovery = mergedTimeline.some(m => !m.isOutcome && m.role !== 'discovery');
+
+      // Build last 12 months stacked bar data (공연 / 선정·지원 / 발매·큐레이션)
+      const endDateStr = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
+      const [ey, em] = endDateStr.split('-').map(Number);
+      const monthBuckets = [];
+      const bucketMap = new Map();
+      if (Number.isFinite(ey) && Number.isFinite(em)) {
+        for (let offset = 11; offset >= 0; offset--) {
+          const d = new Date(Date.UTC(ey, em - 1 - offset, 1));
+          const y = d.getUTCFullYear();
+          const mo = d.getUTCMonth() + 1;
+          const ym = `${y}-${String(mo).padStart(2, '0')}`;
+          const item = {
+            ym,
+            shortLabel: (mo === 1 || offset === 11) ? `${String(y).slice(2)}.${String(mo).padStart(2, '0')}` : `${mo}월`,
+            gig: 0,
+            sel: 0,
+            other: 0,
+            total: 0,
+          };
+          monthBuckets.push(item);
+          bucketMap.set(ym, item);
+        }
+      }
+      for (const s of timeline) {
+        if (s.role === 'excluded') continue;
+        const dt = String(s.signal_date || '').slice(0, 10);
+        if (!dt || dt > endDateStr) continue;
+        const b = bucketMap.get(dt.slice(0, 7));
+        if (!b) continue;
+        if (s.branch === '공연') b.gig += 1;
+        else if (s.branch === '선정·지원') b.sel += 1;
+        else b.other += 1;
+        b.total += 1;
+      }
+      const total12m = monthBuckets.reduce((acc, m) => acc + m.total, 0);
+      const max12m = Math.max(1, ...monthBuckets.map(m => m.total));
+
+      const monthlyBarsHtml = `
+        <section class="block monthly-bars-block">
+          <div class="block-head">
+            <div>
+              <h2>최근 12개월 활동 흐름</h2>
+              <span class="block-meta">${escapeHtml(monthBuckets[0]?.ym || '')} ~ ${escapeHtml(monthBuckets[monthBuckets.length - 1]?.ym || '')} · 총 ${fmtInt(total12m)}건</span>
+            </div>
+            <div class="monthly-legend" aria-label="갈래 범례">
+              <span class="monthly-leg-item"><i class="monthly-dot is-gig"></i>공연</span>
+              <span class="monthly-leg-item"><i class="monthly-dot is-sel"></i>선정·지원</span>
+              <span class="monthly-leg-item"><i class="monthly-dot is-other"></i>발매·큐레이션</span>
+            </div>
+          </div>
+          ${total12m > 0 ? `
+            <div class="monthly-bars-grid" role="img" aria-label="최근 12개월 갈래별 활동 막대 그래프">
+              ${monthBuckets.map(m => {
+                const barPct = m.total > 0 ? Math.max(8, Math.round((m.total / max12m) * 100)) : 0;
+                const gigPct = m.total > 0 ? (m.gig / m.total) * 100 : 0;
+                const selPct = m.total > 0 ? (m.sel / m.total) * 100 : 0;
+                const otherPct = m.total > 0 ? (m.other / m.total) * 100 : 0;
+                const parts = [];
+                if (m.gig) parts.push(`공연 ${m.gig}`);
+                if (m.sel) parts.push(`선정·지원 ${m.sel}`);
+                if (m.other) parts.push(`발매·큐레이션 ${m.other}`);
+                const tip = parts.length ? `${m.ym}: ${parts.join(' · ')}` : `${m.ym}: 기록 없음`;
+                return `
+                  <div class="monthly-bar-col" title="${escapeHtml(tip)}">
+                    <span class="monthly-bar-cnt">${m.total > 0 ? fmtInt(m.total) : ''}</span>
+                    <div class="monthly-bar-track">
+                      ${m.total > 0 ? `
+                        <div class="monthly-bar-stack" style="height:${barPct}%">
+                          ${m.other ? `<span class="monthly-seg is-other" style="height:${otherPct.toFixed(1)}%"></span>` : ''}
+                          ${m.sel ? `<span class="monthly-seg is-sel" style="height:${selPct.toFixed(1)}%"></span>` : ''}
+                          ${m.gig ? `<span class="monthly-seg is-gig" style="height:${gigPct.toFixed(1)}%"></span>` : ''}
+                        </div>
+                      ` : '<div class="monthly-bar-zero"></div>'}
+                    </div>
+                    <span class="monthly-bar-lbl">${escapeHtml(m.shortLabel)}</span>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          ` : '<p class="muted small" style="margin:0;">최근 12개월 내 기록된 활동이 없습니다.</p>'}
+        </section>
+      `;
+
       return `
+        ${monthlyBarsHtml}
         <section class="block">
           <div class="block-head">
             <h2>신호 · 정답 타임라인</h2>

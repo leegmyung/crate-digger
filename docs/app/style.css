@@ -3060,5 +3060,122 @@ tr.player-expand-row td {
   }
 }
 
+/* ---------- Team 12-month activity mini bars ---------- */
+.monthly-bars-block {
+  --act-gig: #2563eb;
+  --act-sel: #d97706;
+  --act-other: #64748b;
+}
+
+[data-theme="dark"] .monthly-bars-block {
+  --act-gig: #60a5fa;
+  --act-sel: #f59e0b;
+  --act-other: #94a3b8;
+}
+
+.monthly-legend {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+}
+
+.monthly-leg-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.monthly-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.monthly-dot.is-gig,
+.monthly-seg.is-gig { background: var(--act-gig); }
+.monthly-dot.is-sel,
+.monthly-seg.is-sel { background: var(--act-sel); }
+.monthly-dot.is-other,
+.monthly-seg.is-other { background: var(--act-other); }
+
+.monthly-bars-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 6px;
+  align-items: end;
+  padding-top: 6px;
+}
+
+.monthly-bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.monthly-bar-cnt {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1;
+  min-height: 11px;
+  color: var(--ink-muted);
+}
+
+.monthly-bar-track {
+  width: 100%;
+  max-width: 24px;
+  height: 76px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-bottom: 1px solid var(--line);
+}
+
+.monthly-bar-stack {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 2px 2px 0 0;
+  overflow: hidden;
+}
+
+.monthly-seg {
+  display: block;
+  width: 100%;
+  min-height: 2px;
+}
+
+.monthly-bar-zero {
+  width: 100%;
+  height: 2px;
+  background: var(--surface-2);
+}
+
+.monthly-bar-lbl {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-subtle);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  .monthly-bars-grid {
+    gap: 3px;
+  }
+
+  .monthly-bar-lbl {
+    font-size: 10px;
+  }
+}
+
 
 
