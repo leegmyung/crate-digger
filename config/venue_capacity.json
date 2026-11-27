@@ -282,10 +282,15 @@
   "Cafe PPnF": {
    "rank": 19,
    "events": 57,
-   "capacity": null,
-   "tier": null,
+   "capacity": 30,
+   "tier": "S",
    "checked": "2026-11-28",
-   "note": "2026-11-28 다시 찾음 — 웹 검색에서 좌석·인원 정보를 찾지 못함 (인스타·네이버 플레이스 직접 확인 필요)"
+   "seats": 30,
+   "standing": null,
+   "source": "https://dokdokinfo.kr/theaterspecific/fc002066/",
+   "source_note": "공연시설 등록 정보(dokdokinfo) '객석수 30석, 2018년 개관, 기타(비공연장)'",
+   "confidence": "mid",
+   "other_sources": []
   },
   "KT&G 상상마당 홍대 라이브홀": {
    "rank": 20,
@@ -316,10 +321,15 @@
   "우무지": {
    "rank": 22,
    "events": 43,
-   "capacity": null,
-   "tier": null,
+   "capacity": 100,
+   "tier": "S",
    "checked": "2026-11-28",
-   "note": "2026-11-28 다시 찾음 — 공연 안내 페이지(popga 등)는 '전석 스탠딩'만 적고 인원은 없음, 웹 검색·대관 안내도 숫자 없음"
+   "seats": 100,
+   "standing": null,
+   "source": "https://www.indiego.co.kr/venues/5-%EC%9A%B0%EB%AC%B4%EC%A7%80",
+   "source_note": "인디고 공연장 소개 '100석 규모의 공연장' — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid",
+   "other_sources": []
   },
   "살롱문보우": {
    "rank": 23,
@@ -805,7 +815,7 @@
    "capacity": null,
    "tier": null,
    "checked": "2026-11-28",
-   "note": "2026-11-28 다시 찾음 — 코리아타임스 'Finding the Scene 7'(2025-07)·Debaser 인터뷰(2025-12)는 모래내시장 안 작은 공연장·바로만 소개, 인원 숫자 없음"
+   "note": "2026-11-28 다시 찾음 — 코리아타임스 'Finding the Scene 7'(2025-07)·Debaser 인터뷰(2025-12)는 모래내시장 안 작은 공연장·바로만 소개, 인원 숫자 없음 · 2026-11-28 aside로 인디고 공연장 페이지·인스타 소개글도 확인 — 인원 숫자 없음"
   },
   "락캠프": {
    "rank": 69,
@@ -1365,10 +1375,17 @@
   "클럽샤프": {
    "rank": 26,
    "events": 47,
-   "capacity": null,
-   "tier": null,
+   "capacity": 100,
+   "tier": "S",
    "checked": "2026-11-28",
-   "note": "2026-11-28 찾음 — 코리아타임스 'Finding the Scene 1'(2024-04)이 망원동 펑크·스카·하드코어 소규모 공연장(2016 개관)으로 소개, 인원 숫자는 공개 자료에 없음 (rank·events 는 2026-11-28 랩 데이터 기준)"
+   "seats": 100,
+   "standing": null,
+   "source": "https://dokdokinfo.kr/theaterspecific/fc002721/",
+   "source_note": "공연시설 등록 정보(dokdokinfo) '객석수 100석, 2016년 개관' — 스탠딩 수는 공개 자료에 없음",
+   "confidence": "mid",
+   "other_sources": [
+    "https://www.koreatimes.co.kr/amp/southkorea/globalcommunity/20240413/finding-the-scene-1-seouls-top-10-live-music-venues (소규모)"
+   ]
   }
  }
 }
