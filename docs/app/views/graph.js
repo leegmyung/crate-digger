@@ -427,7 +427,7 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
     if (!inspectorEl) return;
     const node = nodesMap.get(selectedId);
     if (!node) {
-      inspectorEl.innerHTML = '<span class="graph-insp-hint">노드 클릭 = 연결 펼치기 · 팀 더블클릭 = 상세 이동 · 드래그·확대 가능</span>';
+      inspectorEl.innerHTML = '<span class="graph-insp-hint">노드 클릭 = 연결 펼치기 · 팀·공연장 더블클릭 = 상세 이동 · 드래그·확대 가능</span>';
       return;
     }
     const linksArr = [...linksMap.values()];
@@ -442,6 +442,8 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
     let actionBtn = '';
     if (node.node_type === 'team' && node.node_key && node.id !== egoId) {
       actionBtn = `<button type="button" class="btn btn-sm graph-insp-action" data-go-team="${escapeHtml(node.node_key)}">팀 상세 보기 →</button>`;
+    } else if (node.node_type === 'venue' && node.node_key) {
+      actionBtn = `<button type="button" class="btn btn-sm graph-insp-action" data-go-venue="${escapeHtml(node.node_key)}">공연장 상세 보기 →</button>`;
     } else if (node.node_type === 'scene' && node.node_key) {
       actionBtn = `<button type="button" class="btn btn-sm graph-insp-action" data-go-scene="${escapeHtml(node.node_key)}">공연장·씬 보기 →</button>`;
     }
@@ -464,6 +466,12 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
       if (!tk) return;
       closeModal();
       navigateTo('team', tk);
+    });
+    inspectorEl.querySelector('[data-go-venue]')?.addEventListener('click', (e) => {
+      const vn = e.currentTarget.dataset.goVenue;
+      if (!vn) return;
+      closeModal();
+      navigateTo('venue', vn);
     });
     inspectorEl.querySelector('[data-go-scene]')?.addEventListener('click', (e) => {
       const sid = Number(e.currentTarget.dataset.goScene);
@@ -933,7 +941,9 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
         }
         const actionHint = d.node_type === 'team' && d.id !== egoId
           ? '클릭: 연결 펼치기 · 더블클릭: 팀 상세'
-          : (d.expanded ? '연결 펼쳐짐' : '클릭: 연결 펼치기');
+          : (d.node_type === 'venue' && d.node_key
+              ? '클릭: 연결 펼치기 · 더블클릭: 공연장 상세'
+              : (d.expanded ? '연결 펼쳐짐' : '클릭: 연결 펼치기'));
         showTooltip(evt, `
           <div class="gt-head"><strong>${escapeHtml(d.label)}</strong>${refBadge}</div>
           <div class="gt-sub">${escapeHtml(typeLbl)}${sub ? ` · ${escapeHtml(sub)}` : ''}</div>
@@ -960,6 +970,9 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
         if (d.node_type === 'team' && d.node_key && d.id !== egoId) {
           closeModal();
           navigateTo('team', d.node_key);
+        } else if (d.node_type === 'venue' && d.node_key) {
+          closeModal();
+          navigateTo('venue', d.node_key);
         } else if (d.node_type === 'scene' && d.node_key) {
           closeModal();
           appState.focusSceneId = Number(d.node_key);
@@ -1839,10 +1852,12 @@ export function mountSceneNetworkBlock(hostEl, {
     if (!node) {
       if (activeCommId !== null) {
         const comm = communities.find(c => c.id === activeCommId);
-        const venuesTxt = comm?.topVenues?.length ? comm.topVenues.join(' · ') : '';
+        const venuesHtml = comm?.topVenues?.length
+          ? comm.topVenues.map(v => `<a class="inline-venue-link" href="#/venue/${encodeURIComponent(v)}">${escapeHtml(v)}</a>`).join(' · ')
+          : '';
         cardEl.innerHTML = `
           <div class="scene-card-comm-bar">
-            <span><strong>씬 묶음 ${fmtInt(activeCommId)}</strong>${venuesTxt ? ` (${escapeHtml(venuesTxt)})` : ''} · 현재 그래프 내 <strong>${fmtInt(comm?.count || 0)}팀</strong> 강조 중</span>
+            <span><strong>씬 묶음 ${fmtInt(activeCommId)}</strong>${venuesHtml ? ` (${venuesHtml})` : ''} · 현재 그래프 내 <strong>${fmtInt(comm?.count || 0)}팀</strong> 강조 중</span>
             <button type="button" class="btn btn-sm" data-sn-clear-comm>전체 보기</button>
           </div>
         `;

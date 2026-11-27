@@ -64,7 +64,7 @@ export async function renderVenuesView(root) {
   const bannerHtml = renderActionBanner({
     title: '공연장·씬',
     lead: topMonthV
-      ? `${escapeHtml(monthly.monthLabel)} 신인 후보가 가장 많이 선 공연장은 <strong>${escapeHtml(topMonthV.venue)}</strong>(후보 ${fmtInt(topMonthV.candidateCount)}팀 · 전체 ${fmtInt(topMonthV.totalTeams)}팀)이며, 예정된 후보 무대는 <strong>${fmtInt(candUpcomingEvents.length)}건</strong>입니다.`
+      ? `${escapeHtml(monthly.monthLabel)} 신인 후보가 가장 많이 선 공연장은 <a class="inline-venue-link" href="#/venue/${encodeURIComponent(topMonthV.venue)}"><strong>${escapeHtml(topMonthV.venue)}</strong></a>(후보 ${fmtInt(topMonthV.candidateCount)}팀 · 전체 ${fmtInt(topMonthV.totalTeams)}팀)이며, 예정된 후보 무대는 <strong>${fmtInt(candUpcomingEvents.length)}건</strong>입니다.`
       : `${escapeHtml(monthly.monthLabel)} 기준 조건에 맞는 신인 후보 출연 공연장이 아직 없습니다.`,
   });
 
@@ -101,14 +101,15 @@ export async function renderVenuesView(root) {
     const previewCands = v.candidates.slice(0, 4);
     const bodyCands = v.candidates.slice(0, 10);
     const extraCands = v.candidates.length - bodyCands.length;
+    const venueHref = `#/venue/${encodeURIComponent(v.venue)}`;
 
     return `
       <li class="venue-acc-item ${isOpen ? 'is-open' : ''}">
-        <button type="button" class="venue-acc-head" data-toggle-venue="${escapeHtml(v.venue)}" aria-expanded="${isOpen ? 'true' : 'false'}">
+        <div class="venue-acc-head" data-toggle-venue="${escapeHtml(v.venue)}" role="button" tabindex="0" aria-expanded="${isOpen ? 'true' : 'false'}">
           <div class="venue-acc-left">
             <span class="venue-rank">#${idx + 1}</span>
             <div class="venue-acc-title-col">
-              <strong class="venue-name">${escapeHtml(v.venue)}</strong>
+              <a class="venue-name venue-name-link" href="${venueHref}">${escapeHtml(v.venue)}</a>
               <span class="small muted">전체 출연 ${fmtInt(v.totalTeams)}팀 · 후보 비중 ${v.candidateRatio.toFixed(0)}%</span>
             </div>
           </div>
@@ -119,7 +120,7 @@ export async function renderVenuesView(root) {
             <span class="badge-new">후보 ${fmtInt(v.candidateCount)}팀</span>
             <span class="venue-acc-caret" aria-hidden="true">▸</span>
           </div>
-        </button>
+        </div>
         ${isOpen ? `
           <div class="venue-acc-body">
             <div class="venue-cand-list">
@@ -150,7 +151,10 @@ export async function renderVenuesView(root) {
               }).join('')}
             </div>
             <div class="player-slot" id="venueExpandedPlayerSlot" data-player-slot></div>
-            ${extraCands > 0 ? `<p class="small muted" style="margin:8px 0 0 0;">외 후보 ${fmtInt(extraCands)}팀이 이번 달 이 무대에 섰습니다.</p>` : ''}
+            <div class="venue-acc-foot">
+              ${extraCands > 0 ? `<span class="small muted">외 후보 ${fmtInt(extraCands)}팀이 이번 달 이 무대에 섰습니다.</span>` : '<span></span>'}
+              <a class="btn btn-sm" href="${venueHref}">공연장 상세 보기 →</a>
+            </div>
           </div>
         ` : ''}
       </li>
@@ -185,10 +189,13 @@ export async function renderVenuesView(root) {
                 const otherNames = extraOther.slice(0, 3).map(t => t.display_name);
                 const otherMore = extraOther.length - otherNames.length;
                 const multiCand = ev.candidateTeams.length >= 2;
+                const isNamedVenue = ev.venue && ev.venue !== '공연장 미정';
                 return `
                   <li class="upcoming-row cal-event-row">
                     <div class="upcoming-when">
-                      <span class="upcoming-venue">${escapeHtml(ev.venue)}</span>
+                      ${isNamedVenue
+                        ? `<a class="upcoming-venue inline-venue-link" href="#/venue/${encodeURIComponent(ev.venue)}">${escapeHtml(ev.venue)}</a>`
+                        : `<span class="upcoming-venue">${escapeHtml(ev.venue)}</span>`}
                       ${multiCand ? `<span class="cobill-badge">후보 ${ev.candidateTeams.length}팀 함께 서는 무대</span>` : ''}
                     </div>
                     <div class="upcoming-teams-wrap">
@@ -290,8 +297,8 @@ export async function renderVenuesView(root) {
     const venuesTitle = topVenues.length
       ? topVenues.map(v => v.venue).join(' · ')
       : `씬 묶음 ${c.id}`;
-    const venuesCounts = topVenues.length
-      ? topVenues.map(v => `${v.venue} ${fmtInt(v.events)}`).join(' · ')
+    const venuesCountsHtml = topVenues.length
+      ? topVenues.map(v => `<a class="inline-venue-link" href="#/venue/${encodeURIComponent(v.venue)}">${escapeHtml(v.venue)}</a> ${fmtInt(v.events)}`).join(' · ')
       : '';
     const topCands = (c.top_candidates || [])
       .filter(t => !validTeamKeys || validTeamKeys.has(t.team_key))
@@ -322,7 +329,7 @@ export async function renderVenuesView(root) {
         </button>
         ${isOpen ? `
           <div class="venue-acc-body scene-acc-body">
-            ${venuesCounts ? `<p class="small muted scene-venues-meta">대표 공연장 (최근 1년 공연 수): ${escapeHtml(venuesCounts)}</p>` : ''}
+            ${venuesCountsHtml ? `<p class="small muted scene-venues-meta">대표 공연장 (최근 1년 공연 수): ${venuesCountsHtml}</p>` : ''}
             <div class="scene-detail-grid">
               <div class="scene-detail-col">
                 <h3 class="scene-detail-head">상위 후보</h3>
@@ -506,10 +513,21 @@ export async function renderVenuesView(root) {
     });
 
     root.querySelectorAll('[data-toggle-venue]').forEach(btn => {
-      btn.addEventListener('click', () => {
+      const toggle = () => {
         const v = btn.dataset.toggleVenue;
         expandedVenue = (expandedVenue === v) ? '' : v;
         paint();
+      };
+      btn.addEventListener('click', (e) => {
+        if (e.target.closest('a')) return;
+        toggle();
+      });
+      btn.addEventListener('keydown', (e) => {
+        if (e.target.closest('a')) return;
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggle();
+        }
       });
     });
 

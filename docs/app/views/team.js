@@ -240,6 +240,9 @@ export async function renderTeamView(root, teamKey) {
   }
   for (const s of timeline) {
     const name = resolveSignalName(s);
+    const cleanVenue = (s.venue && String(s.venue).trim() && String(s.venue).trim() !== '공연장 미정')
+      ? String(s.venue).trim()
+      : '';
     const detail = s.venue ? `${name} — ${s.venue}` : name;
     const roleMeta = lookupSourceRoleMeta(sourceRoles, s.branch, s.source, s.program);
     const role = s.role || roleMeta?.role || 'pending';
@@ -253,6 +256,8 @@ export async function renderTeamView(root, teamKey) {
       role,
       roleReason,
       isDimmed: role === 'excluded' || role === 'pending',
+      baseName: name,
+      venue: cleanVenue,
       text: detail,
     });
   }
@@ -308,6 +313,7 @@ export async function renderTeamView(root, teamKey) {
     today: '이번 주 브리핑',
     candidates: '후보 목록',
     venues: '공연장·씬',
+    venue: '공연장 상세',
     watchlist: '관심 목록',
     verify: '점수 신뢰도·검증',
     scorecard: '출처 성적표',
@@ -336,15 +342,18 @@ export async function renderTeamView(root, teamKey) {
   }
   const upcomingList = [...upcomingDedup.values()].sort((a, b) => a.signal_date.localeCompare(b.signal_date));
   const nextGig = upcomingList[0] || null;
+  const nextGigVenueOk = Boolean(nextGig && nextGig.venue && nextGig.venue !== '공연장 미정');
   const nextGigHtml = nextGig
-    ? `<p class="team-next-gig"><span class="next-gig-pill">다음 공연 ${escapeHtml(formatNextGigText(nextGig))}${upcomingList.length > 1 ? ` 외 ${upcomingList.length - 1}건` : ''}</span></p>`
+    ? `<p class="team-next-gig">${nextGigVenueOk
+        ? `<a class="next-gig-pill next-gig-pill-link" href="#/venue/${encodeURIComponent(nextGig.venue)}">다음 공연 ${escapeHtml(formatNextGigText(nextGig))}${upcomingList.length > 1 ? ` 외 ${upcomingList.length - 1}건` : ''}</a>`
+        : `<span class="next-gig-pill">다음 공연 ${escapeHtml(formatNextGigText(nextGig))}${upcomingList.length > 1 ? ` 외 ${upcomingList.length - 1}건` : ''}</span>`}</p>`
     : '';
 
-  const sceneVenuesTxt = sceneComm && Array.isArray(sceneComm.top_venues) && sceneComm.top_venues.length
-    ? sceneComm.top_venues.slice(0, 3).map(v => v.venue).join(' · ')
+  const sceneVenuesHtml = sceneComm && Array.isArray(sceneComm.top_venues) && sceneComm.top_venues.length
+    ? sceneComm.top_venues.slice(0, 3).map(v => `<a class="inline-venue-link" href="#/venue/${encodeURIComponent(v.venue)}">${escapeHtml(v.venue)}</a>`).join(' · ')
     : '';
   const sceneLineHtml = sceneComm
-    ? `<p class="team-scene-line">속한 씬: <a href="#/venues" class="inline-team-link" data-jump-scene="${sceneComm.id}"><strong>묶음 ${fmtInt(sceneComm.id)}</strong></a>${sceneVenuesTxt ? ` <span class="muted">(${escapeHtml(sceneVenuesTxt)})</span>` : ''}</p>`
+    ? `<p class="team-scene-line">속한 씬: <a href="#/venues" class="inline-team-link" data-jump-scene="${sceneComm.id}"><strong>묶음 ${fmtInt(sceneComm.id)}</strong></a>${sceneVenuesHtml ? ` <span class="muted">(${sceneVenuesHtml})</span>` : ''}</p>`
     : '';
 
   const outcomesLineHtml = outcomes.length
@@ -479,7 +488,14 @@ export async function renderTeamView(root, teamKey) {
                     </td>
                     <td class="num">${fmtInt(r.shared_count)}</td>
                     <td class="nowrap mono muted">${escapeHtml(r.last_date || '-')}</td>
-                    <td class="muted">${escapeHtml(r.detail || '-')}</td>
+                    <td class="muted">${r.detail
+                      ? String(r.detail).split(' · ').filter(Boolean).map(v => {
+                          const vn = v.trim();
+                          return (vn && vn !== '공연장 미정')
+                            ? `<a class="inline-venue-link" href="#/venue/${encodeURIComponent(vn)}">${escapeHtml(vn)}</a>`
+                            : escapeHtml(vn);
+                        }).join(' · ')
+                      : '-'}</td>
                   </tr>
                 `).join('')}
               </tbody>
@@ -540,7 +556,9 @@ export async function renderTeamView(root, teamKey) {
                 ${m.isOutcome
                   ? gradeBadgeHtml(m.grade, { weight: m.weight, isNominee: m.isNominee })
                   : roleBadgeHtml(m.role, { context: 'timeline', title: m.roleReason })}
-                <span>${escapeHtml(m.text)}</span>
+                <span>${m.venue
+                  ? `${escapeHtml(m.baseName || '')} — <a class="inline-venue-link" href="#/venue/${encodeURIComponent(m.venue)}">${escapeHtml(m.venue)}</a>`
+                  : escapeHtml(m.text)}</span>
               </span>
             </li>
           `).join('')}
@@ -746,7 +764,7 @@ export async function renderTeamView(root, teamKey) {
   }
 
   root.querySelector('#btnTeamBack')?.addEventListener('click', () => {
-    navigateTo(backRoute, '');
+    navigateTo(backRoute, backRoute === 'venue' ? (appState.prevParam || '') : '');
   });
 
   root.querySelector('[data-jump-scene]')?.addEventListener('click', (e) => {

@@ -13,6 +13,7 @@ export const ROUTES = [
   'evidence',
   'scorecard',
   'venues',
+  'venue',
   'quality',
   'sql',
 ];
@@ -322,6 +323,13 @@ export function parseHash() {
     } catch (_) {
       appState.routeParam = segs[1];
     }
+  } else if (segs[0] === 'venue' && segs[1]) {
+    appState.route = 'venue';
+    try {
+      appState.routeParam = decodeURIComponent(segs.slice(1).join('/'));
+    } catch (_) {
+      appState.routeParam = segs[1];
+    }
   } else if (segs[0] === 'verify') {
     appState.route = 'verify';
     appState.routeParam = '';
@@ -552,7 +560,9 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
     if (wm === 'board') p.set('wmode', 'board');
   }
 
-  const basePath = normRoute === 'team' && param ? `#/team/${encodeURIComponent(param)}` : `#/${normRoute}`;
+  const basePath = (normRoute === 'team' || normRoute === 'venue') && param
+    ? `#/${normRoute}/${encodeURIComponent(param)}`
+    : `#/${normRoute}`;
   const qs = p.toString();
   return qs ? `${basePath}?${qs}` : basePath;
 }
@@ -568,7 +578,7 @@ export function syncHash(replace = true) {
 }
 
 export function navigateTo(route, param = '') {
-  if (appState.route && appState.route !== 'team') {
+  if (appState.route && appState.route !== route) {
     appState.prevRoute = appState.route;
     appState.prevParam = appState.routeParam;
   }

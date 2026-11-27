@@ -40,6 +40,7 @@ const backtestCache = new Map();         // sqlKey -> blocks
 const signalHitsCache = new Map();       // sql -> { cutoff, rows }
 const scorecardCache = new Map();        // sql -> result
 const discoveryStageCache = new Map();   // sql -> { rows, byTeam }
+const venueShowsCache = new Map();       // venue::limit -> rows
 const sqlTemplatePromises = new Map();   // name -> Promise<string>
 
 function lruGet(map, key) {
@@ -71,6 +72,7 @@ function clearQueryCaches() {
   signalHitsCache.clear();
   scorecardCache.clear();
   discoveryStageCache.clear();
+  venueShowsCache.clear();
 }
 
 function localTodayIso() {
@@ -330,7 +332,7 @@ async function fetchJson(path, optional = false, opts = {}) {
       if (optional) return null;
       throw new Error(`${path} 불러오기 실패 (HTTP ${r.status})`);
     }
-    return r.json();
+    return await r.json();
   } catch (err) {
     if (optional) return null;
     throw err;
@@ -1822,6 +1824,84 @@ export async function loadAlertsJson() {
   } finally {
     alertsPromise = null;
   }
+}
+
+let venueProfilesCache = undefined;
+let venueProfilesPromise = null;
+
+/**
+ * docs/lab/data/venue_profiles.json을 1회 지연 로드한다.
+ * 파일이 없거나 비어 있으면 null을 반환(오류 없음).
+ */
+export async function loadVenueProfiles() {
+  if (venueProfilesCache !== undefined) return venueProfilesCache;
+  if (venueProfilesPromise) return venueProfilesPromise;
+  venueProfilesPromise = (async () => {
+    const raw = await fetchJson('lab/data/venue_profiles.json', true);
+    if (!raw || typeof raw !== 'object' || !raw.venues || typeof raw.venues !== 'object') {
+      venueProfilesCache = null;
+      return null;
+    }
+    venueProfilesCache = {
+      as_of: String(raw.as_of || ''),
+      notes: raw.notes && typeof raw.notes === 'object' ? raw.notes : {},
+      venues: raw.venues,
+    };
+    return venueProfilesCache;
+  })();
+  try {
+    return await venueProfilesPromise;
+  } finally {
+    venueProfilesPromise = null;
+  }
+}
+
+/**
+ * 특정 공연장의 최근 공연 기록을 DuckDB signals 테이블에서 조회한다.
+ * venue_profiles.json이 아직 없어도 공연 목록은 항상 표시할 수 있다.
+ */
+export async function queryVenueRecentShows(venueName, limit = 300) {
+  const vn = String(venueName || '').trim();
+  if (!vn) return [];
+  const lim = Math.max(10, Math.min(1000, Number(limit) || 300));
+  const key = `${vn}::${lim}`;
+  const cached = lruGet(venueShowsCache, key);
+  if (cached) return cached;
+
+  const sql = `
+    SELECT
+      CAST(s.signal_date AS VARCHAR) AS signal_date,
+      s.team_key,
+      COALESCE(t.display_name, s.team_key) AS display_name,
+      COALESCE(t.primary_genre, '') AS primary_genre,
+      COALESCE(s.source, '') AS source
+    FROM signals s
+    LEFT JOIN teams t USING (team_key)
+    WHERE s.branch = '공연'
+      AND TRIM(COALESCE(s.venue, '')) = ${sqlStringLiteral(vn)}
+      AND s.signal_date IS NOT NULL
+    ORDER BY s.signal_date DESC, display_name ASC
+    LIMIT ${lim}
+  `;
+  const { rows } = await runRawSql(sql);
+  const seen = new Set();
+  const deduped = [];
+  for (const r of rows) {
+    const dt = String(r.signal_date || '').slice(0, 10);
+    if (!dt || !r.team_key) continue;
+    const dk = `${dt}::${r.team_key}`;
+    if (seen.has(dk)) continue;
+    seen.add(dk);
+    deduped.push({
+      signal_date: dt,
+      team_key: String(r.team_key),
+      display_name: String(r.display_name || r.team_key),
+      primary_genre: String(r.primary_genre || ''),
+      source: String(r.source || ''),
+    });
+  }
+  lruSet(venueShowsCache, key, deduped);
+  return deduped;
 }
 
 let scoreTuningCache = undefined;

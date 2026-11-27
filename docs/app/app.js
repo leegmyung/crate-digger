@@ -22,6 +22,7 @@ const VIEW_LOADERS = {
   watchlist: () => import('./views/watchlist.js').then(m => m.renderWatchlistView),
   verify: () => import('./views/verify.js').then(m => m.renderVerifyView),
   venues: () => import('./views/venues.js').then(m => m.renderVenuesView),
+  venue: () => import('./views/venue.js').then(m => m.renderVenueView),
   quality: () => import('./views/quality.js').then(m => m.renderQualityView),
   sql: () => import('./views/sql.js').then(m => m.renderSqlView),
 };
@@ -104,8 +105,9 @@ function setAdvancedNavOpen(open) {
 
 function updateNavActive() {
   const route = appState.route;
+  const navRoute = route === 'venue' ? 'venues' : route;
   document.querySelectorAll('.nav-link[data-route]').forEach(a => {
-    const active = a.dataset.route === route;
+    const active = a.dataset.route === navRoute;
     a.classList.toggle('active', active);
     if (active) a.setAttribute('aria-current', 'page');
     else a.removeAttribute('aria-current');
@@ -459,7 +461,7 @@ async function renderCurrentView() {
     const r = appState.route;
     const renderFn = await loadViewRenderer(r);
     if (seq !== renderSeq) return;
-    if (r === 'team') await renderFn(root, appState.routeParam);
+    if (r === 'team' || r === 'venue') await renderFn(root, appState.routeParam);
     else await renderFn(root);
 
     clearTimeout(skelTimer);
@@ -544,7 +546,13 @@ function wireGlobalEvents() {
   });
 
   window.addEventListener('hashchange', () => {
+    const prevR = appState.route;
+    const prevP = appState.routeParam;
     parseHash();
+    if (prevR && appState.route && appState.route !== prevR) {
+      appState.prevRoute = prevR;
+      appState.prevParam = prevP;
+    }
     renderCurrentView();
   });
 
