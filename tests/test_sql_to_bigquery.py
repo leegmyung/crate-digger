@@ -48,7 +48,16 @@ class ConvertTest(unittest.TestCase):
             report = sb.build(sb.SRC_DIR, Path(d))
         self.assertEqual(report["failed"], [])
         self.assertGreaterEqual(report["converted"], 17)
-        self.assertTrue(any("00_core_views" in x for x in report.get("skipped", [])))   # 절차형 블록은 사람이
+        self.assertGreaterEqual(report["converted"], 18)                                # 기본 뷰도 펼쳐서 변환
+
+    def test_core_views_do_blocks_are_flattened(self):
+        flat = sb.flatten_core_views("CREATE SCHEMA IF NOT EXISTS core;\nDO $$ BEGIN x; END $$;\n"
+                                     "DO $$ BEGIN y; END $$;\nCREATE VIEW core.a AS SELECT 1;\n")
+        self.assertNotIn("DO $$", flat)
+        self.assertNotIn("CREATE SCHEMA", flat)
+        self.assertIn("core.v_team_map", flat)
+        self.assertIn("core.v_venue_map", flat)
+        self.assertIn("core.a", flat)
 
     def test_nulls_ordering_inside_string_agg_is_noted_not_failed(self):
         notes = []

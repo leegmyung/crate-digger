@@ -22,7 +22,26 @@ SRC_DIR = ROOT / "sql" / "kr"
 DST_DIR = ROOT / "sql" / "bigquery"
 NOTE = "-- (BigQuery 문법으로 자동 변환: scripts/sql_to_bigquery.py — 원문은 sql/kr/ 의 같은 파일)"
 # 자동 변환 대상에서 빼는 파일과 이유 (BigQuery 판은 사람이 따로 써야 함)
-EXCLUDED = {"00_core_views.sql": "PostgreSQL 절차형 블록(DO $$ … $$, to_regclass로 뷰 정의 고르기) — BigQuery에선 스크립팅/별도 뷰로 다시 작성 필요"}
+EXCLUDED: Dict[str, str] = {}
+# 00_core_views.sql 의 절차형 블록(DO $$ … $$)은 '연결표가 있으면 이 정의' 분기를 고르는 것뿐이라,
+# 운영처럼 ref.artist_xref·ref.venue_xref 가 있다고 보고 그 분기의 뷰 정의로 펼친 뒤 변환한다.
+CORE_VIEWS = "00_core_views.sql"
+FLAT_TEAM_MAP = """CREATE VIEW core.v_team_map AS
+WITH alias_map AS (
+    SELECT alias_key, MIN(artist_key) AS main_key
+    FROM core.v_signal_base
+    WHERE alias_key IS NOT NULL AND alias_key <> '' AND alias_key <> artist_key
+    GROUP BY alias_key
+)
+SELECT x.variant_key, x.artist_key AS team_key, 'xref' AS via
+FROM ref.artist_xref x
+UNION ALL
+SELECT am.alias_key, COALESCE(x2.artist_key, am.main_key), 'alias'
+FROM alias_map am
+LEFT JOIN ref.artist_xref x2 ON x2.variant_key = am.main_key
+WHERE NOT EXISTS (SELECT 1 FROM ref.artist_xref x WHERE x.variant_key = am.alias_key);"""
+FLAT_VENUE_MAP = "CREATE VIEW core.v_venue_map AS SELECT variant, venue FROM ref.venue_xref;"
+CORE_SKIP_PREFIXES = ("CREATE SCHEMA", "DROP VIEW")   # BigQuery 데이터셋·뷰 교체는 운영 방식에 맞게 따로
 
 
 def convert(sql: str, notes: List[str] | None = None) -> str:
@@ -67,6 +86,25 @@ def convert_file_text(text: str, notes: List[str] | None = None) -> str:
     return "\n".join([*head, NOTE, *warn, sql])
 
 
+def flatten_core_views(text: str) -> str:
+    """00_core_views.sql: DO 블록 2개를 연결표가 있는 분기의 뷰 정의로 바꾸고, 스키마 만들기·뷰 지우기 문은 뺀다."""
+    out, i = [], 0
+    blocks = [FLAT_TEAM_MAP, FLAT_VENUE_MAP]
+    while True:
+        j = text.find("DO $$", i)
+        if j < 0:
+            out.append(text[i:])
+            break
+        k = text.find("END $$;", j)
+        out.append(text[i:j])
+        out.append(blocks.pop(0) if blocks else "")
+        i = k + len("END $$;")
+    stmts = [st for st in "".join(out).split(";\n") if st.strip()]
+    keep = [st for st in stmts if not st.lstrip().upper().startswith(CORE_SKIP_PREFIXES)
+            and not all(line.strip().startswith("--") or not line.strip() for line in st.splitlines())]
+    return ";\n".join(keep) + ";\n"
+
+
 def build(src: Path = SRC_DIR, dst: Path = DST_DIR) -> Dict[str, object]:
     converted, failed, noted, skipped = 0, [], [], []
     for path in sorted(src.rglob("*.sql")):
@@ -76,7 +114,10 @@ def build(src: Path = SRC_DIR, dst: Path = DST_DIR) -> Dict[str, object]:
             continue
         try:
             notes: List[str] = []
-            out = convert_file_text(path.read_text(encoding="utf-8"), notes)
+            text = path.read_text(encoding="utf-8")
+            if path.name == CORE_VIEWS:
+                text = flatten_core_views(text)
+            out = convert_file_text(text, notes)
             if notes:
                 noted.append(str(rel))
             problems = check(out)
