@@ -272,6 +272,46 @@ class RankCapTest(unittest.TestCase):
         self.assertEqual(a[0]["importance"], 10)      # 원본은 그대로
 
 
+class StarsTest(unittest.TestCase):
+    """알림마다 사건 별점(stars) — 앱 alertStars 와 같은 규칙: 같은 팀·같은 날짜·종류 대응, 없으면 null."""
+    def test_load_event_stars_keeps_file_order_and_numbers(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "event_stars.csv"
+            p.write_text("team_key,date,kind,stars,reason\n"
+                         "a,2026-11-26,outcome,5,x\n"
+                         "a,2026-11-26,outcome,2,중복이면 앞 줄\n"
+                         "b,2026-11-20,first_mention,3,x\n", encoding="utf-8")
+            got = ba.load_event_stars(p)
+        self.assertEqual(got["a"][0], ("outcome", "2026-11-26", 5))
+        self.assertEqual(len(got["a"]), 2)
+        self.assertEqual(ba.load_event_stars(Path(d) / "없음.csv"), {})     # 파일이 없으면 빈 것
+
+    def test_attach_stars_maps_types_and_dates(self):
+        stars = {"a": [("outcome", "2026-11-26", 5), ("outcome", "2026-11-26", 2)],
+                 "b": [("first_mention", "2026-11-20", 3), ("selection", "2026-11-21", 4)],
+                 "c": [("big_venue_first", "2026-12-01", 4)]}
+        alerts = [{"type": "new_outcome", "team_key": "a", "date": "2026-11-26"},
+                  {"type": "blank_first_mention", "team_key": "b", "date": "2026-11-20"},
+                  {"type": "new_selection", "team_key": "b", "date": "2026-11-20"},      # 날짜가 다르면 없음
+                  {"type": "big_venue_first", "team_key": "c", "date": "2026-12-01"},
+                  {"type": "stage_up", "team_key": "a", "date": "2026-11-26"},           # 대응하는 사건 종류 없음
+                  {"type": "new_gig", "team_key": "z", "date": "2026-12-05"}]
+        got = [a["stars"] for a in ba.attach_stars(alerts, stars)]
+        self.assertEqual(got, [5, 3, None, 4, None, None])
+        self.assertNotIn("stars", alerts[0])                                            # 원본은 그대로
+
+    def test_build_gives_every_alert_a_stars_field(self):
+        data = {"signals": [sig("a", "공연", "2026-12-05", venue="클럽")],
+                "outcomes": [out("w", "museon_final", "2026-11-26")], "teams": TEAMS, "programs": {}, "capacity": None,
+                "snap_now": {}, "snap_before": {}, "snap_dates": (None, None),
+                "event_stars": {"w": [("outcome", "2026-11-26", 5)]}}
+        doc, _ = ba.build(data, {}, {}, baseline=None, as_of=AS_OF)
+        self.assertTrue(doc["alerts"])
+        self.assertTrue(all("stars" in a for a in doc["alerts"]))
+        self.assertEqual(next(a for a in doc["alerts"] if a["type"] == "new_outcome")["stars"], 5)
+
+
 class BaselineTest(unittest.TestCase):
     def test_state_baseline_same_day_reuses_previous_baseline(self):
         state = {"as_of": AS_OF, "current": {"signals": ["x"]}, "baseline": {"signals": ["old"]}}

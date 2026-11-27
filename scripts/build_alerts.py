@@ -6,7 +6,7 @@
 
 알림 종류: 단계 상승 · 새 정답 · 새 선정·지원 · 백지 신인 첫 언급 · 순위 급상승(지난주 스냅샷 대비) · 언급 급증(최근 1주 대 지난 12주 평균) · 큰 공연장 첫 출연
 (config/venue_capacity.json 이 있을 때만) · 같은 무대 수상 팀(새 연결) · 새 공연(앱이 관심 목록 팀만 걸러 보임).
-각 알림 = 종류·팀 키·이름·날짜(그 일이 일어난/일어날 날 — 선정은 기간 끝날이라 미래일 수 있음)·알게 된 날(found_on)·
+각 알림 = 사건 별점(stars — event_stars.csv, 없으면 null)·종류·팀 키·이름·날짜(그 일이 일어난/일어날 날 — 선정은 기간 끝날이라 미래일 수 있음)·알게 된 날(found_on)·
 한 줄 설명·근거(신호 출처)·중요도·같은 팀의 다른 알림 종류(also). 종류별 상한, 중요도 순. 공개 데이터라 팀 이름까지만 쓴다.
 
 '진짜 새 일'만 남기는 규칙 (2026-11-28 점검, docs/alerts_quality.md):
@@ -40,6 +40,10 @@ LAB_DATA = ROOT / "docs" / "lab" / "data"
 OUT = ROOT / "docs" / "data" / "alerts.json"
 STATE = ROOT / "data" / "raw" / "state" / "alerts_state.json"
 CAPACITY = ROOT / "config" / "venue_capacity.json"
+EVENT_STARS = "event_stars.csv"   # scripts/event_stars.py 결과 (build_app_extras.sh 에서 이 스크립트보다 먼저 돈다)
+# 알림 종류 → 사건 별점 종류 (앱 docs/app/views/today_alerts.js STAR_KINDS 와 같게)
+STAR_KINDS = {"new_outcome": "outcome", "new_selection": "selection", "big_venue_first": "big_venue_first",
+              "blank_first_mention": "first_mention"}
 
 WINDOW_DAYS = 7                 # 상태 파일이 없을 때: 기준일 7일 전까지는 이미 본 것
 RECENT_DAYS = 30                # 새로 본 신호라도 이보다 옛날 날짜면 '늦게 알게 된 일'
@@ -402,6 +406,38 @@ def add_also(alerts: Sequence[Alert], pool: Optional[Sequence[Alert]] = None) ->
     return [{**a, "also": [k for k in kinds[str(a["team_key"])] if k != a["type"]]} for a in alerts]
 
 
+def load_event_stars(path: Path) -> Dict[str, List[Tuple[str, str, float]]]:
+    """event_stars.csv → {팀: [(사건 종류, 날짜, 별점)]} 파일 순서대로. 앱(db_team_extras.loadEventStars)과 같이
+    날짜는 앞 10글자, 별점은 1~5로 자르고 숫자가 아니면 1. 파일이 없으면 빈 것."""
+    try:
+        rows = _read_csv(path)
+    except OSError:
+        return {}
+    out: Dict[str, List[Tuple[str, str, float]]] = defaultdict(list)
+    for r in rows:
+        day = str(r.get("date") or "")[:10]
+        if not r.get("team_key") or len(day) != 10:
+            continue
+        try:
+            n = float(r.get("stars") or 0)
+        except ValueError:
+            n = 0
+        n = max(1.0, min(5.0, n or 1.0))
+        out[r["team_key"]].append((r.get("kind") or "", day, int(n) if n.is_integer() else n))
+    return dict(out)
+
+
+def attach_stars(alerts: Sequence[Alert], stars: Dict[str, List[Tuple[str, str, float]]]) -> List[Alert]:
+    """알림마다 stars(사건 별점, 없으면 None) — 앱 alertStars 와 같은 규칙: 같은 팀·같은 날짜·종류 대응, 처음 맞는 줄.
+    앱은 모든 알림에 stars 칸이 있으면 event_stars.csv(2.4MB)를 받지 않는다. 원본은 바꾸지 않는다."""
+    out = []
+    for a in alerts:
+        kind = STAR_KINDS.get(str(a.get("type")))
+        hit = next((n for k, d, n in stars.get(str(a.get("team_key")), []) if kind and k == kind and d == a.get("date")), None)
+        out.append({**a, "stars": hit})
+    return out
+
+
 # ---------- 기준선 ----------
 
 def baseline_from_state(state: Optional[dict], as_of: str) -> Optional[dict]:
@@ -470,7 +506,8 @@ def build(data: dict, stages_now: Dict[str, int], stages_before: Dict[str, int],
     counts = defaultdict(int)
     for a in found:
         counts[a["type"]] += 1
-    alerts = [{**a, "found_on": as_of} for a in add_also(rank_and_cap(boost_candidates(found, snap_now), as_of=as_of), pool=found)]
+    alerts = [{**a, "found_on": as_of} for a in attach_stars(
+        add_also(rank_and_cap(boost_candidates(found, snap_now), as_of=as_of), pool=found), data.get("event_stars") or {})]
     doc = {
         "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "as_of": as_of,
@@ -530,7 +567,7 @@ def load_data(data_dir: Path = LAB_DATA, as_of: Optional[str] = None, capacity_p
         capacity = None
     now, before = pick_snapshots(data_dir / "snapshots", as_of)
     data = {"signals": signals, "outcomes": _read_csv(data_dir / "outcomes.csv"), "teams": teams, "programs": programs,
-            "capacity": capacity, "snap_dates": (now, before),
+            "capacity": capacity, "snap_dates": (now, before), "event_stars": load_event_stars(data_dir / EVENT_STARS),
             "snap_now": read_snapshot(data_dir / "snapshots" / f"{now}.csv") if now else {},
             "snap_before": read_snapshot(data_dir / "snapshots" / f"{before}.csv") if before else {}}
     return data, as_of
