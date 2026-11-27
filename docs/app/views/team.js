@@ -1,8 +1,9 @@
 import { appState, navigateTo, setExportContext } from '../state.js';
-import { getTeamExternalLinks, loadSceneMap, queryTeamDetail } from '../db.js';
+import { getTeamExternalLinks, loadSceneMap, loadSourceRoles, queryTeamDetail } from '../db.js';
 import {
   avatarHtml, avatarSourceOf, escapeHtml, fmtInt, fmtNum, formatNextGigText,
-  formatSignalDate, gradeBadgeHtml, PROFILE_LABELS, renderActionBanner, renderScoreBar,
+  formatSignalDate, gradeBadgeHtml, isLoweredOutcomeResult, PROFILE_LABELS,
+  renderActionBanner, renderCompactGradeSummary, renderScoreBar,
   roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml, spotifyUrlOf, summarizeWhyTeam,
   watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
@@ -73,9 +74,10 @@ export async function renderTeamView(root, teamKey) {
     return;
   }
 
-  const [data, sceneMap] = await Promise.all([
+  const [data, sceneMap, sourceRoles] = await Promise.all([
     queryTeamDetail(teamKey),
     loadSceneMap(),
+    loadSourceRoles(),
   ]);
   const { profile, scored, timeline, outcomes, precedents, related, links, videos } = data;
   const sceneComm = sceneMap?.teamToCommunity?.get(teamKey) || null;
@@ -109,12 +111,15 @@ export async function renderTeamView(root, teamKey) {
   const mergedTimeline = [];
   for (const o of outcomes) {
     const tierKo = o.tier === 'final' ? '최종' : '중간';
+    const isNominee = isLoweredOutcomeResult(o.result, sourceRoles);
     mergedTimeline.push({
       sortDate: o.announced_date || '',
       dateDisp: o.announced_date || '-',
       branch: '정답',
       isOutcome: true,
       grade: o.grade || '',
+      weight: o.weight,
+      isNominee,
       role: '',
       isDimmed: false,
       text: `${o.program_label || o.program} [${tierKo}]${o.counted ? '' : ' (집계 제외)'}`,
@@ -253,7 +258,7 @@ export async function renderTeamView(root, teamKey) {
             ${morePrec > 0 ? `<div class="more-row"><span>${fmtInt(visiblePrec.length)} / ${fmtInt(precedents.length)}팀 표시</span><button type="button" class="btn btn-sm" id="btnMorePrec">${fmtInt(morePrec)}팀 더 보기</button></div>` : ''}
             <details class="info-fold" style="margin:8px 0 0 0;">
               <summary>ⓘ 선례 · 등급 해석</summary>
-              <div class="info-fold-body">선례는 정답 전에 같은 선정·공연장·매체를 거쳤다는 참고 경로일 뿐이며, 수상을 예측하지 않습니다. 등급: <strong>S</strong> 전국 최종 수상·선정(가중치 3) · <strong>A</strong> 주요 신인 결선·최종(2) · <strong>B</strong> 쇼케이스·장르 부문·월간(1).</div>
+              <div class="info-fold-body">선례는 정답 전에 같은 선정·공연장·매체를 거쳤다는 참고 경로일 뿐이며, 수상을 예측하지 않습니다.${(() => { const s = renderCompactGradeSummary({ sourceRoles }); return s ? ` ${s}` : ''; })()}</div>
             </details>
           ` : '<p class="muted small" style="margin:0;">겹치는 경로를 가진 과거 수상 팀 선례가 아직 없습니다.</p>'}
         </section>
@@ -369,7 +374,7 @@ export async function renderTeamView(root, teamKey) {
                   <span class="timeline-date">${escapeHtml(m.dateDisp)}</span>
                   <span class="timeline-branch ${m.isOutcome ? 'timeline-outcome' : ''}">${escapeHtml(m.branch)}</span>
                   <span class="timeline-detail">
-                    ${m.isOutcome ? gradeBadgeHtml(m.grade) : roleBadgeHtml(m.role)}
+                    ${m.isOutcome ? gradeBadgeHtml(m.grade, { weight: m.weight, isNominee: m.isNominee }) : roleBadgeHtml(m.role)}
                     <span>${escapeHtml(m.text)}</span>
                   </span>
                 </li>
@@ -516,6 +521,19 @@ export async function renderTeamView(root, teamKey) {
     ? `<p class="team-scene-line">속한 씬: <a href="#/venues" class="inline-team-link" data-jump-scene="${sceneComm.id}"><strong>묶음 ${fmtInt(sceneComm.id)}</strong></a>${sceneVenuesTxt ? ` <span class="muted">(${escapeHtml(sceneVenuesTxt)})</span>` : ''}</p>`
     : '';
 
+  const outcomesLineHtml = outcomes.length
+    ? `<div class="team-outcomes-line" aria-label="정답 기록">
+        <span class="team-outcomes-lbl">정답</span>
+        ${outcomes.slice(0, 4).map(o => {
+          const isNominee = isLoweredOutcomeResult(o.result, sourceRoles);
+          const progLabel = o.program_label || o.program || '';
+          const yr = o.announced_date ? String(o.announced_date).slice(0, 4) : '';
+          return `<span class="team-outcome-chip">${gradeBadgeHtml(o.grade, { weight: o.weight, isNominee })}<span>${escapeHtml(progLabel)}${yr ? ` (${escapeHtml(yr)})` : ''}</span></span>`;
+        }).join('')}
+        ${outcomes.length > 4 ? `<span class="small muted">외 ${fmtInt(outcomes.length - 4)}건</span>` : ''}
+      </div>`
+    : '';
+
   function paint() {
     root.innerHTML = `
       <div class="team-back-bar">
@@ -531,6 +549,7 @@ export async function renderTeamView(root, teamKey) {
             <h1 class="action-banner-title">${escapeHtml(displayName)}</h1>
             <p class="team-subline">${escapeHtml(metaParts.join(' · ') || '기록된 신호 ' + fmtInt(mergedTimeline.length) + '건')}</p>
             ${sceneLineHtml}
+            ${outcomesLineHtml}
             ${nextGigHtml}
           </div>
         </div>

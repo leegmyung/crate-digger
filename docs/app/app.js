@@ -413,8 +413,9 @@ async function renderCurrentView() {
   syncChartThemeDefaults();
   setStatus('계산 중...', true);
 
+  root.dataset.skelPending = String(seq);
   const skelTimer = setTimeout(() => {
-    if (seq === renderSeq && root) {
+    if (seq === renderSeq && root && root.dataset.skelPending === String(seq)) {
       root.innerHTML = renderViewSkeleton();
     }
   }, 90);
@@ -432,6 +433,7 @@ async function renderCurrentView() {
     else await renderTodayView(root);
 
     clearTimeout(skelTimer);
+    delete root.dataset.skelPending;
     if (seq !== renderSeq) return;
     const healthTxt = appState.dataHealth.ok
       ? appState.dataHealth.summaryLabel
@@ -439,6 +441,7 @@ async function renderCurrentView() {
     setStatus(`기준 ${appState.dataEnd} · ${healthTxt}`, false);
   } catch (err) {
     clearTimeout(skelTimer);
+    delete root.dataset.skelPending;
     if (seq !== renderSeq) return;
     console.error(err);
     setGlobalError(`화면을 불러오는 중 오류가 발생했습니다: ${friendlySqlError(err)}`);

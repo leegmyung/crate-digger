@@ -14,7 +14,7 @@ const MANUAL_BUNDLES = {
 };
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
-const VERSIONED_PREFIXES = ['lab/data/', 'lab/sql/', 'data/'];
+const VERSIONED_PREFIXES = ['lab/data/', 'lab/sql/', 'data/', 'score_tuning.md'];
 
 let dbInstance = null;
 let connInstance = null;
@@ -816,7 +816,7 @@ export async function queryTeamDetail(teamKey) {
 
   const teamProfileSql = `SELECT * FROM teams WHERE team_key = ${keyLit} LIMIT 1`;
   const outcomesSql = `
-    SELECT announced_date, program, program_label, tier, counted, grade, weight
+    SELECT announced_date, program, program_label, tier, result, counted, grade, weight
     FROM outcomes
     WHERE team_key = ${keyLit}
     ORDER BY announced_date DESC, weight DESC
@@ -1411,4 +1411,72 @@ export async function loadSceneMap() {
     sceneMapPromise = null;
   }
 }
+
+let sourceRolesCache = undefined;
+let sourceRolesPromise = null;
+
+export async function loadSourceRoles() {
+  if (sourceRolesCache !== undefined) return sourceRolesCache;
+  if (sourceRolesPromise) return sourceRolesPromise;
+  sourceRolesPromise = (async () => {
+    const raw = await fetchJson('lab/data/source_roles.json', true);
+    sourceRolesCache = (raw && typeof raw === 'object') ? raw : null;
+    return sourceRolesCache;
+  })();
+  try {
+    return await sourceRolesPromise;
+  } finally {
+    sourceRolesPromise = null;
+  }
+}
+
+let scoreTuningCache = undefined;
+let scoreTuningPromise = null;
+
+export async function loadScoreTuningSummary() {
+  if (scoreTuningCache !== undefined) return scoreTuningCache;
+  if (scoreTuningPromise) return scoreTuningPromise;
+  scoreTuningPromise = (async () => {
+    const md = await fetchText('score_tuning.md', true);
+    if (!md) {
+      scoreTuningCache = null;
+      return null;
+    }
+    const aucMatch = md.match(/\*\*평균 AUC[^*]*\*\*:\s*(.+)/);
+    const aucLine = aucMatch ? aucMatch[1].trim() : '';
+    scoreTuningCache = aucLine ? { aucLine } : null;
+    return scoreTuningCache;
+  })();
+  try {
+    return await scoreTuningPromise;
+  } finally {
+    scoreTuningPromise = null;
+  }
+}
+
+let outcomeGradeSummaryCache = null;
+
+export async function queryOutcomeGradeSummary() {
+  if (outcomeGradeSummaryCache) return outcomeGradeSummaryCache;
+  const sql = `
+    SELECT program,
+           MAX(program_label) AS program_label,
+           grade,
+           weight,
+           LOWER(COALESCE(result, '')) AS result,
+           COUNT(*)::INT AS total_rows,
+           COUNT(*) FILTER (WHERE counted)::INT AS counted_rows
+    FROM outcomes
+    GROUP BY program, grade, weight, LOWER(COALESCE(result, ''))
+    ORDER BY weight DESC, grade ASC, program ASC
+  `;
+  try {
+    const { rows } = await runRawSql(sql);
+    outcomeGradeSummaryCache = rows;
+    return rows;
+  } catch (_) {
+    return [];
+  }
+}
+
 

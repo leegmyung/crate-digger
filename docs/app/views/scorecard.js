@@ -1,5 +1,5 @@
 import { appState, setExportContext } from '../state.js';
-import { querySourceScorecard } from '../db.js';
+import { loadSourceRoles, querySourceScorecard } from '../db.js';
 import {
   escapeHtml, fmtInt, fmtNum, formatSourceKey, josa,
   renderActionBanner, roleBadgeHtml,
@@ -78,21 +78,36 @@ function buildConclusionHtml({ rows, totalWinners, since, baseRate, mismatches }
 
 export async function renderScorecardView(root) {
   const horizonMonths = appState.cfg.horizon_months || 24;
-  const { cutoffs, since, totalWinners, rows } = await querySourceScorecard({
-    cutoffs: DEFAULT_SCORECARD_CUTOFFS,
-    since: DEFAULT_SINCE,
-    horizonMonths,
-  });
+  const [{ cutoffs, since, totalWinners, rows }, sourceRoles] = await Promise.all([
+    querySourceScorecard({
+      cutoffs: DEFAULT_SCORECARD_CUTOFFS,
+      since: DEFAULT_SINCE,
+      horizonMonths,
+    }),
+    loadSourceRoles(),
+  ]);
+
+  const reviewJson = appState.sourceReviewJson;
+  const reviewSuggestions = Array.isArray(reviewJson?.suggestions) ? reviewJson.suggestions : [];
+  const suggestionBySrc = new Map();
+  for (const s of reviewSuggestions) {
+    if (s?.src) suggestionBySrc.set(s.src, s);
+  }
 
   const enriched = rows.map(r => {
     const info = formatSourceKey(r.src);
     const mismatch = detectRoleMismatch(r);
+    const roleMeta = sourceRoles?.signals?.[r.src] || null;
+    const roleReason = roleMeta?.reason || '';
+    const reviewSuggestion = suggestionBySrc.get(r.src) || null;
     return {
       ...r,
       branch: info.branch,
       code: info.code,
       label: info.label,
       mismatch,
+      roleReason,
+      reviewSuggestion,
     };
   });
 
@@ -120,12 +135,12 @@ export async function renderScorecardView(root) {
     csvLabel: `출처 성적표 CSV 내려받기 (${fmtInt(enriched.length)}곳)`,
     csvFilename: `crate_digger_source_scorecard_${appState.dataEnd || 'export'}.csv`,
     csvHeaders: [
-      'src', 'label', 'branch', 'role', 'reclassify_review', 'signal_rows',
+      'src', 'label', 'branch', 'role', 'classification_reason', 'reclassify_review', 'signal_rows',
       'since_date', 'teams', 'hits', 'rate_pct', 'lift', 'base_rate_pct',
       'winners_seen', 'first_to_see', 'only_source', 'median_lead_months',
     ],
     csvRows: enriched.map(r => [
-      r.src, r.label, r.branch, r.role, r.mismatch.flag ? r.mismatch.reason : '',
+      r.src, r.label, r.branch, r.role, r.roleReason || '', r.mismatch.flag ? r.mismatch.reason : '',
       r.signal_rows ?? 0, r.since_date || '', r.teams ?? 0, r.hits ?? 0,
       r.rate ?? '', r.lift ?? '', r.base_rate ?? '',
       r.winners_seen ?? 0, r.first_to_see ?? 0, r.only_source ?? 0, r.median_lead_months ?? '',
@@ -133,6 +148,7 @@ export async function renderScorecardView(root) {
   });
 
   let activeFilter = 'all';
+  let expandedSrc = null;
 
   function renderTableBody() {
     let list = enriched;
@@ -165,6 +181,8 @@ export async function renderScorecardView(root) {
     return sorted.map(r => {
       const isPending = r.role === 'pending' && Number(r.teams) === 0;
       const isMuted = r.role === 'excluded' || r.role === 'pending';
+      const hasDetail = Boolean(r.roleReason || r.reviewSuggestion);
+      const isOpen = expandedSrc === r.src && hasDetail;
       const rowCls = [
         isMuted ? 'is-muted-row' : '',
         r.mismatch.flag ? 'is-mismatch-row' : '',
@@ -174,23 +192,38 @@ export async function renderScorecardView(root) {
         ? `<span class="reclassify-badge" title="${escapeHtml(r.mismatch.reason)}">재분류 검토</span>`
         : '';
 
+      const expandBtnHtml = hasDetail
+        ? `<button type="button" class="cand-expand-btn sc-reason-btn" data-sc-toggle="${escapeHtml(r.src)}" aria-expanded="${isOpen ? 'true' : 'false'}" aria-label="${escapeHtml(r.label)} 분류 사유 ${isOpen ? '접기' : '보기'}" title="${escapeHtml(r.roleReason || '분류 사유 보기')}">${isOpen ? '▾' : '▸'}</button>`
+        : '<span class="sc-expand-spacer" aria-hidden="true"></span>';
+
+      const detailRowHtml = isOpen
+        ? `<tr class="sc-reason-row">
+             <td colspan="8" class="sc-reason-cell">
+               ${r.roleReason ? `<span class="sc-reason-item"><strong>분류 사유</strong> ${escapeHtml(r.roleReason)}</span>` : ''}
+               ${r.reviewSuggestion ? `<span class="sc-reason-item sc-reason-sug"><strong>재분류 제안</strong> ${escapeHtml(r.reviewSuggestion.suggestion || '')}${r.reviewSuggestion.reason ? ` (${escapeHtml(r.reviewSuggestion.reason)})` : ''}</span>` : ''}
+             </td>
+           </tr>`
+        : '';
+
       if (isPending) {
         const sinceTxt = r.since_date ? `${String(r.since_date).slice(0, 10)}~` : '최근 수집 시작';
         return `
           <tr class="${rowCls}">
             <td>
               <div class="sc-src-cell">
+                ${expandBtnHtml}
                 <strong>${escapeHtml(r.label)}</strong>
                 <span class="sc-branch-tag">${escapeHtml(r.branch)}</span>
                 ${flagHtml}
               </div>
             </td>
-            <td class="nowrap">${roleBadgeHtml(r.role)}</td>
+            <td class="nowrap">${roleBadgeHtml(r.role, { title: r.roleReason })}</td>
             <td class="num">${fmtInt(r.signal_rows)}</td>
             <td colspan="5" class="sc-pending-cell">
               <span class="sc-pending-pill">기록 쌓이는 중 (${escapeHtml(sinceTxt)})</span>
             </td>
           </tr>
+          ${detailRowHtml}
         `;
       }
 
@@ -209,12 +242,13 @@ export async function renderScorecardView(root) {
         <tr class="${rowCls}">
           <td>
             <div class="sc-src-cell">
+              ${expandBtnHtml}
               <strong>${escapeHtml(r.label)}</strong>
               <span class="sc-branch-tag">${escapeHtml(r.branch)}</span>
               ${flagHtml}
             </div>
           </td>
-          <td class="nowrap">${roleBadgeHtml(r.role)}</td>
+          <td class="nowrap">${roleBadgeHtml(r.role, { title: r.roleReason })}</td>
           <td class="num">${fmtInt(r.signal_rows)}</td>
           <td class="num nowrap">${teams > 0 ? `${fmtInt(hits)} / ${fmtInt(teams)}팀${thinNote}` : '-'}</td>
           <td class="num nowrap"><span class="${liftCls}"><strong>${rateStr}</strong> <span class="muted">(${liftStr})</span></span></td>
@@ -222,8 +256,39 @@ export async function renderScorecardView(root) {
           <td class="num nowrap">${fmtInt(r.first_to_see)} / ${fmtInt(r.only_source)}</td>
           <td class="num nowrap">${leadStr}</td>
         </tr>
+        ${detailRowHtml}
       `;
     }).join('');
+  }
+
+  function renderReviewSuggestionsBox() {
+    if (!reviewSuggestions.length) return '';
+    const dateMeta = reviewJson?.data_end ? `기준 ${reviewJson.data_end}` : '';
+    return `
+      <aside class="sc-review-box" id="scReviewBox" aria-label="출처 재분류 제안">
+        <div class="sc-review-head">
+          <strong>재분류 제안 ${fmtInt(reviewSuggestions.length)}건</strong>
+          ${dateMeta ? `<span class="small muted">${escapeHtml(dateMeta)}</span>` : ''}
+        </div>
+        <ul class="sc-review-list">
+          ${reviewSuggestions.map(s => {
+            const info = formatSourceKey(s.src);
+            const sugText = String(s.suggestion || '').replace(/discovery/g, '발굴').replace(/context/g, '맥락').replace(/excluded/g, '제외');
+            return `
+              <li>
+                <span class="sc-review-src">
+                  <strong>${escapeHtml(info.label)}</strong>
+                  ${info.branch ? `<span class="sc-branch-tag">${escapeHtml(info.branch)}</span>` : ''}
+                  ${roleBadgeHtml(s.role)}
+                </span>
+                <span class="sc-review-sug">→ ${escapeHtml(sugText)}</span>
+                ${s.reason ? `<span class="small muted">· ${escapeHtml(s.reason)}</span>` : ''}
+              </li>
+            `;
+          }).join('')}
+        </ul>
+      </aside>
+    `;
   }
 
   function paint() {
@@ -268,10 +333,12 @@ export async function renderScorecardView(root) {
         </div>
       </div>
 
+      ${renderReviewSuggestionsBox()}
+
       <section class="block">
         <div class="block-head">
           <h2>출처별 포착 실적</h2>
-          <span class="block-meta">기준일 ${escapeHtml(cutoffs.join(' · '))} · 수상 팀 ${escapeHtml(since)}~ (${fmtInt(totalWinners)}팀)</span>
+          <span class="block-meta">기준일 ${escapeHtml(cutoffs.join(' · '))} · 수상 팀 ${escapeHtml(since)}~ (${fmtInt(totalWinners)}팀) · ▸를 눌러 분류 사유 확인</span>
         </div>
 
         <div class="inline-filter-bar" role="group" aria-label="출처 역할 필터">
@@ -320,6 +387,14 @@ export async function renderScorecardView(root) {
     root.querySelectorAll('[data-sc-filter]').forEach(btn => {
       btn.addEventListener('click', () => {
         activeFilter = btn.dataset.scFilter;
+        paint();
+      });
+    });
+
+    root.querySelectorAll('[data-sc-toggle]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const src = btn.dataset.scToggle;
+        expandedSrc = (expandedSrc === src) ? null : src;
         paint();
       });
     });

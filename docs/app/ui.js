@@ -36,23 +36,38 @@ export const ROLE_META = {
 };
 
 export const GRADE_META = {
-  S: { label: 'S', title: 'S등급 · 전국 단위 최종 수상·선정 (가중치 3)' },
-  A: { label: 'A', title: 'A등급 · 주요 신인 프로그램 결선·최종 (가중치 2)' },
-  B: { label: 'B', title: 'B등급 · 쇼케이스·장르 부문·월간 선정 (가중치 1)' },
+  S: { label: 'S', title: 'S등급 정답' },
+  A: { label: 'A', title: 'A등급 정답' },
+  B: { label: 'B', title: 'B등급 정답' },
 };
+
+export function isLoweredOutcomeResult(result, sourceRoles = null) {
+  const val = String(result || '').trim().toLowerCase();
+  if (!val) return false;
+  const list = Array.isArray(sourceRoles?.outcome_rules?.lower_results)
+    ? sourceRoles.outcome_rules.lower_results.map(x => String(x || '').trim().toLowerCase())
+    : ['nominee', 'shortlist'];
+  return list.includes(val);
+}
 
 export function roleBadgeHtml(role, opts = {}) {
   const key = ROLE_META[role] ? role : 'pending';
   const m = ROLE_META[key];
   const txt = opts.full ? m.fullLabel : m.label;
-  return `<span class="role-badge is-${key}" title="${escapeHtml(m.title)}">${escapeHtml(txt)}</span>`;
+  const tip = opts.title ? `${m.fullLabel} — ${opts.title}` : m.title;
+  return `<span class="role-badge is-${key}" title="${escapeHtml(tip)}">${escapeHtml(txt)}</span>`;
 }
 
-export function gradeBadgeHtml(grade) {
+export function gradeBadgeHtml(grade, opts = {}) {
   const g = String(grade || '').trim().toUpperCase();
   const m = GRADE_META[g];
   if (!m) return '';
-  return `<span class="grade-badge grade-${g}" title="${escapeHtml(m.title)}">${g}</span>`;
+  const weightTxt = opts.weight !== undefined && opts.weight !== null ? ` (가중치 ${opts.weight})` : '';
+  const tip = `${m.title}${weightTxt}${opts.isNominee ? ' · 후보(한 등급 아래)' : ''}`;
+  const nomineeTag = opts.isNominee
+    ? '<span class="outcome-nominee-tag" title="상 후보·최종 후보 — 프로그램 기본 등급보다 한 단계 낮춰 집계">후보</span>'
+    : '';
+  return `<span class="grade-badge grade-${g}" title="${escapeHtml(tip)}">${g}</span>${nomineeTag}`;
 }
 
 /** '공연:indistreet' / '선정·지원:band_discovery' → { branch, code, label } */
@@ -451,7 +466,7 @@ export function buildWeeklySummaryText({
   health = appState.dataHealth,
 }) {
   const lines = [];
-  lines.push(`[Crate Digger 주간 브리핑 · ${dataEnd || latestDate} 기준]`);
+  lines.push(`[Gigle Research 주간 브리핑 · ${dataEnd || latestDate} 기준]`);
   const topRiser = risers[0];
   const riserNote = topRiser
     ? ` (최대 ${topRiser.display_name} #${topRiser.rank_prev}→#${topRiser.rank_now}${topRiser.score_gain > 0 ? `, +${fmtNum(topRiser.score_gain, 2)}점` : ''})`
@@ -647,3 +662,158 @@ export const signalWhiskerPlugin = {
     ctx.restore();
   },
 };
+
+const RESULT_KO = {
+  nominee: '후보',
+  shortlist: '최종 후보',
+  winner: '수상',
+  selected: '선정',
+};
+
+function buildDynamicGradeGroups(sourceRoles, gradeRows) {
+  const cfgOutcomes = (sourceRoles && typeof sourceRoles.outcomes === 'object') ? sourceRoles.outcomes : {};
+  const byGrade = new Map();
+  const ensure = (grade, weight) => {
+    const g = String(grade || '').trim().toUpperCase();
+    if (!g) return null;
+    if (!byGrade.has(g)) {
+      byGrade.set(g, {
+        grade: g,
+        weight: Number(weight) || 0,
+        basePrograms: new Map(),
+        countedRows: 0,
+        totalRows: 0,
+        loweredRows: 0,
+      });
+    }
+    const entry = byGrade.get(g);
+    if (Number(weight) > entry.weight) entry.weight = Number(weight);
+    return entry;
+  };
+
+  for (const [prog, meta] of Object.entries(cfgOutcomes)) {
+    if (prog.startsWith('_') || !meta || typeof meta !== 'object') continue;
+    const entry = ensure(meta.grade, meta.weight);
+    if (entry) entry.basePrograms.set(prog, meta.label || prog);
+  }
+
+  const lowerSet = new Set(
+    (Array.isArray(sourceRoles?.outcome_rules?.lower_results) ? sourceRoles.outcome_rules.lower_results : [])
+      .map(v => String(v || '').trim().toLowerCase())
+      .filter(Boolean)
+  );
+
+  for (const r of (Array.isArray(gradeRows) ? gradeRows : [])) {
+    const entry = ensure(r.grade, r.weight);
+    if (!entry) continue;
+    const counted = Number(r.counted_rows) || 0;
+    const total = Number(r.total_rows) || 0;
+    entry.countedRows += counted;
+    entry.totalRows += total;
+    const resKey = String(r.result || '').trim().toLowerCase();
+    if (resKey && lowerSet.has(resKey)) {
+      entry.loweredRows += counted;
+    }
+    // Only add program to basePrograms if not defined anywhere in source_roles.json
+    const cfgDef = cfgOutcomes[r.program];
+    if (!cfgDef && r.program) {
+      entry.basePrograms.set(r.program, r.program_label || r.program);
+    }
+  }
+
+  return [...byGrade.values()].sort(
+    (a, b) => (b.weight - a.weight) || a.grade.localeCompare(b.grade)
+  );
+}
+
+/**
+ * outcomes.csv 집계(gradeRows) + source_roles.json(outcomes, outcome_rules)을 동적으로 읽어
+ * 하드코딩 없는 정답 등급표·정리 규칙 HTML을 만든다.
+ */
+export function renderOutcomeGradeGuideHtml({ sourceRoles = null, gradeRows = [] } = {}) {
+  const groups = buildDynamicGradeGroups(sourceRoles, gradeRows);
+  if (!groups.length) return '';
+
+  const rules = sourceRoles?.outcome_rules || null;
+  const lowerResults = Array.isArray(rules?.lower_results) ? rules.lower_results : [];
+  const lowerLabels = lowerResults.map(r => RESULT_KO[String(r).toLowerCase()] || String(r));
+  const excludedObj = (rules && typeof rules.excluded_teams === 'object' && rules.excluded_teams)
+    ? rules.excluded_teams
+    : {};
+  const excludedEntries = Object.entries(excludedObj).filter(([k]) => !k.startsWith('_'));
+
+  // Group excluded teams by shared base reason (text before first ' (' if present)
+  const reasonBuckets = new Map();
+  for (const [team, reason] of excludedEntries) {
+    const raw = String(reason || '').trim();
+    const base = raw.includes(' (') ? raw.slice(0, raw.indexOf(' (')).trim() : (raw || '정답 집계 제외');
+    if (!reasonBuckets.has(base)) reasonBuckets.set(base, []);
+    reasonBuckets.get(base).push(team);
+  }
+
+  const gradeTableRows = groups.map(g => {
+    const progs = [...g.basePrograms.values()];
+    const countTxt = g.totalRows > 0
+      ? `${fmtInt(g.countedRows)}건${g.loweredRows > 0 ? ` <span class="muted">(후보 ${fmtInt(g.loweredRows)})</span>` : ''}`
+      : '—';
+    return `
+      <tr>
+        <td class="nowrap">${gradeBadgeHtml(g.grade, { weight: g.weight })}</td>
+        <td class="num nowrap mono">${fmtInt(g.weight)}</td>
+        <td>${progs.length ? escapeHtml(progs.join(' · ')) : '<span class="muted">—</span>'}</td>
+        <td class="num nowrap">${countTxt}</td>
+      </tr>
+    `;
+  }).join('');
+
+  const rulesLines = [];
+  if (lowerResults.length) {
+    rulesLines.push(
+      `<li><strong>후보 등급 하향</strong>: 결과가 <strong>${escapeHtml(lowerLabels.join('·'))}</strong>(<code>${escapeHtml(lowerResults.join(', '))}</code>)인 기록은 프로그램 기본 등급보다 한 단계 아래로 집계합니다(최하 등급은 유지, 수상·최종 선정은 기본 등급).</li>`
+    );
+  }
+  if (excludedEntries.length) {
+    const bucketItems = [...reasonBuckets.entries()].map(([baseReason, teams]) => {
+      const sortedTeams = [...teams].sort((a, b) => a.localeCompare(b, 'ko'));
+      return `${escapeHtml(baseReason)} (<strong>${fmtInt(sortedTeams.length)}팀</strong>: ${escapeHtml(sortedTeams.join(', '))})`;
+    }).join(' / ');
+    rulesLines.push(
+      `<li><strong>정답 제외 팀 (${fmtInt(excludedEntries.length)}팀)</strong>: ${bucketItems}</li>`
+    );
+  }
+
+  return `
+    <div class="grade-guide-wrap">
+      <div class="table-wrap">
+        <table class="data-table grade-guide-table">
+          <thead>
+            <tr>
+              <th class="nowrap">등급</th>
+              <th class="num nowrap">가중치</th>
+              <th>기본 프로그램</th>
+              <th class="num nowrap">집계 정답</th>
+            </tr>
+          </thead>
+          <tbody>${gradeTableRows}</tbody>
+        </table>
+      </div>
+      ${rulesLines.length ? `<ul class="sc-info-list" style="margin-top:10px;">${rulesLines.join('')}</ul>` : ''}
+    </div>
+  `;
+}
+
+export function renderCompactGradeSummary({ sourceRoles = null, gradeRows = [] } = {}) {
+  const groups = buildDynamicGradeGroups(sourceRoles, gradeRows);
+  if (!groups.length) return '';
+  const parts = groups.map(g => {
+    const progs = [...g.basePrograms.values()].slice(0, 3).join('·');
+    const more = g.basePrograms.size > 3 ? ` 외 ${g.basePrograms.size - 3}` : '';
+    return `<strong>${escapeHtml(g.grade)}</strong>(가중치 ${fmtInt(g.weight)}${progs ? ` · ${escapeHtml(progs)}${more}` : ''})`;
+  });
+  const lowerResults = Array.isArray(sourceRoles?.outcome_rules?.lower_results)
+    ? sourceRoles.outcome_rules.lower_results
+    : [];
+  const lowerNote = lowerResults.length ? ' · 후보는 한 등급 아래' : '';
+  return `등급: ${parts.join(' / ')}${lowerNote}.`;
+}
+

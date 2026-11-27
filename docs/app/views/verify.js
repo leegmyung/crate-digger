@@ -1,4 +1,6 @@
 import { appState, hasCustomWeights, syncHash } from '../state.js';
+import { loadSourceRoles, queryOutcomeGradeSummary } from '../db.js';
+import { renderOutcomeGradeGuideHtml } from '../ui.js';
 import { renderBacktestView } from './backtest.js';
 import { renderSignalsView } from './signals.js';
 import { renderEvidenceView } from './evidence.js';
@@ -16,6 +18,13 @@ export async function renderVerifyView(root) {
   appState.verifyTab = activeTab;
   const customW = hasCustomWeights();
 
+  const [sourceRoles, gradeRows] = await Promise.all([
+    loadSourceRoles(),
+    queryOutcomeGradeSummary(),
+  ]);
+  const gradeGuideHtml = renderOutcomeGradeGuideHtml({ sourceRoles, gradeRows });
+
+  delete root.dataset.skelPending;
   root.innerHTML = `
     <div class="verify-shell-head">
       <div class="sub-tabs" role="tablist" aria-label="점수 신뢰도·검증 하위 탭">
@@ -31,6 +40,14 @@ export async function renderVerifyView(root) {
       </div>
     </div>
     <div id="verifySubRoot"></div>
+    ${gradeGuideHtml ? `
+      <details class="info-fold verify-grade-fold" id="verifyGradeFold" style="margin-top:16px;">
+        <summary>ⓘ 정답 등급표 · 정리 규칙 (outcomes.csv · source_roles.json 기준)</summary>
+        <div class="info-fold-body">
+          ${gradeGuideHtml}
+        </div>
+      </details>
+    ` : ''}
   `;
 
   root.querySelectorAll('[data-verify-tab]').forEach(btn => {

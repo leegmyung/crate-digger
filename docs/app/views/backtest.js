@@ -2,7 +2,7 @@ import {
   appState, DEFAULTS, getMatchingWeightPreset, PRESET_KS, registerChart, syncHash,
   WEIGHT_FIELDS, WEIGHT_KEYS, WEIGHT_PRESETS,
 } from '../state.js';
-import { queryBacktestAll } from '../db.js';
+import { loadScoreTuningSummary, queryBacktestAll } from '../db.js';
 import {
   cssVar, escapeHtml, fmtInt, fmtNum,
   horizontalBaselinePlugin, renderActionBanner,
@@ -12,7 +12,10 @@ const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 export async function renderBacktestView(root) {
   const c = appState.cfg;
-  const blocks = await queryBacktestAll();
+  const [blocks, tuningSummary] = await Promise.all([
+    queryBacktestAll(),
+    loadScoreTuningSummary(),
+  ]);
 
   // Compute summary at compare_k (fallback to first k_list item)
   const validKs = c.k_list.length ? c.k_list : [20, 50, 100, 200];
@@ -230,7 +233,8 @@ export async function renderBacktestView(root) {
             <button type="button" class="btn btn-sm ${getMatchingWeightPreset(c) === 'v0' ? 'btn-active' : ''}" data-weight-preset="v0">v0</button>
           </div>
           <p class="preset-note">
-            기본값 v2는 출처 정제 뒤 기준일 빼기 교차 검증으로 고른 가중치입니다 (평균 AUC 0.692 → 0.721).
+            기본값 v2는 출처 정제 뒤 기준일 빼기 교차 검증으로 고른 가중치입니다${tuningSummary?.aucLine ? ` (${escapeHtml(tuningSummary.aucLine)})` : ' (교차 검증 결과는 문서 참고)'}.
+            고정 v2를 전체 기준일에 다시 채점한 수치는 고를 때 본 기준일이 섞여 과장되므로, 고를 때 뺀 기준일 교차 검증 수치를 기준으로 보세요.
             <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/score_tuning.md" target="_blank" rel="noopener noreferrer">선정 과정 보기 ↗</a>
           </p>
           <div class="slider-grid">${slidersHtml}</div>
