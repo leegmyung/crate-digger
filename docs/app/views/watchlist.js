@@ -5,6 +5,7 @@ import {
 import { loadAlertsJson, queryWatchlistEnriched } from '../db.js';
 import { loadEventStars } from '../db_team_extras.js';
 import { renderWatchWeeklySummaryHtml } from './today_alerts.js';
+import { renderVenueSubsHtml, wireVenueSubs } from './venue_subs_view.js';
 import {
   avatarHtml, clampDateDisplay, escapeHtml, fmtInt, fmtNum,
   renderActionBanner, renderTableCsvBtn, spotifyButtonHtml,
@@ -113,7 +114,9 @@ export async function renderWatchlistView(root) {
       <div class="block">
         <p class="muted" style="margin:0;">별도 로그인 없이 이 브라우저에 저장됩니다. 브리핑·후보 목록·팀 상세에서 <strong>☆ 관심 추가</strong>를 누르면 최근 7일 새 신호와 순위 변동을 여기서 모아 볼 수 있습니다.</p>
       </div>
+      ${renderVenueSubsHtml(alertsData, { editable: true })}
     `;
+    wireVenueSubs(root, () => renderWatchlistView(root));
     return;
   }
 
@@ -236,12 +239,14 @@ export async function renderWatchlistView(root) {
     root.innerHTML = `
       ${headHtml}
       ${weeklySummaryHtml}
+      ${renderVenueSubsHtml(alertsData, { editable: true })}
       ${contentHtml}
       ${hasAnyImg ? '<p class="photo-credit">아티스트 사진 출처: Spotify</p>' : ''}
     `;
 
     wireAvatarFallbacks(root);
     wireSpotifyButtons(root);
+    wireVenueSubs(root, () => renderWatchlistView(root));
 
     root.querySelector('#btnWatchCsv')?.addEventListener('click', () => {
       triggerTableCsvExport(syncWatchExport());

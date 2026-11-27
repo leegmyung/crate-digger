@@ -16,6 +16,7 @@ import {
 } from '../ui.js';
 import { renderAlertsCardHtml, renderSpikeSentencesHtml } from './today_alerts.js';
 import { fillSavedCard, renderSavedCardShellHtml } from './today_saved.js';
+import { renderVenueSubsHtml } from './venue_subs_view.js';
 import { loadEventStars } from '../db_team_extras.js';
 
 function renderCardListenAction(r) {
@@ -470,6 +471,8 @@ export async function renderTodayView(root) {
       ${spikeBlockHtml}
 
       ${renderSavedCardShellHtml()}
+
+      ${renderVenueSubsHtml(alertsData, { title: '구독 공연장 소식' })}
 
       <section class="today-section">
         <div class="block-head" style="border:none;margin-bottom:10px;padding:0;">

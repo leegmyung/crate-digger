@@ -142,6 +142,11 @@ export const INFO_TIPS = {
     period: '기준일 전 12개월 (라인업 역할은 lineup_roles.csv 기간)',
     compare: '체급 = config/venue_capacity.json, 라인업 = docs/lineup_roles.md',
   },
+  venue_discovery: {
+    what: '신인을 일찍 세우는 공연장인지 보는 정렬용 숫자(0~100)입니다. 최근 12개월 활동 × 첫 출연 신인 비율 × 정답(수상·선정) 전에 선 팀 비율을 곱해 세제곱근을 취했습니다. 비율은 표본이 작은 곳이 튀지 않게 전체 평균 쪽으로 당깁니다. 후보 점수에는 쓰지 않습니다.',
+    period: '최근 12개월 (정답 전 출연은 처음 선 지 1년 넘은 팀)',
+    compare: 'venue_profiles.json discovery · docs/methods.md \'공연장 발굴 주목도\'',
+  },
   heatmap: {
     what: '칸 진하기는 같은 발굴 단계(장르를 알면 같은 장르까지) 이웃 팀들 사이에서 이 팀이 어디쯤인지입니다. 상위 10% = 5단계, 30% = 4, 70% = 3, 90% = 2, 나머지 = 1. 칸 숫자는 실제 값입니다.',
     period: '기준일 누적 기록 (최근 언급은 최근 90일)',

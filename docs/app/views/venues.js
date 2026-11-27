@@ -9,6 +9,13 @@ import {
   triggerTableCsvExport, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
 import { mountSceneNetworkBlock } from './graph.js';
+import { renderVenueListTab } from './venues_list.js';
+import { renderCityTab } from './city.js';
+import { renderFestivalTab } from './festivals.js';
+
+const EXTRA_TABS = { list: renderVenueListTab, city: renderCityTab, festival: renderFestivalTab };
+const ALL_TABS = new Set(['overview', 'list', 'city', 'festival', 'network']);
+const normTab = t => (ALL_TABS.has(t) ? t : 'overview');
 
 export async function renderVenuesView(root) {
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
@@ -88,10 +95,10 @@ export async function renderVenuesView(root) {
   let sceneGraphHandle = null;
 
   function renderVenuesSubTabs(activeTab) {
+    const tab = (id, label) => `<button type="button" class="sub-tab-btn ${activeTab === id ? 'active' : ''}" role="tab" aria-selected="${activeTab === id ? 'true' : 'false'}" data-venues-tab="${id}">${label}</button>`;
     return `
       <div class="sub-tabs venues-sub-tabs" role="tablist" aria-label="공연장·씬 보기 전환">
-        <button type="button" class="sub-tab-btn ${activeTab === 'overview' ? 'active' : ''}" role="tab" aria-selected="${activeTab === 'overview' ? 'true' : 'false'}" data-venues-tab="overview">공연장 · 씬 묶음</button>
-        <button type="button" class="sub-tab-btn ${activeTab === 'network' ? 'active' : ''}" role="tab" aria-selected="${activeTab === 'network' ? 'true' : 'false'}" data-venues-tab="network">씬 네트워크</button>
+        ${tab('overview', '이번 달 · 씬 묶음')}${tab('list', '공연장 목록')}${tab('city', '도시')}${tab('festival', '페스티벌')}${tab('network', '씬 네트워크')}
       </div>
     `;
   }
@@ -408,13 +415,36 @@ export async function renderVenuesView(root) {
     `;
   }
 
+  function wireSubTabs() {
+    root.querySelectorAll('[data-venues-tab]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const next = normTab(btn.dataset.venuesTab);
+        if (next === appState.venuesTab) return;
+        appState.venuesTab = next;
+        syncHash(true);
+        paint();
+      });
+    });
+  }
+
   function paint() {
     if (sceneGraphHandle) {
       try { sceneGraphHandle.destroy(); } catch (_) {}
       sceneGraphHandle = null;
     }
     chartRendered = false;
-    const activeTab = appState.venuesTab === 'network' ? 'network' : 'overview';
+    const activeTab = normTab(appState.venuesTab);
+
+    if (EXTRA_TABS[activeTab]) {
+      root.innerHTML = `
+        ${bannerHtml}
+        ${renderVenuesSubTabs(activeTab)}
+        <div id="venuesTabHost"></div>
+      `;
+      wireSubTabs();
+      EXTRA_TABS[activeTab](root.querySelector('#venuesTabHost'));
+      return;
+    }
 
     if (activeTab === 'network') {
       root.innerHTML = `
@@ -425,7 +455,7 @@ export async function renderVenuesView(root) {
 
       root.querySelectorAll('[data-venues-tab]').forEach(btn => {
         btn.addEventListener('click', () => {
-          const next = btn.dataset.venuesTab === 'network' ? 'network' : 'overview';
+          const next = normTab(btn.dataset.venuesTab);
           if (next === appState.venuesTab) return;
           appState.venuesTab = next;
           syncHash(true);
@@ -497,7 +527,7 @@ export async function renderVenuesView(root) {
 
     root.querySelectorAll('[data-venues-tab]').forEach(btn => {
       btn.addEventListener('click', () => {
-        const next = btn.dataset.venuesTab === 'network' ? 'network' : 'overview';
+        const next = normTab(btn.dataset.venuesTab);
         if (next === appState.venuesTab) return;
         appState.venuesTab = next;
         syncHash(true);

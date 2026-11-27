@@ -1,9 +1,15 @@
 import { appState, navigateTo, setExportContext } from '../state.js';
-import { loadVenueProfiles, queryVenueRecentShows } from '../db.js';
 import {
-  avatarHtml, escapeHtml, fmtInt, fmtNum, formatKoreanShortDate, gradeBadgeHtml,
-  INFO_TIPS, infoTip, renderActionBanner, renderTableCsvBtn, spotifyButtonHtml,
-  triggerTableCsvExport, wireAvatarFallbacks, wireSpotifyButtons,
+  loadVenueProfiles, queryCandidates, queryDiscoveryStages, queryVenueRecentShows,
+} from '../db.js';
+import { loadVenueLadder, queryVenueTeams } from '../db_venue.js';
+import { buildVenueFlow } from '../components/venue_flow.js';
+import { mountVenueTables } from './venue_tables.js';
+import { isVenueSubscribed, toggleVenueSub } from '../venue_subs.js';
+import {
+  avatarHtml, escapeHtml, fmtInt, fmtNum, gradeBadgeHtml,
+  INFO_TIPS, infoTip, renderActionBanner, spotifyButtonHtml,
+  wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
 
 const TIER_META = {
@@ -200,9 +206,13 @@ export async function renderVenueView(root, venueName) {
   }
 
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
-  const [profilesData, recentShowRows] = await Promise.all([
+  const [profilesData, recentShowRows, ladder, venueTeams, candRows, stageData] = await Promise.all([
     loadVenueProfiles(),
-    queryVenueRecentShows(cleanVenue, 300).catch(() => []),
+    queryVenueRecentShows(cleanVenue, 1000).catch(() => []),
+    loadVenueLadder(),
+    queryVenueTeams(cleanVenue, asOf),
+    queryCandidates({ limit: 300 }).catch(() => []),
+    queryDiscoveryStages({ as_of: asOf }).catch(() => null),
   ]);
 
   const effectiveAsOf = profilesData?.as_of || asOf;
@@ -240,54 +250,7 @@ export async function renderVenueView(root, venueName) {
     csvRows: showsCsvSpec?.rows || [],
   });
 
-  let showLimit = 15;
   let showAllWinners = false;
-
-  function renderRecentShowsInner() {
-    const visible = showGroups.slice(0, showLimit);
-    const remaining = showGroups.length - visible.length;
-    return `
-      <div class="block-head">
-        <div>
-          <h2>최근 공연 목록</h2>
-          <span class="block-meta">수집된 공연 날짜 ${fmtInt(showGroups.length)}일 · 팀 이름을 누르면 팀 상세로 이동합니다</span>
-        </div>
-        ${showsCsvSpec ? `<div class="block-head-actions">${renderTableCsvBtn('btnVenueShowsCsv', 'CSV 내려받기')}</div>` : ''}
-      </div>
-      ${visible.length ? `
-        <ul class="venue-shows-list">
-          ${visible.map(g => `
-            <li class="venue-show-row ${g.isUpcoming ? 'is-upcoming' : ''}">
-              <div class="venue-show-date-col">
-                <strong class="venue-show-date">${escapeHtml(formatKoreanShortDate(g.date))}</strong>
-                <span class="small muted mono">${escapeHtml(g.date)}</span>
-                ${g.isUpcoming ? '<span class="venue-upcoming-pill">예정</span>' : ''}
-              </div>
-              <div class="venue-show-lineup">
-                ${g.teams.map(t => `
-                  <a class="venue-show-team" href="#/team/${encodeURIComponent(t.team_key)}">
-                    ${avatarHtml(t.team_key, t.display_name, 22, { shape: 'circle', genre: t.primary_genre })}
-                    <span>${escapeHtml(t.display_name)}</span>
-                  </a>
-                `).join('')}
-              </div>
-            </li>
-          `).join('')}
-        </ul>
-        ${remaining > 0
-          ? `<div class="more-row" style="margin-top:10px;">
-               <span>최근 ${fmtInt(visible.length)} / ${fmtInt(showGroups.length)}일</span>
-               <button type="button" class="btn btn-sm" id="btnMoreVenueShows">${fmtInt(Math.min(20, remaining))}일 더 보기</button>
-             </div>`
-          : (showLimit > 15 && showGroups.length > 15
-              ? `<div class="more-row" style="margin-top:10px;">
-                   <span>전체 ${fmtInt(showGroups.length)}일 표시 중</span>
-                   <button type="button" class="btn btn-sm" id="btnLessVenueShows">접기</button>
-                 </div>`
-              : '')}
-      ` : '<p class="muted small" style="margin:0;">현재 데이터에 이 공연장의 공연 기록이 없습니다.</p>'}
-    `;
-  }
 
   function renderWinnersInner() {
     const winners = Array.isArray(profile?.later_winners) ? profile.later_winners : [];
@@ -389,6 +352,40 @@ export async function renderVenueView(root, venueName) {
     `;
   }
 
+  // 4-1 머리 상자 보탬: 발굴 주목도 · 좌표 · 구독(5-5) · '정보가 틀려요'
+  const reportUrl = 'https://github.com/leegmyung/crate-digger/issues/new?template=venue.yml'
+    + `&title=${encodeURIComponent(`[공연장 정보] ${cleanVenue}`)}`
+    + `&venue=${encodeURIComponent(cleanVenue)}`
+    + `&page=${encodeURIComponent(window.location.href)}`;
+  const subOn = isVenueSubscribed(cleanVenue);
+  const actionsHtml = `
+    <div class="venue-hero-actions">
+      <button type="button" class="btn btn-sm${subOn ? ' btn-active' : ''}" id="btnVenueSub" aria-pressed="${subOn}" title="여기 처음 선 신인·큰 공연장 첫 무대·새 공연을 관심 목록과 브리핑에서 알려 줍니다">${subOn ? '★ 구독 중' : '☆ 이 공연장 구독'}</button>
+      <a class="team-report-link" href="${escapeHtml(reportUrl)}" target="_blank" rel="noopener noreferrer" title="공개 저장소 이슈로 접수돼요 — 개인 연락처는 적지 마세요">정보가 틀려요 ↗</a>
+    </div>`;
+  const disc = profile?.discovery || null;
+  const discoveryKpiHtml = `
+    <div class="venue-kpi-card">
+      <span class="venue-kpi-lbl">발굴 주목도${infoTip('발굴 주목도', INFO_TIPS.venue_discovery, { compact: true })}</span>
+      <strong class="venue-kpi-val mono">${disc && disc.score !== null && disc.score !== undefined ? fmtNum(disc.score, 1) : '—'}</strong>
+      <span class="venue-kpi-sub">${disc ? `0~100 · 최근 12개월 ${fmtInt(disc.nights_12m || 0)}일` : '최근 12개월 공연 없음'}</span>
+    </div>`;
+  const geoLine = (profile && profile.lat !== null && profile.lat !== undefined && profile.lon !== null && profile.lon !== undefined)
+    ? `<a class="venue-geo-link" href="https://www.openstreetmap.org/?mlat=${Number(profile.lat)}&mlon=${Number(profile.lon)}#map=17/${Number(profile.lat)}/${Number(profile.lon)}" target="_blank" rel="noopener noreferrer">지도에서 보기 ↗</a> <span class="small muted">좌표 확실도 ${escapeHtml({ high: '높음(건물)', medium: '보통(도로)', low: '낮음(이름 검색)' }[profile.geo_confidence] || profile.geo_confidence || '모름')}</span>`
+    : '<span class="small muted">좌표 없음</span>';
+
+  // 4-3 전후 흐름 그림 (가로축 체급, 표본 작으면 문장)
+  const tierOf = new Map(Object.entries(profilesData?.venues || {}).map(([n, v]) => [n, String(v?.tier || '').toUpperCase()]));
+  const ladderVenue = ladder?.venues?.[cleanVenue] || null;
+  const flow = profile ? buildVenueFlow({
+    venue: cleanVenue,
+    tier: String(profile.tier || '').toUpperCase(),
+    before: profile.before || ladderVenue?.before || [],
+    after: profile.after || ladderVenue?.after || [],
+    sample: ladderVenue ? Number(ladderVenue.teams) : null,
+    tierOf,
+  }) : null;
+
   // Build Hero & Body depending on profile availability
   let mainSectionsHtml = '';
   if (!profile) {
@@ -407,6 +404,7 @@ export async function renderVenueView(root, venueName) {
             ? `<p class="action-lead">수집된 공연 날짜 <strong>${fmtInt(showGroups.length)}일</strong> · 마지막 기록 ${escapeHtml(showGroups[0].date)}</p>`
             : '<p class="action-lead">공연장 상세 프로필이 아직 준비되지 않았습니다.</p>'}
         </div>
+        ${actionsHtml}
       </section>
 
       <section class="block venue-prep-card" aria-label="공연장 프로필 준비 중 안내">
@@ -416,6 +414,7 @@ export async function renderVenueView(root, venueName) {
         </div>
       </section>
 
+      <section class="block" id="venueTeamsBlock"></section>
       <section class="block" id="venueRecentShowsBlock"></section>
     `;
   } else {
@@ -450,6 +449,7 @@ export async function renderVenueView(root, venueName) {
               : ''}
           </div>
           <p class="venue-hero-meta">${escapeHtml(metaParts.join(' · '))}</p>
+          <p class="venue-hero-geo">${geoLine}</p>
         </div>
 
         <div class="venue-kpi-strip">
@@ -473,7 +473,9 @@ export async function renderVenueView(root, venueName) {
             <strong class="venue-kpi-val mono">${fmtInt(profile.later_winners_total || 0)}팀</strong>
             <span class="venue-kpi-sub">수상 전 이곳 거쳐감</span>
           </div>
+          ${discoveryKpiHtml}
         </div>
+        ${actionsHtml}
       </section>
 
       <div class="venue-overview-grid">
@@ -492,10 +494,14 @@ export async function renderVenueView(root, venueName) {
             <span class="block-meta">${escapeHtml(notes.before_after || '이 공연장에 처음 선 팀들이 전후 1년에 거친 곳 (공연장 이름을 누르면 이동)')}</span>
           </div>
         </div>
+        ${flow ? `<div class="vf-wrap vf-${flow.kind}">${flow.html}</div>
+        <p class="small muted vf-note">위 = 이곳 전에 선 곳(회색), 아래 = 이곳 뒤에 처음 선 곳(강조색), 굵기 = 팀 수 · 체급 상승은 점수에 넣지 않는 참고 자료입니다</p>` : ''}
+        <details class="vf-list-fold"><summary class="small">목록으로 보기</summary>
         <div class="venue-flow-grid">
           ${renderFlowColumnHtml('이곳 전에 많이 선 곳', profile.before, '이전 1년 사이 함께 집계된 선행 공연장이 없습니다.')}
           ${renderFlowColumnHtml('이곳 뒤에 많이 선 곳', profile.after, '이후 1년 사이 함께 집계된 다음 공연장이 없습니다.')}
         </div>
+        </details>
       </section>
 
       <div class="venue-roster-grid">
@@ -503,6 +509,7 @@ export async function renderVenueView(root, venueName) {
         <section class="block" id="venueCandidatesBlock">${renderTopCandidatesInner()}</section>
       </div>
 
+      <section class="block" id="venueTeamsBlock"></section>
       <section class="block" id="venueRecentShowsBlock"></section>
     `;
   }
@@ -526,26 +533,20 @@ export async function renderVenueView(root, venueName) {
     });
   }
 
-  function paintRecentShows() {
-    const el = root.querySelector('#venueRecentShowsBlock');
-    if (!el) return;
-    el.innerHTML = renderRecentShowsInner();
-    wireAvatarFallbacks(el);
-    el.querySelector('#btnVenueShowsCsv')?.addEventListener('click', () => {
-      if (showsCsvSpec) triggerTableCsvExport(showsCsvSpec);
-    });
-    el.querySelector('#btnMoreVenueShows')?.addEventListener('click', () => {
-      showLimit += 20;
-      paintRecentShows();
-    });
-    el.querySelector('#btnLessVenueShows')?.addEventListener('click', () => {
-      showLimit = 15;
-      paintRecentShows();
-    });
-  }
-
   paintWinners();
-  paintRecentShows();
+  // 4-2 출연 팀 표 + 공연 표
+  const candByKey = new Map(candRows.map((r, i) => [r.team_key, { score: r.score, rank: i + 1 }]));
+  const stageByTeam = new Map((stageData?.rows || []).map(r => [r.team_key, r.stage]));
+  mountVenueTables(root, { venue: cleanVenue, asOf: effectiveAsOf, teams: venueTeams, showGroups, candByKey, stageByTeam });
+  // 5-5 공연장 구독
+  root.querySelector('#btnVenueSub')?.addEventListener('click', (e) => {
+    const btn = e.currentTarget;
+    const res = toggleVenueSub(cleanVenue);
+    btn.classList.toggle('btn-active', res.subscribed);
+    btn.setAttribute('aria-pressed', String(res.subscribed));
+    btn.textContent = res.subscribed ? '★ 구독 중' : '☆ 이 공연장 구독';
+    if (!res.persisted) btn.title = '브라우저 저장이 막혀 이 탭을 닫으면 구독이 사라집니다';
+  });
   wireAvatarFallbacks(root);
   wireSpotifyButtons(root, '#venueCandPlayerSlot');
 

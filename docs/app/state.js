@@ -140,7 +140,8 @@ export const appState = {
   routeParam: '',
   verifyTab: 'backtest', // 'backtest' | 'signals' | 'evidence' | 'scorecard'
   candTab: 'all', // 'all' | 'debut'
-  venuesTab: 'overview', // 'overview' | 'network'
+  venuesTab: 'overview', // 'overview' | 'list' | 'city' | 'festival' | 'network'
+  venuesCity: '', // 도시 탭에서 고른 도시
   prevRoute: null,
   prevParam: '',
   cfg: cloneDefaults(),
@@ -308,6 +309,7 @@ const VALID_RELEASE_MONTHS = new Set([6, 12, 18, 24, 36]);
 const VALID_REGIONS = new Set(['non_seoul']);
 const VALID_PRESETS = new Set(['debut12', 'blank', 'selected', 'regional', 'rising']);
 const VALID_CAND_VIEWS = new Set(['heat']);
+const VENUES_TABS = new Set(['overview', 'list', 'city', 'festival', 'network']);
 const VALID_SN_LIMITS = new Set([100, 150, 250, 300]);
 
 export function parseHash() {
@@ -368,7 +370,7 @@ export function parseHash() {
         appState.candTab = 'all';
       }
     } else if (segs[0] === 'venues') {
-      if (segs[1] === 'network' || segs[1] === 'overview') {
+      if (VENUES_TABS.has(segs[1])) {
         appState.venuesTab = segs[1];
       } else if (!p.has('vmode')) {
         appState.venuesTab = 'overview';
@@ -389,7 +391,8 @@ export function parseHash() {
   if (p.has('ctab') && (p.get('ctab') === 'debut' || p.get('ctab') === 'all')) {
     appState.candTab = p.get('ctab');
   }
-  if (p.has('vmode') && (p.get('vmode') === 'network' || p.get('vmode') === 'overview')) {
+  if (appState.route === 'venues') appState.venuesCity = (p.get('city') || '').slice(0, 30);
+  if (p.has('vmode') && VENUES_TABS.has(p.get('vmode'))) {
     appState.venuesTab = p.get('vmode');
   } else if (appState.route === 'venues' && segs[1] !== 'overview' && p.has('genre') && p.get('genre')) {
     appState.venuesTab = 'network';
@@ -536,11 +539,12 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
   } else if (route === 'candidates' && appState.candTab === 'debut') {
     p.set('ctab', 'debut');
   } else if (route === 'venues') {
-    if (appState.venuesTab === 'network') {
-      p.set('vmode', 'network');
+    if (appState.venuesTab !== 'overview' && VENUES_TABS.has(appState.venuesTab)) {
+      p.set('vmode', appState.venuesTab);
     } else if (c.genre) {
       p.set('vmode', 'overview');
     }
+    if (appState.venuesTab === 'city' && appState.venuesCity) p.set('city', appState.venuesCity);
   }
 
   // Serialize active view-specific filter & sort state so refresh/share preserves exact view

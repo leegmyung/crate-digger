@@ -8305,3 +8305,461 @@ table.event-window {
     margin-left: 0;
   }
 }
+
+/* ================================================================
+   단계 4 — 공연장 상세: 머리 상자 보탬(4-1) · 출연 팀/공연 표(4-2) · 전후 흐름 그림(4-3) · 구독(5-5)
+   ================================================================ */
+.venue-hero-geo {
+  margin: 2px 0 0;
+  font-size: var(--text-sm);
+}
+
+.venue-geo-link {
+  margin-right: var(--space-2);
+}
+
+.venue-hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-3);
+}
+
+.vf-wrap {
+  margin: var(--space-2) 0;
+}
+
+.vf-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 340px;
+}
+
+.vf-col {
+  stroke: var(--line);
+  stroke-dasharray: 3 4;
+}
+
+.vf-col-label {
+  fill: var(--ink-subtle);
+  font-size: 12px;
+}
+
+.vf-arc {
+  fill: none;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.vf-arc.vf-before {
+  stroke: var(--ink-muted);
+}
+
+.vf-arc.vf-after {
+  stroke: var(--accent);
+}
+
+.vf-node circle {
+  fill: var(--surface);
+  stroke: var(--ink-muted);
+  stroke-width: 1.5;
+}
+
+.vf-node text,
+.vf-here text {
+  fill: var(--ink);
+  font-size: 12px;
+}
+
+.vf-here circle {
+  fill: var(--accent);
+}
+
+.vf-here text {
+  font-weight: var(--weight-bold);
+}
+
+.vf-sentence {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+.vf-note {
+  margin: 0 0 var(--space-2);
+}
+
+.vf-list-fold > summary {
+  cursor: pointer;
+  color: var(--ink-muted);
+  margin: var(--space-2) 0;
+}
+
+.venue-team-outcome {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.venue-show-team-link {
+  color: var(--ink);
+}
+
+/* 375px 에선 표 줄을 카드처럼 (칸 이름은 data-label) */
+@media (max-width: 640px) {
+  table.stack-table,
+  table.stack-table tbody,
+  table.stack-table tr,
+  table.stack-table td {
+    display: block;
+    width: 100%;
+  }
+
+  table.stack-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  table.stack-table tr {
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  table.stack-table td {
+    display: flex;
+    gap: var(--space-2);
+    padding: 3px 0;
+    border: 0;
+    text-align: left;
+  }
+
+  table.stack-table td::before {
+    content: attr(data-label);
+    flex: 0 0 76px;
+    color: var(--ink-subtle);
+    font-size: var(--text-xs);
+    text-align: left;
+  }
+
+  table.data-table.stack-table td.num {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .vf-node text,
+  .vf-here text,
+  .vf-col-label {
+    font-size: 15px;
+  }
+}
+
+/* ================================================================
+   단계 4 — 공연장 목록(4-4) · 도시 탭(4-5) · 페스티벌 탭
+   ================================================================ */
+.vl-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.vl-search {
+  width: 220px;
+  max-width: 100%;
+}
+
+.vl-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-sm);
+}
+
+.vl-tier-bars {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.vl-tier-btn {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 4px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: var(--text-xs);
+  cursor: pointer;
+}
+
+.vl-tier-btn.is-active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.vl-tier-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.vl-tier-name {
+  font-weight: var(--weight-bold);
+}
+
+.vl-tier-track {
+  height: 8px;
+  border-radius: 2px;
+  background: var(--na-bg);
+  overflow: hidden;
+}
+
+.vl-tier-fill {
+  display: block;
+  height: 100%;
+  background: var(--ramp-3);
+}
+
+.vl-tier-cnt {
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.vl-body {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.vl-map {
+  position: sticky;
+  top: 64px;
+  margin: 0;
+  padding: var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface-alt);
+}
+
+.vl-map svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.vl-dot {
+  stroke: var(--surface);
+  stroke-width: 1;
+  opacity: 0.9;
+}
+
+.vl-dot.tier-s { fill: var(--ramp-2); }
+.vl-dot.tier-m { fill: var(--ramp-3); }
+.vl-dot.tier-l { fill: var(--ramp-4); }
+.vl-dot.tier-xl { fill: var(--ramp-5); }
+.vl-dot.tier-u { fill: var(--ink-subtle); }
+
+.vl-map a:hover .vl-dot,
+.vl-map a:focus .vl-dot {
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.vl-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vl-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+.vl-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.vl-card-name {
+  min-width: 0;
+  color: var(--ink);
+  font-weight: var(--weight-bold);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vl-card-disc {
+  color: var(--accent);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.vl-months {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 32px;
+}
+
+.vl-month {
+  flex: 1 1 0;
+  min-height: 2px;
+  border-radius: 1px;
+  background: var(--ramp-3);
+}
+
+.vl-card-kpis {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px var(--space-3);
+  color: var(--ink-muted);
+}
+
+.vl-card-kpis strong {
+  color: var(--ink);
+}
+
+.city-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.city-note {
+  margin: var(--space-2) 0 var(--space-3);
+}
+
+.city-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.city-low-coverage {
+  margin: var(--space-3) 0 0;
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--warn-line);
+  background: var(--warn-bg);
+  font-size: var(--text-sm);
+}
+
+.city-grid,
+.fest-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.city-grid > .block,
+.fest-grid > .block {
+  margin-bottom: 0;
+}
+
+.city-list {
+  margin: 0;
+  padding-left: var(--space-4);
+  font-size: var(--text-sm);
+  line-height: 1.7;
+}
+
+.fest-note {
+  margin: 0 0 var(--space-3);
+}
+
+.fest-same-house {
+  margin: 0 0 var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--warn-line);
+  background: var(--warn-bg);
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 960px) {
+  .vl-body,
+  .city-grid,
+  .fest-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vl-map {
+    position: static;
+    max-width: 360px;
+  }
+
+  .city-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .vl-tier-bars {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .vl-tier-btn {
+    min-height: 44px;
+  }
+
+  .venues-sub-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+  }
+
+  .venues-sub-tabs .sub-tab-btn {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+}
+
+/* 5-5 구독 공연장 묶음 (관심 목록 · 브리핑) */
+.venue-sub-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.venue-sub-item {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.venue-sub-item:last-child {
+  border-bottom: 0;
+}
+
+.venue-sub-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px var(--space-3);
+}
+
+.venue-sub-head .btn {
+  margin-left: auto;
+}

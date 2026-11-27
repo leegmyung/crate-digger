@@ -327,7 +327,7 @@ export async function fetchText(path, optional = false, opts = {}) {
   }
 }
 
-async function fetchJson(path, optional = false, opts = {}) {
+export async function fetchJson(path, optional = false, opts = {}) {
   const { cache, bust = true } = opts;
   const url = resolveFetchUrl(path, bust);
   const init = cache ? { cache } : undefined;
@@ -653,7 +653,7 @@ export function computeDataHealth(meta = appState.meta, collect = appState.colle
       pushIssue('warn', `수집 건수 0건 소스 ${zeroRows.length}곳 (${zeroRows.slice(0, 3).join(', ')})`);
     }
     if (dropped.length) {
-      pushIssue('warn', `직전 대비 수집량 급감: ${dropped.slice(0, 3).join(', ')}`);
+      pushIssue('warn', `평소 대비 수집량 급감: ${dropped.slice(0, 3).join(', ')}`);
     }
   } else if (collect?.generated) {
     lastCollectedDate = String(collect.generated).slice(0, 10);
