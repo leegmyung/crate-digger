@@ -1,0 +1,234 @@
+{
+ "_설명": "데이터 출처 역할 분류 (2026-11-27, 출처 성적표 기준). role: discovery=발굴 점수에 씀, context=점수엔 안 쓰고 팀 상세 맥락으로만, excluded=효과 없어 점수 제외, pending=기록이 짧아 아직 검증 불가(모으기만, 점수 제외). 키는 '갈래:출처'(선정·지원은 '갈래:프로그램'). 근거 숫자: 2024-07·2025-01·2025-07 기준일 3개 합산, 기준선 0.94% / 2024년 이후 수상 팀 125팀. 매달 docs/lab/sql/source_scorecard.sql 로 다시 확인하고 바꾼다.",
+ "default_role": "pending",
+ "signals": {
+  "공연:indistreet": {
+   "role": "discovery",
+   "reason": "수상 팀 56팀을 먼저 잡음(가장 먼저 34, 이 출처만 24), 적중률 1.38%",
+   "evidence": {
+    "rate": 1.38,
+    "winners_seen": 56,
+    "first": 34,
+    "only": 24
+   }
+  },
+  "공연:sangsangmadang": {
+   "role": "discovery",
+   "reason": "적중률 2.93%, 평균 30개월 먼저",
+   "evidence": {
+    "rate": 2.93,
+    "winners_seen": 12,
+    "first": 8,
+    "only": 1
+   }
+  },
+  "공연:indiego": {
+   "role": "pending",
+   "reason": "2026-11부터 수집 — 아직 성적 없음"
+  },
+  "공연:instagram": {
+   "role": "pending",
+   "reason": "공연장 인스타 라인업, 2026-11부터 수집 — 아직 성적 없음"
+  },
+  "큐레이션:musicy": {
+   "role": "discovery",
+   "reason": "적중률 1.75%, 수상 팀 32팀을 먼저 잡음(가장 먼저 19)",
+   "evidence": {
+    "rate": 1.75,
+    "winners_seen": 32,
+    "first": 19,
+    "only": 8
+   }
+  },
+  "큐레이션:izm": {
+   "role": "context",
+   "reason": "적중률 0.55% — 기준선 이하, 이미 알려진 팀을 많이 다룸",
+   "evidence": {
+    "rate": 0.55,
+    "winners_seen": 16,
+    "first": 7,
+    "only": 4
+   }
+  },
+  "큐레이션:visla": {
+   "role": "context",
+   "reason": "적중률 0.33% — 기준선 이하",
+   "evidence": {
+    "rate": 0.33,
+    "winners_seen": 7,
+    "first": 5,
+    "only": 3
+   }
+  },
+  "큐레이션:overtone": {
+   "role": "context",
+   "reason": "적중률 0.91% — 기준선 수준",
+   "evidence": {
+    "rate": 0.91,
+    "winners_seen": 6,
+    "first": 1,
+    "only": 0
+   }
+  },
+  "큐레이션:rhythmer": {
+   "role": "context",
+   "reason": "적중률 0.91% — 기준선 수준",
+   "evidence": {
+    "rate": 0.91,
+    "winners_seen": 4,
+    "first": 1,
+    "only": 1
+   }
+  },
+  "큐레이션:weiv": {
+   "role": "context",
+   "reason": "표본 16건뿐 — 판단 불가, 맥락으로만"
+  },
+  "큐레이션:instagram": {
+   "role": "pending",
+   "reason": "인스타 매거진 499계정, 2026-11부터 수집 — 아직 성적 없음"
+  },
+  "발매:melon": {
+   "role": "pending",
+   "reason": "신보 목록은 2026-11부터만 — 과거 기록 없음"
+  },
+  "발매:genie": {
+   "role": "pending",
+   "reason": "신보 목록은 2026-11부터만"
+  },
+  "발매:bugs": {
+   "role": "pending",
+   "reason": "신보 목록은 2026-11부터만"
+  },
+  "발매:flo": {
+   "role": "pending",
+   "reason": "신보 목록은 2026-11부터만"
+  },
+  "발매:poclanos": {
+   "role": "pending",
+   "reason": "신보 목록은 2026-11부터만"
+  },
+  "선정·지원:band_discovery": {
+   "role": "discovery",
+   "reason": "적중률 9.09% — 가장 정확",
+   "evidence": {
+    "rate": 9.09,
+    "winners_seen": 6,
+    "first": 3,
+    "only": 0
+   }
+  },
+  "선정·지원:yoojaeha_finalist": {
+   "role": "discovery",
+   "reason": "적중률 3.7%, 평균 30개월 먼저",
+   "evidence": {
+    "rate": 3.7,
+    "winners_seen": 5,
+    "first": 5,
+    "only": 2
+   }
+  },
+  "선정·지원:muse_sejong": {
+   "role": "discovery",
+   "reason": "적중률 4.35%",
+   "evidence": {
+    "rate": 4.35,
+    "winners_seen": 1,
+    "first": 0,
+    "only": 0
+   }
+  },
+  "선정·지원:burock_rookies": {
+   "role": "pending",
+   "reason": "2026년 명단만 — 아직 성적 없음"
+  },
+  "선정·지원:dmz_lineup": {
+   "role": "excluded",
+   "reason": "적중 0/103팀 — 이미 알려진 팀이 많은 페스티벌 라인업",
+   "evidence": {
+    "rate": 0.0,
+    "winners_seen": 1,
+    "first": 0,
+    "only": 0
+   }
+  },
+  "선정·지원:gb_creation": {
+   "role": "excluded",
+   "reason": "적중 0/58팀",
+   "evidence": {
+    "rate": 0.0,
+    "winners_seen": 0,
+    "first": 0,
+    "only": 0
+   }
+  }
+ },
+ "outcomes": {
+  "_설명": "검증 지표(정답) 등급. grade S=전국 단위 최종 수상·선정(가중치 3), A=주요 신인 프로그램 결선·최종(2), B=기성 팀·아이돌이 섞이거나 단계가 낮은 것(1, 첫 발매 5년 이내 팀만 셈). 백테스트는 맞힌 팀 수와 함께 가중 점수(맞힌 팀의 등급 가중치 합)를 본다.",
+  "kma_rookie": {
+   "grade": "S",
+   "weight": 3,
+   "label": "한대음 올해의 신인"
+  },
+  "hello_rookie_year": {
+   "grade": "S",
+   "weight": 3,
+   "label": "올해의 헬로루키"
+  },
+  "khha_rookie": {
+   "grade": "S",
+   "weight": 3,
+   "label": "한국힙합어워즈 신인"
+  },
+  "cj_tuneup": {
+   "grade": "S",
+   "weight": 3,
+   "label": "CJ 튠업"
+  },
+  "penta_superrookie": {
+   "grade": "A",
+   "weight": 2,
+   "label": "펜타포트 슈퍼루키"
+  },
+  "museon_final": {
+   "grade": "A",
+   "weight": 2,
+   "label": "뮤즈온 최종"
+  },
+  "indiestance": {
+   "grade": "A",
+   "weight": 2,
+   "label": "인디스땅스 결선"
+  },
+  "izm_rookie": {
+   "grade": "A",
+   "weight": 2,
+   "label": "IZM 올해의 신인"
+  },
+  "musicy_rookie": {
+   "grade": "A",
+   "weight": 2,
+   "label": "음악취향Y 올해의 신인"
+  },
+  "mucon": {
+   "grade": "B",
+   "weight": 1,
+   "label": "뮤콘 쇼케이스"
+  },
+  "burock_main": {
+   "grade": "B",
+   "weight": 1,
+   "label": "부산록페 본무대"
+  },
+  "kma_genre": {
+   "grade": "B",
+   "weight": 1,
+   "label": "한대음 장르 부문"
+  },
+  "hello_rookie": {
+   "grade": "B",
+   "weight": 1,
+   "label": "헬로루키 월간"
+  }
+ }
+}

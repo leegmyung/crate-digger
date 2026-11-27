@@ -326,6 +326,8 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
     _write_csv(out_dir / "teams.csv", TEAM_FIELDS, teams)
     _write_csv(out_dir / "outcomes.csv", OUTCOME_FIELDS, outcomes)
     _write_csv(out_dir / "programs.csv", ["program", "label", "kind"], programs)
+    # 앱이 역할 설명·근거를 보여 줄 수 있게 분류표 사본 (원본: config/source_roles.json)
+    (out_dir / "source_roles.json").write_text(json.dumps(roles, ensure_ascii=False, indent=1), encoding="utf-8")
     _write_csv(out_dir / "links.csv", LINK_FIELDS, links)
     videos = video_rows(raw_videos()) if raw_videos else []
     _write_csv(out_dir / "videos.csv", VIDEO_FIELDS, videos)

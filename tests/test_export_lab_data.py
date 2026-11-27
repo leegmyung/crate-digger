@@ -183,7 +183,8 @@ class ExportTest(unittest.TestCase):
     def test_writes_all_files_with_meta(self):
         with tempfile.TemporaryDirectory() as d:
             meta = ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=None, image_cache=None)
-            for name in ("signals.csv", "teams.csv", "outcomes.csv", "programs.csv", "links.csv", "meta.json"):
+            for name in ("signals.csv", "teams.csv", "outcomes.csv", "programs.csv", "links.csv", "meta.json",
+                         "source_roles.json"):
                 self.assertTrue((Path(d) / name).exists(), name)
             self.assertEqual(meta["rows"]["signals"], 3)
             self.assertEqual(meta["rows"]["links"], 1)
