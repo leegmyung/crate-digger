@@ -2,7 +2,7 @@ import { appState, navigateTo, registerChart, syncHash } from '../state.js';
 import { queryEgoNetwork, queryNodeExpansion, querySceneNetwork } from '../db.js';
 import {
   avatarHtml, cssVar, escapeHtml, fmtInt, fmtNum,
-  formatNextGigText, formatSourceKey, wireAvatarFallbacks,
+  formatNextGigText, formatSourceKey, TERMS, wireAvatarFallbacks,
 } from '../ui.js';
 
 let nextGraphInstanceId = 1;
@@ -14,9 +14,9 @@ const RELATION_LABELS = {
   co_stage: '같은 무대',
   same_agency: '같은 소속사',
   venue: '공연장',
-  outcome: '정답',
+  outcome: TERMS.outcome,
   program: '선정·지원',
-  outlet: '매체',
+  outlet: TERMS.outlet,
   scene: '씬 묶음',
 };
 
@@ -24,9 +24,9 @@ const TYPE_LABELS = {
   ego: '현재 팀',
   team: '팀',
   venue: '공연장',
-  outcome: '정답',
+  outcome: TERMS.outcome,
   program: '선정·지원',
-  outlet: '매체',
+  outlet: TERMS.outlet,
   scene: '씬 묶음',
 };
 
@@ -231,9 +231,9 @@ export function mountTeamGraphBlock(hostEl, { teamKey, displayName, primaryGenre
           <div class="graph-legend" aria-label="노드 범례">
             <span class="graph-leg-item"><i class="graph-swatch is-team"></i>팀<span class="graph-leg-sub">(실선 무대·점선 소속사)</span></span>
             <span class="graph-leg-item"><i class="graph-swatch is-venue"></i>공연장</span>
-            <span class="graph-leg-item"><i class="graph-swatch is-outcome"></i>정답(S·A·B)</span>
+            <span class="graph-leg-item"><i class="graph-swatch is-outcome"></i>${escapeHtml(TERMS.outcome)}(S·A·B)</span>
             <span class="graph-leg-item"><i class="graph-swatch is-program"></i>선정·지원</span>
-            <span class="graph-leg-item"><i class="graph-swatch is-outlet"></i>매체</span>
+            <span class="graph-leg-item"><i class="graph-swatch is-outlet"></i>${escapeHtml(TERMS.outlet)}</span>
             <span class="graph-leg-item"><i class="graph-swatch is-scene"></i>씬 묶음</span>
           </div>
 
@@ -1363,7 +1363,7 @@ export function mountSceneNetworkBlock(hostEl, {
           <div class="scene-net-legend" data-sn-legend aria-label="씬 묶음 범례"></div>
 
           <div class="scene-net-card" data-sn-card>
-            <span class="graph-insp-hint">노드 클릭 = 함께 선 팀 강조 · 검색으로 팀 찾기 · 굵은 테두리 = 이미 선정·수상한 정답 팀</span>
+            <span class="graph-insp-hint">노드 클릭 = 함께 선 팀 강조 · 검색으로 팀 찾기 · 굵은 테두리 = ${escapeHtml(TERMS.outcomeTeam)}</span>
           </div>
         </div>
       </div>
@@ -1410,7 +1410,7 @@ export function mountSceneNetworkBlock(hostEl, {
     const genreTxt = currentGenre || '전체 장르';
     const pieces = [
       genreTxt,
-      `${fmtInt(nodes.length)}팀 (후보 ${fmtInt(candidateCount)} · 정답 ${fmtInt(winnerCount)})`,
+      `${fmtInt(nodes.length)}팀 (후보 ${fmtInt(candidateCount)} · ${TERMS.outcome} ${fmtInt(winnerCount)})`,
       `연결 ${fmtInt(edges.length)}`,
     ];
     metaEl.textContent = pieces.join(' · ');
@@ -1753,9 +1753,9 @@ export function mountSceneNetworkBlock(hostEl, {
       : '';
 
     const winnerHtml = `
-      <span class="scene-leg-static scene-leg-winner" title="이미 수상·선정된 정답 팀은 S/A/B 등급 색상 테두리로 표시됩니다">
+      <span class="scene-leg-static scene-leg-winner" title="이미 수상·선정된 팀은 S/A/B 등급 색상 테두리로 표시됩니다">
         <i class="scene-leg-ring" style="border-color:${pal.gradeS};"></i>
-        <span>정답 팀(테두리)</span>
+        <span>${escapeHtml(TERMS.outcomeTeam)}(테두리)</span>
       </span>
     `;
 
@@ -1796,7 +1796,7 @@ export function mountSceneNetworkBlock(hostEl, {
         return;
       }
       cardEl.innerHTML = `
-        <span class="graph-insp-hint">노드 클릭 = 함께 선 팀 강조 · 검색으로 팀 찾기 · 굵은 테두리 = 이미 선정·수상한 정답 팀</span>
+        <span class="graph-insp-hint">노드 클릭 = 함께 선 팀 강조 · 검색으로 팀 찾기 · 굵은 테두리 = ${escapeHtml(TERMS.outcomeTeam)}</span>
       `;
       return;
     }
@@ -1809,7 +1809,7 @@ export function mountSceneNetworkBlock(hostEl, {
       ? `씬 묶음 ${fmtInt(node.communityId)}${node.communityVenues?.length ? ` (${node.communityVenues.join(' · ')})` : ''}`
       : '독립 / 소규모 씬';
     const badgeHtml = node.had_outcome
-      ? `<span class="scene-winner-pill is-grade-${escapeHtml((node.outcome_grade || 'b').toLowerCase())}">${escapeHtml(node.outcome_grade ? `${node.outcome_grade}등급 정답` : '정답 팀')}${node.outcome_label ? ` · ${escapeHtml(shortLabel(node.outcome_label, 14))}` : ''}</span>`
+      ? `<span class="scene-winner-pill is-grade-${escapeHtml((node.outcome_grade || 'b').toLowerCase())}">${escapeHtml(node.outcome_grade ? `${node.outcome_grade}등급 ${TERMS.outcome}` : TERMS.outcomeTeam)}${node.outcome_label ? ` · ${escapeHtml(shortLabel(node.outcome_label, 14))}` : ''}</span>`
       : (node.cand_rank ? `<span class="rank-pill">#${fmtInt(node.cand_rank)} 후보</span>` : '<span class="rank-pill">후보</span>');
 
     const topNbrs = nbrs.slice(0, 12);
@@ -1840,7 +1840,7 @@ export function mountSceneNetworkBlock(hostEl, {
       </div>
       <div class="scene-card-nbrs">
         <div class="scene-card-nbrs-head small muted">
-          같은 무대 연결 <strong>${fmtInt(nbrs.length)}팀</strong>${nbrs.length ? ` (신인 후보 ${fmtInt(candNbrs)} · 정답 ${fmtInt(winnerNbrs)})` : ''}
+          같은 무대 연결 <strong>${fmtInt(nbrs.length)}팀</strong>${nbrs.length ? ` (신인 후보 ${fmtInt(candNbrs)} · ${escapeHtml(TERMS.outcome)} ${fmtInt(winnerNbrs)})` : ''}
         </div>
         ${topNbrs.length ? `
           <div class="scene-card-nbr-chips">
@@ -1849,7 +1849,7 @@ export function mountSceneNetworkBlock(hostEl, {
                 <i class="scene-leg-dot" style="background:${nodeColor(item.neighbor)};"></i>
                 <span>${escapeHtml(item.neighbor.display_name)}</span>
                 ${item.neighbor.had_outcome
-                  ? `<em class="scene-nbr-grade">${escapeHtml(item.neighbor.outcome_grade || '정답')}</em>`
+                  ? `<em class="scene-nbr-grade">${escapeHtml(item.neighbor.outcome_grade || TERMS.outcome)}</em>`
                   : (item.neighbor.cand_rank ? `<em class="scene-nbr-rank">#${fmtInt(item.neighbor.cand_rank)}</em>` : '')}
                 <span class="scene-nbr-wt mono">${Math.round(item.weight)}회</span>
               </button>
@@ -1887,7 +1887,7 @@ export function mountSceneNetworkBlock(hostEl, {
     const x = Math.max(12, Math.min(rect.width - 210, clientX - rect.left + 14));
     const y = Math.max(12, Math.min(rect.height - 64, clientY - rect.top - 10));
     const roleTag = node.had_outcome
-      ? `${node.outcome_grade || ''}등급 정답`
+      ? `${node.outcome_grade || ''}등급 ${TERMS.outcome}`
       : (node.cand_rank ? `후보 #${node.cand_rank}` : '후보');
     const commTag = node.communityId !== null ? `묶음 ${node.communityId}` : '기타';
     tooltipEl.innerHTML = `
@@ -2255,7 +2255,7 @@ export function mountSceneNetworkBlock(hostEl, {
           <i class="scene-leg-dot" style="background:${nodeColor(n)};"></i>
           <strong>${escapeHtml(n.display_name)}</strong>
           ${n.had_outcome
-            ? `<em class="scene-nbr-grade">${escapeHtml(n.outcome_grade || '정답')}</em>`
+            ? `<em class="scene-nbr-grade">${escapeHtml(n.outcome_grade || TERMS.outcome)}</em>`
             : (n.cand_rank ? `<em class="scene-nbr-rank">#${fmtInt(n.cand_rank)}</em>` : '')}
         </span>
         <span class="small muted mono">${fmtNum(n.score, 1)}점 · 연결 ${fmtInt(n.degree)}</span>

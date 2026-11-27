@@ -2,17 +2,17 @@ import { appState, navigateTo, setExportContext } from '../state.js';
 import { getTeamExternalLinks, loadSceneMap, loadSourceRoles, queryTeamDetail } from '../db.js';
 import {
   avatarHtml, avatarSourceOf, escapeHtml, fmtInt, fmtNum, formatNextGigText,
-  formatSignalDate, gradeBadgeHtml, isLoweredOutcomeResult, PROFILE_LABELS,
-  renderActionBanner, renderCompactGradeSummary, renderScoreBar,
+  formatSignalDate, gradeBadgeHtml, isLoweredOutcomeResult, lookupSourceRoleMeta,
+  PROFILE_LABELS, renderActionBanner, renderCompactGradeSummary, renderScoreBar,
   roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml, spotifyUrlOf, summarizeWhyTeam,
-  watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
+  TERMS, watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
 import { mountTeamGraphBlock } from './graph.js';
 
 /**
  * 듣기·보기는 스포티파이·유튜브 두 가지만 (사용자 결정 2026-11-27).
  * - 스포티파이: '▶ 듣기'를 누르면 이 자리에서 공식 임베드 플레이어(미리 듣기, 로그인 시 전곡)
- * - 유튜브: 공식 채널이 있으면 채널로, 없으면 아래 '최근 무대' 영상으로 이동
+ * - 유튜브: 공식 채널이 있으면 채널로, 없으면 아래 '영상' 블록으로 이동
  */
 function renderListenButtons(teamKey, displayName, linksMap, hasVideos) {
   const parts = [spotifyButtonHtml(teamKey, false, { teamName: displayName })];
@@ -25,42 +25,135 @@ function renderListenButtons(teamKey, displayName, linksMap, hasVideos) {
   return parts.filter(Boolean).join('');
 }
 
-function renderVideosSection(videos, showAll) {
+function resolveSignalName(s) {
+  const progLabel = s.program_label && s.program_label !== s.program ? s.program_label : '';
+  const code = s.branch === '선정·지원' && s.program ? s.program : s.source;
+  let base = progLabel
+    || SOURCE_LABELS[s.program]
+    || SOURCE_LABELS[s.source]
+    || s.program_label
+    || s.source
+    || '';
+  if (code === 'instagram' && base === '인스타그램') {
+    if (s.branch === '공연') base = '인스타그램 (공연장 라인업)';
+    else if (s.branch === '큐레이션') base = '인스타그램 (매거진)';
+  }
+  return base;
+}
+
+function renderVideosInnerHtml(videos, showAll) {
   if (!videos || !videos.length) return '';
   const visible = showAll ? videos : videos.slice(0, 3);
   const moreCount = videos.length - visible.length;
 
   return `
-    <section class="block" id="teamVideosBlock">
-      <div class="block-head">
-        <h2>최근 무대</h2>
-        <span class="block-meta">${fmtInt(videos.length)}개</span>
+    <div class="block-head">
+      <h2>영상</h2>
+      <span class="block-meta">최근 무대 ${fmtInt(videos.length)}개 · 누르면 바로 재생</span>
+    </div>
+    <div class="video-grid">
+      ${visible.map(v => {
+        const subParts = [];
+        if (v.channel_title) subParts.push(escapeHtml(v.channel_title));
+        if (v.published_at) subParts.push(escapeHtml(String(v.published_at).slice(0, 10)));
+        const searchNote = v.kind === 'search'
+          ? '<span class="video-search-tag" title="유튜브 검색 결과로 공식 영상이 아닐 수 있습니다">검색 결과</span>'
+          : '';
+        return `
+          <article class="video-card">
+            <button type="button" class="video-frame" data-video-id="${escapeHtml(v.video_id)}" aria-label="${escapeHtml(v.title || '영상 재생')}">
+              <img src="https://i.ytimg.com/vi/${encodeURIComponent(v.video_id)}/mqdefault.jpg"
+                   alt="${escapeHtml(v.title || '무대 영상')}" loading="lazy">
+              <span class="video-play-label">재생</span>
+            </button>
+            <div class="video-meta">
+              <div class="video-title">${escapeHtml(v.title || v.video_id)}</div>
+              <div class="video-sub">${subParts.join(' · ')}${searchNote ? (subParts.length ? ' · ' : '') + searchNote : ''}</div>
+            </div>
+          </article>
+        `;
+      }).join('')}
+    </div>
+    ${moreCount > 0 ? `<div style="margin-top:8px;"><button type="button" class="btn btn-sm" id="btnMoreVideos">영상 ${fmtInt(moreCount)}개 더 보기</button></div>` : ''}
+  `;
+}
+
+function renderMonthlyBarsHtml(timeline, endDateStr) {
+  const [ey, em] = String(endDateStr || '2026-11-27').split('-').map(Number);
+  const monthBuckets = [];
+  const bucketMap = new Map();
+  if (Number.isFinite(ey) && Number.isFinite(em)) {
+    for (let offset = 11; offset >= 0; offset--) {
+      const d = new Date(Date.UTC(ey, em - 1 - offset, 1));
+      const y = d.getUTCFullYear();
+      const mo = d.getUTCMonth() + 1;
+      const ym = `${y}-${String(mo).padStart(2, '0')}`;
+      const item = { ym, shortLabel: `${mo}월`, gig: 0, sel: 0, other: 0, total: 0 };
+      monthBuckets.push(item);
+      bucketMap.set(ym, item);
+    }
+  }
+  for (const s of timeline) {
+    if (s.role === 'excluded') continue;
+    const dt = String(s.signal_date || '').slice(0, 10);
+    if (!dt || dt > endDateStr) continue;
+    const b = bucketMap.get(dt.slice(0, 7));
+    if (!b) continue;
+    if (s.branch === '공연') b.gig += 1;
+    else if (s.branch === '선정·지원') b.sel += 1;
+    else b.other += 1;
+    b.total += 1;
+  }
+  const total12m = monthBuckets.reduce((acc, m) => acc + m.total, 0);
+  const max12m = Math.max(1, ...monthBuckets.map(m => m.total));
+
+  const lastNonExclDate = timeline
+    .filter(s => s.role !== 'excluded' && s.signal_date && String(s.signal_date).slice(0, 10) <= endDateStr)
+    .map(s => String(s.signal_date).slice(0, 7))
+    .sort()
+    .pop() || '';
+
+  return `
+    <div class="team-activity-bars">
+      <div class="team-activity-bars-head">
+        <span class="small muted">최근 12개월 활동 흐름 (${escapeHtml(monthBuckets[0]?.ym || '')} ~ ${escapeHtml(monthBuckets[monthBuckets.length - 1]?.ym || '')} · 총 ${fmtInt(total12m)}건)</span>
+        <div class="monthly-legend" aria-label="갈래 범례">
+          <span class="monthly-leg-item"><i class="monthly-dot is-gig"></i>공연</span>
+          <span class="monthly-leg-item"><i class="monthly-dot is-sel"></i>선정·지원</span>
+          <span class="monthly-leg-item"><i class="monthly-dot is-other"></i>발매·큐레이션</span>
+        </div>
       </div>
-      <div class="video-grid">
-        ${visible.map(v => {
-          const subParts = [];
-          if (v.channel_title) subParts.push(escapeHtml(v.channel_title));
-          if (v.published_at) subParts.push(escapeHtml(String(v.published_at).slice(0, 10)));
-          const searchNote = v.kind === 'search'
-            ? '<span class="video-search-tag" title="유튜브 검색 결과로 공식 영상이 아닐 수 있습니다">검색 결과</span>'
-            : '';
-          return `
-            <article class="video-card">
-              <button type="button" class="video-frame" data-video-id="${escapeHtml(v.video_id)}" aria-label="${escapeHtml(v.title || '영상 재생')}">
-                <img src="https://i.ytimg.com/vi/${encodeURIComponent(v.video_id)}/mqdefault.jpg"
-                     alt="${escapeHtml(v.title || '무대 영상')}" loading="lazy">
-                <span class="video-play-label">재생</span>
-              </button>
-              <div class="video-meta">
-                <div class="video-title">${escapeHtml(v.title || v.video_id)}</div>
-                <div class="video-sub">${subParts.join(' · ')}${searchNote ? (subParts.length ? ' · ' : '') + searchNote : ''}</div>
+      ${total12m > 0 ? `
+        <div class="monthly-bars-grid" role="img" aria-label="최근 12개월 갈래별 활동 막대 그래프">
+          ${monthBuckets.map(m => {
+            const barPct = m.total > 0 ? Math.max(8, Math.round((m.total / max12m) * 100)) : 0;
+            const gigPct = m.total > 0 ? (m.gig / m.total) * 100 : 0;
+            const selPct = m.total > 0 ? (m.sel / m.total) * 100 : 0;
+            const otherPct = m.total > 0 ? (m.other / m.total) * 100 : 0;
+            const parts = [];
+            if (m.gig) parts.push(`공연 ${m.gig}`);
+            if (m.sel) parts.push(`선정·지원 ${m.sel}`);
+            if (m.other) parts.push(`발매·큐레이션 ${m.other}`);
+            const tip = parts.length ? `${m.ym}: ${parts.join(' · ')}` : `${m.ym}: 기록 없음`;
+            return `
+              <div class="monthly-bar-col" title="${escapeHtml(tip)}">
+                <span class="monthly-bar-cnt">${m.total > 0 ? fmtInt(m.total) : ''}</span>
+                <div class="monthly-bar-track">
+                  ${m.total > 0 ? `
+                    <div class="monthly-bar-stack" style="height:${barPct}%">
+                      ${m.other ? `<span class="monthly-seg is-other" style="height:${otherPct.toFixed(1)}%"></span>` : ''}
+                      ${m.sel ? `<span class="monthly-seg is-sel" style="height:${selPct.toFixed(1)}%"></span>` : ''}
+                      ${m.gig ? `<span class="monthly-seg is-gig" style="height:${gigPct.toFixed(1)}%"></span>` : ''}
+                    </div>
+                  ` : '<div class="monthly-bar-zero"></div>'}
+                </div>
+                <span class="monthly-bar-lbl">${escapeHtml(m.shortLabel)}</span>
               </div>
-            </article>
-          `;
-        }).join('')}
-      </div>
-      ${moreCount > 0 ? `<div style="margin-top:8px;"><button type="button" class="btn btn-sm" id="btnMoreVideos">영상 ${fmtInt(moreCount)}개 더 보기</button></div>` : ''}
-    </section>
+            `;
+          }).join('')}
+        </div>
+      ` : `<p class="muted small" style="margin:6px 0 0 0;">최근 12개월 내 기록된 활동이 없습니다.${lastNonExclDate ? ` (마지막 활동 ${escapeHtml(lastNonExclDate)})` : ''}</p>`}
+    </div>
   `;
 }
 
@@ -97,8 +190,9 @@ export async function renderTeamView(root, teamKey) {
   const extLinks = getTeamExternalLinks(teamKey, displayName);
   const whyLines = summarizeWhyTeam(data);
   const snapNow = appState.snapshots.latest.get(teamKey);
+  const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
 
-  // Build concise 1-line summary (omit empty fields)
+  // Concise 1-line identity subline (omit empty fields)
   const metaParts = [];
   if (profile?.primary_genre) metaParts.push(profile.primary_genre);
   if (profile?.agency) metaParts.push(`소속 ${profile.agency}`);
@@ -108,7 +202,7 @@ export async function renderTeamView(root, teamKey) {
     metaParts.push(`${fmtNum(scored.score, 2)}점${rankTxt}`);
   }
 
-  // Merge outcomes + signals into single timeline
+  // Merge outcomes + signals into single chronological timeline
   const mergedTimeline = [];
   for (const o of outcomes) {
     const tierKo = o.tier === 'final' ? '최종' : '중간';
@@ -116,20 +210,23 @@ export async function renderTeamView(root, teamKey) {
     mergedTimeline.push({
       sortDate: o.announced_date || '',
       dateDisp: o.announced_date || '-',
-      branch: '정답',
+      branch: TERMS.outcome,
       isOutcome: true,
       grade: o.grade || '',
       weight: o.weight,
       isNominee,
       role: '',
+      roleReason: '',
       isDimmed: false,
       text: `${o.program_label || o.program} [${tierKo}]${o.counted ? '' : ' (집계 제외)'}`,
     });
   }
   for (const s of timeline) {
-    const name = s.program_label || SOURCE_LABELS[s.program] || SOURCE_LABELS[s.source] || s.source || '';
+    const name = resolveSignalName(s);
     const detail = s.venue ? `${name} — ${s.venue}` : name;
-    const role = s.role || 'pending';
+    const roleMeta = lookupSourceRoleMeta(sourceRoles, s.branch, s.source, s.program);
+    const role = s.role || roleMeta?.role || 'pending';
+    const roleReason = roleMeta?.reason || '';
     mergedTimeline.push({
       sortDate: s.signal_date || '',
       dateDisp: formatSignalDate(s.signal_date, s.branch),
@@ -137,6 +234,7 @@ export async function renderTeamView(root, teamKey) {
       isOutcome: false,
       grade: '',
       role,
+      roleReason,
       isDimmed: role === 'excluded' || role === 'pending',
       text: detail,
     });
@@ -145,15 +243,8 @@ export async function renderTeamView(root, teamKey) {
 
   const stageRelated = related.filter(r => r.relation === '같은 무대');
   const agencyRelated = related.filter(r => r.relation === '같은 소속사');
-  const hasRelated = related.length > 0;
 
-  let activeSubTab = 'why';
-  let showAllVideos = false;
-  let showAllPrec = false;
-  let showAllTimeline = false;
-  let showAllStageRel = false;
-
-  // Non-empty profile facts only (never list '수집 전' rows)
+  // Non-empty profile facts only (inline compact strip inside 요약)
   const profileFacts = [];
   if (profile?.agency) profileFacts.push(['소속사', profile.agency]);
   if (profile?.primary_genre) profileFacts.push(['장르', profile.primary_genre]);
@@ -168,255 +259,147 @@ export async function renderTeamView(root, teamKey) {
     profileFacts.push(['분류', PROFILE_LABELS[profile.profile_status] || profile.profile_status]);
   }
 
-  function renderSubPanel() {
-    if (activeSubTab === 'why') {
-      const scoreItems = scored ? [
-        ['갈래 수 (' + fmtInt(scored.n_branch) + '개)', scored.pts_branch],
-        ['선정 최고 단계 (' + fmtInt(scored.best_stage) + ')', scored.pts_stage],
-        ['서로 다른 공연장 (' + fmtInt(scored.venues) + '곳)', scored.pts_venues],
-        ['최근 6개월 활동 (' + fmtInt(scored.recent180) + '건)', scored.pts_recent],
-        ['이미 상 받은 팀과 같은 무대', scored.pts_winner],
-        ['발굴 매체 (' + fmtInt(scored.outlets) + '곳)', scored.pts_outlets],
-        ['맥락 매체 (' + fmtInt(scored.context_outlets ?? 0) + '곳)', scored.pts_context],
-        ['협업(기성 아티스트 ' + fmtInt(scored.collab_est ?? 0) + '명)', scored.pts_collab],
-        ['선정 팀과 같은 무대', scored.pts_peer],
-        ['DMZ 출연', scored.pts_dmz],
-        ['최근 1년 공연 (' + fmtInt(scored.gigs_1y) + '일)', scored.pts_gigs],
-      ].filter(([, v]) => Number(v) > 0) : [];
+  const scoreItems = scored ? [
+    ['갈래 수 (' + fmtInt(scored.n_branch) + '개)', scored.pts_branch],
+    ['선정 최고 단계 (' + fmtInt(scored.best_stage) + ')', scored.pts_stage],
+    ['서로 다른 공연장 (' + fmtInt(scored.venues) + '곳)', scored.pts_venues],
+    ['최근 6개월 활동 (' + fmtInt(scored.recent180) + '건)', scored.pts_recent],
+    ['이미 상 받은 팀과 같은 무대', scored.pts_winner],
+    ['발굴 매체 (' + fmtInt(scored.outlets) + '곳)', scored.pts_outlets],
+    ['맥락 매체 (' + fmtInt(scored.context_outlets ?? 0) + '곳)', scored.pts_context],
+    ['협업(기성 아티스트 ' + fmtInt(scored.collab_est ?? 0) + '명)', scored.pts_collab],
+    ['선정 팀과 같은 무대', scored.pts_peer],
+    ['DMZ 출연', scored.pts_dmz],
+    ['최근 1년 공연 (' + fmtInt(scored.gigs_1y) + '일)', scored.pts_gigs],
+  ].filter(([, v]) => Number(v) > 0) : [];
 
-      const visiblePrec = showAllPrec ? precedents : precedents.slice(0, 3);
-      const morePrec = precedents.length - visiblePrec.length;
+  // Register team timeline CSV with unified export dropdown
+  setExportContext({
+    csvLabel: `${displayName} 활동 기록 CSV 내려받기 (${fmtInt(mergedTimeline.length)}건)`,
+    csvFilename: `crate_digger_team_${teamKey.replace(/[^a-zA-Z0-9가-힣_-]+/g, '_')}_${appState.dataEnd || 'export'}.csv`,
+    csvHeaders: ['date', 'branch', 'role_or_grade', 'detail'],
+    csvRows: mergedTimeline.map(m => [m.dateDisp, m.branch, m.isOutcome ? (m.grade || '') : (m.role || ''), m.text]),
+  });
 
-      return `
-        <section class="block">
-          <div class="block-head">
-            <h2>요약</h2>
-            <span class="block-meta">기준일 ${escapeHtml(appState.cfg.as_of)}</span>
-          </div>
-          <ol class="why-list">
-            ${whyLines.map(line => `<li>${escapeHtml(line)}</li>`).join('')}
-          </ol>
-        </section>
+  const backLabels = {
+    today: '이번 주 브리핑',
+    candidates: '후보 목록',
+    venues: '공연장·씬',
+    watchlist: '관심 목록',
+    verify: '점수 신뢰도·검증',
+    scorecard: '출처 성적표',
+    quality: '데이터 수집·품질',
+  };
+  const backRoute = appState.prevRoute && backLabels[appState.prevRoute] ? appState.prevRoute : 'today';
+  const backLabel = backLabels[backRoute] || '이번 주 브리핑';
 
-        <div class="${profileFacts.length ? 'grid-2' : ''}">
-          <section class="block" style="${profileFacts.length ? 'margin-bottom:0;' : ''}">
-            <div class="block-head">
-              <h3>점수 구성</h3>
-              ${scored ? `<span class="block-meta">합계 ${fmtNum(scored.score, 2)}점</span>` : ''}
+  const imgSrc = avatarSourceOf(teamKey);
+  const spUrl = spotifyUrlOf(teamKey);
+  const genre = scored?.primary_genre || profile?.primary_genre || '';
+  const photoCreditHtml = imgSrc === 'spotify'
+    ? (spUrl
+        ? `<a class="avatar-credit" href="${escapeHtml(spUrl)}" target="_blank" rel="noopener noreferrer">사진 · Spotify ↗</a>`
+        : '<span class="avatar-credit">사진 · Spotify</span>')
+    : '';
+
+  const upcomingDedup = new Map();
+  for (const s of timeline) {
+    if (s.branch !== '공연') continue;
+    const dt = String(s.signal_date || '').slice(0, 10);
+    if (!dt || dt < asOf) continue;
+    const v = String(s.venue || '').trim() || '공연장 미정';
+    const key = `${dt}::${v}`;
+    if (!upcomingDedup.has(key)) upcomingDedup.set(key, { signal_date: dt, venue: v });
+  }
+  const upcomingList = [...upcomingDedup.values()].sort((a, b) => a.signal_date.localeCompare(b.signal_date));
+  const nextGig = upcomingList[0] || null;
+  const nextGigHtml = nextGig
+    ? `<p class="team-next-gig"><span class="next-gig-pill">다음 공연 ${escapeHtml(formatNextGigText(nextGig))}${upcomingList.length > 1 ? ` 외 ${upcomingList.length - 1}건` : ''}</span></p>`
+    : '';
+
+  const sceneVenuesTxt = sceneComm && Array.isArray(sceneComm.top_venues) && sceneComm.top_venues.length
+    ? sceneComm.top_venues.slice(0, 3).map(v => v.venue).join(' · ')
+    : '';
+  const sceneLineHtml = sceneComm
+    ? `<p class="team-scene-line">속한 씬: <a href="#/venues" class="inline-team-link" data-jump-scene="${sceneComm.id}"><strong>묶음 ${fmtInt(sceneComm.id)}</strong></a>${sceneVenuesTxt ? ` <span class="muted">(${escapeHtml(sceneVenuesTxt)})</span>` : ''}</p>`
+    : '';
+
+  const outcomesLineHtml = outcomes.length
+    ? `<div class="team-outcomes-line" aria-label="${escapeHtml(TERMS.outcome)} 기록">
+        <span class="team-outcomes-lbl">${escapeHtml(TERMS.outcome)}</span>
+        ${outcomes.slice(0, 4).map(o => {
+          const isNominee = isLoweredOutcomeResult(o.result, sourceRoles);
+          const progLabel = o.program_label || o.program || '';
+          const yr = o.announced_date ? String(o.announced_date).slice(0, 4) : '';
+          return `<span class="team-outcome-chip">${gradeBadgeHtml(o.grade, { weight: o.weight, isNominee })}<span>${escapeHtml(progLabel)}${yr ? ` (${escapeHtml(yr)})` : ''}</span></span>`;
+        }).join('')}
+        ${outcomes.length > 4 ? `<span class="small muted">외 ${fmtInt(outcomes.length - 4)}건</span>` : ''}
+      </div>`
+    : '';
+
+  const monthlyBarsHtml = renderMonthlyBarsHtml(timeline, asOf);
+  const hasNonDiscovery = mergedTimeline.some(m => !m.isOutcome && m.role !== 'discovery');
+  const hasUnscored = mergedTimeline.some(m => !m.isOutcome && (m.role === 'pending' || m.role === 'excluded'));
+
+  let showAllVideos = false;
+  let showAllPrec = false;
+  let showAllTimeline = false;
+  let showAllStageRel = false;
+
+  // Section 1: 요약
+  const summarySectionHtml = `
+    <section class="block" id="teamSummaryBlock">
+      <div class="block-head">
+        <h2>요약</h2>
+        <span class="block-meta">기준일 ${escapeHtml(asOf)}</span>
+      </div>
+      <ol class="why-list">
+        ${whyLines.map(line => `<li>${escapeHtml(line)}</li>`).join('')}
+      </ol>
+      ${profileFacts.length ? `
+        <dl class="team-profile-strip" aria-label="아티스트 기본 정보">
+          ${profileFacts.map(([k, v]) => `
+            <div class="team-profile-chip">
+              <dt>${escapeHtml(k)}</dt>
+              <dd>${escapeHtml(v)}</dd>
             </div>
-            ${scored ? `
-              <div style="margin-bottom:10px;">${renderScoreBar(scored, Math.max(10, Number(scored.score) || 1))}</div>
-              <dl class="kv-list">
-                ${scoreItems.map(([k, v]) => `<dt>${escapeHtml(k)}</dt><dd>+${fmtNum(v, 2)}</dd>`).join('')}
-              </dl>
-            ` : '<p class="muted small" style="margin:0;">현재 필터·기간 조건 안의 점수가 없습니다.</p>'}
-            <p class="score-role-note">
-              점수에는 발굴 신호만, 맥락 매체는 약하게 반영합니다.
-              <a href="#/scorecard">출처 성적표 보기 ↗</a>
-            </p>
-          </section>
+          `).join('')}
+        </dl>
+      ` : ''}
+    </section>
+  `;
 
-          ${profileFacts.length ? `
-            <section class="block" style="margin-bottom:0;">
-              <div class="block-head"><h3>아티스트 정보</h3></div>
-              <dl class="kv-list">
-                ${profileFacts.map(([k, v]) => `<dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd>`).join('')}
-              </dl>
-            </section>
-          ` : ''}
-        </div>
+  // Section 2: 점수 근거
+  const scoreSectionHtml = `
+    <section class="block" id="teamScoreBlock">
+      <div class="block-head">
+        <h2>점수 근거</h2>
+        ${scored ? `<span class="block-meta">합계 ${fmtNum(scored.score, 2)}점</span>` : ''}
+      </div>
+      ${scored ? `
+        <div style="margin-bottom:10px;">${renderScoreBar(scored, Math.max(10, Number(scored.score) || 1))}</div>
+        <dl class="kv-list">
+          ${scoreItems.map(([k, v]) => `<dt>${escapeHtml(k)}</dt><dd>+${fmtNum(v, 2)}</dd>`).join('')}
+        </dl>
+      ` : '<p class="muted small" style="margin:0;">현재 필터·기간 조건 안의 점수가 없습니다.</p>'}
+      <p class="score-role-note">
+        점수에는 발굴 출처만, 맥락 매체는 약하게 반영합니다. 검증 대기·제외 출처는 아래 활동 기록에서 참고용으로만 보여 줍니다.
+        <a href="#/scorecard">출처 성적표 보기 ↗</a>
+      </p>
+    </section>
+  `;
 
-        <div id="teamGraphHost" class="team-graph-host"></div>
-
-        <section class="block" style="margin-top:16px;">
-          <div class="block-head">
-            <h2>비슷한 길을 밟은 과거 수상 팀</h2>
-            <span class="block-meta">${fmtInt(precedents.length)}팀</span>
-          </div>
-          ${visiblePrec.length ? `
-            <div class="table-wrap">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>과거 수상 팀</th>
-                    <th>첫 정답</th>
-                    <th class="nowrap">발표일</th>
-                    <th>겹친 경로</th>
-                    <th class="num nowrap">소요 (개월)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${visiblePrec.map(p => `
-                    <tr>
-                      <td><a href="#/team/${encodeURIComponent(p.past_team)}"><strong>${escapeHtml(p.display_name || p.past_team)}</strong></a></td>
-                      <td><span class="outcome-label-wrap">${gradeBadgeHtml(p.outcome_grade)}<span>${escapeHtml(p.outcome_label || '-')}</span></span></td>
-                      <td class="nowrap mono muted">${escapeHtml(p.outcome_date || '-')}</td>
-                      <td>${escapeHtml(p.shared_list || '-')}</td>
-                      <td class="num">${p.months_signal_to_outcome !== null && p.months_signal_to_outcome !== undefined ? fmtInt(p.months_signal_to_outcome) : '-'}</td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
-            ${morePrec > 0 ? `<div class="more-row"><span>${fmtInt(visiblePrec.length)} / ${fmtInt(precedents.length)}팀 표시</span><button type="button" class="btn btn-sm" id="btnMorePrec">${fmtInt(morePrec)}팀 더 보기</button></div>` : ''}
-            <details class="info-fold" style="margin:8px 0 0 0;">
-              <summary>ⓘ 선례 · 등급 해석</summary>
-              <div class="info-fold-body">선례는 정답 전에 같은 선정·공연장·매체를 거쳤다는 참고 경로일 뿐이며, 수상을 예측하지 않습니다.${(() => { const s = renderCompactGradeSummary({ sourceRoles }); return s ? ` ${s}` : ''; })()}</div>
-            </details>
-          ` : '<p class="muted small" style="margin:0;">겹치는 경로를 가진 과거 수상 팀 선례가 아직 없습니다.</p>'}
-        </section>
-      `;
-    }
-
-    if (activeSubTab === 'activity') {
-      const visibleTl = showAllTimeline ? mergedTimeline : mergedTimeline.slice(0, 10);
-      const moreTl = mergedTimeline.length - visibleTl.length;
-      const hasNonDiscovery = mergedTimeline.some(m => !m.isOutcome && m.role !== 'discovery');
-
-      // Build last 12 months stacked bar data (공연 / 선정·지원 / 발매·큐레이션)
-      const endDateStr = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
-      const [ey, em] = endDateStr.split('-').map(Number);
-      const monthBuckets = [];
-      const bucketMap = new Map();
-      if (Number.isFinite(ey) && Number.isFinite(em)) {
-        for (let offset = 11; offset >= 0; offset--) {
-          const d = new Date(Date.UTC(ey, em - 1 - offset, 1));
-          const y = d.getUTCFullYear();
-          const mo = d.getUTCMonth() + 1;
-          const ym = `${y}-${String(mo).padStart(2, '0')}`;
-          const item = {
-            ym,
-            shortLabel: `${mo}월`,
-            gig: 0,
-            sel: 0,
-            other: 0,
-            total: 0,
-          };
-          monthBuckets.push(item);
-          bucketMap.set(ym, item);
-        }
-      }
-      for (const s of timeline) {
-        if (s.role === 'excluded') continue;
-        const dt = String(s.signal_date || '').slice(0, 10);
-        if (!dt || dt > endDateStr) continue;
-        const b = bucketMap.get(dt.slice(0, 7));
-        if (!b) continue;
-        if (s.branch === '공연') b.gig += 1;
-        else if (s.branch === '선정·지원') b.sel += 1;
-        else b.other += 1;
-        b.total += 1;
-      }
-      const total12m = monthBuckets.reduce((acc, m) => acc + m.total, 0);
-      const max12m = Math.max(1, ...monthBuckets.map(m => m.total));
-
-      const lastNonExclDate = timeline
-        .filter(s => s.role !== 'excluded' && s.signal_date && String(s.signal_date).slice(0, 10) <= endDateStr)
-        .map(s => String(s.signal_date).slice(0, 7))
-        .sort()
-        .pop() || '';
-
-      const monthlyBarsHtml = `
-        <section class="block monthly-bars-block">
-          <div class="block-head">
-            <div>
-              <h2>최근 12개월 활동 흐름</h2>
-              <span class="block-meta">${escapeHtml(monthBuckets[0]?.ym || '')} ~ ${escapeHtml(monthBuckets[monthBuckets.length - 1]?.ym || '')} · 총 ${fmtInt(total12m)}건</span>
-            </div>
-            <div class="monthly-legend" aria-label="갈래 범례">
-              <span class="monthly-leg-item"><i class="monthly-dot is-gig"></i>공연</span>
-              <span class="monthly-leg-item"><i class="monthly-dot is-sel"></i>선정·지원</span>
-              <span class="monthly-leg-item"><i class="monthly-dot is-other"></i>발매·큐레이션</span>
-            </div>
-          </div>
-          ${total12m > 0 ? `
-            <div class="monthly-bars-grid" role="img" aria-label="최근 12개월 갈래별 활동 막대 그래프">
-              ${monthBuckets.map(m => {
-                const barPct = m.total > 0 ? Math.max(8, Math.round((m.total / max12m) * 100)) : 0;
-                const gigPct = m.total > 0 ? (m.gig / m.total) * 100 : 0;
-                const selPct = m.total > 0 ? (m.sel / m.total) * 100 : 0;
-                const otherPct = m.total > 0 ? (m.other / m.total) * 100 : 0;
-                const parts = [];
-                if (m.gig) parts.push(`공연 ${m.gig}`);
-                if (m.sel) parts.push(`선정·지원 ${m.sel}`);
-                if (m.other) parts.push(`발매·큐레이션 ${m.other}`);
-                const tip = parts.length ? `${m.ym}: ${parts.join(' · ')}` : `${m.ym}: 기록 없음`;
-                return `
-                  <div class="monthly-bar-col" title="${escapeHtml(tip)}">
-                    <span class="monthly-bar-cnt">${m.total > 0 ? fmtInt(m.total) : ''}</span>
-                    <div class="monthly-bar-track">
-                      ${m.total > 0 ? `
-                        <div class="monthly-bar-stack" style="height:${barPct}%">
-                          ${m.other ? `<span class="monthly-seg is-other" style="height:${otherPct.toFixed(1)}%"></span>` : ''}
-                          ${m.sel ? `<span class="monthly-seg is-sel" style="height:${selPct.toFixed(1)}%"></span>` : ''}
-                          ${m.gig ? `<span class="monthly-seg is-gig" style="height:${gigPct.toFixed(1)}%"></span>` : ''}
-                        </div>
-                      ` : '<div class="monthly-bar-zero"></div>'}
-                    </div>
-                    <span class="monthly-bar-lbl">${escapeHtml(m.shortLabel)}</span>
-                  </div>
-                `;
-              }).join('')}
-            </div>
-          ` : `<p class="muted small" style="margin:0;">최근 12개월 내 기록된 활동이 없습니다.${lastNonExclDate ? ` (마지막 활동 ${escapeHtml(lastNonExclDate)})` : ''}</p>`}
-        </section>
-      `;
-
-      return `
-        ${monthlyBarsHtml}
-        <section class="block">
-          <div class="block-head">
-            <h2>신호 · 정답 타임라인</h2>
-            <span class="block-meta">전체 ${fmtInt(mergedTimeline.length)}건</span>
-          </div>
-          ${hasNonDiscovery ? '<p class="timeline-role-legend">역할: <strong>발굴</strong> 점수 반영 · <strong>맥락</strong> 참고/약하게 · <strong>대기·제외</strong> 점수 제외(흐리게 표시)</p>' : ''}
-          ${visibleTl.length ? `
-            <ul class="timeline-list">
-              ${visibleTl.map(m => `
-                <li class="${m.isDimmed ? 'is-dimmed' : ''}">
-                  <span class="timeline-date">${escapeHtml(m.dateDisp)}</span>
-                  <span class="timeline-branch ${m.isOutcome ? 'timeline-outcome' : ''}">${escapeHtml(m.branch)}</span>
-                  <span class="timeline-detail">
-                    ${m.isOutcome ? gradeBadgeHtml(m.grade, { weight: m.weight, isNominee: m.isNominee }) : roleBadgeHtml(m.role)}
-                    <span>${escapeHtml(m.text)}</span>
-                  </span>
-                </li>
-              `).join('')}
-            </ul>
-            ${moreTl > 0 ? `<div class="more-row" style="margin-top:8px;"><span>최근 ${fmtInt(visibleTl.length)} / ${fmtInt(mergedTimeline.length)}건</span><button type="button" class="btn btn-sm" id="btnMoreTimeline">${fmtInt(moreTl)}건 더 보기</button></div>` : ''}
-          ` : '<p class="muted small" style="margin:0;">기록된 신호가 없습니다.</p>'}
-        </section>
-
-        ${extLinks.length ? `
-          <section class="block">
-            <div class="block-head">
-              <h3>관련 기사 · 출처 링크</h3>
-              <span class="block-meta">${fmtInt(extLinks.length)}건</span>
-            </div>
-            <ul class="mini-list">
-              ${extLinks.map(l => `
-                <li>
-                  <div class="mini-list-main">
-                    <a href="${escapeHtml(l.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.title)}</a>
-                    <div class="mini-list-sub">${escapeHtml(l.source)}${l.date ? ` · ${escapeHtml(l.date)}` : ''}</div>
-                  </div>
-                </li>
-              `).join('')}
-            </ul>
-          </section>
-        ` : ''}
-      `;
-    }
-
-    // activeSubTab === 'related'
-    const visibleStage = showAllStageRel ? stageRelated : stageRelated.slice(0, 5);
+  // Section 3b: folded related teams list right under 관계망
+  function renderRelatedFoldInner() {
+    if (!related.length) return '';
+    const visibleStage = showAllStageRel ? stageRelated : stageRelated.slice(0, 6);
     const moreStage = stageRelated.length - visibleStage.length;
     return `
       ${stageRelated.length ? `
-        <section class="block">
-          <div class="block-head">
-            <h2>같은 무대에 함께 선 팀</h2>
-            <span class="block-meta">${fmtInt(stageRelated.length)}팀</span>
+        <div class="team-rel-sub">
+          <div class="team-rel-sub-head">
+            <strong>같은 무대에 함께 선 팀</strong>
+            <span class="small muted">${fmtInt(stageRelated.length)}팀</span>
           </div>
           <div class="table-wrap">
             <table class="data-table">
@@ -446,14 +429,13 @@ export async function renderTeamView(root, teamKey) {
             </table>
           </div>
           ${moreStage > 0 ? `<div class="more-row"><span>상위 ${fmtInt(visibleStage.length)} / ${fmtInt(stageRelated.length)}팀</span><button type="button" class="btn btn-sm" id="btnMoreStageRel">${fmtInt(moreStage)}팀 더 보기</button></div>` : ''}
-        </section>
+        </div>
       ` : ''}
-
       ${agencyRelated.length ? `
-        <section class="block">
-          <div class="block-head">
-            <h2>같은 소속사 팀</h2>
-            <span class="block-meta">${escapeHtml(agencyRelated[0]?.detail || '')} · ${fmtInt(agencyRelated.length)}팀</span>
+        <div class="team-rel-sub" style="${stageRelated.length ? 'margin-top:14px;' : ''}">
+          <div class="team-rel-sub-head">
+            <strong>같은 소속사 팀</strong>
+            <span class="small muted">${escapeHtml(agencyRelated[0]?.detail || '')} · ${fmtInt(agencyRelated.length)}팀</span>
           </div>
           <ul class="mini-list">
             ${agencyRelated.map(r => `
@@ -468,148 +450,192 @@ export async function renderTeamView(root, teamKey) {
               </li>
             `).join('')}
           </ul>
-        </section>
+        </div>
       ` : ''}
     `;
   }
 
-  // Register team timeline CSV with unified export dropdown
-  setExportContext({
-    csvLabel: `${displayName} 활동 기록 CSV 내려받기 (${fmtInt(mergedTimeline.length)}건)`,
-    csvFilename: `crate_digger_team_${teamKey.replace(/[^a-zA-Z0-9가-힣_-]+/g, '_')}_${appState.dataEnd || 'export'}.csv`,
-    csvHeaders: ['date', 'branch', 'role_or_grade', 'detail'],
-    csvRows: mergedTimeline.map(m => [m.dateDisp, m.branch, m.isOutcome ? (m.grade || '') : (m.role || ''), m.text]),
-  });
+  // Section 4: 활동 기록
+  function renderActivityInner() {
+    const visibleTl = showAllTimeline ? mergedTimeline : mergedTimeline.slice(0, 8);
+    const moreTl = mergedTimeline.length - visibleTl.length;
+    const legendText = hasUnscored
+      ? `표시: <strong>발굴</strong> 점수 반영 · <strong>맥락</strong> 참고·약하게 반영 · <strong>${escapeHtml(TERMS.unscored)}</strong> 검증 대기 또는 제외 출처 (흐리게 표시)`
+      : '표시: <strong>발굴</strong> 점수 반영 · <strong>맥락</strong> 참고·약하게 반영';
 
-  const backLabels = {
-    today: '이번 주 브리핑',
-    candidates: '후보 목록',
-    venues: '공연장·씬',
-    watchlist: '관심 목록',
-    verify: '점수 신뢰도·검증',
-    quality: '데이터 수집·품질',
-  };
-  const backRoute = appState.prevRoute && backLabels[appState.prevRoute] ? appState.prevRoute : 'today';
-  const backLabel = backLabels[backRoute] || '이번 주 브리핑';
-
-  const imgSrc = avatarSourceOf(teamKey);
-  const spUrl = spotifyUrlOf(teamKey);
-  const genre = scored?.primary_genre || profile?.primary_genre || '';
-  const photoCreditHtml = imgSrc === 'spotify'
-    ? (spUrl
-        ? `<a class="avatar-credit" href="${escapeHtml(spUrl)}" target="_blank" rel="noopener noreferrer">사진 · Spotify ↗</a>`
-        : '<span class="avatar-credit">사진 · Spotify</span>')
-    : '';
-
-  const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
-  const upcomingDedup = new Map();
-  for (const s of timeline) {
-    if (s.branch !== '공연') continue;
-    const dt = String(s.signal_date || '').slice(0, 10);
-    if (!dt || dt < asOf) continue;
-    const v = String(s.venue || '').trim() || '공연장 미정';
-    const key = `${dt}::${v}`;
-    if (!upcomingDedup.has(key)) upcomingDedup.set(key, { signal_date: dt, venue: v });
-  }
-  const upcomingList = [...upcomingDedup.values()].sort((a, b) => a.signal_date.localeCompare(b.signal_date));
-  const nextGig = upcomingList[0] || null;
-  const nextGigHtml = nextGig
-    ? `<p class="team-next-gig"><span class="next-gig-pill">다음 공연 ${escapeHtml(formatNextGigText(nextGig))}${upcomingList.length > 1 ? ` 외 ${upcomingList.length - 1}건` : ''}</span></p>`
-    : '';
-
-  const sceneVenuesTxt = sceneComm && Array.isArray(sceneComm.top_venues) && sceneComm.top_venues.length
-    ? sceneComm.top_venues.slice(0, 3).map(v => v.venue).join(' · ')
-    : '';
-  const sceneLineHtml = sceneComm
-    ? `<p class="team-scene-line">속한 씬: <a href="#/venues" class="inline-team-link" data-jump-scene="${sceneComm.id}"><strong>묶음 ${fmtInt(sceneComm.id)}</strong></a>${sceneVenuesTxt ? ` <span class="muted">(${escapeHtml(sceneVenuesTxt)})</span>` : ''}</p>`
-    : '';
-
-  const outcomesLineHtml = outcomes.length
-    ? `<div class="team-outcomes-line" aria-label="정답 기록">
-        <span class="team-outcomes-lbl">정답</span>
-        ${outcomes.slice(0, 4).map(o => {
-          const isNominee = isLoweredOutcomeResult(o.result, sourceRoles);
-          const progLabel = o.program_label || o.program || '';
-          const yr = o.announced_date ? String(o.announced_date).slice(0, 4) : '';
-          return `<span class="team-outcome-chip">${gradeBadgeHtml(o.grade, { weight: o.weight, isNominee })}<span>${escapeHtml(progLabel)}${yr ? ` (${escapeHtml(yr)})` : ''}</span></span>`;
-        }).join('')}
-        ${outcomes.length > 4 ? `<span class="small muted">외 ${fmtInt(outcomes.length - 4)}건</span>` : ''}
-      </div>`
-    : '';
-
-  let graphHandle = null;
-
-  function paint() {
-    if (graphHandle) {
-      try { graphHandle.destroy(); } catch (_) {}
-      graphHandle = null;
-    }
-
-    root.innerHTML = `
-      <div class="team-back-bar">
-        <button type="button" class="btn btn-sm" id="btnTeamBack">← ${escapeHtml(backLabel)}</button>
+    return `
+      <div class="block-head">
+        <h2>활동 기록</h2>
+        <span class="block-meta">전체 ${fmtInt(mergedTimeline.length)}건</span>
       </div>
-      <div class="action-banner">
-        <div class="team-head">
-          <div class="team-avatar-col">
-            ${avatarHtml(teamKey, displayName, 72, { shape: 'rounded', genre })}
-            ${photoCreditHtml}
+      ${monthlyBarsHtml}
+      ${hasNonDiscovery ? `<p class="timeline-role-legend">${legendText}</p>` : ''}
+      ${visibleTl.length ? `
+        <ul class="timeline-list">
+          ${visibleTl.map(m => `
+            <li class="${m.isDimmed ? 'is-dimmed' : ''}">
+              <span class="timeline-date">${escapeHtml(m.dateDisp)}</span>
+              <span class="timeline-branch ${m.isOutcome ? 'timeline-outcome' : ''}">${escapeHtml(m.branch)}</span>
+              <span class="timeline-detail">
+                ${m.isOutcome
+                  ? gradeBadgeHtml(m.grade, { weight: m.weight, isNominee: m.isNominee })
+                  : roleBadgeHtml(m.role, { context: 'timeline', title: m.roleReason })}
+                <span>${escapeHtml(m.text)}</span>
+              </span>
+            </li>
+          `).join('')}
+        </ul>
+        ${moreTl > 0 ? `<div class="more-row" style="margin-top:8px;"><span>최근 ${fmtInt(visibleTl.length)} / ${fmtInt(mergedTimeline.length)}건</span><button type="button" class="btn btn-sm" id="btnMoreTimeline">${fmtInt(moreTl)}건 더 보기</button></div>` : ''}
+      ` : '<p class="muted small" style="margin:0;">기록된 활동 신호가 없습니다.</p>'}
+      ${extLinks.length ? `
+        <details class="info-fold" style="margin:12px 0 0 0;">
+          <summary>관련 기사 · 출처 링크 (${fmtInt(extLinks.length)}건)</summary>
+          <div class="info-fold-body">
+            <ul class="mini-list">
+              ${extLinks.map(l => `
+                <li>
+                  <div class="mini-list-main">
+                    <a href="${escapeHtml(l.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.title)}</a>
+                    <div class="mini-list-sub">${escapeHtml(l.source)}${l.date ? ` · ${escapeHtml(l.date)}` : ''}</div>
+                  </div>
+                </li>
+              `).join('')}
+            </ul>
           </div>
-          <div>
-            <h1 class="action-banner-title">${escapeHtml(displayName)}</h1>
-            <p class="team-subline">${escapeHtml(metaParts.join(' · ') || '기록된 신호 ' + fmtInt(mergedTimeline.length) + '건')}</p>
-            ${sceneLineHtml}
-            ${outcomesLineHtml}
-            ${nextGigHtml}
-          </div>
-        </div>
-        <div class="action-banner-btns">
-          ${renderListenButtons(teamKey, displayName, links, videos.length > 0)}
-          ${watchButtonHtml(teamKey, displayName, false)}
-        </div>
-      </div>
-      <div class="player-slot" id="teamPlayerSlot" data-player-slot></div>
-
-      ${renderVideosSection(videos, showAllVideos)}
-
-      <div class="sub-tabs" role="tablist" aria-label="팀 상세 탭">
-        <button type="button" class="sub-tab-btn ${activeSubTab === 'why' ? 'active' : ''}" role="tab" aria-selected="${activeSubTab === 'why'}" data-subtab="why">왜 후보인가</button>
-        <button type="button" class="sub-tab-btn ${activeSubTab === 'activity' ? 'active' : ''}" role="tab" aria-selected="${activeSubTab === 'activity'}" data-subtab="activity">활동 기록 (${fmtInt(mergedTimeline.length)})</button>
-        ${hasRelated ? `<button type="button" class="sub-tab-btn ${activeSubTab === 'related' ? 'active' : ''}" role="tab" aria-selected="${activeSubTab === 'related'}" data-subtab="related">관련 팀 (${fmtInt(related.length)})</button>` : ''}
-      </div>
-
-      <div id="teamSubPanel">${renderSubPanel()}</div>
+        </details>
+      ` : ''}
     `;
+  }
 
-    wireAvatarFallbacks(root);
-    wireSpotifyButtons(root, root.querySelector('#teamPlayerSlot'));
+  // Section 5: 비슷한 과거 수상 팀
+  function renderPrecedentsInner() {
+    const visiblePrec = showAllPrec ? precedents : precedents.slice(0, 3);
+    const morePrec = precedents.length - visiblePrec.length;
+    return `
+      <div class="block-head">
+        <h2>비슷한 과거 수상 팀</h2>
+        <span class="block-meta">${fmtInt(precedents.length)}팀</span>
+      </div>
+      ${visiblePrec.length ? `
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>과거 수상 팀</th>
+                <th>첫 ${escapeHtml(TERMS.outcome)}</th>
+                <th class="nowrap">발표일</th>
+                <th>겹친 경로</th>
+                <th class="num nowrap">소요 (개월)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${visiblePrec.map(p => `
+                <tr>
+                  <td><a href="#/team/${encodeURIComponent(p.past_team)}"><strong>${escapeHtml(p.display_name || p.past_team)}</strong></a></td>
+                  <td><span class="outcome-label-wrap">${gradeBadgeHtml(p.outcome_grade)}<span>${escapeHtml(p.outcome_label || '-')}</span></span></td>
+                  <td class="nowrap mono muted">${escapeHtml(p.outcome_date || '-')}</td>
+                  <td>${escapeHtml(p.shared_list || '-')}</td>
+                  <td class="num">${p.months_signal_to_outcome !== null && p.months_signal_to_outcome !== undefined ? fmtInt(p.months_signal_to_outcome) : '-'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        ${morePrec > 0 ? `<div class="more-row"><span>${fmtInt(visiblePrec.length)} / ${fmtInt(precedents.length)}팀 표시</span><button type="button" class="btn btn-sm" id="btnMorePrec">${fmtInt(morePrec)}팀 더 보기</button></div>` : ''}
+        <details class="info-fold" style="margin:8px 0 0 0;">
+          <summary>ⓘ 선례 · 등급 해석</summary>
+          <div class="info-fold-body">선례는 수상·선정 전에 같은 선정·공연장·매체를 거쳤다는 참고 경로일 뿐이며, 수상을 예측하지 않습니다.${(() => { const s = renderCompactGradeSummary({ sourceRoles }); return s ? ` ${s}` : ''; })()}</div>
+        </details>
+      ` : '<p class="muted small" style="margin:0;">겹치는 경로를 가진 과거 수상 팀 선례가 아직 없습니다.</p>'}
+    `;
+  }
 
-    const graphHost = root.querySelector('#teamGraphHost');
-    if (graphHost) {
-      graphHandle = mountTeamGraphBlock(graphHost, {
-        teamKey,
-        displayName,
-        primaryGenre: genre,
-      });
-    }
+  // Exact requested flow: 요약 → 점수 근거 → 관계망 → 활동 기록 → 비슷한 과거 수상 팀 → 영상
+  root.innerHTML = `
+    <div class="team-back-bar">
+      <button type="button" class="btn btn-sm" id="btnTeamBack">← ${escapeHtml(backLabel)}</button>
+    </div>
+    <div class="action-banner">
+      <div class="team-head">
+        <div class="team-avatar-col">
+          ${avatarHtml(teamKey, displayName, 72, { shape: 'rounded', genre })}
+          ${photoCreditHtml}
+        </div>
+        <div>
+          <h1 class="action-banner-title">${escapeHtml(displayName)}</h1>
+          <p class="team-subline">${escapeHtml(metaParts.join(' · ') || '기록된 활동 ' + fmtInt(mergedTimeline.length) + '건')}</p>
+          ${sceneLineHtml}
+          ${outcomesLineHtml}
+          ${nextGigHtml}
+        </div>
+      </div>
+      <div class="action-banner-btns">
+        ${renderListenButtons(teamKey, displayName, links, videos.length > 0)}
+        ${watchButtonHtml(teamKey, displayName, false)}
+      </div>
+    </div>
+    <div class="player-slot" id="teamPlayerSlot" data-player-slot></div>
 
-    root.querySelector('#btnTeamBack')?.addEventListener('click', () => {
-      navigateTo(backRoute, '');
+    ${summarySectionHtml}
+
+    ${scoreSectionHtml}
+
+    <div id="teamGraphSection" class="team-graph-section">
+      <div id="teamGraphHost" class="team-graph-host"></div>
+      ${related.length ? `
+        <details class="info-fold team-related-fold" id="teamRelatedFold">
+          <summary>같은 무대 · 같은 소속사 목록 표로 보기 (${fmtInt(related.length)}팀)</summary>
+          <div class="info-fold-body" id="teamRelatedBody"></div>
+        </details>
+      ` : ''}
+    </div>
+
+    <section class="block" id="teamActivityBlock"></section>
+
+    <section class="block" id="teamPrecedentsBlock"></section>
+
+    ${videos.length ? '<section class="block" id="teamVideosBlock"></section>' : ''}
+  `;
+
+  wireAvatarFallbacks(root);
+  wireSpotifyButtons(root, root.querySelector('#teamPlayerSlot'));
+
+  function paintRelatedBody() {
+    const body = root.querySelector('#teamRelatedBody');
+    if (!body) return;
+    body.innerHTML = renderRelatedFoldInner();
+    wireAvatarFallbacks(body);
+    body.querySelector('#btnMoreStageRel')?.addEventListener('click', () => {
+      showAllStageRel = true;
+      paintRelatedBody();
     });
+  }
 
-    root.querySelector('[data-jump-scene]')?.addEventListener('click', (e) => {
-      e.preventDefault();
-      appState.focusSceneId = Number(e.currentTarget.dataset.jumpScene);
-      navigateTo('venues', '');
+  function paintActivity() {
+    const el = root.querySelector('#teamActivityBlock');
+    if (!el) return;
+    el.innerHTML = renderActivityInner();
+    el.querySelector('#btnMoreTimeline')?.addEventListener('click', () => {
+      showAllTimeline = true;
+      paintActivity();
     });
+  }
 
-    root.querySelector('[data-scroll-videos]')?.addEventListener('click', (e) => {
-      e.preventDefault();
-      root.querySelector('#teamVideosBlock')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  function paintPrecedents() {
+    const el = root.querySelector('#teamPrecedentsBlock');
+    if (!el) return;
+    el.innerHTML = renderPrecedentsInner();
+    el.querySelector('#btnMorePrec')?.addEventListener('click', () => {
+      showAllPrec = true;
+      paintPrecedents();
     });
+  }
 
-    // Wire inline lazy YouTube embed swap on click
-    root.querySelectorAll('.video-frame[data-video-id]').forEach(btn => {
+  function paintVideos() {
+    const el = root.querySelector('#teamVideosBlock');
+    if (!el) return;
+    el.innerHTML = renderVideosInnerHtml(videos, showAllVideos);
+    el.querySelectorAll('.video-frame[data-video-id]').forEach(btn => {
       btn.addEventListener('click', () => {
         const vid = btn.dataset.videoId;
         if (!/^[A-Za-z0-9_-]{11}$/.test(vid)) return;
@@ -619,22 +645,38 @@ export async function renderTeamView(root, teamKey) {
         btn.replaceWith(wrap);
       });
     });
-
-    root.querySelector('#btnMoreVideos')?.addEventListener('click', () => { showAllVideos = true; paint(); });
-
-    // Wire sub-tabs
-    root.querySelectorAll('[data-subtab]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        activeSubTab = btn.dataset.subtab;
-        paint();
-      });
+    el.querySelector('#btnMoreVideos')?.addEventListener('click', () => {
+      showAllVideos = true;
+      paintVideos();
     });
-
-    // Wire show-more buttons inside sub-tabs
-    root.querySelector('#btnMorePrec')?.addEventListener('click', () => { showAllPrec = true; paint(); });
-    root.querySelector('#btnMoreTimeline')?.addEventListener('click', () => { showAllTimeline = true; paint(); });
-    root.querySelector('#btnMoreStageRel')?.addEventListener('click', () => { showAllStageRel = true; paint(); });
   }
 
-  paint();
+  paintRelatedBody();
+  paintActivity();
+  paintPrecedents();
+  paintVideos();
+
+  const graphHost = root.querySelector('#teamGraphHost');
+  if (graphHost) {
+    mountTeamGraphBlock(graphHost, {
+      teamKey,
+      displayName,
+      primaryGenre: genre,
+    });
+  }
+
+  root.querySelector('#btnTeamBack')?.addEventListener('click', () => {
+    navigateTo(backRoute, '');
+  });
+
+  root.querySelector('[data-jump-scene]')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    appState.focusSceneId = Number(e.currentTarget.dataset.jumpScene);
+    navigateTo('venues', '');
+  });
+
+  root.querySelector('[data-scroll-videos]')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    root.querySelector('#teamVideosBlock')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 }

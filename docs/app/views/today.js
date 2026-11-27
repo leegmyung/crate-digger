@@ -2,8 +2,9 @@ import {
   appState, getWatchlist, hasCustomWeights, navigateTo, setExportContext,
 } from '../state.js';
 import {
-  buildNextGigByTeam, getSnapshotDiff, groupUpcomingEvents,
-  queryCandidates, queryUpcomingGigs, queryWatchlistEnriched, queryWeeklyDigestExtras,
+  buildNextGigByTeam, getSnapshotDiff, groupUpcomingEvents, loadSceneMap,
+  queryCandidates, queryDebutCandidates, queryUpcomingGigs,
+  queryWatchlistEnriched, queryWeeklyDigestExtras,
 } from '../db.js';
 import {
   avatarHtml, buildWeeklySummaryText, escapeHtml, fmtInt, fmtNum,
@@ -31,10 +32,12 @@ function renderCardListenAction(r) {
 
 export async function renderTodayView(root) {
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-27';
-  const [candRows, watchEnriched, upcomingRaw] = await Promise.all([
+  const [candRows, watchEnriched, upcomingRaw, debutData, sceneMap] = await Promise.all([
     queryCandidates({ limit: 300 }),
     queryWatchlistEnriched(getWatchlist()),
     queryUpcomingGigs({ asOf, days: 14 }),
+    queryDebutCandidates({ as_of: asOf }).catch(() => null),
+    loadSceneMap().catch(() => null),
   ]);
   const extras = await queryWeeklyDigestExtras(candRows);
 
@@ -136,7 +139,7 @@ export async function renderTodayView(root) {
     sentence2Parts.push(`새 무대 영상 <strong>${fmtInt(extras.newVideos7d)}개</strong>가 잡혔고`);
   }
   const healthTxt = health.ok
-    ? (health.totalSources > 0 ? `데이터 수집은 정상(${health.okSources}/${health.totalSources} 소스)입니다.` : '데이터 수집은 정상입니다.')
+    ? (health.totalSources > 0 ? `데이터 수집은 정상(${health.okSources}/${health.totalSources} 출처)입니다.` : '데이터 수집은 정상입니다.')
     : `<a href="#/quality"><strong>${escapeHtml(health.summaryLabel)}</strong></a> 상태입니다.`;
   const sentence2 = sentence2Parts.length ? `${sentence2Parts.join('과 ')}, ${healthTxt}` : healthTxt;
 
@@ -399,6 +402,36 @@ export async function renderTodayView(root) {
         ${!showAllRisers && diff.risers.length > 5 ? `<div style="margin-top:10px;"><button type="button" class="btn btn-sm" id="btnMoreRisers">${fmtInt(Math.min(20, diff.risers.length) - 5)}팀 더 보기</button></div>` : ''}`
       : '<p class="muted small" style="margin:0;">순위·점수가 크게 오른 팀이 없습니다.</p>';
 
+    const debutTotal = debutData?.total || 0;
+    const debutMent = debutData?.mentioned?.length || 0;
+    const debutUnm = debutData?.unmentioned?.length || 0;
+    const sceneCommCount = sceneMap?.communities?.length || 0;
+
+    const exploreStripHtml = `
+      <section class="today-explore-strip" aria-label="신인 · 씬 탐색 바로가기">
+        <a class="today-explore-card" href="#/candidates/debut">
+          <div class="today-explore-top">
+            <strong>갓 데뷔 신인</strong>
+            ${debutTotal > 0 ? `<span class="today-explore-count">${fmtInt(debutTotal)}팀</span>` : ''}
+          </div>
+          <p class="today-explore-desc">
+            ${debutTotal > 0
+              ? `최근 12개월 첫 발매 · 언급 있음 ${fmtInt(debutMent)} · 아직 언급 없음 ${fmtInt(debutUnm)}`
+              : '최근 12개월 내 첫 발매한 백지 신인 모아 보기'}
+          </p>
+          <span class="today-explore-cta">갓 데뷔 보기 →</span>
+        </a>
+        <a class="today-explore-card" href="#/venues/network">
+          <div class="today-explore-top">
+            <strong>씬 네트워크</strong>
+            ${sceneCommCount > 0 ? `<span class="today-explore-count">묶음 ${fmtInt(sceneCommCount)}개</span>` : ''}
+          </div>
+          <p class="today-explore-desc">같은 무대에 함께 선 후보·수상 팀 연결 지도 탐색</p>
+          <span class="today-explore-cta">씬 네트워크 열기 →</span>
+        </a>
+      </section>
+    `;
+
     root.innerHTML = `
       ${heroHtml}
 
@@ -409,6 +442,8 @@ export async function renderTodayView(root) {
         </div>
         ${top5Html}
       </section>
+
+      ${exploreStripHtml}
 
       ${upcomingHtml}
 

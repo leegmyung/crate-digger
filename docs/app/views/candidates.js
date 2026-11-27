@@ -9,7 +9,7 @@ import {
 import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText, formatSourceKey,
   gradeBadgeHtml, plainWhyLine, renderActionBanner, renderEmptyState, scorePartsLine,
-  spotifyButtonHtml, watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
+  spotifyButtonHtml, TERMS, watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
   youtubeQuickInfo,
 } from '../ui.js';
 
@@ -174,7 +174,7 @@ async function renderDebutCandidatesView(root) {
 
   const unm = debutScorecard.unmentioned;
   const unmOpportunityHtml = unm && debutScorecard.cohortTeams > 0
-    ? `데뷔 코호트 검증 기준 첫 발매 뒤 ${fmtInt(debutScorecard.mentionMonths)}개월 안에 어느 출처에도 안 나온 백지 신인이 <strong>${fmtInt(debutScorecard.unmentionedPct)}%</strong>(${fmtInt(unm.teams)}/${fmtInt(debutScorecard.cohortTeams)}팀, 그중 정답 ${fmtInt(unm.hits)}팀)입니다 — 아직 언급이 없는 팀이 가장 큰 발굴 기회입니다.`
+    ? `데뷔 코호트 검증 기준 첫 발매 뒤 ${fmtInt(debutScorecard.mentionMonths)}개월 안에 어느 출처에도 안 나온 백지 신인이 <strong>${fmtInt(debutScorecard.unmentionedPct)}%</strong>(${fmtInt(unm.teams)}/${fmtInt(debutScorecard.cohortTeams)}팀, 그중 ${escapeHtml(TERMS.outcome)} ${fmtInt(unm.hits)}팀)입니다 — 아직 언급이 없는 팀이 가장 큰 발굴 기회입니다.`
     : '아직 어느 출처에도 언급되지 않은 백지 신인은 선행 발굴 후보로 따로 모아 둡니다.';
 
   root.innerHTML = `
@@ -188,7 +188,7 @@ async function renderDebutCandidatesView(root) {
         <span class="small muted inline-filter-count" id="debutCountText"></span>
       </div>
       <details class="inline-more-filters">
-        <summary>세부 기준 (${c.exclude_famous ? '유명 팀 제외' : '유명 팀 포함'} · ${c.only_no_outcome ? '기정답 제외' : '기정답 포함'})</summary>
+        <summary>세부 기준 (${c.exclude_famous ? '유명 팀 제외' : '유명 팀 포함'} · ${c.only_no_outcome ? `${TERMS.priorOutcome} 제외` : `${TERMS.priorOutcome} 포함`})</summary>
         <div class="inline-more-body">
           <div class="inline-more-controls">
             <label class="f-check small">
@@ -197,7 +197,7 @@ async function renderDebutCandidatesView(root) {
             </label>
             <label class="f-check small">
               <input type="checkbox" id="debutOnlyNoOutcome" ${c.only_no_outcome ? 'checked' : ''}>
-              <span>이미 상 받은 팀 제외</span>
+              <span>${escapeHtml(TERMS.priorOutcome)} 팀 제외</span>
             </label>
           </div>
           <p class="small muted" style="margin:8px 0 0 0;">
@@ -296,14 +296,14 @@ async function renderDebutCandidatesView(root) {
     if (!filteredMentioned.length) {
       tbody.innerHTML = `<tr><td colspan="7" style="padding:0;border:none;">${renderEmptyState({
         title: '조건에 맞는 첫 발매 뒤 언급 팀이 없습니다',
-        message: '검색어 또는 장르·기정답 제외 조건을 완화해 보세요.',
+        message: `검색어 또는 장르·${TERMS.priorOutcome} 제외 조건을 완화해 보세요.`,
         showReset: false,
       })}</td></tr>`;
     } else {
       tbody.innerHTML = filteredMentioned.map((r, idx) => {
         const subParts = [];
         if (r.primary_genre) subParts.push(escapeHtml(r.primary_genre));
-        if (r.had_outcome) subParts.push('기정답');
+        if (r.had_outcome) subParts.push(escapeHtml(TERMS.priorOutcome));
         const mentionsHtml = `<div class="debut-mention-list">${r.mentions.map(m => renderDebutMentionChip(m, debutScorecard)).join('')}</div>`;
         return `
           <tr class="clickable" tabindex="0" data-team-key="${escapeHtml(r.team_key)}">
@@ -518,7 +518,7 @@ export async function renderCandidatesView(root) {
       </div>
 
       <details class="inline-more-filters">
-        <summary>세부 기준 · 안내 (${c.newcomer_years}년 이내 · ${c.exclude_famous ? '유명 팀 제외' : '유명 팀 포함'} · 상위 ${c.limit}팀)</summary>
+        <summary>세부 기준 · 안내 (${c.newcomer_years}년 이내 · ${c.exclude_famous ? '유명 팀 제외' : '유명 팀 포함'} · ${c.only_no_outcome ? `${TERMS.priorOutcome} 제외` : `${TERMS.priorOutcome} 포함`} · 상위 ${c.limit}팀)</summary>
         <div class="inline-more-body">
           <div class="inline-more-controls">
             <label class="f-item-inline small">
@@ -531,7 +531,7 @@ export async function renderCandidatesView(root) {
             </label>
             <label class="f-check small">
               <input type="checkbox" id="candOnlyNoOutcome" ${c.only_no_outcome ? 'checked' : ''}>
-              <span>이미 상 받은 팀 제외</span>
+              <span>${escapeHtml(TERMS.priorOutcome)} 팀 제외</span>
             </label>
             <label class="f-item-inline small">
               <span>조회 상한</span>
@@ -648,7 +648,7 @@ export async function renderCandidatesView(root) {
     tbody.innerHTML = shown.map((r, idx) => {
       const subParts = [];
       if (r.primary_genre) subParts.push(escapeHtml(r.primary_genre));
-      if (r.had_outcome) subParts.push('기정답');
+      if (r.had_outcome) subParts.push(escapeHtml(TERMS.priorOutcome));
 
       let moveBadge = '';
       if (r.is_new) {
@@ -726,7 +726,7 @@ export async function renderCandidatesView(root) {
     if (!p) return '<span class="muted">겹치는 과거 수상 팀 선례 없음</span>';
     const dt = p.outcome_date ? ` · ${escapeHtml(String(p.outcome_date).slice(0, 7))}` : '';
     const shared = p.shared_list ? ` — <span class="muted">${escapeHtml(p.shared_list)}</span>` : '';
-    return `${gradeBadgeHtml(p.outcome_grade)} <a href="#/team/${encodeURIComponent(p.past_team)}"><strong>${escapeHtml(p.display_name || p.past_team)}</strong></a> <span class="muted">(${escapeHtml(p.outcome_label || '정답')}${dt})</span>${shared}`;
+    return `${gradeBadgeHtml(p.outcome_grade)} <a href="#/team/${encodeURIComponent(p.past_team)}"><strong>${escapeHtml(p.display_name || p.past_team)}</strong></a> <span class="muted">(${escapeHtml(p.outcome_label || TERMS.outcome)}${dt})</span>${shared}`;
   }
 
   function closePreviewRows() {

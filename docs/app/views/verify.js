@@ -1,6 +1,6 @@
 import { appState, hasCustomWeights, syncHash } from '../state.js';
 import { loadSourceRoles, queryOutcomeGradeSummary } from '../db.js';
-import { renderOutcomeGradeGuideHtml } from '../ui.js';
+import { renderOutcomeGradeGuideHtml, TERMS } from '../ui.js';
 import { renderBacktestView } from './backtest.js';
 import { renderSignalsView } from './signals.js';
 import { renderEvidenceView } from './evidence.js';
@@ -42,7 +42,7 @@ export async function renderVerifyView(root) {
     <div id="verifySubRoot"></div>
     ${gradeGuideHtml ? `
       <details class="info-fold verify-grade-fold" id="verifyGradeFold" style="margin-top:16px;">
-        <summary>ⓘ 정답 등급표 · 정리 규칙 (outcomes.csv · source_roles.json 기준)</summary>
+        <summary>ⓘ ${TERMS.outcomeWithTech} 등급표 · 정리 규칙 (outcomes.csv · source_roles.json 기준)</summary>
         <div class="info-fold-body">
           ${gradeGuideHtml}
         </div>

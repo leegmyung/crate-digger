@@ -1,5 +1,16 @@
 import { appState, isWatched } from './state.js';
 
+export const TERMS = {
+  outcome: '수상·선정',
+  outcomeTeam: '수상·선정 팀',
+  priorOutcome: '수상·선정 이력',
+  outcomeWithTech: '수상·선정(정답)',
+  source: '출처',
+  outlet: '매체',
+  pending: '검증 대기',
+  unscored: '참고·점수 미반영',
+};
+
 export const SOURCE_LABELS = {
   indistreet: '인디스트릿',
   indiego: '인디고',
@@ -12,12 +23,15 @@ export const SOURCE_LABELS = {
   gb_creation: '경북 음악창작소',
   muse_sejong: '세종 뮤즈세종',
   yoojaeha_finalist: '유재하 본선',
+  superrookie: '슈퍼루키챌린지',
   musicy: '음악취향Y',
   rhythmer: '리드머',
   poclanos: '포크라노스',
   izm: '이즘(IZM)',
   overtone: '오버톤',
   weiv: 'weiv',
+  hiphople: '힙합엘이',
+  trackzero: '멜론 트랙제로',
   k_indie_chart: 'K-인디차트',
   melon_indie: '멜론 인디',
   melon: '멜론 신보',
@@ -26,19 +40,41 @@ export const SOURCE_LABELS = {
   flo: '플로 신보',
   visla: 'VISLA',
   instagram: '인스타그램',
+  spotify: '스포티파이 협업',
+  youtube: '유튜브 무대 반응',
 };
 
 export const ROLE_META = {
-  discovery: { label: '발굴', fullLabel: '발굴 (점수 반영)', title: '발굴 신호: 후보 점수 계산에 반영됩니다.' },
-  context: { label: '맥락', fullLabel: '맥락 (약하게)', title: '맥락 매체: 기준선 이하 매거진으로 팀 상세 참고용이며 점수에는 약하게만 반영됩니다.' },
-  pending: { label: '대기', fullLabel: '검증 대기', title: '검증 대기: 수집 기록이 짧아 아직 점수에 반영하지 않습니다.' },
-  excluded: { label: '제외', fullLabel: '제외', title: '점수 제외: 과거 검증에서 변별력이 없어 점수에서 제외됩니다.' },
+  discovery: {
+    label: '발굴',
+    fullLabel: '발굴 (점수 반영)',
+    timelineLabel: '발굴',
+    title: '발굴 출처: 후보 점수 계산에 반영됩니다.',
+  },
+  context: {
+    label: '맥락',
+    fullLabel: '맥락 (약하게)',
+    timelineLabel: '맥락',
+    title: '맥락 매체: 팀 참고용이며 후보 점수에는 약하게만 반영됩니다.',
+  },
+  pending: {
+    label: '검증 대기',
+    fullLabel: '검증 대기',
+    timelineLabel: TERMS.unscored,
+    title: '참고·점수 미반영 (검증 대기): 수집 기간이 짧거나 검토 중이라 점수에 반영하지 않습니다.',
+  },
+  excluded: {
+    label: '제외',
+    fullLabel: '제외',
+    timelineLabel: TERMS.unscored,
+    title: '참고·점수 미반영 (점수 제외): 과거 검증에서 변별력이 없어 점수에서 제외됩니다.',
+  },
 };
 
 export const GRADE_META = {
-  S: { label: 'S', title: 'S등급 정답' },
-  A: { label: 'A', title: 'A등급 정답' },
-  B: { label: 'B', title: 'B등급 정답' },
+  S: { label: 'S', title: `S등급 ${TERMS.outcome}` },
+  A: { label: 'A', title: `A등급 ${TERMS.outcome}` },
+  B: { label: 'B', title: `B등급 ${TERMS.outcome}` },
 };
 
 export function isLoweredOutcomeResult(result, sourceRoles = null) {
@@ -50,12 +86,27 @@ export function isLoweredOutcomeResult(result, sourceRoles = null) {
   return list.includes(val);
 }
 
+/** source_roles.json에서 신호 행의 역할·사유 항목을 조회한다. */
+export function lookupSourceRoleMeta(sourceRoles, branch, source, program = '') {
+  const sigs = sourceRoles?.signals;
+  if (!sigs || typeof sigs !== 'object') return null;
+  const b = String(branch || '').trim();
+  const s = String(source || '').trim();
+  const p = String(program || '').trim();
+  if (b === '선정·지원' && p && sigs[`${b}:${p}`]) return sigs[`${b}:${p}`];
+  if (b && s && sigs[`${b}:${s}`]) return sigs[`${b}:${s}`];
+  if (b && p && sigs[`${b}:${p}`]) return sigs[`${b}:${p}`];
+  return null;
+}
+
 export function roleBadgeHtml(role, opts = {}) {
   const key = ROLE_META[role] ? role : 'pending';
   const m = ROLE_META[key];
-  const txt = opts.full ? m.fullLabel : m.label;
+  const isTimeline = opts.context === 'timeline';
+  const txt = isTimeline ? m.timelineLabel : (opts.full ? m.fullLabel : m.label);
+  const unscoredCls = isTimeline && (key === 'pending' || key === 'excluded') ? ' is-unscored' : '';
   const tip = opts.title ? `${m.fullLabel} — ${opts.title}` : m.title;
-  return `<span class="role-badge is-${key}" title="${escapeHtml(tip)}">${escapeHtml(txt)}</span>`;
+  return `<span class="role-badge is-${key}${unscoredCls}" title="${escapeHtml(tip)}">${escapeHtml(txt)}</span>`;
 }
 
 export function gradeBadgeHtml(grade, opts = {}) {

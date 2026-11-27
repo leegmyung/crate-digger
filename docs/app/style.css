@@ -4704,3 +4704,169 @@ body.graph-modal-open {
   }
 }
 
+/* ---------- First-user UX polish: Briefing explore strip & Team single-flow ---------- */
+
+.today-explore-strip {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.today-explore-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 13px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 0.14s ease, background 0.14s ease;
+}
+
+.today-explore-card:hover {
+  border-color: var(--line-strong);
+  background: var(--surface);
+  text-decoration: none;
+}
+
+.today-explore-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.today-explore-top strong {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.today-explore-count {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 1px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.today-explore-desc {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-muted);
+  line-height: 1.45;
+}
+
+.today-explore-cta {
+  margin-top: 2px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* Team Detail: compact inline profile facts inside 요약 */
+.team-profile-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 12px 0 0 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.team-profile-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.team-profile-chip dt {
+  color: var(--ink-subtle);
+  font-weight: 500;
+}
+
+.team-profile-chip dd {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Team Detail: 관계망 + folded related list */
+.team-graph-section {
+  margin-bottom: 16px;
+}
+
+.team-graph-section .team-graph-host {
+  margin-top: 0;
+}
+
+.team-related-fold {
+  margin: 10px 0 0 0;
+}
+
+.team-rel-sub-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 13.5px;
+}
+
+/* Team Detail: 12-month bars nested cleanly inside 활동 기록 */
+.team-activity-bars {
+  padding-bottom: 14px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.team-activity-bars-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-bottom: 10px;
+}
+
+/* Team Detail: legible '참고·점수 미반영' timeline badge */
+.timeline-list li.is-dimmed {
+  opacity: 0.72;
+}
+
+.timeline-list li.is-dimmed:hover {
+  opacity: 0.96;
+}
+
+.role-badge.is-unscored {
+  background: var(--surface);
+  border-color: var(--line-strong);
+  border-style: dashed;
+  color: var(--ink-muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .today-explore-strip {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .today-explore-card {
+    padding: 12px 14px;
+  }
+
+  .team-profile-strip {
+    gap: 6px 14px;
+  }
+}
+
+

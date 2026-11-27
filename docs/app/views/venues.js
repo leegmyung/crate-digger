@@ -58,7 +58,7 @@ export async function renderVenuesView(root) {
     title: '공연장·씬',
     lead: topMonthV
       ? `${escapeHtml(monthly.monthLabel)} 신인 후보가 가장 많이 선 공연장은 <strong>${escapeHtml(topMonthV.venue)}</strong>(후보 ${fmtInt(topMonthV.candidateCount)}팀 · 전체 ${fmtInt(topMonthV.totalTeams)}팀)이며, 예정된 후보 무대는 <strong>${fmtInt(candUpcomingEvents.length)}건</strong>입니다.`
-      : '이번 달 공연장 요약 데이터를 불러오는 중입니다.',
+      : `${escapeHtml(monthly.monthLabel)} 기준 조건에 맞는 신인 후보 출연 공연장이 아직 없습니다.`,
   });
 
   let venueLimit = 8;
