@@ -23,7 +23,7 @@ if command -v aside >/dev/null 2>&1; then
   "$PY" scripts/collect_artists.py || echo "⚠️ 아티스트 프로필(멜론) 수집 실패"
   "$PY" scripts/collect_hiphople.py --no-time-guard || echo "⚠️ 힙합엘이 국내 뉴스 수집 실패"
   "$PY" scripts/melon_names.py || echo "⚠️ 멜론 보강 명단 만들기 실패"
-  NAMES="$(ls -t data/raw/review/melon_names_*.txt 2>/dev/null | head -1)"   # 후보·수상 팀 프로필 보강 (하루 최대 100팀, 멜론 일시 차단 피하려고 나눠 받음)
+  NAMES="$(ls -t data/raw/review/melon_names_*.txt 2>/dev/null | head -1)"   # 후보·수상 팀 프로필 보강 (한도 없이 명단 전체)
   [ -n "$NAMES" ] && { "$PY" scripts/collect_artists.py --names-file "$NAMES" || echo "⚠️ 후보 팀 멜론 프로필 보강 실패"; }
 else
   echo "⚠️ aside 명령이 없어 공연·인스타·음원 플랫폼 수집을 건너뜀"

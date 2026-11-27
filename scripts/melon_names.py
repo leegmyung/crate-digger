@@ -2,7 +2,7 @@
 
     python3 scripts/melon_names.py
 
-매일 21시 실행에서 collect_artists.py --names-file 이 이 명단을 하루 최대 100팀씩 받는다.
+매일 21시 실행에서 collect_artists.py --names-file 이 이 명단을 하루 한도 없이 명단 전체를 받는다.
 프로필(첫 발매일·팬 수)이 없는 팀(profile_status='unknown')을 '중요한 순서'로 줄 세운다:
   ⓪ 최신 후보 점검(data/raw/review/candidate_audit_<날짜>.csv)의 (b) '기성인데 프로필이 없어 신인으로 잡힘' 팀 — 순위 순.
      멜론 번호는 찾았지만 프로필을 아직 못 받은 팀도 넣는다 (수집기가 명단 순서대로 프로필을 먼저 받음)
@@ -30,7 +30,7 @@ ATTEMPTS = ROOT / "data" / "raw" / "state" / "melon_match_attempts.json"   # {�
 PROFILE_SEEN = ROOT / "data" / "raw" / "state" / "artist_profile_seen.json"   # 이미 받은 멜론 프로필 번호 목록
 OUT_DIR = ROOT / "data" / "raw" / "review"
 SNAPSHOT_TOP = 300     # 점수 상위 몇 팀까지 볼지
-LIMIT = 300            # 명단 최대 줄 수 (하루 100팀씩 사흘치)
+LIMIT = 1000           # 명단 최대 줄 수 (하루 한도 없이 한 번에 받음)
 RETRY_DAYS = 30        # 못 찾았던 이름은 30일 뒤 다시 (멜론에 새로 등록됐을 수 있음)
 KEEP_FILES = 7         # 명단 파일은 최근 7개만
 

@@ -149,10 +149,14 @@ def _records(text: str) -> List[dict]:
     return list(csv.DictReader(io.StringIO(text)))
 
 
-def team_rows(rows: List[dict]) -> List[dict]:
-    """도우미 열(raw_genres 등)로 대표 장르를 정하고, 프로필 없는 팀은 unknown으로."""
+def team_rows(rows: List[dict], roles: dict | None = None) -> List[dict]:
+    """도우미 열(raw_genres 등)로 대표 장르를 정하고, 프로필 없는 팀은 unknown으로.
+    candidate_rules.excluded_teams(팀이 아닌 이름·사람이 확인한 기성 팀)는 팀 표에서 빼서 후보군·백테스트에 안 들어가게 한다."""
+    excluded = ((roles or {}).get("candidate_rules") or {}).get("excluded_teams") or {}
     out = []
     for r in rows:
+        if r.get("team_key") in excluded:
+            continue
         genres = _infer_genres(r.get("raw_genres"), r.get("press_sources"), r.get("sel_programs"))
         row = {k: r.get(k) or "" for k in TEAM_FIELDS}
         row["profile_status"] = row["profile_status"] or "unknown"
@@ -425,7 +429,7 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
     q = queries(use_xref)
     roles = load_roles()
     signals = [{**r, "role": signal_role(r, roles)} for r in _records(run(q["signals"]))]
-    teams = team_rows(_records(run(q["teams"])))
+    teams = team_rows(_records(run(q["teams"])), roles)
     outcomes = outcome_rows(_records(run(q["outcomes"])), roles)
     programs = program_rows(signals, outcomes)
     links = link_rows(_records(run(q["links"])) + (extra_refs() if extra_refs else []))

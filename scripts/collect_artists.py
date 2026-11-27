@@ -39,7 +39,7 @@ ARTIST_URL = "https://www.melon.com/artist/detail.htm?artistId={id}"
 ALBUM_URL = "https://www.melon.com/artist/album.htm?artistId={id}"
 BATCH = 10
 DEFAULT_LIMIT = 200
-MAX_PROFILES_PER_RUN = 100   # 프로필 페이지 읽기 상한 (팀당 2쪽, aside 끊김에도 1시간 안쪽)
+MAX_PROFILES_PER_RUN = 1000  # 프로필 페이지 읽기 상한 — 사용자 지시(2026-11-27)로 하루 100팀 한도를 없애고 밀린 것을 한 번에 받음
 REPL_TIMEOUT_SEC = 300
 PAGE_WAIT_MS = 2500
 

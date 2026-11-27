@@ -361,6 +361,7 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 | `signals` | 출처별 역할·근거 |
 | `outcomes` | 정답 등급·가중치 |
 | `outcome_rules` | 정답 정리 규칙 (후보는 한 등급 아래, 제외 팀과 이유) |
+| `candidate_rules` | 후보 제외 목록 (팀이 아닌 이름·확인된 기성 팀과 이유) |
 
 ### `docs/data/board.json`
 

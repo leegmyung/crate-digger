@@ -69,6 +69,12 @@ class TeamRowsTest(unittest.TestCase):
     def test_helper_columns_are_dropped(self):
         self.assertEqual(list(ex.team_rows(TEAMS)[0]), ex.TEAM_FIELDS)
 
+    def test_candidate_excluded_teams_are_dropped_from_team_table(self):
+        roles = {"candidate_rules": {"excluded_teams": {TEAMS[0]["team_key"]: "팀이 아님"}}}
+        keys = [r["team_key"] for r in ex.team_rows(TEAMS, roles)]
+        self.assertNotIn(TEAMS[0]["team_key"], keys)
+        self.assertIn(TEAMS[1]["team_key"], keys)
+
 
 class OutcomeRowsTest(unittest.TestCase):
     def test_label_and_boolean(self):
