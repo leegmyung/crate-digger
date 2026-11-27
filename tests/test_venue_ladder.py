@@ -44,6 +44,27 @@ class ValidateTest(unittest.TestCase):
         for name in ("A", "B", "C", "D"):
             self.assertIn(name, problems)
 
+    def test_tier_only_entry_needs_flag_and_source(self):
+        ok = _cfg({"작은클럽": {"capacity": None, "tier": "S", "tier_only": True, "source": "u", "confidence": "low"}})
+        self.assertEqual(vl.validate(ok), [])
+        self.assertEqual(vl.venue_tiers(ok), {"작은클럽": "S"})
+        no_src = _cfg({"작은클럽": {"capacity": None, "tier": "S", "tier_only": True}})
+        self.assertTrue(any("작은클럽" in p for p in vl.validate(no_src)))
+
+    def test_confidence_must_be_known_word(self):
+        bad = _cfg({"A": {"capacity": 120, "tier": "S", "source": "u", "confidence": "medium"}})
+        self.assertTrue(any("confidence" in p for p in vl.validate(bad)))
+
+    def test_strict_config_drops_low_confidence(self):
+        cfg = _cfg({"A": {"capacity": 120, "tier": "S", "source": "u", "confidence": "high"},
+                    "B": {"capacity": 300, "tier": "M", "source": "u", "confidence": "low"},
+                    "C": {"capacity": None, "tier": "S", "tier_only": True, "source": "u", "confidence": "low"},
+                    "축제": {"capacity": None, "tier": None, "not_venue": True}})
+        strict = vl.strict_config(cfg)
+        self.assertEqual(vl.venue_tiers(strict), {"A": "S"})
+        self.assertEqual(vl.not_venues(strict), {"축제"})
+        self.assertEqual(vl.venue_tiers(cfg), {"A": "S", "B": "M", "C": "S"})   # 원본은 그대로
+
     def test_ok_config_has_no_problems(self):
         self.assertEqual(vl.validate(_cfg({"A": {"capacity": 120, "tier": "S", "source": "u"},
                                            "B": {"capacity": None, "tier": None}})), [])

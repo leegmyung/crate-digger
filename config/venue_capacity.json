@@ -29,18 +29,33 @@
   "Club 빵": {
    "rank": 1,
    "events": 469,
-   "capacity": null,
-   "tier": null,
+   "capacity": 120,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "seats": null,
+   "standing": 120,
+   "source": "https://x.com/mayffoy/status/1895404688645988767",
+   "source_note": "개인 정리 게시물 '클럽 빵 스탠딩 120명' — 나무위키 홍대거리/공연장 문서도 '소형'으로 분류",
+   "confidence": "low",
+   "other_sources": [
+    "https://namu.wiki/w/%ED%99%8D%EB%8C%80%EA%B1%B0%EB%A6%AC/%EA%B3%B5%EC%97%B0%EC%9E%A5 (소형)"
+   ]
   },
   "Club FF": {
    "rank": 2,
    "events": 383,
-   "capacity": null,
-   "tier": null,
+   "capacity": 180,
+   "tier": "M",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "seats": 130,
+   "standing": 180,
+   "source": "https://www.newsis.com/view/NISX20250908_0003320457",
+   "source_note": "뉴시스 2025-09 기사 '스탠딩 수용 인원은 약 180명'",
+   "confidence": "mid",
+   "other_sources": [
+    "https://dokdokinfo.kr/theaterspecific/fc002175/ (객석 130석)",
+    "https://x.com/mayffoy/status/1895404688645988767 (스탠딩 150명, 개인 게시물)"
+   ]
   },
   "라이브홀": {
    "rank": 3,
@@ -51,7 +66,7 @@
    "standing": 400,
    "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
    "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 'KT&G 상상마당 홍대 라이브홀'",
-   "confidence": "medium",
+   "confidence": "mid",
    "note": "옛 표기 — 2026-11-27 연결표 지점 괄호 수정 뒤 'KT&G 상상마당 홍대 라이브홀'로 묶임. 랩 데이터가 다시 만들어지면 쓰이지 않음(그 뒤 지워도 됨). 원본 표기 '라이브홀 (KT&G 상상마당 홍대)' — 공연장 연결표가 끝 괄호(지점)를 떼어 대표 이름이 '라이브홀'이 됨. 상상마당 출처 원본은 모두 홍대(544건) 지점",
    "checked": "2026-11-27",
    "legacy_of": "KT&G 상상마당 홍대 라이브홀"
@@ -59,34 +74,62 @@
   "언플러그드 라운지": {
    "rank": 4,
    "events": 302,
-   "capacity": null,
-   "tier": null,
+   "capacity": 100,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "note": "등록 객석(좌석) 수라 스탠딩은 보통 1.5~2배 — 체급이 한 칸 낮게 잡혔을 수 있음",
+   "seats": 100,
+   "standing": null,
+   "source": "https://www.spacecloud.kr/space/79293",
+   "source_note": "스페이스클라우드 대관 정보 '100석 규모' (와우산로29길 15)",
+   "confidence": "mid",
+   "other_sources": [
+    "https://dokdokinfo.kr/theaterspecific/fc004003/ ('언플러그드 서교' 객석 50석)"
+   ]
   },
   "오방가르드": {
    "rank": 5,
    "events": 236,
-   "capacity": null,
-   "tier": null,
+   "capacity": 120,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "seats": 60,
+   "standing": 120,
+   "source": "https://namu.wiki/w/%EC%98%A4%EB%B0%A9%EA%B0%80%EB%A5%B4%EB%93%9C",
+   "source_note": "나무위키 '오방가르드'(부산 대연동) 스탠딩 120명·좌석 60명. 기사도 '좌석 예순 몇 석, 스탠딩까지 백 명 남짓'",
+   "confidence": "mid",
+   "other_sources": [
+    "https://www.khan.co.kr/article/202610292043005/"
+   ]
   },
   "카페 언플러그드 홍대점": {
    "rank": 6,
    "events": 209,
-   "capacity": null,
-   "tier": null,
+   "capacity": 60,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "note": "등록 객석(좌석) 수라 스탠딩은 보통 1.5~2배 — 체급이 한 칸 낮게 잡혔을 수 있음",
+   "seats": 60,
+   "standing": null,
+   "source": "https://dokdokinfo.kr/theaterspecific/fc002183/",
+   "source_note": "똑똑정보찾기 공연시설 정보(KOPIS 공연예술통합전산망 등록 객석 수) — 객석 60석. 인디스트릿 공연 공지에도 '최대 60석'",
+   "confidence": "mid",
+   "other_sources": [
+    "https://indistreet.com/gigs/2026-05-10-%EC%A3%BC%EB%AA%A9-%EC%96%B8%ED%94%8C%EB%9F%AC%EA%B7%B8%EB%93%9C-%ED%99%8D%EB%8C%80-%EC%8B%A0%EC%A7%84-%EB%AE%A4%EC%A7%80%EC%85%98-%EA%B3%B5%EC%97%B0-m815eddpsg6jixmz7uc3stc1"
+   ]
   },
   "Club Victim": {
    "rank": 7,
    "events": 192,
    "capacity": null,
-   "tier": null,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "tier_only": true,
+   "seats": null,
+   "standing": null,
+   "source": "https://namu.wiki/w/%ED%99%8D%EB%8C%80%EA%B1%B0%EB%A6%AC/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 홍대거리/공연장 '소형' 분류 (상수역 부근, 와우산로 53 지하) — 숫자 없음",
+   "confidence": "low"
   },
   "무신사개러지": {
    "rank": 8,
@@ -117,74 +160,124 @@
   "A.O.R": {
    "rank": 10,
    "events": 97,
-   "capacity": null,
-   "tier": null,
+   "capacity": 70,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "note": "등록 객석(좌석) 수라 스탠딩은 보통 1.5~2배 — 체급이 한 칸 낮게 잡혔을 수 있음",
+   "seats": 70,
+   "standing": null,
+   "source": "https://dokdokinfo.kr/theaterspecific/fc002303/",
+   "source_note": "똑똑정보찾기 공연시설 정보(KOPIS 공연예술통합전산망 등록 객석 수) — '클럽 A.O.R(All Of Rock)' 객석 70석 (나무위키는 '중형'으로 분류)",
+   "confidence": "mid"
   },
   "Bender": {
    "rank": 11,
    "events": 90,
    "capacity": null,
-   "tier": null,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "tier_only": true,
+   "seats": null,
+   "standing": null,
+   "source": "https://namu.wiki/w/%ED%99%8D%EB%8C%80%EA%B1%B0%EB%A6%AC/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 홍대거리/공연장 '소형' 분류 (상수역 부근) — 숫자 없음",
+   "confidence": "low"
   },
   "언드": {
    "rank": 12,
    "events": 89,
    "capacity": null,
-   "tier": null,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "tier_only": true,
+   "seats": null,
+   "standing": null,
+   "source": "https://www.instagram.com/und_space/",
+   "source_note": "거제 옥포의 '사운드 라운지펍'(지하) 소개 — 소형 라운지 공간으로 봄, 숫자 없음 (웹 검색 결과 기준)",
+   "confidence": "low"
   },
   "스트레인지 프룻": {
    "rank": 13,
    "events": 84,
-   "capacity": null,
-   "tier": null,
+   "capacity": 80,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "seats": null,
+   "standing": 80,
+   "source": "https://x.com/mayffoy/status/1895404688645988767",
+   "source_note": "개인 정리 게시물 '스트레인지 프룻 스탠딩 80명'",
+   "confidence": "low"
   },
   "생기스튜디오": {
    "rank": 14,
    "events": 73,
-   "capacity": null,
-   "tier": null,
+   "capacity": 70,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "note": "등록 객석(좌석) 수라 스탠딩은 보통 1.5~2배 — 체급이 한 칸 낮게 잡혔을 수 있음",
+   "seats": 70,
+   "standing": null,
+   "source": "https://dokdokinfo.kr/theaterspecific/fc002028/",
+   "source_note": "똑똑정보찾기 공연시설 정보(KOPIS 공연예술통합전산망 등록 객석 수) — '생기 스튜디오' 객석 70석",
+   "confidence": "mid"
   },
   "채널1969": {
    "rank": 15,
    "events": 73,
-   "capacity": null,
-   "tier": null,
+   "capacity": 150,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "note": "등록 객석(좌석) 수라 스탠딩은 보통 1.5~2배 — 체급이 한 칸 낮게 잡혔을 수 있음",
+   "seats": 150,
+   "standing": null,
+   "source": "https://dokdokinfo.kr/theaterspecific/fc002038/",
+   "source_note": "똑똑정보찾기 공연시설 정보(KOPIS 공연예술통합전산망 등록 객석 수) — 객석 150석. 2026-09 기사들도 '150석 규모'",
+   "confidence": "high",
+   "other_sources": [
+    "https://www.handmk.com/news/articleView.html?idxno=43325"
+   ]
   },
   "유기체": {
    "rank": 16,
    "events": 66,
    "capacity": null,
-   "tier": null,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "tier_only": true,
+   "seats": null,
+   "standing": null,
+   "source": "https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=1600&key=20240111.22010002036",
+   "source_note": "부산 서면 전포동 뮤직바, 소규모 무대 — 숫자 없음",
+   "confidence": "low"
   },
   "스페이스 한강": {
    "rank": 17,
    "events": 64,
-   "capacity": null,
-   "tier": null,
+   "capacity": 50,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "note": "등록 객석(좌석) 수라 스탠딩은 보통 1.5~2배 — 체급이 한 칸 낮게 잡혔을 수 있음",
+   "seats": 50,
+   "standing": null,
+   "source": "https://dokdokinfo.kr/theaterspecific/fc003254/",
+   "source_note": "똑똑정보찾기 공연시설 정보(KOPIS 공연예술통합전산망 등록 객석 수) — '스페이스한강' 객석 50석",
+   "confidence": "mid"
   },
   "우주정거장": {
    "rank": 18,
    "events": 63,
-   "capacity": null,
-   "tier": null,
+   "capacity": 70,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "note": "등록 객석(좌석) 수라 스탠딩은 보통 1.5~2배 — 체급이 한 칸 낮게 잡혔을 수 있음",
+   "seats": 70,
+   "standing": null,
+   "source": "https://hapzoo.live/blog/seoul-live-venue-rental-guide",
+   "source_note": "대관 안내 블로그 '최대 좌석 70석' (공간 대여 사이트는 최대 50명, 나무위키는 '중형' — 엇갈림)",
+   "confidence": "low",
+   "other_sources": [
+    "https://hourplace.co.kr/place/32970 (최대 50명)"
+   ]
   },
   "Cafe PPnF": {
    "rank": 19,
@@ -215,7 +308,7 @@
    "standing": 500,
    "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
    "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 'KT&G 상상마당 부산 라이브홀'",
-   "confidence": "medium",
+   "confidence": "mid",
    "note": "옛 표기 — 2026-11-27 연결표 지점 괄호 수정 뒤 'KT&G 상상마당 부산 3층 라이브홀'로 묶임. 랩 데이터가 다시 만들어지면 쓰이지 않음(그 뒤 지워도 됨). 원본 표기 '3층 라이브홀 (KT&G 상상마당 부산)' — 공연장 연결표가 끝 괄호(지점)를 떼어 대표 이름이 '3층 라이브홀'이 됨. 상상마당 출처 원본은 모두 부산 지점",
    "checked": "2026-11-27",
    "legacy_of": "KT&G 상상마당 부산 3층 라이브홀"
@@ -231,18 +324,29 @@
   "살롱문보우": {
    "rank": 23,
    "events": 42,
-   "capacity": null,
-   "tier": null,
+   "capacity": 120,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "seats": 80,
+   "standing": 120,
+   "source": "https://dokdokinfo.kr/theaterspecific/fc002040/",
+   "source_note": "똑똑정보찾기 공연시설 정보(KOPIS 공연예술통합전산망 등록 객석 수) — '살롱 문보우' 객석 80석. 스탠딩 120명 이하는 쉐어잇 대관 정보(코로나 시기 문구가 섞인 오래된 글)",
+   "confidence": "mid",
+   "other_sources": [
+    "https://shareit.kr/venue/4547"
+   ]
   },
   "아지토 라이브 홀": {
    "rank": 24,
    "events": 37,
-   "capacity": null,
-   "tier": null,
+   "capacity": 150,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "seats": null,
+   "standing": 150,
+   "source": "https://www.livehall.azito.kr/",
+   "source_note": "공식 사이트 '스탠딩 150명까지 수용 가능' (신촌·이대, 대관 글도 같음)",
+   "confidence": "high"
   },
   "벨르": {
    "rank": 25,
@@ -271,10 +375,15 @@
   "Club Sharp": {
    "rank": 28,
    "events": 33,
-   "capacity": null,
-   "tier": null,
+   "capacity": 100,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "note": "등록 객석(좌석) 수라 스탠딩은 보통 1.5~2배 — 체급이 한 칸 낮게 잡혔을 수 있음",
+   "seats": 100,
+   "standing": null,
+   "source": "https://dokdokinfo.kr/theaterspecific/fc002721/",
+   "source_note": "똑똑정보찾기 공연시설 정보(KOPIS 공연예술통합전산망 등록 객석 수) — '클럽 샤프'(망원 동교로 63) 객석 100석",
+   "confidence": "mid"
   },
   "대구 제임스레코드": {
    "rank": 29,
@@ -317,7 +426,7 @@
    "standing": 500,
    "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
    "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 'KT&G 상상마당 부산 라이브홀'",
-   "confidence": "medium",
+   "confidence": "mid",
    "note": "옛 표기 — 2026-11-27 연결표 지점 괄호 수정 뒤 'KT&G 상상마당 부산 3층 라이브홀'로 묶임. 랩 데이터가 다시 만들어지면 쓰이지 않음(그 뒤 지워도 됨). 지점 이름만 적힌 표기 — 대부분 라이브홀 공연으로 보고 라이브홀 값을 씀(루프탑 등 다른 공간 공연이 섞일 수 있음)",
    "checked": "2026-11-27",
    "legacy_of": "KT&G 상상마당 부산 3층 라이브홀"
@@ -325,10 +434,14 @@
   "베이비돌": {
    "rank": 33,
    "events": 29,
-   "capacity": null,
-   "tier": null,
+   "capacity": 200,
+   "tier": "M",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "seats": null,
+   "standing": 200,
+   "source": "https://www.mule.co.kr/bbs/info/club?idx=62745025",
+   "source_note": "뮬 대관 게시글 '스탠딩 200명 이상' (신촌, 여러 해 전 글일 수 있음)",
+   "confidence": "low"
   },
   "사운드홀": {
    "rank": 34,
@@ -339,7 +452,7 @@
    "standing": 450,
    "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
    "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 'KT&G 상상마당 춘천 사운드홀'",
-   "confidence": "medium",
+   "confidence": "mid",
    "note": "옛 표기 — 2026-11-27 연결표 지점 괄호 수정 뒤 'KT&G 상상마당 춘천 사운드홀'로 묶임. 랩 데이터가 다시 만들어지면 쓰이지 않음(그 뒤 지워도 됨). 원본 표기 '사운드홀 (KT&G 상상마당 춘천)' — 공연장 연결표가 끝 괄호(지점)를 떼어 대표 이름이 '사운드홀'이 됨. 상상마당 출처 원본은 모두 춘천 지점",
    "checked": "2026-11-27",
    "legacy_of": "KT&G 상상마당 춘천 사운드홀"
@@ -348,9 +461,14 @@
    "rank": 35,
    "events": 27,
    "capacity": null,
-   "tier": null,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "tier_only": true,
+   "seats": null,
+   "standing": null,
+   "source": "https://www.bookshopmap.com/map/incheon_motel_and_ruby_salon",
+   "source_note": "인천 신포동 음반점 겸 소규모 공연장 — 숫자 없음",
+   "confidence": "low"
   },
   "공상온도": {
    "rank": 36,
@@ -383,10 +501,17 @@
   "클럽 프리버드": {
    "rank": 39,
    "events": 22,
-   "capacity": null,
-   "tier": null,
+   "capacity": 200,
+   "tier": "M",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "seats": 150,
+   "standing": 200,
+   "source": "https://namu.wiki/w/%ED%99%8D%EB%8C%80%EA%B1%B0%EB%A6%AC/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 홍대거리/공연장 '프리버드 리부트(구 컨벤트펍) 정원 스탠딩 200석 좌석 150석' — 지금 '클럽 프리버드'(와우산로17길 19-22)와 같은 곳인지 확실하지 않음. 개인 게시물은 스탠딩 150명",
+   "confidence": "low",
+   "other_sources": [
+    "https://x.com/mayffoy/status/1895404688645988767 (스탠딩 150명)"
+   ]
   },
   "OL'55": {
    "rank": 40,
@@ -413,7 +538,7 @@
    "standing": 200,
    "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
    "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 '대구 클럽 헤비'",
-   "confidence": "medium",
+   "confidence": "mid",
    "note": "표에 좌석 수 없음, 대구 남구",
    "checked": "2026-11-27"
   },
@@ -421,9 +546,14 @@
    "rank": 43,
    "events": 20,
    "capacity": null,
-   "tier": null,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "tier_only": true,
+   "seats": null,
+   "standing": null,
+   "source": "https://namu.wiki/w/%ED%99%8D%EB%8C%80%EA%B1%B0%EB%A6%AC/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 홍대거리/공연장 '소형' 분류 (신촌역 부근) — 숫자 없음",
+   "confidence": "low"
   },
   "프리즘홀": {
    "rank": 44,
@@ -486,7 +616,7 @@
    "standing": null,
    "source": "https://visitgangnam.net/en/places/ktg-sangsang-madang-daechi-art-hall",
    "source_note": "방문강남 안내 422석 (강남구 소식지도 같은 숫자)",
-   "confidence": "medium",
+   "confidence": "mid",
    "note": "옛 표기 — 2026-11-27 연결표 지점 괄호 수정 뒤 'KT&G 상상마당 대치 아트홀'로 묶임. 랩 데이터가 다시 만들어지면 쓰이지 않음(그 뒤 지워도 됨). 원본 표기 '아트홀 (KT&G 상상마당 대치)' — 공연장 연결표가 끝 괄호(지점)를 떼어 대표 이름이 '아트홀'이 됨. 상상마당 출처 원본은 모두 대치 지점",
    "checked": "2026-11-27",
    "legacy_of": "KT&G 상상마당 대치 아트홀"
@@ -567,10 +697,15 @@
   "무대륙": {
    "rank": 58,
    "events": 6,
-   "capacity": null,
-   "tier": null,
+   "capacity": 150,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "note": "등록 객석(좌석) 수라 스탠딩은 보통 1.5~2배 — 체급이 한 칸 낮게 잡혔을 수 있음",
+   "seats": 150,
+   "standing": null,
+   "source": "https://dokdokinfo.kr/theaterspecific/fc002193/",
+   "source_note": "똑똑정보찾기 공연시설 정보(KOPIS 공연예술통합전산망 등록 객석 수) — 객석 150석 (합정동)",
+   "confidence": "mid"
   },
   "상상마당 대치 아트홀": {
    "rank": 59,
@@ -615,7 +750,7 @@
    "standing": 200,
    "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
    "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 '팡타개라지'",
-   "confidence": "medium",
+   "confidence": "mid",
    "note": "표가 깨져 행 맞춤이 불확실(링크 제목이 건물 이름)",
    "checked": "2026-11-27"
   },
@@ -746,10 +881,15 @@
   "옥타바리움 라이브홀": {
    "rank": 76,
    "events": 4,
-   "capacity": null,
-   "tier": null,
+   "capacity": 70,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "note": "등록 객석(좌석) 수라 스탠딩은 보통 1.5~2배 — 체급이 한 칸 낮게 잡혔을 수 있음",
+   "seats": 70,
+   "standing": null,
+   "source": "https://dokdokinfo.kr/theaterspecific/fc003892/",
+   "source_note": "똑똑정보찾기 공연시설 정보(KOPIS 공연예술통합전산망 등록 객석 수) — 객석 70석",
+   "confidence": "mid"
   },
   "신촌 SPIN & GRIND": {
    "rank": 77,
@@ -787,9 +927,14 @@
    "rank": 81,
    "events": 4,
    "capacity": null,
-   "tier": null,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "tier_only": true,
+   "seats": null,
+   "standing": null,
+   "source": "https://namu.wiki/w/%ED%99%8D%EB%8C%80%EA%B1%B0%EB%A6%AC/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 홍대거리/공연장 '소형' 분류 (상수역 부근) — 숫자 없음",
+   "confidence": "low"
   },
   "KT&G 상상마당 춘천": {
    "rank": 82,
@@ -824,7 +969,7 @@
    "standing": 340,
    "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
    "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 표 이름 '라이브홀 락왕'",
-   "confidence": "medium",
+   "confidence": "mid",
    "note": "표 이름은 '라이브홀 락왕'(대구 중구) — 같은 곳으로 봄",
    "checked": "2026-11-27"
   },
@@ -871,10 +1016,15 @@
   "라이브앤라우드": {
    "rank": 91,
    "events": 3,
-   "capacity": null,
-   "tier": null,
+   "capacity": 70,
+   "tier": "S",
    "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "note": "등록 객석(좌석) 수라 스탠딩은 보통 1.5~2배 — 체급이 한 칸 낮게 잡혔을 수 있음",
+   "seats": 70,
+   "standing": null,
+   "source": "https://dokdokinfo.kr/theaterspecific/fc003096/",
+   "source_note": "똑똑정보찾기 공연시설 정보(KOPIS 공연예술통합전산망 등록 객석 수) — 객석 70석",
+   "confidence": "mid"
   },
   "이들스": {
    "rank": 92,
@@ -972,6 +1122,19 @@
    "confidence": "high",
    "checked": "2026-11-27",
    "note": "2026-11-27 연결표 지점 괄호 수정 뒤의 대표 이름 (옛 표기 아트홀·상상마당 대치 아트홀)"
+  },
+  "드림홀": {
+   "rank": null,
+   "events": null,
+   "capacity": 150,
+   "tier": "S",
+   "seats": 150,
+   "standing": null,
+   "source": "https://dokdokinfo.kr/theaterspecific/fc001945/",
+   "source_note": "똑똑정보찾기 공연시설 정보(KOPIS 공연예술통합전산망 등록 객석 수) — 마포 양화로 64 '드림홀' 객석 150석. 같은 이름 공연장이 여럿이라(부산MBC 드림홀 등) 우리 데이터의 '드림홀'이 이곳인지 확실하지 않음",
+   "confidence": "low",
+   "checked": "2026-11-27",
+   "note": "등록 객석(좌석) 수라 스탠딩은 보통 1.5~2배 — 체급이 한 칸 낮게 잡혔을 수 있음"
   }
  }
 }

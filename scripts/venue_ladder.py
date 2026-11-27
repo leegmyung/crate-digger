@@ -73,9 +73,19 @@ def tier_order(cfg: dict) -> List[str]:
     return [t["tier"] for t in cfg["tiers"]]
 
 
+CONFIDENCE = {"high", "mid", "low"}
+
+
 def venue_tiers(cfg: dict) -> Dict[str, str]:
-    """수용 인원을 아는 공연장 → 체급."""
-    return {v: d["tier"] for v, d in cfg["venues"].items() if d.get("capacity") and d.get("tier")}
+    """체급을 아는 공연장 → 체급 (수용 인원이 있거나, 숫자 없이 체급만 확실한 tier_only)."""
+    return {v: d["tier"] for v, d in cfg["venues"].items()
+            if d.get("tier") and (d.get("capacity") or d.get("tier_only"))}
+
+
+def strict_config(cfg: dict) -> dict:
+    """확실도 low 인 체급을 뺀 설정(민감도 확인용). 공연장 아님 표시는 남긴다. 원본은 바꾸지 않는다."""
+    keep = {v: d for v, d in cfg["venues"].items() if d.get("not_venue") or d.get("confidence") in ("high", "mid")}
+    return {**cfg, "venues": keep}
 
 
 def not_venues(cfg: dict) -> Set[str]:
@@ -86,11 +96,16 @@ def not_venues(cfg: dict) -> Set[str]:
 def validate(cfg: dict) -> List[str]:
     """설정 점검: 수용 인원이 양수인지, 적힌 체급이 기준과 맞는지, 수용 인원이 있으면 근거 링크가 있는지."""
     problems = []
+    names = set(tier_order(cfg))
     for v, d in cfg["venues"].items():
         cap, tier = d.get("capacity"), d.get("tier")
+        if d.get("confidence") is not None and d["confidence"] not in CONFIDENCE:
+            problems.append(f"{v}: confidence 는 high/mid/low 중 하나 ({d['confidence']})")
         if cap is None:
-            if tier is not None:
-                problems.append(f"{v}: 수용 인원 없이 체급 {tier}")
+            if tier is not None and not d.get("tier_only"):
+                problems.append(f"{v}: 수용 인원 없이 체급 {tier} (숫자 없이 체급만이면 tier_only: true)")
+            elif d.get("tier_only") and (tier not in names or not d.get("source")):
+                problems.append(f"{v}: tier_only 는 알맞은 체급과 근거 링크(source)가 있어야 함")
             continue
         if not isinstance(cap, (int, float)) or cap <= 0:
             problems.append(f"{v}: 수용 인원이 양수가 아님 ({cap})")
@@ -302,10 +317,15 @@ def coverage(gigs: Sequence[Gig], cfg: dict) -> dict:
     vt, skip = venue_tiers(cfg), not_venues(cfg)
     nights = {(d, v) for _, d, v in gigs if v not in skip}
     known_n = {(d, v) for d, v in nights if v in vt}
+    entries = {v: cfg["venues"][v] for v in vt}
     return {"nights": len(nights), "known_nights": len(known_n),
             "teams": len({t for t, _, v in gigs if v not in skip}),
             "teams_known": len({t for t, _, v in gigs if v in vt}),
-            "by_tier": Counter(vt[v] for _, v in known_n), "venues_known": len(vt)}
+            "by_tier": Counter(vt[v] for _, v in known_n), "venues_known": len(vt),
+            "venues_numeric": sum(1 for d in entries.values() if d.get("capacity")),
+            "venues_tier_only": sum(1 for d in entries.values() if d.get("tier_only")),
+            "venues_seats_only": sum(1 for d in entries.values() if d.get("capacity") and not d.get("standing")),
+            "by_conf": Counter(d.get("confidence") or "?" for d in entries.values())}
 
 
 # ---------- 문서 ----------
@@ -338,18 +358,20 @@ def _tier_section(cfg: dict, cov: dict) -> List[str]:
         "401~1,000명은 롤링홀·무신사 개러지·원더로크홀처럼 '단독 공연이 의미 있는' 중형 라이브홀, 1,001명 이상은 대형입니다. "
         "상상마당 홍대(스탠딩 400)와 롤링홀(450)이 400 경계에 걸려 있어, 경계를 옮기면 결과가 달라질 수 있습니다"
         "(설정 파일의 `tiers`만 고치면 됨).",
-        "- **근거:** 대부분 나무위키 '공연장' 문서의 1,000석 미만 표(2026-11-25 편집본), 일부 방문강남·헤이팝. "
-        "공연장마다 링크·확인일·확실도(high/medium)를 적었습니다.",
-        f"- **수용 인원을 확인한 공연장 {cov['venues_known']}곳** (공연 횟수 상위 100곳 기준). 작은 클럽(Club 빵·Club FF·"
-        "언플러그드·오방가르드·Club Victim 등)은 공식 사이트·대관 안내·위키·기사에 숫자가 없어 비웠습니다.",
+        "- **근거:** 나무위키 '공연장'·'홍대거리/공연장' 문서, KOPIS(공연예술통합전산망) 등록 객석 수(똑똑정보찾기), "
+        "공연장 공식 사이트, 기사, 대관 정보(스페이스클라우드·쉐어잇·뮬), 개인 정리 게시물. 공연장마다 링크·확인일·확실도를 적었습니다.",
+        f"- **체급을 아는 공연장 {cov['venues_known']}곳** (숫자 {cov['venues_numeric']}곳 + 숫자 없이 '소형'만 확실한 곳 "
+        f"{cov['venues_tier_only']}곳) · 확실도 " + " · ".join(f"{k} {cov['by_conf'].get(k, 0)}" for k in ("high", "mid", "low"))
+        + ". 확실도 low는 개인 게시물·오래된 대관 글·'소형' 분류만 있는 곳입니다.",
+        f"- ⚠️ **좌석 수만 아는 곳 {cov['venues_seats_only']}곳**은 KOPIS 등록 객석 수라 스탠딩 수용 인원보다 작습니다(롤링홀 객석 200 vs 스탠딩 450, "
+        "웨스트브릿지 160 vs 300). 이런 곳은 체급이 한 칸 낮게(M → S) 잡혔을 수 있습니다.",
         f"- **덮는 비율:** 발굴 출처 공연 날짜(같은 날·같은 공연장 = 1건) {cov['nights']:,}건 중 체급 아는 공연장 "
         f"{cov['known_nights']:,}건({_pct(cov['known_nights'], cov['nights'])}), 공연한 팀 {cov['teams']:,}팀 중 체급 아는 공연장에 "
         f"선 팀 {cov['teams_known']:,}팀({_pct(cov['teams_known'], cov['teams'])}). 체급별 공연 날짜: "
         + " · ".join(f"{t['tier']} {cov['by_tier'].get(t['tier'], 0):,}" for t in tiers) + ".",
-        "- ⚠️ **공연장 연결표 문제 발견:** 상상마당 공연 원본은 '라이브홀 (KT&G 상상마당 홍대)'처럼 지점이 괄호에 있는데, "
-        "연결표(`scripts/venue_xref.py`)가 끝 괄호를 떼어 대표 이름이 '라이브홀'·'3층 라이브홀'·'사운드홀'·'아트홀'이 됩니다. "
-        "그래서 '라이브홀'(= 상상마당 홍대, 공연 317일)과 'KT&G 상상마당 홍대 라이브홀'(50일)이 다른 공연장으로 갈라져 있습니다"
-        "('같은 무대' 점수·씬 지도에도 영향). 설정 파일에는 원본을 확인해 같은 수용 인원을 넣었고, 연결표에 묶는 줄을 넣자고 제안합니다.",
+        "- **공연장 연결표 문제(고침, 2026-11-27):** 상상마당 공연 원본 '라이브홀 (KT&G 상상마당 홍대)'의 괄호 속 지점이 떨어져 "
+        "'라이브홀'·'3층 라이브홀'·'사운드홀'·'아트홀'로 갈라지던 문제를 고쳤습니다(`venue_xref.canonical_venue_text`, 적재 때 같은 변환). "
+        "랩 데이터가 다시 만들어지기 전까지는 옛 이름이 보일 수 있어, 설정 파일에 옛 이름(`legacy_of`)도 같은 수용 인원으로 남겨 두었습니다.",
         "- 수용 인원은 **지금** 값입니다. 공연장이 이전·확장했으면 과거 공연의 체급이 다를 수 있습니다.", ""]
     return lines
 
@@ -376,7 +398,23 @@ def _ladder_section(cfg: dict, ladders_now: Dict[str, Ladder], end: date) -> Lis
     return lines
 
 
-def _eval_section(ev: dict) -> List[str]:
+def _reading(singles: dict, cov: dict) -> str:
+    """교차 검증 숫자에 맞춰 '읽는 법' 문장을 만든다 (덮는 비율·특징별 변화에 따라 문장이 달라짐)."""
+    rise_nz = singles["tier_rise"]["desc"]["nonzero"]
+    share = cov["known_nights"] / cov["nights"] if cov["nights"] else 0.0
+    why = ("대부분 체급 모르는 작은 클럽에서 공연해" if share < 0.5
+           else f"공연 날짜의 {share:.0%}는 체급을 알지만 기준일 전 3년 안에 체급이 오른 후보 자체가 적어")
+    mt = singles["max_tier"]
+    gain = mt["cv_mean"] - mt["base_mean"]
+    effect = ("더하면 오히려 내려갑니다" if gain < -0.001 else
+              "더해도 그대로입니다(기준일마다 가중치 0을 고름)" if gain <= 0.001 else f"더하면 {gain:+.3f} 오릅니다")
+    return (f"**읽는 법:** 체급 상승이 잡힌 후보는 {rise_nz:.1%}뿐입니다 — {why} 재기 어렵습니다. "
+            f"'최고 체급'은 정답 팀 평균이 {mt['desc']['hit_mean']:.2f}로 아닌 팀({mt['desc']['non_mean']:.2f})보다 높지만 {effect}. "
+            "큰 공연장 기록 대부분이 상상마당 공연(이미 점수에 들어간 발굴 출처)이고, 큰 무대에 선다는 정보가 이미 공연장 다양성·"
+            "수상 팀과 같은 무대 같은 v2 특징에 들어 있기 때문으로 보입니다.")
+
+
+def _eval_section(ev: dict, cov: dict) -> List[str]:
     import feature_lab as fl
     import score_tune as st
 
@@ -402,11 +440,13 @@ def _eval_section(ev: dict) -> List[str]:
     lines += ["", "1차 격자(미리 정한 " + ", ".join(f"{g:g}" for g in fl.GRID) + "점)로 잰 차이: " + " · ".join(
         f"{NAMES[f]} {r['coarse']['cv_mean'] - r['coarse']['base_mean']:+.3f}" for f, r in singles.items()) + ".", "",
               "(평균 정답 / 아닌 팀은 표준화 전 값, 기준일 6개 합침 — 라벨을 보는 참고용이고 가중치 고르기에는 안 썼습니다.)", ""]
-    rise_nz = singles["tier_rise"]["desc"]["nonzero"]
-    mt = singles["max_tier"]["desc"]
-    lines += [f"**읽는 법:** 체급 상승이 잡힌 후보는 {rise_nz:.1%}뿐이라(대부분 체급 모르는 작은 클럽에서 공연) 이 특징은 거의 재지 못한 것과 같습니다. "
-              f"'최고 체급'은 정답 팀 평균이 {mt['hit_mean']:.2f}로 아닌 팀({mt['non_mean']:.2f})보다 높지만, 더하면 오히려 내려갑니다 — "
-              "큰 공연장 기록 대부분이 상상마당 공연(이미 점수에 들어간 발굴 출처)이라 새 정보가 없다는 뜻입니다.", ""]
+    lines += [_reading(singles, cov), ""]
+    if ev.get("strict"):
+        s, sc = ev["strict"], ev["strict_cov"]
+        lines += [f"**민감도 — 확실도 low 를 빼고 다시 (체급 아는 공연장 {sc['venues_known']}곳, 공연 날짜 "
+                  f"{_pct(sc['known_nights'], sc['nights'])}):** " + " · ".join(
+                      f"{NAMES[f]} {r['cv_mean'] - r['base_mean']:+.3f}(상위 50 {r['cv_hits']['hits50']}, {verdict(r)})"
+                      for f, r in s["singles"].items()) + ". 결론이 확실도 낮은 추정에 기대지 않는지 보려는 확인입니다.", ""]
     adopt = [f for f, r in singles.items() if verdict(r) == "채택 후보"]
     if adopt:
         lines.append("**요청(코디네이터):** " + ", ".join(NAMES[f] for f in adopt) + " — 채택 기준을 넘었습니다. "
@@ -414,7 +454,7 @@ def _eval_section(ev: dict) -> List[str]:
                      "체급 표를 랩 데이터로 내보낸 뒤 `score_tune.GRID`에 넣어 다시 고르는 것을 요청합니다(앱 기본값은 사용자 확인 뒤).")
     else:
         lines.append("**결론:** 채택 기준을 넘는 특징이 없습니다. 체급 상승은 **점수에 넣지 않고 화면 정보로만** 씁니다"
-                     "(팀 상세의 '공연장 사다리', 공연장 상세의 '전후 흐름'). 작은 클럽 수용 인원이 채워지거나 공연 기록이 1년 더 쌓이면 다시 잽니다.")
+                     "(팀 상세의 '공연장 사다리', 공연장 상세의 '전후 흐름'). 좌석만 아는 곳의 스탠딩 수가 채워지거나 공연 기록이 1년 더 쌓이면 다시 잽니다.")
     return lines + [""]
 
 
@@ -476,7 +516,7 @@ def render(cfg: dict, cov: dict, ladders_now: Dict[str, Ladder], journey: Dict[s
             "([경쟁 서비스 조사 D2](research_2026-11-27_competitor_logic.md)). 공연장 크기(수용 인원)로 **체급**을 나누고, "
             "팀이 작은 곳에서 큰 곳으로 올라가는지 봅니다.", ""]
     body = _tier_section(cfg, cov) + _ladder_section(cfg, ladders_now, end)
-    body += _eval_section(ev) if ev else ["## 3. 교차 검증", "", "(`--no-eval` 로 건너뜀)", ""]
+    body += _eval_section(ev, cov) if ev else ["## 3. 교차 검증", "", "(`--no-eval` 로 건너뜀)", ""]
     return "\n".join(head + body + _journey_section(journey, cfg) + LIMITS) + "\n"
 
 
@@ -509,7 +549,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                                order=tier_order(cfg), skip_venues=skip)
     journey = venue_journey(gigs, skip_venues=skip)
     if not args.json_only:
-        ev = None if args.no_eval else evaluate(args.data_dir, cfg)
+        ev = None
+        if not args.no_eval:
+            ev = evaluate(args.data_dir, cfg)
+            strict = strict_config(cfg)
+            ev["strict"], ev["strict_cov"] = evaluate(args.data_dir, strict), coverage(gigs, strict)
         args.out.write_text(render(cfg, coverage(gigs, cfg), ladders_now, journey, ev, end), encoding="utf-8")
         print(f"✅ → {args.out}")
     if args.json:
