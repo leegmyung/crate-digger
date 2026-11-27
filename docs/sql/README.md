@@ -1,6 +1,6 @@
 # SQL 분석·검증 결과 (PostgreSQL)
 
-_자동 생성: `python3 scripts/run_pg_queries.py` · 2026-11-27 10:35 기준 데이터_
+_자동 생성: `python3 scripts/run_pg_queries.py` · 2026-11-27 12:36 기준 데이터_
 
 모든 쿼리는 `sql/kr/`에 원문이 있어요. 같은 팀 잇기는 대표 팀 키(`team_key` — 연결표 `ref.artist_xref` 우선, 없으면 괄호 별칭), 날짜는 후보 신호 = 기간 끝, 정답 = 기간 첫날로 비교해요 (`sql/kr/00_core_views.sql`).
 
@@ -97,9 +97,9 @@ ORDER BY sort_group, 적중률_pct DESC, 신호_팀수 DESC;
 | band_discovery | 23 | 2 | 8.7 |
 | yoojaeha_finalist | 51 | 3 | 5.9 |
 | muse_sejong | 24 | 1 | 4.2 |
-| dmz_lineup | 52 | 0 | 0.0 |
+| dmz_lineup | 52 | 2 | 3.8 |
 | gb_creation | 21 | 0 | 0.0 |
-| (기준선: 모든 신호 팀) | 2798 | 41 | 1.5 |
+| (기준선: 모든 신호 팀) | 2798 | 48 | 1.7 |
 
 ### a02_lead_time
 
@@ -170,10 +170,10 @@ ORDER BY CASE WHEN l.branch = '(전체)' THEN 0 ELSE 1 END, 팀수 DESC;
 
 | 갈래 | 팀수 | 정답_팀_전체 | 중앙값_개월 | 최소_개월 | 최대_개월 | 6개월_이상_pct | 12개월_이상_pct | 24개월_이상_pct |
 |---|---|---|---|---|---|---|---|---|
-| (전체) | 59 | 77 | 12.5 | 0.1 | 46.6 | 74.6 | 52.5 | 28.8 |
-| 공연 | 41 | 77 | 12.3 | 0.1 | 43.1 | 73.2 | 53.7 | 17.1 |
-| 큐레이션 | 36 | 77 | 9.0 | 0.1 | 39.8 | 66.7 | 41.7 | 25.0 |
-| 선정·지원 | 7 | 77 | 29.1 | 1.3 | 46.6 | 85.7 | 71.4 | 57.1 |
+| (전체) | 66 | 90 | 12.8 | 0.1 | 46.6 | 75.8 | 53.0 | 30.3 |
+| 공연 | 47 | 90 | 12.5 | 0.1 | 43.1 | 76.6 | 55.3 | 21.3 |
+| 큐레이션 | 39 | 90 | 8.3 | 0.1 | 39.8 | 66.7 | 41.0 | 23.1 |
+| 선정·지원 | 7 | 90 | 29.1 | 1.3 | 46.6 | 85.7 | 71.4 | 57.1 |
 
 ### a03_mid_to_final
 
@@ -233,12 +233,12 @@ ORDER BY 최종_전환율_pct DESC, 중간_팀수 DESC;
 
 | 중간_프로그램 | 중간_팀수 | 최종까지_팀수 | 최종_전환율_pct | 평균_걸린_개월 | 중간_첫날짜 | 중간_끝날짜 |
 |---|---|---|---|---|---|---|
-| kma_genre | 5 | 3 | 60.0 | 6.0 | 2025-02-06 | 2026-02-05 |
-| mucon | 4 | 2 | 50.0 | 6.4 | 2023-05-17 | 2026-07-13 |
+| kma_genre | 13 | 4 | 30.8 | 4.7 | 2025-02-06 | 2026-02-05 |
 | indiestance | 20 | 5 | 25.0 | 4.6 | 2023-10-14 | 2026-10-17 |
 | museon_final | 70 | 12 | 17.1 | 13.6 | 2021-06-16 | 2026-06-04 |
+| mucon | 12 | 2 | 16.7 | 6.4 | 2022-08-16 | 2026-07-13 |
 | penta_superrookie | 38 | 4 | 10.5 | 6.2 | 2022-07-09 | 2026-05-30 |
-| burock_main | 13 | 1 | 7.7 | 0.9 | 2026-09-04 | 2026-09-04 |
+| burock_main | 23 | 1 | 4.3 | 0.9 | 2026-09-04 | 2026-09-04 |
 | hello_rookie | 10 | 0 | 0.0 |  | 2026-04-28 | 2026-08-31 |
 
 ### a04_career_at_outcome
@@ -291,20 +291,20 @@ ORDER BY v.version DESC, 정답_건수 DESC, v.program;
 
 | 버전 | 정답_프로그램 | 정답_건수 | 프로필_있음 | 연차_중앙값 | 1년미만 | 1_3년 | 3_5년 | 5년이상 | 신인기준_통과율_pct |
 |---|---|---|---|---|---|---|---|---|---|
-| 전체 | museon_final | 70 | 22 | 3.1 | 3 | 8 | 9 | 2 | 36.4 |
+| 전체 | museon_final | 70 | 26 | 3.1 | 3 | 10 | 10 | 3 | 30.8 |
 | 전체 | khha_rookie | 42 | 0 |  | 0 | 0 | 0 | 0 |  |
-| 전체 | kma_rookie | 39 | 6 | 0.8 | 3 | 2 | 1 | 0 | 66.7 |
-| 전체 | penta_superrookie | 38 | 13 | 2.6 | 1 | 7 | 1 | 4 | 46.2 |
-| 전체 | cj_tuneup | 36 | 10 | 5.3 | 1 | 1 | 1 | 7 | 10.0 |
-| 전체 | hello_rookie_year | 30 | 11 | 1.8 | 4 | 7 | 0 | 0 | 90.9 |
-| 전체 | indiestance | 20 | 9 | 1.9 | 1 | 5 | 2 | 1 | 33.3 |
-| 전체 | burock_main | 13 | 13 | 2.7 | 2 | 5 | 6 | 0 | 46.2 |
-| 전체 | hello_rookie | 10 | 4 | 1.1 | 2 | 2 | 0 | 0 | 75.0 |
-| 전체 | kma_genre | 6 | 6 | 2.3 | 2 | 1 | 3 | 0 | 50.0 |
-| 전체 | musicy_rookie | 5 | 0 |  | 0 | 0 | 0 | 0 |  |
-| 전체 | mucon | 4 | 4 | 3.3 | 0 | 2 | 1 | 1 | 0.0 |
+| 전체 | kma_rookie | 39 | 15 | 0.9 | 8 | 4 | 3 | 0 | 60.0 |
+| 전체 | penta_superrookie | 38 | 16 | 2.5 | 3 | 7 | 2 | 4 | 50.0 |
+| 전체 | cj_tuneup | 36 | 13 | 5.3 | 1 | 3 | 1 | 8 | 7.7 |
+| 전체 | hello_rookie_year | 30 | 20 | 1.6 | 7 | 13 | 0 | 0 | 90.0 |
+| 전체 | burock_main | 23 | 23 | 3.0 | 2 | 9 | 11 | 1 | 39.1 |
+| 전체 | indiestance | 20 | 10 | 2.3 | 1 | 5 | 2 | 2 | 30.0 |
+| 전체 | kma_genre | 19 | 19 | 1.2 | 9 | 4 | 6 | 0 | 57.9 |
+| 전체 | mucon | 13 | 13 | 3.4 | 1 | 4 | 7 | 1 | 23.1 |
+| 전체 | hello_rookie | 10 | 9 | 1.4 | 3 | 6 | 0 | 0 | 88.9 |
+| 전체 | musicy_rookie | 5 | 2 | 6.5 | 1 | 0 | 0 | 1 | 50.0 |
 | 전체 | izm_rookie | 1 | 0 |  | 0 | 0 | 0 | 0 |  |
-| 동명제외 | museon_final | 58 | 10 | 3.4 | 1 | 3 | 6 | 0 | 20.0 |
+| 동명제외 | museon_final | 58 | 14 | 3.4 | 1 | 5 | 7 | 1 | 14.3 |
 | 동명제외 | khha_rookie | 42 | 0 |  | 0 | 0 | 0 | 0 |  |
 
 _26행 중 15행만 표시_
@@ -392,10 +392,11 @@ WITH params AS (
 ),
 gig_2024 AS (                                        -- 공연장 × 팀 (2024년)
     SELECT DISTINCT
-           TRIM(split_part(g.venue_text, ' (', 1)) AS venue,
+           COALESCE(vm.venue, TRIM(split_part(g.venue_text, ' (', 1))) AS venue,
            COALESCE(tm.team_key, g.artist_key) AS team_key   -- 팀 대표 키
     FROM raw.raw_kr_gig g
     CROSS JOIN params p
+    LEFT JOIN core.v_venue_map vm ON vm.variant = TRIM(split_part(g.venue_text, ' (', 1))   -- 공연장 대표 이름
     LEFT JOIN core.v_team_map tm ON tm.variant_key = g.artist_key
     WHERE g.gig_date BETWEEN p.gig_from AND p.gig_to
       AND g.artist_key IS NOT NULL AND g.artist_key <> ''
@@ -448,21 +449,21 @@ LIMIT 15;
 
 | 순위 | 공연장 | 출연_팀수 | 정답_팀수 | 정답_비율_pct | 기준선_pct | 배수 |
 |---|---|---|---|---|---|---|
-| 1 | 언드 | 52 | 3 | 5.8 | 2.0 | 2.9 |
-| 2 | A.O.R | 72 | 4 | 5.6 | 2.0 | 2.7 |
-| 3 | 무신사개러지 | 97 | 5 | 5.2 | 2.0 | 2.5 |
-| 4 | 무대륙 | 24 | 1 | 4.2 | 2.0 | 2.1 |
-| 5 | Club FF | 315 | 13 | 4.1 | 2.0 | 2.0 |
-| 6 | 석촌호수 아뜰리에 | 26 | 1 | 3.8 | 2.0 | 1.9 |
-| 7 | 오방가르드 | 117 | 4 | 3.4 | 2.0 | 1.7 |
-| 8 | Cafe PPnF | 48 | 1 | 2.1 | 2.0 | 1.0 |
-| 9 | Club 빵 | 291 | 6 | 2.1 | 2.0 | 1.0 |
-| 10 | Bender | 63 | 1 | 1.6 | 2.0 | 0.8 |
-| 11 | Club Victim | 268 | 4 | 1.5 | 2.0 | 0.7 |
-| 12 | 서브라이엇 해방촌 | 61 | 0 | 0.0 | 2.0 | 0.0 |
-| 12 | 롤링홀 | 45 | 0 | 0.0 | 2.0 | 0.0 |
-| 12 | 베이비돌 | 27 | 0 | 0.0 | 2.0 | 0.0 |
-| 12 | 프리즘홀 | 26 | 0 | 0.0 | 2.0 | 0.0 |
+| 1 | 무신사개러지 | 97 | 8 | 8.2 | 2.4 | 3.4 |
+| 2 | A.O.R | 72 | 5 | 6.9 | 2.4 | 2.9 |
+| 3 | 언드 | 52 | 3 | 5.8 | 2.4 | 2.4 |
+| 4 | Club FF | 315 | 14 | 4.4 | 2.4 | 1.9 |
+| 5 | 오방가르드 | 117 | 5 | 4.3 | 2.4 | 1.8 |
+| 6 | 무대륙 | 24 | 1 | 4.2 | 2.4 | 1.7 |
+| 7 | 석촌호수 아뜰리에 | 26 | 1 | 3.8 | 2.4 | 1.6 |
+| 8 | Club 빵 | 291 | 7 | 2.4 | 2.4 | 1.0 |
+| 9 | Cafe PPnF | 48 | 1 | 2.1 | 2.4 | 0.9 |
+| 10 | Bender | 63 | 1 | 1.6 | 2.4 | 0.7 |
+| 11 | Club Victim | 268 | 4 | 1.5 | 2.4 | 0.6 |
+| 12 | 서브라이엇 해방촌 | 61 | 0 | 0.0 | 2.4 | 0.0 |
+| 12 | 롤링홀 | 45 | 0 | 0.0 | 2.4 | 0.0 |
+| 12 | 베이비돌 | 27 | 0 | 0.0 | 2.4 | 0.0 |
+| 12 | 프리즘홀 | 26 | 0 | 0.0 | 2.4 | 0.0 |
 
 ### a07_cobill_with_outcome
 
@@ -489,10 +490,11 @@ outcome_team AS (                                    -- 팀별 첫 센 정답 �
 ),
 gig AS (                                             -- 공연 1회 = 날짜 × 공연장, 출연 팀
     SELECT DISTINCT p.period, g.gig_date,
-           TRIM(split_part(g.venue_text, ' (', 1)) AS venue,
+           COALESCE(vm.venue, TRIM(split_part(g.venue_text, ' (', 1))) AS venue,
            COALESCE(tm.team_key, g.artist_key) AS team_key   -- 팀 대표 키
     FROM raw.raw_kr_gig g
     JOIN periods p ON g.gig_date BETWEEN p.gig_from AND p.gig_to
+    LEFT JOIN core.v_venue_map vm ON vm.variant = TRIM(split_part(g.venue_text, ' (', 1))   -- 공연장 대표 이름
     LEFT JOIN core.v_team_map tm ON tm.variant_key = g.artist_key
     WHERE g.artist_key IS NOT NULL AND g.artist_key <> ''
       AND TRIM(split_part(g.venue_text, ' (', 1)) NOT IN ('', '공연장 미정')
@@ -548,12 +550,12 @@ ORDER BY period, peer_type;
 
 | 기간 | 동료_유형 | 팀수 | 이후_정답_팀수 | 정답_비율_pct |
 |---|---|---|---|---|
-| 2024 공연 | 1) 이미 정답 팀과 같이 섬 | 281 | 10 | 3.6 |
-| 2024 공연 | 2) 나중 정답 팀과만 같이 섬 | 107 | 2 | 1.9 |
-| 2024 공연 | 3) 정답 팀과 같이 선 적 없음 | 800 | 7 | 0.9 |
-| 2025 상반기 공연 | 1) 이미 정답 팀과 같이 섬 | 133 | 11 | 8.3 |
-| 2025 상반기 공연 | 2) 나중 정답 팀과만 같이 섬 | 30 | 1 | 3.3 |
-| 2025 상반기 공연 | 3) 정답 팀과 같이 선 적 없음 | 500 | 7 | 1.4 |
+| 2024 공연 | 1) 이미 정답 팀과 같이 섬 | 281 | 13 | 4.6 |
+| 2024 공연 | 2) 나중 정답 팀과만 같이 섬 | 116 | 2 | 1.7 |
+| 2024 공연 | 3) 정답 팀과 같이 선 적 없음 | 791 | 9 | 1.1 |
+| 2025 상반기 공연 | 1) 이미 정답 팀과 같이 섬 | 136 | 13 | 9.6 |
+| 2025 상반기 공연 | 2) 나중 정답 팀과만 같이 섬 | 28 | 1 | 3.6 |
+| 2025 상반기 공연 | 3) 정답 팀과 같이 선 적 없음 | 499 | 7 | 1.4 |
 
 ### a08_platform_presence
 
@@ -672,7 +674,7 @@ WITH params AS (
 ),
 sig AS (                                              -- 기준일 전 3년 신호, 팀 키 통일
     SELECT p.cutoff, s.team_key,                     -- 팀 대표 키 (core 뷰: 연결표 → 괄호 별칭)
-           s.branch, s.program, s.stage_rank, s.signal_date, s.detail
+           s.branch, s.program, s.stage_rank, s.signal_date, s.venue AS detail   -- 공연장은 대표 이름 (ref.venue_xref)
     FROM core.v_signal s
     JOIN params p ON s.signal_date <  p.cutoff
                  AND s.signal_date >= p.cutoff - INTERVAL '3 years'
@@ -777,21 +779,21 @@ ORDER BY res.cutoff, res.k, res.method;
 
 | 기준일 | 후보_팀수 | 이후_정답_팀수 | 상위_k | 방법 | 맞힌_팀수 | 적중률_pct | 무작위_기대_팀수 | 무작위_대비_배수 |
 |---|---|---|---|---|---|---|---|---|
-| 2025-01-01 | 2519 | 21 | 20 | 갈래 수만 | 1 | 5.0 | 0.2 | 6.0 |
-| 2025-01-01 | 2519 | 21 | 20 | 공연 수만 | 0 | 0.0 | 0.2 | 0.0 |
-| 2025-01-01 | 2519 | 21 | 20 | 점수 v0 | 2 | 10.0 | 0.2 | 12.0 |
-| 2025-01-01 | 2519 | 21 | 50 | 갈래 수만 | 2 | 4.0 | 0.4 | 4.8 |
-| 2025-01-01 | 2519 | 21 | 50 | 공연 수만 | 2 | 4.0 | 0.4 | 4.8 |
-| 2025-01-01 | 2519 | 21 | 50 | 점수 v0 | 2 | 4.0 | 0.4 | 4.8 |
-| 2025-01-01 | 2519 | 21 | 100 | 갈래 수만 | 3 | 3.0 | 0.8 | 3.6 |
-| 2025-01-01 | 2519 | 21 | 100 | 공연 수만 | 4 | 4.0 | 0.8 | 4.8 |
-| 2025-01-01 | 2519 | 21 | 100 | 점수 v0 | 3 | 3.0 | 0.8 | 3.6 |
-| 2025-01-01 | 2519 | 21 | 200 | 갈래 수만 | 4 | 2.0 | 1.7 | 2.4 |
-| 2025-01-01 | 2519 | 21 | 200 | 공연 수만 | 6 | 3.0 | 1.7 | 3.6 |
-| 2025-01-01 | 2519 | 21 | 200 | 점수 v0 | 5 | 2.5 | 1.7 | 3.0 |
-| 2025-07-01 | 3198 | 20 | 20 | 갈래 수만 | 1 | 5.0 | 0.1 | 8.0 |
-| 2025-07-01 | 3198 | 20 | 20 | 공연 수만 | 1 | 5.0 | 0.1 | 8.0 |
-| 2025-07-01 | 3198 | 20 | 20 | 점수 v0 | 1 | 5.0 | 0.1 | 8.0 |
+| 2025-01-01 | 2501 | 24 | 20 | 갈래 수만 | 1 | 5.0 | 0.2 | 5.2 |
+| 2025-01-01 | 2501 | 24 | 20 | 공연 수만 | 0 | 0.0 | 0.2 | 0.0 |
+| 2025-01-01 | 2501 | 24 | 20 | 점수 v0 | 2 | 10.0 | 0.2 | 10.4 |
+| 2025-01-01 | 2501 | 24 | 50 | 갈래 수만 | 2 | 4.0 | 0.5 | 4.2 |
+| 2025-01-01 | 2501 | 24 | 50 | 공연 수만 | 3 | 6.0 | 0.5 | 6.3 |
+| 2025-01-01 | 2501 | 24 | 50 | 점수 v0 | 2 | 4.0 | 0.5 | 4.2 |
+| 2025-01-01 | 2501 | 24 | 100 | 갈래 수만 | 3 | 3.0 | 1.0 | 3.1 |
+| 2025-01-01 | 2501 | 24 | 100 | 공연 수만 | 5 | 5.0 | 1.0 | 5.2 |
+| 2025-01-01 | 2501 | 24 | 100 | 점수 v0 | 3 | 3.0 | 1.0 | 3.1 |
+| 2025-01-01 | 2501 | 24 | 200 | 갈래 수만 | 5 | 2.5 | 1.9 | 2.6 |
+| 2025-01-01 | 2501 | 24 | 200 | 공연 수만 | 8 | 4.0 | 1.9 | 4.2 |
+| 2025-01-01 | 2501 | 24 | 200 | 점수 v0 | 6 | 3.0 | 1.9 | 3.1 |
+| 2025-07-01 | 3179 | 24 | 20 | 갈래 수만 | 1 | 5.0 | 0.2 | 6.6 |
+| 2025-07-01 | 3179 | 24 | 20 | 공연 수만 | 1 | 5.0 | 0.2 | 6.6 |
+| 2025-07-01 | 3179 | 24 | 20 | 점수 v0 | 1 | 5.0 | 0.2 | 6.6 |
 
 _24행 중 15행만 표시_
 
@@ -946,12 +948,13 @@ ORDER BY is_drop DESC, tbl, source, collected_date DESC;
 
 </details>
 
-결과 27행
+결과 28행
 
 | tbl | source | collected_date | rows_n | prev_date | prev_rows | change_pct | is_drop |
 |---|---|---|---|---|---|---|---|
 | raw_artist_profile | instagram | 2026-11-27 | 19 | 2026-11-26 | 107 | -82.2 | t |
 | raw_artist_profile | instagram | 2026-11-26 | 107 |  |  |  | f |
+| raw_artist_profile | melon | 2026-11-27 | 114 | 2026-11-26 | 83 | 37.3 | f |
 | raw_artist_profile | melon | 2026-11-26 | 83 |  |  |  | f |
 | raw_artist_profile | spotify | 2026-11-26 | 43 |  |  |  | f |
 | raw_kr_gig | indiego | 2026-11-26 | 427 |  |  |  | f |
@@ -964,9 +967,8 @@ ORDER BY is_drop DESC, tbl, source, collected_date DESC;
 | raw_kr_release | poclanos | 2026-11-26 | 33 |  |  |  | f |
 | raw_kr_selection | busanrock | 2026-11-26 | 13 |  |  |  | f |
 | raw_kr_selection | dmz | 2026-11-26 | 152 |  |  |  | f |
-| raw_kr_selection | gbsound | 2026-11-26 | 33 |  |  |  | f |
 
-_27행 중 15행만 표시_
+_28행 중 15행만 표시_
 
 ### c04_missing_fields
 
@@ -1084,7 +1086,7 @@ ORDER BY risk_type, strength DESC, artist_key;
 
 </details>
 
-결과 48행
+결과 52행
 
 | risk_type | artist_key | strength | evidence |
 |---|---|---|---|
@@ -1092,19 +1094,19 @@ ORDER BY risk_type, strength DESC, artist_key;
 | A: 멜론 ID 여러 개 | 블낫블 | 3 | 블낫블 𝐁𝐥𝐮𝐞 𝐢𝐬 𝐍𝐨𝐭 𝐁𝐥𝐮𝐞 (id off.bnb, 데뷔 ?) \| 블낫블(Blue is Not Blue) (id 0uTWf6LJUvbPgJ67K9CVRL, 데뷔 2025-07-29) \| 블낫블(Blue is Not Blue) (id 4408798, 데뷔 2025-07-29) |
 | A: 멜론 ID 여러 개 | luamel | 3 | LUAMEL (루아멜) (id 2299617, 데뷔 2018-10-05) \| LUAMEL (루아멜) (id luamel_official, 데뷔 ?) \| LUAMEL (id 0GP1FM3P7XrmSNz1Nr29Yy, 데뷔 2018-10-05) |
 | A: 멜론 ID 여러 개 | 공원 | 2 | 공원 (id 3563915, 데뷔 2025-03-27) \| 공원 (id 40Gp1pozXyDoTKNkxTbZKQ, 데뷔 2025-06-03) |
+| A: 멜론 ID 여러 개 | 극동아시아타이거즈 | 2 | 극동아시아타이거즈 (id 2863270, 데뷔 2020-04-08) \| 극동아시아타이거즈 (id far_east_asian_tigers, 데뷔 ?) |
 | A: 멜론 ID 여러 개 | 김승주 | 2 | 김승주 (id 2877532, 데뷔 2020-06-30) \| 김승주 (id 7wV6FuZ1nuVpI7rH0jRRuj, 데뷔 2025-07-21) |
 | A: 멜론 ID 여러 개 | 김시온 | 2 | 김시온 (id 6Sb6DraTcNV5zaqWDgMCoa, 데뷔 2023-07-07) \| 김시온 (Kim Sion) (id 2957454, 데뷔 2021-08-10) |
+| A: 멜론 ID 여러 개 | 녹이녹 | 2 | 녹이녹 (id 4099562, 데뷔 2025-02-18) \| 녹이녹 (id bandnokenok, 데뷔 ?) |
 | A: 멜론 ID 여러 개 | 릴리잇머신 | 2 | 릴리 잇 머신 (id 1ogeL4SXrnpTgS0cB917ww, 데뷔 2023-10-06) \| 릴리 잇 머신 (Lilly Eat Machine) (id 3573882, 데뷔 2023-10-06) |
 | A: 멜론 ID 여러 개 | 브로콜리너마저 | 2 | 브로콜리너마저 (id 1gq4XavqmZhqOzEkpFBz1j, 데뷔 2010-11-01) \| 브로콜리너마저 (id 230490, 데뷔 2007-10-31) |
 | A: 멜론 ID 여러 개 | 산만한시선 | 2 | 산만한시선 (id 2aqvIa1gUFcwMDEWOsEdsm, 데뷔 ?) \| 산만한시선 (id 4011774, 데뷔 2024-10-31) |
 | A: 멜론 ID 여러 개 | 산보 | 2 | 산보 (id 2rKxDvJDT1Pv93k4ohx8Cp, 데뷔 2024-09-19) \| 산보 (id 3940959, 데뷔 2024-09-19) |
 | A: 멜론 ID 여러 개 | 삼산 | 2 | 삼산 (id 0Mqb4ZExEqQNOkEFSyZiql, 데뷔 2023-10-13) \| 삼산 (id 3584597, 데뷔 2023-10-13) |
+| A: 멜론 ID 여러 개 | 삼월생 | 2 | 삼월생 (조형민) (id 3130868, 데뷔 2022-09-28) \| 삼월생 (id hohm__j, 데뷔 ?) |
 | A: 멜론 ID 여러 개 | 송소희 | 2 | 송소희 (id 2CqJ2OWIZcSwKtfslMLj7W, 데뷔 ?) \| 송소희 (id 672059, 데뷔 2015-04-23) |
-| A: 멜론 ID 여러 개 | 신인류 | 2 | 신인류 (id 2298840, 데뷔 2018-09-26) \| 신인류 (id 6hqKJovR688oBXggv1iCGF, 데뷔 ?) |
-| A: 멜론 ID 여러 개 | 우륵과풍각쟁이들 | 2 | 우륵과 풍각쟁이들 (id 3QQr6mc2bkCf1znKo4uUUa, 데뷔 2025-09-16) \| 우륵과 풍각쟁이들 (id 4581741, 데뷔 2025-09-16) |
-| A: 멜론 ID 여러 개 | 우수현 | 2 | 우수현 (id 0JjuaT60jLgBmyqcMkTDjD, 데뷔 2024-01-24) \| 우수현 (id 3458321, 데뷔 2024-01-24) |
 
-_48행 중 15행만 표시_
+_52행 중 15행만 표시_
 
 ### c06_multi_person_cells
 
@@ -1182,7 +1184,7 @@ ORDER BY tbl, total_rows DESC;
 | profile | 쉼표 나열 | 2 | 2 | 클럽빵 LiveClub BBang, korea first & longest indie (1) \| 구름, cloud koh, クラウド, 고형석 (1) |
 | profile | / 나열 | 2 | 2 | 뮤즈온 / MUSE ON (1) \| 坂東祐大 / Yuta Bandoh (1) |
 | profile | / 한영 병기(대개 한 팀) | 2 | 2 | 대봉 / Debong (1) \| CHUDAHYE_CHAGIS / 추다혜차지스 (1) |
-| profile | & 연결 | 1 | 1 | 단편선 순간들 Danpyunsun & The Moments Ensemble (1) |
+| profile | & 연결 | 2 | 2 | 단편선 순간들 Danpyunsun & The Moments Ensemble (1) \| yonglee & the DOLTANG (1) |
 | selection | 쉼표 나열 | 19 | 19 | 김수현, 임상현 (1) \| 김태균, 염정업 (1) \| 김현범, 성낙원 (1) \| 나현진, 최민규 (1) \| 박수정, 김민지 (1) |
 
 _18행 중 15행만 표시_
@@ -1261,7 +1263,7 @@ ORDER BY extra_rows DESC;
 | raw_kr_gig | 15468 | 469 | 469 | 3.0 | 469 | https://indistreet.com/gigs/2026-11-26-%EA%B7%B8%EB%A3%A8%EB%B8%8C%EC%9E%AC%EC%A6%88%EB%8D%B0%EC%9D%B4-groove-in-november-1126-mly4qbnlzw9ligj6fmalu16i \| Groover Kim & Jazzup Band x2 [raw_kr_gig_2026-11-26_indistreet_212810.csv, raw_kr_gig_2026-11-26_indistreet.csv] https://indistreet.com/gigs/2026-11-26-%EB%85%B8%EB%9E%98%ED%95%98%EB%8A%94-%EC%8B%9C%EC%9D%B8-%EB%B0%95%EC%9D%B8%ED%9D%AC-%EC%BD%98%EC%84%9C%ED%8A%B8-%EC%84%9C%EC%9A%B8-1126-doyp4fygtwysv13gfd7maeou \| 박인희 x2 [raw_kr_gig_2026-11-26_indistreet_212810.csv, raw_kr_gig_2026-11-26_indistreet.csv] https://indistreet.com/gigs/2026-11-26-%EB%A8%BC%EB%8D%B0%EC%9D%B4%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-in-%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%81%B4%EB%9F%BD-mombrimz-%EB%8B%A8%EB%8F%85%EC%BD%98%EC%84%9C%ED%8A%B8-rungxk3vk7o4enrytviw61p8 \| MOMBRIMZ x2 [raw_kr_gig_2026-11-26_indistreet_212810.csv, raw_kr_gig_2026-11-26_indistreet.csv] |
 | raw_kr_release | 250 | 36 | 36 | 14.4 | 36 | melon:12885474 \| 한올 x2 [raw_kr_release_2026-11-26_melon_214103.csv, raw_kr_release_2026-11-26_melon.csv] melon:14418214 \| 109 x2 [raw_kr_release_2026-11-26_melon_214103.csv, raw_kr_release_2026-11-26_melon.csv] melon:14965365 \| Aden (에이든) x2 [raw_kr_release_2026-11-26_melon_214103.csv, raw_kr_release_2026-11-26_melon.csv] |
 | raw_press | 4212 | 0 | 0 | 0.0 | 0 |  |
-| raw_artist_profile | 252 | 0 | 0 | 0.0 | 0 |  |
+| raw_artist_profile | 366 | 0 | 0 | 0.0 | 0 |  |
 | raw_kr_selection | 701 | 0 | 0 | 0.0 | 0 |  |
 | raw_outcome | 745 | 0 | 0 | 0.0 | 0 |  |
 

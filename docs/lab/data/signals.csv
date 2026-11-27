@@ -2504,8 +2504,6 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 더바스타즈,공연,indistreet,,,2026-06-27,오방가르드
 더바스타즈,공연,indistreet,,,2026-08-08,
 더바스타즈,공연,indistreet,,,2026-11-14,언드
-더발룬티어스,선정·지원,dmz,dmz_lineup,2,2026-04-14,
-더발룬티어스,공연,indistreet,,,2026-07-31,
 더버러지,공연,indistreet,,,2026-11-13,우주정거장
 더베인,선정·지원,sangsangmadang,band_discovery,2,2016-08-17,
 더베인,선정·지원,sangsangmadang,band_discovery,4,2016-09-04,
@@ -5263,10 +5261,6 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 발로,공연,indistreet,,,2026-09-15,스팀펑크락
 발로,공연,indistreet,,,2026-10-06,아지토 라이브 홀
 발로,공연,indistreet,,,2026-11-01,Club FF
-발룬티어스,큐레이션,overtone,overtone,,2025-03-01,
-발룬티어스,큐레이션,izm,IZM,,2025-03-11,
-발룬티어스,큐레이션,izm,IZM,,2026-10-12,
-발룬티어스,큐레이션,overtone,overtone,,2026-10-14,
 발하쉬,큐레이션,rhythmer,리드머,,2026-09-05,
 밤섬해적단,공연,indistreet,,,2026-10-18,신도시
 밥말리,큐레이션,izm,IZM,,2024-04-01,
@@ -14763,14 +14757,6 @@ team_key,branch,source,program,stage_rank,signal_date,venue
 픽쳐오브컬러스,공연,indistreet,,,2026-05-03,유기체
 픽쳐오브컬러스,공연,indistreet,,,2026-07-26,유기체
 핀치노트,공연,indistreet,,,2026-10-29,Club FF
-핍핍,공연,indistreet,,,2026-09-10,Club FF
-핍핍,공연,indistreet,,,2026-09-24,Club FF
-핍핍,큐레이션,musicy,음악취향Y,,2026-10-12,
-핍핍,공연,indistreet,,,2026-10-16,스트레인지 프룻
-핍핍,공연,indistreet,,,2026-11-01,Club FF
-핍핍,공연,indistreet,,,2026-11-20,스페이스 한강
-핍핍,공연,indiego,,,2026-11-28,카페 언플러그드 홍대점
-핍핍,공연,indistreet,,,2026-11-28,카페 언플러그드 홍대점
 핑쿠와이블헤드,공연,indistreet,,,2025-02-15,Club Victim
 하노,공연,indistreet,,,2024-02-11,공연장 미정
 하늘,선정·지원,yjh,yoojaeha_finalist,3,2010-12-31,
@@ -18570,6 +18556,14 @@ pcr,큐레이션,musicy,음악취향Y,,2026-11-23,
 peaceandromance,공연,indistreet,,,2025-12-11,Club FF
 peachslammer,공연,indistreet,,,2026-02-28,Club Sharp
 pearlhaze,공연,indistreet,,,2026-10-08,언플러그드 라운지
+peeppeep,공연,indistreet,,,2026-09-10,Club FF
+peeppeep,공연,indistreet,,,2026-09-24,Club FF
+peeppeep,큐레이션,musicy,음악취향Y,,2026-10-12,
+peeppeep,공연,indistreet,,,2026-10-16,스트레인지 프룻
+peeppeep,공연,indistreet,,,2026-11-01,Club FF
+peeppeep,공연,indistreet,,,2026-11-20,스페이스 한강
+peeppeep,공연,indiego,,,2026-11-28,카페 언플러그드 홍대점
+peeppeep,공연,indistreet,,,2026-11-28,카페 언플러그드 홍대점
 peggygou,큐레이션,visla,VISLA,,2023-11-10,
 peggygou,큐레이션,visla,VISLA,,2024-04-05,
 peggygou,큐레이션,visla,VISLA,,2024-06-10,
@@ -19442,6 +19436,12 @@ thetunas,공연,indistreet,,,2026-07-04,꼬뮨
 thetunas,공연,indistreet,,,2026-07-11,Club Victim
 thetunas,공연,indistreet,,,2026-09-19,Club Victim
 theu93,공연,indistreet,,,2026-03-21,아지토 라이브 홀
+thevolunteers,큐레이션,overtone,overtone,,2025-03-01,
+thevolunteers,큐레이션,izm,IZM,,2025-03-11,
+thevolunteers,선정·지원,dmz,dmz_lineup,2,2026-04-14,
+thevolunteers,공연,indistreet,,,2026-07-31,
+thevolunteers,큐레이션,izm,IZM,,2026-10-12,
+thevolunteers,큐레이션,overtone,overtone,,2026-10-14,
 thevoyagers,공연,indistreet,,,2024-07-20,라이브앤라우드
 thevv,공연,indistreet,,,2026-09-12,Hukez
 thewackys,공연,sangsangmadang,,,2017-12-19,라이브홀
