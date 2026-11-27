@@ -424,7 +424,6 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 갤럭시익스프레스,공연,indiego,,,2026-10-17,감마홀,pending
 갤럭시익스프레스,큐레이션,instagram,@noir_mardi_mercredi,,2026-11-24,,pending
 갤럭시익스프레스,공연,indiego,,,2026-11-29,클럽 프리버드,pending
-거니,공연,indiego,,,2026-10-25,보헤미안 소극장,pending
 거니앤건즈,공연,indistreet,,,2024-05-24,Club Victim,discovery
 거니앤건즈,공연,indistreet,,,2024-07-26,Club Victim,discovery
 거니앤건즈,공연,indistreet,,,2024-08-24,Club Victim,discovery
@@ -5840,7 +5839,6 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 로스트파츠,큐레이션,musicy,음악취향Y,,2026-06-15,,discovery
 로시,공연,indistreet,,,2026-08-14,,discovery
 로썸,공연,sangsangmadang,,,2018-11-02,KT&G 상상마당 홍대 라이브홀,discovery
-로우,공연,indiego,,,2026-12-03,아지토 라이브 홀,pending
 로우브라더스,공연,indistreet,,,2024-01-06,Club Victim,discovery
 로우브라더스,공연,indistreet,,,2024-01-21,Club Victim,discovery
 로우브라더스,공연,indistreet,,,2024-01-26,Club Victim,discovery
@@ -7222,7 +7220,6 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 모노디즘,공연,indistreet,,,2026-06-13,클럽샤프,discovery
 모노디즘,공연,indiego,,,2026-10-02,Club Victim,pending
 모노디즘,공연,indistreet,,,2026-10-02,Club Victim,discovery
-모노사파,공연,indiego,,,2026-04-18,롤링홀,pending
 모노제이,공연,sangsangmadang,,,2018-06-23,KT&G 상상마당 춘천,discovery
 모노폴리,공연,indistreet,,,2024-01-19,Club FF,discovery
 모노폴리,공연,indistreet,,,2024-02-02,A.O.R,discovery
@@ -8738,19 +8735,6 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 밴드쿼카,공연,indistreet,,,2026-08-13,카페 언플러그드 홍대점,discovery
 밴드트위드,선정·지원,sangsangmadang,band_discovery,2,2019-05-14,,discovery
 밴디지,큐레이션,trackzero,멜론 트랙제로,,2023-11-09,,pending
-밴디츠,공연,indistreet,,,2024-03-09,언드,discovery
-밴디츠,공연,indistreet,,,2024-09-21,서브라이엇 해방촌,discovery
-밴디츠,공연,indistreet,,,2025-06-07,오방가르드,discovery
-밴디츠,공연,indistreet,,,2025-08-15,오방가르드,discovery
-밴디츠,공연,indistreet,,,2025-08-23,꼬뮨,discovery
-밴디츠,공연,indistreet,,,2025-11-23,오방가르드,discovery
-밴디츠,공연,indistreet,,,2026-03-21,유기체,discovery
-밴디츠,공연,indistreet,,,2026-05-03,,discovery
-밴디츠,공연,indistreet,,,2026-05-03,대구 제임스레코드,discovery
-밴디츠,공연,indistreet,,,2026-06-19,HQ광안,discovery
-밴디츠,공연,indistreet,,,2026-08-14,오방가르드,discovery
-밴디츠,공연,indistreet,,,2026-09-12,리얼라이즈,discovery
-밴디츠,공연,indistreet,,,2026-10-17,OL'55,discovery
 밴이지,큐레이션,trackzero,멜론 트랙제로,,2026-02-09,,pending
 뱀파이어호텔,공연,indistreet,,,2024-01-28,Club FF,discovery
 뱀파이어호텔,공연,indistreet,,,2024-02-25,Club Victim,discovery
@@ -15914,9 +15898,11 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 우드,공연,indistreet,,,2026-05-08,Club 빵,discovery
 우드,공연,indiego,,,2026-06-13,퍼플홀,pending
 우드,공연,indistreet,,,2026-07-10,Club 빵,discovery
+우드,공연,indistreet,,,2026-07-26,언플러그드 라운지,discovery
 우드,공연,indiego,,,2026-08-21,스페이스 한강,pending
 우드,공연,indistreet,,,2026-08-21,스페이스 한강,discovery
 우드,공연,indiego,,,2026-11-20,Club 빵,pending
+우드,공연,indistreet,,,2026-11-28,Hukez,discovery
 우드로와일드,공연,indiego,,,2026-09-16,클럽 프리버드,pending
 우드로와일드,공연,indiego,,,2026-10-08,Club FF,pending
 우드로와일드,공연,indistreet,,,2026-10-08,Club FF,discovery
@@ -26447,6 +26433,19 @@ bandflydaze,공연,instagram,@cosmosruby_,,2026-11-23,코스모스루비,pending
 bandheemee,공연,instagram,@vinta_suwon,,2026-11-18,VINTA,pending
 bandhuckleberryfinn,큐레이션,instagram,@k_indie_chart,,2026-11-14,,pending
 bandironpig,큐레이션,instagram,@artist_in_jeju,,2026-11-27,,pending
+bandits,공연,indistreet,,,2024-03-09,언드,discovery
+bandits,공연,indistreet,,,2024-09-21,서브라이엇 해방촌,discovery
+bandits,공연,indistreet,,,2025-06-07,오방가르드,discovery
+bandits,공연,indistreet,,,2025-08-15,오방가르드,discovery
+bandits,공연,indistreet,,,2025-08-23,꼬뮨,discovery
+bandits,공연,indistreet,,,2025-11-23,오방가르드,discovery
+bandits,공연,indistreet,,,2026-03-21,유기체,discovery
+bandits,공연,indistreet,,,2026-05-03,,discovery
+bandits,공연,indistreet,,,2026-05-03,대구 제임스레코드,discovery
+bandits,공연,indistreet,,,2026-06-19,HQ광안,discovery
+bandits,공연,indistreet,,,2026-08-14,오방가르드,discovery
+bandits,공연,indistreet,,,2026-09-12,리얼라이즈,discovery
+bandits,공연,indistreet,,,2026-10-17,OL'55,discovery
 banditsbusan,공연,instagram,@delay_relay,,2026-11-21,@delay_relay,pending
 bandjudeofficial,공연,instagram,@cosmosruby_,,2026-11-23,코스모스루비,pending
 bandkay,공연,indistreet,,,2024-12-21,Club 빵,discovery
@@ -27931,6 +27930,7 @@ g,공연,indistreet,,,2025-06-14,Bender,discovery
 g0nny,공연,indistreet,,,2024-07-27,공연장 미정,discovery
 g0nny,공연,indistreet,,,2024-09-04,무신사개러지,discovery
 g0nny,공연,indistreet,,,2026-09-19,,discovery
+g0nny,공연,indiego,,,2026-10-25,보헤미안 소극장,pending
 gabrieldarosa,큐레이션,visla,VISLA,,2023-01-31,,context
 gaekogeem,큐레이션,instagram,@webzineizm,,2026-11-25,,pending
 gaesoritv,공연,instagram,@unbornsounds,,2026-11-18,@unbornsounds,pending
@@ -29226,6 +29226,7 @@ lovexstereo,공연,indistreet,,,2026-11-15,Club Victim,discovery
 데이지둠lovexstereo,큐레이션,musicy,음악취향Y,,2023-06-26,,discovery
 low,큐레이션,visla,VISLA,,2024-07-04,,context
 low,공연,indistreet,,,2026-09-13,,discovery
+low,공연,indiego,,,2026-12-03,아지토 라이브 홀,pending
 low,공연,indistreet,,,2026-12-03,아지토 라이브 홀,discovery
 lsdxoxo,큐레이션,visla,VISLA,,2023-05-31,,context
 lsdxoxo,큐레이션,visla,VISLA,,2024-07-15,,context
@@ -29648,6 +29649,7 @@ monofloofficial,공연,instagram,@clubheavy,,2026-11-16,클럽헤비,pending
 monolens,큐레이션,instagram,@seoulexperimental,,2026-11-26,,pending
 mononoaware,공연,indistreet,,,2024-12-22,무신사개러지,discovery
 mononoaware,공연,indistreet,,,2026-07-31,,discovery
+monosapa,공연,indiego,,,2026-04-18,롤링홀,pending
 monosapa,공연,indistreet,,,2026-04-18,롤링홀,discovery
 monosapa,큐레이션,instagram,@aabyselects,,2026-11-14,,pending
 monosapa,큐레이션,instagram,@aabyselects,,2026-11-15,,pending
@@ -32486,8 +32488,6 @@ wonhyung,큐레이션,instagram,@bcc_session,,2026-11-26,,pending
 wonjune,공연,indistreet,,,2026-06-08,카페 언플러그드 홍대점,discovery
 wonk,큐레이션,trackzero,멜론 트랙제로,,2026-01-08,,pending
 wonkbewhy,큐레이션,trackzero,멜론 트랙제로,,2026-01-08,,pending
-wood,공연,indistreet,,,2026-07-26,언플러그드 라운지,discovery
-wood,공연,indistreet,,,2026-11-28,Hukez,discovery
 wookikiwaikiki,공연,instagram,@clubheavy,,2026-11-23,클럽헤비,pending
 woonjo,공연,instagram,@flatnine_jazzbar,,2026-11-24,플랫나인,pending
 woorimaeum,공연,instagram,@delay_relay,,2026-11-21,@delay_relay,pending
