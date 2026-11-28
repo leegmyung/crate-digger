@@ -112,9 +112,18 @@ def candidate_channels(links: List[dict], musicbrainz: dict, ig_links: dict,
                 out.setdefault(team, (url, "instagram"))
     for team, entry in sorted((yt_search or {}).items()):        # yt_channel_search: 채널 검색으로 찾은 것
         cid = (entry or {}).get("channel_id") or ""
+        if (entry or {}).get("topic") and not (entry or {}).get("verified"):
+            continue                                              # 발매곡 겹침 확인 안 된 Topic 채널은 안 씀 (동명 위험)
         if re.fullmatch(r"UC[A-Za-z0-9_-]{22}", cid):
             out.setdefault(team, (f"https://www.youtube.com/channel/{cid}", "yt_search"))
     return out
+
+
+def prune(state: dict, candidates: Dict[str, Tuple[str, str]]) -> dict:
+    """채널 검색으로 붙였던 채널 중 지금 후보가 아닌 것(규칙이 바뀌어 빠진 것)은 상태에서 지운다 → 아바타·영상도 앱에서 빠짐."""
+    teams = {k: v for k, v in (state.get("teams") or {}).items()
+             if (v or {}).get("source") != "yt_search" or candidates.get(k, ("", ""))[1] == "yt_search"}
+    return {**state, "teams": teams}
 
 
 def pick_avatar(thumbnails: dict) -> str:
@@ -257,7 +266,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         print(f"❌ {e}", file=sys.stderr)
         return 1
     now = datetime.now(cv.KST).replace(microsecond=0)
-    state, rows = run(targets, candidates, _read_json(STATE_FILE), client, now, linked)
+    state, rows = run(targets, candidates, prune(_read_json(STATE_FILE), candidates), client, now, linked)
     cv.save_state(STATE_FILE, state)
     path = write_raw(RAW_DIR, now, rows) if rows else None
     with_avatar = sum(1 for v in state["teams"].values() if v.get("avatar"))

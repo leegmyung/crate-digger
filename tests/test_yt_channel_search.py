@@ -30,7 +30,7 @@ TRIAL = [   # (팀 이름들, 검색 결과 채널 이름, 정답 순번 또는 
     (["neverandno", "네버앤노"], res("neverandno(네버앤노) official", "neverandno - Topic", "uooy_drum&bass", "oyasumifilm"), 0, {}),
     (["웬즈데이오프", "Wednesday Off"], res("Wednesday Off - Topic", "Wednesday off", "GMJ51", "ride&live", "무비파티"), 1, {}),
     (["캐주얼리커넥티드", "CASUALLY CONNECTED"], res("CASUALLY CONNECTED"), 0, {}),
-    (["파이프립스", "Pipe Lips"], res("Pipe Lips - Topic", "노마드 루이스", "지무비 : G Movie", "Arie Lips", "Cardi B - Topic"), 0, {}),
+    (["파이프립스", "Pipe Lips"], res("Pipe Lips - Topic", "노마드 루이스", "지무비 : G Movie", "Arie Lips", "Cardi B - Topic"), None, {}),
 ]
 
 
@@ -53,8 +53,17 @@ class ChooseTest(unittest.TestCase):
     def test_topic_flag_and_official_preferred(self):
         names, results, _, _ = TRIAL[0]
         self.assertFalse(ys.choose_channel(names, results, lambda c: [])["topic"])
+
+    def test_topic_only_with_release_title_overlap(self):
+        # Topic(유튜브 자동 채널)은 동명 위험이 커서 우리 발매 기록의 곡 제목이 그 채널 영상 제목과 겹칠 때만
         names, results, _, _ = TRIAL[-1]
-        self.assertTrue(ys.choose_channel(names, results, lambda c: [])["topic"])
+        latest = lambda c: ["Mr. Nobody", "Himizu"]     # noqa: E731
+        got = ys.choose_channel(names, results, latest, our_titles=["Himizu"])
+        self.assertEqual((got["id"], got["topic"], got["verified"]), (results[0]["id"], True, True))
+        self.assertIsNone(ys.choose_channel(names, results, latest, our_titles=["다른 노래"]))
+        self.assertIsNone(ys.choose_channel(names, results, latest))
+        # 허재혁 - Topic: 발매 기록 없음 → 연결 안 함
+        self.assertIsNone(ys.choose_channel(["허재혁"], res("허재혁 - Topic", "허재혁의 일상"), lambda c: ["잠수"]))
 
     def test_two_topic_channels_with_same_name_skip(self):
         self.assertIsNone(ys.choose_channel(["Pipe Lips"], res("Pipe Lips - Topic", "Pipe Lips - Topic"), lambda c: []))
@@ -70,7 +79,7 @@ class FakeClient:
         if endpoint == "search":
             return {"items": [{"snippet": {"channelId": r["id"], "channelTitle": r["title"]}}
                               for r in self.by_query.get(params["q"], [])]}
-        return {"items": []}
+        return {"items": [{"snippet": {"title": t}} for t in getattr(self, "get_titles", [])]}
 
 
 class RunTest(unittest.TestCase):
@@ -92,6 +101,14 @@ class RunTest(unittest.TestCase):
         client = FakeClient({})
         self.assertEqual(ys.run(targets, {}, {}, client, date(2026, 11, 28)), {})
         self.assertEqual(client.calls, [])
+
+    def test_release_titles_are_passed_for_topic_check(self):
+        targets = [{"team_key": "pl", "display_name": "파이프립스", "rank": 1}]
+        client = FakeClient({"파이프립스": res("Pipe Lips - Topic")})
+        client.get_titles = ["Himizu"]
+        state = ys.run(targets, {"pl": ["Pipe Lips"]}, {}, client, date(2026, 11, 28), releases={"pl": ["Himizu"]})
+        self.assertEqual(state["pl"]["channel_id"], "UC" + "0" * 22)
+        self.assertTrue(state["pl"]["verified"])
 
     def test_aliases_are_used_for_matching(self):
         targets = [{"team_key": "sw", "display_name": "스웰시티", "rank": 1}]

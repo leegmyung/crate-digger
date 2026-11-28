@@ -685,12 +685,22 @@ def _raw_collabs(raw_dir: Path = RAW_DIR) -> tuple:
     return collabs, partners
 
 
+CHANNEL_FILE_SUFFIX = "_channels.csv"   # collect_yt_channels 가 쓰는 공식 채널 영상 원본
+
+
+def drop_unlinked_channel_videos(rows: List[dict], yt_teams: dict) -> List[dict]:
+    """공식 채널 영상 원본(*_channels.csv) 줄은 그 팀에 지금도 그 채널이 붙어 있을 때만 (연결이 끊긴 채널 영상은 뺌)."""
+    current = {(k, (v or {}).get("channel_id")) for k, v in (yt_teams or {}).items()}
+    return [r for r in rows if not str(r.get("_file", "")).endswith(CHANNEL_FILE_SUFFIX)
+            or (r.get("team_key"), r.get("channel_id")) in current]
+
+
 def _raw_videos(raw_dir: Path = RAW_DIR) -> List[dict]:
     rows: List[dict] = []
     for path in sorted(raw_dir.glob("raw_video_*.csv")):
         with open(path, encoding="utf-8") as f:
-            rows.extend(csv.DictReader(f))
-    return rows
+            rows.extend({**r, "_file": path.name} for r in csv.DictReader(f))
+    return drop_unlinked_channel_videos(rows, _read_json_dict(YT_CHANNELS).get("teams") or {})
 
 
 def program_rows(signals: List[dict], outcomes: List[dict]) -> List[dict]:

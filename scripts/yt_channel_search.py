@@ -9,7 +9,8 @@
 - 고르기(보수적, 2026-11-28 시험 10팀 정답지 = tests/test_yt_channel_search.py):
   채널 이름을 조각(괄호 안·한글/영문 덩어리, 'official'·'- Topic' 뗌)으로 나눠 팀 이름·별칭(연결표 영문 표기)과 키가 같으면 후보.
   공식(Topic 아닌) 후보가 하나면 그것. 여럿이면 최신 영상 5개 제목에 팀 이름이나 음악 낱말(MV·Live·Session…)이 있는
-  채널이 딱 하나일 때만. 공식 후보가 없고 유튜브 자동 'Topic' 채널이 딱 하나면 그것(topic=true).
+  채널이 딱 하나일 때만. 공식 후보가 없고 유튜브 자동 'Topic' 채널이 딱 하나이면서 그 채널 최신 영상 제목이 우리 발매 기록
+  (raw_kr_release) 제목과 겹치면 그것(topic=true, verified=true). Topic 은 동명 위험이 커서(2026-11-28 '허재혁 - Topic') 겹침 필수.
 - 결과는 collect_yt_channels 가 '채널 주소 후보'(출처 yt_search)로 받아 아바타·최신 영상을 받는다.
 """
 from __future__ import annotations
@@ -21,14 +22,14 @@ import re
 import sys
 from datetime import date, timedelta
 from pathlib import Path
-from typing import Callable, Dict, List, Optional, Set, Tuple
+from typing import Callable, Dict, Iterable, List, Optional, Set, Tuple
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import collect_musicbrainz  # noqa: E402
 import collect_videos as cv  # noqa: E402
 import coverage_targets  # noqa: E402
 from normalize import artist_key  # noqa: E402
-from preview_match import name_keys  # noqa: E402
+from preview_match import name_keys, titles_overlap  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 STATE_FILE = ROOT / "data" / "raw" / "state" / "yt_search.json"
@@ -60,8 +61,10 @@ def _music_like(titles: List[str], keys: Set[str]) -> bool:
     return any(MUSIC_WORDS.search(t) or any(k in artist_key(t) for k in keys if len(k) >= 3) for t in titles)
 
 
-def choose_channel(names: List[str], results: List[dict], latest_titles: Callable[[str], List[str]]) -> Optional[dict]:
-    """검색 결과 [{id, title}] → {id, title, topic} 또는 None (규칙은 모듈 설명)."""
+def choose_channel(names: List[str], results: List[dict], latest_titles: Callable[[str], List[str]],
+                   our_titles: Iterable[str] = ()) -> Optional[dict]:
+    """검색 결과 [{id, title}] → {id, title, topic[, verified]} 또는 None (규칙은 모듈 설명).
+    Topic 채널은 동명 위험이 커서 우리 발매 기록 제목(our_titles)이 그 채널 최신 영상 제목과 겹칠 때만 (verified=True)."""
     want = name_keys(names)
     official, topic = [], []
     for r in results:
@@ -72,8 +75,9 @@ def choose_channel(names: List[str], results: List[dict], latest_titles: Callabl
         official = [r for r in official if _music_like(latest_titles(r["id"]), want)]
     if len(official) == 1:
         return {"id": official[0]["id"], "title": official[0]["title"], "topic": False}
-    if not official and len(topic) == 1:
-        return {"id": topic[0]["id"], "title": topic[0]["title"], "topic": True}
+    ours = list(our_titles)
+    if not official and len(topic) == 1 and ours and titles_overlap(ours, latest_titles(topic[0]["id"])):
+        return {"id": topic[0]["id"], "title": topic[0]["title"], "topic": True, "verified": True}
     return None
 
 
@@ -97,7 +101,8 @@ def _latest_titles(client) -> Callable[[str], List[str]]:
 
 
 def run(targets: List[dict], aliases: Dict[str, List[str]], state: Dict[str, dict], client, today: date,
-        max_searches: int = DEFAULT_MAX_SEARCHES, max_rank: int = MAX_RANK, skip: Set[str] = frozenset()) -> Dict[str, dict]:
+        max_searches: int = DEFAULT_MAX_SEARCHES, max_rank: int = MAX_RANK, skip: Set[str] = frozenset(),
+        releases: Optional[Dict[str, List[str]]] = None) -> Dict[str, dict]:
     out, searched = dict(state), 0
     for t in targets:
         key, name, rank = t.get("team_key") or "", t.get("display_name") or "", t.get("rank")
@@ -117,12 +122,15 @@ def run(targets: List[dict], aliases: Dict[str, List[str]], state: Dict[str, dic
                    for i in body.get("items") or []]
         names = [name] + [a for a in aliases.get(key, []) if a != name]
         try:
-            picked = choose_channel(names, [r for r in results if r["id"]], _latest_titles(client))
+            picked = choose_channel(names, [r for r in results if r["id"]], _latest_titles(client),
+                                    (releases or {}).get(key, []))
         except cv.QuotaExceeded:
             picked = None
         entry = {"checked": today.isoformat(), "channel_id": picked["id"] if picked else ""}
         if picked:
             entry.update(title=picked["title"], topic=picked["topic"])
+            if picked.get("verified"):
+                entry["verified"] = True
         out[key] = entry
     return out
 
@@ -161,7 +169,9 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 1
     state = cv.load_state(STATE_FILE)
     before = len(state)
-    state = run(targets, _aliases(), state, client, date.today(), max_searches=args.max_searches, skip=skip)
+    import collect_itunes                                   # 발매 기록 제목 (Topic 채널 확인용)
+    state = run(targets, _aliases(), state, client, date.today(), max_searches=args.max_searches, skip=skip,
+                releases=collect_itunes._releases())
     cv.save_state(STATE_FILE, state)
     found = sum(1 for v in state.values() if v.get("channel_id"))
     print(f"✅ 유튜브 채널 검색: 이번 {len(state) - before}팀 · 누적 {len(state)}팀 중 채널 찾음 {found} · 사용 {client.quota.used}/{budget}단위")

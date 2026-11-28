@@ -454,6 +454,15 @@ class ImageRowsTest(unittest.TestCase):
         self.assertEqual(rows[1]["page_url"], "https://www.youtube.com/channel/UC" + "b" * 22)
 
 
+class ChannelVideoGuardTest(unittest.TestCase):
+    def test_channel_file_rows_kept_only_for_current_team_channels(self):
+        rows = [{"team_key": "h", "channel_id": "UCold", "video_id": "AAAAAAAAAAA", "_file": "raw_video_2026-11-28_channels.csv"},
+                {"team_key": "p", "channel_id": "UCok", "video_id": "BBBBBBBBBBB", "_file": "raw_video_2026-11-28_channels.csv"},
+                {"team_key": "h", "channel_id": "UCstage", "video_id": "CCCCCCCCCCC", "_file": "raw_video_2026-11-28.csv"}]
+        kept = ex.drop_unlinked_channel_videos(rows, {"p": {"channel_id": "UCok"}})
+        self.assertEqual([r["video_id"] for r in kept], ["BBBBBBBBBBB", "CCCCCCCCCCC"])
+
+
 class FreshChannelsTest(unittest.TestCase):
     def test_channels_older_than_30_days_are_dropped(self):
         teams = {"a": {"checked": "2026-11-01"}, "b": {"checked": "2026-10-28"}, "c": {}}

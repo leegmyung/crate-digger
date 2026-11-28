@@ -69,6 +69,21 @@ class TeamsFileTest(unittest.TestCase):
                                {"team_key": "c", "display_name": "c"}])
 
 
+class TopicGuardTest(unittest.TestCase):
+    def test_unverified_topic_from_search_is_not_a_candidate(self):
+        found = {"h": {"checked": "2026-11-28", "channel_id": CID, "topic": True},
+                 "p": {"checked": "2026-11-28", "channel_id": CID, "topic": True, "verified": True}}
+        got = yc.candidate_channels([], {}, {}, found)
+        self.assertNotIn("h", got)
+        self.assertEqual(got["p"][1], "yt_search")
+
+    def test_prune_drops_search_channels_no_longer_candidates(self):
+        state = {"teams": {"h": {"channel_id": CID, "source": "yt_search"}, "k": {"channel_id": CID, "source": "links"},
+                           "p": {"channel_id": CID, "source": "yt_search"}}, "misses": {}}
+        cands = {"p": ("https://www.youtube.com/channel/" + CID, "yt_search")}
+        self.assertEqual(sorted(yc.prune(state, cands)["teams"]), ["k", "p"])
+
+
 class AvatarTest(unittest.TestCase):
     def test_prefers_medium_https_google_host(self):
         th = {"default": {"url": "https://yt3.ggpht.com/a=s88"}, "medium": {"url": "https://yt3.ggpht.com/a=s240"},
