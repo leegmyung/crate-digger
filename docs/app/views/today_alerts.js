@@ -82,6 +82,18 @@ const OLD_DATE_DAYS = 30;   // 발표일이 기록 추가일보다 이만큼 이
  * @param {{ date?: string, found_on?: string }} a
  * @returns {string}
  */
+/** 기본 보기에서 뺄 알림 종류: 새 공연(양이 많음)·새 정답(이미 뜬 팀 소식) — docs/ux_simplify_2026-11-28.md ⑤ */
+const NOT_IMPORTANT_TYPES = new Set(['new_gig', 'new_outcome']);
+
+/**
+ * 알림 화면 기본 보기('중요한 것')에 넣을 알림인가 — 아직 안 뜬 팀의 발굴 신호.
+ * @param {{ type?: string }} a
+ * @returns {boolean}
+ */
+export function isImportantAlert(a) {
+  return Boolean(a?.type) && !NOT_IMPORTANT_TYPES.has(a.type);
+}
+
 export function alertDateText(a) {
   const date = String(a?.date || '').slice(0, 10);
   const found = String(a?.found_on || '').slice(0, 10);

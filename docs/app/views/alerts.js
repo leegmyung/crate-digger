@@ -13,7 +13,7 @@ import { applySavedFilter, listSavedFilters } from '../saved_filters.js';
 import { alertsForSubscribedVenues, listVenueSubs, toggleVenueSub } from '../venue_subs.js';
 import { isoMinusDays } from '../components/team_metrics.js';
 import {
-  alertMatchesVenueSub, alertRowHtml, alertsCarryStars, safeAlertType, sortAlerts, spikeSentence,
+  alertMatchesVenueSub, alertRowHtml, alertsCarryStars, isImportantAlert, safeAlertType, sortAlerts, spikeSentence,
 } from './today_alerts.js';
 import { renderEvidenceFooterHtml, summarizeFilterSpec } from './mine.js';
 import {
@@ -35,7 +35,7 @@ function parseAlertsHashParams() {
   const p = new URLSearchParams(qIdx >= 0 ? raw.slice(qIdx + 1) : '');
   const tab = p.get('tab') === 'rules' ? 'rules' : 'feed';
   const mine = p.get('mine') === '1';
-  const type = p.get('type') || 'all';
+  const type = p.get('type') || 'important';   // 기본 = 중요한 것만 (docs/ux_simplify_2026-11-28.md ⑤)
   return { tab, mine, type };
 }
 
@@ -78,7 +78,7 @@ export async function renderAlertsView(root) {
 
   const state = {
     tab: initial.tab,
-    type: initial.type === 'all' || (initial.type in typesMap) ? initial.type : 'all',
+    type: initial.type === 'all' || initial.type === 'important' || (initial.type in typesMap) ? initial.type : 'important',
     period: 'all',
     mineOnly: initial.mine,
     layout: 'flat', // 'flat' (별 많은 순) | 'grouped' (종류별 묶음)
@@ -104,7 +104,9 @@ export async function renderAlertsView(root) {
   function buildFiltered(watchKeys, subVenues) {
     const periodObj = PERIOD_OPTIONS.find(o => o.id === state.period) || PERIOD_OPTIONS[0];
     return allAlerts.filter(a => {
-      if (state.type !== 'all' && a.type !== state.type) return false;
+      if (state.type === 'important') {
+        if (!isImportantAlert(a)) return false;
+      } else if (state.type !== 'all' && a.type !== state.type) return false;
       if (!matchesPeriod(a, periodObj.days, asOf)) return false;
       if (state.mineOnly && !isMineAlert(a, watchKeys, subVenues)) return false;
       return true;
@@ -208,6 +210,7 @@ export async function renderAlertsView(root) {
         });
       } else {
         const typeButtons = [
+          `<button type="button" class="alerts-chip${state.type === 'important' ? ' is-active' : ''}" data-alert-type="important" aria-pressed="${state.type === 'important'}" title="새 공연·이미 뜬 팀의 새 정답을 뺀 발굴 신호">중요한 것 <span class="alerts-chip-n">${fmtInt(baseByPeriodAndMine.filter(isImportantAlert).length)}</span></button>`,
           `<button type="button" class="alerts-chip${state.type === 'all' ? ' is-active' : ''}" data-alert-type="all" aria-pressed="${state.type === 'all'}">전체 <span class="alerts-chip-n">${fmtInt(baseByPeriodAndMine.length)}</span></button>`,
           ...typeOrder
             .filter(t => allAlerts.some(a => a.type === t))
@@ -317,7 +320,8 @@ export async function renderAlertsView(root) {
         } else {
           const visible = sorted.slice(0, state.shownLimit);
           const remaining = sorted.length - visible.length;
-          const activeLabel = state.type === 'all' ? '전체 알림' : (typesMap[state.type] || state.type);
+          const activeLabel = state.type === 'all' ? '전체 알림'
+            : state.type === 'important' ? '중요한 알림 (새 공연·이미 뜬 팀 소식은 위 칩에서)' : (typesMap[state.type] || state.type);
           feedBodyHtml = `
             <section class="block alerts-feed-block" aria-label="받은 알림 목록">
               <div class="block-head">
@@ -330,7 +334,7 @@ export async function renderAlertsView(root) {
                   {
                     isWatch: watchKeys.has(item.a.team_key),
                     isSubVenue: alertMatchesVenueSub(item.a, subVenues),
-                    typeLabel: state.type === 'all' ? (typesMap[item.a.type] || item.a.type_label || item.a.type) : '',
+                    typeLabel: state.type === 'all' || state.type === 'important' ? (typesMap[item.a.type] || item.a.type_label || item.a.type) : '',
                   },
                 )).join('')}
               </ul>

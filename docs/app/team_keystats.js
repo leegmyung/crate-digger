@@ -58,8 +58,8 @@ export function keyStatTiles({ scored = null, rank = null, weekChange = 0, video
     },
     {
       key: 'press', label: '매거진·큐레이션 소개', value: outlets === null ? null : String(outlets),
-      sub: context ? `맥락 매체 ${context}곳 더` : '발굴 매체 기준', src: '매체',
-      tip: '발굴 역할 매거진·큐레이터가 이 팀을 소개한 곳 수 (맥락 매체는 점수 비중이 작아 따로 셈)',
+      sub: context ? `큰 매거진 ${context}곳 더` : '신인 소개 매체 기준', src: '매체',
+      tip: '신인을 소개하는 매거진·큐레이터가 이 팀을 소개한 곳 수 (큰 매거진은 점수 비중이 작아 따로 셈)',
     },
     {
       key: 'videos', label: '무대 영상', value: String(vids),

@@ -15,7 +15,7 @@ test('점수 팀: 점수·공연·소개·영상 4칸, 순서 고정 (갈래는 
   assert.equal(tiles[1].value, '12');
   assert.equal(tiles[1].sub, '공연장 7곳(2년)');
   assert.equal(tiles[2].value, '2');
-  assert.equal(tiles[2].sub, '맥락 매체 1곳 더');
+  assert.equal(tiles[2].sub, '큰 매거진 1곳 더');   // 용어 다이어트 (docs/ux_simplify_2026-11-28.md ⑥)
   assert.equal(tiles[3].value, '2');
   assert.equal(tiles[3].sub, '최근 2026-11-02');
   assert.ok(tiles.every(t => t.label && t.src));

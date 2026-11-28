@@ -14,10 +14,10 @@ import { renderVenueSubsHtml, wireVenueSubs } from './venue_subs_view.js';
 import { escapeHtml, fmtInt, renderEmptyState } from '../ui.js';
 
 const STAGE_NAMES = {
-  '0': '백지 신인',
+  '0': '언급 전 신인',
   '1': '첫 신호',
-  '2': '여러 갈래',
-  '3': '선정·지원',
+  '2': '여러 곳에서 보임',
+  '3': '선정·수상 후보',
   '4': '졸업',
 };
 

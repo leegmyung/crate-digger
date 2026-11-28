@@ -1,0 +1,20 @@
+/* 처음 온 사람용 단순화 (docs/ux_simplify_2026-11-28.md) — 새 클래스만, 다른 파일의 규칙은 건드리지 않는다. 색은 var(--토큰)만. */
+
+/* ② 팀 머리 '💡 왜 이 팀?' 한 줄 */
+.ux-team-why {
+  margin: 6px 0 8px;
+  font-size: var(--text-md, 15px);
+  line-height: 1.45;
+  color: var(--ink);
+  font-weight: 600;
+}
+.ux-team-why-tail { color: var(--ink-muted); font-weight: 400; white-space: nowrap; }
+
+/* ⑧ 긴 목록은 처음 20줄 (list_more.js) · 375 폭에선 줄마다 붙은 비교 단추를 숨김(줄을 누르면 빠른 보기에 있음) */
+.ux-row-extra,
+table.stack-table tr.ux-row-extra { display: none !important; }   /* 375 카드형 줄(tables.css)보다 우선 */
+.ux-more-btn { display: block; margin: 10px auto 14px; }
+@media (max-width: 600px) {
+  .chart-table [data-compare-team],
+  .cand-table [data-compare-team] { display: none; }
+}

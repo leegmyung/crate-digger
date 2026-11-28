@@ -18,6 +18,7 @@ import {
 import { attachTeamPeek, peekKeyFromHash } from '../components/team_peek.js';
 import { compareToggleHtml } from '../components/compare_tray.js';
 import { entityCellHtml } from '../components/entity_cell.js';
+import { collapseRows } from '../list_more.js';
 
 const CHART_SIZE = 50;
 const POOL = 300; // 도시 차트는 전체 상위 300 안에서 고른다
@@ -158,6 +159,7 @@ export async function renderChartsView(root) {
     <p class="small muted place-evidence">근거: 점수 정의는 <a href="#/verify/backtest">검증 › 점수 신뢰도</a> · 차트는 정의가 고정돼 필터를 바꿀 수 없습니다 — 바꾸려면 '발굴에서 열기'</p>`;
 
   wireAvatarFallbacks(root);
+  collapseRows(root.querySelector('.chart-table tbody'));   // 처음 20줄 + '더 보기' (docs/ux_simplify_2026-11-28.md ⑧)
   // 줄을 누르거나 Enter → 오른쪽 미리보기(팀 이름 링크는 그대로 팀 페이지로)
   const openPeek = attachTeamPeek(root, { initialKey: initialPeek });
   const tbody = root.querySelector('.chart-table tbody');

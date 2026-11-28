@@ -1,4 +1,5 @@
 import { appState, navigateTo, setExportContext } from '../state.js';
+import { backTarget } from '../back_nav.js';
 import {
   ensureTeamCitiesLoaded, getTeamExternalLinks, loadAlertsJson, loadDashboardJson, loadSceneMap,
   loadSourceRoles, queryDiscoveryStages, queryRankChange, queryTeamDetail,
@@ -17,7 +18,7 @@ import {
   routeBackLabel, STAGE_META,
 } from '../ui.js';
 import { mountTeamGraphBlock } from './graph.js';
-import { compareButtonHtml, renderKeyStatsHtml, renderTeamFactsHtml } from './team_head.js';
+import { compareButtonHtml, renderKeyStatsHtml, renderTeamFactsHtml, teamWhyHtml } from './team_head.js';
 import { compareToggleHtml } from '../components/compare_tray.js';
 import { timelineAnomaly } from '../insight_text.js';
 import { renderSimilarHtml } from './team_similar.js';
@@ -243,9 +244,7 @@ export async function renderTeamView(root, teamKey) {
   const metaParts = [];
   if (profile?.agency) metaParts.push(`소속 ${profile.agency}`);
   if (profile?.first_seen) metaParts.push(`첫 등장 ${profile.first_seen}`);
-  if (scored) {
-    metaParts.push(`${fmtNum(scored.score, 2)}점`);
-  }
+  // 점수는 아래 '💡 한 줄 이유'에 한 번만 (docs/ux_simplify_2026-11-28.md ②)
 
   // Merge outcomes + signals into single chronological timeline
   const mergedTimeline = [];
@@ -338,8 +337,10 @@ export async function renderTeamView(root, teamKey) {
   });
 
   // 이전 화면 이름(메뉴 이름) — 모르면 홈
-  const backRoute = appState.prevRoute && routeBackLabel(appState.prevRoute) && appState.prevRoute !== 'team' ? appState.prevRoute : 'today';
-  const backLabel = routeBackLabel(backRoute) || '홈';
+  // 앱 안에서 왔으면 그 화면으로(브라우저 뒤로 — 필터·주소 그대로), 주소로 바로 열었으면 발굴로 (docs/ux_simplify_2026-11-28.md ⑨)
+  const back = backTarget({ prevRoute: appState.prevRoute, prevParam: appState.prevParam, selfRoute: 'team',
+                            fallbackRoute: 'candidates', label: routeBackLabel });
+  const backLabel = back.label || '발굴';
 
   const imgSrc = avatarSourceOf(teamKey);
   const spUrl = spotifyUrlOf(teamKey);
@@ -623,8 +624,8 @@ export async function renderTeamView(root, teamKey) {
           <table class="data-table">
             <thead>
               <tr>
-                <th>과거 수상 팀</th>
-                <th>첫 ${escapeHtml(TERMS.outcome)}</th>
+                <th class="col-fit">과거 수상 팀</th>
+                <th class="col-fit">첫 ${escapeHtml(TERMS.outcome)}</th>
                 <th class="nowrap">발표일</th>
                 <th>겹친 경로</th>
                 <th class="num nowrap">소요 (개월)</th>
@@ -633,8 +634,8 @@ export async function renderTeamView(root, teamKey) {
             <tbody>
               ${visiblePrec.map(p => `
                 <tr>
-                  <td><a href="#/team/${encodeURIComponent(p.past_team)}"><strong>${escapeHtml(p.display_name || p.past_team)}</strong></a></td>
-                  <td><span class="outcome-label-wrap">${gradeBadgeHtml(p.outcome_grade)}<span>${escapeHtml(p.outcome_label || '-')}</span></span></td>
+                  <td class="col-fit"><a href="#/team/${encodeURIComponent(p.past_team)}"><strong>${escapeHtml(p.display_name || p.past_team)}</strong></a></td>
+                  <td class="col-fit"><span class="outcome-label-wrap">${gradeBadgeHtml(p.outcome_grade)}<span>${escapeHtml(p.outcome_label || '-')}</span></span></td>
                   <td class="nowrap mono muted">${escapeHtml(p.outcome_date || '-')}</td>
                   <td>${escapeHtml(p.shared_list || '-')}</td>
                   <td class="num">${p.months_signal_to_outcome !== null && p.months_signal_to_outcome !== undefined ? fmtInt(p.months_signal_to_outcome) : '-'}</td>
@@ -692,6 +693,7 @@ export async function renderTeamView(root, teamKey) {
             ${newcomerUnverifiedBadgeHtml(teamKey, profile)}
           </div>
           <p class="team-subline">${escapeHtml(metaParts.join(' · ') || '기록된 활동 ' + fmtInt(mergedTimeline.length) + '건')}</p>
+          ${teamWhyHtml(scored, rcRow?.rank ?? null)}
           ${teamFactsHtml}
           ${teamAlertsLineHtml}
           ${sceneLineHtml}
@@ -897,7 +899,8 @@ export async function renderTeamView(root, teamKey) {
   });
 
   root.querySelector('#btnTeamBack')?.addEventListener('click', () => {
-    navigateTo(backRoute, backRoute === 'venue' ? (appState.prevParam || '') : '');
+    if (back.useHistory && window.history.length > 1) window.history.back();
+    else navigateTo(back.route, back.param);
   });
 
   root.querySelector('[data-jump-scene]')?.addEventListener('click', (e) => {

@@ -258,9 +258,9 @@ export function plainWhyLine(r) {
   if (Number(r.best_stage) >= 1 && Number(r.pts_stage) > 0) parts.push(`선정 ${r.best_stage}단계`);
   if (Number(r.peer_winner) > 0 && Number(r.pts_winner) > 0) parts.push('수상 팀과 같은 무대');
   if (Number(r.recent180) >= 2 && Number(r.pts_recent) > 0) parts.push(`최근 6개월 ${r.recent180}건`);
-  if (Number(r.outlets) >= 1 && Number(r.pts_outlets) > 0) parts.push(`매체 ${r.outlets}곳 주목`);
-  if (Number(r.context_outlets) >= 1 && Number(r.pts_context) > 0) parts.push(`맥락 매체 ${r.context_outlets}곳`);
-  if (Number(r.n_branch) >= 2 && parts.length < 3) parts.push(`${r.n_branch}개 갈래 동시 활동`);
+  if (Number(r.outlets) >= 1 && Number(r.pts_outlets) > 0) parts.push(`신인 소개 매체 ${r.outlets}곳`);
+  if (Number(r.context_outlets) >= 1 && Number(r.pts_context) > 0) parts.push(`큰 매거진 ${r.context_outlets}곳`);
+  if (Number(r.n_branch) >= 2 && parts.length < 3) parts.push(`${r.n_branch}종류(공연·매거진·선정)에서 언급`);
   if (!parts.length) return scorePartsLine(r);
   return parts.slice(0, 3).join(' · ');
 }
@@ -948,12 +948,12 @@ export async function ensureD3() {
 const WEAK_GENRE_TAGS = {
   inferred: { label: '추정', title: '추정 장르', tip: INFO_TIPS.genre_inferred },
   review: {
-    label: '리뷰', title: '매체 리뷰 장르',
+    label: '추정', title: '매체 리뷰로 짐작한 장르',   // 화면 글자는 '추정' 하나로 (docs/ux_simplify_2026-11-28.md ⑥) — 근거는 말풍선
     tip: { what: '웹진 리뷰(음악취향Y·overtone·VISLA)가 붙인 장르입니다. 곡·앨범 하나의 장르라 팀 장르와 다를 수 있어 약하게 표시합니다.',
            period: '받은 리뷰 기록 기준', compare: '플랫폼 장르·확실한 출처가 없는 팀 대상' },
   },
   inferred_low: {
-    label: '추정·약함', title: '확신 낮은 추정 장르',
+    label: '추정', title: '확신 낮은 추정 장르 (같은 무대 1팀으로 짐작)',
     tip: { what: '같은 무대에 장르를 아는 팀이 1팀뿐이라 그 팀의 장르로 짐작했습니다. 맞는 비율이 절반 정도라 참고로만 보세요.',
            period: '누적 공연 기록 기준', compare: '다른 방법으로 장르를 못 정한 팀 대상' },
   },
@@ -1186,27 +1186,27 @@ export function triggerTableCsvExport({ filename, headers, rows } = {}) {
 export const STAGE_META = {
   0: {
     code: 0,
-    short: '백지',
-    label: '백지',
-    next: '남의 언급 1갈래(공연·큐레이션·선정·지원)가 생기면 첫 신호 단계',
+    short: '언급 전',
+    label: '언급 전',
+    next: '공연·매거진·선정 중 한 곳에서 처음 언급되면 \'첫 신호\'',
   },
   1: {
     code: 1,
     short: '첫 신호',
     label: '첫 신호',
-    next: '다른 갈래 언급이 추가되어 2갈래 이상이면 여러 갈래 단계',
+    next: '다른 종류(공연·매거진·선정)에서도 언급되면 \'여러 곳에서 보임\'',
   },
   2: {
     code: 2,
-    short: '여러 갈래',
-    label: '여러 갈래',
-    next: '선정 단계 3 이상(DMZ 제외) 또는 B등급 정답이면 선정·중간 정답 단계',
+    short: '여러 곳',
+    label: '여러 곳에서 보임',
+    next: '지원 사업·경연 본선에 선정되거나 신인상 후보가 되면 \'선정·수상 후보\'',
   },
   3: {
     code: 3,
     short: '선정',
-    label: '선정·중간 정답',
-    next: 'S·A등급 정답을 받으면 졸업 단계',
+    label: '선정·수상 후보',
+    next: '큰 상·선정(S·A등급)을 받으면 \'졸업\'',
   },
   4: {
     code: 4,

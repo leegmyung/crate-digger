@@ -18,10 +18,10 @@ import {
 } from '../ui.js';
 
 const TIER_META = {
-  S: { label: '체급 S', title: '소형 클럽 · 소규모 무대' },
-  M: { label: '체급 M', title: '중소형 공연장' },
-  L: { label: '체급 L', title: '중대형 홀' },
-  XL: { label: '체급 XL', title: '대형 홀·아레나' },
+  S: { label: '소형 (~150명)', title: '체급 S · 소형 클럽 · 소규모 무대' },
+  M: { label: '중형 (~400명)', title: '체급 M · 중소형 공연장' },
+  L: { label: '대형 (~1,000명)', title: '체급 L · 중대형 홀' },
+  XL: { label: '특대형 (1,000명+)', title: '체급 XL · 대형 홀·아레나' },
 };
 
 function renderTierBadge(tier) {

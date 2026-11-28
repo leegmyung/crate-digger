@@ -3,7 +3,7 @@
  * team.js 가 이미 커서 따로 둔다.
  */
 import {
-  escapeHtml, fmtInt, genreConfidenceBadgeHtml, infoTip, naCell, stageBadgeHtml,
+  escapeHtml, fmtInt, genreConfidenceBadgeHtml, infoTip, naCell, plainWhyLine,
 } from '../ui.js';
 import { keyStatTiles, platformLinks } from '../team_keystats.js';
 
@@ -15,18 +15,8 @@ let tocObserver = null; // 다시 그릴 때 이전 관찰을 끊는다
  *           hasCityData: boolean, firstRelease: string, genre: string }} f
  */
 export function renderTeamFactsHtml(f) {
+  // 발굴 단계·순위는 여기서 빼고 한 곳씩만: 단계 = 아래 상태 칸, 순위·점수 = 한 줄 이유와 숫자 칸 (docs/ux_simplify_2026-11-28.md ②)
   const items = [];
-  if (f.stageInfo) items.push(`<span class="team-fact">${stageBadgeHtml(f.stageInfo.stage)}</span>`);
-
-  if (f.rc && f.rc.rank !== null && f.rc.rank !== undefined) {
-    const ch = f.rc.week_change;
-    const delta = ch > 0 ? `<span class="rank-delta is-up">▲${fmtInt(ch)}</span>`
-      : ch < 0 ? `<span class="rank-delta is-down">▼${fmtInt(-ch)}</span>` : '';
-    items.push(`<span class="team-fact"><span class="team-fact-lbl">순위</span><strong>#${fmtInt(f.rc.rank)}</strong>${delta}</span>`);
-  } else {
-    items.push(`<span class="team-fact"><span class="team-fact-lbl">순위</span>${naCell('상위 300 스냅샷에 들지 않은 팀입니다', { label: '300위 밖' })}</span>`);
-  }
-
   const cityHtml = f.homeCity
     ? escapeHtml(f.homeCity)
     : naCell(f.hasCityData ? '이 팀의 공연 도시 기록이 없습니다' : '팀별 활동 지역 자료가 아직 없습니다');
@@ -39,6 +29,19 @@ export function renderTeamFactsHtml(f) {
     items.push(`<span class="team-fact"><span class="team-fact-lbl">장르</span>${escapeHtml(f.genre)}${genreConfidenceBadgeHtml(f.teamKey)}</span>`);
   }
   return `<div class="team-facts" aria-label="팀 요약 정보">${items.join('')}</div>`;
+}
+
+/**
+ * 팀 머리 맨 위 '왜 이 팀?' 한 줄 — 점수 근거 쉬운 말 + 후보 순위·점수 (docs/ux_simplify_2026-11-28.md ②).
+ * @param {object|null} scored 후보 점수 줄 (lab_scored)
+ * @param {number|null} rank 후보 순위
+ * @returns {string}
+ */
+export function teamWhyHtml(scored, rank) {
+  if (!scored) return '';
+  const tail = [rank ? `후보 ${fmtInt(rank)}위` : '', Number.isFinite(Number(scored.score)) ? `${Number(scored.score).toFixed(2)}점` : '']
+    .filter(Boolean).join(' · ');
+  return `<p class="ux-team-why"><span aria-hidden="true">💡</span> ${escapeHtml(plainWhyLine(scored))}${tail ? ` <span class="ux-team-why-tail">— ${escapeHtml(tail)}</span>` : ''}</p>`;
 }
 
 /**

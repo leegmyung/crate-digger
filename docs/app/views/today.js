@@ -29,6 +29,7 @@ import { renderVenueSubsHtml } from './venue_subs_view.js';
 import { renderOnboardingStripHtml } from '../components/onboarding_cards.js';
 import { renderEvidenceFooterHtml } from './mine.js';
 import { homeChartRowHtml } from '../home_chart_rows.js';
+import { pickWeeklyTeams, weeklyPicksHtml } from '../home_picks.js';
 
 const HEADLINE_ALERT_TYPES = [
   ['new_outcome', '새 정답'],
@@ -368,6 +369,7 @@ export async function renderTodayView(root) {
     root.innerHTML = `
       <div class="home-page" id="homePageRoot">
         ${headlineHtml}
+        ${weeklyPicksHtml(pickWeeklyTeams(candRows, alertsData?.alerts || [], asOf))}
         ${renderOnboardingStripHtml()}
         <div id="todayAlertsHost">${alertsSummaryHtml}</div>
         ${renderSavedCardShellHtml()}
