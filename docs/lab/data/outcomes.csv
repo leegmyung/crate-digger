@@ -9,6 +9,7 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 강아솔,kma_genre,한대음 장르 부문,mid,winner,2025-02-27,false,B,1,,false
 강윤미,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,false,B,1,,false
 검엑스,burock_main,부산록페 본무대,mid,selected,2023-09-22,false,B,1,,false
+검은잎들,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
 검은잎들,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
 검정치마,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
 검정치마,kma_genre,한대음 장르 부문,mid,winner,2023-03-05,false,B,1,,false
@@ -91,6 +92,7 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 김예찬,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,false,B,1,,false
 김유진,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
 김유진,kma_genre,한대음 장르 부문,mid,winner,2023-03-05,false,B,1,,false
+김유진,kma_rookie,한대음 올해의 신인,final,nominee,2023-03-05,true,A,2,,false
 김유진,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,false
 김유진,kma_genre,한대음 장르 부문,mid,winner,2024-02-29,false,B,1,,false
 김윤아,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
@@ -126,9 +128,9 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 나윤선,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
 나윤선,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
 나이테,penta_superrookie,펜타포트 슈퍼루키,mid,selected,2026-05-30,true,A,2,,false
-나인티오원,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,false,B,1,,false
 남예지,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
 남예지,kma_genre,한대음 장르 부문,mid,winner,2025-02-27,false,B,1,,false
+남유선,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
 너드커넥션,museon_final,뮤즈온 최종,mid,selected,2021-06-16,true,A,2,,false
 너드커넥션,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
 너드커넥션,burock_main,부산록페 본무대,mid,selected,2025-08-29,false,B,1,,false
@@ -180,7 +182,6 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 달란트,mucon,뮤콘(MU:CON),mid,selected,2022-08-16,false,B,1,,false
 담예,kma_genre,한대음 장르 부문,mid,nominee,2021-01-26,false,B,1,,false
 더바스타즈,penta_superrookie,펜타포트 슈퍼루키,mid,finalist,2025-06-09,true,B,1,,false
-더발룬티어스,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,true,B,1,,false
 더보울스,mucon,뮤콘(MU:CON),mid,selected,2022-08-16,false,B,1,,false
 더보울스,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
 더보울스,mucon,뮤콘(MU:CON),mid,selected,2024-05-10,false,B,1,,false
@@ -206,9 +207,6 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 두억시니,kma_rookie,한대음 올해의 신인,final,nominee,2021-02-28,true,A,2,,false
 둘라밤,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
 둘롬,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,false,B,1,,false
-드래곤포니,burock_main,부산록페 본무대,mid,selected,2024-09-13,true,B,1,,false
-드래곤포니,burock_main,부산록페 본무대,mid,selected,2025-08-29,true,B,1,,false
-드래곤포니,burock_main,부산록페 본무대,mid,selected,2026-09-04,true,B,1,,false
 드링킹소년소녀합창단,mucon,뮤콘(MU:CON),mid,selected,2022-08-16,false,B,1,,false
 드링킹소년소녀합창단,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,false,B,1,,false
 드링킹소년소녀합창단,mucon,뮤콘(MU:CON),mid,selected,2026-07-13,false,B,1,,false
@@ -454,6 +452,7 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 수민,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
 수민,kma_genre,한대음 장르 부문,mid,winner,2025-02-27,false,B,1,,false
 숨비,museon_final,뮤즈온 최종,mid,selected,2023-06-21,true,A,2,,false
+스네이크치킨수프,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
 스월비,kma_genre,한대음 장르 부문,mid,nominee,2021-01-26,false,B,1,,false
 스월비,khha_rookie,한국힙합어워즈 신인,final,nominee,2021-02-27,true,A,2,,false
 스월비,kma_genre,한대음 장르 부문,mid,winner,2021-02-28,false,B,1,,false
@@ -539,11 +538,6 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 아이유,kma_genre,한대음 장르 부문,mid,winner,2022-03-01,false,B,1,,false
 아이유,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
 아톰뮤직하트,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,true,B,1,,false
-악뮤,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
-악뮤,kma_genre,한대음 장르 부문,mid,winner,2022-03-01,false,B,1,,false
-악뮤,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,false
-악뮤,kma_genre,한대음 장르 부문,mid,winner,2024-02-29,false,B,1,,false
-악뮤,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
 안녕바다,mucon,뮤콘(MU:CON),mid,selected,2022-08-16,false,B,1,,false
 안예은,mucon,뮤콘(MU:CON),mid,selected,2021-08-10,true,B,1,,false
 안지원,musicy_rookie,음악취향Y 올해의 신인,final,shortlist,2025-12-29,true,B,1,,false
@@ -574,8 +568,6 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 에이트레인,kma_genre,한대음 장르 부문,mid,winner,2023-03-05,false,B,1,,false
 에이트레인,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,false,B,1,,false
 에이퍼즈,mucon,뮤콘(MU:CON),mid,selected,2022-08-16,false,B,1,,false
-에프티아일랜드,burock_main,부산록페 본무대,mid,selected,2023-09-22,false,B,1,,false
-에프티아일랜드,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
 에피,khha_rookie,한국힙합어워즈 신인,final,nominee,2026-01-14,true,A,2,큐레이션:hiphople,false
 에피,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,false,B,1,,false
 에피,khha_rookie,한국힙합어워즈 신인,final,winner,2026-02-11,true,S,3,큐레이션:hiphople,false
@@ -591,7 +583,6 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 염소의뿔개의심장,hello_rookie_year,올해의 헬로루키,final,shortlist,2026-08-31,true,A,2,,false
 염소의뿔개의심장,hello_rookie_year,올해의 헬로루키,final,finalist,2026-10-02,true,S,3,,false
 영웨이브,museon_final,뮤즈온 최종,mid,selected,2025-05-12,true,A,2,,false
-영케이,burock_main,부산록페 본무대,mid,selected,2023-09-22,false,B,1,,false
 예빛,cj_tuneup,CJ 튠업,final,selected,2021-05-01,true,S,3,,false
 예빛,mucon,뮤콘(MU:CON),mid,selected,2026-07-13,false,B,1,,false
 예서,museon_final,뮤즈온 최종,mid,selected,2021-06-16,true,A,2,,false
@@ -630,8 +621,6 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 우수현,museon_final,뮤즈온 최종,mid,selected,2026-06-04,true,A,2,,false
 우예린,mucon,뮤콘(MU:CON),mid,selected,2025-06-16,false,B,1,,false
 우자앤쉐인,kma_genre,한대음 장르 부문,mid,nominee,2021-01-26,false,B,1,,false
-우즈,burock_main,부산록페 본무대,mid,selected,2025-08-29,false,B,1,,false
-우즈,burock_main,부산록페 본무대,mid,selected,2026-09-04,false,B,1,,false
 우지원,mucon,뮤콘(MU:CON),mid,selected,2022-08-16,false,B,1,,false
 우진영,mucon,뮤콘(MU:CON),mid,selected,2021-08-10,false,B,1,,false
 우진영,mucon,뮤콘(MU:CON),mid,selected,2022-08-16,false,B,1,,false
@@ -659,12 +648,13 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 유다빈밴드,burock_main,부산록페 본무대,mid,selected,2023-09-22,true,B,1,,false
 유다빈밴드,mucon,뮤콘(MU:CON),mid,selected,2024-05-10,true,B,1,,false
 유다빈밴드,burock_main,부산록페 본무대,mid,selected,2024-09-13,true,B,1,,false
-유라,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
-유라,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,false,B,1,,false
+유라,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,true,B,1,,false
+유라,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,true,B,1,,false
 유라,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,false
 유라,kma_genre,한대음 장르 부문,mid,winner,2024-02-29,false,B,1,,false
 유인원,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,true,B,1,,false
 유키카,kma_genre,한대음 장르 부문,mid,nominee,2021-01-26,false,B,1,,false
+유태성,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
 유하,mucon,뮤콘(MU:CON),mid,selected,2021-08-10,false,B,1,,false
 윤다혜,khha_rookie,한국힙합어워즈 신인,final,nominee,2026-01-14,true,A,2,큐레이션:hiphople,false
 윤다혜,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,false,B,1,,false
@@ -703,6 +693,7 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 이무진,kma_rookie,한대음 올해의 신인,final,nominee,2022-03-01,true,A,2,,false
 이민휘,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,false
 이바다,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,false,B,1,,false
+이부영,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
 이브,burock_main,부산록페 본무대,mid,selected,2023-09-22,false,B,1,,false
 이상웅,indiestance,인디스땅스 결선,mid,finalist,2024-08-14,true,A,2,,false
 이상은,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
@@ -817,6 +808,7 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 조용필,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,false
 조월,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,false,B,1,,false
 조윤성,kma_genre,한대음 장르 부문,mid,nominee,2021-01-26,false,B,1,,false
+조율,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
 조정민,mucon,뮤콘(MU:CON),mid,selected,2021-08-10,false,B,1,,false
 조해인,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
 존박,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
@@ -832,6 +824,7 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 지드래곤,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
 지드래곤,kma_genre,한대음 장르 부문,mid,winner,2025-02-27,false,B,1,,false
 지박,kma_genre,한대음 장르 부문,mid,nominee,2021-01-26,false,B,1,,false
+지박,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
 지셀,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,false,B,1,,false
 지소쿠리클럽,hello_rookie_year,올해의 헬로루키,final,finalist,2022-11-24,true,S,3,,false
 지소쿠리클럽,cj_tuneup,CJ 튠업,final,selected,2023-06-07,true,S,3,,false
@@ -940,10 +933,9 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 토카이,burock_main,부산록페 본무대,mid,selected,2026-09-04,true,B,1,,false
 톡식,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
 투데이올드스니커즈,penta_superrookie,펜타포트 슈퍼루키,mid,finalist,2025-06-09,true,B,1,,false
-투지,mucon,뮤콘(MU:CON),mid,selected,2021-08-10,false,B,1,,false
-투지,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,false,B,1,,false
+투지,mucon,뮤콘(MU:CON),mid,selected,2021-08-10,true,B,1,,false
+투지,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,true,B,1,,false
 투지,mucon,뮤콘(MU:CON),mid,selected,2026-07-13,false,B,1,,false
-투톤쉐이프,kma_genre,한대음 장르 부문,mid,nominee,2021-01-26,false,B,1,,false
 트랩,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
 트레이비,khha_rookie,한국힙합어워즈 신인,final,nominee,2024-02-27,true,A,2,큐레이션:hiphople,false
 트렌드지,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,false,B,1,,false
@@ -960,7 +952,7 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 퍼지퍼그,penta_superrookie,펜타포트 슈퍼루키,mid,selected,2022-07-09,true,A,2,,false
 페퍼톤스,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
 페퍼톤스,burock_main,부산록페 본무대,mid,selected,2026-09-04,false,B,1,,false
-포쳐군단,penta_superrookie,펜타포트 슈퍼루키,mid,finalist,2026-05-18,true,B,1,,false
+포져군단,penta_superrookie,펜타포트 슈퍼루키,mid,finalist,2026-05-18,true,B,1,,false
 폴로다레드,khha_rookie,한국힙합어워즈 신인,final,nominee,2023-03-09,true,A,2,큐레이션:hiphople,false
 푸디토리움,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
 프랭클리,penta_superrookie,펜타포트 슈퍼루키,mid,finalist,2025-06-09,true,B,1,,false
@@ -1059,15 +1051,21 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 250,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
 250,kma_genre,한대음 장르 부문,mid,winner,2023-03-05,false,B,1,,false
 5149,musicy_rookie,음악취향Y 올해의 신인,final,shortlist,2025-12-29,true,B,1,큐레이션:musicy,true
-64ksana,mucon,뮤콘(MU:CON),mid,selected,2026-07-13,false,B,1,,false
+64크사나,mucon,뮤콘(MU:CON),mid,selected,2026-07-13,false,B,1,,false
 9001,museon_final,뮤즈온 최종,mid,selected,2022-06-07,true,A,2,,false
 9001,mucon,뮤콘(MU:CON),mid,selected,2022-08-16,false,B,1,,false
+9001,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,false,B,1,,false
 abtb,kma_genre,한대음 장르 부문,mid,nominee,2021-01-26,true,B,1,,false
 abtb,kma_genre,한대음 장르 부문,mid,winner,2021-02-28,true,B,1,,false
 abtb,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
 agnes,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
 agnes,kma_genre,한대음 장르 부문,mid,winner,2022-03-01,false,B,1,,false
 aiai,mucon,뮤콘(MU:CON),mid,selected,2026-07-13,true,B,1,,false
+akmu,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
+akmu,kma_genre,한대음 장르 부문,mid,winner,2022-03-01,false,B,1,,false
+akmu,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,false
+akmu,kma_genre,한대음 장르 부문,mid,winner,2024-02-29,false,B,1,,false
+akmu,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
 ambidjack,khha_rookie,한국힙합어워즈 신인,final,nominee,2025-01-15,true,A,2,큐레이션:hiphople,false
 ambroxiak,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
 baan,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,false,B,1,,false
@@ -1079,7 +1077,6 @@ blankforms,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,f
 bojvck,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,false,B,1,,false
 brwn,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,false
 brwn,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
-buyounglee,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
 chai,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,false
 chai,kma_genre,한대음 장르 부문,mid,winner,2024-02-29,false,B,1,,false
 che,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
@@ -1096,9 +1093,14 @@ d82,burock_main,부산록페 본무대,mid,selected,2026-09-04,true,B,1,,false
 ddbb,burock_main,부산록페 본무대,mid,selected,2025-08-29,true,B,1,,false
 dineon,museon_final,뮤즈온 최종,mid,selected,2022-06-07,true,A,2,,false
 doildoshi,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
+dragonpony,burock_main,부산록페 본무대,mid,selected,2024-09-13,true,B,1,,false
+dragonpony,burock_main,부산록페 본무대,mid,selected,2025-08-29,true,B,1,,false
+dragonpony,burock_main,부산록페 본무대,mid,selected,2026-09-04,true,B,1,,false
 ek,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
 emmahotel,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
 업체eobchae,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
+ftisland,burock_main,부산록페 본무대,mid,selected,2023-09-22,false,B,1,,false
+ftisland,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
 g0nny,mucon,뮤콘(MU:CON),mid,selected,2024-05-10,true,B,1,,false
 g0nny,museon_final,뮤즈온 최종,mid,selected,2024-06-03,true,A,2,,false
 gonggonggoo009,khha_rookie,한국힙합어워즈 신인,final,winner,2023-03-09,true,S,3,큐레이션:hiphople,false
@@ -1116,18 +1118,14 @@ jihyeleeorchestra,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false
 jihyeleeorchestra,kma_genre,한대음 장르 부문,mid,winner,2022-03-01,false,B,1,,false
 jihyeleeorchestra,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
 jihyeleeorchestra,kma_genre,한대음 장르 부문,mid,winner,2025-02-27,false,B,1,,false
-jipark,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
 jisokury,museon_final,뮤즈온 최종,mid,selected,2022-06-07,true,A,2,,false
 joelayne,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
 johnstowell,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,false,B,1,,false
-joyul,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
 kik,burock_main,부산록페 본무대,mid,selected,2026-09-04,true,B,1,,false
-kimyujin,kma_rookie,한대음 올해의 신인,final,nominee,2023-03-05,true,A,2,,false
 kisu,mucon,뮤콘(MU:CON),mid,selected,2025-06-16,false,B,1,,false
 koreajazzguardians,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
 kst,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
 lavndr,museon_final,뮤즈온 최종,mid,selected,2022-06-07,true,A,2,,false
-leavesblack,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
 leejiyeunjazzorchestra,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
 letmeknow,burock_main,부산록페 본무대,mid,selected,2025-08-29,false,B,1,,false
 lineandcircle,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
@@ -1151,7 +1149,6 @@ mountxlr,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,fal
 mountxlr,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
 mountxlr,kma_genre,한대음 장르 부문,mid,winner,2025-02-27,false,B,1,,false
 muque,burock_main,부산록페 본무대,mid,selected,2025-08-29,false,B,1,,false
-namyoosun,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
 necta,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,false,B,1,,false
 netgala,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
 netgala,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
@@ -1179,7 +1176,6 @@ sema,indiestance,인디스땅스 결선,mid,finalist,2023-10-14,true,A,2,,false
 shinjihang,khha_rookie,한국힙합어워즈 신인,final,nominee,2026-01-14,true,A,2,,false
 shinjihang,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,false,B,1,,false
 slant,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
-snakechickensoup,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
 souldelivery,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
 souldelivery,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,false
 souldelivery,mucon,뮤콘(MU:CON),mid,selected,2026-07-13,false,B,1,,false
@@ -1191,10 +1187,12 @@ surl,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,false,B,1,,false
 surl,burock_main,부산록페 본무대,mid,selected,2023-09-22,false,B,1,,false
 swimrabbit,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
 teho,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
+thevolunteers,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,true,B,1,,false
 trpp,mucon,뮤콘(MU:CON),mid,selected,2022-08-16,false,B,1,,false
 trpp,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
 tuesdaybeachclub,hello_rookie_year,올해의 헬로루키,final,finalist,2022-11-24,true,S,3,,false
 tuesdaybeachclub,burock_main,부산록페 본무대,mid,selected,2026-09-04,true,B,1,,false
+twotoneshape,kma_genre,한대음 장르 부문,mid,nominee,2021-01-26,false,B,1,,false
 twotoneshape,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
 vardanovsepian,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,false
 viniciusgomes,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
@@ -1208,6 +1206,8 @@ w24,mucon,뮤콘(MU:CON),mid,selected,2026-07-13,false,B,1,,false
 wahwahwah,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,true,B,1,,false
 wahwahwah,kma_genre,한대음 장르 부문,mid,winner,2026-02-26,true,B,1,,false
 wahwahwah,burock_main,부산록페 본무대,mid,selected,2026-09-04,true,B,1,,false
+woodz,burock_main,부산록페 본무대,mid,selected,2025-08-29,false,B,1,,false
+woodz,burock_main,부산록페 본무대,mid,selected,2026-09-04,false,B,1,,false
 woshi,museon_final,뮤즈온 최종,mid,selected,2023-06-21,true,A,2,,false
 y2k,burock_main,부산록페 본무대,mid,selected,2025-08-29,false,B,1,,false
 yb,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,false,B,1,,false
@@ -1216,4 +1216,4 @@ yetsuby,kma_genre,한대음 장르 부문,mid,winner,2024-02-29,false,B,1,,false
 yetsuby,kma_genre,한대음 장르 부문,mid,nominee,2026-02-05,false,B,1,,false
 yongleethedoltang,mucon,뮤콘(MU:CON),mid,selected,2026-07-13,true,B,1,,false
 yongseoklee,kma_genre,한대음 장르 부문,mid,nominee,2022-02-09,false,B,1,,false
-yutaesung,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
+youngk,burock_main,부산록페 본무대,mid,selected,2023-09-22,false,B,1,,false

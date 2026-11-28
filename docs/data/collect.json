@@ -1,6 +1,22 @@
 {
- "generated": "2026-11-28T00:48:56+09:00",
+ "generated": "2026-11-28T23:18:08+09:00",
  "runs": [
+  {
+   "date": "2026-11-28",
+   "source": "weiv",
+   "table": "raw_press",
+   "rows": 6,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-28",
+   "source": "visla",
+   "table": "raw_press",
+   "rows": 1400,
+   "file_ok": true,
+   "prev_rows": null
+  },
   {
    "date": "2026-11-28",
    "source": "spotify",
@@ -11,17 +27,105 @@
   },
   {
    "date": "2026-11-28",
+   "source": "rhythmer",
+   "table": "raw_press",
+   "rows": 134,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-28",
+   "source": "regional",
+   "table": "raw_kr_gig",
+   "rows": 710,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-28",
+   "source": "poclanos",
+   "table": "raw_kr_release",
+   "rows": 6638,
+   "file_ok": true,
+   "prev_rows": 5
+  },
+  {
+   "date": "2026-11-28",
+   "source": "musicy",
+   "table": "raw_press",
+   "rows": 794,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-28",
+   "source": "melon",
+   "table": "raw_artist_profile",
+   "rows": 508,
+   "file_ok": true,
+   "prev_rows": 518
+  },
+  {
+   "date": "2026-11-28",
+   "source": "manual",
+   "table": "raw_outcome",
+   "rows": 11,
+   "file_ok": true,
+   "prev_rows": 267
+  },
+  {
+   "date": "2026-11-28",
+   "source": "izm",
+   "table": "raw_press",
+   "rows": 993,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-28",
+   "source": "instagram",
+   "table": "raw_artist_profile",
+   "rows": 117,
+   "file_ok": true,
+   "prev_rows": 19
+  },
+  {
+   "date": "2026-11-28",
+   "source": "instagram",
+   "table": "raw_press",
+   "rows": 4726,
+   "file_ok": true,
+   "prev_rows": 1724
+  },
+  {
+   "date": "2026-11-28",
+   "source": "indistreet",
+   "table": "raw_kr_gig",
+   "rows": 16936,
+   "file_ok": true,
+   "prev_rows": 317
+  },
+  {
+   "date": "2026-11-28",
    "source": "indiego",
    "table": "raw_kr_gig",
-   "rows": 344,
+   "rows": 4639,
    "file_ok": true,
    "prev_rows": 240
   },
   {
    "date": "2026-11-28",
+   "source": "festival",
+   "table": "raw_kr_gig",
+   "rows": 1463,
+   "file_ok": true,
+   "prev_rows": null
+  },
+  {
+   "date": "2026-11-28",
    "source": "busan",
    "table": "raw_kr_selection",
-   "rows": 13,
+   "rows": 53,
    "file_ok": true,
    "prev_rows": 3
   },
@@ -829,6 +933,28 @@
   }
  ],
  "upcoming_gigs": [
+  {
+   "date": "2026-11-28",
+   "time": "",
+   "venue": "달빛산책",
+   "title": "🌙 2026.11.28 (토) JJJ Band – Live at 달빛산책",
+   "artists": [
+    "JJJ Band"
+   ],
+   "source": "regional",
+   "url": "https://blog.naver.com/moonlight_walk_bar/224486787181"
+  },
+  {
+   "date": "2026-11-28",
+   "time": "",
+   "venue": "세종 음악창작소 누리락",
+   "title": "디깅라이브세종 [ep23] 우희준",
+   "artists": [
+    "우희준"
+   ],
+   "source": "regional",
+   "url": "https://www.nurirock.or.kr/base/nrr/performance/read?performanceNo=169"
+  },
   {
    "date": "2026-11-28",
    "time": "05:00",
@@ -2602,6 +2728,17 @@
   },
   {
    "date": "2026-12-04",
+   "time": "",
+   "venue": "세종 음악창작소 누리락",
+   "title": "2026 뮤즈세종 쇼케이스 김도연 <도란도란>",
+   "artists": [
+    "김도연"
+   ],
+   "source": "regional",
+   "url": "https://www.nurirock.or.kr/base/nrr/performance/read?performanceNo=181"
+  },
+  {
+   "date": "2026-12-04",
    "time": "18:00",
    "venue": "축제",
    "title": "BCC 1주년 (12/4)",
@@ -3044,6 +3181,17 @@
    "url": "https://www.indiego.co.kr/events/2005-three-paths-one-horizon"
   },
   {
+   "date": "2026-12-05",
+   "time": "",
+   "venue": "세종 음악창작소 누리락",
+   "title": "2026 뮤즈세종 쇼케이스 키라라 <친환경>",
+   "artists": [
+    "키라라"
+   ],
+   "source": "regional",
+   "url": "https://www.nurirock.or.kr/base/nrr/performance/read?performanceNo=182"
+  },
+  {
    "date": "2026-12-11",
    "time": "",
    "venue": "KT&G 상상마당 홍대 라이브홀",
@@ -3055,6 +3203,17 @@
    "url": "https://www.sangsangmadang.com/show/detail/3216"
   },
   {
+   "date": "2026-12-11",
+   "time": "",
+   "venue": "세종 음악창작소 누리락",
+   "title": "2026 뮤즈세종 쇼케이스 모래 <생의 기록>",
+   "artists": [
+    "모래"
+   ],
+   "source": "regional",
+   "url": "https://www.nurirock.or.kr/base/nrr/performance/read?performanceNo=183"
+  },
+  {
    "date": "2026-12-12",
    "time": "",
    "venue": "KT&G 상상마당 홍대 라이브홀",
@@ -3064,6 +3223,17 @@
    ],
    "source": "sangsangmadang",
    "url": "https://www.sangsangmadang.com/show/detail/3217"
+  },
+  {
+   "date": "2026-12-12",
+   "time": "",
+   "venue": "세종 음악창작소 누리락",
+   "title": "2026 뮤즈세종 쇼케이스 올디 벗 구디 <Overture>",
+   "artists": [
+    "올디 벗 구디"
+   ],
+   "source": "regional",
+   "url": "https://www.nurirock.or.kr/base/nrr/performance/read?performanceNo=184"
   },
   {
    "date": "2026-12-12",
@@ -4725,6 +4895,141 @@
  ],
  "cross_branch": [
   {
+   "artist": "12BH",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "CHS",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "FRankly",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "고고학",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "극동아시아타이거즈",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김뜻돌",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김사월",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김새녘",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김승주",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김오키",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김푸름",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "김해원",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "까데호",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "까치산",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "놀이도감",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "다다다",
    "branches": [
     "공연",
@@ -4743,7 +5048,97 @@
    ]
   },
   {
+   "artist": "레이브릭스",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "모스크바 서핑클럽",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "민채영",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "박소은",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "버둥",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "베리코이버니",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "비공정",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "사뮈",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "새소년",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "세이수미",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "소음발광",
    "branches": [
     "공연",
     "발매",
@@ -4761,7 +5156,250 @@
    ]
   },
   {
+   "artist": "숨비",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "시인을 위하여",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "신인류",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "신지훈",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "실리카겔",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "심아일랜드",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "안다영",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "야자수",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "양치기소년단",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "오마르와 동방전력",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "오아!",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "오헬렌",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "우주왕복선싸이드미러",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "유인원",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "윤지영",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "이랑",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "이설아",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "이주영",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "임헌일(메이트)",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "전기뱀장어",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "전유동",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "전자양",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "전호권",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "정밀아",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "초록불꽃소년단",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "한로로",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "해파",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "해파리",
    "branches": [
     "공연",
     "발매",
@@ -4779,10 +5417,67 @@
    ]
   },
   {
-   "artist": "12BH",
+   "artist": "화노",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "10CM",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "18Fevers(18피버스)",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "24아워즈 (24Hours)",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "250",
    "branches": [
     "공연",
     "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "2단지",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "4shyrd",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "92914",
+   "branches": [
+    "공연",
+    "발매",
     "큐레이션"
    ]
   },
@@ -4795,7 +5490,79 @@
    ]
   },
   {
+   "artist": "ANDOR",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원"
+   ]
+  },
+  {
+   "artist": "An0",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "BABO",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "BULGOGI DISCO",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "Beautiful Disco",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "BrokenTeeth",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "Changyunflug",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "Closet Yi",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "Colde (콜드)",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "Cultgazer",
    "branches": [
     "공연",
     "발매",
@@ -4819,6 +5586,70 @@
    ]
   },
   {
+   "artist": "ELDON",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "Eddie and the Bricks",
+   "branches": [
+    "공연",
+    "선정·지원",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "FACE 2 WAYS",
+   "branches": [
+    "공연",
+    "발매",
+    "선정·지원"
+   ]
+  },
+  {
+   "artist": "Hukky Shibaseki",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "I.M.F",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "Jampad",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "KIRARA (키라라)",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
+   "artist": "LOBOTOME",
+   "branches": [
+    "공연",
+    "발매",
+    "큐레이션"
+   ]
+  },
+  {
    "artist": "Lacuna(라쿠나)",
    "branches": [
     "공연",
@@ -4827,23 +5658,7 @@
    ]
   },
   {
-   "artist": "갤럭시익스프레스",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "게이트플라워즈",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "고고학 (Gogohawk)",
+   "artist": "Lamp",
    "branches": [
     "공연",
     "발매",
@@ -4851,551 +5666,7 @@
    ]
   },
   {
-   "artist": "공원(gongwon)",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "구남과여라이딩스텔라",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "극동아시아타이거즈",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "김늑",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "김뜻돌",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "김사월",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "김새녘",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "김석준",
-   "branches": [
-    "발매",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "김수철",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "김승민",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "김승주",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "김오키",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "김푸름",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "김해원",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "까데호",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "나노말",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "나르디스",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "나상현씨밴드",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "너드커넥션",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "노리플라이",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "노브레인",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "놀이도감",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "단편선 순간들",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "더 폴스(The Poles)",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "동영",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "라이엇 키즈(RIOT KIDZ)",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "라이프 앤 타임",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "레이브릭스",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "로스오브인펙션",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "루츠리딤",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "마이앤트메리",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "맥거핀(Macguffin)",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "메리헤이데이",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "모스크바 서핑클럽",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "모허",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "미역수염",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "민채영",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "바밍타이거",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "바보",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "박소은",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "백현진",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "밴드기린",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "뱃사공(수림, 백찬영)",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "버둥",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "범진",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "베리코이버니",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "베이루트택시",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "봉제인간",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "불고기디스코",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "삼산",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "새소년",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "세이수미",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "세일러허니문",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "소금",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "소음발광",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "숨비",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "스네이크치킨수프",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "스윗소로우",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "스텔라장",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "시인을 위하여",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "신지훈",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "실리카겔",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "심아일랜드",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "심현보",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "쏜애플",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "아도이",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "안다영",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "애니멀다이버스",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "야자수",
+   "artist": "Leaveourtears",
    "branches": [
     "공연",
     "발매",
@@ -5403,55 +5674,7 @@
    ]
   },
   {
-   "artist": "양치기소년단",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "얼스바운드",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "연정",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "예람",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "오마르와 동방전력",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "오예본",
-   "branches": [
-    "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "오월오일",
+   "artist": "Liu Lee",
    "branches": [
     "공연",
     "발매",
@@ -5459,7 +5682,7 @@
    ]
   },
   {
-   "artist": "오존 (O3ohn)",
+   "artist": "Maalib",
    "branches": [
     "공연",
     "발매",
@@ -5467,66 +5690,66 @@
    ]
   },
   {
-   "artist": "오티스림",
+   "artist": "Men And Them",
    "branches": [
     "공연",
-    "선정·지원",
+    "발매",
     "큐레이션"
    ]
   },
   {
-   "artist": "올디 벗 구디",
+   "artist": "Monday Off With Bluesy",
    "branches": [
     "공연",
-    "선정·지원",
+    "발매",
+    "선정·지원"
+   ]
+  },
+  {
+   "artist": "Mount XLR",
+   "branches": [
+    "공연",
+    "발매",
     "큐레이션"
    ]
   },
   {
-   "artist": "와와와",
+   "artist": "NECTA",
    "branches": [
     "공연",
-    "선정·지원",
+    "발매",
     "큐레이션"
    ]
   },
   {
-   "artist": "우주왕복선싸이드미러",
+   "artist": "Original Love",
    "branches": [
     "공연",
-    "선정·지원",
+    "발매",
     "큐레이션"
    ]
   },
   {
-   "artist": "윤마치(MRCH)",
+   "artist": "Otis Lim",
    "branches": [
     "공연",
-    "선정·지원",
+    "발매",
     "큐레이션"
    ]
   },
   {
-   "artist": "이디오테잎",
+   "artist": "PAR",
    "branches": [
     "공연",
-    "선정·지원",
+    "발매",
     "큐레이션"
    ]
   },
   {
-   "artist": "이랑",
+   "artist": "PATZ",
    "branches": [
     "공연",
-    "선정·지원",
-    "큐레이션"
-   ]
-  },
-  {
-   "artist": "이민휘",
-   "branches": [
-    "공연",
-    "선정·지원",
+    "발매",
     "큐레이션"
    ]
   }
