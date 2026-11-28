@@ -16,6 +16,7 @@
 - 저장소 이름 gigle-research로 바뀜(진행판 https://leegmyung.github.io/gigle-research/, 내 컴퓨터 폴더는 crate-digger 그대로). KOPIS 키 .env에 들어감(동작 확인).
 - 재개 시 할 일: ① 작업자들 상태 확인(orca orchestration worker-show) — 인터넷이 끊겨 멈춘 작업자에게 '이어서' 메시지 ② 21시 자동 실행 결과 확인(records/daily_run.log) ③ 스포티파이 429 풀리면(23:30 이후) collect_spotify·collect_artist_images 수동 실행 → export→build_app_extras→coverage_targets→커밋.
 - 진행 중이던 작업자(dispatch는 후속 메시지마다 새 id라 마지막 id): KOPIS 수집기 ctx_cdceaa076bbf · 멜론 프로필 전체(정답 여부 안 보는 순서) ctx_b76a2a6c3982 · 정답 정리 뒤 성적 숫자 다시 재기 ctx_83523fbb2b14 · 페스티벌 출처 'festival' 분리+페스티벌라이프 수집 ctx_50b1f08c35ef · 차트·그래프 디자인 통일 ctx_c0d7979ff9f1 · 휴대폰 375 한 바퀴 ctx_902067909127 · 사진 출처 조사 ctx_33356e6af592 · 안티그래비티는 대기(화면 작업 끝나면 중복 함수 합치기 2단계, docs/app_cleanup_2026-11-28.md).
+- 사용자 결정(2026-11-28 23시): 점수는 v2 유지 — 정답 정리 뒤 추천 가중치가 교차 검증 +0.023이었지만 상위 50 적중은 v2가 최다(32 vs 29). 멜론 프로필 전체 수집(약 11일)이 끝나면 같은 비교를 다시 해서 확정.
 - 사용자 결정(오늘 저녁): 멜론 프로필 후보 전체 수집(→ 신인 판정 기준 질문은 수집이 끝나면 자연히 해결), KOPIS 사용, 강조색은 사용자가 시안 찾아 줌, 경쟁 사이트 3개 구독 해지 가능.
 
 **2026-11-28 오후 (재개 시 이것부터 — 아래 아침·새벽보다 우선)**
