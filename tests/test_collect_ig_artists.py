@@ -101,6 +101,21 @@ class InputTest(unittest.TestCase):
         self.assertEqual(got, ["a.band", "b_band"])
 
 
+class RevisitTest(unittest.TestCase):
+    """--handles-file: 관찰 목록 계정을 이미 봤어도 7일마다 다시 열어 팔로워 수를 날짜별로 남긴다 (docs/followers_plan.md)."""
+
+    def test_last_fetched_from_rows(self):
+        rows = [{"artist_source_id": "aa", "collected_at": "2026-11-20T10:00:00+09:00"},
+                {"artist_source_id": "aa", "collected_at": "2026-11-26T10:00:00+09:00"},
+                {"artist_source_id": "bb", "collected_at": "2026-11-27T10:00:00+09:00"}]
+        self.assertEqual(ig.last_fetched(rows), {"aa": "2026-11-26", "bb": "2026-11-27"})
+
+    def test_revisit_due_after_7_days_and_skips_outlets(self):
+        last = {"aa": "2026-11-20", "bb": "2026-11-27"}
+        got = ig.revisit_targets(["aa", "bb", "cc", "mag", "aa"], last, "2026-11-28", outlets={"mag"})
+        self.assertEqual(got, ["cc", "aa"])                 # 처음 보는 계정 먼저, 그다음 오래된 순 · bb 는 1일 전이라 아직
+
+
 class EmailDomainTest(unittest.TestCase):
     def test_email_domain_is_not_a_handle(self):   # 'abc@gmail.com' 캡션에서 잘못 잡힌 태그
         self.assertEqual(ig.targets([{"artist_handle": "@gmail.com"}, {"artist_handle": "@naver.com"}], {}, set(), set()), [])

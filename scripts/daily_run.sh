@@ -28,6 +28,11 @@ if command -v aside >/dev/null 2>&1; then
   NAMES="$(ls -t data/raw/review/melon_names_*.txt 2>/dev/null | head -1)"   # 후보·수상 팀 프로필 보강 (한도 없이 명단 전체)
   [ -n "$NAMES" ] && { "$PY" scripts/collect_artists.py --names-file "$NAMES" || echo "⚠️ 후보 팀 멜론 프로필 보강 실패"; }
   "$PY" scripts/collect_artists.py --refresh || echo "⚠️ 멜론 팬 수 다시 받기 실패"   # 관찰 팀 팬 수 7일마다 (팬 수 날짜별 기록용)
+  if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then   # 월요일: 팔로워 관찰 목록 다시 보기 (docs/followers_plan.md)
+    "$PY" scripts/followers_watch.py || echo "⚠️ 팔로워 관찰 목록 실패"
+    [ -s data/raw/state/followers_watch_melon_extra.txt ] && { "$PY" scripts/collect_artists.py --ids-file data/raw/state/followers_watch_melon_extra.txt || echo "⚠️ 관심 팀 멜론 팬 수 다시 받기 실패"; }
+    "$PY" scripts/collect_ig_artists.py --handles-file data/raw/state/followers_watch_instagram.txt --limit 100 || echo "⚠️ 관찰 팀 인스타 팔로워 다시 보기 실패"
+  fi
   "$PY" scripts/collect_insta.py || echo "⚠️ 인스타 매거진 수집 실패"   # 가장 오래 걸려서 aside 묶음 맨 뒤 (길어져도 다른 수집이 안 밀리게)
 else
   echo "⚠️ aside 명령이 없어 공연·인스타·음원 플랫폼 수집을 건너뜀"

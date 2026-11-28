@@ -10,6 +10,8 @@
   같을 때만 받아들이고, 같은 키가 여럿이면 namesakes(동명 팀 수)를 남긴다 → data/raw/state/spotify_match.json
 - 받는 것: 앨범+싱글 목록의 가장 이른 발매일(first_release_date, YYYY나 YYYY-MM일 수 있음)과 개수(album_count).
   2026년 개발자 모드 제한으로 인기도·팔로워·장르는 비어 오고, 비슷한 아티스트·추천은 막혀 있다. 검색·앨범 목록은 한 번에 10개까지.
+  검색 응답에 팔로워 수(followers.total)가 실려 오면 data/raw/state/followers_spotify.jsonl 에 팀·날짜·값을 덧붙인다(추가 요청 없음 —
+  새 이름을 처음 찾을 때만이라 팀마다 한 번뿐, 날짜별로 쌓으려면 주 1회 묶음 요청이 따로 필요: docs/followers_plan.md).
 - 인증: .env 또는 환경변수의 SPOTIFY_CLIENT_ID / SPOTIFY_CLIENT_SECRET (client credentials 방식). 값은 출력하지 않는다.
 - 요청 사이 0.1초 쉬고, 429(너무 많은 요청)는 Retry-After만큼 기다린다 (너무 길면 멈추고 그때까지 결과를 저장).
 - 형식: docs/csv_spec.md / scripts/csv_schema.py raw_artist_profile
@@ -56,6 +58,7 @@ SELECTION_SINCE_YEAR = "2024"
 TRAILING_ALIAS = re.compile(r"\s*[\(\[]([^\)\]]+)[\)\]]\s*$")
 IMAGE_TARGET_WIDTH = 200     # 사진은 가로 이 이상 중 가장 작은 것 (앱 썸네일)
 IMAGE_HOSTS = ("i.scdn.co",)
+FOLLOWERS_LOG = "followers_spotify.jsonl"   # data/raw/state/ — 팀·날짜·팔로워 한 줄씩 (docs/followers_plan.md, 추가 요청 없음)
 
 
 class RateLimited(RuntimeError):
@@ -202,6 +205,9 @@ def pick_match(query_name, items):
         return None
     match = {"id": hits[0]["id"], "name": hits[0]["name"], "namesakes": len(hits)}
     image = pick_image(hits[0].get("images"))
+    followers = (hits[0].get("followers") or {}).get("total")
+    if isinstance(followers, int):           # 검색 응답에 있을 때만 (개발자 모드에선 비어 올 수 있음) — _collect 가 따로 기록
+        match = {**match, "followers": followers}
     return {**match, "image": image} if image else match
 
 
@@ -278,6 +284,14 @@ def to_row(match, summary, collected_at):
             "url": ARTIST_PAGE.format(id=match["id"]), "artist_key": artist_key(match["name"])}
 
 
+def append_followers(path, team_key, match, day):
+    """팔로워 한 줄을 덧붙인다 (팀 키 = 우리 이름 키). 짝 맞춤 상태(spotify_match.json)에는 남기지 않는다."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "a", encoding="utf-8") as fh:
+        fh.write(json.dumps({"team_key": team_key, "spotify_id": match["id"], "date": day,
+                             "followers": match["followers"]}, ensure_ascii=False) + "\n")
+
+
 def write_csv(rows, out_dir, day):
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / f"raw_artist_profile_{day}_spotify.csv"
@@ -307,12 +321,16 @@ def _collect(client, todo, matches, seen, rows, ctx):
     """먼저 지난번에 짝만 맞추고 앨범을 못 받은 팀, 그다음 새 이름을 하나씩 (검색 → 바로 앨범).
     한도에 걸려 멈춰도 그때까지 받은 행(rows)은 남는다."""
     collected_at, delay, failures, match_path = ctx
+    followers_path = match_path.parent / FOLLOWERS_LOG
     done = set(seen)
     for m in list(matches.values()):
         _profile(client, m, done, rows, collected_at, delay, failures)
     for i, name in enumerate(todo, 1):
         try:
             matches[name] = find_artist(client, name)
+            if matches[name] and "followers" in matches[name]:
+                append_followers(followers_path, artist_key(name), matches[name], collected_at[:10])
+                matches[name] = {k: v for k, v in matches[name].items() if k != "followers"}
         except SpotifyError as e:
             failures.append(f"검색 {name}: {e}")
             continue

@@ -12,6 +12,8 @@
 - 소개글·이름에 매거진·클럽·레이블·페스티벌 같은 말이 있으면 아티스트가 아닌 것으로 보고 CSV에서 빼고
   같은 파일의 "non_artists" 에 모아 2단계에서 검수한다.
 - 이미 본 계정은 data/raw/state/ig_artists_seen.json (로그인 벽에 막힌 계정은 다음에 다시)
+- --handles-file: 관찰 목록(scripts/followers_watch.py → data/raw/state/followers_watch_instagram.txt) 계정을 이미 봤어도
+  마지막으로 받은 지 7일 지났으면 다시 열어 팔로워 수를 날짜별로 남긴다 (팔로워 30일 변화, docs/followers_plan.md).
 - 형식: docs/csv_spec.md / scripts/csv_schema.py raw_artist_profile
 """
 import argparse
@@ -165,6 +167,29 @@ def targets(press_rows, tag_counts, seen, outlets):
     return [h for h in dict.fromkeys(handles) if h and h.lower() not in skip and not EMAIL_DOMAIN.search(h)]
 
 
+REVISIT_DAYS = 7
+
+
+def last_fetched(profile_rows):
+    """계정 → 마지막으로 프로필을 받은 날 (원본 인스타 프로필 파일의 수집일)."""
+    out = {}
+    for r in profile_rows:
+        h, d = r.get("artist_source_id") or "", (r.get("collected_at") or "")[:10]
+        if h and d and d > out.get(h, ""):
+            out[h] = d
+    return out
+
+
+def revisit_targets(handles, last, today, outlets=(), days=REVISIT_DAYS):
+    """다시 볼 계정: 처음 보는 계정 → 마지막으로 받은 지 days 일 이상 지난 계정(오래된 순). 매거진 계정·중복은 뺀다."""
+    skip = {o.lower() for o in outlets}
+    cut = (datetime.strptime(today, "%Y-%m-%d") - timedelta(days=days)).strftime("%Y-%m-%d")
+    hs = [h for h in dict.fromkeys(handles) if h and h.lower() not in skip]
+    new = [h for h in hs if h not in last]
+    due = sorted((h for h in hs if h in last and last[h] <= cut), key=lambda h: last[h])
+    return new + due
+
+
 def wall_streak(statuses, streak):
     """로그인 벽이 연달아 나온 횟수 (다른 결과가 나오면 0부터)."""
     for s in statuses:
@@ -232,14 +257,25 @@ def _save(seen, links):
     LINKS.write_text(json.dumps(links, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
-def collect(limit):
+def _profile_rows():
+    rows = []
+    for f in sorted(glob.glob(str(RAW_DIR / "raw_artist_profile_*_instagram*.csv"))):
+        with open(f, encoding="utf-8") as fh:
+            rows += list(csv.DictReader(fh))
+    return rows
+
+
+def collect(limit, handles=None):
     seen = _load_json(STATE, {})                       # {handle: 결과 상태}
     links = _load_json(LINKS, {})
     links.setdefault("non_artists", {})
     outlets = [a["handle"] for a in _load_json(OUTLETS, {}).get("accounts", []) if a.get("role") != "artist"]   # 팀 본인 계정은 팀 후보로 둠
     tag_counts = _load_json(SNOWBALL, {}).get("artists_tag_counts", {})
-    todo = targets(_press_rows(), tag_counts, seen, outlets)[:limit]
     now = datetime.now(KST).replace(microsecond=0)
+    if handles is not None:                           # 관찰 목록 다시 보기 (이미 본 계정도 7일마다)
+        todo = revisit_targets(handles, last_fetched(_profile_rows()), f"{now:%Y-%m-%d}", outlets)[:limit]
+    else:
+        todo = targets(_press_rows(), tag_counts, seen, outlets)[:limit]
     rows, stats, streak, walls, pauses, path = [], {}, 0, 0, 0, None
     for i in range(0, len(todo), BATCH):
         batch = todo[i:i + BATCH]
@@ -281,8 +317,12 @@ def collect(limit):
 def main(argv):
     ap = argparse.ArgumentParser(description="인스타 아티스트 프로필 수집 (aside 브라우저, 로그인 없이)")
     ap.add_argument("--limit", type=int, default=DEFAULT_LIMIT)
+    ap.add_argument("--handles-file", help="한 줄에 인스타 계정 하나 — 이미 봤어도 7일 지났으면 다시 열어 팔로워 수 기록")
     args = ap.parse_args(argv)
-    path, todo, rows, stats, walls, pauses = collect(args.limit)
+    handles = None
+    if args.handles_file:
+        handles = [x.strip().lstrip("@") for x in Path(args.handles_file).read_text(encoding="utf-8").splitlines() if x.strip()]
+    path, todo, rows, stats, walls, pauses = collect(args.limit, handles)
     print(f"결과별: {stats} · 로그인 벽 {walls}번 (60초 쉼 {pauses}번)")
     print(f"✅ 인스타 아티스트 프로필: 대상 {len(todo)}개 → {len(rows)}행" + (f" → {path}" if path else ""))
     return 0

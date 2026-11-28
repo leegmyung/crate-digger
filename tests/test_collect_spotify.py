@@ -84,6 +84,29 @@ class MatchTest(unittest.TestCase):
         self.assertNotIn("image", cs.pick_match("공원", [dict(artist("c", "공원"), images=[])]))
 
 
+class FollowersTest(unittest.TestCase):
+    """팔로워 수(followers.total)는 이미 받는 검색 응답에 있을 때만 기록 — 추가 요청 없음 (docs/followers_plan.md)."""
+
+    def test_pick_match_keeps_followers_only_when_given(self):
+        item = dict(artist("a", "공원"), followers={"href": None, "total": 1234})
+        self.assertEqual(cs.pick_match("공원", [item])["followers"], 1234)
+        self.assertNotIn("followers", cs.pick_match("공원", [dict(artist("b", "공원"), followers={"total": None})]))
+        self.assertNotIn("followers", cs.pick_match("공원", [artist("c", "공원")]))       # 개발자 모드: 비어 옴
+
+    def test_run_appends_followers_line_and_keeps_match_state_clean(self):
+        routes = [("q=%EA%B3%B5%EC%9B%90", [ok({"artists": {"items": [dict(artist("sp9", "공원"), followers={"total": 77})]}})]),
+                  ("/albums", [ok({"total": 1, "next": None, "items": [album("2024-01")]})])]
+        c, _ = client(routes)
+        with tempfile.TemporaryDirectory() as d:
+            raw = Path(d)
+            cs.run(c, ["공원"], raw, "2026-11-28", AT, delay=0)
+            lines = (raw / "state" / "followers_spotify.jsonl").read_text(encoding="utf-8").splitlines()
+            match = json.loads((raw / "state" / "spotify_match.json").read_text(encoding="utf-8"))
+        self.assertEqual([json.loads(x) for x in lines],
+                         [{"team_key": cs.artist_key("공원"), "spotify_id": "sp9", "date": AT[:10], "followers": 77}])
+        self.assertNotIn("followers", match["공원"])                                   # 짝 맞춤 상태엔 남기지 않음
+
+
 class ReleaseSummaryTest(unittest.TestCase):
     def test_earliest_partial_date_and_ignores_zero_dates(self):
         s = cs.summarize([album("2024-03-01"), album("2023-11", "album"), album("2023"), album("0000")], total=4)

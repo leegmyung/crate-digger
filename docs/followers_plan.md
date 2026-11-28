@@ -29,3 +29,21 @@
 ## 4. 언제 다시 보나
 
 수집 변경이 들어간 날부터 **4주 뒤** 이 표(1절)를 다시 센다. 관찰 목록에서 '21일 이상 떨어진 두 기록이 있는 팀'이 50팀을 넘으면 3절을 만든다.
+
+## 5. 시작한 것 (2026-11-28 오후)
+
+- **스포티파이** `collect_spotify.py`: 검색 응답에 `followers.total` 이 있으면 `data/raw/state/followers_spotify.jsonl` 에 `{team_key, spotify_id, date, followers}` 한 줄 (추가 요청 없음). ⚠️ 두 가지 한계 — ① 2026 개발자 모드에선 팔로워가 비어 올 수 있다(수집기 설명에 그렇게 적혀 있음, 다음 실제 실행에서 확인) ② 새 이름을 **처음 찾을 때만** 검색하므로 팀마다 한 번만 남는다. 날짜별로 쌓으려면 관찰 목록을 주 1회 `/v1/artists?ids=`(50팀씩, 300팀이면 요청 6번)로 받는 단계가 따로 필요 — 하루 예산을 조금 쓰는 일이라 결정이 필요하다.
+- **관찰 목록** `scripts/followers_watch.py`: 상위 300(`coverage_targets.json`) + 앱에서 내려받은 관심 팀 CSV(`data/raw/review/watchlist*.csv`) → `data/raw/state/followers_watch.json`, 멜론 추가 번호(`followers_watch_melon_extra.txt`, 상위 300 밖 관심 팀만 — 상위 팀은 `--refresh` 가 이미 7일마다), 인스타 계정(`followers_watch_instagram.txt`). 첫 실행: 300팀 · 인스타 계정 15개(links.csv 에 인스타 주소가 있는 팀이 적음).
+- **인스타** `collect_ig_artists.py --handles-file`: 그 계정을 이미 봤어도 마지막으로 받은 지 7일 지났으면 다시 열어 팔로워 수를 남긴다(처음 보는 계정 먼저, 그다음 오래된 순).
+- **뼈대** `scripts/followers.py` (+테스트): 지금 팀·플랫폼 기록 908개, 30일 비교 가능 0줄.
+
+**daily_run.sh 월요일 블록에 넣을 줄 (제안 — aside 묶음 안, 인스타 매거진 수집 앞):**
+
+```bash
+if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then
+  "$PY" scripts/followers_watch.py || echo "⚠️ 팔로워 관찰 목록 실패"
+  [ -s data/raw/state/followers_watch_melon_extra.txt ] && { "$PY" scripts/collect_artists.py --ids-file data/raw/state/followers_watch_melon_extra.txt || echo "⚠️ 관심 팀 멜론 팬 수 다시 받기 실패"; }
+  "$PY" scripts/collect_ig_artists.py --handles-file data/raw/state/followers_watch_instagram.txt --limit 100 || echo "⚠️ 관찰 팀 인스타 팔로워 다시 보기 실패"
+fi
+```
+`scripts/followers.py` 와 EXTRAS 등록은 4주 뒤(21일 이상 떨어진 기록이 50팀을 넘으면) 넣는다.
