@@ -88,7 +88,7 @@ class RunTest(unittest.TestCase):
         client = FakeClient({"팀이름0번": res("팀이름0번")})
         state = ys.run(targets, {}, {}, client, date(2026, 11, 28), max_searches=2)
         self.assertEqual(state["t0"]["channel_id"], "UC" + "0" * 22)
-        self.assertEqual(state["t1"], {"checked": "2026-11-28", "channel_id": ""})
+        self.assertEqual(state["t1"], {"checked": "2026-11-28", "channel_id": "", "terms": ["팀이름1번"]})
         self.assertNotIn("t2", state)
         self.assertEqual(client.calls, ["search", "search"])
         again = FakeClient({})
@@ -109,6 +109,24 @@ class RunTest(unittest.TestCase):
         state = ys.run(targets, {"pl": ["Pipe Lips"]}, {}, client, date(2026, 11, 28), releases={"pl": ["Himizu"]})
         self.assertEqual(state["pl"]["channel_id"], "UC" + "0" * 22)
         self.assertTrue(state["pl"]["verified"])
+
+    def test_english_name_searched_when_korean_finds_nothing(self):
+        targets = [{"team_key": "소여", "display_name": "소여밴드", "rank": 1}]
+        client = FakeClient({"소여밴드": res("다른 채널"), "Sawyer": res("Sawyer")})
+        state = ys.run(targets, {}, {}, client, date(2026, 11, 28), en_names={"소여": ["Sawyer"]})
+        self.assertEqual(client.calls.count("search"), 2)
+        self.assertEqual(state["소여"]["title"], "Sawyer")
+        self.assertEqual(state["소여"]["terms"], ["소여밴드", "Sawyer"])
+
+    def test_fresh_miss_retried_only_with_new_english_terms_within_cap(self):
+        targets = [{"team_key": "소여", "display_name": "소여밴드", "rank": 1},
+                   {"team_key": "b", "display_name": "비밴드이름", "rank": 2}]
+        old = {"소여": {"checked": "2026-11-20", "channel_id": "", "terms": ["소여밴드"]}}
+        client = FakeClient({"Sawyer": res("Sawyer")})
+        state = ys.run(targets, {}, old, client, date(2026, 11, 28), max_searches=1, en_names={"소여": ["Sawyer"]})
+        self.assertEqual(client.calls.count("search"), 1)          # 영문 1번만 (하루 상한 1)
+        self.assertEqual(state["소여"]["title"], "Sawyer")
+        self.assertNotIn("b", state)
 
     def test_aliases_are_used_for_matching(self):
         targets = [{"team_key": "sw", "display_name": "스웰시티", "rank": 1}]

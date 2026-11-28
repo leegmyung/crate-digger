@@ -51,6 +51,7 @@ NEW_RAW="$(find data/raw -maxdepth 1 -name "*.csv" -newer "$RUN_MARK" | sort)"
 [ -n "$NEW_RAW" ] && { "$PY" scripts/validate_csv.py $NEW_RAW || echo "⚠️ 형식 검사에서 오류 발견 (진행판에 실패로 표시됨)"; }
 "$PY" scripts/collect_videos.py || echo "⚠️ 유튜브 무대 영상 수집 일부 실패 (하루 한도에 걸리면 다음 날 이어서)"
 "$PY" scripts/collect_musicbrainz.py --max-requests 600 || echo "⚠️ MusicBrainz 링크 일부 실패"
+"$PY" scripts/en_names.py || echo "⚠️ 영문 활동명 모으기 실패"
 "$PY" scripts/yt_channel_search.py --max-searches 20 || echo "⚠️ 유튜브 채널 검색 일부 실패"
 "$PY" scripts/collect_yt_channels.py --budget 400 || echo "⚠️ 유튜브 공식 채널 일부 실패"
 "$PY" scripts/build_site_data.py || echo "⚠️ 진행판 데이터 갱신 실패"

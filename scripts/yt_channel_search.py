@@ -100,38 +100,73 @@ def _latest_titles(client) -> Callable[[str], List[str]]:
     return fetch
 
 
+MAX_EN_TERMS = 1      # 한글 이름으로 못 찾으면 영문 활동명(en_names.py)으로 한 번 더 (하루 상한 안에서)
+
+
+def _search(client, term: str) -> List[dict]:
+    body = client.get("search", {"part": "snippet", "type": "channel", "q": term, "regionCode": "KR",
+                                 "relevanceLanguage": "ko", "maxResults": SEARCH_RESULTS}, COST_SEARCH)
+    return [{"id": (i.get("snippet") or {}).get("channelId") or "", "title": (i.get("snippet") or {}).get("channelTitle") or ""}
+            for i in body.get("items") or []]
+
+
+def _entry(picked: Optional[dict], today: date, terms: List[str]) -> dict:
+    entry = {"checked": today.isoformat(), "channel_id": picked["id"] if picked else "", "terms": terms}
+    if picked:
+        entry.update(title=picked["title"], topic=picked["topic"])
+        if picked.get("verified"):
+            entry["verified"] = True
+    return entry
+
+
+def _terms(name: str, en: List[str], prev: Optional[dict], today: date) -> List[str]:
+    """이번에 찾을 검색어(동명 위험이 적은 이름만). RECHECK_DAYS 안이면 못 찾은 팀의 아직 안 써 본 검색어만."""
+    terms = ([name] if collect_musicbrainz.searchable(name) else [])
+    terms += [e for e in en if e != name and collect_musicbrainz.searchable(e)][:MAX_EN_TERMS]
+    if not _fresh(prev, today):
+        return terms
+    if (prev or {}).get("channel_id"):
+        return []
+    tried = (prev or {}).get("terms") or [name]
+    return [t for t in terms if t not in tried]
+
+
 def run(targets: List[dict], aliases: Dict[str, List[str]], state: Dict[str, dict], client, today: date,
         max_searches: int = DEFAULT_MAX_SEARCHES, max_rank: int = MAX_RANK, skip: Set[str] = frozenset(),
-        releases: Optional[Dict[str, List[str]]] = None) -> Dict[str, dict]:
-    out, searched = dict(state), 0
+        releases: Optional[Dict[str, List[str]]] = None, en_names: Optional[Dict[str, List[str]]] = None) -> Dict[str, dict]:
+    out, searched, en_names = dict(state), 0, en_names or {}
     for t in targets:
         key, name, rank = t.get("team_key") or "", t.get("display_name") or "", t.get("rank")
-        if not key or not rank or rank > max_rank or key in skip or _fresh(out.get(key), today):
+        if not key or not rank or rank > max_rank or key in skip:
             continue
-        if not collect_musicbrainz.searchable(name):
+        en = en_names.get(key, [])
+        prev = out.get(key)
+        todo = _terms(name, en, prev, today)
+        if not todo:
             continue
-        if searched >= max_searches or not client.quota.can(COST_SEARCH):
+        names = [name] + [a for a in aliases.get(key, []) if a != name] + en
+        tried = list((prev or {}).get("terms") or []) if _fresh(prev, today) else []
+        picked = None
+        for term in todo:
+            if searched >= max_searches or not client.quota.can(COST_SEARCH):
+                break
+            try:
+                results = _search(client, term)
+            except cv.QuotaExceeded:
+                break
+            searched += 1
+            tried.append(term)
+            try:
+                picked = choose_channel(names, [r for r in results if r["id"]], _latest_titles(client),
+                                        (releases or {}).get(key, []))
+            except cv.QuotaExceeded:
+                picked = None
+            if picked:
+                break
+        if tried and tried != list((prev or {}).get("terms") or []):
+            out[key] = _entry(picked, today, tried)
+        if searched >= max_searches:
             break
-        try:
-            body = client.get("search", {"part": "snippet", "type": "channel", "q": name, "regionCode": "KR",
-                                         "relevanceLanguage": "ko", "maxResults": SEARCH_RESULTS}, COST_SEARCH)
-        except cv.QuotaExceeded:
-            break
-        searched += 1
-        results = [{"id": (i.get("snippet") or {}).get("channelId") or "", "title": (i.get("snippet") or {}).get("channelTitle") or ""}
-                   for i in body.get("items") or []]
-        names = [name] + [a for a in aliases.get(key, []) if a != name]
-        try:
-            picked = choose_channel(names, [r for r in results if r["id"]], _latest_titles(client),
-                                    (releases or {}).get(key, []))
-        except cv.QuotaExceeded:
-            picked = None
-        entry = {"checked": today.isoformat(), "channel_id": picked["id"] if picked else ""}
-        if picked:
-            entry.update(title=picked["title"], topic=picked["topic"])
-            if picked.get("verified"):
-                entry["verified"] = True
-        out[key] = entry
     return out
 
 
@@ -170,8 +205,10 @@ def main(argv: Optional[List[str]] = None) -> int:
     state = cv.load_state(STATE_FILE)
     before = len(state)
     import collect_itunes                                   # 발매 기록 제목 (Topic 채널 확인용)
+    import en_names as en_mod                               # 영문 활동명 (검색 전용, scripts/en_names.py)
+    en_state = en_mod.load()
     state = run(targets, _aliases(), state, client, date.today(), max_searches=args.max_searches, skip=skip,
-                releases=collect_itunes._releases())
+                releases=collect_itunes._releases(), en_names={k: en_mod.names_for(en_state, k) for k in en_state})
     cv.save_state(STATE_FILE, state)
     found = sum(1 for v in state.values() if v.get("channel_id"))
     print(f"✅ 유튜브 채널 검색: 이번 {len(state) - before}팀 · 누적 {len(state)}팀 중 채널 찾음 {found} · 사용 {client.quota.used}/{budget}단위")
