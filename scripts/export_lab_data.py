@@ -315,7 +315,8 @@ def _lower_grade(grade: str, weight) -> tuple:
 
 def outcome_rows(rows: List[dict], roles: dict | None = None) -> List[dict]:
     """정답 행 + 등급. outcome_rules: lower_results(후보·최종 후보 등은 한 등급 아래), excluded_teams(정답에서 뺄 팀과 이유),
-    excluded_rows(프로그램·발표 연도·팀이 모두 맞는 행만 뺌 — 원본 정답 파일에 잘못 들어간 행).
+    excluded_rows(프로그램·발표 연도·팀이 모두 맞는 행만 뺌 — 원본 정답 파일에 잘못 들어간 행),
+    lower_rows(그 프로그램의 그 결과만 한 등급 아래 — 같은 결과 이름이 프로그램마다 뜻이 다를 때).
     같은 팀·같은 프로그램·같은 날짜가 후보와 수상으로 둘 다 있으면 가중치가 큰 행 하나만 남긴다."""
     roles = roles or {}
     grades = roles.get("outcomes") or {}
@@ -324,6 +325,7 @@ def outcome_rows(rows: List[dict], roles: dict | None = None) -> List[dict]:
     excluded = rules.get("excluded_teams") or {}
     excluded_rows = {(e.get("program"), str(e.get("year")), t)
                      for e in rules.get("excluded_rows") or [] for t in e.get("teams") or []}
+    lower_rows = {(e.get("program"), e.get("result")) for e in rules.get("lower_rows") or []}   # 프로그램별로만 한 등급 아래
     best: Dict[tuple, dict] = {}
     for r in rows:
         if r.get("team_key") in excluded:
@@ -332,7 +334,7 @@ def outcome_rows(rows: List[dict], roles: dict | None = None) -> List[dict]:
             continue   # 그해 그 프로그램의 그 팀 행만 뺀다 (예: 본무대 정답에 섞인 신인 경연 팀)
         g = grades.get(r["program"]) or {}
         grade, weight = g.get("grade", DEFAULT_GRADE[0]), g.get("weight", DEFAULT_GRADE[1])
-        if (r.get("result") or "") in lower:
+        if (r.get("result") or "") in lower or (r["program"], r.get("result") or "") in lower_rows:
             grade, weight = _lower_grade(grade, weight)
         row = {**{k: r.get(k) or "" for k in OUTCOME_FIELDS},
                "program_label": PROGRAM_NAMES.get(r["program"], r["program"]),

@@ -578,6 +578,19 @@ class RoleTest(unittest.TestCase):
         rows = ex.outcome_rows([{**base, "team_key": "투어스"}, {**base, "team_key": "인디팀"}], roles)
         self.assertEqual([r["team_key"] for r in rows], ["인디팀"])
 
+    def test_lower_rows_lower_only_that_program_result(self):
+        # 펜타포트 슈퍼루키 'TOP10 탈락'(finalist)은 한 등급 아래, 인디스땅스 결선(finalist)은 그대로
+        roles = {**ROLES, "outcomes": {"penta_superrookie": {"grade": "A", "weight": 2},
+                                       "indiestance": {"grade": "A", "weight": 2}},
+                 "outcome_rules": {"lower_rows": [{"program": "penta_superrookie", "result": "finalist",
+                                                   "reason": "TOP10 진출·TOP6 탈락"}]}}
+        base = {"tier": "final", "announced_date": "2025-06-09", "counted": "t"}
+        rows = ex.outcome_rows([{**base, "team_key": "a", "program": "penta_superrookie", "result": "finalist"},
+                                {**base, "team_key": "b", "program": "penta_superrookie", "result": "winner"},
+                                {**base, "team_key": "c", "program": "indiestance", "result": "finalist"}], roles)
+        got = {r["team_key"]: (r["grade"], r["weight"]) for r in rows}
+        self.assertEqual(got, {"a": ("B", 1), "b": ("A", 2), "c": ("A", 2)})
+
     def test_excluded_rows_drop_only_that_program_year(self):
         # 2025 부산록페 '본무대' 정답에 섞인 신인 경연(루키즈·히든스테이지) 팀: 그해 그 프로그램 행만 빼고 다른 해 본무대는 남긴다
         roles = {**ROLES, "outcome_rules": {"excluded_rows": [
