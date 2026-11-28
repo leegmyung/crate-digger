@@ -47,3 +47,26 @@ if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then
 fi
 ```
 `scripts/followers.py` 와 EXTRAS 등록은 4주 뒤(21일 이상 떨어진 기록이 50팀을 넘으면) 넣는다.
+
+## 6. 스포티파이 주 1회 · 인스타 연결 보강 (2026-11-28 저녁)
+
+- **스포티파이 주 1회** `scripts/followers_spotify_weekly.py` (+테스트 5): 관찰 팀 중 links.csv 에 스포티파이 아티스트 주소가 있는 팀을 `/v1/artists?ids=` 50팀씩. 하루 예산·429 는 `spotify_budget` 공유, 멈추면 이번 주는 끝(다음 주에 다시), 6일 안에 돌았으면 건너뜀. 팔로워가 비어 오면(개발자 모드) 기록하지 않고 상태 파일 `followers_spotify_weekly.json`의 `empty_last`에 수만 남김. **지금 대상은 300팀 중 27팀뿐**(links.csv 스포티파이 주소; `spotify_match.json` 이름 짝을 더해도 30팀) → 요청 1번/주.
+- **인스타 연결 보강** — 이미 있는 원본으로는 관찰 300팀에 새로 붙는 팀이 **0**이었다: MusicBrainz 인스타 146팀 중 관찰 안 12팀(이미 links.csv), 인스타 프로필 이름·계정 정확 일치 36팀 중 관찰 안 2팀(이미 있음), 연결표(artist_xref)의 '확신 낮음' 후보 132개는 관찰 팀에 없음, 게시물 캡션+태그로 분명한 후보 1팀. 관찰 팀은 대부분 인디스트릿 공연으로 들어온 팀이고, 우리 인스타 원본은 매거진 태그라 사는 동네가 다르다.
+  → 새 방법: **인디스트릿 아티스트 페이지의 구조화 데이터(JSON-LD) `sameAs`** = 팀이 직접 적은 공식 채널. `scripts/collect_indistreet_sns.py` (+테스트 4): 인디스트릿 공연 원본의 artist_url 로 팀 ↔ 페이지(페이지가 여럿인 팀 = 동명 의심 → 뺌), sameAs 안 인스타가 정확히 하나일 때만. robots.txt 허용(/artists/), 한 번에 한 페이지, 30일마다 다시.
+  **결과: 관찰 팀 263페이지(1분 29초, 실패 0) → sameAs 있음 37 · 인스타 33팀(새 연결 31) → 관찰 300팀 인스타 15 → 46.** 덤으로 sameAs 에 유튜브 18 · 애플뮤직 5 · 스포티파이 4.
+  `followers_watch.py` 가 이 파일로 links.csv 빈칸을 채우므로 월요일 인스타 다시 보기 대상이 바로 46개가 된다.
+- **export_lab_data.py 에 넣을 곳 (제안, 직접 안 고침)**: `extra_refs()`에서 artist_xref 다음·musicbrainz 앞에
+  ```python
+  INDISTREET_SNS = ROOT / "data" / "raw" / "state" / "indistreet_sns.json"
+  refs += [{"team_key": k, "platform": "instagram", "ref": v["instagram"]}
+           for k, v in _read_json_dict(INDISTREET_SNS).items() if isinstance(v, dict) and v.get("instagram")]
+  ```
+  (팀이 직접 적은 계정이라 확신 high 와 같게 본다. sameAs 의 유튜브·스포티파이도 같은 자리에서 `link_rows` 주소 검사를 거쳐 넣을 수 있음.)
+- **daily_run.sh 월요일 블록에 더할 줄 (제안)** — 5절 블록 안, `followers_watch.py` 바로 앞:
+  ```bash
+  "$PY" scripts/collect_indistreet_sns.py || echo "⚠️ 인디스트릿 공식 SNS 실패"          # 30일 지난 팀만 (약 1~2분)
+  ```
+  스포티파이 묶음 단계(다른 스포티파이 단계 뒤, 예산 공유):
+  ```bash
+  [ "$(TZ=Asia/Seoul date +%u)" = 1 ] && { "$PY" scripts/followers_spotify_weekly.py || echo "⚠️ 스포티파이 팔로워 주 1회 실패"; }
+  ```

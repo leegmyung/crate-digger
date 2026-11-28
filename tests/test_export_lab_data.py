@@ -311,6 +311,15 @@ class MusicBrainzRefsTest(unittest.TestCase):
                        "url": "https://open.spotify.com/artist/4Z8W4fKeB5YxbusRsdQVPb"}, links)
 
 
+class IndistreetSnsRefsTest(unittest.TestCase):
+    def test_only_single_official_instagram_becomes_ref(self):
+        state = {"포져군단": {"checked": "2026-11-28", "instagram": "poseridiott", "same_as": []},
+                 "칩포스트갱": {"checked": "2026-11-28", "instagram": None, "same_as": []},
+                 "깨진값": "x"}
+        refs = ex.indistreet_sns_refs(state, key_of=lambda n: "k_" + n)
+        self.assertEqual(refs, [{"team_key": "k_포져군단", "platform": "instagram", "ref": "poseridiott"}])
+
+
 class VideoRowsTest(unittest.TestCase):
     def test_drops_interviews_shorts_and_non_live_kbs_clips(self):
         rows = ex.video_rows([

@@ -34,6 +34,15 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(fw.melon_extra_ids(out), ["2"])          # 상위 팀은 collect_artists --refresh 가 이미 7일마다 봄
         self.assertEqual(fw.instagram_handles(out), ["aa"])
 
+    def test_indistreet_sns_fills_missing_instagram_only(self):
+        links = {"a": {"instagram": "https://www.instagram.com/aa/"}, "b": {}}
+        sns = {"a": {"instagram": "zz"}, "b": {"instagram": "bb"}, "c": {"instagram": None}}
+        out = fw.merge_indistreet(links, sns)
+        self.assertEqual(out["a"]["instagram"], "https://www.instagram.com/aa/")     # 이미 있는 연결이 먼저
+        self.assertEqual(out["b"]["instagram"], "https://www.instagram.com/bb/")
+        self.assertNotIn("c", out)
+        self.assertEqual(links["b"], {})                                             # 원본은 그대로
+
     def test_watch_names_from_app_csv(self):
         import tempfile
         with tempfile.TemporaryDirectory() as d:

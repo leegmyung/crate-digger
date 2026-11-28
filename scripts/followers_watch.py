@@ -6,7 +6,8 @@
 다시 보지 않으므로, 주 1회 다시 볼 팀을 정해 준다.
 - 대상: 오늘 점수 상위 300(data/raw/state/coverage_targets.json, scripts/coverage_targets.py) +
   앱 '내 목록 → 관심 팀 CSV 내려받기' 파일(data/raw/review/watchlist*.csv, 관심 팀은 브라우저에만 있어서 사람이 내려받아 둠).
-- 팀 → 멜론 번호·인스타 계정은 docs/lab/data/links.csv (읽기만).
+- 팀 → 멜론 번호·인스타 계정은 docs/lab/data/links.csv (읽기만). links.csv 에 인스타가 없으면 인디스트릿 아티스트 페이지에
+  팀이 직접 적은 공식 계정(data/raw/state/indistreet_sns.json, scripts/collect_indistreet_sns.py)으로 채운다.
 - 결과 (모두 비공개 data/raw/state/):
     followers_watch.json              {as_of, teams: [{team_key, why(top|watch), melon_id, instagram}]}
     followers_watch_melon_extra.txt   멜론 번호 — 관심 팀 중 상위 300 밖만 (상위 팀은 collect_artists --refresh 가 이미 7일마다 다시 봄)
@@ -30,6 +31,7 @@ TARGETS = STATE / "coverage_targets.json"
 OUT = STATE / "followers_watch.json"
 MELON_OUT = STATE / "followers_watch_melon_extra.txt"
 INSTA_OUT = STATE / "followers_watch_instagram.txt"
+INDISTREET_SNS = STATE / "indistreet_sns.json"
 TOP_N = 300
 MELON_ID = re.compile(r"[?&]artistId=(\d+)")
 INSTA = re.compile(r"^https://(?:www\.)?instagram\.com/([A-Za-z0-9._]+)/?$")
@@ -74,6 +76,16 @@ def attach_links(teams: Sequence[Mapping], links: Mapping[str, Mapping[str, str]
     return out
 
 
+def merge_indistreet(links: Mapping[str, Mapping[str, str]], sns: Mapping[str, Mapping]) -> Dict[str, Dict[str, str]]:
+    """links 에 인스타가 없는 팀만 인디스트릿 공식 계정으로 채운 새 표 (이미 있는 연결이 먼저)."""
+    out = {k: dict(v) for k, v in links.items()}
+    for k, v in sns.items():
+        handle = (v or {}).get("instagram")
+        if handle and not out.get(k, {}).get("instagram"):
+            out.setdefault(k, {})["instagram"] = f"https://www.instagram.com/{handle}/"
+    return out
+
+
 def melon_extra_ids(teams: Sequence[Mapping]) -> List[str]:
     return list(dict.fromkeys(t["melon_id"] for t in teams if t.get("why") == "watch" and t.get("melon_id")))
 
@@ -114,6 +126,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     links: Dict[str, Dict[str, str]] = {}
     for r in _csv(DATA_DIR / "links.csv"):
         links.setdefault(r["team_key"], {}).setdefault(r["platform"], r["url"])
+    try:
+        links = merge_indistreet(links, json.loads(INDISTREET_SNS.read_text(encoding="utf-8")))
+    except (OSError, ValueError):
+        pass
     watch = watch_names(sorted(REVIEW.glob("watchlist*.csv")))
     teams = attach_links(build_watch(targets.get("teams", []), watch, name_to_key, args.top), links)
     STATE.mkdir(parents=True, exist_ok=True)

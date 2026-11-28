@@ -35,6 +35,7 @@ XREF_FILE = ROOT / "data" / "raw" / "state" / "artist_xref.json"
 RAW_DIR = ROOT / "data" / "raw"
 IMAGE_CACHE = ROOT / "data" / "raw" / "state" / "artist_images.json"
 MUSICBRAINZ_FILE = ROOT / "data" / "raw" / "state" / "musicbrainz.json"   # collect_musicbrainz: 공식 링크
+INDISTREET_SNS = ROOT / "data" / "raw" / "state" / "indistreet_sns.json"   # collect_indistreet_sns: 팀이 직접 적은 공식 계정
 YT_CHANNELS = ROOT / "data" / "raw" / "state" / "yt_channels.json"   # collect_yt_channels: 팀 공식 채널·아바타
 
 SIGNAL_FIELDS = ["team_key", "branch", "source", "program", "stage_rank", "signal_date", "venue", "role"]
@@ -420,6 +421,12 @@ def musicbrainz_refs(state: dict) -> List[dict]:
     return refs
 
 
+def indistreet_sns_refs(state: dict, key_of: Callable[[str], str] = lambda n: n) -> List[dict]:
+    """collect_indistreet_sns 상태 → 인스타 연결. 인디스트릿 페이지 sameAs에 인스타가 하나뿐일 때만 들어 있다(팀이 직접 적은 계정)."""
+    return [{"team_key": key_of(name), "platform": "instagram", "ref": entry["instagram"]}
+            for name, entry in sorted(state.items()) if isinstance(entry, dict) and entry.get("instagram")]
+
+
 def _extra_refs() -> List[dict]:
     """PostgreSQL 밖의 연결: 스포티파이 이름 매칭, 연결표의 인스타 계정, MusicBrainz 공식 링크. 파일이 없으면 빈 목록."""
     from artist_xref import canonical_key, load_xref
@@ -438,6 +445,7 @@ def _extra_refs() -> List[dict]:
                  if isinstance(h, dict) and h.get("confidence") in ("high", "mid")]   # 확신 낮은 계정은 안 붙임
     except (OSError, ValueError, TypeError, KeyError):
         pass
+    refs += indistreet_sns_refs(_read_json_dict(INDISTREET_SNS), key_of=lambda n: canonical_key(n, index))
     refs += musicbrainz_refs(_read_json_dict(MUSICBRAINZ_FILE))   # 맨 뒤: 같은 팀에 이미 있는 연결이 먼저 쓰인다
     return refs
 

@@ -29,6 +29,7 @@ if command -v aside >/dev/null 2>&1; then
   [ -n "$NAMES" ] && { "$PY" scripts/collect_artists.py --names-file "$NAMES" || echo "⚠️ 후보 팀 멜론 프로필 보강 실패"; }
   "$PY" scripts/collect_artists.py --refresh || echo "⚠️ 멜론 팬 수 다시 받기 실패"   # 관찰 팀 팬 수 7일마다 (팬 수 날짜별 기록용)
   if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then   # 월요일: 팔로워 관찰 목록 다시 보기 (docs/followers_plan.md)
+    "$PY" scripts/collect_indistreet_sns.py || echo "⚠️ 인디스트릿 공식 SNS 실패"   # 30일 지난 팀만 (약 1~2분)
     "$PY" scripts/followers_watch.py || echo "⚠️ 팔로워 관찰 목록 실패"
     [ -s data/raw/state/followers_watch_melon_extra.txt ] && { "$PY" scripts/collect_artists.py --ids-file data/raw/state/followers_watch_melon_extra.txt || echo "⚠️ 관심 팀 멜론 팬 수 다시 받기 실패"; }
     "$PY" scripts/collect_ig_artists.py --handles-file data/raw/state/followers_watch_instagram.txt --limit 100 || echo "⚠️ 관찰 팀 인스타 팔로워 다시 보기 실패"
@@ -40,6 +41,7 @@ fi
 "$PY" scripts/fan_history.py || echo "⚠️ 팬 수 기록 실패"
 "$PY" scripts/collect_spotify.py || echo "⚠️ 스포티파이 발매 이력 수집 일부 실패 (하루 한도에 걸리면 다음 날 이어서)"
 "$PY" scripts/collect_spotify_collabs.py --max-requests 1500 || echo "⚠️ 스포티파이 협업 수집 일부 실패 (한도에 걸리면 다음 날 이어서)"
+[ "$(TZ=Asia/Seoul date +%u)" = 1 ] && { "$PY" scripts/followers_spotify_weekly.py || echo "⚠️ 스포티파이 팔로워 주 1회 실패"; }
 NEW_RAW="$(find data/raw -maxdepth 1 -name "*.csv" -newer "$RUN_MARK" | sort)"
 [ -n "$NEW_RAW" ] && { "$PY" scripts/validate_csv.py $NEW_RAW || echo "⚠️ 형식 검사에서 오류 발견 (진행판에 실패로 표시됨)"; }
 "$PY" scripts/collect_videos.py || echo "⚠️ 유튜브 무대 영상 수집 일부 실패 (하루 한도에 걸리면 다음 날 이어서)"
