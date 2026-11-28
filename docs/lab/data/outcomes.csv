@@ -532,7 +532,6 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 써니김,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,false
 써드아이,mucon,뮤콘(MU:CON),mid,selected,2021-08-10,false,B,1,,false
 써드아이,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,false,B,1,,false
-썸머소울,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,false,B,1,,false
 쏜애플,mucon,뮤콘(MU:CON),mid,selected,2021-09-02,false,B,1,,false
 쏜애플,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,false,B,1,,false
 쏜애플,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,false
@@ -994,6 +993,8 @@ team_key,program,program_label,tier,result,announced_date,counted,grade,weight,s
 팔칠댄스,burock_main,부산록페 본무대,mid,selected,2025-08-29,false,B,1,,false
 퍼지퍼그,penta_superrookie,펜타포트 슈퍼루키,mid,selected,2022-07-09,true,A,2,,false
 페이스투웨이즈,burock_main,부산록페 본무대,mid,selected,2023-09-22,false,B,1,,false
+페퍼톤스,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
+페퍼톤스,burock_main,부산록페 본무대,mid,selected,2026-09-04,false,B,1,,false
 포쳐군단,penta_superrookie,펜타포트 슈퍼루키,mid,finalist,2026-05-18,true,A,2,,false
 폴로다레드,khha_rookie,한국힙합어워즈 신인,final,nominee,2023-03-09,true,A,2,큐레이션:hiphople,false
 푸디토리움,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
@@ -1211,8 +1212,6 @@ okoye,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,true,B,1,,false
 onthedal,museon_final,뮤즈온 최종,mid,selected,2022-06-07,true,A,2,,false
 osun,khha_rookie,한국힙합어워즈 신인,final,nominee,2025-01-15,true,A,2,큐레이션:hiphople,false
 ourage,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
-peppertones,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
-peppertones,burock_main,부산록페 본무대,mid,selected,2026-09-04,false,B,1,,false
 pierreblanche,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,,false
 pitta,burock_main,부산록페 본무대,mid,selected,2024-09-13,false,B,1,,false
 pitta,burock_main,부산록페 본무대,mid,selected,2025-08-29,false,B,1,,false
@@ -1236,6 +1235,7 @@ souldelivery,kma_genre,한대음 장르 부문,mid,nominee,2023-02-09,false,B,1,
 souldelivery,kma_genre,한대음 장르 부문,mid,nominee,2024-01-26,false,B,1,,false
 souldelivery,mucon,뮤콘(MU:CON),mid,selected,2026-07-13,false,B,1,,false
 soundsupplyservice,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
+summersoul,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,false,B,1,,false
 sunsetrollercoaster,kma_genre,한대음 장르 부문,mid,nominee,2025-02-06,false,B,1,,false
 surl,mucon,뮤콘(MU:CON),mid,selected,2022-08-16,false,B,1,,false
 surl,mucon,뮤콘(MU:CON),mid,selected,2023-05-17,false,B,1,,false

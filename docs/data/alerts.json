@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-28T14:52:29+09:00",
+ "generated_at": "2026-11-28T15:07:05+09:00",
  "as_of": "2026-11-28",
  "baseline": {
   "kind": "state",
@@ -34,13 +34,13 @@
  },
  "counts_found": {
   "new_outcome": 16,
-  "new_selection": 30,
+  "new_selection": 29,
   "blank_first_mention": 1,
-  "stage_up": 73,
-  "big_venue_first": 39,
-  "peer_winner": 307,
-  "spike": 7,
-  "new_gig": 361,
+  "stage_up": 86,
+  "big_venue_first": 40,
+  "peer_winner": 316,
+  "spike": 9,
+  "new_gig": 365,
   "rank_jump": 47
  },
  "counts_shown": {
@@ -51,7 +51,7 @@
   "big_venue_first": 20,
   "peer_winner": 20,
   "rank_jump": 20,
-  "spike": 7,
+  "spike": 9,
   "new_gig": 300
  },
  "alerts": [
@@ -807,7 +807,7 @@
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-21",
-     "venue": "웨스트브릿지 라이브홀"
+     "venue": "웨스트브릿지"
     },
     {
      "branch": "공연",
@@ -819,7 +819,7 @@
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-28",
-     "venue": "웨스트브릿지 라이브홀"
+     "venue": "웨스트브릿지"
     }
    ],
    "importance": 75,
@@ -827,6 +827,36 @@
    "rank": 167,
    "also": [
     "new_gig"
+   ],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "stage_up",
+   "type_label": "단계 상승",
+   "team_key": "공",
+   "name": "공",
+   "date": "2026-11-28",
+   "text": "첫 신호 → 여러 갈래",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indiego",
+     "date": "2026-11-23",
+     "venue": "언플러그드 라운지"
+    },
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-11-23",
+     "venue": "언플러그드 라운지"
+    }
+   ],
+   "importance": 75,
+   "stage": 2,
+   "rank": 67,
+   "also": [
+    "rank_jump"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -1866,7 +1896,9 @@
    "rank_before": null,
    "rank_now": 67,
    "rank": 67,
-   "also": [],
+   "also": [
+    "stage_up"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -2094,6 +2126,43 @@
   {
    "type": "stage_up",
    "type_label": "단계 상승",
+   "team_key": "busynessmane",
+   "name": "busynessmane",
+   "date": "2026-11-28",
+   "text": "새로 나타난 팀 — 바로 여러 갈래",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@beatology_seoul",
+     "date": "2026-11-12",
+     "venue": "@beatology_seoul"
+    },
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@beatology_seoul",
+     "date": "2026-11-24",
+     "venue": "@beatology_seoul"
+    },
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@morene__sukha",
+     "date": "2026-11-24",
+     "venue": "모래내 극락"
+    }
+   ],
+   "importance": 60,
+   "stage": 2,
+   "rank": null,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "stage_up",
+   "type_label": "단계 상승",
    "team_key": "caffhrisun",
    "name": "caffhrisun",
    "date": "2026-11-28",
@@ -2156,70 +2225,6 @@
      "source": "instagram",
      "program": "@debasermagazine",
      "date": "2026-11-03"
-    }
-   ],
-   "importance": 60,
-   "stage": 2,
-   "rank": null,
-   "also": [],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "stage_up",
-   "type_label": "단계 상승",
-   "team_key": "coziest99",
-   "name": "coziest99",
-   "date": "2026-11-28",
-   "text": "첫 신호 → 여러 갈래",
-   "evidence": [
-    {
-     "branch": "큐레이션",
-     "source": "instagram",
-     "program": "@scr_radio",
-     "date": "2026-11-09"
-    },
-    {
-     "branch": "큐레이션",
-     "source": "instagram",
-     "program": "@localbody.blog",
-     "date": "2026-11-21"
-    },
-    {
-     "branch": "공연",
-     "source": "instagram",
-     "program": "@cakeshopseoul",
-     "date": "2026-11-22",
-     "venue": "Cakeshop"
-    }
-   ],
-   "importance": 60,
-   "stage": 2,
-   "rank": null,
-   "also": [],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "stage_up",
-   "type_label": "단계 상승",
-   "team_key": "djneilarmstrong",
-   "name": "djneilarmstrong",
-   "date": "2026-11-28",
-   "text": "새로 나타난 팀 — 바로 여러 갈래",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "instagram",
-     "program": "@rosso_seoul",
-     "date": "2026-11-21",
-     "venue": "ROSSO"
-    },
-    {
-     "branch": "큐레이션",
-     "source": "instagram",
-     "program": "@mixmixtv",
-     "date": "2026-11-25"
     }
    ],
    "importance": 60,
@@ -2388,6 +2393,80 @@
   {
    "type": "spike",
    "type_label": "언급 급증",
+   "team_key": "빅뱅",
+   "name": "빅뱅",
+   "date": "2026-11-28",
+   "text": "최근 1주 언급 3건 — 지난 12주 1건(평소 주 1건 이하)",
+   "evidence": [
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@complexkorea",
+     "date": "2026-11-26"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@complexkorea",
+     "date": "2026-11-25"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "hiphople",
+     "program": "HIPHOPLE",
+     "date": "2026-11-22"
+    }
+   ],
+   "importance": 56,
+   "ratio": null,
+   "recent": 3,
+   "past_weeks_total": 1,
+   "past_weekly_avg": 0.08,
+   "rank": null,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "spike",
+   "type_label": "언급 급증",
+   "team_key": "웨이체드",
+   "name": "웨이체드",
+   "date": "2026-11-28",
+   "text": "최근 1주 언급 처음 3건 (지난 12주엔 없음)",
+   "evidence": [
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@nugsmag",
+     "date": "2026-11-27"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@hausofmatters",
+     "date": "2026-11-24"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "hiphople",
+     "program": "HIPHOPLE",
+     "date": "2026-11-22"
+    }
+   ],
+   "importance": 56,
+   "ratio": null,
+   "recent": 3,
+   "past_weeks_total": 0,
+   "past_weekly_avg": 0.0,
+   "rank": null,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "spike",
+   "type_label": "언급 급증",
    "team_key": "제4집단",
    "name": "제4집단",
    "date": "2026-11-28",
@@ -2458,6 +2537,29 @@
    "past_weekly_avg": 0.25,
    "rank": null,
    "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
+   "team_key": "big9ulpo",
+   "name": "BIG 9ULPO",
+   "date": "2026-12-04",
+   "text": "큰 공연장 첫 출연 — 예스24 원더로크홀 (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-12-04",
+     "venue": "예스24 원더로크홀"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [
+    "new_gig"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -2822,28 +2924,6 @@
    "type_label": "큰 공연장 첫 출연",
    "team_key": "metamoksha",
    "name": "metamoksha",
-   "date": "2026-11-14",
-   "text": "큰 공연장 첫 출연 — Blank Site Seoul (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "instagram",
-     "program": "@blanksite_seoul",
-     "date": "2026-11-14",
-     "venue": "Blank Site Seoul"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [],
-   "stars": 3,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
-   "team_key": "pantheon3niti",
-   "name": "pantheon3niti",
    "date": "2026-11-14",
    "text": "큰 공연장 첫 출연 — Blank Site Seoul (L급)",
    "evidence": [
@@ -3306,6 +3386,28 @@
   {
    "type": "new_gig",
    "type_label": "새 공연",
+   "team_key": "모래",
+   "name": "모래",
+   "date": "2026-12-11",
+   "text": "예정 공연 2026-12-11 세종 음악창작소 누리락",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "regional",
+     "date": "2026-12-11",
+     "venue": "세종 음악창작소 누리락"
+    }
+   ],
+   "importance": 40,
+   "upcoming": true,
+   "rank": 28,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
    "team_key": "비제로",
    "name": "비제로",
    "date": "2026-11-28",
@@ -3751,13 +3853,13 @@
    "team_key": "solanin",
    "name": "solanin",
    "date": "2026-11-28",
-   "text": "예정 공연 2026-11-28 웨스트브릿지 라이브홀",
+   "text": "예정 공연 2026-11-28 웨스트브릿지",
    "evidence": [
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-28",
-     "venue": "웨스트브릿지 라이브홀"
+     "venue": "웨스트브릿지"
     }
    ],
    "importance": 30,
@@ -4595,13 +4697,13 @@
    "team_key": "beer",
    "name": "Beer",
    "date": "2026-11-28",
-   "text": "예정 공연 2026-11-28 웨스트브릿지 라이브홀",
+   "text": "예정 공연 2026-11-28 웨스트브릿지",
    "evidence": [
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-28",
-     "venue": "웨스트브릿지 라이브홀"
+     "venue": "웨스트브릿지"
     }
    ],
    "importance": 15,
@@ -4653,7 +4755,9 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [],
+   "also": [
+    "big_venue_first"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -4805,13 +4909,13 @@
    "team_key": "cusehacker",
    "name": "CUSE HACKER",
    "date": "2026-11-28",
-   "text": "예정 공연 2026-11-28 웨스트브릿지 라이브홀",
+   "text": "예정 공연 2026-11-28 웨스트브릿지",
    "evidence": [
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-28",
-     "venue": "웨스트브릿지 라이브홀"
+     "venue": "웨스트브릿지"
     }
    ],
    "importance": 15,
@@ -6096,13 +6200,13 @@
    "team_key": "가오가이",
    "name": "가오가이",
    "date": "2026-11-29",
-   "text": "예정 공연 2026-11-29 웨스트브릿지 라이브홀",
+   "text": "예정 공연 2026-11-29 웨스트브릿지",
    "evidence": [
     {
      "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-29",
-     "venue": "웨스트브릿지 라이브홀"
+     "venue": "웨스트브릿지"
     }
    ],
    "importance": 15,
@@ -6559,6 +6663,28 @@
      "source": "indistreet",
      "date": "2026-12-04",
      "venue": "벨르"
+    }
+   ],
+   "importance": 15,
+   "upcoming": true,
+   "rank": null,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
+   "team_key": "김도연",
+   "name": "김도연",
+   "date": "2026-12-04",
+   "text": "예정 공연 2026-12-04 세종 음악창작소 누리락",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "regional",
+     "date": "2026-12-04",
+     "venue": "세종 음악창작소 누리락"
     }
    ],
    "importance": 15,
@@ -10092,6 +10218,28 @@
   {
    "type": "new_gig",
    "type_label": "새 공연",
+   "team_key": "올디벗구디",
+   "name": "올디 벗 구디",
+   "date": "2026-12-12",
+   "text": "예정 공연 2026-12-12 세종 음악창작소 누리락",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "regional",
+     "date": "2026-12-12",
+     "venue": "세종 음악창작소 누리락"
+    }
+   ],
+   "importance": 15,
+   "upcoming": true,
+   "rank": null,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
    "team_key": "요시자와케이스케",
    "name": "요시자와케이스케",
    "date": "2026-11-29",
@@ -10198,6 +10346,12 @@
     {
      "branch": "공연",
      "source": "indistreet",
+     "date": "2026-11-28",
+     "venue": "세종 음악창작소 누리락"
+    },
+    {
+     "branch": "공연",
+     "source": "regional",
      "date": "2026-11-28",
      "venue": "세종 음악창작소 누리락"
     }
@@ -10588,80 +10742,6 @@
    "upcoming": true,
    "rank": null,
    "also": [],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "이르미",
-   "name": "이르미",
-   "date": "2026-12-03",
-   "text": "예정 공연 2026-12-03 우주정거장",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-12-03",
-     "venue": "우주정거장"
-    },
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-12-03",
-     "venue": "우주정거장"
-    }
-   ],
-   "importance": 15,
-   "upcoming": true,
-   "rank": null,
-   "also": [],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "이지카이트",
-   "name": "이지카이트",
-   "date": "2026-12-04",
-   "text": "예정 공연 2026-12-04 프리즘홀",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-12-04",
-     "venue": "프리즘홀"
-    }
-   ],
-   "importance": 15,
-   "upcoming": true,
-   "rank": null,
-   "also": [],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "이진석",
-   "name": "이진석",
-   "date": "2026-12-04",
-   "text": "예정 공연 2026-12-04 프리즘홀",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-12-04",
-     "venue": "프리즘홀"
-    }
-   ],
-   "importance": 15,
-   "upcoming": true,
-   "rank": null,
-   "also": [
-    "peer_winner"
-   ],
    "stars": null,
    "found_on": "2026-11-28"
   }

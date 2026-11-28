@@ -9,7 +9,6 @@ mombrimz,spotify,https://open.spotify.com/artist/0nyapqBNIDJBmPAcpqqI3S
 tuesdaybeachclub,melon,https://www.melon.com/artist/detail.htm?artistId=3069452
 폴킴,melon,https://www.melon.com/artist/detail.htm?artistId=752425
 박인희,melon,https://www.melon.com/artist/detail.htm?artistId=4015
-슈츠,melon,https://www.melon.com/artist/detail.htm?artistId=2968275
 코드포,melon,https://www.melon.com/artist/detail.htm?artistId=4640916
 시온,melon,https://www.melon.com/artist/detail.htm?artistId=3574242
 피캐시디,melon,https://www.melon.com/artist/detail.htm?artistId=980379
@@ -188,6 +187,7 @@ nvm,melon,https://www.melon.com/artist/detail.htm?artistId=3124432
 시즈더데이,melon,https://www.melon.com/artist/detail.htm?artistId=2297620
 오마르와동방전력,melon,https://www.melon.com/artist/detail.htm?artistId=2242810
 꿈의음,melon,https://www.melon.com/artist/detail.htm?artistId=5319198
+페퍼톤스,melon,https://www.melon.com/artist/detail.htm?artistId=108707
 홀린,melon,https://www.melon.com/artist/detail.htm?artistId=968387
 강지원,melon,https://www.melon.com/artist/detail.htm?artistId=2298523
 d82,melon,https://www.melon.com/artist/detail.htm?artistId=3121494
@@ -616,7 +616,6 @@ l2y,melon,https://www.melon.com/artist/detail.htm?artistId=5318344
 wataigarashi,instagram,https://www.instagram.com/wataigarashi/
 아스라이,melon,https://www.melon.com/artist/detail.htm?artistId=2954953
 정재연,bugs,https://music.bugs.co.kr/artist/20273823
-peppertones,melon,https://www.melon.com/artist/detail.htm?artistId=108707
 럭스,melon,https://www.melon.com/artist/detail.htm?artistId=107317
 낫마이베이스,melon,https://www.melon.com/artist/detail.htm?artistId=4099859
 noizplace,melon,https://www.melon.com/artist/detail.htm?artistId=4929876
@@ -683,6 +682,7 @@ kik,melon,https://www.melon.com/artist/detail.htm?artistId=4351770
 놀플라워,melon,https://www.melon.com/artist/detail.htm?artistId=2138093
 백유경,melon,https://www.melon.com/artist/detail.htm?artistId=4099670
 규리kyuri,melon,https://www.melon.com/artist/detail.htm?artistId=3155906
+페퍼톤스,spotify,https://open.spotify.com/artist/0gos4GVpI0PzhyrWhsc7nj
 아도이,melon,https://www.melon.com/artist/detail.htm?artistId=1704627
 여백,melon,https://www.melon.com/artist/detail.htm?artistId=3614876
 이젤,spotify,https://open.spotify.com/artist/2d1ZL2dWu4rNvKr8lXrbvd
@@ -787,7 +787,7 @@ phryg,instagram,https://www.instagram.com/phrygmusic/
 희규,youtube,https://www.youtube.com/@ooxstalgia
 데드챈트,melon,https://www.melon.com/artist/detail.htm?artistId=2884583
 yippee,melon,https://www.melon.com/artist/detail.htm?artistId=3747644
-peppertones,spotify,https://open.spotify.com/artist/0gos4GVpI0PzhyrWhsc7nj
+killkaiser,melon,https://www.melon.com/artist/detail.htm?artistId=2886323
 뱀파이어호텔,melon,https://www.melon.com/artist/detail.htm?artistId=2876730
 좌윤수,melon,https://www.melon.com/artist/detail.htm?artistId=1183983
 다정,melon,https://www.melon.com/artist/detail.htm?artistId=3690639
@@ -862,6 +862,7 @@ redc,melon,https://www.melon.com/artist/detail.htm?artistId=2855009
 줄라이원츠모어,melon,https://www.melon.com/artist/detail.htm?artistId=5005439
 호아,melon,https://www.melon.com/artist/detail.htm?artistId=980733
 잔류파,melon,https://www.melon.com/artist/detail.htm?artistId=4295914
+suitz,melon,https://www.melon.com/artist/detail.htm?artistId=2968275
 lixm,genie,https://www.genie.co.kr/detail/artistInfo?xxnm=81729360
 fireflies,melon,https://www.melon.com/artist/detail.htm?artistId=4812858
 한로로,melon,https://www.melon.com/artist/detail.htm?artistId=3080810
@@ -883,7 +884,6 @@ mollyyam,youtube,https://www.youtube.com/@mollyyam
 lixm,melon,https://www.melon.com/artist/detail.htm?artistId=3189387
 일이삼,youtube,https://youtube.com/@123areswimming?si=8RqM-50mgBekZcXU
 하츠웨이브,melon,https://www.melon.com/artist/detail.htm?artistId=4839714
-킬카이저,melon,https://www.melon.com/artist/detail.htm?artistId=2886323
 결,youtube,https://www.youtube.com/@kyulisme
 다다다,melon,https://www.melon.com/artist/detail.htm?artistId=4528496
 원앙빌라,melon,https://www.melon.com/artist/detail.htm?artistId=2763014
@@ -1358,7 +1358,7 @@ rifffool,spotify,https://open.spotify.com/artist/5CTBbThNAgM0Nq2FtUtjgR
 speed98,spotify,https://open.spotify.com/artist/6jye3Oc0nXPXoYfhQwCSRb
 swoo,spotify,https://open.spotify.com/artist/1WmlOEIybhZ5KQ5IFh4zbK
 soffee,spotify,https://open.spotify.com/artist/7qbWbUXY1Ba7IkwVLzf17F
-슈츠,spotify,https://open.spotify.com/artist/0dah2wL4ufvB3kYRTJZi7F
+suitz,spotify,https://open.spotify.com/artist/0dah2wL4ufvB3kYRTJZi7F
 thedododos,spotify,https://open.spotify.com/artist/5yAxOqAbqowFFsPzxTB1U2
 todaylover,spotify,https://open.spotify.com/artist/3OmgqvqM210iaHbkEgwYFu
 thejoyfools,spotify,https://open.spotify.com/artist/1aMQdCPq6DyOvCUwijyuno
@@ -1520,6 +1520,7 @@ ddbb,instagram,https://www.instagram.com/ddbbyay/
 et1c,instagram,https://www.instagram.com/et1c/
 lunedi,instagram,https://www.instagram.com/lunedi_niverse/
 mischiefers,instagram,https://www.instagram.com/mischiefers_official/
+sza,instagram,https://www.instagram.com/sza/
 ye,instagram,https://www.instagram.com/ye/
 감귤서리단,instagram,https://www.instagram.com/westealoranges/
 공원,instagram,https://www.instagram.com/gongwon/
@@ -1534,6 +1535,7 @@ ye,instagram,https://www.instagram.com/ye/
 루시,instagram,https://www.instagram.com/band_lucy/
 오월오일,instagram,https://www.instagram.com/owalloil_official/
 오존,instagram,https://www.instagram.com/o3ohn/
+올데이프로젝트,instagram,https://www.instagram.com/allday_project/
 올드잉글리쉬쉽독,instagram,https://www.instagram.com/band_old_english_sheep_dog/
 우수현,instagram,https://www.instagram.com/wo_oso_o/
 유나,instagram,https://www.instagram.com/__yunaanuy__/
@@ -1579,9 +1581,9 @@ himinn,instagram,https://www.instagram.com/himinn___/
 izoko,instagram,https://www.instagram.com/unhappyizoko/
 jammedloonybin,youtube,https://www.youtube.com/channel/UCS75hmZcwgRp2nqgWO64Ypw
 jammedloonybin,spotify,https://open.spotify.com/artist/3KTR0QuJZFc5DUYa8rgUAc
-juo,instagram,https://www.instagram.com/itsju0o/
-juo,youtube,https://www.youtube.com/@juohio
-juo,spotify,https://open.spotify.com/artist/7dxtgIEBRLrAbw3PVEjeTu
+주오,instagram,https://www.instagram.com/itsju0o/
+주오,youtube,https://www.youtube.com/@juohio
+주오,spotify,https://open.spotify.com/artist/7dxtgIEBRLrAbw3PVEjeTu
 littleboys,instagram,https://www.instagram.com/littleboysrockstar/
 longman,spotify,https://open.spotify.com/artist/0MBIT0F93uiCv6uLQfH7i7
 lucyvalentine,instagram,https://www.instagram.com/lucyvalentineband/
@@ -2075,7 +2077,7 @@ outskirts,instagram,https://www.instagram.com/theoutskirts9899/
 p4lwol,instagram,https://www.instagram.com/yoonhyeonwoo/
 parttimedeliveryboy,instagram,https://www.instagram.com/parttimedeliveryboy/
 pcr,instagram,https://www.instagram.com/pcr________________________/
-peppertones,instagram,https://www.instagram.com/peppertones_official/
+페퍼톤스,instagram,https://www.instagram.com/peppertones_official/
 phoebebridgers,instagram,https://www.instagram.com/phoebebridgers/
 pigeon,instagram,https://www.instagram.com/ckenrlsls/
 plastics,instagram,https://www.instagram.com/novvvvater/
@@ -3649,16 +3651,21 @@ qwer,instagram,https://www.instagram.com/qwerband_official/
 rakunelama,youtube,https://www.youtube.com/@rakunelama
 rakunelama,instagram,https://www.instagram.com/rakunelama/
 redc,youtube,https://www.youtube.com/channel/UCAxt_zt3iRXL0MopuhzO4zQ
+sabbaha,instagram,https://www.instagram.com/sabbaha_kr/
 salamanda,spotify,https://open.spotify.com/artist/2ABEVwxsESCBsCBjN6qFru
 salamanda,instagram,https://www.instagram.com/8salamanda8/
 shinjihang,spotify,https://open.spotify.com/artist/6LGvFSi2nlVrapbgljktyj
 shinjihang,instagram,https://www.instagram.com/shinjihan9/
+sosoyon,youtube,https://www.youtube.com/channel/UCfmcGFOGrvbzTI1jdlzKUOA
+sosoyon,instagram,https://www.instagram.com/sosoyon_music/
 surl,youtube,https://www.youtube.com/channel/UClNvDZAwy0z1P2un18UxvCQ
 surl,spotify,https://open.spotify.com/artist/7owveHzN1hmQuw6Ojg4sI3
 surl,instagram,https://www.instagram.com/SURLofficial/
 thama,youtube,https://www.youtube.com/channel/UCLi5GP3GECFWKwmnRgDd97Q
 thama,spotify,https://open.spotify.com/artist/1Ktiv08TbBy195pQUH8Qld
 thama,instagram,https://www.instagram.com/jungmintv/
+thejoyfools,youtube,https://www.youtube.com/@TheJoyfools
+thejoyfools,instagram,https://www.instagram.com/thejoyfools/
 thevolunteers,youtube,https://www.youtube.com/channel/UCVlcbGb0bA8Db7DAZVuIPJw
 thevolunteers,spotify,https://open.spotify.com/artist/2jLHrOkh1M5rLJgnrgfQf1
 thevolunteers,instagram,https://www.instagram.com/the_volunteers.com_/
@@ -3667,6 +3674,7 @@ trpp,youtube,https://www.youtube.com/channel/UCO9ihjNbr7xw5V9kNC1ZUqg
 trpp,instagram,https://www.instagram.com/trppmusic/
 unofficialboyy,spotify,https://open.spotify.com/artist/0hoIUrMFR0Cy6aTbma8b2o
 unofficialboyy,instagram,https://www.instagram.com/unofficialboyy/
+vangdale,spotify,https://open.spotify.com/artist/2lLe2zAxFPSHnAQdarRYFb
 w24,youtube,https://www.youtube.com/channel/UCpIQ_PHkivL2HHWfdgO-Urw
 w24,spotify,https://open.spotify.com/artist/2SJQjeKXsMqPziotLsmEit
 woshi,youtube,https://www.youtube.com/@woshi_official8738
@@ -3814,6 +3822,8 @@ yetsuby,instagram,https://www.instagram.com/yyetsubyy/
 정홍일,instagram,https://www.instagram.com/jeong_hong_ill/
 조용필,youtube,https://www.youtube.com/channel/UCEKL9UTis2YsqhHPlGDIG5w
 주혜린,instagram,https://www.instagram.com/joohyelyn/
+참깨와솜사탕,spotify,https://open.spotify.com/artist/5xNWQgdUZS4YN7xAYItpKi
+참깨와솜사탕,instagram,https://www.instagram.com/real_chamsom/
 천진우,youtube,https://www.youtube.com/channel/UCnjNCmBszWrgEO0NvfAbbVQ
 천진우,spotify,https://open.spotify.com/artist/5OEgs7d2znP7y50pp8y7bK
 청요일,youtube,https://www.youtube.com/@chungyoile
