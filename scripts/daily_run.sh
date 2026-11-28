@@ -18,6 +18,7 @@ echo "===== $DAY $(TZ=Asia/Seoul date +%H:%M:%S) 시작"
 "$PY" scripts/collect_poclanos.py --days 3 || echo "⚠️ 포크라노스 수집 실패"
 "$PY" scripts/collect_selection.py --site all || echo "⚠️ 선정 명단(부산 루키즈·세종·경북) 수집 실패"
 "$PY" scripts/collect_superrookie.py || echo "⚠️ 슈퍼루키챌린지 수집 실패"
+"$PY" scripts/collect_regional_gigs.py || echo "⚠️ 지역 공연(세종 누리락 등) 수집 일부 실패"   # 공개 페이지(aside 안 씀)
 "$PY" scripts/collect_trackzero.py || echo "⚠️ 멜론 트랙제로 수집 실패"   # 새 글만, 공개 페이지(aside 안 씀)
 if command -v aside >/dev/null 2>&1; then
   "$PY" scripts/collect_gigs.py --site all --days 7 || echo "⚠️ 공연 수집 일부 실패 (aside 앱이 꺼져 있으면 실패해요)"

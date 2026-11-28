@@ -145,5 +145,36 @@ class ReplResultTest(unittest.TestCase):
         self.assertEqual(gh.parse_repl_output(out), [1])
 
 
+class RangeBoundaryTest(unittest.TestCase):
+    """범위 밖 공연·경계 주는 '끝남'으로 적지 않는다 — 나중에 더 이른 --since로 되짚을 때 빠지지 않게."""
+
+    def test_week_fully_inside_only_when_all_seven_days_in_range(self):
+        self.assertTrue(gh.week_fully_inside("2023-12-04", "2023-12-01", "2023-12-31"))
+        self.assertFalse(gh.week_fully_inside("2023-11-27", "2023-12-01", "2023-12-31"))
+        self.assertFalse(gh.week_fully_inside("2023-12-25", "2023-12-01", "2023-12-30"))
+
+    def test_out_of_range_gig_not_marked_done(self):
+        inside = dict(GIG, url="https://indistreet.com/gigs/in", startDate="2024-01-08T11:00:00.000Z")
+        outside = dict(GIG, url="https://indistreet.com/gigs/out", startDate="2023-12-30T11:00:00.000Z")
+        original = gh.run_with_retry
+        gh.run_with_retry = lambda js, label: [inside, outside]
+        try:
+            with tempfile.TemporaryDirectory() as d:
+                old_state_path = gh.STATE_PATH
+                gh.STATE_PATH = Path(d) / "s.json"
+                try:
+                    writer = gh.CsvAppender(Path(d), "2026-11-28")
+                    stats = {"gigs": 0, "no_performer": 0, "failed": 0, "not_found": 0}
+                    st = gh._process_gigs([inside["url"], outside["url"]], gh.load_state(gh.STATE_PATH),
+                                          writer, stats, "2024-01-01", "2024-01-31")
+                    writer.close()
+                finally:
+                    gh.STATE_PATH = old_state_path
+        finally:
+            gh.run_with_retry = original
+        self.assertEqual(st["gigs_done"], [inside["url"]])
+        self.assertEqual(stats["gigs"], 1)
+
+
 if __name__ == "__main__":
     unittest.main()

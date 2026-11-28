@@ -152,6 +152,12 @@ def weeks_between(since: str, until: str, today: str) -> list:
     return out
 
 
+def week_fully_inside(monday: str, since: str, until: str) -> bool:
+    """그 주 7일이 모두 범위 안이면 True — 경계 주는 '끝난 주'로 적지 않는다."""
+    sunday = (date.fromisoformat(monday) + timedelta(days=6)).isoformat()
+    return since <= monday and sunday <= until
+
+
 def to_kst(start: str) -> str:
     """'2024-01-08T11:00:00.000Z' 같은 UTC 시각을 한국 시간 ISO로. 다른 형식은 그대로 둔다."""
     m = re.match(r"^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?)(?:\.\d+)?Z$", start or "")
@@ -287,10 +293,10 @@ def _process_gigs(urls, state, writer, stats, since, until):
             if d.get("error") or d.get("status", 200) != 200 or not d.get("startDate"):
                 stats["failed"] += 1
                 continue
-            done.append(want)
             day = to_kst(d["startDate"])[:10]
-            if not since <= day <= until:
+            if not since <= day <= until:   # 범위 밖은 '끝남'으로 적지 않는다 (더 이른 --since 되짚기 때 다시 받게)
                 continue
+            done.append(want)
             rows = gig_rows(d, now)
             stats["gigs"] += 1
             stats["no_performer"] += 0 if rows else 1
@@ -350,7 +356,8 @@ def collect(since: str, until: str, out_dir: Path, max_weeks: int):
                 before_failed = stats["failed"]
                 state = _process_gigs(gigs, state, writer, stats, since, until)
                 state = _process_programs(progs, state, writer, stats, since, until, monday[:4])
-                if stats["failed"] == before_failed:   # 실패가 있으면 그 주는 다음 실행에서 다시 본다
+                if stats["failed"] == before_failed and week_fully_inside(monday, since, until):
+                    # 실패가 있거나 범위 경계에 걸친 주는 다음 실행에서 다시 본다
                     state = mark(state, "weeks_done", [monday])
                     save_state(STATE_PATH, state)
                 stats["weeks"] += 1

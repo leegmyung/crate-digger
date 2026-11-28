@@ -850,7 +850,8 @@
     }
    ],
    "our_names": [
-    "라이브홀"
+    "라이브홀",
+    "KT&G 상상마당 홍대 안녕바다"
    ],
    "status_note": "우리 공연 데이터 마지막 공연 2026-08-22",
    "instagram": "ssmadang_live",
@@ -8524,6 +8525,94 @@
    "geo_method": "address"
   },
   {
+   "name": "세종예술의전당",
+   "aliases": [],
+   "province": "세종",
+   "city": "세종",
+   "district": "",
+   "address": "세종특별자치시 국립박물관로 21",
+   "type": "hall",
+   "capacity": null,
+   "status": "open",
+   "mainstream": true,
+   "sources": [
+    {
+     "url": "https://www.nurirock.or.kr/base/board/read?boardManagementNo=22&boardNo=383",
+     "note": "2026 세종보헤미안스테이지 타임테이블(세종예술의전당 공연장·로비, 6.27~28)"
+    },
+    {
+     "url": "https://www.nurirock.or.kr/base/nrr/performance/read?performanceNo=177",
+     "note": "2026 지역&전국 음악창작소 교류공연 in 세종 — 장소 '세종예술의전당 야외무대 (세종특별자치시 국립박물관로 21)'"
+    }
+   ],
+   "our_names": [],
+   "status_note": "2026-06·09 세종음악창작소 기획 공연 확인",
+   "checked": "2026-11-28",
+   "type_basis": "수동: 시립 예술의전당(대공연장·야외무대) — 공공 공연장이라 mainstream",
+   "lat": 36.486597,
+   "lon": 127.267278,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "세종중앙공원 도시축제마당",
+   "aliases": [
+    "세종보헤미안뮤직페스티벌",
+    "세종보헤미안락페스티벌"
+   ],
+   "province": "세종",
+   "city": "세종",
+   "district": "",
+   "address": "세종특별자치시 중앙공원로 60",
+   "type": "festival",
+   "capacity": null,
+   "status": "open",
+   "sources": [
+    {
+     "url": "https://www.nurirock.or.kr/base/nrr/performance/read?performanceNo=173",
+     "note": "세종음악창작소 누리락 프로그램 일정 — 2026 세종보헤미안뮤직페스티벌 (10.30~11.01, 세종중앙공원 도시축제마당)"
+    },
+    {
+     "url": "https://www.nurirock.or.kr/base/nrr/performance/read?performanceNo=143",
+     "note": "2025 세종보헤미안뮤직페스티벌 포스터(장소: 세종중앙공원 도시축제마당(중앙공원로 60))"
+    }
+   ],
+   "our_names": [],
+   "status_note": "세종보헤미안뮤직페스티벌(옛 이름 세종보헤미안락페스티벌, 2022~) 야외 무대 — 2026-10-30~11-01 개최 확인",
+   "checked": "2026-11-28",
+   "type_basis": "수동: 세종시문화관광재단 주최 야외 음악 페스티벌 장소 (세종음악창작소 누리락 공연 안내, 2026-11-28 확인)",
+   "lat": 36.490247,
+   "lon": 127.273145,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "한글복합문화공간 한글상점",
+   "aliases": [
+    "한글상점"
+   ],
+   "province": "세종",
+   "city": "세종",
+   "district": "",
+   "address": "",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.nurirock.or.kr/base/nrr/performance/read?performanceNo=155",
+     "note": "공실상가 밤빛 라이브 12월 (2025.12.19~20, 한글복합문화공간 한글상점) — 세종음악창작소 기획"
+    }
+   ],
+   "our_names": [],
+   "status_note": "2025-12 세종음악창작소 '공실상가 밤빛 라이브'(빈 상가에 만든 공간) — 상설 공연장인지 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
    "name": "로얄앵커",
    "aliases": [
     "Royal Anchor",
@@ -9624,6 +9713,2324 @@
    "geo_checked": "2026-11-28",
    "our_venue": "카세트 스튜디오",
    "in_our_data": true
+  },
+  {
+   "name": "315아트센터",
+   "aliases": [],
+   "province": "경남",
+   "city": "창원",
+   "district": "마산회원구",
+   "address": "경남 창원시 마산회원구 삼호로 135",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/fm1a9ah4nf7k6gw17e2z1dcd",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-11-24 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.225806,
+   "lon": 128.577352,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "EBS 스페이스 공감",
+   "aliases": [],
+   "province": "경기",
+   "city": "고양",
+   "district": "일산동구",
+   "address": "경기 고양시 일산동구 한류월드로 281",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/a7mpjjd507e62qutndu1mfwu",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-10-26 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.661813,
+   "lon": 126.754664,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "HAROO SPACEBUS",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 동교동 166-3",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/udn498vsjqs79r8qdlnqwqed",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-05-08 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "KBS 부산홀",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "수영구",
+   "address": "부산 수영구 수영로 429",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/dpb1lvm553i3s1dsuhtvv5sm",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-06-05 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.145126,
+   "lon": 129.108836,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "KBS아레나",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "강서구",
+   "address": "서울 강서구 공항대로 376",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/dd7ymeqizpkl56ils1lc66xo",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-07-15 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.556681,
+   "lon": 126.848401,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "LG아트센터",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "강남구",
+   "address": "서울 강남구 논현로 508",
+   "type": "",
+   "capacity": null,
+   "status": "closed",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/t9ylc6m5ovq5uptnq2jdf6oa",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://www.khan.co.kr/article/202210161056001",
+     "note": "마곡 이전 개관 보도(경향신문 2022-10-16)"
+    },
+    {
+     "url": "https://www.hankyung.com/article/202502117369i",
+     "note": "옛 역삼 건물 GS아트센터 개관 보도"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "역삼동 LG아트센터는 2022년 2월까지 운영, 2022년 10월 마곡으로 옮겨 'LG아트센터 서울'로 개관 (옛 건물은 2025년 GS아트센터로 다시 엶) · 우리 공연 데이터 마지막 공연 2021-06-12 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "moved_to": "LG아트센터 서울",
+   "lat": 37.502137,
+   "lon": 127.037622,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "SKT 서면 센터",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "부산진구",
+   "address": "부산 부산진구 중앙대로692번길 22 1층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/hhqpm79wqxeo35loyy5i9bl3",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-07-23 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.154345,
+   "lon": 129.060458,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "T팩토리",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 양화로 144",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/pnlbz1gk4r1yrmtgacp243iy",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-01-20 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.555255,
+   "lon": 126.9224,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "드럼스테이션",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 홍익로5안길 14",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/ks57461zxj2qi0swjbq6287j",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-06-24 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.55399,
+   "lon": 126.921823,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "게토얼라이브",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "성동구",
+   "address": "서울 성동구 왕십리로 104 영화빌딩",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/lrexkyuniirnu8xlrogfzz6b",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-05-18 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.545616,
+   "lon": 127.04475,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "고양시 별모래극장",
+   "aliases": [],
+   "province": "경기",
+   "city": "고양",
+   "district": "덕양구",
+   "address": "경기 고양시 덕양구 어울림로 33",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/yqa4csoybzm04fx335h8hxcl",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-04-08 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.648283,
+   "lon": 126.832734,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "고인물",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 와우산로29길 66 지하 1층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/tbsw7z2kmjyqngfj69gujq8n",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-06-26 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.556292,
+   "lon": 126.926691,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "골방팩토리",
+   "aliases": [],
+   "province": "충북",
+   "city": "청주",
+   "district": "상당구",
+   "address": "충북 청주시 상당구 무심동로392번길 4 5층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/qutsm0bzaxcgh7qirssn3iwj",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-12-10 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 36.635579,
+   "lon": 127.485403,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "공간389",
+   "aliases": [],
+   "province": "경기",
+   "city": "부천",
+   "district": "",
+   "address": "경기 부천시 고리울로40번길 13-11",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/irqlhjwwe7vjr88a0qo76qsp",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-09-04 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.526448,
+   "lon": 126.820263,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "공감",
+   "aliases": [],
+   "province": "인천",
+   "city": "인천",
+   "district": "중구",
+   "address": "인천 중구 내동 16-1",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/jvae32qoyvlv5tvh9jibi2kv",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-11-10 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.600892,
+   "lon": 126.658948,
+   "geo_confidence": "low",
+   "geo_method": "name",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "구례자연드림파크",
+   "aliases": [],
+   "province": "전남",
+   "city": "구례군",
+   "district": "",
+   "address": "전남 구례군 용방면 죽정리 921",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/ee35nc1k709embk6sm41yc5g",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-08-27 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "구름속에커피집",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 와우산로29가길 15 1층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/y3tpt81u8qg4h9djgl5iub29",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-09-15 — 1년 넘게 기록 없음, 운영 여부 확인 필요 · 같은 주소에 '구름아래소극장'가 있음(이름이 바뀌었거나 문을 닫았을 수 있음)",
+   "type_basis": "",
+   "lat": 37.554171,
+   "lon": 126.928602,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "구미 선산문화회관",
+   "aliases": [],
+   "province": "경북",
+   "city": "구미",
+   "district": "",
+   "address": "경북 구미시 선산읍 선산중앙로 117",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/i37hzz1skc2c0cj14bbszolg",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-10-27 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "꿈빛극장",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "성북구",
+   "address": "서울 성북구 길음로7길 20 4층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/qbu8m7pqux92zf323voica8z",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-10-23 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.603755,
+   "lon": 127.022158,
+   "geo_confidence": "low",
+   "geo_method": "name",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "난지한강공원",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 상암동 495-72",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/kue7b46riwjxojiclpff6q8t",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-05-27 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "남문로데오 청소년소극장",
+   "aliases": [],
+   "province": "경기",
+   "city": "수원",
+   "district": "팔달구",
+   "address": "경기 수원시 팔달구 팔달로3가 103-1",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/wbratr1vbgs6dpep5ko08qvw",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-08-14 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "네스트나다",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 와우산로29길 15 2층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/ww2sp1chgcybnjmz4so39orz",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-06-30 — 1년 넘게 기록 없음, 운영 여부 확인 필요 · 같은 주소에 '언플러그드 라운지'가 있음(이름이 바뀌었거나 문을 닫았을 수 있음)",
+   "type_basis": "",
+   "lat": 37.554881,
+   "lon": 126.928896,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "다대포예술기지",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "사하구",
+   "address": "부산 사하구 윤공단로 12 2층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/dh13ngmten6i4kfpomj6n8ji",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-06-18 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.059495,
+   "lon": 128.969888,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "달서아트센터 청룡홀",
+   "aliases": [],
+   "province": "대구",
+   "city": "대구",
+   "district": "달서구",
+   "address": "대구 달서구 문화회관길 160",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/xyzxqq85546txe0ks4ply8cs",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-08-28 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.847189,
+   "lon": 128.522329,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "대디제이",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "성북구",
+   "address": "서울 성북구 고려대로24가길 4-17 지하 1층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/g5imiu3tvljx6q5gsmfoqsby",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-07-22 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.58502,
+   "lon": 127.030549,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "더클리프",
+   "aliases": [],
+   "province": "제주",
+   "city": "서귀포",
+   "district": "",
+   "address": "제주특별자치도 서귀포시 중문관광로 154-17",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/igqb58h0whhehrajzzum3pni",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-06-24 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 33.244539,
+   "lon": 126.415707,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "도킹어라운드",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 잔다리로 20 서진빌딩 5층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/m9z5brac4np9iuqlcfo7je1v",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-12-21 — 1년 넘게 기록 없음, 운영 여부 확인 필요 · 같은 주소에 '둘 스튜디오'가 있음(이름이 바뀌었거나 문을 닫았을 수 있음)",
+   "type_basis": "",
+   "lat": 37.55099,
+   "lon": 126.920863,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "맞배집",
+   "aliases": [],
+   "province": "대전",
+   "city": "대전",
+   "district": "중구",
+   "address": "대전 중구 보문로260번길 17 2층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/hg1bvd9l9d0wjv09e8e7k0et",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-04-22 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 36.32652,
+   "lon": 127.424332,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "모모",
+   "aliases": [],
+   "province": "인천",
+   "city": "인천",
+   "district": "미추홀구",
+   "address": "인천 미추홀구 인하로 47번길 66지층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/f97ifg4hkxtjpylsjjveopq4",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-03-13 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.493705,
+   "lon": 126.534222,
+   "geo_confidence": "low",
+   "geo_method": "name",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "문화정원아트홀",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "금천구",
+   "address": "서울 금천구 가산로 61",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/mgfjfuq2ks2opdecdy6wbry9",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-12-22 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.471857,
+   "lon": 126.895927,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28",
+   "our_names": [
+    "문화정원아트홀 1층 정원"
+   ]
+  },
+  {
+   "name": "벨로주 망원",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 포은로 117 메디움빌딩 4층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/ymbfvb8b7xpchwavb88t1txs",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-10-30 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.557407,
+   "lon": 126.904275,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "벨롱",
+   "aliases": [],
+   "province": "제주",
+   "city": "제주",
+   "district": "",
+   "address": "제주특별자치도 제주시 구좌읍 해맞이해안로 1652",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/gb7vmty69v6p8qk1ne5yf2ek",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-07-16 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 33.496454,
+   "lon": 126.909677,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "복합문화공간 야.시.시",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 와우산로 148-1 2층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/vrqtdroxgp9tkg016c9q01j3",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-08-19 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.554252,
+   "lon": 126.929792,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "복합문화공간 에무",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "종로구",
+   "address": "서울 종로구 경희궁1가길 7",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/l5kqvrc6nxmuulcunh7bazt5",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-09-24 — 1년 넘게 기록 없음, 운영 여부 확인 필요 · 같은 주소에 '팡타 개라지'가 있음(이름이 바뀌었거나 문을 닫았을 수 있음)",
+   "type_basis": "",
+   "lat": 37.572086,
+   "lon": 126.969013,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "부산시청자미디어센터 공개홀",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "해운대구",
+   "address": "부산 해운대구 센텀중앙로 42 2층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/xxfasl0ws3sxt1f7t0rsfbfj",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-05-26 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.173139,
+   "lon": 129.129143,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "부평아트센터 달누리극장",
+   "aliases": [],
+   "province": "인천",
+   "city": "인천",
+   "district": "부평구",
+   "address": "인천 부평구 아트센터로 166",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/e2gtvx75ozv2b39ntj9njaa5",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-09-26 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.476249,
+   "lon": 126.703393,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "산타클로스",
+   "aliases": [],
+   "province": "대전",
+   "city": "대전",
+   "district": "유성구",
+   "address": "대전 유성구 농대로 25",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/h6eumzqfdqmejq9taxghs0oe",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-08-19 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 36.363505,
+   "lon": 127.353009,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "샴록카페",
+   "aliases": [],
+   "province": "경남",
+   "city": "거제",
+   "district": "",
+   "address": "경남 거제시 옥포대첩로2길 26-1 1층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/uq78pevlk468jjp8cqiwsj1s",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-06-25 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 34.891132,
+   "lon": 128.689945,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "서교스퀘어",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 양화로 72 서교동효성해링턴타워 지하 1,2층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/dr2c6uyln37c4a6tiip8lfov",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-05-22 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.5508,
+   "lon": 126.916718,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "서울예술교육센터",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "용산구",
+   "address": "서울 용산구 서빙고로 17 용산센트럴파크해링턴스퀘어 업무,공공시설동 1,5,6층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/kik019nui3x3twtzxiqsi1zi",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-11-25 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.526905,
+   "lon": 126.966568,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "서피랑공원",
+   "aliases": [],
+   "province": "경남",
+   "city": "통영",
+   "district": "",
+   "address": "경남 통영시 중앙동 192",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/j1oyl5281kma8l408kgn5fb3",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-09-30 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "세빛섬 예빛무대",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "서초구",
+   "address": "서울 서초구 반포동 115-1",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/gvd99hhdpmqu7hruvrq6o7tf",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-11-20 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "세종대학교 대양홀",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "광진구",
+   "address": "서울 광진구 능동로 209",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/h14iywam207at02zoha3gdua",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-06-11 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.550848,
+   "lon": 127.074607,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "소공연장 Studio SR",
+   "aliases": [],
+   "province": "대구",
+   "city": "대구",
+   "district": "남구",
+   "address": "대구 남구 명덕로40길 111 지하 Studio SR",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/pklq5z7qmmhw3eu464uoz9ob",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-07-22 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.852133,
+   "lon": 128.589873,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "속초 칠성조선소",
+   "aliases": [],
+   "province": "강원",
+   "city": "속초",
+   "district": "",
+   "address": "강원 속초시 중앙로46번길 45",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/x262mbakgaqsh1zpjwc8wkx8",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-10-27 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "숏서킷",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "용산구",
+   "address": "서울 용산구 원효로 187 지하 1층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/vrz5b95t1g1fdt12dz29f9xa",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-12-31 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.534514,
+   "lon": 126.947791,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "숲길",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 와우산로37길 11 3층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/x6434ngtizu9s24g71opv8r1",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-04-29 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.556054,
+   "lon": 126.930208,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "슈퍼스테이지",
+   "aliases": [],
+   "province": "대구",
+   "city": "대구",
+   "district": "남구",
+   "address": "대구 남구 계명중앙1길 47 지하 1층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/ep9y7m5fqnyly18dyvxrwh4g",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-12-04 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.856222,
+   "lon": 128.581465,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "스미스치킨",
+   "aliases": [],
+   "province": "대구",
+   "city": "대구",
+   "district": "중구",
+   "address": "대구 중구 동성로3길 16",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/sgb88nqlveknrhvmnbbhwesd",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-09-02 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.865644,
+   "lon": 128.598159,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "스테레오북스",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "동래구",
+   "address": "부산 동래구 온천천로453번길 14 2층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/xz1vobk24e7thoiq2bfh2178",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-06-25 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.192197,
+   "lon": 129.103026,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "스트링 바",
+   "aliases": [],
+   "province": "전남",
+   "city": "광양",
+   "district": "",
+   "address": "전남 광양시 오류로 49",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/lx8r62zpq1j7dcgpjgk4zdvm",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-08-05 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 34.944916,
+   "lon": 127.695111,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "스페이스홍",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 동교로 144 지하1층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/qzqqx3na91kxpkki0w9v3uz1",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-08-14 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.554694,
+   "lon": 126.918475,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "신한pLay 스퀘어 라이브홀",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 양화로 45 메세나폴리스 2층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/evg68yzuxr890pmuuluvdm2q",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-03-05 — 1년 넘게 기록 없음, 운영 여부 확인 필요 · 같은 주소에 'NOL 씨어터 합정'가 있음(이름이 바뀌었거나 문을 닫았을 수 있음)",
+   "type_basis": "",
+   "lat": 37.55024,
+   "lon": 126.913962,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "썬더그라운드",
+   "aliases": [],
+   "province": "전남",
+   "city": "순천",
+   "district": "",
+   "address": "전남 순천시 연자로 10 지하1층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/n5c5gwnu8z0hpnej0oeu1pga",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-08-21 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 34.955051,
+   "lon": 127.485389,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "아로아로홀",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울시 마포구 합정동 427-14 지하",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/zzzk6nda8rvkek5flhimjaqa",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-12-12 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "아름드리",
+   "aliases": [],
+   "province": "강원",
+   "city": "원주",
+   "district": "",
+   "address": "강원 원주시 일산로 39-3",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/mdygud7pt6nnhi2fxwp15h0u",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-11-19 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "아양아트센터",
+   "aliases": [],
+   "province": "대구",
+   "city": "대구",
+   "district": "동구",
+   "address": "대구 동구 효동로2길 24",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/w9ril0b7cznm4yb4kcnqi3ki",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-03-27 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.879623,
+   "lon": 128.652077,
+   "geo_confidence": "high",
+   "geo_method": "name+address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "아트숨비",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "은평구",
+   "address": "서울 은평구 은평로8길 9 아트숨비빌딩",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/tlz0arobcdl6v2w7g5mtt37e",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-02-26 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.598269,
+   "lon": 126.919772,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "안동문화관광단지",
+   "aliases": [],
+   "province": "경북",
+   "city": "안동",
+   "district": "",
+   "address": "경북 안동시 관광단지로 346-30",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/jtmoi7m2k6zhklqks0kegcie",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-11-06 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 36.569461,
+   "lon": 128.778608,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "애쉬앤블룸",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 와우산로29길 44 1~3층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/qy91ba3njd3e2r07i7fbf7uy",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-04-27 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.555751,
+   "lon": 126.927747,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "어울아트센터",
+   "aliases": [],
+   "province": "대구",
+   "city": "대구",
+   "district": "북구",
+   "address": "대구 북구 구암로 47",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/bibcc2k6frk9rpgmjwh7u6rt",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-07-23 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.940827,
+   "lon": 128.570245,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "언플러그드 신촌점",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "서대문구",
+   "address": "서울 서대문구 연세로 13 현대백화점 유플렉스 11층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/vdbiuhfnp27ymso9dq45wy5b",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-12-17 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.556509,
+   "lon": 126.936697,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "오르디",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "사상구",
+   "address": "부산 사상구 대동로107번길 17",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/g1ufzkxqrwna5p65gc3pv74i",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-07-24 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.139606,
+   "lon": 128.979304,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "올림픽공원 올림픽홀",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "송파구",
+   "address": "서울 송파구 올림픽로 424",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/ibghlj0keliwxk0ajtxq9mmc",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-07-03 — 1년 넘게 기록 없음, 운영 여부 확인 필요 · 같은 주소에 '뮤즈라이브'가 있음(이름이 바뀌었거나 문을 닫았을 수 있음)",
+   "type_basis": "",
+   "lat": 37.522741,
+   "lon": 127.118711,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "요이땅삐삐",
+   "aliases": [],
+   "province": "제주",
+   "city": "제주",
+   "district": "",
+   "address": "제주특별자치도 제주시 한경면 고산로 19",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/c1y2wymzlkxxrwdr93pe2e9c",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-06-11 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 33.30668,
+   "lon": 126.178522,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "용산아트홀 대극장미르",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "용산구",
+   "address": "서울 용산구 녹사평대로 150",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/uaw7z7d2d4ijcf9r9w2lldo2",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-10-30 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.532447,
+   "lon": 126.990086,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "울산문화예술회관",
+   "aliases": [],
+   "province": "울산",
+   "city": "울산",
+   "district": "남구",
+   "address": "울산 남구 번영로 200",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/apct88di5yza4d5kucgdpni9",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-06-23 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.543352,
+   "lon": 129.326633,
+   "geo_confidence": "high",
+   "geo_method": "name+address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "인디스타 C&K",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "광진구",
+   "address": "서울 광진구 능동로9길 50 지하 1층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/z9geos0ymv7e7deuypyfxxfq",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-12-09 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.537931,
+   "lon": 127.067486,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "인천노크",
+   "aliases": [],
+   "province": "인천",
+   "city": "인천",
+   "district": "미추홀구",
+   "address": "인천 미추홀구 숙골로95번길 25 4층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/db0t5dpde97jygf08o2ce5om",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-09-16 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.470385,
+   "lon": 126.661389,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "작은물",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "중구",
+   "address": "서울 중구 을지로16길 6 3층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/z07ask9j6jvxcb92ps4o98sb",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-07-02 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.566149,
+   "lon": 126.993506,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "재즈클럽 에반스",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 와우산로 63 세븐일레븐 2층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/iuaedu01yf9qm4acgzrr9r3v",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-12-16 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.550275,
+   "lon": 126.922886,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "정동극장",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "중구",
+   "address": "서울 중구 정동길 43",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/fbodhz6nn9aqdrnmc7e1xqli",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-07-11 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.565865,
+   "lon": 126.972772,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "제주대학교 아라뮤즈홀",
+   "aliases": [],
+   "province": "제주",
+   "city": "제주",
+   "district": "",
+   "address": "제주특별자치도 제주시 제주대학로 102",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/okd71x3rtat6iaqqh9ke2s8t",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-02-04 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 33.455858,
+   "lon": 126.562653,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "주말극장",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "영등포구",
+   "address": "서울 영등포구 도림로126길 1",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/zmlq4cls49v7hijalkowfq5w",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-08-20 — 1년 넘게 기록 없음, 운영 여부 확인 필요 · 같은 주소에 '숲세권'가 있음(이름이 바뀌었거나 문을 닫았을 수 있음)",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "중구 문화의전당 함월홀",
+   "aliases": [],
+   "province": "울산",
+   "city": "울산",
+   "district": "중구",
+   "address": "울산광역시 중구 종가로 405 2층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/bfsw5e3u1n8k4limbw0wlrrl",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-11-17 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.567778,
+   "lon": 129.319862,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "카페 몰입",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "금정구",
+   "address": "부산 금정구 개좌로 162 예술지구P 1층 카페몰입",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/mb4d1l49gyegmufv9hh9oqxf",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-09-23 — 1년 넘게 기록 없음, 운영 여부 확인 필요 · 같은 주소에 '금사락'가 있음(이름이 바뀌었거나 문을 닫았을 수 있음)",
+   "type_basis": "",
+   "lat": 35.219548,
+   "lon": 129.111547,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "카페륙",
+   "aliases": [],
+   "province": "인천",
+   "city": "인천",
+   "district": "중구",
+   "address": "인천 중구 공항서로 419",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/rtz0agutd9b5elmtx77yjxyn",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-10-02 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "코리아블루스씨어터",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "용산구",
+   "address": "서울 용산구 청파로45길 5 지하1층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/xfxxnwu8t2jptiwpqz25n3zc",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-05-16 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.544438,
+   "lon": 126.969243,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "클리프1912 복합문화공간",
+   "aliases": [],
+   "province": "대구",
+   "city": "대구",
+   "district": "중구",
+   "address": "대구 중구 명덕로 249",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/zbf9iff90arnp0hha2wd70ex",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-05-29 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 35.859289,
+   "lon": 128.576918,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "톤스튜디오",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 성미산로 64-5",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/tuo1xbnbgtglc9u7onvuf7v7",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-03-11 — 1년 넘게 기록 없음, 운영 여부 확인 필요 · 같은 주소에 '톤스튜디오 서울'가 있음(이름이 바뀌었거나 문을 닫았을 수 있음)",
+   "type_basis": "",
+   "lat": 37.561741,
+   "lon": 126.918731,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "통영 삼문당",
+   "aliases": [],
+   "province": "경남",
+   "city": "통영",
+   "district": "",
+   "address": "경남 통영시 중앙로 168 2층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/w25qecf4d2yjzm4ml5fijlla",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-10-26 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 34.84181,
+   "lon": 128.419764,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "포항문화예술회관 소공연장",
+   "aliases": [],
+   "province": "경북",
+   "city": "포항",
+   "district": "남구",
+   "address": "경북 포항시 남구 희망대로 850",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/ifbbhpek8kmmsrikkyst0djo",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-08-27 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 36.009513,
+   "lon": 129.365926,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "폼텍 웍스홀",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 잔다리로3길 34 스페이스맘 빌딩 1층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/ypwkuas30apdffm3sm9vzrzi",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-04-29 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.550679,
+   "lon": 126.917879,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "플랫폼창동61",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "도봉구",
+   "address": "서울 도봉구 마들로11길 74",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/o4uqqytg30a7jcwizx4bfn7y",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-11-21 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.653609,
+   "lon": 127.048963,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "하루 뮤직바",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 양화로 178-8 지하1층",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/o2xcv5celxima5knyhk4polm",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-07-17 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "한국소리문화의전당 연지홀",
+   "aliases": [],
+   "province": "전북",
+   "city": "전주",
+   "district": "덕진구",
+   "address": "전북 전주시 덕진구 소리로 31",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/y7j0x20m384wiptzqd5maea5",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-07-23 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "헤븐락",
+   "aliases": [],
+   "province": "경기",
+   "city": "안산",
+   "district": "상록구",
+   "address": "경기 안산시 상록구 예술광장로 1 7층 704호",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/tw3j2x1j0y151apnxrej2tpx",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-01-07 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.327877,
+   "lon": 126.846047,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "홍대 플렉스라운지",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "마포구",
+   "address": "서울 마포구 양화로 100-10",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/z1a8tp3xwsnibopk4y9jzgmc",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2023-12-09 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "홍익대 대학로 아트센터 대극장",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "종로구",
+   "address": "서울 종로구 대학로 57",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/ew0djyq4e8j61dkk1mlquzop",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2021-09-25 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.576591,
+   "lon": 127.001604,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "흰물결아트센터",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "서초구",
+   "address": "서울 서초구 반포대로 150",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://indistreet.com/gigs/gs159flt6wgpq8crl2bu2n28",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2022-10-01 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "type_basis": "",
+   "lat": 37.493361,
+   "lon": 127.007247,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "아차산로5길 24-14",
+   "aliases": [],
+   "province": "서울",
+   "city": "서울",
+   "district": "성동구",
+   "address": "아차산로5길 24-14",
+   "type": "",
+   "capacity": null,
+   "status": "open",
+   "sources": [
+    {
+     "url": "https://www.indiego.co.kr/events/1292-rampage-fest-2026",
+     "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "in_our_data": true,
+   "status_note": "우리 공연 데이터 마지막 공연 2026-11-28",
+   "type_basis": "",
+   "lat": 37.548634,
+   "lon": 127.054303,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   }
  ]
 }

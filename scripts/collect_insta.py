@@ -32,6 +32,8 @@ KST = timezone(timedelta(hours=9))
 COLUMNS = [f.name for f in TABLES["raw_press"]["fields"]]
 MAX_NEW_POSTS = 6
 MAX_POST_AGE_DAYS = 14
+HISTORY_DAYS = 365          # 첫 방문·--history: 프로필에 보이는 게시물을 이만큼 옛날 것까지 남긴다
+HISTORY_POSTS = 12          # 첫 방문·--history: 로그인 없이 프로필에 보이는 게시물 수(약 12개)만큼 읽는다
 SEEN_KEEP = 100
 MAX_ACCOUNTS_PER_RUN = 260   # 한 번에 볼 계정 상한 (계정당 10~20초 → 1시간 안팎, 인스타 차단 위험 관리)
 ZERO_STREAK_STEP = 3        # 이만큼 연속으로 0행(팀을 하나도 못 찾음)이면 주기를 2배로 (6회면 4배 …)
@@ -211,8 +213,24 @@ def _post_id(url):
     return url.rstrip("/").split("/")[-1]
 
 
-def _collect_account(handle, seen, collected_at, oldest, role="magazine"):
-    res = run_repl(PROFILE_JS % {"handle": handle, "seen": json.dumps(seen), "max_new": MAX_NEW_POSTS})
+def oldest_for(seen, now, history=False):
+    """남길 가장 오래된 게시일. 첫 방문(본 게시물 없음)·--history 는 HISTORY_DAYS, 평소엔 MAX_POST_AGE_DAYS.
+    (예전엔 첫 방문에도 14일만 남기고 나머지를 '본 것'으로 적어, 옛 게시물을 영영 못 받았다.)"""
+    days = HISTORY_DAYS if history or not seen else MAX_POST_AGE_DAYS
+    return (now - timedelta(days=days)).date().isoformat()
+
+
+def collected_post_ids(raw_dir):
+    """이미 원본 CSV에 저장한 인스타 게시물 번호 — --history 가 이것만 건너뛰고 버려졌던 옛 게시물은 다시 읽게."""
+    ids = set()
+    for path in sorted(Path(raw_dir).glob("raw_press_*_instagram*.csv")):
+        with open(path, encoding="utf-8", newline="") as fh:
+            ids.update(_post_id(r["url"]) for r in csv.DictReader(fh) if r.get("url"))
+    return ids
+
+
+def _collect_account(handle, seen, collected_at, oldest, role="magazine", max_new=MAX_NEW_POSTS):
+    res = run_repl(PROFILE_JS % {"handle": handle, "seen": json.dumps(seen), "max_new": max_new})
     if res.get("gone"):
         return None
     rows, review, ids = [], [], []
@@ -226,17 +244,23 @@ def _collect_account(handle, seen, collected_at, oldest, role="magazine"):
     return rows, review, ids
 
 
-def collect(check_all=False):
+def collect(check_all=False, history=False, limit=None, offset=0):
+    """history=True: 이미 한 번 본 계정의 옛 게시물(저장 안 한 것)을 HISTORY_DAYS 까지 다시 읽는 한 번짜리 되짚기.
+    매일 주기(last_checked·zero_streak)는 바꾸지 않는다."""
     now = datetime.now(KST).replace(microsecond=0)
     today = f"{now:%Y-%m-%d}"
-    oldest = (now - timedelta(days=MAX_POST_AGE_DAYS)).date().isoformat()
     accounts = collectable_accounts(_load_json(CONFIG, {}).get("accounts", []))
     state = _load_json(STATE, {"last_checked": {}, "seen": {}})
     state.setdefault("zero_streak", {})          # 계정별 연속 0행 횟수 (늘어난 주기 계산용)
-    if not check_all:
-        state["last_checked"] = stagger(accounts, state["last_checked"], today)
-    targets = accounts if check_all else due_accounts(accounts, state["last_checked"], today,
-                                                      limit=MAX_ACCOUNTS_PER_RUN, zero_streak=state["zero_streak"])
+    saved_ids = collected_post_ids(RAW_DIR) if history else set()
+    if history:
+        visited = [a for a in accounts if state["seen"].get(a["handle"])][offset:]   # offset: 끊긴 되짚기 이어 하기
+        targets = visited[:limit]
+    else:
+        if not check_all:
+            state["last_checked"] = stagger(accounts, state["last_checked"], today)
+        targets = accounts if check_all else due_accounts(accounts, state["last_checked"], today,
+                                                          limit=MAX_ACCOUNTS_PER_RUN, zero_streak=state["zero_streak"])
     pending, review, report = [], [], []
     written = {"path": None, "rows": 0}
     written_keys: set = set()
@@ -259,8 +283,11 @@ def collect(check_all=False):
         for n, a in enumerate(targets, 1):
             handle = a["handle"]
             seen = state["seen"].get(handle, [])
+            wide = history or not seen
+            skip = sorted(saved_ids & set(seen)) if history else seen
             try:
-                result = _collect_account(handle, seen, now.isoformat(), oldest, a.get("role", "magazine"))
+                result = _collect_account(handle, skip, now.isoformat(), oldest_for(seen, now, history),
+                                          a.get("role", "magazine"), max_new=HISTORY_POSTS if wide else MAX_NEW_POSTS)
             except (RuntimeError, subprocess.TimeoutExpired, ValueError, KeyError) as e:   # 계정 하나 실패해도 계속
                 report.append(f"⚠️ @{handle}: 읽기 실패 ({e})")
                 continue
@@ -270,9 +297,10 @@ def collect(check_all=False):
             got, unparsed, ids = result
             pending.extend(got)
             review.extend(unparsed)
-            state["seen"][handle] = (seen + ids)[-SEEN_KEEP:]
-            state["last_checked"][handle] = today
-            state["zero_streak"] = update_streak(state["zero_streak"], handle, len(got))
+            state["seen"][handle] = (seen + [i for i in ids if i not in seen])[-SEEN_KEEP:]
+            if not history:
+                state["last_checked"][handle] = today
+                state["zero_streak"] = update_streak(state["zero_streak"], handle, len(got))
             report.append(f"✅ @{handle}: 새 게시물 {len(ids)}개 → {len(got)}행" + (f", 검수 대기 {len(unparsed)}" if unparsed else ""))
             if n % CHECKPOINT_EVERY == 0:
                 flush()
@@ -285,8 +313,12 @@ def collect(check_all=False):
 def main(argv):
     ap = argparse.ArgumentParser(description="인스타 음악 매거진 수집 (aside 브라우저, 로그인 없이)")
     ap.add_argument("--all", action="store_true", help="주기와 상관없이 모든 계정 확인")
+    ap.add_argument("--history", action="store_true",
+                    help=f"한 번짜리 되짚기: 이미 본 계정의 옛 게시물을 {HISTORY_DAYS}일 치까지 다시 읽기 (매일 주기는 그대로)")
+    ap.add_argument("--limit", type=int, default=None, help="--history 로 볼 계정 수 상한")
+    ap.add_argument("--offset", type=int, default=0, help="--history 를 앞의 N계정 건너뛰고 이어 하기 (끊겼을 때)")
     args = ap.parse_args(argv)
-    path, n_rows, n_review, report = collect(args.all)
+    path, n_rows, n_review, report = collect(args.all, args.history, args.limit, args.offset)
     print("\n".join(report))
     print(f"✅ 인스타: {n_rows}행" + (f" → {path}" if path else "") + (f" · 검수 대기 {n_review}건" if n_review else ""))
     return 0

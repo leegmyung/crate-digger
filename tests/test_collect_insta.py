@@ -150,7 +150,7 @@ class CheckpointTest(unittest.TestCase):
         row = {c: "" for c in ci.COLUMNS}
         calls = []
 
-        def fake_collect(handle, seen, collected_at, oldest, role="magazine"):
+        def fake_collect(handle, seen, collected_at, oldest, role="magazine", **kw):
             calls.append(handle)
             if handle == "acc3":
                 raise SystemExit("aside 가 통째로 죽음")              # 계정 하나 실패가 아니라 실행 자체가 끊김
@@ -172,6 +172,84 @@ class CheckpointTest(unittest.TestCase):
             files = sorted(d.glob("raw_press_*_instagram*.csv"))
         self.assertEqual(sorted(saved["seen"]), ["acc0", "acc1", "acc2"])   # 2개마다 저장 → acc0·acc1, 그리고 acc2 까지 (멈추기 직전 저장)
         self.assertTrue(files)
+
+
+class HistoryTest(unittest.TestCase):
+    """첫 방문은 보이는 게시물을 1년 치까지 남기고, --history 는 이미 본 계정의 옛 게시물(저장 안 한 것)을 다시 읽는다."""
+
+    NOW = ci.datetime(2026, 11, 28, 12, 0, tzinfo=ci.KST)
+
+    def test_oldest_for_first_visit_reaches_history_window(self):
+        self.assertEqual(ci.oldest_for([], self.NOW), (self.NOW - timedelta(days=ci.HISTORY_DAYS)).date().isoformat())
+        self.assertEqual(ci.oldest_for(["p1"], self.NOW), (self.NOW - timedelta(days=ci.MAX_POST_AGE_DAYS)).date().isoformat())
+        self.assertEqual(ci.oldest_for(["p1"], self.NOW, history=True),
+                         (self.NOW - timedelta(days=ci.HISTORY_DAYS)).date().isoformat())
+
+    def test_collected_post_ids_from_raw_files(self):
+        import csv as _csv
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "raw_press_2026-11-27_instagram.csv"
+            with open(path, "w", encoding="utf-8", newline="") as fh:
+                w = _csv.DictWriter(fh, fieldnames=ci.COLUMNS)
+                w.writeheader()
+                w.writerow({c: "" for c in ci.COLUMNS} | {"url": "https://www.instagram.com/p/ABC123/"})
+                w.writerow({c: "" for c in ci.COLUMNS} | {"url": "https://www.instagram.com/reel/XYZ/"})
+            (Path(d) / "raw_press_2026-11-27_izm.csv").write_text("url\nhttps://izm/1\n", encoding="utf-8")
+            self.assertEqual(ci.collected_post_ids(Path(d)), {"ABC123", "XYZ"})
+
+    def test_history_rereads_unsaved_posts_and_keeps_schedule(self):
+        import json as _json
+        accounts = [{"handle": "mag1", "role": "magazine", "every_days": 4},
+                    {"handle": "fresh", "role": "magazine", "every_days": 4}]
+        got_args = {}
+
+        def fake_collect(handle, seen, collected_at, oldest, role="magazine", max_new=0):
+            got_args[handle] = (sorted(seen), oldest, max_new)
+            return [], [], ["OLD1"]
+
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            cfg, state = d / "cfg.json", d / "state.json"
+            cfg.write_text(_json.dumps({"accounts": accounts}), encoding="utf-8")
+            state.write_text(_json.dumps({"last_checked": {"mag1": "2026-11-27"}, "seen": {"mag1": ["OLD1", "SAVED"]},
+                                          "zero_streak": {"mag1": 2}}), encoding="utf-8")
+            old = (ci.CONFIG, ci.STATE, ci.RAW_DIR, ci._collect_account, ci.collected_post_ids)
+            ci.CONFIG, ci.STATE, ci.RAW_DIR, ci._collect_account = cfg, state, d, fake_collect
+            ci.collected_post_ids = lambda raw_dir: {"SAVED"}
+            try:
+                ci.collect(history=True)
+            finally:
+                ci.CONFIG, ci.STATE, ci.RAW_DIR, ci._collect_account, ci.collected_post_ids = old
+            saved = _json.loads(state.read_text(encoding="utf-8"))
+        self.assertEqual(list(got_args), ["mag1"])                      # 이미 본 계정만 (첫 방문 계정은 매일 실행이 1년 치로 읽음)
+        self.assertEqual(got_args["mag1"][0], ["SAVED"])                # 저장한 게시물만 건너뜀 (버려진 OLD1 은 다시 읽음)
+        self.assertEqual(got_args["mag1"][2], ci.HISTORY_POSTS)
+        self.assertEqual(saved["last_checked"], {"mag1": "2026-11-27"})   # 매일 주기는 그대로
+        self.assertEqual(saved["zero_streak"], {"mag1": 2})
+
+
+    def test_history_offset_resumes_after_first_n_accounts(self):
+        import json as _json
+        accounts = [{"handle": f"m{i}", "role": "magazine", "every_days": 4} for i in range(4)]
+        visited = []
+
+        def fake_collect(handle, seen, collected_at, oldest, role="magazine", max_new=0):
+            visited.append(handle)
+            return [], [], []
+
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            cfg, state = d / "cfg.json", d / "state.json"
+            cfg.write_text(_json.dumps({"accounts": accounts}), encoding="utf-8")
+            state.write_text(_json.dumps({"last_checked": {}, "seen": {a["handle"]: ["x"] for a in accounts}}),
+                             encoding="utf-8")
+            old = (ci.CONFIG, ci.STATE, ci.RAW_DIR, ci._collect_account)
+            ci.CONFIG, ci.STATE, ci.RAW_DIR, ci._collect_account = cfg, state, d, fake_collect
+            try:
+                ci.collect(history=True, offset=2, limit=1)
+            finally:
+                ci.CONFIG, ci.STATE, ci.RAW_DIR, ci._collect_account = old
+        self.assertEqual(visited, ["m2"])
 
 
 class CollabDuplicateTest(unittest.TestCase):

@@ -105,5 +105,70 @@ class ToRowsTest(unittest.TestCase):
         self.assertEqual(issues, [])
 
 
+class BackfillTest(unittest.TestCase):
+    """--since/--until 과거 되짚기: 쪽 수 제한 없이 before 조건으로 받고, 매일 수집 상태(seen)는 건드리지 않는다."""
+
+    def setUp(self):
+        self._get, self._state, self._delay = cp.http_get, cp.STATE, cp.REQUEST_DELAY_SEC
+        cp.REQUEST_DELAY_SEC = 0
+
+    def tearDown(self):
+        cp.http_get, cp.STATE, cp.REQUEST_DELAY_SEC = self._get, self._state, self._delay
+
+    def test_list_items_pages_past_daily_cap_with_before(self):
+        urls = []
+        def fake(url, retries=3):
+            urls.append(url)
+            page = int(__import__("re").search(r"[?&]page=(\d+)", url).group(1))
+            n = cp.PER_PAGE if page <= cp.MAX_PAGES + 1 else 3
+            return __import__("json").dumps([{"id": page * 1000 + i} for i in range(n)])
+        cp.http_get = fake
+        items = cp.list_items(cp.datetime(2021, 1, 1), until="2021-12-31", max_pages=None)
+        self.assertEqual(len(items), cp.PER_PAGE * (cp.MAX_PAGES + 1) + 3)
+        self.assertIn("before=2022-01-01T00%3A00%3A00", urls[0])
+
+    def test_backfill_writes_file_and_keeps_daily_state(self):
+        import json
+        def fake(url, retries=3):
+            if "wp-json" in url:
+                return json.dumps([API_ITEM]) if "&page=1&" in url else "[]"
+            return DETAIL_HTML
+        cp.http_get = fake
+        with tempfile.TemporaryDirectory() as d:
+            cp.STATE = Path(d) / "seen.json"
+            cp.STATE.write_text(json.dumps(["1", "2"]), encoding="utf-8")
+            path, n_items, n_rows, failed = cp.collect(3, Path(d), since="2021-01-01", until="2021-12-31")
+            self.assertEqual(json.loads(cp.STATE.read_text(encoding="utf-8")), ["1", "2"])
+            self.assertTrue(path.name.startswith("raw_kr_release_"))
+            self.assertIn("poclanos_backfill", path.name)
+            self.assertEqual((n_items, n_rows), (1, 1))
+
+
+class RequiredFieldsTest(unittest.TestCase):
+    """팀 태그·제목이 없는 앨범은 행을 만들지 않는다 — 빈 필수 칸 1행 때문에 파일 전체가 형식 검사에서 빠지지 않게."""
+
+    def test_item_without_artist_or_title_gives_no_rows(self):
+        no_artist = dict(API_ITEM, _embedded={"wp:term": [[{"taxonomy": "download_category", "id": 4, "name": "Rock"}]]})
+        no_title = dict(API_ITEM, title={"rendered": "  "})
+        detail = cp.parse_detail(DETAIL_HTML)
+        self.assertEqual(cp.to_rows(no_artist, detail, "2026-11-28T00:00:00+09:00"), [])
+        self.assertEqual(cp.to_rows(no_title, detail, "2026-11-28T00:00:00+09:00"), [])
+        self.assertEqual(len(cp.to_rows(API_ITEM, detail, "2026-11-28T00:00:00+09:00")), 1)
+
+
+class YearOnlyReleaseTest(unittest.TestCase):
+    """상세 페이지 발매일이 '2026'처럼 연도만이면(같은 해 글) 글 날짜로 채운다 — 연도만이면 시점 규칙이 12-31로 읽어 미래 신호가 됨."""
+
+    def test_year_only_release_uses_post_date_when_same_year(self):
+        detail = dict(cp.parse_detail(DETAIL_HTML), released_at="2026")
+        self.assertEqual(cp.to_rows(API_ITEM, detail, "x")[0]["released_at"], "2026-11-26")
+        detail = dict(detail, released_at="2026-11")
+        self.assertEqual(cp.to_rows(API_ITEM, detail, "x")[0]["released_at"], "2026-11-26")
+
+    def test_older_year_kept_for_reissue(self):
+        detail = dict(cp.parse_detail(DETAIL_HTML), released_at="2006")
+        self.assertEqual(cp.to_rows(API_ITEM, detail, "x")[0]["released_at"], "2006")
+
+
 if __name__ == "__main__":
     unittest.main()

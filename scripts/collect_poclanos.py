@@ -76,13 +76,23 @@ def _terms(item, taxonomy):
     return [t for group in groups for t in group if t.get("taxonomy") == taxonomy]
 
 
+def _release_date(page_date, post_date):
+    """상세 페이지 발매일. 비었거나 '2026'·'2026-11'처럼 덜 자세한데 글 날짜와 같은 해·달이면 글 날짜를 쓴다
+    (연도만 남기면 시점 규칙이 그해 12-31로 읽어 미래 신호가 된다). 더 옛 연도(재발매 원래 연도)는 그대로."""
+    if not page_date:
+        return post_date
+    if len(page_date) < 10 and post_date.startswith(page_date):
+        return post_date
+    return page_date
+
+
 def to_rows(item, detail, collected_at):
     base = {
         "collected_at": collected_at,
         "source": "poclanos",
         "collector": "script",
         "source_id": str(item["id"]),
-        "released_at": detail["released_at"] or item.get("date", "")[:10],
+        "released_at": _release_date(detail["released_at"], item.get("date", "")[:10]),
         "title": clean(item.get("title", {}).get("rendered", "")),
         "release_type": detail["release_type"],
         "genre": "|".join(clean(t["name"]) for t in _terms(item, "download_category")),
@@ -91,7 +101,9 @@ def to_rows(item, detail, collected_at):
         "release_url": item.get("link", ""),
     }
     base["title_key"] = title_key(base["title"])
-    artists = _terms(item, "download_artist") or [{"id": "", "name": ""}]
+    if not base["title"]:   # 제목 없는 글은 필수 칸이 비어 파일 전체가 형식 검사에서 빠지므로 행을 만들지 않는다
+        return []
+    artists = [a for a in _terms(item, "download_artist") if clean(a.get("name", ""))]   # 팀 태그 없는 앨범도 같은 이유로 뺀다
     return [dict(base, artist_text=clean(a["name"]), artist_source_id=str(a["id"]), artist_key=artist_key(clean(a["name"])))
             for a in artists]
 
@@ -107,11 +119,11 @@ def _load_seen():
         return []
 
 
-def write_csv(rows, out_dir, day):
+def write_csv(rows, out_dir, day, tag="poclanos"):
     out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / f"raw_kr_release_{day}_poclanos.csv"
+    path = out_dir / f"raw_kr_release_{day}_{tag}.csv"
     if path.exists():  # 원본은 고치지 않는다 → 같은 날 다시 받으면 시각을 붙여 새 파일
-        path = out_dir / f"raw_kr_release_{day}_poclanos_{datetime.now(KST):%H%M%S}.csv"
+        path = out_dir / f"raw_kr_release_{day}_{tag}_{datetime.now(KST):%H%M%S}.csv"
     with open(path, "w", encoding="utf-8", newline="") as fh:
         writer = csv.DictWriter(fh, fieldnames=COLUMNS)
         writer.writeheader()
@@ -132,14 +144,20 @@ def http_get(url, retries=3):
     return ""
 
 
-def list_items(since):
+def list_items(since, until=None, max_pages=MAX_PAGES):
+    """since 이후 글. until(YYYY-MM-DD)을 주면 그날까지, max_pages=None 이면 쪽 수 제한 없이(과거 되짚기)."""
     items = []
-    for page in range(1, MAX_PAGES + 1):
-        query = urllib.parse.urlencode({
+    page = 0
+    while max_pages is None or page < max_pages:
+        page += 1
+        params = {
             "per_page": PER_PAGE, "page": page, "_embed": "wp:term",
             "after": since.strftime("%Y-%m-%dT00:00:00"), "orderby": "date", "order": "desc",
-        })
-        batch = json.loads(http_get(f"{API}?{query}"))
+        }
+        if until:
+            nxt = datetime.strptime(until, "%Y-%m-%d") + timedelta(days=1)
+            params["before"] = nxt.strftime("%Y-%m-%dT00:00:00")
+        batch = json.loads(http_get(f"{API}?{urllib.parse.urlencode(params)}"))
         items.extend(batch)
         if len(batch) < PER_PAGE:
             break
@@ -147,11 +165,15 @@ def list_items(since):
     return items
 
 
-def collect(days, out_dir):
+def collect(days, out_dir, since=None, until=None):
+    """매일: 최근 days일. 과거 되짚기(since·until): 쪽 수 제한 없이, 파일 이름 ..._poclanos_backfill,
+    매일 수집 상태(seen, 최근 SEEN_KEEP개)는 바꾸지 않는다 — 과거 번호 수천 개가 최근 번호를 밀어내지 않게."""
     now = datetime.now(KST).replace(microsecond=0)
-    since = now - timedelta(days=days)
+    backfill = since is not None
+    start = datetime.strptime(since, "%Y-%m-%d") if backfill else now - timedelta(days=days)
     seen = _load_seen()
-    items = new_items(list_items(since), set(seen))
+    listed = list_items(start, until, None) if backfill else list_items(start)
+    items = new_items(listed, set(seen))
     rows, failed = [], []
     for item in items:
         time.sleep(REQUEST_DELAY_SEC)
@@ -162,7 +184,10 @@ def collect(days, out_dir):
             print(f"  ⚠️ 상세 페이지 실패, 목록 정보만 저장: {e}", file=sys.stderr)
             detail = parse_detail("")
         rows.extend(to_rows(item, detail, now.isoformat()))
-    path = write_csv(rows, out_dir, f"{now:%Y-%m-%d}") if rows else None
+    tag = "poclanos_backfill" if backfill else "poclanos"
+    path = write_csv(rows, out_dir, f"{now:%Y-%m-%d}", tag) if rows else None
+    if backfill:
+        return path, len(items), len(rows), failed
     done = [str(i["id"]) for i in items if i.get("link", "") not in failed]   # 상세 실패분은 다음에 다시
     STATE.parent.mkdir(parents=True, exist_ok=True)
     STATE.write_text(json.dumps((seen + done)[-SEEN_KEEP:]), encoding="utf-8")
@@ -173,11 +198,18 @@ def main(argv):
     ap = argparse.ArgumentParser(description="포크라노스 신보 수집")
     ap.add_argument("--days", type=int, default=3, help="최근 며칠 발매를 받을지 (기본 3)")
     ap.add_argument("--out", default=str(ROOT / "data" / "raw"), help="저장 폴더 (기본 data/raw)")
+    ap.add_argument("--since", help="과거 되짚기: 이 날짜(YYYY-MM-DD)부터 (매일 상태는 안 바꿈)")
+    ap.add_argument("--until", help="과거 되짚기: 이 날짜까지 (기본: 오늘)")
     args = ap.parse_args(argv)
     if args.days < 1 or args.days > 60:
         ap.error("--days 는 1~60 사이로 주세요")
+    for v in (args.since, args.until):
+        if v and not re.match(r"^\d{4}-\d{2}-\d{2}$", v):
+            ap.error("날짜는 YYYY-MM-DD 로 주세요")
+    if args.until and not args.since:
+        ap.error("--until 은 --since 와 함께 주세요")
     try:
-        path, n_items, n_rows, failed = collect(args.days, Path(args.out))
+        path, n_items, n_rows, failed = collect(args.days, Path(args.out), args.since, args.until)
     except RuntimeError as e:
         print(f"❌ 수집 실패: {e}", file=sys.stderr)
         return 1

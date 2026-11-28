@@ -19,7 +19,7 @@ RELEASE_SOURCES = {
     "bugs", "flo", "genie", "melon", "bandcamp_kr",                # 음원 플랫폼
     "manual",
 }
-GIG_SOURCES = {"indiego", "indistreet", "sangsangmadang", "manual"}
+GIG_SOURCES = {"indiego", "indistreet", "sangsangmadang", "manual", "regional"}   # regional: 지역 음악창작소·지역 페스티벌 (collect_regional_gigs)
 PRESS_SOURCES = {"musicy", "rhythmer", "liak", "izm", "weiv", "youtube", "rss", "manual",
                  "visla", "overtone", "instagram", "hiphople", "trackzero"}
 OUTCOME_SOURCES = {"manual", "aside"}
