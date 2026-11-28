@@ -826,11 +826,6 @@ export function isWatched(teamKey) {
   return getWatchlist().some(it => it.team_key === teamKey);
 }
 
-export function getWatchStatus(teamKey) {
-  const found = getWatchlist().find(it => it.team_key === teamKey);
-  return found ? found.status : 'watching';
-}
-
 export function setWatchStatus(teamKey, status) {
   if (!VALID_WATCH_STATUS.has(status)) return;
   const list = getWatchlist();
@@ -894,41 +889,6 @@ export function exportTableToCsv(filename, headers, rows) {
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
-}
-
-export function exportWatchlistCsv(rows) {
-  const statusMap = Object.fromEntries(WATCH_STATUSES.map(s => [s.id, s.label]));
-  const headers = ['team_key', 'display_name', 'status', 'score', 'rank_now', 'rank_delta', 'recent_7d_signals', 'last_seen', 'added_at'];
-  const csvRows = rows.map(r => [
-    r.team_key,
-    r.display_name,
-    statusMap[r.status] || '지켜보는 중',
-    r.score ?? '',
-    r.rank_now ?? '',
-    r.rank_delta ?? '',
-    r.recent_7d ?? 0,
-    r.last_seen ?? '',
-    r.added_at ?? '',
-  ]);
-  exportTableToCsv(`crate_digger_watchlist_${appState.dataEnd || 'export'}.csv`, headers, csvRows);
-}
-
-const PLATFORM_KEY = 'crate_digger_platform_v1';
-const VALID_PLATFORMS = ['spotify', 'youtube'];
-
-export function getPreferredPlatform() {
-  try {
-    const v = window.localStorage.getItem(PLATFORM_KEY);
-    if (v && VALID_PLATFORMS.includes(v)) return v;
-  } catch (_) {}
-  return 'spotify';
-}
-
-export function setPreferredPlatform(platform) {
-  if (!VALID_PLATFORMS.includes(platform)) return;
-  try {
-    window.localStorage.setItem(PLATFORM_KEY, platform);
-  } catch (_) {}
 }
 
 // ---------- Table Density (2-6: compact default | comfortable) ----------

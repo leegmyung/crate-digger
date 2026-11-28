@@ -7,8 +7,6 @@ import {
 } from '../ui.js';
 import { keyStatTiles, platformLinks } from '../team_keystats.js';
 
-let tocObserver = null; // 다시 그릴 때 이전 관찰을 끊는다
-
 /**
  * 머리 띠 사실 줄: 발굴 단계 · 순위(지난주 ▲▼) · 지역 · 첫 발매 연도 · 장르(추정 꼬리표)
  * @param {{ teamKey: string, stageInfo: object|null, rc: object|null, homeCity: string,
@@ -83,63 +81,4 @@ export function compareButtonHtml(genre) {
   const href = `#/discover?view=heat${g ? `&genre=${encodeURIComponent(g)}` : ''}`;
   const title = g ? `${g} 후보들과 색 지도로 비교` : '전체 후보와 색 지도로 비교';
   return `<a class="btn" href="${escapeHtml(href)}" title="${escapeHtml(title)}">색 지도</a>`;
-}
-
-/**
- * @param {Array<{ id: string, label: string }>} items 화면에 실제로 있는 칸만
- */
-export function renderTeamTocHtml(items) {
-  if (!items.length) return '';
-  return `
-    <nav class="team-toc" id="teamToc" aria-label="이 쪽 안 목차">
-      ${items.map((it, i) => `<a class="team-toc-link${i === 0 ? ' is-active' : ''}" href="#${escapeHtml(it.id)}" data-toc-target="${escapeHtml(it.id)}">${escapeHtml(it.label)}</a>`).join('')}
-    </nav>`;
-}
-
-/** 목차: 누르면 그 칸으로 부드럽게 이동(주소 해시는 바꾸지 않음), 스크롤하면 현재 칸 강조 */
-export function wireTeamToc(root) {
-  const toc = root.querySelector('#teamToc');
-  if (!toc) return;
-  const header = document.querySelector('.top-header');
-  const headerSticky = header && getComputedStyle(header).position === 'sticky';
-  const headerH = headerSticky ? header.getBoundingClientRect().height : 0;
-  const tocH = toc.getBoundingClientRect().height;
-  root.style.setProperty('--team-toc-top', `${Math.round(headerH)}px`);
-  root.style.setProperty('--team-scroll-pad', `${Math.round(headerH + tocH + 8)}px`);
-
-  const links = [...toc.querySelectorAll('[data-toc-target]')];
-  const setActive = (id) => {
-    for (const a of links) {
-      const on = a.dataset.tocTarget === id;
-      a.classList.toggle('is-active', on);
-      if (on) a.setAttribute('aria-current', 'location');
-      else a.removeAttribute('aria-current');
-    }
-  };
-
-  toc.addEventListener('click', (e) => {
-    const a = e.target.closest('[data-toc-target]');
-    if (!a) return;
-    e.preventDefault(); // 해시 라우터와 부딪히지 않게
-    const target = root.querySelector(`#${CSS.escape(a.dataset.tocTarget)}`);
-    if (!target) return;
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-    setActive(a.dataset.tocTarget);
-  });
-
-  if (tocObserver) tocObserver.disconnect();
-  if (typeof IntersectionObserver === 'undefined') return;
-  const visible = new Map();
-  tocObserver = new IntersectionObserver((entries) => {
-    for (const en of entries) visible.set(en.target.id, en.isIntersecting ? en.boundingClientRect.top : null);
-    const firstVisible = links
-      .map(a => a.dataset.tocTarget)
-      .find(id => visible.get(id) !== null && visible.get(id) !== undefined);
-    if (firstVisible) setActive(firstVisible);
-  }, { rootMargin: `-${Math.round(headerH + tocH)}px 0px -55% 0px`, threshold: 0 });
-  for (const a of links) {
-    const sec = root.querySelector(`#${CSS.escape(a.dataset.tocTarget)}`);
-    if (sec) tocObserver.observe(sec);
-  }
 }

@@ -1233,11 +1233,6 @@ export function stageBadgeHtml(stage, { short = false, title = '' } = {}) {
   return `<span class="stage-badge stage-${meta.code}" title="${escapeHtml(tip)}">${escapeHtml(text)}</span>`;
 }
 
-export function nextStageConditionText(stage) {
-  if (stage === null || stage === undefined || stage === '') return '';
-  return STAGE_META[Number(stage)]?.next || '';
-}
-
 export function formatRecentActivityCell(st) {
   if (!st || st.momentum_pct === null || st.momentum_pct === undefined || !Number.isFinite(Number(st.momentum_pct))) {
     const tip = st && Number(st.stage) === 0
@@ -1371,18 +1366,6 @@ export function getWatchlistAlerts(alertsData, watchlist = null) {
   return alertsData.alerts.filter(a => keySet.has(a.team_key));
 }
 
-export function getGeneralTodayAlerts(alertsData, { limit = 8, excludeKeys = null } = {}) {
-  if (!alertsData || !Array.isArray(alertsData.alerts) || !alertsData.alerts.length) return [];
-  const ex = excludeKeys instanceof Set ? excludeKeys : null;
-  const out = [];
-  for (const a of alertsData.alerts) {
-    if (a.type === 'new_gig') continue;
-    if (ex && ex.has(alertDedupKey(a))) continue;
-    out.push(a);
-    if (out.length >= limit) break;
-  }
-  return out;
-}
 
 
 

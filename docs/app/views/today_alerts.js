@@ -9,7 +9,6 @@ import {
   avatarHtml, escapeHtml, fmtInt, formatAlertBaselineNote, playButtonHtml, SOURCE_LABELS,
 } from '../ui.js';
 
-const GROUP_FIRST = 5;
 /** 알림 종류 → 팀 페이지 탭 (정보 구조 v2: 알림·사건에서 팀으로 갈 땐 해당 탭으로) */
 const ALERT_TEAM_TAB = {
   new_gig: 'gigs', big_venue_first: 'gigs', peer_winner: 'network', rank_jump: 'score',
@@ -19,7 +18,6 @@ export function alertTeamHref(a) {
   const tab = ALERT_TEAM_TAB[a.type] || 'events';
   return `#/team/${encodeURIComponent(a.team_key)}/${tab}`;
 }
-const COLLAPSED_TYPES = new Set(['new_gig']); // 수가 많아 접어 둠
 const UP_TYPES = new Set(['stage_up', 'rank_jump', 'spike']);
 /** 알림 종류 → event_stars.csv 사건 종류(같은 팀·같은 날이면 별점을 빌려 씀) */
 const STAR_KINDS = {
@@ -133,74 +131,6 @@ export function alertRowHtml({ a, stars }, { isWatch = false, isSubVenue = false
         </div>
       </details>
     </li>`;
-}
-
-function groupHtml(type, label, items, alertsData, expanded) {
-  const shownCap = alertsData.counts_shown?.[type];
-  const found = alertsData.counts_found?.[type];
-  const capTxt = (shownCap !== undefined && found !== undefined) ? `보인 ${fmtInt(shownCap)} / 찾은 ${fmtInt(found)}` : `${fmtInt(items.length)}건`;
-  const isOpen = !COLLAPSED_TYPES.has(type);
-  const visible = expanded ? items : items.slice(0, GROUP_FIRST);
-  const more = items.length - visible.length;
-  const safeType = /^[a-z0-9_]+$/.test(type) ? type : 'other';
-  return `
-    <details class="alert-group"${isOpen ? ' open' : ''}>
-      <summary>
-        <span class="alert-kind-chip alert-kind-${safeType}">${escapeHtml(label)}</span>
-        <span class="alert-group-count small muted" title="보인 수 = 화면에 싣는 상한(caps) 안, 찾은 수 = 이번에 찾은 전체">${capTxt}</span>
-      </summary>
-      <ul class="today-alerts-list">${visible.map(x => alertRowHtml(x)).join('')}</ul>
-      ${more > 0 ? `<button type="button" class="btn btn-sm alert-group-more" data-alert-more="${escapeHtml(type)}">${fmtInt(more)}건 더 보기</button>` : ''}
-    </details>`;
-}
-
-/**
- * @param {object|null} alertsData alerts.json
- * @param {{ watchAlerts: object[], showAllWatch: boolean, eventStarsMap: Map|null, expandedTypes: Set<string> }} st
- */
-export function renderAlertsCardHtml(alertsData, st) {
-  const all = Array.isArray(alertsData?.alerts) ? alertsData.alerts : [];
-  const head = (meta) => `
-    <div class="block-head">
-      <h2>오늘 알림</h2>
-      <span class="block-meta">${escapeHtml(meta)}</span>
-    </div>`;
-  if (!alertsData) return '';
-  if (!all.length) {
-    return `<section class="block today-alerts-block" id="todayAlertsBlock">${head('')}<p class="muted small" style="margin:0;">이번 주 새 알림 없음</p></section>`;
-  }
-  const types = alertsData.types && typeof alertsData.types === 'object' ? alertsData.types : {};
-  const byType = new Map();
-  for (const a of all) {
-    if (!byType.has(a.type)) byType.set(a.type, []);
-    byType.get(a.type).push(a);
-  }
-  const order = [...Object.keys(types), ...[...byType.keys()].filter(t => !(t in types))];
-  const groups = order.filter(t => byType.has(t))
-    .map(t => groupHtml(t, types[t] || t, sortAlerts(byType.get(t), st.eventStarsMap), alertsData, st.expandedTypes.has(t)))
-    .join('');
-
-  const watchSorted = sortAlerts(st.watchAlerts, st.eventStarsMap);
-  const visWatch = st.showAllWatch ? watchSorted.slice(0, 20) : watchSorted.slice(0, 6);
-  const watchHtml = watchSorted.length ? `
-    <div class="today-alerts-watch" aria-label="관심 팀 알림">
-      <div class="today-alerts-watch-head">
-        <strong>관심 팀 알림</strong>
-        <span class="small muted">${fmtInt(watchSorted.length)}건</span>
-      </div>
-      <ul class="today-alerts-list">${visWatch.map(x => alertRowHtml(x, { isWatch: true })).join('')}</ul>
-      ${!st.showAllWatch && watchSorted.length > 6 ? `<div style="margin-top:8px;"><button type="button" class="btn btn-sm" id="btnMoreWatchAlerts">${fmtInt(Math.min(20, watchSorted.length) - 6)}건 더 보기</button></div>` : ''}
-    </div>` : '';
-
-  const foundTotal = Object.values(alertsData.counts_found || {}).reduce((s, n) => s + (Number(n) || 0), 0);
-  const note = formatAlertBaselineNote(alertsData);
-  return `
-    <section class="block today-alerts-block" id="todayAlertsBlock" aria-label="오늘 알림">
-      ${head(`보인 ${fmtInt(all.length)}건 · 찾은 ${fmtInt(foundTotal || all.length)}건`)}
-      ${watchHtml}
-      <div class="alert-groups">${groups}</div>
-      <p class="today-alerts-foot muted small">줄을 누르면 근거(날짜·출처)가 펼쳐집니다 · 별은 사건 별점(작은 팀일수록 높음), 없으면 중요도 순${note ? ` · ${escapeHtml(note)}` : ''}</p>
-    </section>`;
 }
 
 /** 5-4 spike 알림 한 건 → 문장(배수 또는 '처음 n건') */

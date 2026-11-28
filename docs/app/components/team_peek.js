@@ -257,17 +257,6 @@ export function stepTeamPeek(delta) {
   openTeamPeek(next, { container: state.container, keys: state.keys, onChange: state.onChange });
 }
 
-/** 목록이 다시 그려졌을 때(정렬·필터) 순서만 바꾸고 강조를 다시 건다 */
-export function updateTeamPeekKeys(keys) {
-  state.keys = Array.isArray(keys) ? keys : [];
-  if (state.key) highlightRow(state.key);
-}
-
-export function isTeamPeekOpen() {
-  const panel = panelEl();
-  return Boolean(panel && !panel.hidden && panel.isConnected);
-}
-
 export function closeTeamPeek() {
   const panel = panelEl();
   const backdrop = state.container?.querySelector('#teamPeekBackdrop');
