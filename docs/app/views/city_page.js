@@ -5,13 +5,14 @@
  */
 import { appState } from '../state.js';
 import {
-  ensureTeamCitiesLoaded, loadVenueProfiles, queryCandidates, queryUpcomingGigs,
+  ensureTeamCitiesLoaded, fetchJson, loadVenueProfiles, queryCandidates, queryUpcomingGigs,
 } from '../db.js';
 import { loadCityProfiles, queryCityFirstStageTeams } from '../db_venue.js';
 import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText, gradeBadgeHtml, INFO_TIPS, infoTip, naCell, playButtonHtml,
 } from '../ui.js';
 import { isInstaAccountName } from '../components/venue_info.js';
+import { aggregateBySido, mountRegionMap, sidoOfCity, sumRecentMonths } from '../components/region_map.js';
 
 const RECENT_DAYS = 90;
 const UPCOMING_DAYS = 30;
@@ -51,6 +52,45 @@ export function cityMonthBarsHtml(monthly, asOf, n = MONTHS_SHOWN, minScale = 8)
   </div>`;
 }
 
+let krMapPromise = null;
+/** 시·도 경계(docs/app/data/kr_sido.json, Natural Earth) — 한 번만 받는다. 없으면 null */
+export function loadKrMap() {
+  if (!krMapPromise) {
+    krMapPromise = fetchJson('app/data/kr_sido.json', true)
+      .then(d => (Array.isArray(d?.regions) && d.regions.length ? d : null))
+      .catch(() => null);
+  }
+  return krMapPromise;
+}
+
+/** venue_profiles → 지도 점 자료 [{ name, city, lat, lon, tier, nights12 }] */
+export function mapVenues(vp, asOf) {
+  return Object.entries(vp?.venues || {}).map(([name, v]) => ({
+    name,
+    city: v?.city || '',
+    lat: v?.lat,
+    lon: v?.lon,
+    tier: v?.tier || '',
+    nights12: v?.discovery?.nights_12m ?? sumRecentMonths(v?.monthly, asOf, 12),
+  }));
+}
+
+/**
+ * 시·도 지도 붙이기 (도시 목록·도시 페이지 같이 씀). 경계 자료가 없으면 안내 문구만.
+ * @returns {ReturnType<typeof mountRegionMap>|null}
+ */
+export function mountCityRegionMap(el, { geo, cp, vp, asOf, initial = null, highlightCity = null, metric, onMetric, onZoom }) {
+  if (!el) return null;
+  if (!geo) {
+    el.innerHTML = naCell('시·도 경계 자료(app/data/kr_sido.json)를 불러오지 못했습니다', { block: true });
+    return null;
+  }
+  const { bySido } = aggregateBySido(cp?.cities || {}, asOf);
+  return mountRegionMap(el, {
+    geo, bySido, venues: mapVenues(vp, asOf), initial, highlightCity, metric, onMetric, onZoom,
+  });
+}
+
 function flowHtml(cp, city) {
   const f = cp.seoul_flow || {};
   if (city === '서울') {
@@ -74,12 +114,13 @@ function kpi(label, value, sub) {
  */
 export async function renderCityPage(host, city) {
   const asOf = appState.dataEnd || appState.cfg.as_of || '2026-11-28';
-  const [cp, vp, candRows, upcomingRaw] = await Promise.all([
+  const [cp, vp, candRows, upcomingRaw, , geo] = await Promise.all([
     loadCityProfiles(),
     loadVenueProfiles(),
     queryCandidates({ limit: 300 }).catch(() => []),
     queryUpcomingGigs({ asOf, days: UPCOMING_DAYS }).catch(() => []),
     ensureTeamCitiesLoaded().catch(() => null),
+    loadKrMap(),
   ]);
   const back = '<div class="team-topbar"><a class="btn btn-sm" href="#/cities">← 도시 목록</a></div>';
   if (!cp?.cities) {
@@ -125,6 +166,10 @@ export async function renderCityPage(host, city) {
       ${low ? '<p class="city-low-coverage">⚠️ 우리 기록 적음 — 이 도시는 수집된 공연이 적어 아래 목록이 실제보다 비어 보일 수 있습니다.</p>' : ''}
     </section>
     <section class="block">
+      <div class="block-head"><h2>지도</h2><span class="block-meta">${sidoOfCity(city) ? `${escapeHtml(sidoOfCity(city))} 공연장 · 진한 점 = ${escapeHtml(city)}` : '전국'} · 점을 누르면 공연장 페이지</span></div>
+      <div id="cityRegionMap"></div>
+    </section>
+    <section class="block">
       <div class="block-head"><h2>월별 공연</h2><span class="block-meta">최근 ${MONTHS_SHOWN}개월 · 공연 날짜 수(같은 날·같은 공연장 = 1)</span></div>
       ${cityMonthBarsHtml(c.monthly, asOf)}
     </section>
@@ -148,6 +193,10 @@ export async function renderCityPage(host, city) {
       </section>
     </div>
     <p class="small muted place-evidence">근거: 도시 = 우리가 정리한 공연장 목록의 도시 · 첫 무대 = 우리 데이터에서 도시를 아는 첫 공연 · 수집 상태는 <a href="#/verify/quality">검증 › 데이터 품질</a></p>`;
+
+  mountCityRegionMap(host.querySelector('#cityRegionMap'), {
+    geo, cp, vp, asOf, initial: sidoOfCity(city), highlightCity: city,
+  });
 
   const first = await queryCityFirstStageTeams(city, venueCity, asOf, RECENT_DAYS);
   if (!host.isConnected) return;
