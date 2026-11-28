@@ -139,11 +139,64 @@
   height: 28px;
 }
 
+.place-months {
+  border-bottom: 1px solid var(--line);   /* 범주 축: 바닥선만 */
+}
+
+/* 그림 규칙(layout_rules 7절): 막대 길이 = 값(0은 바닥선만), 지난달 = 중립, 가장 최근 달 = 주인공 — viz_bars.js */
 .place-month {
   flex: 1 1 0;
-  min-height: 2px;
-  border-radius: 1px;
-  background: var(--ramp-3);
+  border-radius: 2px 2px 0 0;
+  background: var(--viz-neutral);
+}
+
+.place-month:not(.is-zero) {
+  min-height: 1px;
+}
+
+.place-month.is-latest {
+  background: var(--viz-focus);
+}
+
+/* 큰 월별 막대(도시 페이지): 왼쪽 0·꼭대기 눈금, 아래 달 이름표 */
+.viz-mchart {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 6px;
+  align-items: stretch;
+}
+
+.viz-maxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 11.5px;
+  line-height: 1;
+  color: var(--viz-axis);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.viz-mchart .place-months {
+  border-top: 1px solid var(--viz-grid);   /* 꼭대기 눈금선(값 축 한 방향 격자만) */
+}
+
+.viz-mxs {
+  position: relative;
+  height: 14px;
+  margin-top: 4px;
+  font-size: 11.5px;
+  line-height: 14px;
+  color: var(--viz-axis);
+  font-variant-numeric: tabular-nums;
+}
+
+.viz-mx {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 /* 페스티벌 라인업 요약 줄 */
@@ -311,12 +364,12 @@
 }
 
 .rm-heat circle {
-  fill: var(--accent);
+  fill: var(--viz-focus);   /* 그림 규칙: 주인공 = 이 지역 공연장 */
   pointer-events: none;
 }
 
 .rm-dot {
-  fill: var(--accent);
+  fill: var(--viz-focus);
   stroke: var(--surface);
   stroke-width: 1.2;
   vector-effect: non-scaling-stroke;
@@ -557,12 +610,12 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--viz-focus);
 }
 
 .rm-legend-dot {
   border: 1.5px solid var(--surface);
-  box-shadow: 0 0 0 1px var(--accent);
+  box-shadow: 0 0 0 1px var(--viz-focus);
 }
 
 .rm-legend-item {
@@ -575,7 +628,7 @@
 .rm-legend-heat {
   width: 18px;
   height: 18px;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 70%, transparent), transparent 70%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--viz-focus) 70%, transparent), transparent 70%);
 }
 
 /* 독도처럼 면으로는 안 보이는 섬 — 그 시·도 색 점 + 이름 */

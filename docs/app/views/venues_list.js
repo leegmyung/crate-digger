@@ -12,6 +12,7 @@ import { loadKrMap } from './city_page.js';
 import {
   escapeHtml, fmtInt, fmtNum, INFO_TIPS, infoTip, naCell,
 } from '../ui.js';
+import { monthBarsHtml } from '../viz_bars.js';
 
 const TIERS = ['S', 'M', 'L', 'XL', '?'];
 const TIER_LABEL = { S: 'S', M: 'M', L: 'L', XL: 'XL', '?': '모름' };
@@ -94,7 +95,7 @@ function tierBarsHtml(list) {
   return `<div class="vl-tier-bars" role="group" aria-label="공연장 크기로 고르기">
     ${TIERS.map(t => `
       <button type="button" class="vl-tier-btn${st.tiers.has(t) ? ' is-active' : ''}" data-vl-tier="${t}" aria-pressed="${st.tiers.has(t)}">
-        <span class="vl-tier-name">${TIER_LABEL[t]}</span>
+        <span class="vl-tier-name"><i class="vl-tier-swatch tier-${t === '?' ? 'u' : t.toLowerCase()}" aria-hidden="true"></i>${TIER_LABEL[t]}</span>
         <span class="vl-tier-track"><span class="vl-tier-fill" style="width:${((counts[t] / max) * 100).toFixed(0)}%"></span></span>
         <span class="vl-tier-cnt">${fmtInt(counts[t])}</span>
       </button>`).join('')}
@@ -171,12 +172,10 @@ function mapHtml(list) {
     </figure>`;
 }
 
-function monthBarsHtml(v, months) {
+function venueMonthBarsHtml(v, months) {
+  // 그림 규칙: viz_bars.js (값 축 0부터 · 최근 달만 주인공 색). 눈금 최소 MONTH_SCALE_MIN — 한 달 1~2회뿐인 곳이 꽉 찬 막대로 보이지 않게
   const vals = months.map(ym => Number(v.monthly?.[ym]) || 0);
-  const max = Math.max(MONTH_SCALE_MIN, ...vals); // 한 달 1~2회뿐인 곳이 꽉 찬 막대로 보이지 않게
-  return `<div class="vl-months" role="img" aria-label="최근 12개월 월별 공연일 ${vals.join(', ')}">
-    ${vals.map((n, i) => `<span class="vl-month" style="height:${Math.max(n ? 12 : 4, (n / max) * 100).toFixed(0)}%" title="${months[i]} ${n}일"></span>`).join('')}
-  </div>`;
+  return monthBarsHtml({ months, vals, label: '월별 공연일', wrapCls: 'vl-months', barCls: 'vl-month', scaleMin: MONTH_SCALE_MIN });
 }
 
 function cardHtml(v, months) {
@@ -192,7 +191,7 @@ function cardHtml(v, months) {
         ${escapeHtml(v.city || '도시 모름')} · 크기 ${TIER_LABEL[tierKey(v)]}${v.capacity ? ` (~${fmtInt(v.capacity)}명)` : ''} · <span title="${escapeHtml(v.type_basis || '종류 근거 없음')}">${escapeHtml(venueTypeLabel(v))}</span>
         ${Number(v.upcoming_nights) > 0 ? `<span class="venue-upcoming-pill">예정 ${fmtInt(v.upcoming_nights)}일</span>` : ''}
       </div>
-      ${monthBarsHtml(v, months)}
+      ${venueMonthBarsHtml(v, months)}
       <div class="vl-card-kpis small">
         <span>12개월 <strong>${fmtInt(v.discovery?.nights_12m ?? sumLast12(v))}</strong>일</span>
         <span>첫 출연 <strong>${share !== null && share !== undefined ? `${Math.round(share * 100)}%` : '—'}</strong></span>
@@ -215,7 +214,7 @@ function rowHtml(v, months) {
       <td class="col-fit" data-label="도시">${escapeHtml(v.city || '모름')}</td>
       <td class="col-fit" data-label="종류"><span title="${escapeHtml(v.type_basis || '종류 근거 없음')}">${escapeHtml(venueTypeLabel(v))}</span></td>
       <td class="col-fit" data-label="크기">${TIER_LABEL[tierKey(v)]}${v.capacity ? ` <span class="small muted">~${fmtInt(v.capacity)}명</span>` : ''}</td>
-      <td data-label="최근 12개월" class="col-fit"><div class="vl-row-months">${monthBarsHtml(v, months)}<span class="small muted vl-row-nights">${fmtInt(v.discovery?.nights_12m ?? sumLast12(v))}일</span></div></td>
+      <td data-label="최근 12개월" class="col-fit"><div class="vl-row-months">${venueMonthBarsHtml(v, months)}<span class="small muted vl-row-nights">${fmtInt(v.discovery?.nights_12m ?? sumLast12(v))}일</span></div></td>
       <td class="num" data-label="첫 무대 신인">${share !== null && share !== undefined ? `${Math.round(share * 100)}%` : '—'}</td>
       <td class="num" data-label="수상·선정 전">${fmtInt(v.later_winners_total || 0)}팀</td>
       <td class="num" data-label="발굴 주목도"><strong>${disc !== undefined && disc !== null ? fmtNum(disc, 1) : '—'}</strong></td>

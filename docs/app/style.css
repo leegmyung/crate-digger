@@ -7068,8 +7068,26 @@ table.event-window {
 .vl-tier-fill {
   display: block;
   height: 100%;
-  background: var(--ramp-3);
+  border-radius: 0 2px 2px 0;
+  background: var(--viz-neutral);   /* 그림 규칙: 한 계열 = 중립, 고른 크기만 주인공 색 */
 }
+
+.vl-tier-btn.is-active .vl-tier-fill { background: var(--viz-focus); }
+
+/* 점 지도 범례: 크기 단추 줄 = 범례 겸 필터 (점 색과 같은 작은 둥근 네모) */
+.vl-tier-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 4px;
+  border-radius: 3px;
+  vertical-align: -1px;
+}
+.vl-tier-swatch.tier-s { background: var(--ramp-2); }
+.vl-tier-swatch.tier-m { background: var(--ramp-3); }
+.vl-tier-swatch.tier-l { background: var(--ramp-4); }
+.vl-tier-swatch.tier-xl { background: var(--ramp-5); }
+.vl-tier-swatch.tier-u { background: var(--viz-compare-2); }
 
 .vl-tier-cnt {
   color: var(--ink-muted);
@@ -7109,7 +7127,7 @@ table.event-window {
 .vl-dot.tier-m { fill: var(--ramp-3); }
 .vl-dot.tier-l { fill: var(--ramp-4); }
 .vl-dot.tier-xl { fill: var(--ramp-5); }
-.vl-dot.tier-u { fill: var(--ink-subtle); }
+.vl-dot.tier-u { fill: var(--viz-compare-2); }   /* 크기 모름 = 비교(회색) */
 
 .vl-map a:hover .vl-dot,
 .vl-map a:focus .vl-dot {
@@ -7168,12 +7186,12 @@ table.event-window {
 
 .vl-month {
   flex: 1 1 0;
-  min-height: 2px;
   border-radius: 1.5px 1.5px 0 0;
   background: var(--viz-neutral);   /* 그림 규칙: 중립, 가장 최근 달만 주인공 색 */
 }
 
-.vl-month:last-child { background: var(--viz-focus); }
+.vl-month:not(.is-zero) { min-height: 1px; }   /* 0인 달은 막대 없음(값 축 0부터) */
+.vl-month.is-latest { background: var(--viz-focus); }
 
 .vl-card-kpis {
   display: flex;

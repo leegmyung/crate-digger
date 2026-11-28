@@ -12,6 +12,7 @@ import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText, gradeBadgeHtml, INFO_TIPS, infoTip, naCell, playButtonHtml,
 } from '../ui.js';
 import { isInstaAccountName } from '../components/venue_info.js';
+import { monthBarsHtml } from '../viz_bars.js';
 import { cityQuestions } from '../insight_text.js';
 import { placeQaHtml } from '../components/place_qa.js';
 import { aggregateBySido, mountRegionMap, sidoOfCity, sumRecentMonths } from '../components/region_map.js';
@@ -44,14 +45,11 @@ export function recentMonths(asOf, n) {
   return Array.from({ length: n }, (_, i) => new Date(Date.UTC(y, m - 1 - (n - 1 - i), 1)).toISOString().slice(0, 7));
 }
 
-/** 월별 공연 날짜 막대 (city_profiles monthly) */
-export function cityMonthBarsHtml(monthly, asOf, n = MONTHS_SHOWN, minScale = 8) {
+/** 월별 공연 날짜 막대 (city_profiles monthly) — 그림 규칙은 viz_bars.js(값 축 0부터 · 최근 달만 주인공 색). axis = 도시 페이지 큰 그림(눈금·달 이름표) */
+export function cityMonthBarsHtml(monthly, asOf, n = MONTHS_SHOWN, minScale = 8, { axis = false } = {}) {
   const months = recentMonths(asOf, n);
   const vals = months.map(ym => Number(monthly?.[ym]) || 0);
-  const max = Math.max(minScale, ...vals);
-  return `<div class="place-months" role="img" aria-label="최근 ${n}개월 월별 공연 날짜 ${vals.join(', ')}">
-    ${vals.map((v, i) => `<span class="place-month" style="height:${Math.max(v ? 8 : 3, (v / max) * 100).toFixed(0)}%" title="${months[i]} ${v}일"></span>`).join('')}
-  </div>`;
+  return monthBarsHtml({ months, vals, wrapCls: 'place-months', barCls: 'place-month', scaleMin: minScale, axis });
 }
 
 let krMapPromise = null;
@@ -185,7 +183,7 @@ export async function renderCityPage(host, city) {
     </section>
     <section class="block">
       <div class="block-head"><h2>월별 공연</h2><span class="block-meta">최근 ${MONTHS_SHOWN}개월 · 공연 날짜 수(같은 날·같은 공연장 = 1)</span></div>
-      ${cityMonthBarsHtml(c.monthly, asOf)}
+      ${cityMonthBarsHtml(c.monthly, asOf, MONTHS_SHOWN, 8, { axis: true })}
     </section>
     <div class="city-grid">
       <section class="block"><div class="block-head"><h3>이 도시에서 뜨는 후보</h3><span class="block-meta">최근 3년 이 도시에서 공연한 팀 중 점수 상위</span></div>
