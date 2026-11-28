@@ -36,6 +36,7 @@ XREF_FILE = ROOT / "data" / "raw" / "state" / "artist_xref.json"
 RAW_DIR = ROOT / "data" / "raw"
 IMAGE_CACHE = ROOT / "data" / "raw" / "state" / "artist_images.json"
 MUSICBRAINZ_FILE = ROOT / "data" / "raw" / "state" / "musicbrainz.json"   # collect_musicbrainz: 공식 링크
+INDIEGO_SNS = ROOT / "data" / "raw" / "state" / "indiego_sns.json"   # collect_indiego_sns: 인디고가 자동으로 붙인 인스타(확신 mid)
 INDISTREET_SNS = ROOT / "data" / "raw" / "state" / "indistreet_sns.json"   # collect_indistreet_sns: 팀이 직접 적은 공식 계정
 YT_CHANNELS = ROOT / "data" / "raw" / "state" / "yt_channels.json"   # collect_yt_channels: 팀 공식 채널·아바타
 
@@ -453,6 +454,12 @@ def indistreet_sns_refs(state: dict, key_of: Callable[[str], str] = lambda n: n)
     return refs
 
 
+def indiego_sns_refs(state: dict, have_instagram: set, key_of: Callable[[str], str] = lambda n: n) -> List[dict]:
+    """collect_indiego_sns 상태 → 인스타 연결(확신 mid: 아는 계정과 92% 일치). 이미 인스타가 있는 팀에는 안 붙인다."""
+    return [r for r in indistreet_sns_refs(state, key_of=key_of)
+            if r["platform"] == "instagram" and r["team_key"] not in have_instagram]
+
+
 def _extra_refs() -> List[dict]:
     """PostgreSQL 밖의 연결: 스포티파이 이름 매칭, 연결표의 인스타 계정, MusicBrainz 공식 링크. 파일이 없으면 빈 목록."""
     from artist_xref import canonical_key, load_xref
@@ -472,6 +479,8 @@ def _extra_refs() -> List[dict]:
     except (OSError, ValueError, TypeError, KeyError):
         pass
     refs += indistreet_sns_refs(_read_json_dict(INDISTREET_SNS), key_of=lambda n: canonical_key(n, index))
+    refs += indiego_sns_refs(_read_json_dict(INDIEGO_SNS), {r["team_key"] for r in refs if r["platform"] == "instagram"},
+                             key_of=lambda n: canonical_key(n, index))
     refs += musicbrainz_refs(_read_json_dict(MUSICBRAINZ_FILE))   # 맨 뒤: 같은 팀에 이미 있는 연결이 먼저 쓰인다
     return refs
 

@@ -85,3 +85,36 @@ fi
 | 정답 팀 714 | 44 · 9 · 7 | 202팀 (28%) → 최대 +10 (30%) | 406팀 (57%) → 최대 +2 (57%) |
 
   인디스트릿 페이지 대부분(3,920 중 sameAs 를 채운 곳은 일부)이 공식 채널을 비워 두어 사진·듣기 상승은 몇 %p 수준. 적재(export → collect_yt_channels → export) 뒤 실제 숫자는 `scripts/coverage_targets.py` 로 다시 센다.
+
+## 8. 유튜브 채널 받기 · 다른 출처 조사 · 인디고 (2026-11-28 밤)
+
+**(1) 인디스트릿 sameAs 유튜브 69팀 → collect_yt_channels**
+- export 를 다시 돌리지 않으면 **0팀이 잡힌다**: collect_yt_channels 후보는 links.csv·MusicBrainz·인스타 소개·채널 검색뿐이고, 대상도 coverage_targets(상위 500+정답)뿐이라 export 뒤에도 69팀 중 20팀만 잡힌다.
+- 그래서 파일은 안 고치고 그 모듈의 `run()` 을 한 번만 따로 불러 69팀을 받았다(검색 안 씀): **채널 확인 65 · 아바타 65 · 못 찾음 4 · 최신 영상 596줄 · 135단위**. 상태는 `yt_channels.json`(source = indistreet), 영상은 `raw_video_2026-11-28_channels.csv` 에 합쳐짐 → 다음 export 에서 images·videos·players 로.
+- 추정: 사진 상위 300 36 → 45 · 상위 500 42 → 52 · 정답 202 → 211, 바로 듣기 상위 300 67 → 73 · 상위 500 85 → 92 · 정답 406 → 408.
+- **collect_yt_channels.py 제안**(다른 작업자가 yt_search 를 넣는 중이라 직접 안 고침): `candidate_channels()` 에 `indistreet`(및 `indiego`) sameAs 유튜브를 musicbrainz 다음 순위로 넣고, `--teams-file`(팀 키 목록, coverage_targets 밖 팀도 받기) 옵션.
+
+**(2) 다른 공개 페이지 조사 (표본 20개씩, robots.txt 확인)**
+
+| 출처 | robots | 표본에서 팀 공식 SNS | 판단 |
+|---|---|---|---|
+| **인디고 아티스트 페이지** | 허용 (/api/ 만 막음) | **20/20** 인스타 (JSON-LD 아티스트 블록 `mainEntityOfPage`+`sameAs`, `instagram_url` 칸) | ✅ 수집기 만듦 |
+| 포크라노스 앨범 | 허용 | 1/20 (sameAs 는 앨범·사이트 것) | ✗ |
+| 벅스 앨범 | **막힘** | — | ✗ |
+| 상상마당 공연 상세 | 허용 | 0/19 (사이트 계정만) | ✗ |
+| 트랙제로(멜론 뮤직스토리) | 허용 | 0/20 | ✗ |
+| DMZ 피스트레인 아티스트 아카이브 | 허용 | 1/20 | ✗ |
+| 경북 054 프로젝트 | **막힘** | — | ✗ |
+| 유재하 | 연혁 한 페이지(팀별 페이지 없음) | — | ✗ |
+
+**인디고** `scripts/collect_indiego_sns.py` (+테스트 3, collect_indistreet_sns 의 고르기·주기를 같이 씀): 인디고 공연에 나온 팀 중 페이지가 하나뿐인 1,880팀(상위 500+정답 먼저).
+- ⚠️ 인디고 계정은 인디고가 **자동으로 붙인 것**으로 보인다(사진 경로 `system-enrich/…/ig-profile`). 이미 아는 계정(links.csv·인디스트릿 sameAs)과 비교하면 **148팀 중 136팀 일치(92%)**, 다른 12팀은 공식 계정 대 옛·멤버 계정이 많다. 같은 계정이 두 팀에 붙은 경우 0.
+- 첫 600페이지(상위 500+정답 팀 다 포함, 실패 0) → 새 인스타 452팀. **상위 300 인스타 46 → 208, 상위 500 57 → 293, 정답 197 → 308.**
+- **export_lab_data 제안**: `_extra_refs()` 에서 artist_xref·indistreet 다음, musicbrainz 앞에 — 확신 'mid' 로 보고, **이미 인스타가 있는 팀에는 붙이지 않는다**(8% 불일치 때문):
+  ```python
+  INDIEGO_SNS = ROOT / "data" / "raw" / "state" / "indiego_sns.json"
+  have_ig = {r["team_key"] for r in refs if r["platform"] == "instagram"}
+  refs += [r for r in indistreet_sns_refs(_read_json_dict(INDIEGO_SNS), key_of=lambda n: canonical_key(n, index))
+           if r["platform"] == "instagram" and r["team_key"] not in have_ig]
+  ```
+- **daily_run.sh 월요일 블록 제안**: `collect_indistreet_sns.py` 다음 줄에 `"$PY" scripts/collect_indiego_sns.py || echo "⚠️ 인디고 공식 인스타 실패"` (30일 지난 팀만).

@@ -343,6 +343,14 @@ class IndistreetSameAsRefsTest(unittest.TestCase):
         self.assertEqual(refs, [{"team_key": "c", "platform": "youtube", "ref": "https://www.youtube.com/c/oldname"}])
 
 
+class IndiegoSnsRefsTest(unittest.TestCase):
+    def test_instagram_only_and_skips_teams_that_already_have_one(self):
+        state = {"a": {"instagram": "a_ig", "same_as": ["https://www.youtube.com/@a"]},
+                 "b": {"instagram": "b_ig", "same_as": []}, "c": {"instagram": None}}
+        refs = ex.indiego_sns_refs(state, have_instagram={"b"})
+        self.assertEqual(refs, [{"team_key": "a", "platform": "instagram", "ref": "a_ig"}])
+
+
 class VideoRowsTest(unittest.TestCase):
     def test_drops_interviews_shorts_and_non_live_kbs_clips(self):
         rows = ex.video_rows([
