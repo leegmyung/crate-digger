@@ -38,6 +38,8 @@ fi
 NEW_RAW="$(find data/raw -maxdepth 1 -name "*.csv" -newer "$RUN_MARK" | sort)"
 [ -n "$NEW_RAW" ] && { "$PY" scripts/validate_csv.py $NEW_RAW || echo "⚠️ 형식 검사에서 오류 발견 (진행판에 실패로 표시됨)"; }
 "$PY" scripts/collect_videos.py || echo "⚠️ 유튜브 무대 영상 수집 일부 실패 (하루 한도에 걸리면 다음 날 이어서)"
+"$PY" scripts/collect_musicbrainz.py --max-requests 600 || echo "⚠️ MusicBrainz 링크 일부 실패"
+"$PY" scripts/collect_yt_channels.py --budget 400 || echo "⚠️ 유튜브 공식 채널 일부 실패"
 "$PY" scripts/build_site_data.py || echo "⚠️ 진행판 데이터 갱신 실패"
 "$PY" scripts/load_pg.py || echo "⚠️ PostgreSQL 적재 실패 (brew services start postgresql@17 확인)"
 "$PY" scripts/artist_xref.py --load-pg || echo "⚠️ 아티스트 연결표(같은 팀 다른 표기) 갱신 실패"
@@ -55,6 +57,7 @@ if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then bash scripts/refresh_analyses.sh ||
 "$PY" scripts/export_video_momentum.py || echo "⚠️ 유튜브 7일 증가량 실패"
 if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then "$PY" scripts/export_excel.py || echo "⚠️ 주간 엑셀 실패"; fi   # 월요일만
 "$PY" scripts/lab_snapshot.py || echo "⚠️ 점수 스냅샷 실패 (.venv에 duckdb 필요)"
+"$PY" scripts/coverage_targets.py || echo "⚠️ 사진·바로 듣기 대상 실패"
 bash scripts/build_app_extras.sh || echo "⚠️ 앱 보조 데이터(공연장·도시·페스티벌·라인업·사건·알림) 일부 실패"   # 스냅샷 뒤(알림의 순위 비교에 씀)
 "$PY" scripts/build_scene_map.py || echo "⚠️ 사운드 지도 실패"
 "$PY" scripts/daily_note.py "$DAY" || echo "⚠️ 일일 기록 실패"

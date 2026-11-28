@@ -1,13 +1,13 @@
 {
  "today": "2026-11-28",
- "generated": "2026-11-28T02:58+09:00",
+ "generated": "2026-11-28T13:28+09:00",
  "summary": "통과 22 · 경고 5 · 실패 0",
  "checks": [
   {
    "key": "meta_fresh",
    "name": "랩 데이터 갱신 시각",
    "rule": "1일 넘게 안 바뀌면 실패",
-   "value": "2026-11-28 02:58 (0일 전)",
+   "value": "2026-11-28 13:28 (0일 전)",
    "status": "pass",
    "fix": "daily_run.sh의 export_lab_data.py 줄이 실패했는지 records/daily_run.log 확인",
    "details": []
@@ -25,7 +25,7 @@
    "key": "row_change",
    "name": "전날 대비 행 수",
    "rule": "어제 20행 이상인 표가 30% 넘게 줄면 실패, 50% 넘게 늘면 경고",
-   "value": "급증: outcomes 723→1,272, videos 1,736→4,555",
+   "value": "급증: outcomes 723→1,272, links 1,100→1,779, videos 1,736→4,750",
    "status": "warn",
    "fix": "줄었으면 그날 수집·적재 로그 확인(수집 실패·연결표 오류), 늘었으면 같은 행이 두 번 들어갔는지 확인",
    "details": []
@@ -70,7 +70,7 @@
    "key": "orphan_side",
    "name": "링크·사진·영상의 팀이 팀 표에 있나",
    "rule": "표마다 팀 표에 없는 팀 비율이 15% 넘으면 경고",
-   "value": "links 88/1,476 (6.0%) · images 10/243 (4.1%) · videos 100/4,555 (2.2%)",
+   "value": "links 102/1,779 (5.7%) · images 14/352 (4.0%) · videos 114/4,750 (2.4%)",
    "status": "pass",
    "fix": "신호 없이 프로필만 받은 팀(멜론 보강 명단)인지, 팀 키 표기가 달라 못 이은 것인지 몇 개 열어 본다",
    "details": []
@@ -275,7 +275,7 @@
    "key": "url_shapes",
    "name": "링크·사진 주소 모양",
    "rule": "https가 아니거나 플랫폼 주소가 아니면 이상 — 하나라도 있으면 경고, 2% 넘으면 실패 (주소를 실제로 열어 보지는 않음)",
-   "value": "이상 0건 / 1,719건 (0.0%)",
+   "value": "이상 0건 / 2,131건 (0.0%)",
    "status": "pass",
    "fix": "export_lab_data._link_url·image_rows의 주소 규칙(URL_TEMPLATES·IMAGE_CACHE_HOSTS)을 확인",
    "details": []
@@ -302,7 +302,7 @@
    "key": "extras",
    "name": "앱 보조 데이터 8개",
    "rule": "meta.json extras 목록에 다 있고, 파일이 있고 비어 있지 않아야 함 — 하나라도 빠지면 실패",
-   "value": "모두 있음 (갱신 2026-11-28 02:58)",
+   "value": "모두 있음 (갱신 2026-11-28 13:28)",
    "status": "pass",
    "fix": "daily_run.sh의 앱 보조 데이터 묶음(build_app_extras.sh)이 실패했는지 records/daily_run.log 확인 후 다시 돌린다",
    "details": []
