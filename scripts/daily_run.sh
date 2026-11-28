@@ -42,7 +42,6 @@ fi
 "$PY" scripts/fan_history.py || echo "⚠️ 팬 수 기록 실패"
 "$PY" scripts/collect_spotify.py || echo "⚠️ 스포티파이 발매 이력 수집 일부 실패 (하루 한도에 걸리면 다음 날 이어서)"
 "$PY" scripts/collect_spotify_collabs.py --max-requests 1500 || echo "⚠️ 스포티파이 협업 수집 일부 실패 (한도에 걸리면 다음 날 이어서)"
-[ "$(TZ=Asia/Seoul date +%u)" = 1 ] && { "$PY" scripts/followers_spotify_weekly.py || echo "⚠️ 스포티파이 팔로워 주 1회 실패"; }
 NEW_RAW="$(find data/raw -maxdepth 1 -name "*.csv" -newer "$RUN_MARK" | sort)"
 [ -n "$NEW_RAW" ] && { "$PY" scripts/validate_csv.py $NEW_RAW || echo "⚠️ 형식 검사에서 오류 발견 (진행판에 실패로 표시됨)"; }
 "$PY" scripts/collect_videos.py || echo "⚠️ 유튜브 무대 영상 수집 일부 실패 (하루 한도에 걸리면 다음 날 이어서)"
@@ -59,6 +58,7 @@ NEW_RAW="$(find data/raw -maxdepth 1 -name "*.csv" -newer "$RUN_MARK" | sort)"
 "$PY" scripts/collect_itunes.py --max-requests 300 || echo "⚠️ iTunes 미리듣기 일부 실패"   # 약 18분
 "$PY" scripts/export_lab_data.py || echo "⚠️ 랩(설정형 분석 도구) 데이터 갱신 실패"
 "$PY" scripts/genre_seen.py || echo "⚠️ 장르 처음 확인한 날(genre_seen.csv) 갱신 실패"   # 랩 내보내기 뒤(teams·signals 를 읽음), 장르 검증의 기준일 시점 판용
+"$PY" scripts/key_aliases.py || echo "⚠️ 옛 팀 키 → 새 키 표(key_aliases.csv) 갱신 실패"   # 랩 내보내기 뒤·점수 스냅샷 앞: 키가 바뀐 팀의 관심·비교·주소·지난주 순위 비교를 잇는다
 [ "$(TZ=Asia/Seoul date +%u)" = 1 ] && { "$PY" scripts/source_roles_doc.py || echo "⚠️ 출처 분류 문서 갱신 실패"; }   # 월요일: 출처 성적표 표 자동 갱신
 "$PY" scripts/source_review.py || echo "⚠️ 출처 재분류 제안 실패"
 if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then "$PY" scripts/score_review.py || echo "⚠️ 점수 재검토 실패"; fi   # 월요일만 (약 3분)

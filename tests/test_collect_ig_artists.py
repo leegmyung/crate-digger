@@ -93,6 +93,28 @@ class NonArtistTest(unittest.TestCase):
         self.assertFalse(ig.looks_non_artist("Olive", "singer"))   # 'live'가 다른 낱말 안에 있으면 무시
 
 
+class NonArtistFalsePositiveTest(unittest.TestCase):
+    """2026-11-28 연결 점검(docs/link_audit_2026-11-28.md)에서 찾은 오판: 밴드 계정이 '레이블'·공연 일정 속 클럽 이름 때문에 아티스트 아님으로."""
+
+    def test_band_with_label_mention_is_artist(self):
+        bio = "South Korea\nGwangju City Punk Rock Band\n@member1 \n@member2\nLabel - @victimrecords"
+        self.assertFalse(ig.looks_non_artist("TWOFIVE 투파이브", bio))
+
+    def test_gig_schedule_lines_do_not_make_a_venue(self):
+        bio = "Surviving isn't enough. Want more.\n12/04 금 Club FF\n12/12 토 프리버드\n1/16 토 에머겐자"
+        self.assertFalse(ig.looks_non_artist("Julywantsmore", bio))
+
+    def test_clear_venue_or_label_bio_beats_artist_words(self):
+        self.assertTrue(ig.looks_non_artist("고요의 방", "싱어송라이터를 위한 공연장이자 카페 그리고 펍"))
+        self.assertTrue(ig.looks_non_artist("雨模様Amemoyo", "Indie Music Label from Asia"))
+        self.assertFalse(ig.looks_non_artist("雪国", "We are Yukiguni,indie rock band based in Tokyo."))
+        self.assertFalse(ig.looks_non_artist("우륵과 풍각쟁이들", "국악 기반 아방가르드 밴드입니다."))
+
+    def test_venue_words_in_name_still_non_artist(self):
+        self.assertTrue(ig.looks_non_artist("Club FF", "홍대 라이브 클럽"))
+        self.assertTrue(ig.looks_non_artist("Pushplay", "Seoul live club & bar"))   # 소개만 있어도 아티스트 낱말이 없으면
+
+
 class InputTest(unittest.TestCase):
     def test_targets_skip_seen_outlets_and_dupes(self):
         press = [{"artist_handle": "@a.band"}, {"artist_handle": "@pushplay_mag"}, {"artist_handle": "@a.band"},

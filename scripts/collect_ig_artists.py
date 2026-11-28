@@ -127,8 +127,26 @@ def youtube_channel(links):
     return ""
 
 
+# 소개에 이런 말이 있으면 아티스트 계정으로 본다 (레이블 이름·공연 일정 속 클럽 이름이 있어도) — 2026-11-28 연결 점검
+ARTIST_RE = re.compile(
+    r"\b(?:band|singer|songwriter|rapper|duo|trio|musician|rock|punk|metal|hardcore|shoegaze|jazz|folk|hip-?hop)\b"
+    r"|밴드|싱어송라이터|가수|래퍼|뮤지션|보컬|기타리스트|드러머", re.I)
+# 소개에 이런 말이 있으면 아티스트 낱말이 있어도 아티스트 아님 (공연장·카페·레이블 소개)
+STRONG_NON_ARTIST_RE = re.compile(
+    r"\b(?:music label|record label|indie label|magazine|festival|venue|pub|bar|cafe)\b"
+    r"|공연장|카페|펍|매거진|페스티벌|레코드 레이블|음악 레이블", re.I)
+SCHEDULE_LINE = re.compile(r"^\s*\d{1,2}[./]\d{1,2}\b.*$", re.M)   # '12/04 금 Club FF' 같은 공연 일정 줄
+
+
 def looks_non_artist(name, bio):
-    return bool(NON_ARTIST_RE.search(f"{name or ''}\n{bio or ''}"))
+    """이름에 매거진·클럽·레이블 같은 말이 있으면 아티스트 아님. 소개에만 있으면, 공연 일정 줄을 빼고도 남고
+    아티스트 낱말(밴드·싱어송라이터 등)이 없을 때만 아티스트 아님."""
+    if NON_ARTIST_RE.search(name or ""):
+        return True
+    text = SCHEDULE_LINE.sub("", bio or "")
+    if STRONG_NON_ARTIST_RE.search(text):
+        return True
+    return bool(NON_ARTIST_RE.search(text)) and not ARTIST_RE.search(f"{name or ''}\n{bio or ''}")
 
 
 def interpret(handle, page):
