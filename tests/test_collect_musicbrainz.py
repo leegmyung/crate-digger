@@ -52,6 +52,32 @@ class ClassifyUrlsTest(unittest.TestCase):
         self.assertEqual(mb.classify_urls([]), {})
 
 
+class DatesTest(unittest.TestCase):
+    """같은 조회 응답의 활동 시작(life-span.begin)·가장 이른 발매 묶음 날짜 — 데뷔 점검 두 번째 출처 (2026-11-28)."""
+    def test_begin_and_earliest_release_group(self):
+        detail = {"life-span": {"begin": "2012-05"}, "release-groups": [
+            {"first-release-date": "2015-03-01"}, {"first-release-date": "2013"}, {"first-release-date": ""}]}
+        self.assertEqual(mb.dates_of(detail), {"begin": "2012-05", "first_release": "2013"})
+
+    def test_missing_fields_give_empty(self):
+        self.assertEqual(mb.dates_of({"relations": []}), {})
+
+    def test_run_stores_dates_without_extra_request(self):
+        class Api:
+            calls = []
+            def __call__(self, path, params):
+                self.calls.append((path, params.get("inc")))
+                if path == "artist":
+                    return {"artists": [{"id": "m1", "name": "포져군단", "score": 100}]}
+                return {"relations": [], "life-span": {"begin": "2019"}, "release-groups": [{"first-release-date": "2020-01-02"}]}
+        api = Api()
+        out = mb.run([{"team_key": "pj", "display_name": "포져군단"}], {}, api, "2026-11-28")
+        self.assertEqual(out["pj"]["begin"], "2019")
+        self.assertEqual(out["pj"]["first_release"], "2020-01-02")
+        self.assertEqual(len(api.calls), 2)
+        self.assertIn("release-groups", api.calls[1][1])
+
+
 class FakeApi:
     def __init__(self, search, lookup):
         self.search, self.lookup, self.calls = search, lookup, []

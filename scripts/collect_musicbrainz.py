@@ -99,6 +99,18 @@ def classify_urls(relations: List[dict]) -> Dict[str, List[str]]:
     return out
 
 
+def dates_of(detail: dict) -> Dict[str, str]:
+    """조회 응답의 활동 시작(life-span.begin)과 가장 이른 발매 묶음 날짜(release-groups first-release-date). 없으면 뺀다."""
+    out: Dict[str, str] = {}
+    begin = ((detail or {}).get("life-span") or {}).get("begin") or ""
+    if begin:
+        out["begin"] = begin
+    firsts = sorted(d for g in (detail or {}).get("release-groups") or [] if (d := (g or {}).get("first-release-date")))
+    if firsts:
+        out["first_release"] = firsts[0]
+    return out
+
+
 def _fresh(entry: dict, today: str) -> bool:
     checked = (entry or {}).get("checked") or ""
     try:
@@ -130,9 +142,10 @@ def run(targets: List[dict], state: Dict[str, dict], api: Callable[[str, dict], 
             continue
         if used >= max_requests:
             break                                   # 조회할 예산이 없으면 이 팀은 다음 실행에
-        rels = api(f"artist/{found['id']}", {"inc": "url-rels"}).get("relations") or []
+        detail = api(f"artist/{found['id']}", {"inc": "url-rels+release-groups"})   # 같은 요청 하나에 발매 묶음까지
         used += 1
-        out[key] = {"checked": today, "mbid": found["id"], "name": found.get("name") or "", "urls": classify_urls(rels)}
+        out[key] = {"checked": today, "mbid": found["id"], "name": found.get("name") or "",
+                    "urls": classify_urls(detail.get("relations") or []), **dates_of(detail)}
     return out
 
 

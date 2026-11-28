@@ -4,7 +4,7 @@
     .venv/bin/python scripts/newcomer_audit.py --top 300 --out docs/newcomer_audit_2026-11-28.md
 
 팀마다 출처별 가장 이른 근거 날짜를 모은다: 프로필 첫 발매(teams.csv), 멜론 데뷔일·첫 발매(프로필 원본),
-스포티파이 첫 발매(프로필 원본), iTunes 첫 발매 연도, 우리 신호 첫 날짜(signals.csv), 정답·후보 프로그램 발표일(outcomes.csv).
+스포티파이 첫 발매(프로필 원본), iTunes 첫 발매 연도, MusicBrainz 활동 시작·첫 발매, 우리 신호 첫 날짜(signals.csv), 정답·후보 프로그램 발표일(outcomes.csv).
 기준일 5년 전보다 이른 출처가 하나면 '의심', 둘 이상이면 '확실'(데뷔일 덮어쓰기 후보 — 적용은 사람이 근거 확인 뒤 config/debut_overrides.json 에).
 """
 from __future__ import annotations
@@ -26,6 +26,7 @@ YEARS = 5
 SOURCE_LABEL = {
     "profile": "프로필 첫 발매", "melon_debut": "멜론 데뷔일", "melon_first": "멜론 첫 발매",
     "spotify": "스포티파이 첫 발매", "itunes": "iTunes 첫 발매 연도", "signal": "우리 신호 첫 날짜", "outcome": "프로그램 발표",
+    "mb_begin": "MusicBrainz 활동 시작", "mb_first": "MusicBrainz 첫 발매",
 }
 Evidence = Dict[str, Tuple[str, str]]   # 출처 → (날짜, 설명)
 
@@ -61,6 +62,15 @@ def flag_old(ev: Evidence, as_of: str, years: int = YEARS) -> Optional[dict]:
     return {"earliest": min(ev[s][0] for s in old), "old_sources": old, "sure": len(old) >= 2}
 
 
+def musicbrainz_rows(state: dict) -> List[Tuple[str, str, str, str]]:
+    """collect_musicbrainz 상태(찾은 팀만) → 활동 시작·첫 발매 묶음 날짜 행 (2026-11-28부터 저장, 21시 실행마다 쌓임)."""
+    rows: List[Tuple[str, str, str, str]] = []
+    for team, e in state.items():
+        if (e or {}).get("mbid"):
+            rows += [(team, e[f], src, e["mbid"]) for f, src in (("begin", "mb_begin"), ("first_release", "mb_first")) if e.get(f)]
+    return rows
+
+
 def _csv(path) -> List[dict]:
     with open(path, encoding="utf-8", newline="") as fh:
         return list(csv.DictReader(fh))
@@ -80,6 +90,8 @@ def gather_rows(key_of) -> List[Tuple[str, str, str, str]]:
                  for r in _csv(f)]
     itunes = json.loads((RAW / "state" / "itunes.json").read_text(encoding="utf-8"))
     rows += [(k, str(v.get("first_year") or ""), "itunes", v.get("artist_name") or "") for k, v in itunes.items()]
+    mb = RAW / "state" / "musicbrainz.json"
+    rows += musicbrainz_rows(json.loads(mb.read_text(encoding="utf-8")) if mb.exists() else {})
     rows += [(s["team_key"], s["signal_date"], "signal", f"{s['branch']} {s['program'] or s['source']}") for s in _csv(LAB / "signals.csv")]
     rows += [(o["team_key"], o["announced_date"], "outcome", o["program_label"]) for o in _csv(LAB / "outcomes.csv")]
     return rows

@@ -120,6 +120,12 @@
       "reason": "Sailor Honeymoon, 2022년부터 활동 (연도만 확인). 이미 주목받는 팀이라 후보 제외 목록(config/source_roles.json candidate_rules)에도 있음 — 제외를 풀어도 신인 판정이 맞게 데뷔일을 같이 둔다",
       "evidence": ["https://en.wikipedia.org/wiki/Sailor_Honeymoon"],
       "checked": "2026-11-27"
+    },
+    "성하진": {
+      "debut": "2020-01-03",
+      "reason": "싱어송라이터 성하진, 데뷔곡 '살아' 2020-01-03 (멜론 소개 '2020년 데뷔 이후 1집·2집'). 우리 첫 포착 2025-12는 프로필 미수집 때문",
+      "evidence": ["https://www.melon.com/artist/detail.htm?artistId=2761570"],
+      "checked": "2026-11-28"
     }
   }
 }

@@ -56,3 +56,28 @@
 - 원본 파일: `config/debut_overrides.json` (export_lab_data.py·load_pg.py → ref.debut_overrides). 항목마다 debut·reason·evidence(링크)·checked가 필요하다.
 - **지금 넣을 '확실' 후보: 없음.**
 - **사람이 공개 웹으로 확인할 순서(제안):** ① verified 3팀(neverandno·성현·bandits) ② 상위 50의 허재혁·성하진(성하진 멜론 프로필 2761570 '인디음악', 앨범 21장, 첫 발매 2020-01) ③ iTunes 10년 넘는 팀(COATL 2005·헤드터너 2013·올아이해브 2013·800 Gondomar 2016·Hard-Ons). 확인되면 근거 링크와 함께 debut_overrides 에 적는다.
+
+## 5. 사람 확인 결과 (같은 날, aside 브라우저로 공개 페이지)
+
+| 팀 (순위) | 우리 팀은 | 반대 근거였던 것 | 판정 | 근거 |
+|---|---|---|---|---|
+| neverandno (24) | 록 밴드, 멜론 첫 발매 2025-04-07 | Apple Music 같은 아티스트 페이지에 'Quickstart - Single' 2019 | **애매 (동명 의심)** — 2019 싱글은 멜론 프로필(앨범 1장)에 없고 비슷한 아티스트가 모두 외국 음악가라 다른 팀이 합쳐졌을 수 있음. 신인 판정 유지 | [Apple Music](https://music.apple.com/us/artist/neverandno/1460390500) |
+| 성현 (32) | 멜론 4633954 — 솔로 데뷔 2025-10-22(데뷔곡 '바다'), 포크·인디 | 멜론 원본 첫 발매 2016-11, 동명 프로필 4491308 | **솔로 신인 확인됨** — 4491308은 아이돌 그룹 CORTIS 멤버(동명). 단, 4633954 프로필에 소속 그룹 '검은잎들'·'해변지하'가 적혀 있어 2016 첫 발매는 밴드 활동으로 보임 → 밴드 경력까지 칠지는 판단 필요 | [멜론 4633954](https://www.melon.com/artist/detail.htm?artistId=4633954) · [멜론 4491308](https://www.melon.com/artist/detail.htm?artistId=4491308) |
+| bandits (58) | 록 밴드, 멜론 첫 발매 2026-08-29 | 멜론 'Bandits' 3752676 첫 발매 2014-03 | **신인 확인됨** — 3752676은 옴니버스 'Eurosong 2014' 한 곡뿐인 외국 아티스트(동명) | [멜론 3752676 앨범](https://www.melon.com/artist/album.htm?artistId=3752676) |
+| 허재혁 (40) | 음악취향Y 2025 「Golden Record」 | 멜론 742700 첫 발매 2013-10 | **애매 (동명 가능성 큼)** — 742700의 앨범 4장(2013 '바래본다'·2014·2018·2022 'Holdin' On')에 「Golden Record」가 없음. 덮어쓰기 안 함 | [멜론 742700 앨범](https://www.melon.com/artist/album.htm?artistId=742700) |
+| 성하진 (47) | 싱어송라이터(인디), 공식 유튜브 채널 연결 맞음(연결 점검 d) | 멜론 2761570 첫 발매 2020-01 | **기성 확인 (5년 넘음)** — 멜론 소개 "2020년 데뷔 이후 … 1집 <안녕부터 안녕까지>, 2집 <여정>", 데뷔곡 '살아', 첫 발매 2020-01-03 | [멜론 2761570](https://www.melon.com/artist/detail.htm?artistId=2761570) |
+
+**debut_overrides 에 넣을 줄 (적용은 코디네이터 판단):**
+
+```json
+"성하진": {
+  "debut": "2020-01-03",
+  "reason": "싱어송라이터 성하진, 데뷔곡 '살아' 2020-01-03 (멜론 소개 '2020년 데뷔 이후 1집·2집'). 우리 첫 포착 2025-12는 프로필 미수집 때문",
+  "evidence": ["https://www.melon.com/artist/detail.htm?artistId=2761570"],
+  "checked": "2026-11-28"
+}
+```
+
+- 성현은 '솔로 신인'은 맞다. 밴드 경력(검은잎들·해변지하)까지 데뷔로 칠 거면 그 밴드의 첫 발매를 따로 확인해 넣는다 — 지금은 넣지 않음.
+- 확인됨(신인): bandits. 애매(신인 판정 유지, 다음 점검 대상): neverandno, 허재혁.
+- MusicBrainz 활동 시작·첫 발매 날짜는 다음 21시 실행부터 `musicbrainz.json` 에 쌓이고, 이 스크립트가 두 번째 출처('MusicBrainz 활동 시작'·'MusicBrainz 첫 발매')로 읽는다.

@@ -46,5 +46,12 @@ class FlagOldTest(unittest.TestCase):
         self.assertIsNotNone(na.flag_old({"x": ("2021-11-27", "")}, "2026-11-28"))
 
 
+class MusicBrainzRowsTest(unittest.TestCase):
+    def test_begin_and_first_release_become_rows(self):
+        rows = na.musicbrainz_rows({"a": {"mbid": "m1", "begin": "2012", "first_release": "2013-04-01"},
+                                    "b": {"mbid": None}, "c": {"mbid": "m3", "urls": {}}})
+        self.assertEqual(sorted(rows), [("a", "2012", "mb_begin", "m1"), ("a", "2013-04-01", "mb_first", "m1")])
+
+
 if __name__ == "__main__":
     unittest.main()
