@@ -1,11 +1,139 @@
 {
- "_설명": "국내 큰 페스티벌 연도별 라인업 (scripts/collect_festival_lineups.py 가 공연 원본 행으로, scripts/festival_profiles.py 가 페스티벌 화면으로 읽음). 표는 나무위키 연도별 문서·본 문서 연도 구역의 라인업 표(공식 포스터·타임테이블을 옮긴 것)를 2026-11-28 읽어 옮김 — source_url 에 문서 주소. korean=false 는 해외 팀(또는 확인 못 한 팀)이라 공연 원본 행·페스티벌 화면 팀 목록에 넣지 않음(정답·점수에 영향 없게). day = 그 팀이 선 날(표의 날짜 칸), stage = 무대 이름(표에 있으면). 펜타포트 2026 은 기존 검토 파일(data/raw/review, 나무위키 표 국내 팀)에서. rookie_stage=true 는 부산록페 히든 스테이지 신인 경연(루키즈 온 더 부락) 팀 — 공연 원본 행은 쓰되 페스티벌 화면 '본무대'에는 넣지 않음(정답 규칙 outcome_rules.excluded_rows 와 같게). 회차 venue_text 가 있으면 그 회차 장소(뷰민라 2026 = 문화비축기지, 나무위키 2026년 구역 '장소').",
+ "_설명": "국내 큰 페스티벌 연도별 라인업 (scripts/collect_festival_lineups.py 가 공연 원본 행으로, scripts/festival_profiles.py 가 페스티벌 화면으로 읽음). 표는 나무위키 연도별 문서·본 문서 연도 구역의 라인업 표(공식 포스터·타임테이블을 옮긴 것)를 2026-11-28 읽어 옮김 — source_url 에 문서 주소. korean=false 는 해외 팀(또는 확인 못 한 팀)이라 공연 원본 행·페스티벌 화면 팀 목록에 넣지 않음(정답·점수에 영향 없게). day = 그 팀이 선 날(표의 날짜 칸), stage = 무대 이름(표에 있으면). 펜타포트 2026 은 기존 검토 파일(data/raw/review, 나무위키 표 국내 팀)에서. rookie_stage=true 는 부산록페 히든 스테이지 신인 경연(루키즈 온 더 부락) 팀 — 공연 원본 행은 쓰되 페스티벌 화면 '본무대'에는 넣지 않음(정답 규칙 outcome_rules.excluded_rows 와 같게). 회차 venue_text 가 있으면 그 회차 장소(뷰민라 2026 = 문화비축기지, 나무위키 2026년 구역 '장소'). name_risk = 흔한 낱말·짧은 이름·아이돌 멤버처럼 다른 팀과 이름이 겹칠 위험(이름 맞추기 주의). 2026-11-28 공식 포스터로 채운 회차는 source_note 에 어느 포스터인지.",
  "checked": "2026-11-28",
  "festivals": {
   "penta": {
    "label": "인천 펜타포트 락 페스티벌 (본무대 전체)",
    "venue_text": "송도달빛축제공원 (인천광역시 연수구 송도동)",
    "editions": {
+    "2021": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=8006718",
+     "days": [
+      "2021-10-09",
+      "2021-10-10"
+     ],
+     "official_total": 19,
+     "source_note": "공식 최종 라인업 포스터(코로나로 온라인 공연) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "윤상",
+       "day": "2021-10-09",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "데이브레이크",
+       "day": "2021-10-09",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이날치",
+       "day": "2021-10-09",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ADOY",
+       "day": "2021-10-09",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "정홍일",
+       "day": "2021-10-09",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "메써드",
+       "day": "2021-10-09",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "너드커넥션",
+       "day": "2021-10-09",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "동이혼",
+       "day": "2021-10-09",
+       "stage": "",
+       "korean": true,
+       "name_risk": "펜타 유스스타(신인) — 표기 확인 필요"
+      },
+      {
+       "name": "MOGWAI",
+       "day": "2021-10-09",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "이승환",
+       "day": "2021-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "10CM",
+       "day": "2021-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "적재",
+       "day": "2021-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "The Volunteers",
+       "day": "2021-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "엔플라잉",
+       "day": "2021-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "김사월",
+       "day": "2021-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "실리카겔",
+       "day": "2021-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "헤이맨",
+       "day": "2021-10-10",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "Phum Viphurit",
+       "day": "2021-10-10",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "The Linda Lindas",
+       "day": "2021-10-10",
+       "stage": "",
+       "korean": false
+      }
+     ],
+     "venue_text": "온라인 중계 (네이버 NOW·유튜브, 인천)"
+    },
     "2022": {
      "source_url": "https://namu.wiki/w/2022%20%EC%9D%B8%EC%B2%9C%20%ED%8E%9C%ED%83%80%ED%8F%AC%ED%8A%B8%20%EB%9D%BD%20%ED%8E%98%EC%8A%A4%ED%8B%B0%EB%B2%8C",
      "days": [
@@ -1711,6 +1839,217 @@
    "label": "부산국제록페스티벌 (전체 라인업)",
    "venue_text": "삼락생태공원 (부산광역시 사상구 삼락동)",
    "editions": {
+    "2022": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=12783796",
+     "days": [
+      "2022-10-01",
+      "2022-10-02"
+     ],
+     "official_total": 33,
+     "source_note": "3차 라인업 포스터(이 회차 마지막 공개 포스터 — 최종 글 없음) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "BASTILLE",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Oh Wonder",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "잔나비",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "로맨틱펀치",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "소란",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "새소년",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ADOY",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "The Volunteers",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Never Young Beach",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "WOODZ",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "I Mean Us",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "민수",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름"
+      },
+      {
+       "name": "보수동쿨러",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "LUCY",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "카디",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Desktop Error",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "달담",
+       "day": "2022-10-01",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "HONNE",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "NELL",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "부활",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크라잉넛",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "백예린",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "마이앤트메리",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "글렌체크",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "쏜애플",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "갤럭시익스프레스",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "실리카겔",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "김뜻돌",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "iogi",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": false,
+       "name_risk": "국적 확인 못 함"
+      },
+      {
+       "name": "HATHAW9Y",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "시네마",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Hila Ruach",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "잭킹콩",
+       "day": "2022-10-02",
+       "stage": "",
+       "korean": true
+      }
+     ]
+    },
     "2023": {
      "source_url": "https://namu.wiki/w/2023%20%EB%B6%80%EC%82%B0%20%EA%B5%AD%EC%A0%9C%20%EB%A1%9D%20%ED%8E%98%EC%8A%A4%ED%8B%B0%EB%B2%8C",
      "days": [
@@ -4398,6 +4737,212 @@
    "label": "그랜드 민트 페스티벌",
    "venue_text": "올림픽공원 (서울특별시 송파구 올림픽로 424)",
    "editions": {
+    "2022": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=12832371",
+     "days": [
+      "2022-10-22",
+      "2022-10-23"
+     ],
+     "official_total": 32,
+     "source_note": "공식 최종 라인업 포스터 — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "10CM",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "볼빨간사춘기",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "적재",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "소란",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "어반자카파",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "SURL",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "나상현씨밴드",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "W24",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "정준일",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "HYNN",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "존박",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true,
+       "name_risk": "해외 출신 가수(국내 활동)"
+      },
+      {
+       "name": "그_냥",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true,
+       "name_risk": "표기에 밑줄 — 검색·이름 맞추기 주의"
+      },
+      {
+       "name": "최유리",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "정아로",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "구만(9.10000)",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "오월오일",
+       "day": "2022-10-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "멜로망스",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "정승환",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이승윤",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "정세운",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "LUCY",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "터치드",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "D82",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "헤이맨",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "데이브레이크",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "페퍼톤스",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "마이 앤트 메리",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "데이먼스 이어",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "스텔라장",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "예빛",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "라쿠나",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "유다빈밴드",
+       "day": "2022-10-23",
+       "stage": "",
+       "korean": true
+      }
+     ]
+    },
     "2023": {
      "source_url": "https://namu.wiki/w/%EA%B7%B8%EB%9E%9C%EB%93%9C%20%EB%AF%BC%ED%8A%B8%20%ED%8E%98%EC%8A%A4%ED%8B%B0%EB%B2%8C#2023년",
      "days": [
@@ -6513,6 +7058,2848 @@
        "day": "2026-06-12",
        "stage": "FCO.",
        "korean": true
+      }
+     ]
+    }
+   }
+  },
+  "letsrock": {
+   "label": "렛츠락 페스티벌",
+   "venue_text": "난지한강공원 (서울특별시 마포구 한강난지로 162)",
+   "editions": {
+    "2022": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=12612817",
+     "days": [
+      "2022-09-24",
+      "2022-09-25"
+     ],
+     "official_total": 26,
+     "source_note": "라인업 포스터(이 사이트의 마지막 공개 포스터 — 최종 글 없음) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "국카스텐",
+       "day": "2022-09-24",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "볼빨간사춘기",
+       "day": "2022-09-24",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "글렌체크",
+       "day": "2022-09-24",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이디오테잎",
+       "day": "2022-09-24",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "에피톤 프로젝트",
+       "day": "2022-09-24",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "곽진언",
+       "day": "2022-09-24",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "최유리",
+       "day": "2022-09-24",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "로맨틱펀치",
+       "day": "2022-09-24",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "레이지본",
+       "day": "2022-09-24",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "SURL",
+       "day": "2022-09-24",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "실리카겔",
+       "day": "2022-09-24",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "짙은",
+       "day": "2022-09-24",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "원태림",
+       "day": "2022-09-24",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "자우림",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크라잉넛",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "노브레인",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ADOY",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "하동균",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "카더가든",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "데이먼스 이어",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "소란",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "육중완밴드",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "기프트",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "안녕하신가영",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "유라",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름"
+      },
+      {
+       "name": "공돌",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      }
+     ]
+    },
+    "2023": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=15772785",
+     "days": [
+      "2023-09-02",
+      "2023-09-03"
+     ],
+     "official_total": 22,
+     "source_note": "4차 라인업 포스터(요일별 전체 — 최종 글 없음) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "국카스텐",
+       "day": "2023-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "노브레인",
+       "day": "2023-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크라잉넛",
+       "day": "2023-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "WOODZ",
+       "day": "2023-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "권진아",
+       "day": "2023-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "에피톤 프로젝트",
+       "day": "2023-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "페퍼톤스",
+       "day": "2023-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "로맨틱펀치",
+       "day": "2023-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크랙샷",
+       "day": "2023-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "오프더메뉴",
+       "day": "2023-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "바비핀스",
+       "day": "2023-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "자우림",
+       "day": "2023-09-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이승윤",
+       "day": "2023-09-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "쏜애플",
+       "day": "2023-09-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "임현식",
+       "day": "2023-09-03",
+       "stage": "",
+       "korean": true,
+       "name_risk": "아이돌 그룹 멤버(비투비)"
+      },
+      {
+       "name": "적재",
+       "day": "2023-09-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "짙은",
+       "day": "2023-09-03",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "실리카겔",
+       "day": "2023-09-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "기프트",
+       "day": "2023-09-03",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "허회경",
+       "day": "2023-09-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "homezone",
+       "day": "2023-09-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "취향상점",
+       "day": "2023-09-03",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      }
+     ]
+    },
+    "2025": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=166439848",
+     "days": [
+      "2025-09-06",
+      "2025-09-07"
+     ],
+     "official_total": 21,
+     "source_note": "4차 라인업 포스터(요일별 전체 — 최종 글 없음) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "자우림",
+       "day": "2025-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "WOODZ",
+       "day": "2025-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크라잉넛",
+       "day": "2025-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "노브레인",
+       "day": "2025-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "하현상",
+       "day": "2025-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "육중완밴드",
+       "day": "2025-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Yang Skinny",
+       "day": "2025-09-06",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "페퍼톤스",
+       "day": "2025-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "데카당",
+       "day": "2025-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "더 픽스",
+       "day": "2025-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "오아",
+       "day": "2025-09-06",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름"
+      },
+      {
+       "name": "RADWIMPS",
+       "day": "2025-09-07",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "국카스텐",
+       "day": "2025-09-07",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "The Poles",
+       "day": "2025-09-07",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "쏜애플",
+       "day": "2025-09-07",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크랙샷",
+       "day": "2025-09-07",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Dragon Pony",
+       "day": "2025-09-07",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "바이 바이 배드맨",
+       "day": "2025-09-07",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ADOY",
+       "day": "2025-09-07",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "87dance",
+       "day": "2025-09-07",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "오모",
+       "day": "2025-09-07",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름"
+      }
+     ]
+    },
+    "2026": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=173180791",
+     "days": [
+      "2026-10-03",
+      "2026-10-04"
+     ],
+     "official_total": 21,
+     "source_note": "공식 최종 라인업 포스터 — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "Nothing But Thieves",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "NELL",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "쏜애플",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "남우현",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true,
+       "name_risk": "아이돌 그룹 멤버(인피니트)"
+      },
+      {
+       "name": "PITTA(강형호)",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "지소쿠리클럽",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "윤지영",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 사람 이름"
+      },
+      {
+       "name": "김승주",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "앨리스신드롬",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "바비핀스",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "자우림",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "국카스텐",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "노브레인",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크라잉넛",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "갤럭시 익스프레스",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "스키조",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "아디오스오디오",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크랙샷",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "바이 바이 배드맨",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "초록불꽃소년단",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "취향상점",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      }
+     ]
+    }
+   }
+  },
+  "soundplanet": {
+   "label": "사운드 플래닛 페스티벌",
+   "venue_text": "파라다이스 시티 (인천광역시 중구 영종해안남로321번길 186)",
+   "editions": {
+    "2025": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=167092097",
+     "days": [
+      "2025-09-13",
+      "2025-09-14"
+     ],
+     "official_total": 70,
+     "source_note": "공식 최종 라인업 포스터(무대별) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "YB",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이승윤",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Xdinary Heroes",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "LUCY",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Reol",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "ONEWE",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Hathaw9y",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "아사달",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "envy",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "할로우잰",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "BURNOUT SYNDROMS",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "브로큰 발렌타인",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "딕펑스",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "CRACK SHOT",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "KINO",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "SKIPJACK",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "어반자카파",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "데이먼스이어",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "REN",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "너드커넥션",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "류수정",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "can't be blue",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Tuesday Beach Club",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "고고학",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "아디오스오디오",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "MGFF",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "기프트",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "PIETA",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "적란운",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Leaveourtears",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "고히&바닐레어",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "지베뉴",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true,
+       "name_risk": "표기 확인 필요"
+      },
+      {
+       "name": "오아!",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름"
+      },
+      {
+       "name": "SHARKI",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "다다다",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이랑이",
+       "day": "2025-09-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "체리필터",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "넬",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "WOODZ",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "김재중",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true,
+       "name_risk": "아이돌 출신(JYJ)"
+      },
+      {
+       "name": "한로로",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "dosii",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "To More Raw",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크라잉넛",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "KARDI",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "MASS OF THE FERMENTING DREGS",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "트랜스픽션",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "해리빅버튼",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "W24",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "akuruyo-sheep",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "극동아시아타이거즈",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "볼빨간사춘기",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "브로콜리너마저",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "송소희",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이츠",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름"
+      },
+      {
+       "name": "KEN",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름·아이돌 멤버일 수 있음"
+      },
+      {
+       "name": "보라미유",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "음율",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "확인",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "오이스터",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true,
+       "name_risk": "'오이스터즈'와 다른 팀일 수 있음"
+      },
+      {
+       "name": "중식이밴드",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "김마리",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "행로난",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "캐치더영",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "손을모아",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Monday Off With Bluesy",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "HEIDEN",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "오아베",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Blue.D",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "안효주",
+       "day": "2025-09-14",
+       "stage": "",
+       "korean": true
+      }
+     ]
+    },
+    "2026": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=172933003",
+     "days": [
+      "2026-09-05",
+      "2026-09-06"
+     ],
+     "official_total": 73,
+     "source_note": "공식 최종 라인업 포스터(무대별) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "Young K",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "YB",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "UVERworld",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "CNBLUE",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ONEWE",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "can't be blue",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "하츠웨이브",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "akuruyo-sheep",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "쏜애플",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "솔루션스",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ALI",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "PompadollS",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Atarayo",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "SKIPJACK",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Bachikanshikoku Ni Aisaretai",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "어반자카파",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "장범준",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "적재",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "KEN",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름·아이돌 멤버일 수 있음"
+      },
+      {
+       "name": "김종현",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "진호",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름"
+      },
+      {
+       "name": "To More Raw",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "디어클라우드",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이바다",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름"
+      },
+      {
+       "name": "고고학",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "심아일랜드",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "W24",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "스키조",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "컨파인드 화이트",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "HYANG",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "기쿠하시",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true,
+       "name_risk": "국적 확인 필요"
+      },
+      {
+       "name": "엔분의일",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "정효빈",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "조하",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름"
+      },
+      {
+       "name": "Gaku",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Iga Nana",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Re.may",
+       "day": "2026-09-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ZUTOMAYO",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "김준수",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true,
+       "name_risk": "아이돌 출신(XIA)"
+      },
+      {
+       "name": "체리필터",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Xdinary Heroes",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크라잉넛",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "페퍼톤스",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Dragon Pony",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "맥거핀",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "국카스텐",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "브로큰 발렌타인",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "NEMOPHILA",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "KARDI",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "닥터코어911",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "AxMxP",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "CATCH THE YOUNG",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "심규선",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "데이먼스 이어",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "HYNN",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "김나영",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이츠",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름"
+      },
+      {
+       "name": "윤지영",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 사람 이름"
+      },
+      {
+       "name": "안효주",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "아디오스오디오",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "음율",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "TOMIKITA",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true,
+       "name_risk": "국적 표시 없음 — 확인 필요"
+      },
+      {
+       "name": "ChRocktikal",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ASTERISM",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "천진우",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Ruru",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true,
+       "name_risk": "국적 표시 없음 — 확인 필요"
+      },
+      {
+       "name": "적란운",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "개화",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "조이풀스",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "행로난",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "cotoba",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "D82",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Red C",
+       "day": "2026-09-06",
+       "stage": "",
+       "korean": true
+      }
+     ]
+    }
+   }
+  },
+  "gyeonggi_indie": {
+   "label": "경기인디뮤직페스티벌",
+   "venue_text": "경기도 일대 (경기도)",
+   "editions": {
+    "2022": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=13008494",
+     "days": [
+      "2022-10-15",
+      "2022-10-16"
+     ],
+     "official_total": 30,
+     "source_note": "공식 라인업 포스터('신대철 with A.F.A'·'넉살 × 까데호'·'김태훈 with 헌'은 팀별로) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "NELL",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "잔나비",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "신대철",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "빌리카터",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "젬베콜라",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "스킵잭",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "몽돌",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "화노",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "최재흠",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "김페리",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "옥상달빛",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "박문치",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "너드커넥션",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "롤링쿼츠",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "잭킹콩",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "엔분의일",
+       "day": "2022-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "자우림",
+       "day": "2022-10-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크라잉넛",
+       "day": "2022-10-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크랙실버",
+       "day": "2022-10-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "스프링스",
+       "day": "2022-10-16",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "휴이",
+       "day": "2022-10-16",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름"
+      },
+      {
+       "name": "아이반",
+       "day": "2022-10-16",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름"
+      },
+      {
+       "name": "E SENS",
+       "day": "2022-10-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "넉살",
+       "day": "2022-10-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "까데호",
+       "day": "2022-10-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Balming Tiger",
+       "day": "2022-10-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ASH ISLAND",
+       "day": "2022-10-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "LEELLAMARZ",
+       "day": "2022-10-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "김태훈",
+       "day": "2022-10-16",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 사람 이름"
+      },
+      {
+       "name": "헌",
+       "day": "2022-10-16",
+       "stage": "",
+       "korean": true,
+       "name_risk": "한 글자 이름"
+      }
+     ],
+     "venue_text": "경인아라뱃길 아라마리나 (경기도 김포시)"
+    },
+    "2023": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=16133495",
+     "days": [
+      "2023-10-13",
+      "2023-10-14",
+      "2023-10-15"
+     ],
+     "official_total": 31,
+     "source_note": "공식 최종 라인업 포스터(오픈 스테이지 K-POP 댄스 클럽 하우스 출연자는 뺌) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "이승환밴드",
+       "day": "2023-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "LUCY",
+       "day": "2023-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크라잉넛",
+       "day": "2023-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "KYOUNGSEO",
+       "day": "2023-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "나상현씨밴드",
+       "day": "2023-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Nemesis",
+       "day": "2023-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "METHOD",
+       "day": "2023-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "몽돌",
+       "day": "2023-10-13",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "Hwanho",
+       "day": "2023-10-13",
+       "stage": "",
+       "korean": true,
+       "name_risk": "필기체 로고를 읽은 것 — 확인 필요"
+      },
+      {
+       "name": "전인권밴드",
+       "day": "2023-10-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "daybreak",
+       "day": "2023-10-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이근형",
+       "day": "2023-10-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "기프트",
+       "day": "2023-10-14",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "NERD CONNECTION",
+       "day": "2023-10-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "SURL",
+       "day": "2023-10-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "카디",
+       "day": "2023-10-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "TOUCHED",
+       "day": "2023-10-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "사운드힐즈",
+       "day": "2023-10-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "더 픽스",
+       "day": "2023-10-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "원디비",
+       "day": "2023-10-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "SEMA",
+       "day": "2023-10-14",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름"
+      },
+      {
+       "name": "왓에버댓민즈",
+       "day": "2023-10-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "SHAUN",
+       "day": "2023-10-15",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름"
+      },
+      {
+       "name": "이무진",
+       "day": "2023-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "쏜애플",
+       "day": "2023-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "글렌체크",
+       "day": "2023-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "DØNGGU",
+       "day": "2023-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "레이지본",
+       "day": "2023-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "불고기디스코",
+       "day": "2023-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "SKIPJACK",
+       "day": "2023-10-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "CRACKSHOT",
+       "day": "2023-10-15",
+       "stage": "",
+       "korean": true
+      }
+     ],
+     "venue_text": "안산 와 스타디움 (경기도 안산시)"
+    },
+    "2024": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=87944376",
+     "days": [
+      "2024-10-12",
+      "2024-10-13"
+     ],
+     "official_total": 27,
+     "source_note": "공식 최종 라인업 포스터 — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "YB",
+       "day": "2024-10-12",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "노브레인",
+       "day": "2024-10-12",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "쏜애플",
+       "day": "2024-10-12",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ADOY",
+       "day": "2024-10-12",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "터치드",
+       "day": "2024-10-12",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "더픽스",
+       "day": "2024-10-12",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "원디비",
+       "day": "2024-10-12",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "왓에버댓민즈",
+       "day": "2024-10-12",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "심아일랜드",
+       "day": "2024-10-12",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "윤마치",
+       "day": "2024-10-12",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이상웅",
+       "day": "2024-10-12",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 사람 이름"
+      },
+      {
+       "name": "Can't be blue",
+       "day": "2024-10-12",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "향",
+       "day": "2024-10-12",
+       "stage": "",
+       "korean": true,
+       "name_risk": "한 글자 이름"
+      },
+      {
+       "name": "김수철",
+       "day": "2024-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크라잉넛",
+       "day": "2024-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "소란",
+       "day": "2024-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "V.O.B",
+       "day": "2024-10-13",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Vitalism",
+       "day": "2024-10-13",
+       "stage": "",
+       "korean": false,
+       "name_risk": "국적 확인 못 함 — 해외로 둠"
+      },
+      {
+       "name": "메써드",
+       "day": "2024-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크랙샷",
+       "day": "2024-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "카디",
+       "day": "2024-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "솔루션스",
+       "day": "2024-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "보수동쿨러",
+       "day": "2024-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "롤링쿼츠",
+       "day": "2024-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "코토바",
+       "day": "2024-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "신스네이크",
+       "day": "2024-10-13",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "악단광칠",
+       "day": "2024-10-13",
+       "stage": "",
+       "korean": true
+      }
+     ],
+     "venue_text": "임진각 평화누리공원 (경기도 파주시)"
+    },
+    "2025": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=166937461",
+     "days": [
+      "2025-09-20"
+     ],
+     "official_total": 23,
+     "source_note": "2차 라인업 포스터('And More…' — 최종 포스터 없음, 요일 구분 없음) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "에픽하이",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "김경호",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "자이언티",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "츈",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true,
+       "name_risk": "한 글자 이름"
+      },
+      {
+       "name": "비트펠라하우스",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "내귀에 도청장치",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "노브레인",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "로맨틱펀치",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이디오테잎",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "황가람",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "도쿄초기충동",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "KALA",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "슈퍼키드",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "범진",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름"
+      },
+      {
+       "name": "데카당",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "앤드오어",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "불고기디스코",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "더픽스",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "심아일랜드",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "캔트비블루",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "향",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true,
+       "name_risk": "한 글자 이름"
+      },
+      {
+       "name": "소소욘",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Nghich",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": false
+      }
+     ],
+     "venue_text": "화성특례시 (경기도 화성시)"
+    },
+    "2026": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=173480190",
+     "days": [
+      "2026-10-17"
+     ],
+     "official_total": 21,
+     "source_note": "공식 최종 라인업 포스터(요일 구분 없음 — 첫날로 둠) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "YB",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "넬",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "새소년",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크라잉넛",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "체리필터",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "김민규",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "내귀에도청장치",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "다다다",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "더 픽스",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "루아멜",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "윈디시티",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "중식이",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true,
+       "name_risk": "'중식이밴드'와 같은 팀일 수 있음"
+      },
+      {
+       "name": "캐치더영",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "키라라",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "테종",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true,
+       "name_risk": "표기 확인 필요"
+      },
+      {
+       "name": "3호선 버터플라이",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ASH DA HERO",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "can't be blue",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Heaven Brought Me Hell",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Juui Hatsu",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "매미",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      }
+     ],
+     "venue_text": "서호잔디광장 (경기도 수원시 팔달구)"
+    }
+   }
+  },
+  "zandari": {
+   "label": "잔다리페스타",
+   "venue_text": "홍대 일대 라이브클럽 (서울특별시 마포구)",
+   "editions": {
+    "2025": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=168084932",
+     "days": [
+      "2025-10-17",
+      "2025-10-18",
+      "2025-10-19"
+     ],
+     "official_total": 72,
+     "source_note": "공식 최종 라인업 포스터(KR 표시 팀만 국내) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "유희스카",
+       "day": "2025-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Hanggai",
+       "day": "2025-10-17",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Grandma's Ashes",
+       "day": "2025-10-17",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Maïcee",
+       "day": "2025-10-17",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Romane Santarelli",
+       "day": "2025-10-17",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "갤럭시익스프레스",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "교정",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "김바다",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "단편선순간들",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "데카당",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "삼산",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true,
+       "name_risk": "지명과 같음"
+      },
+      {
+       "name": "오이스터즈",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "오존",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "우륵과풍각쟁이들",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이디오테잎",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이승윤",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "재키",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름"
+      },
+      {
+       "name": "잭킹콩",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "차울",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름"
+      },
+      {
+       "name": "향우회",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "호아",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름"
+      },
+      {
+       "name": "baan",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Moher",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "PCR",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "AGGREGAT",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Annisya",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "BB Bomb",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Door Plant",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Erika Rein",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "GDJYB",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Good Morning Everyone",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "LAS PETUNIAS",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Liang-Chord",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "LIGHTERS",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "MAQUINA",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "NÄT VAZER",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "ODDLY",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Paige",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Venn",
+       "day": "2025-10-18",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "까데호",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "다브다",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "딕펑스",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "럼킥스",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "브로콜리너마저",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "블루터틀랜드",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "산보",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말"
+      },
+      {
+       "name": "안다영",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "앰비규어스댄스컴퍼니",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "유령서점",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이날치",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "잠비나이",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "추다혜차지스",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "키라라",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "파라솔 웨이브",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "팻햄스터",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "캉뉴",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Hollow Jan",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "THE GODOT",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "AlexAbril",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Ardhito Pramono",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "DrunkMonk",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Foley",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "H3F",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "HUSH",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "JPBS",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "MINH",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "mxrningstar",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Niko Niko Tan Tan",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Puppets",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Puts Marie",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "ROME IN REVERSE",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Violette Wautier",
+       "day": "2025-10-19",
+       "stage": "",
+       "korean": false
       }
      ]
     }

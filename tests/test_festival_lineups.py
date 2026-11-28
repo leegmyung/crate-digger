@@ -99,7 +99,35 @@ class CatalogTest(unittest.TestCase):
     def test_catalog_entries(self):
         rows = {r["name"]: r for r in fp.catalog_entries(self.CAT)}
         self.assertEqual(rows["그랜드민트페스티벌"]["festival"], "gmf")        # 라인업 페스티벌과 연결
-        self.assertIsNone(rows["잔다리페스타"]["festival"])                     # 날짜·장소만
+        self.assertEqual(rows["잔다리페스타"]["festival"], "zandari")            # 포스터로 라인업을 채운 페스티벌과 연결
         e = rows["잔다리페스타"]["editions"]["2024"]
         self.assertEqual(e, {"dates": ["2024-10-03", "2024-10-04"], "venue": "홍대 일대",
                              "url": "https://www.festivallife.kr/festival/?bmode=view&idx=2"})
+
+
+class PosterEditionsTest(unittest.TestCase):
+    """2026-11-28 공식 포스터(페스티벌라이프 글의 그림)를 읽어 채운 회차 — 국내 팀만, 근거 URL, 동명 위험 표시."""
+
+    EXPECT = {("gmf", "2022"), ("burock", "2022"), ("penta", "2021"), ("letsrock", "2026"), ("letsrock", "2025"),
+              ("soundplanet", "2026"), ("soundplanet", "2025"), ("gyeonggi_indie", "2026"), ("gyeonggi_indie", "2024"),
+              ("zandari", "2025")}
+
+    def test_poster_editions_present(self):
+        for fest, year in self.EXPECT:
+            with self.subTest(festival=fest, year=year):
+                e = CFG["festivals"][fest]["editions"][year]
+                self.assertIn("festivallife.kr", e["source_url"])
+                self.assertGreaterEqual(sum(a["korean"] for a in e["acts"]), 5)
+
+    def test_name_risk_flag_shape(self):
+        for fest, f in CFG["festivals"].items():
+            for year, e in f["editions"].items():
+                for a in e["acts"]:
+                    if "name_risk" in a:
+                        self.assertIsInstance(a["name_risk"], str)
+                        self.assertTrue(a["name_risk"].strip())
+
+    def test_new_festivals_on_page(self):
+        lineup_keys = {f.lineup for f in fp.FESTIVALS if f.lineup}
+        for k in ("letsrock", "soundplanet", "gyeonggi_indie", "zandari"):
+            self.assertIn(k, lineup_keys)

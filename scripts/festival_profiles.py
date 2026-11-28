@@ -64,6 +64,11 @@ FESTIVALS: Tuple[Festival, ...] = (
     Festival("penta_main", "인천 펜타포트 락 페스티벌", "lineup", "", (), ("penta_superrookie",), "penta"),
     Festival("gmf", "그랜드 민트 페스티벌", "lineup", "", lineup="gmf"),
     Festival("bml", "뷰티풀 민트 라이프", "lineup", "", lineup="bml"),
+    # 공식 포스터(페스티벌라이프 글의 그림)를 읽어 채운 페스티벌 (2026-11-28)
+    Festival("letsrock", "렛츠락 페스티벌", "lineup", "", lineup="letsrock"),
+    Festival("soundplanet", "사운드 플래닛 페스티벌", "lineup", "", lineup="soundplanet"),
+    Festival("gyeonggi_indie", "경기인디뮤직페스티벌", "lineup", "", lineup="gyeonggi_indie"),
+    Festival("zandari", "잔다리페스타", "lineup", "", lineup="zandari"),
 )
 LINEUPS = lab_sql.ROOT / "config" / "festival_lineups.json"
 XREF = lab_sql.ROOT / "data" / "raw" / "state" / "artist_xref.json"
@@ -140,7 +145,8 @@ def official_totals(lineups: Optional[dict], festivals: Sequence[Festival] = FES
 
 # 페스티벌라이프 목록 이름 → 라인업 페스티벌 키 (이름에 이 낱말이 들어 있으면 같은 페스티벌)
 CATALOG_MATCH = (("펜타포트", "penta_main"), ("부산국제록", "burock_main"), ("부산국제락", "burock_main"),
-                 ("그랜드민트", "gmf"), ("뷰티풀민트", "bml"), ("피스트레인", "dmz"), ("라이브클럽데이", "liveclubday"))
+                 ("그랜드민트", "gmf"), ("뷰티풀민트", "bml"), ("피스트레인", "dmz"), ("라이브클럽데이", "liveclubday"),
+                 ("렛츠락", "letsrock"), ("사운드플래닛", "soundplanet"), ("경기인디", "gyeonggi_indie"), ("잔다리", "zandari"))
 CATALOG = lab_sql.ROOT / "config" / "festival_catalog.json"
 
 
