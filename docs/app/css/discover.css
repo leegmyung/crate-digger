@@ -200,6 +200,13 @@
   font-weight: var(--weight-semi);
 }
 
+/* 숫자 칸은 내용 폭만(+여백) — 넓은 화면에서 남는 폭은 팀·근거 칸이 가져감 */
+.chart-table th.num,
+.chart-table td.num {
+  width: 1%;
+  padding-left: var(--space-5);
+}
+
 .chart-table .chart-why {
   color: var(--ink-muted);
   font-size: var(--text-xs);
@@ -473,4 +480,14 @@ table.data-table.is-density-comfortable {
 .cand-table td.why-cell {
   max-width: 0;
   min-width: 180px;
+}
+
+@media (max-width: 640px) {
+  /* 갓 데뷔 표 휴대폰 줄: 관심 ☆ · 비교 ⇄ 두 단추가 56px 칸을 넘지 않게 세로로 쌓음 */
+  .debut-table tbody tr.clickable > td:last-child {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
 }

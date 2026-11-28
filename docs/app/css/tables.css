@@ -26,9 +26,13 @@ table.data-table td {
   vertical-align: middle;
 }
 
-/* 표 칸의 height 는 '최소 높이'로 동작 — 사진·배지 유무로 줄 높이가 들쭉날쭉하지 않게 */
-table.data-table tbody td {
-  height: var(--row-h, 48px);
+/* 표 칸의 height 는 '최소 높이'로 동작 — 사진·배지 유무로 줄 높이가 들쭉날쭉하지 않게.
+   휴대폰(≤640px)에선 여러 표가 칸을 block·grid 로 바꾸는데, 그때 height 는 '고정 높이'가 되어
+   글자가 겹치므로 넓은 화면에서만 건다. */
+@media (min-width: 641px) {
+  table.data-table tbody td {
+    height: var(--row-h, 48px);
+  }
 }
 
 table.data-table th {
@@ -272,7 +276,6 @@ table.data-table td :is([class*="-pill"], [class*="-chip"], [class*="-badge"], .
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    height: auto;
     max-width: none;
     padding: 3px 0;
     border: 0;
