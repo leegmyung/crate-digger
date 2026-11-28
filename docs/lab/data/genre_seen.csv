@@ -13,6 +13,7 @@ team_key,genre,confidence,first_seen,first_seen_source,known_from,known_from_sou
 1day,힙합,profile,2026-11-26,release:melon,2026-11-24,release:melon,genre
 20,일렉트로닉,profile,2026-11-28,release:poclanos,2021-11-11,release:poclanos,genre
 215soundsystem,일렉트로닉,profile,2026-11-28,release:poclanos,2025-08-11,release:poclanos,genre
+21savage,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 24아워즈,록·밴드,profile,2026-11-28,release:poclanos,2020-08-31,release:poclanos,genre
 2dayellow,힙합,profile,2026-11-28,release:poclanos,2024-05-17,release:poclanos,genre
 2mc,힙합,press,2026-11-26,press:rhythmer,2026-10-27,press:rhythmer,genre
@@ -20,6 +21,7 @@ team_key,genre,confidence,first_seen,first_seen_source,known_from,known_from_sou
 2단지,일렉트로닉,profile,2026-11-28,release:poclanos,2025-05-24,release:poclanos,genre
 372,힙합,profile,2026-11-28,release:poclanos,2022-11-16,release:poclanos,genre
 45,록·밴드,profile,2026-11-28,release:poclanos,2021-09-10,release:poclanos,genre
+49몰핀즈,록·밴드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 4dam,힙합,profile,2026-11-28,release:poclanos,2020-09-18,release:poclanos,genre
 4shyrd,일렉트로닉,profile,2026-11-28,release:poclanos,2026-09-30,release:poclanos,genre
 4x6,일렉트로닉,profile,2026-11-28,release:poclanos,2021-04-13,release:poclanos,genre
@@ -42,6 +44,7 @@ aden,R&B·소울,profile,2026-11-26,release:flo,2026-11-26,release:flo,genre
 aeil,힙합,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 aepmah,일렉트로닉,profile,2026-11-28,release:poclanos,2020-08-19,release:poclanos,genre
 afterthoughts,일렉트로닉,profile,2026-11-26,release:flo,2026-11-26,release:flo,genre
+agclub,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 aggressivebutt,록·밴드,profile,2026-11-28,release:poclanos,2026-09-08,release:poclanos,genre
 ainblurr,힙합,profile,2026-11-28,release:poclanos,2021-11-05,release:poclanos,genre
 airair,힙합,profile,2026-11-28,release:poclanos,2023-11-21,release:poclanos,genre
@@ -86,6 +89,7 @@ baewonlee,록·밴드,profile,2026-11-28,release:poclanos,2021-01-19,release:poc
 bandbower,일렉트로닉,profile,2026-11-28,release:poclanos,2022-12-22,release:poclanos,genre
 bandits,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 barshy,일렉트로닉,profile,2026-11-28,release:poclanos,2024-06-24,release:poclanos,genre
+bartskils,일렉트로닉,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 bassagong,힙합,profile,2026-11-28,release:poclanos,2021-11-29,release:poclanos,genre
 bau,힙합,profile,2026-11-28,release:poclanos,2023-08-02,release:poclanos,genre
 beautifuldisco,힙합,profile,2026-11-28,release:poclanos,2020-04-20,release:poclanos,genre
@@ -111,8 +115,10 @@ bntz,R&B·소울,profile,2026-11-28,release:poclanos,2024-01-24,release:poclanos
 bobokee,록·밴드,profile,2026-11-28,release:poclanos,2026-06-15,release:poclanos,genre
 bojvck,힙합,profile,2026-11-28,release:poclanos,2024-11-28,release:poclanos,genre
 bon,R&B·소울,profile,2026-11-28,release:poclanos,2024-04-07,release:poclanos,genre
+bonobo,일렉트로닉,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 bonuspoints,힙합,profile,2026-11-28,release:poclanos,2021-04-15,release:poclanos,genre
 bookbookbalance,록·밴드,profile,2026-11-28,release:poclanos,2024-08-21,release:poclanos,genre
+bootsycollins,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 bower,록·밴드,profile,2026-11-28,release:poclanos,2025-08-04,release:poclanos,genre
 bowl,인디팝·발라드,profile,2026-11-28,release:poclanos,2022-04-21,release:poclanos,genre
 boynextyard,R&B·소울,profile,2026-11-28,release:poclanos,2022-07-15,release:poclanos,genre
@@ -121,6 +127,7 @@ brassmonkeys,재즈,profile,2026-11-28,release:poclanos,2020-07-24,release:pocla
 bri,인디팝·발라드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 brianshin,힙합,profile,2026-11-28,release:poclanos,2021-03-11,release:poclanos,genre
 brick,R&B·소울,profile,2026-11-26,profile:melon,2026-11-26,profile:melon,genre
+bright,실험·기타,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 brody,힙합,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 brokenteeth,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2022-08-02,release:poclanos,genre
 brostone,힙합,profile,2026-11-28,release:poclanos,2022-11-14,release:poclanos,genre
@@ -142,6 +149,7 @@ chiki,일렉트로닉,profile,2026-11-28,release:poclanos,2020-11-13,release:poc
 chilichill,R&B·소울,profile,2026-11-28,release:poclanos,2023-05-04,release:poclanos,genre
 chs,록·밴드,profile,2026-11-28,release:poclanos,2022-05-20,release:poclanos,genre
 cimona,R&B·소울,profile,2026-11-28,release:poclanos,2020-08-13,release:poclanos,genre
+citibeck,록·밴드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 cityalone,R&B·소울,profile,2026-11-28,release:poclanos,2020-03-24,release:poclanos,genre
 citygodok,록·밴드,profile,2026-11-28,release:poclanos,2024-01-15,release:poclanos,genre
 cjamm,힙합,press,2026-11-28,press:rhythmer,2022-03-22,press:rhythmer,genre
@@ -156,6 +164,7 @@ cokadood,힙합,profile,2026-11-28,release:poclanos,2022-10-03,release:poclanos,
 colddew,록·밴드,profile,2026-11-28,release:poclanos,2026-09-11,release:poclanos,genre
 coldgunchamber,록·밴드,profile,2026-11-28,release:poclanos,2023-10-23,release:poclanos,genre
 coldnight,R&B·소울,profile,2026-11-28,release:poclanos,2020-02-05,release:poclanos,genre
+commonground,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 coolain,힙합,profile,2026-11-28,release:poclanos,2020-12-17,release:poclanos,genre
 coos,R&B·소울,profile,2026-11-28,release:poclanos,2024-10-12,release:poclanos,genre
 corduroy,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2021-05-30,release:poclanos,genre
@@ -254,12 +263,14 @@ flashflooddarlings,일렉트로닉,profile,2026-11-28,release:poclanos,2026-07-1
 flask,힙합,profile,2026-11-28,release:poclanos,2025-10-09,release:poclanos,genre
 flatshop,힙합,profile,2026-11-28,release:poclanos,2021-05-27,release:poclanos,genre
 floatingmoments,일렉트로닉,profile,2026-11-28,release:poclanos,2020-04-01,release:poclanos,genre
+foley,인디팝·발라드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 fontanafolle,재즈,profile,2026-11-28,release:poclanos,2020-04-17,release:poclanos,genre
 formal,힙합,profile,2026-11-28,release:poclanos,2024-07-16,release:poclanos,genre
 fourgetmeanots,일렉트로닉,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 foxroom,R&B·소울,profile,2026-11-28,release:poclanos,2022-07-08,release:poclanos,genre
 foxyb34r,힙합,profile,2026-11-28,release:poclanos,2024-03-04,release:poclanos,genre
 franklyspeaking,힙합,profile,2026-11-28,release:poclanos,2023-11-15,release:poclanos,genre
+frankocean,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 fredcoste,일렉트로닉,profile,2026-11-28,release:poclanos,2020-07-23,release:poclanos,genre
 freddyboy,록·밴드,profile,2026-11-28,release:poclanos,2021-07-06,release:poclanos,genre
 fuckingmadness,재즈,profile,2026-11-28,release:poclanos,2020-05-23,release:poclanos,genre
@@ -348,6 +359,7 @@ illgot,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,gen
 ilys,R&B·소울,profile,2026-11-28,release:poclanos,2021-08-09,release:poclanos,genre
 imeanus,록·밴드,profile,2026-11-28,release:poclanos,2020-05-29,release:poclanos,genre
 imf,메탈·하드코어,profile,2026-11-28,release:poclanos,2026-06-19,release:poclanos,genre
+incense,일렉트로닉,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 ineffalucas,힙합,profile,2026-11-28,release:poclanos,2025-01-15,release:poclanos,genre
 innerlaw,일렉트로닉,profile,2026-11-28,release:poclanos,2020-10-26,release:poclanos,genre
 intersection,일렉트로닉,profile,2026-11-28,release:poclanos,2021-04-30,release:poclanos,genre
@@ -399,6 +411,7 @@ jjing,R&B·소울,profile,2026-11-28,release:poclanos,2021-02-23,release:poclano
 jjk,힙합,press,2026-11-28,press:rhythmer,2020-03-23,press:rhythmer,genre
 jnkfood,일렉트로닉,profile,2026-11-28,release:poclanos,2022-09-23,release:poclanos,genre
 jns,일렉트로닉,profile,2026-11-28,release:poclanos,2020-10-30,release:poclanos,genre
+jo0ji,록·밴드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 jockey,R&B·소울,profile,2026-11-28,release:poclanos,2025-11-17,release:poclanos,genre
 joelayne,힙합,profile,2026-11-28,release:poclanos,2021-04-03,release:poclanos,genre
 joepvanrhijn,재즈,profile,2026-11-28,release:poclanos,2024-11-12,release:poclanos,genre
@@ -418,6 +431,7 @@ jumin,힙합,profile,2026-11-28,release:poclanos,2024-09-17,release:poclanos,gen
 june53,R&B·소울,profile,2026-11-28,release:poclanos,2021-02-20,release:poclanos,genre
 junjo,일렉트로닉,profile,2026-11-28,release:poclanos,2020-04-06,release:poclanos,genre
 junooh,R&B·소울,profile,2026-11-28,release:poclanos,2023-02-05,release:poclanos,genre
+justice,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 justinforthis,힙합,profile,2026-11-28,release:poclanos,2026-11-03,release:poclanos,genre
 justins,힙합,profile,2026-11-28,release:poclanos,2022-09-01,release:poclanos,genre
 jvdemilez,힙합,profile,2026-11-28,release:poclanos,2021-03-18,release:poclanos,genre
@@ -426,6 +440,7 @@ kailorkyle,힙합,profile,2026-11-28,release:poclanos,2021-08-03,release:poclano
 kani,R&B·소울,profile,2026-11-28,release:poclanos,2025-01-20,release:poclanos,genre
 karima,인디팝·발라드,profile,2026-11-28,release:poclanos,2022-06-24,release:poclanos,genre
 kazumikaneda,힙합,profile,2026-11-26,release:poclanos,2026-11-23,release:poclanos,genre
+keanu,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 keiowada,R&B·소울,profile,2026-11-28,release:poclanos,2023-12-27,release:poclanos,genre
 kenichironishihara,힙합,profile,2026-11-28,release:poclanos,2022-01-26,release:poclanos,genre
 kennytheking,R&B·소울,profile,2026-11-28,release:poclanos,2020-04-06,release:poclanos,genre
@@ -438,6 +453,7 @@ kimdigo,일렉트로닉,profile,2026-11-28,release:poclanos,2024-06-21,release:p
 kirim,힙합,profile,2026-11-28,release:poclanos,2023-02-06,release:poclanos,genre
 kisscare,일렉트로닉,profile,2026-11-28,release:poclanos,2024-04-05,release:poclanos,genre
 kissonthekey,힙합,profile,2026-11-28,release:poclanos,2020-09-04,release:poclanos,genre
+knightmello,인디팝·발라드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 knowknow,힙합,profile,2026-11-28,release:poclanos,2023-03-07,release:poclanos,genre
 kobi,힙합,profile,2026-11-28,release:poclanos,2021-06-17,release:poclanos,genre
 kodigreen,힙합,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
@@ -550,6 +566,7 @@ moodfeel,R&B·소울,profile,2026-11-28,release:poclanos,2020-03-23,release:pocl
 moong,일렉트로닉,profile,2026-11-28,release:poclanos,2024-08-20,release:poclanos,genre
 moongoamerica,일렉트로닉,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 moonhaneul,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
+moonpli,록·밴드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 moonyirang,일렉트로닉,profile,2026-11-28,release:poclanos,2021-10-04,release:poclanos,genre
 more,힙합,profile,2026-11-28,release:poclanos,2024-04-02,release:poclanos,genre
 moreen,R&B·소울,profile,2026-11-28,release:poclanos,2024-10-31,release:poclanos,genre
@@ -584,6 +601,7 @@ needtopray,R&B·소울,profile,2026-11-28,release:poclanos,2022-02-04,release:po
 neko,R&B·소울,profile,2026-11-28,release:poclanos,2021-05-10,release:poclanos,genre
 nema,R&B·소울,profile,2026-11-28,release:poclanos,2021-10-06,release:poclanos,genre
 neochimera,일렉트로닉,profile,2026-11-28,release:poclanos,2024-10-16,release:poclanos,genre
+neonthekids,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 neontype,일렉트로닉,profile,2026-11-28,release:poclanos,2024-05-15,release:poclanos,genre
 neosoulacidjazzcollective,힙합,profile,2026-11-28,release:poclanos,2020-10-19,release:poclanos,genre
 neverandno,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
@@ -624,8 +642,10 @@ od,일렉트로닉,profile,2026-11-28,release:poclanos,2020-08-18,release:poclan
 oddeen,힙합,profile,2026-11-28,release:poclanos,2023-09-15,release:poclanos,genre
 odrhomp,힙합,profile,2026-11-28,release:poclanos,2026-09-18,release:poclanos,genre
 offcable,일렉트로닉,profile,2026-11-28,release:poclanos,2026-10-28,release:poclanos,genre
+offcourse,록·밴드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 offing,록·밴드,profile,2026-11-28,release:poclanos,2021-08-19,release:poclanos,genre
 offstore,힙합,profile,2026-11-28,release:poclanos,2020-10-05,release:poclanos,genre
+offthetown,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 ofrm,일렉트로닉,profile,2026-11-28,release:poclanos,2022-06-16,release:poclanos,genre
 ohashitrio,인디팝·발라드,profile,2026-11-28,release:poclanos,2020-12-14,release:poclanos,genre
 ohiorabbit,힙합,profile,2026-11-28,release:poclanos,2020-08-20,release:poclanos,genre
@@ -647,6 +667,7 @@ onthedal,R&B·소울,profile,2026-11-28,profile:melon,2025-08-18,release:poclano
 ontherug,재즈,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 onzu,힙합,profile,2026-11-26,release:melon,2026-11-25,release:melon,genre
 ooooot,일렉트로닉,profile,2026-11-28,release:poclanos,2022-05-31,release:poclanos,genre
+ooro,록·밴드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 option,R&B·소울,profile,2026-11-28,release:poclanos,2024-10-11,release:poclanos,genre
 orangeflavoredcigarettes,록·밴드,profile,2026-11-28,release:poclanos,2022-01-14,release:poclanos,genre
 orchid,록·밴드,profile,2026-11-28,release:poclanos,2024-04-09,release:poclanos,genre
@@ -654,6 +675,7 @@ ordnrycitizen,힙합,profile,2026-11-28,release:poclanos,2021-09-13,release:pocl
 originallove,R&B·소울,profile,2026-11-28,release:poclanos,2026-04-08,release:poclanos,genre
 orora,R&B·소울,profile,2026-11-28,release:poclanos,2025-12-09,release:poclanos,genre
 osnoma,일렉트로닉,profile,2026-11-26,release:bugs,2026-11-25,release:bugs,genre
+otb,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 ourtapes,록·밴드,profile,2026-11-28,release:poclanos,2023-03-30,release:poclanos,genre
 outofplace,록·밴드,profile,2026-11-28,release:poclanos,2024-09-03,release:poclanos,genre
 ovcoco,R&B·소울,profile,2026-11-28,release:poclanos,2020-01-14,release:poclanos,genre
@@ -665,6 +687,7 @@ paperriver,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2022-1
 paperup,힙합,profile,,,,,none
 par,힙합,profile,2026-11-28,release:poclanos,2022-09-19,release:poclanos,genre
 paridepignotti,재즈,profile,2026-11-28,release:poclanos,2024-08-12,release:poclanos,genre
+patten,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 pattymade,일렉트로닉,profile,2026-11-28,release:poclanos,2024-07-18,release:poclanos,genre
 patz,일렉트로닉,profile,2026-11-28,release:poclanos,2023-10-25,release:poclanos,genre
 paulkyte,R&B·소울,profile,2026-11-28,release:poclanos,2020-01-28,release:poclanos,genre
@@ -736,6 +759,7 @@ saga,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2023-12-28,r
 saib,힙합,profile,2026-11-28,release:poclanos,2022-07-29,release:poclanos,genre
 saie,일렉트로닉,profile,2026-11-28,release:poclanos,2021-11-12,release:poclanos,genre
 samanthagang,인디팝·발라드,profile,2026-11-28,release:poclanos,2023-08-11,release:poclanos,genre
+sammak,실험·기타,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 sammy,R&B·소울,profile,2026-11-26,release:bugs,2026-11-26,release:bugs,genre
 samoedo,록·밴드,profile,2026-11-28,release:poclanos,2022-05-06,release:poclanos,genre
 sandwichfail,록·밴드,profile,2026-11-28,release:poclanos,2023-05-30,release:poclanos,genre
@@ -772,9 +796,11 @@ signofelma,록·밴드,profile,2026-11-26,release:bugs,2026-11-26,release:bugs,g
 sillysilky,R&B·소울,profile,2026-11-28,release:poclanos,2022-10-22,release:poclanos,genre
 sinitustempo,힙합,profile,2026-11-28,release:poclanos,2021-11-16,release:poclanos,genre
 sipseonbee,힙합,profile,2026-11-28,release:poclanos,2023-04-14,release:poclanos,genre
+sixlounge,록·밴드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 skyblew,힙합,profile,2026-11-28,release:poclanos,2022-07-11,release:poclanos,genre
 slevin,힙합,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 slimdanny,힙합,profile,2026-11-28,release:poclanos,2020-02-28,release:poclanos,genre
+slowdance,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 slowwves,록·밴드,profile,2026-11-28,release:poclanos,2026-08-17,release:poclanos,genre
 smalltown,일렉트로닉,profile,2026-11-28,release:poclanos,2021-07-15,release:poclanos,genre
 snowk,R&B·소울,profile,2026-11-28,release:poclanos,2020-09-03,release:poclanos,genre
@@ -846,6 +872,7 @@ taati,일렉트로닉,profile,2026-11-28,release:poclanos,2021-01-08,release:poc
 taeone,R&B·소울,profile,2026-11-28,release:poclanos,2021-09-24,release:poclanos,genre
 tanakayuri,R&B·소울,profile,2026-11-28,release:poclanos,2024-08-30,release:poclanos,genre
 tashidelk,힙합,profile,2026-11-28,release:poclanos,2023-05-17,release:poclanos,genre
+tatemcrae,일렉트로닉,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 tayan,R&B·소울,profile,2026-11-28,profile:melon,2025-11-20,release:poclanos,genre
 tayy,힙합,profile,2026-11-28,release:poclanos,2020-08-03,release:poclanos,genre
 teampositivezero,재즈,profile,2026-11-28,release:poclanos,2020-11-10,release:poclanos,genre
@@ -870,7 +897,9 @@ theskajazzunit,재즈,profile,2026-11-28,release:poclanos,2026-03-25,release:poc
 thevolunteers,록·밴드,profile,2026-11-27,profile:melon,2021-05-27,release:poclanos,genre
 thevv,록·밴드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 thisisown,R&B·소울,profile,2026-11-28,release:poclanos,2021-09-06,release:poclanos,genre
+thomyorke,일렉트로닉,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 three1989,R&B·소울,profile,2026-11-28,release:poclanos,2020-03-31,release:poclanos,genre
+tinashe,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 tinoone,일렉트로닉,profile,2026-11-28,release:poclanos,2024-07-31,release:poclanos,genre
 tndr,R&B·소울,profile,2026-11-28,release:poclanos,2022-01-02,release:poclanos,genre
 tokyobutton,록·밴드,profile,2026-11-28,profile:melon,2026-10-02,release:poclanos,genre
@@ -904,6 +933,7 @@ vansion,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2026-08-1
 vardanovsepian,재즈,profile,2026-11-28,release:poclanos,2020-03-06,release:poclanos,genre
 variousartists,힙합,profile,2026-11-28,release:poclanos,2020-11-24,release:poclanos,genre
 vbellmago,재즈,profile,2026-11-28,release:poclanos,2021-08-03,release:poclanos,genre
+vector,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 velloon,R&B·소울,profile,2026-11-28,release:poclanos,2021-11-25,release:poclanos,genre
 velvetheroin,록·밴드,profile,2026-11-28,release:poclanos,2022-07-25,release:poclanos,genre
 verdantconves,록·밴드,profile,2026-11-27,release:bugs,2026-11-27,release:bugs,genre
@@ -958,6 +988,7 @@ yelloasis,R&B·소울,profile,2026-11-28,release:poclanos,2020-11-13,release:poc
 yellowism,일렉트로닉,profile,2026-11-28,release:poclanos,2021-07-21,release:poclanos,genre
 yellow黃宣,R&B·소울,profile,2026-11-28,release:poclanos,2023-05-24,release:poclanos,genre
 yenacoco,일렉트로닉,profile,2026-11-28,release:poclanos,2024-06-25,release:poclanos,genre
+yesjunior,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 yippee,R&B·소울,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 ynkmr,일렉트로닉,profile,2026-11-28,release:poclanos,2022-08-26,release:poclanos,genre
 yohlu,R&B·소울,profile,2026-11-28,release:poclanos,2025-02-26,release:poclanos,genre
@@ -1003,6 +1034,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 가리온,힙합,press,2026-11-26,press:rhythmer,2026-08-26,press:rhythmer,genre
 가브리엘,R&B·소울,profile,2026-11-28,release:poclanos,2020-05-04,release:poclanos,genre
 가오가이,힙합,profile,2026-11-28,release:poclanos,2022-05-12,release:poclanos,genre
+가을정원,포크·싱어송라이터,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 감귤서리단,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 갓오브유니버스,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 강,일렉트로닉,profile,2026-11-28,release:poclanos,2026-01-14,release:poclanos,genre
@@ -1014,6 +1046,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 강버터,R&B·소울,profile,2026-11-28,release:poclanos,2020-11-27,release:poclanos,genre
 강보람,인디팝·발라드,profile,2026-11-28,release:poclanos,2021-08-25,release:poclanos,genre
 강산에,록·밴드,profile,2026-11-26,profile:melon,2026-11-26,profile:melon,genre
+강성희,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 강수인,R&B·소울,profile,2026-11-28,release:poclanos,2020-06-03,release:poclanos,genre
 강아솔,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2020-04-19,release:poclanos,genre
 강연주,일렉트로닉,profile,2026-11-28,release:poclanos,2022-04-29,release:poclanos,genre
@@ -1042,6 +1075,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 고래와정민,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2020-03-06,release:poclanos,genre
 고스턴,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 고스트클럽,힙합,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
+고영열,실험·기타,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 고요,힙합,profile,2026-11-28,release:poclanos,2020-12-07,release:poclanos,genre
 고즈넉,록·밴드,profile,2026-11-28,release:poclanos,2022-09-26,release:poclanos,genre
 고호,R&B·소울,profile,2026-11-28,release:poclanos,2021-04-08,release:poclanos,genre
@@ -1097,6 +1131,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 기억,록·밴드,profile,2026-11-28,release:poclanos,2020-01-13,release:poclanos,genre
 기쿠하시,록·밴드,profile,2026-11-27,profile:melon,2025-07-30,release:poclanos,genre
 기프트,일렉트로닉,profile,2026-11-28,release:poclanos,2025-10-04,release:poclanos,genre
+길찬호,포크·싱어송라이터,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 김강빈,재즈,profile,2026-11-28,release:poclanos,2023-10-16,release:poclanos,genre
 김나은,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2023-01-10,release:poclanos,genre
 김늑,R&B·소울,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
@@ -1143,6 +1178,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 김예찬,재즈,profile,2026-11-28,release:poclanos,2026-11-14,release:poclanos,genre
 김오키,힙합,profile,2026-11-28,release:poclanos,2020-01-10,release:poclanos,genre
 김오키새턴발라드,재즈,profile,2026-11-28,release:poclanos,2020-05-04,release:poclanos,genre
+김유정,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 김유진,R&B·소울,profile,2026-11-28,release:poclanos,2024-10-02,release:poclanos,genre
 김윤주,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2023-02-28,release:poclanos,genre
 김의엽,포크·싱어송라이터,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
@@ -1153,6 +1189,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 김전기,R&B·소울,profile,2026-11-28,release:poclanos,2023-03-12,release:poclanos,genre
 김정훈,록·밴드,press,2026-11-26,press:band_discovery,2024-05-22,press:band_discovery,genre
 김제형,인디팝·발라드,profile,2026-11-28,release:poclanos,2026-05-03,release:poclanos,genre
+김종진,포크·싱어송라이터,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 김주안,R&B·소울,profile,2026-11-28,release:poclanos,2024-09-26,release:poclanos,genre
 김주연,인디팝·발라드,profile,2026-11-28,release:poclanos,2026-10-01,release:poclanos,genre
 김준서,힙합,profile,2026-11-28,release:poclanos,2022-11-24,release:poclanos,genre
@@ -1216,6 +1253,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 넉살,힙합,press,2026-11-28,press:rhythmer,2020-10-12,press:rhythmer,genre
 넉살x까데호,힙합,press,2026-11-28,press:rhythmer,2022-08-25,press:rhythmer,genre
 넋업샨,힙합,profile,2026-11-28,release:poclanos,2023-04-10,release:poclanos,genre
+네미시스,록·밴드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 네버마인드,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 네스티요나,록·밴드,profile,2026-11-26,release:bugs,2026-11-25,release:bugs,genre
 네시,일렉트로닉,profile,2026-11-28,release:poclanos,2020-11-06,release:poclanos,genre
@@ -1248,8 +1286,10 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 다명,R&B·소울,profile,2026-11-28,release:poclanos,2025-12-01,release:poclanos,genre
 다민이,힙합,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 다브다,록·밴드,profile,2026-11-26,release:bugs,2020-05-19,release:poclanos,genre
+다비치,인디팝·발라드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 다섯,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 다양성,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
+다우비밴드,포크·싱어송라이터,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 다이나믹듀오,힙합,press,2026-11-26,press:rhythmer,2020-01-06,press:rhythmer,genre
 다정,R&B·소울,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 닥스후드,힙합,press,2026-11-26,press:rhythmer,2026-11-10,press:rhythmer,genre
@@ -1259,6 +1299,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 달과밤그리고별들,록·밴드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 달담,포크·싱어송라이터,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 달란트,일렉트로닉,profile,2026-11-28,release:poclanos,2022-12-07,release:poclanos,genre
+달싸비,포크·싱어송라이터,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 달위의콜린스,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2025-01-10,release:poclanos,genre
 달트,R&B·소울,profile,2026-11-28,release:poclanos,2020-03-12,release:poclanos,genre
 담담,록·밴드,profile,2026-11-27,profile:melon,2025-04-22,release:poclanos,genre
@@ -1279,7 +1320,9 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 더튜나스,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 더티슈,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 더픽스,R&B·소울,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
+더헤르츠,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 더히든엘리펀트,록·밴드,profile,2026-11-27,release:bugs,2026-11-27,release:bugs,genre
+덕,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 덕호씨,힙합,profile,2026-11-28,release:poclanos,2020-01-08,release:poclanos,genre
 던말릭,힙합,press,2026-11-28,press:rhythmer,2020-03-13,press:rhythmer,genre
 던밀스,힙합,press,2026-11-26,press:rhythmer,2021-03-29,press:rhythmer,genre
@@ -1319,6 +1362,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 두억시니,록·밴드,profile,2026-11-27,profile:melon,2020-02-21,release:poclanos,genre
 둘기,인디팝·발라드,profile,2026-11-28,release:poclanos,2020-11-27,release:poclanos,genre
 둘라밤,록·밴드,profile,2026-11-28,release:poclanos,2024-03-26,release:poclanos,genre
+듀스,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 드레스,힙합,profile,2026-11-28,release:poclanos,2026-06-03,release:poclanos,genre
 드링킹소년소녀합창단,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 드웨인,일렉트로닉,profile,2026-11-28,release:poclanos,2022-12-20,release:poclanos,genre
@@ -1439,6 +1483,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 맥거핀,포크·싱어송라이터,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 맥대디,힙합,profile,2026-11-28,release:poclanos,2026-10-12,release:poclanos,genre
 맨앤뎀,록·밴드,profile,2026-11-28,release:poclanos,2025-03-17,release:poclanos,genre
+맹건호,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 맹서령,재즈,profile,2026-11-28,release:poclanos,2020-01-23,release:poclanos,genre
 머무르,록·밴드,profile,2026-11-26,release:bugs,2026-11-26,release:bugs,genre
 머쉬베놈,힙합,press,2026-11-26,press:rhythmer,2025-09-12,press:rhythmer,genre
@@ -1491,6 +1536,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 미란이,힙합,profile,2026-11-28,release:poclanos,2020-10-15,release:poclanos,genre
 미래로,록·밴드,profile,2026-11-28,release:poclanos,2025-07-24,release:poclanos,genre
 미로,힙합,profile,2026-11-28,release:poclanos,2025-08-22,release:poclanos,genre
+미루,포크·싱어송라이터,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 미르스타,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 미역수염,메탈·하드코어,profile,2026-11-27,override,2026-11-27,override,genre
 미즈이로,록·밴드,profile,2026-11-26,release:bugs,2026-11-26,release:bugs,genre
@@ -1550,6 +1596,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 박한,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2024-03-06,release:poclanos,genre
 박한빈,재즈,profile,2026-11-28,release:poclanos,2022-05-31,release:poclanos,genre
 박현서,R&B·소울,profile,2026-11-28,release:poclanos,2023-11-23,release:poclanos,genre
+박효신,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 반고흐,힙합,profile,2026-11-28,release:poclanos,2020-11-05,release:poclanos,genre
 반광옥,인디팝·발라드,profile,2026-11-28,release:poclanos,2023-11-21,release:poclanos,genre
 반말,포크·싱어송라이터,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
@@ -1564,6 +1611,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 방방프로젝트,록·밴드,profile,2026-11-28,release:poclanos,2020-03-16,release:poclanos,genre
 방연지,인디팝·발라드,profile,2026-11-28,release:poclanos,2023-02-10,release:poclanos,genre
 배가영,재즈,profile,2026-11-28,release:poclanos,2020-07-17,release:poclanos,genre
+배디,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 배인혁,포크·싱어송라이터,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 배현이,힙합,profile,2026-11-28,release:poclanos,2021-06-22,release:poclanos,genre
 배현이와옥빛마을,힙합,profile,2026-11-28,release:poclanos,2025-08-27,release:poclanos,genre
@@ -1602,6 +1650,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 베이빌론,힙합,press,2026-11-28,press:rhythmer,2022-08-05,press:rhythmer,genre
 베카,인디팝·발라드,profile,2026-11-26,release:flo,2026-11-24,release:flo,genre
 베티애스,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
+별은,록·밴드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 보람,인디팝·발라드,profile,2026-11-28,release:poclanos,2020-12-01,release:poclanos,genre
 보리,포크·싱어송라이터,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 보수동쿨러,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2023-03-31,release:poclanos,genre
@@ -1616,6 +1665,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 뷰렛,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 브라이언신,일렉트로닉,profile,2026-11-28,release:poclanos,2024-09-30,release:poclanos,genre
 브라이언신앤더스윙메이커스,재즈,profile,2026-11-28,release:poclanos,2023-06-05,release:poclanos,genre
+브랜뉴걸,일렉트로닉,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 브로산디,록·밴드,profile,2026-11-28,release:poclanos,2021-08-25,release:poclanos,genre
 브로콜리너마저,록·밴드,profile,2026-11-26,profile:melon,2026-11-26,profile:melon,genre
 브로큰발렌타인,록·밴드,profile,2026-11-26,profile:melon,2026-11-26,profile:melon,genre
@@ -1642,6 +1692,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 빅나티,힙합,press,2026-11-28,press:rhythmer,2021-03-12,press:rhythmer,genre
 빅뱅진,포크·싱어송라이터,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 빅이슈프로젝트,힙합,profile,2026-11-28,release:poclanos,2021-08-18,release:poclanos,genre
+빈나리,인디팝·발라드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 빈스,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2021-06-28,release:poclanos,genre
 빈스프라우트,포크·싱어송라이터,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 빈지노,힙합,press,2026-11-26,press:rhythmer,2023-07-12,press:rhythmer,genre
@@ -1656,6 +1707,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 사막꽃,R&B·소울,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 사모키요타,힙합,profile,2026-11-28,profile:melon,2021-10-04,release:poclanos,genre
 사뮈,포크·싱어송라이터,profile,2026-11-26,profile:melon,2023-10-19,release:poclanos,genre
+사바하,일렉트로닉,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 사비나앤드론즈,일렉트로닉,profile,2026-11-28,release:poclanos,2024-03-30,release:poclanos,genre
 사색,힙합,press,2026-11-28,press:rhythmer,2022-06-11,press:rhythmer,genre
 사스콰치,힙합,profile,2026-11-28,release:poclanos,2023-01-30,release:poclanos,genre
@@ -1696,6 +1748,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 서사무엘,R&B·소울,profile,2026-11-28,release:poclanos,2020-03-11,release:poclanos,genre
 서스픽스,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 서양미술사,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2021-08-31,release:poclanos,genre
+서연,인디팝·발라드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 서울매직클럽,일렉트로닉,profile,2026-11-28,release:poclanos,2023-10-12,release:poclanos,genre
 서울문,록·밴드,profile,2026-11-28,release:poclanos,2020-05-28,release:poclanos,genre
 서울부인,R&B·소울,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
@@ -1766,6 +1819,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 송소희,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2026-10-14,release:poclanos,genre
 송시현,포크·싱어송라이터,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 송은지,일렉트로닉,profile,2026-11-28,release:poclanos,2022-10-11,release:poclanos,genre
+송장벌레,록·밴드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 송재원,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2024-08-13,release:poclanos,genre
 송하늘,록·밴드,profile,2026-11-28,release:poclanos,2020-12-01,release:poclanos,genre
 수다쟁이,힙합,profile,2026-11-28,release:poclanos,2020-01-29,release:poclanos,genre
@@ -1889,6 +1943,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 아월,R&B·소울,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 아이,힙합,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 아이노이즈,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
+아이반,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 아이엠써머,일렉트로닉,profile,2026-11-28,release:poclanos,2025-07-25,release:poclanos,genre
 아이우에오,록·밴드,profile,2026-11-28,profile:melon,2026-10-01,release:poclanos,genre
 아이트,일렉트로닉,profile,2026-11-28,release:poclanos,2020-12-08,release:poclanos,genre
@@ -2109,6 +2164,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 윤마치,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 윤병주,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 윤새,일렉트로닉,profile,2026-11-26,profile:melon,2026-11-26,profile:melon,genre
+윤석철트리오,재즈,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 윤소라,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2025-09-14,release:poclanos,genre
 윤소희,포크·싱어송라이터,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 윤숭,R&B·소울,profile,2026-11-28,release:poclanos,2023-07-14,release:poclanos,genre
@@ -2233,11 +2289,13 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 임세모,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2020-09-29,release:poclanos,genre
 임윤경,록·밴드,profile,2026-11-28,release:poclanos,2023-12-13,release:poclanos,genre
 임정찬,포크·싱어송라이터,profile,2026-11-27,release:bugs,2026-11-27,release:bugs,genre
+임지원,포크·싱어송라이터,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 임태웅,재즈,profile,2026-11-28,release:poclanos,2023-12-19,release:poclanos,genre
 임헌일,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2021-06-11,release:poclanos,genre
 임호연,재즈,profile,2026-11-28,release:poclanos,2020-12-10,release:poclanos,genre
 있다itta,일렉트로닉,profile,2026-11-28,release:poclanos,2024-03-20,release:poclanos,genre
 잎샘,R&B·소울,profile,2026-11-28,release:poclanos,2022-02-23,release:poclanos,genre
+자연,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 자이언티,힙합,press,2026-11-26,press:rhythmer,2024-01-25,press:rhythmer,genre
 자이온,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2020-10-06,release:poclanos,genre
 잔나비,록·밴드,profile,2026-11-26,profile:melon,2026-11-26,profile:melon,genre
@@ -2263,6 +2321,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 재달,힙합,press,2026-11-26,press:rhythmer,2021-01-11,press:rhythmer,genre
 재림,힙합,press,2026-11-26,press:rhythmer,2026-10-02,press:rhythmer,genre
 재림선진,힙합,press,2026-11-26,press:rhythmer,2025-06-16,press:rhythmer,genre
+재윤,록·밴드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 재주소년,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2020-04-27,release:poclanos,genre
 재주소년소녀,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2021-12-17,release:poclanos,genre
 재키와이방달,힙합,press,2026-11-26,press:rhythmer,2025-08-13,press:rhythmer,genre
@@ -2296,6 +2355,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 정근솔,R&B·소울,profile,2026-11-28,release:poclanos,2020-09-10,release:poclanos,genre
 정글줄리,록·밴드,press,2026-11-26,press:band_discovery,2018-05-31,press:band_discovery,genre
 정기가,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2024-04-15,release:poclanos,genre
+정다운밴드,록·밴드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 정물결,록·밴드,profile,2026-11-28,release:poclanos,2021-02-01,release:poclanos,genre
 정민지,일렉트로닉,profile,2026-11-28,release:poclanos,2024-12-11,release:poclanos,genre
 정밀아,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2020-10-22,release:poclanos,genre
@@ -2351,6 +2411,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 조종근,재즈,profile,2026-11-28,release:poclanos,2024-09-13,release:poclanos,genre
 조하,R&B·소울,profile,2026-11-28,release:poclanos,2025-01-22,release:poclanos,genre
 조해인,R&B·소울,profile,2026-11-28,release:poclanos,2024-05-21,release:poclanos,genre
+조현,일렉트로닉,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 조형우,R&B·소울,profile,2026-11-28,release:poclanos,2020-09-20,release:poclanos,genre
 존그레이,일렉트로닉,profile,2026-11-28,release:poclanos,2025-04-16,release:poclanos,genre
 존오버,힙합,profile,2026-11-28,release:poclanos,2025-08-17,release:poclanos,genre
@@ -2412,6 +2473,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 청요일,포크·싱어송라이터,profile,2026-11-26,profile:melon,2026-11-26,profile:melon,genre
 체감,재즈,profile,2026-11-26,release:poclanos,2026-02-27,release:poclanos,genre
 체리콕,힙합,press,2026-11-28,press:rhythmer,2020-09-24,press:rhythmer,genre
+체이스,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 체인리액션,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 초록불꽃소년단,록·밴드,profile,2026-11-28,profile:melon,2022-09-23,release:poclanos,genre
 초록섬,재즈,profile,2026-11-28,release:poclanos,2026-09-07,release:poclanos,genre
@@ -2437,12 +2499,14 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 최지원,일렉트로닉,profile,2026-11-28,release:poclanos,2025-05-05,release:poclanos,genre
 최창순,R&B·소울,profile,2026-11-28,release:poclanos,2020-07-09,release:poclanos,genre
 최첨단맨,일렉트로닉,profile,2026-11-28,release:poclanos,2020-07-28,release:poclanos,genre
+최하트,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 최희영,재즈,profile,2026-11-28,release:poclanos,2020-12-18,release:poclanos,genre
 최희재,포크·싱어송라이터,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 추다혜,R&B·소울,profile,2026-11-28,release:poclanos,2020-07-30,release:poclanos,genre
 추다혜차지스,힙합,profile,2026-11-27,profile:melon,2025-06-13,release:poclanos,genre
 출판사무제,인디팝·발라드,profile,2026-11-28,profile:melon,2026-11-17,release:poclanos,genre
 취향상점,포크·싱어송라이터,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
+츄,인디팝·발라드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 치스비치,인디팝·발라드,profile,2026-11-28,release:poclanos,2020-07-14,release:poclanos,genre
 치인,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 칠리,일렉트로닉,profile,2026-11-28,release:poclanos,2020-08-09,release:poclanos,genre
@@ -2461,6 +2525,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 캐주얼리커넥티드,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 캐치더영,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 캔트비블루,R&B·소울,profile,2026-11-26,profile:melon,2026-11-26,profile:melon,genre
+캡틴락,록·밴드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 캣츠파다,힙합,profile,2026-11-28,release:poclanos,2023-09-04,release:poclanos,genre
 커서,R&B·소울,profile,2026-11-28,release:poclanos,2020-08-25,release:poclanos,genre
 컨트리공방,록·밴드,press,2026-11-26,press:band_discovery,2014-08-08,press:band_discovery,genre
@@ -2473,6 +2538,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 코드쿤스트,힙합,press,2026-11-26,press:rhythmer,2020-04-22,press:rhythmer,genre
 코드포,R&B·소울,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 코리아,일렉트로닉,profile,2026-11-28,release:poclanos,2020-09-11,release:poclanos,genre
+코커,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 코토바,록·밴드,press,2026-11-26,press:band_discovery,2021-09-30,press:band_discovery,genre
 코튼팩토리,인디팝·발라드,profile,2026-11-28,release:poclanos,2020-10-08,release:poclanos,genre
 콘다,힙합,profile,2026-11-28,release:poclanos,2026-03-06,release:poclanos,genre
@@ -2497,6 +2563,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 크리스피,포크·싱어송라이터,profile,2026-11-26,profile:melon,2023-05-17,release:poclanos,genre
 크림빌라,록·밴드,press,2026-11-26,press:band_discovery,2016-08-17,press:band_discovery,genre
 클라프,록·밴드,profile,2026-11-27,override,2026-11-27,override,genre
+클로즈유어아이즈,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 클리언,힙합,profile,2026-11-28,release:poclanos,2021-07-21,release:poclanos,genre
 키드밀리,힙합,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 키드밀리드레스,힙합,press,2026-11-28,press:rhythmer,2021-05-13,press:rhythmer,genre
@@ -2530,6 +2597,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 투데이올드스니커즈,록·밴드,profile,2026-11-26,profile:melon,2026-04-30,release:poclanos,genre
 투어스,힙합,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 투지,힙합,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
+트레이드엘,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 트리스,록·밴드,press,2026-11-26,press:band_discovery,2017-04-12,press:band_discovery,genre
 트웰브,힙합,press,2026-11-28,press:rhythmer,2020-08-21,press:rhythmer,genre
 티어드랍,메탈·하드코어,profile,2026-11-27,override,2026-11-27,override,genre
@@ -2544,6 +2612,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 팔칠댄스,힙합,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
 패럿신드롬,록·밴드,profile,2026-11-28,release:poclanos,2025-02-26,release:poclanos,genre
 팬텀루나틱스,록·밴드,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
+퍼플레이디블루스,포크·싱어송라이터,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 퍼플웨일,일렉트로닉,profile,2026-11-28,release:poclanos,2022-09-26,release:poclanos,genre
 페이스투웨이즈,록·밴드,profile,2026-11-28,release:poclanos,2024-11-16,release:poclanos,genre
 페이퍼라이프,포크·싱어송라이터,profile,2026-11-27,profile:melon,2026-11-27,profile:melon,genre
@@ -2566,6 +2635,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 프레드,힙합,profile,2026-11-28,release:poclanos,2020-01-23,release:poclanos,genre
 프레디카소,힙합,profile,2026-11-28,release:poclanos,2022-07-05,release:poclanos,genre
 프레디카소디젤,힙합,press,2026-11-28,press:rhythmer,2022-07-15,press:rhythmer,genre
+프로미스나인,인디팝·발라드,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 프로젝트지학,인디팝·발라드,profile,2026-11-28,release:poclanos,2024-07-06,release:poclanos,genre
 프로히,R&B·소울,profile,2026-11-28,release:poclanos,2021-01-04,release:poclanos,genre
 프롬올투휴먼,록·밴드,press,2026-11-26,press:band_discovery,2019-05-14,press:band_discovery,genre
@@ -2643,6 +2713,7 @@ zzopp,힙합,profile,2026-11-28,release:poclanos,2025-03-28,release:poclanos,gen
 허재혁,R&B·소울,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 허찬조,힙합,profile,2026-11-28,release:poclanos,2023-05-16,release:poclanos,genre
 허챈,R&B·소울,profile,2026-11-28,release:poclanos,2020-11-08,release:poclanos,genre
+허클베리피,힙합,profile,2026-11-28,profile:melon,2026-11-28,profile:melon,genre
 헤르쯔아날로그,R&B·소울,profile,2026-11-28,release:poclanos,2022-09-16,release:poclanos,genre
 헤메코초초,일렉트로닉,profile,2026-11-28,release:poclanos,2020-03-13,release:poclanos,genre
 헤이즈문,포크·싱어송라이터,profile,2026-11-28,release:poclanos,2020-04-08,release:poclanos,genre

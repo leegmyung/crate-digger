@@ -112,7 +112,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 가온,가온(바투),2022-01-08,,,,unknown,,,first_seen,
 가을,가을,2022-09-26,,,,unknown,록·밴드,,first_seen,inferred_low
 가을방학,가을방학,2018-06-16,,,,unknown,포크·싱어송라이터,,first_seen,inferred
-가을정원,가을정원,2021-06-05,,,,unknown,,,first_seen,
+가을정원,가을정원,2021-06-05,2019-08-01,52,7,established,포크·싱어송라이터,,verified,profile
 가이즈,가이즈,2024-03-30,,,,unknown,록·밴드,,first_seen,inferred
 가자미소년단,가자미소년단,2018-11-18,,,,unknown,,,first_seen,
 가재발,가재발,2023-08-28,,,,unknown,일렉트로닉,,first_seen,review
@@ -163,7 +163,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 강석범,강석범,1991-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 강선아재즈밴드,강선아 재즈밴드,2026-11-13,,,,unknown,,,first_seen,
 강성,강성(바투),2021-12-09,,,,unknown,,,first_seen,
-강성희,강성희,2021-10-04,,,,unknown,포크·싱어송라이터,,first_seen,review
+강성희,강성희,2021-10-04,2018-05-31,379,19,established,R&B·소울,,verified,profile
 강소연,강소연,2025-11-02,,,,unknown,인디팝·발라드,,first_seen,inferred_low
 강수민,강수민,2021-04-15,,,,unknown,,,first_seen,
 강수인,강수인,2020-06-03,,,,unknown,R&B·소울,,first_seen,profile
@@ -300,7 +300,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 고쓰롭,고쓰롭,2025-05-16,,,,unknown,,,first_seen,
 고쓰온더비치,고쓰온더비치,2024-03-09,,,,unknown,록·밴드,,first_seen,inferred_low
 고야,고야,2022-10-11,,,,unknown,힙합·R&B,,first_seen,inferred
-고영열,고영열,2022-06-01,,,,unknown,실험·기타,,first_seen,review
+고영열,고영열,2022-06-01,2017-05-17,1446,41,famous,실험·기타,,verified,profile
 고요,고요,2020-08-11,2018-01-16,3103,30,famous,힙합,,verified,profile
 고요비눗방울우주,고요비눗방울우주,2025-03-01,,,,unknown,,,first_seen,
 고요이,고요이,2026-05-15,,,,unknown,록·밴드,,first_seen,inferred
@@ -325,18 +325,18 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 고희안하와이트리오,고희안하와이트리오,2024-01-02,,,,unknown,재즈,,first_seen,review
 고히,고히,2025-03-08,2019-09-18,1297,20,famous,록·밴드,,verified,profile
 곡두,곡두,2022-09-24,,,,unknown,,,first_seen,
-곤잘레스,곤잘레스,2026-08-30,,,,unknown,록·밴드,,first_seen,inferred
-골드부다,골드부다,2020-05-01,,,,unknown,힙합·R&B,,first_seen,inferred
+곤잘레스,곤잘레스,2026-08-30,,,,unknown,,,first_seen,
+골드부다,골드부다,2020-05-01,,,,unknown,힙합,,first_seen,inferred
 골든,골든,2020-09-14,,,,unknown,힙합,,first_seen,review
 골든도넛,골든도넛,2026-09-19,2022-04-02,148,5,established,록·밴드,,verified,inferred
 골든스윙밴드,골든 스윙 밴드,2021-08-23,,,,unknown,재즈,,first_seen,review
 골든차일드,골든차일드,2020-07-06,,,,unknown,인디팝·발라드,,first_seen,review
 골든코리아비보이,골든코리아비보이,2022-08-05,,,,unknown,,,first_seen,
 골방레이디,골방레이디,2026-09-01,,,,unknown,,,first_seen,
-곰돌,곰돌,2021-04-22,,,,unknown,,,first_seen,
+곰돌,곰돌,2021-04-22,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 곰사장,곰사장,2019-11-16,,,,unknown,R&B·소울,,first_seen,inferred_low
 곰치,곰치,2025-11-07,,,,unknown,록·밴드,,first_seen,inferred
-곱창,곱창,2025-11-22,,,,unknown,록·밴드,,first_seen,inferred
+곱창,곱창,2025-11-22,,,,unknown,,,first_seen,
 곱창전골,곱창전골,2023-08-30,,,,unknown,,,first_seen,
 공,공,2020-05-11,2025-01-30,0,4,newcomer,힙합,,verified,profile
 공간현대,공간현대,2026-09-30,,,,unknown,,,first_seen,
@@ -383,13 +383,13 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 곽태풍,곽태풍,2022-02-12,2021-06-25,0,22,established,R&B·소울,,verified,profile
 곽푸른하늘,곽푸른하늘,2021-12-11,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 곽호일,곽호일,1991-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
-괄,괄,2026-05-31,,,,unknown,록·밴드,,first_seen,inferred
+괄,괄,2026-05-31,,,,unknown,인디팝·발라드,,first_seen,inferred_low
 광야,광야,2026-01-31,,,,unknown,,,first_seen,
 광요,광요,2021-06-11,,,,unknown,힙합·R&B,,first_seen,inferred
 괜찮아요,괜찮아요,2022-02-20,,,,unknown,,,first_seen,
 괴뢰고무반도체,괴뢰고무반도체,2023-12-21,,,,unknown,록·밴드,,first_seen,inferred
 교교,교교,2022-08-24,,,,unknown,인디팝·발라드,,first_seen,inferred_low
-교란,교란,2022-10-29,,,,unknown,록·밴드,,first_seen,inferred
+교란,교란,2022-10-29,,,,unknown,일렉트로닉,,first_seen,inferred_low
 교정,교정,2018-12-18,2018-12-18,0,16,established,록·밴드,,verified,profile
 굥많이,굥많이,2021-08-26,,,,unknown,,,first_seen,
 구,구,2026-03-22,,,,unknown,,,first_seen,
@@ -531,7 +531,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 극렬,극렬,2021-03-12,,,,unknown,록·밴드,,first_seen,inferred
 극야,극야,2024-08-26,,,,unknown,록·밴드,,first_seen,review
 근처,근처,2023-04-16,,,,unknown,,,first_seen,
-글라이드,글라이드,2026-09-10,,,,unknown,록·밴드,,first_seen,inferred
+글라이드,글라이드,2026-09-10,,,,unknown,,,first_seen,
 글래스캣,글래스캣,2020-08-10,,,,unknown,일렉트로닉,,first_seen,profile
 글렌,글렌,2021-08-01,,,,unknown,,,first_seen,
 글렌체크,글렌체크,2021-09-01,,,,unknown,R&B·소울,,first_seen,review
@@ -579,7 +579,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 길선민,길선민,2022-05-26,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 길영,길 영,2026-04-13,,,,unknown,록·밴드,,first_seen,inferred_low
 길인,길인,2023-09-09,,,,unknown,,,first_seen,
-길찬호,길찬호,2025-09-08,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
+길찬호,길찬호,2025-09-08,2019-04-23,31,8,established,포크·싱어송라이터,,verified,profile
 길치들,길치들,2025-02-12,,,,unknown,록·밴드,,first_seen,review
 김가빈,김가빈,2024-04-12,,,,unknown,,,first_seen,
 김가연,김가연,2022-04-01,,,,unknown,록·밴드,,first_seen,inferred_low
@@ -734,7 +734,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 김새얀,김새얀,2024-03-15,,,,unknown,,,first_seen,
 김서로,김서로,2022-08-13,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 김서영,김서영,2026-07-29,,,,unknown,록·밴드,,first_seen,inferred_low
-김서원,김서원,2026-02-16,,,,unknown,,,first_seen,
+김서원,김서원,2026-02-16,2025-07-19,13,1,newcomer,,,verified,
 김서현,김서현,2023-08-24,,,,unknown,R&B·소울,,first_seen,inferred
 김서희,김서희,2021-06-21,,,,unknown,,,first_seen,
 김석만,김석만,2026-11-20,,5740,,unknown,,,first_seen,
@@ -783,7 +783,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 김수환,김수환,2020-11-28,,,,unknown,,,first_seen,
 김숙형,김숙형,2021-03-31,,,,unknown,,,first_seen,
 김슬범,김슬범,2022-06-05,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
-김승리,김승리,2022-09-17,,,,unknown,록·밴드,,first_seen,inferred
+김승리,김승리,2022-09-17,,,,unknown,,,first_seen,
 김승민,김승민,1989-12-31,2014-12-30,36540,34,famous,힙합·R&B,Cosm,verified,inferred
 김승범,김승범,2023-11-27,,,,unknown,R&B·소울,,first_seen,profile
 김승빈,김승빈(터치드),2022-04-14,,,,unknown,,,first_seen,
@@ -845,7 +845,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 김원준,김원준(펜텐),2021-10-21,,,,unknown,,,first_seen,
 김유나,김유나,2022-12-23,,,,unknown,,,first_seen,
 김유리,김유리,2026-03-20,,,,unknown,재즈,,first_seen,inferred_low
-김유정,김유정,2022-06-11,,,,unknown,,,first_seen,
+김유정,김유정,2022-06-11,2005-12-01,1047,6,famous,힙합,,verified,profile
 김유진,김유진,2022-11-03,,,,unknown,R&B·소울,,first_seen,profile
 김윤근,김윤근,2026-11-05,,,,unknown,록·밴드,,first_seen,inferred_low
 김윤기,김윤기,2020-11-04,,,,unknown,,,first_seen,
@@ -906,7 +906,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 김종서와카리스마,김종서와 카리스마,2023-11-09,,,,unknown,,,first_seen,
 김종완,김종완,2024-05-01,,,,unknown,인디팝·발라드,,first_seen,inferred_low
 김종주,김종주,2026-02-03,,,,unknown,록·밴드,,first_seen,inferred_low
-김종진,김종진,2018-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
+김종진,김종진,2018-12-31,2018-06-20,8,3,established,포크·싱어송라이터,,verified,profile
 김종천,김종천,2001-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 김종학,김종학,2026-03-23,,,,unknown,일렉트로닉,,first_seen,inferred_low
 김주안,김주안,2024-07-13,,,,unknown,R&B·소울,,first_seen,profile
@@ -1051,7 +1051,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 나날,나날,2022-05-21,,,,unknown,,,first_seen,
 나날과대파크림치즈,나날과 대파크림치즈,2026-02-14,,,,unknown,,,first_seen,
 나노말,나노말,2023-03-27,,,,unknown,인디팝·발라드,,first_seen,review
-나다양,나다양,2026-10-16,,,,unknown,,,first_seen,
+나다양,나다양,2026-10-16,,,,unknown,록·밴드,,first_seen,inferred_low
 나다은,나다은,2018-12-23,,,,unknown,,,first_seen,
 나단데이,나단데이,2026-07-09,,,,unknown,,,first_seen,
 나도윤,나도윤,2025-04-24,,,,unknown,,,first_seen,
@@ -1143,7 +1143,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 남기준,남기준,2026-11-05,,,,unknown,,,first_seen,
 남달리,남달리,2020-03-27,,,,unknown,재즈,,first_seen,profile
 남도콜링,남도콜링,2026-08-07,,,,unknown,재즈,,first_seen,profile
-남도형,남도형,2023-03-11,,,,unknown,,,first_seen,
+남도형,남도형,2023-03-11,,,,unknown,실험·기타,,first_seen,inferred_low
 남동현,남동현,2023-01-29,,,,unknown,인디팝·발라드,,first_seen,review
 남메아리,남메아리,2020-04-22,,,,unknown,재즈,,first_seen,profile
 남메아리밴드,남메아리밴드,2022-11-06,,,,unknown,재즈,,first_seen,profile
@@ -1153,7 +1153,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 남문현,남문현,2023-04-01,,,,unknown,록·밴드,,first_seen,inferred_low
 남상아,남상아,2023-11-16,,,,unknown,,,first_seen,
 남새라,남새라,2021-03-28,,,,unknown,,,first_seen,
-남생,남생,2022-09-01,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
+남생,남생,2022-09-01,,,,unknown,,,first_seen,
 남석현,남석현,2026-11-23,,,,unknown,힙합,,first_seen,inferred_low
 남수,남수,2023-10-04,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 남예지,남예지,2024-11-04,2004-06-08,470,19,established,재즈,,verified,profile
@@ -1196,14 +1196,13 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 네모난구,네모난구,2026-07-17,,,,unknown,록·밴드,,first_seen,inferred
 네모지구,네모지구,2025-10-10,,,,unknown,록·밴드,,first_seen,inferred
 네무리유메,네무리유메,2026-09-09,,,,unknown,,,first_seen,
-네미시스,네미시스,2021-09-01,,,,unknown,록·밴드,,first_seen,inferred_low
+네미시스,네미시스,2021-09-01,2002-06-05,2302,19,famous,록·밴드,포엠엔터테인먼트,verified,profile
 네버마인드,네버마인드,2025-10-26,2013-01-28,14,1,established,록·밴드,,verified,profile
 네번째,네 번째,2021-03-23,,,,unknown,힙합·R&B,,unverified,inferred
 네쉬핍,네쉬핍,2022-04-22,,,,unknown,,,first_seen,
 네스트블루림,네스트 블루림,2026-08-16,,,,unknown,힙합,,first_seen,inferred
 네스티요나,네스티요나,2024-01-15,,,,unknown,록·밴드,,first_seen,profile
 네시,네시,2020-11-06,,,,unknown,일렉트로닉,,first_seen,profile
-네온더키즈,네온더키즈,2025-03-07,,,,unknown,,,first_seen,
 네온스,네온스,2024-03-01,,,,unknown,,,first_seen,
 네요,네요,2022-03-20,,,,unknown,록·밴드,,first_seen,review
 네이디,네이디,2025-04-14,,,,unknown,일렉트로닉,,first_seen,review
@@ -1372,20 +1371,20 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 다방밴드,다방 밴드,2024-07-18,,,,unknown,,,first_seen,
 다브다,다브다,2017-04-12,2012-10-08,11000,13,famous,록·밴드,,verified,profile
 다비,다비,2021-10-16,,,,unknown,인디팝·발라드,,first_seen,review
-다비치,다비치,2021-04-01,,,,unknown,힙합·R&B,,first_seen,inferred
+다비치,다비치,2021-04-01,2008-02-22,110496,111,famous,인디팝·발라드,씨에이엠위더스 주식회사,verified,profile
 다빈치,다빈치,2022-07-04,,,,unknown,,,first_seen,
 다빈치밴드,다빈치 밴드,2022-06-14,,,,unknown,,,first_seen,
 다섯,다섯,2020-02-16,2016-11-15,14396,22,famous,록·밴드,,verified,profile
 다섯마디,다섯마디,2021-05-17,,,,unknown,,,first_seen,
 다섯번째,다섯 번째,2021-05-15,,,,unknown,힙합·R&B,,first_seen,inferred
 다섯줄,다섯줄,2026-11-02,,,,unknown,,,first_seen,
-다소다,다소다,2025-10-15,,,,unknown,,,first_seen,
+다소다,다소다,2025-10-15,2017-06-28,9,1,established,,,verified,
 다솜,다솜,2021-08-01,,,,unknown,,,first_seen,
 다시보기,다시보기,2023-08-26,,,,unknown,R&B·소울,,first_seen,inferred_low
 다시한번말하자면,다시한번말하자면,2025-01-08,,,,unknown,메탈·하드코어,,first_seen,inferred_low
 다양성,다양성,2020-09-19,2021-04-27,556,12,established,록·밴드,유어썸머,verified,profile
 다영,다영,2026-04-20,,,,unknown,인디팝·발라드,,first_seen,review
-다우비밴드,다우비밴드,2026-10-02,,,,unknown,록·밴드,,first_seen,inferred_low
+다우비밴드,다우비밴드,2026-10-02,2025-10-01,4,1,newcomer,포크·싱어송라이터,,verified,profile
 다운,다운,2022-06-01,,,,unknown,힙합·R&B,,first_seen,inferred
 다운인어홀,다운인어홀,2022-07-24,,,,unknown,,,first_seen,
 다운헬,다운헬,2025-05-19,,,,unknown,메탈·하드코어,,first_seen,review
@@ -1409,7 +1408,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 다준,다준,2026-07-31,,,,unknown,힙합,,first_seen,inferred_low
 다크비,다크비,2021-10-01,,,,unknown,,,first_seen,
 다플루토,다플루토,2024-08-12,2024-07-31,148,1,newcomer,록·밴드,,verified,inferred
-다하다,다하다,2021-05-01,,,,unknown,록·밴드,,first_seen,inferred_low
+다하다,다하다,2021-05-01,,,,unknown,,,first_seen,
 다함,다함,2022-07-08,,,,unknown,,,first_seen,
 다현,다현,2025-11-20,,630,,unknown,포크·싱어송라이터,,first_seen,inferred
 다희,다희,2023-10-10,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -1446,7 +1445,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 달민,달민,2019-08-31,,,,unknown,,,first_seen,
 달보드레,달보드레,2021-12-18,,,,unknown,,,first_seen,
 달보러가자,달보러가자,2022-07-14,,,,unknown,,,first_seen,
-달싸비,달싸비,2021-04-05,,,,unknown,,,first_seen,
+달싸비,달싸비,2021-04-05,2016-04-12,104,12,established,포크·싱어송라이터,,verified,profile
 달애,달애,2026-07-22,,,,unknown,인디팝·발라드,,first_seen,inferred_low
 달위의콜린스,달위의콜린스,2024-02-21,2022-12-12,8,5,established,포크·싱어송라이터,,verified,profile
 달음,달음,2024-09-30,,,,unknown,실험·기타,,first_seen,review
@@ -1472,7 +1471,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 대니구,대니구,2025-04-07,,,,unknown,재즈,,first_seen,review
 대니딕,대니딕,2021-05-28,,,,unknown,힙합·R&B,,first_seen,inferred
 대동,대동,2022-04-15,2021-04-04,50,6,established,R&B·소울,,verified,profile
-대봉,대봉,2025-11-25,,1039,,unknown,일렉트로닉,,first_seen,profile
+대봉,대봉,2025-11-25,2025-11-25,1039,14,established,일렉트로닉,,verified,profile
 대빗,대빗,2020-07-14,,,,unknown,R&B·소울,,first_seen,profile
 대성,대성,2025-04-21,,,,unknown,인디팝·발라드,,first_seen,review
 대소콜링,대소콜링,2026-09-16,2025-08-25,10,4,newcomer,록·밴드,,verified,profile
@@ -1530,7 +1529,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 더잭스,더 잭스,2022-01-10,,,,unknown,록·밴드,,first_seen,inferred
 더준수,더 준수,2019-10-27,,,,unknown,,,first_seen,
 더치트랩,더치트랩,2018-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
-더콰이엇,더콰이엇,2021-12-20,,,,unknown,힙합·R&B,,first_seen,inferred
+더콰이엇,더콰이엇,2021-12-20,,,,unknown,힙합,,first_seen,inferred
 더크래커,더크래커,2026-07-18,,,,unknown,록·밴드,,first_seen,inferred
 더크로스,더 크로스,2024-01-01,,,,unknown,,,first_seen,
 더튜나스,더 튜나스,2017-12-08,2016-04-28,128,13,established,록·밴드,,verified,profile
@@ -1540,9 +1539,9 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 더파블로즈,더 파블로즈,2023-03-23,,,,unknown,록·밴드,,first_seen,inferred
 더픽스,더 픽스,2022-05-21,2021-09-28,1209,9,famous,R&B·소울,,verified,profile
 더픽처스,더 픽처스,2024-01-26,,,,unknown,록·밴드,,first_seen,inferred
-더헤르츠,더헤르츠,2022-05-02,,,,unknown,록·밴드,,first_seen,review
+더헤르츠,더헤르츠,2022-05-02,2020-04-03,34,6,established,R&B·소울,,verified,profile
 더히든엘리펀트,더 히든 엘리펀트,2025-12-08,,,,unknown,록·밴드,,first_seen,profile
-덕,덕,2022-04-15,,,,unknown,,,first_seen,
+덕,덕,2022-04-15,2020-03-24,37,4,established,힙합,,verified,profile
 덕스,덕스,2021-03-06,,,,unknown,록·밴드,,first_seen,inferred
 덕호씨,덕호씨,2020-01-08,,,,unknown,힙합,,first_seen,profile
 덕호씨밴드,덕호씨밴드,2024-08-15,,,,unknown,록·밴드,,first_seen,inferred_low
@@ -1629,7 +1628,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 도빛,도빛,2024-12-04,,,,unknown,포크·싱어송라이터,,first_seen,profile
 도빛나리,도빛나리,2026-10-19,2022-11-21,73,9,established,포크·싱어송라이터,,verified,profile
 도수영,도수영,2026-03-16,,,,unknown,,,first_seen,
-도시고독,도시고독,2022-01-20,,,,unknown,일렉트로닉,,first_seen,profile
+도시고독,도시고독,2022-01-20,2022-06-10,193,12,established,일렉트로닉,,verified,profile
 도시남녀,도시남녀,2022-05-22,,,,unknown,,,first_seen,
 도시수족관,도시수족관,2024-10-27,,,,unknown,,,first_seen,
 도시의봄,도시의 봄,2022-12-16,,,,unknown,,,first_seen,
@@ -1684,7 +1683,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 동욱,동욱,2023-04-09,,,,unknown,R&B·소울,,first_seen,profile
 동이,동이,2023-12-21,2023-01-22,12,6,established,,,verified,
 동이혼,동이혼,2020-11-21,,,,unknown,록·밴드,,first_seen,profile
-동인,동인,2025-05-01,,,,unknown,,,first_seen,
+동인,동인,2025-05-01,2004-02-07,1,1,established,,,verified,
 동재,동재,2026-07-31,,,,unknown,힙합,,first_seen,inferred_low
 동주골,동주골,2022-07-02,,,,unknown,,,first_seen,
 동찬,동찬,2021-02-11,,,,unknown,일렉트로닉,,first_seen,profile
@@ -1696,7 +1695,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 두리,DURI,2026-11-24,,607,,unknown,,,first_seen,
 두명인간,두명인간,2021-08-31,,,,unknown,록·밴드,,first_seen,inferred_low
 두번째,두 번째,2021-01-29,,,,unknown,힙합·R&B,,unverified,inferred
-두번째달,두번째달,2022-12-01,,,,unknown,,,first_seen,
+두번째달,두번째달,2022-12-01,2005-02-17,10256,39,famous,,,verified,
 두억시니,두억시니,2019-10-12,2018-12-08,139,9,established,록·밴드,,verified,profile
 두영,두영,2018-02-24,,,,unknown,힙합,,first_seen,inferred_low
 두왑사운즈,두왑사운즈,2021-06-05,,,,unknown,,,first_seen,
@@ -1707,7 +1706,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 둘째아들,둘째아들,2025-05-15,,,,unknown,,,first_seen,
 둠스데이,둠스데이,2022-08-09,,,,unknown,힙합·R&B,,first_seen,inferred
 듀뎁스,듀뎁스,2026-08-02,,,,unknown,,,first_seen,
-듀스,듀스,2020-08-03,,,,unknown,힙합·R&B,,first_seen,inferred
+듀스,듀스,2020-08-03,1993-04-01,4054,21,famous,힙합,,verified,profile
 듀오벗,듀오벗,2024-05-13,,,,unknown,실험·기타,,first_seen,review
 듀티,듀티,2022-01-24,,,,unknown,힙합·R&B,,first_seen,inferred
 듀포인트,듀포인트,2026-11-15,,,,unknown,,,first_seen,
@@ -1782,7 +1781,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 디피알이안,디피알 이안,2022-08-01,,,,unknown,R&B·소울,,first_seen,review
 디피알크림,디피알 크림,2024-04-01,,,,unknown,힙합·R&B,,first_seen,inferred
 디핀,디핀,2021-04-30,,,,unknown,힙합·R&B,,first_seen,inferred
-디핵,디핵,2021-05-23,,,,unknown,힙합·R&B,,first_seen,inferred
+디핵,디핵,2021-05-23,2016-07-26,24422,45,famous,힙합·R&B,,verified,inferred
 딕보이,딕보이,2022-02-09,,,,unknown,,,first_seen,
 딘,딘,2023-11-18,,,,unknown,힙합·R&B,,first_seen,inferred
 딘딘,딘딘,2026-11-22,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -1826,7 +1825,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 라아이,라아이,2021-04-16,,,,unknown,일렉트로닉,,first_seen,profile
 라온,라온,2023-04-17,,,,unknown,록·밴드,,first_seen,review
 라온제나,라온제나,2023-04-15,,,,unknown,록·밴드,,first_seen,inferred
-라용수,라용수,2026-10-28,2019-09-23,81,24,established,록·밴드,,verified,inferred_low
+라용수,라용수,2026-10-28,2019-09-23,81,24,established,,,verified,
 라우디,라우디,2021-12-02,,,,unknown,힙합·R&B,,first_seen,inferred
 라운드헤즈,라운드헤즈,2013-07-30,,,,unknown,록·밴드,,first_seen,press
 라원밴드,라원밴드,2022-12-23,,,,unknown,,,first_seen,
@@ -1881,9 +1880,9 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 랍티미스트,랍티미스트,2024-07-11,,,,unknown,,,first_seen,
 랑그에빠롤,랑그에빠롤,2022-01-20,,,,unknown,일렉트로닉,,first_seen,inferred
 랑그에파롤,랑그에파롤,2026-02-23,,,,unknown,포크·싱어송라이터,,first_seen,review
-랑세,랑세,2021-04-22,,,,unknown,,,first_seen,
+랑세,랑세,2021-04-22,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 래드클라인,래드 클라인,2025-08-08,,,,unknown,록·밴드,,first_seen,inferred_low
-래원,래원,2021-02-25,,,,unknown,힙합,,unverified,profile
+래원,래원,2021-02-25,2019-01-30,27214,43,famous,힙합,Cosm,verified,profile
 래원이영지,래원&이영지,2022-01-06,,,,unknown,힙합·R&B,,first_seen,inferred
 랜드마인,랜드마인,2020-01-20,,,,unknown,메탈·하드코어,,unverified,inferred
 랜드스케이프,랜드스케이프,2020-06-12,,,,unknown,R&B·소울,,first_seen,profile
@@ -1896,7 +1895,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 량유,량유,2024-06-27,,,,unknown,,,first_seen,
 러닝라이드선셋,러닝라이드선셋,2025-09-05,,,,unknown,록·밴드,,first_seen,inferred
 러버밴드,러버밴드,2019-11-01,,,,unknown,,,first_seen,
-러버보이,러버보이,2022-08-23,,,,unknown,힙합,,first_seen,press
+러버보이,러버보이,2022-08-23,2009-11-01,0,3,established,힙합,,verified,press
 러버사이즈,러버사이즈,2021-06-10,,,,unknown,힙합,,first_seen,profile
 러브마이셀프,러브마이셀프,2023-02-11,,,,unknown,록·밴드,,first_seen,inferred
 러브앱스트랙,러브앱스트랙,2022-09-23,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -2008,7 +2007,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 로우패스인더스트리,로우패스인더스트리,2021-09-23,,,,unknown,메탈·하드코어,,first_seen,review
 로우하이로우,로우하이로우,2021-01-18,2019-11-13,215,9,established,록·밴드,,verified,profile
 로우행잉프루츠,로우행잉프루츠,2020-03-30,,,,unknown,일렉트로닉,,unverified,profile
-로이,로이,2021-04-05,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
+로이,로이,2021-04-05,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 로이즈,로이즈,2018-10-13,,,,unknown,,,first_seen,
 로이킴,로이킴,2026-09-20,,,,unknown,,,first_seen,
 로잘린송,로잘린송,2024-10-25,,,,unknown,록·밴드,,first_seen,inferred
@@ -2094,7 +2093,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 류민영,류민영,2025-05-17,,,,unknown,록·밴드,,first_seen,inferred
 류빈,류빈,2022-07-26,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 류수정,류수정,2023-05-01,,,,unknown,R&B·소울,,first_seen,review
-류수하,류수하,2023-04-12,,,,unknown,,,first_seen,
+류수하,류수하,2023-04-12,2009-06-01,0,1,established,,,verified,
 류수현,류수현,2022-01-17,,,,unknown,,,first_seen,
 류수환,류수환,2022-11-23,,,,unknown,,,first_seen,
 류승원,류승원,1998-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
@@ -2187,7 +2186,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 리치이기,리치 이기,2026-03-10,,,,unknown,힙합,,first_seen,review
 리카코,리카코,2026-07-18,,,,unknown,록·밴드,,first_seen,inferred_low
 리커웰,리커웰,2021-04-21,,,,unknown,힙합·R&B,,first_seen,inferred
-리켄즈,리켄즈,2021-03-18,,,,unknown,록·밴드,,first_seen,inferred
+리켄즈,리켄즈,2021-03-18,,,,unknown,,,first_seen,
 리코,리코,2020-07-08,,,,unknown,R&B·소울,,first_seen,profile
 리쿼,리쿼,2021-04-30,,,,unknown,힙합·R&B,,first_seen,inferred
 리퀴드사운드,리퀴드사운드,2025-06-30,,,,unknown,,,first_seen,
@@ -2278,7 +2277,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 마시따밴드,마시따 밴드,2024-08-09,,,,unknown,록·밴드,,first_seen,inferred
 마시로,마시로,2026-08-31,,,,unknown,인디팝·발라드,,first_seen,review
 마시멜로우,마시멜로우,2019-10-26,,,,unknown,,,first_seen,
-마쌀리나,마쌀리나,2021-02-27,,,,unknown,록·밴드,,first_seen,inferred_low
+마쌀리나,마쌀리나,2021-02-27,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 마야,마야,2026-09-13,,,,unknown,,,first_seen,
 마예지,마예지,2026-05-25,,,,unknown,,,first_seen,
 마운드,마운드,2026-11-24,,,,unknown,,,first_seen,
@@ -2363,7 +2362,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 맨앤뎀,맨앤뎀,2024-08-14,2024-05-17,86,12,established,록·밴드,,verified,profile
 맨앤보이,맨앤보이,2022-06-25,,,,unknown,일렉트로닉,,first_seen,inferred_low
 맨인블루스,맨인블루스,2025-08-29,,,,unknown,실험·기타,,first_seen,inferred_low
-맹건호,맹건호,2025-04-10,,,,unknown,,,unverified,
+맹건호,맹건호,2025-04-10,2025-05-27,24,16,established,힙합,,verified,profile
 맹서령,맹서령,2020-01-23,,,,unknown,재즈,,first_seen,profile
 맹서령트리오,맹서령트리오,2026-11-19,,,,unknown,,,first_seen,
 맹소연,맹소연,2022-02-27,,,,unknown,,,first_seen,
@@ -2376,7 +2375,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 머스탱,머스탱,2026-08-27,,,,unknown,,,first_seen,
 머스탱샐리,머스탱 샐리,2021-03-29,,,,unknown,포크·싱어송라이터,,first_seen,review
 머지,머지,2024-02-26,2021-06-10,49,4,established,록·밴드,,verified,profile
-머치아웃,머치아웃,2026-11-09,,,,unknown,록·밴드,,first_seen,inferred
+머치아웃,머치아웃,2026-11-09,,,,unknown,,,first_seen,
 머티리얼즈파운드,머티리얼즈 파운드,2022-01-14,,,,unknown,록·밴드,,first_seen,inferred
 머피,머피,2022-08-24,,,,unknown,힙합·R&B,,first_seen,inferred
 먼데이신드럼,먼데이신드럼,2026-11-20,,,,unknown,,,first_seen,
@@ -2481,7 +2480,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 모어딥,모어딥,2026-05-10,,,,unknown,,,first_seen,
 모옐,모옐,2020-11-16,,,,unknown,힙합·R&B,,first_seen,inferred
 모우들,모우들,2025-06-23,2025-06-23,5293,4,newcomer,록·밴드,,verified,profile
-모유,모유,2022-02-10,,,,unknown,포크·싱어송라이터,,first_seen,inferred
+모유,모유,2022-02-10,,,,unknown,,,first_seen,
 모음,모음,2025-10-30,,,,unknown,록·밴드,,first_seen,inferred_low
 모즈다이브,모즈다이브,2012-07-16,,,,unknown,록·밴드,,first_seen,press
 모지민,모지민,2018-03-24,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
@@ -2514,7 +2513,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 몽돌,몽돌,2022-07-23,,,,unknown,,,first_seen,
 몽룡,몽룡,2026-08-10,,,,unknown,인디팝·발라드,,first_seen,inferred_low
 몽림,몽림,2021-05-30,,,,unknown,포크·싱어송라이터,,first_seen,inferred
-몽몽밴드,몽몽밴드,2024-08-11,,,,unknown,포크·싱어송라이터,,first_seen,inferred
+몽몽밴드,몽몽밴드,2024-08-11,,,,unknown,,,first_seen,
 몽키갱워,몽키 갱 워,2022-02-09,,,,unknown,록·밴드,,first_seen,inferred
 몽키피콰르텟,몽키피콰르텟,2021-03-27,2013-06-08,53,11,established,록·밴드,,verified,profile
 몽키피트리오,몽키피트리오,2022-08-06,,,,unknown,록·밴드,,first_seen,inferred
@@ -2582,7 +2581,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 문혜원,문혜원,2020-05-29,,,,unknown,R&B·소울,,first_seen,review
 문혜진,문혜진,2026-11-08,,,,unknown,,,first_seen,
 문희뫼,문희뫼,2021-03-21,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
-문희제,문희제,2022-03-23,,,,unknown,,,first_seen,
+문희제,문희제,2022-03-23,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 물,물,2025-12-12,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 물결,물결,2022-06-04,2023-10-31,64,5,established,록·밴드,,verified,profile
 물과음,물과음,2021-03-17,,,,unknown,일렉트로닉,,first_seen,profile
@@ -2618,7 +2617,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 미래도시,미래도시,2022-12-08,,,,unknown,록·밴드,,first_seen,inferred_low
 미래로,미래로,2025-07-24,,,,unknown,록·밴드,,first_seen,profile
 미로,미로,2020-03-31,,,,unknown,힙합,,first_seen,profile
-미루,미루,2021-03-03,,,,unknown,,,first_seen,
+미루,미루,2021-03-03,2018-08-31,215,21,established,포크·싱어송라이터,,verified,profile
 미루코루,미루코루,2023-10-14,,,,unknown,,,first_seen,
 미르스타,미르스타,2026-09-20,2025-06-03,6,9,newcomer,힙합,,verified,profile
 미리,미리,2022-03-21,,,,unknown,,,first_seen,
@@ -2626,7 +2625,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 미미로즈,미미로즈,2022-09-01,,,,unknown,,,first_seen,
 미미시스터즈,미미시스터즈,2024-09-21,,,,unknown,,,first_seen,
 미미크리엑스,미미크리엑스,2023-09-23,,,,unknown,,,first_seen,
-미미키스,미미키스,2021-01-02,,,,unknown,일렉트로닉,,first_seen,inferred
+미미키스,미미키스,2021-01-02,,,,unknown,,,first_seen,
 미선,미선,2026-11-21,,,,unknown,,,first_seen,
 미선이,미선이,2022-09-15,,,,unknown,,,first_seen,
 미소,미소,2021-05-06,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -2716,7 +2715,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 바람종,바람종,2022-05-20,,,,unknown,,,first_seen,
 바람처럼,바람처럼,2023-09-19,,,,unknown,,,first_seen,
 바른생활,바른생활,2018-06-24,,,,unknown,,,first_seen,
-바리칸토,바리칸토,2021-11-20,,,,unknown,,,first_seen,
+바리칸토,바리칸토,2021-11-20,2022-03-31,7,2,established,,,verified,
 바림,바림,2020-09-26,2018-03-12,11,3,established,메탈·하드코어,,verified,profile
 바미,바미,2021-05-18,,,,unknown,록·밴드,,first_seen,profile
 바밍타이거,바밍타이거,2020-01-30,,,,unknown,힙합·R&B,,unverified,inferred
@@ -2763,7 +2762,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 박문치,박문치,2020-08-01,,,,unknown,R&B·소울,,first_seen,profile
 박미경,박미경,2022-11-01,,,,unknown,,,first_seen,
 박민수,박민수,,2022-12-21,346,36,established,,,verified,
-박박다라라,박박다라라,2022-06-18,,,,unknown,,,first_seen,
+박박다라라,박박다라라,2022-06-18,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 박백수,박백수,2026-07-17,,,,unknown,일렉트로닉,,first_seen,profile
 박보람,박보람,2024-03-01,,,,unknown,,,first_seen,
 박봄,박봄,2021-04-01,,,,unknown,,,first_seen,
@@ -2804,7 +2803,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 박영민,박영민,1992-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 박영석,박영석,2026-04-15,2026-11-26,3,1,newcomer,일렉트로닉,,verified,profile
 박영석움직여,박영석 움직여,2026-07-20,,,,unknown,,,first_seen,
-박예준밴드,박예준밴드,2021-06-17,,,,unknown,,,first_seen,
+박예준밴드,박예준밴드,2021-06-17,,,,unknown,록·밴드,,first_seen,inferred_low
 박완규,박완규,2022-03-19,,,,unknown,재즈,,first_seen,inferred_low
 박요한,박요한,2026-11-21,,506,,unknown,,,first_seen,
 박유찬,박유찬,2026-04-20,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
@@ -2834,11 +2833,11 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 박종권,박종권,2020-01-20,,,,unknown,포크·싱어송라이터,,first_seen,profile
 박종민,박종민,2023-12-10,,,,unknown,,,first_seen,
 박종범,박종범,2021-03-14,,,,unknown,,,first_seen,
-박주영,박주영,2024-06-14,,,,unknown,,,first_seen,
+박주영,박주영,2024-06-14,,,,unknown,R&B·소울,,first_seen,inferred_low
 박주원,박주원,2020-02-01,,,,unknown,재즈,,unverified,profile
 박주원밴드,박주원 밴드,2023-08-23,,,,unknown,,,first_seen,
 박주헌,박주헌,2026-05-02,,,,unknown,록·밴드,,first_seen,inferred
-박준규,박준규,2026-07-11,,,,unknown,록·밴드,,first_seen,inferred
+박준규,박준규,2026-07-11,,,,unknown,R&B·소울,,first_seen,inferred_low
 박준영,박준영(이븐이프),2021-04-15,,,,unknown,,,first_seen,
 박준우,박준우,2026-09-07,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 박준하,박준하,2026-03-07,,,,unknown,,,first_seen,
@@ -2869,7 +2868,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 박철오,박철오,2022-05-28,,,,unknown,,,first_seen,
 박첨지,박첨지,2024-11-01,,,,unknown,재즈,,first_seen,profile
 박충심,박충심,2024-10-25,,,,unknown,포크·싱어송라이터,,first_seen,profile
-박치치,박치치,2026-07-11,,,,unknown,록·밴드,,first_seen,inferred
+박치치,박치치,2026-07-11,,,,unknown,R&B·소울,,first_seen,inferred_low
 박태욱,박태욱,2024-08-26,2020-08-17,1549,8,famous,포크·싱어송라이터,,verified,profile
 박태원,박태원,2026-02-16,,,,unknown,힙합,,first_seen,inferred_low
 박필규,박필규,2021-08-20,,,,unknown,록·밴드,,first_seen,profile
@@ -2894,7 +2893,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 박혜리,박혜리,2002-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 박혜원,박혜원,2023-01-01,,,,unknown,,,first_seen,
 박혜진,박혜진,2020-05-27,,,,unknown,힙합,,first_seen,review
-박효신,박효신,2024-12-02,,,,unknown,R&B·소울,,first_seen,review
+박효신,박효신,2024-12-02,1999-11-04,202878,60,famous,R&B·소울,HERBIGHARO,verified,profile
 박효진,박효진,2025-06-28,,,,unknown,,,first_seen,
 박휘노,박휘노,2025-10-26,,,,unknown,,,first_seen,
 박희수,박희수,2016-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
@@ -2956,7 +2955,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 방향족,방향족,2024-11-17,,,,unknown,록·밴드,,first_seen,inferred
 방효준,방효준,2022-08-05,,,,unknown,,,first_seen,
 배가영,배가영,2019-03-30,,,,unknown,재즈,,first_seen,profile
-배너,배너,2024-02-01,,,,unknown,,,first_seen,
+배너,배너,2024-02-01,2019-02-14,3016,11,famous,,클렙,verified,
 배다른형제,배다른 형제,2022-09-24,,,,unknown,록·밴드,,first_seen,inferred
 배드넘버나인,배드넘버나인,2021-02-28,,,,unknown,록·밴드,,first_seen,inferred
 배드네스티,배드네스티,2026-10-03,,,,unknown,록·밴드,,first_seen,inferred
@@ -2965,8 +2964,8 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 배드빌런,배드빌런,2024-06-01,,,,unknown,,,first_seen,
 배드앳,배드앳,2023-07-22,,,,unknown,힙합·R&B,,first_seen,inferred
 배드큐피드,배드큐피드,2026-04-05,,,,unknown,록·밴드,,first_seen,inferred
-배드큐피트,배드큐피트,2023-08-14,,,,unknown,록·밴드,,first_seen,inferred
-배디,배디,2026-04-17,,,,unknown,,,first_seen,
+배드큐피트,배드큐피트,2023-08-14,,,,unknown,,,first_seen,
+배디,배디,2026-04-17,2024-03-25,12,6,newcomer,힙합,,verified,profile
 배마초와강간지,배마초와 강간지,2026-07-31,,,,unknown,힙합,,first_seen,inferred_low
 배명식,배명식,1989-12-31,,,,unknown,포크·싱어송라이터,,unverified,inferred
 배서영,배서영,2021-11-28,,,,unknown,재즈,,first_seen,inferred_low
@@ -2988,7 +2987,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 배현이,배현이,2021-03-15,,,,unknown,힙합,,first_seen,profile
 배현이와옥빛마을,배현이와 옥빛마을,2025-08-27,,,,unknown,힙합,,first_seen,profile
 배호,배호,2026-04-27,,,,unknown,,,first_seen,
-배희관,배희관,2023-01-26,,,,unknown,,,first_seen,
+배희관,배희관,2023-01-26,2012-06-01,6,12,established,,,verified,
 배희관밴드,배희관 밴드,2021-10-23,,,,unknown,,,first_seen,
 백건,백건,2025-11-07,,,,unknown,,,first_seen,
 백건우,백건우,2026-04-09,,,,unknown,,,first_seen,
@@ -3081,7 +3080,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 뱅그로즈,뱅그로즈,2022-11-07,,,,unknown,힙합·R&B,,first_seen,inferred
 뱅크럽츠,뱅크럽츠,2023-02-20,,,,unknown,록·밴드,,first_seen,review
 버가부,버가부,2021-11-08,,,,unknown,인디팝·발라드,,first_seen,review
-버그,버그,2026-05-31,,,,unknown,록·밴드,,first_seen,inferred
+버그,버그,2026-05-31,,,,unknown,인디팝·발라드,,first_seen,inferred_low
 버기,버기,2023-07-31,,,,unknown,힙합·R&B,,first_seen,inferred
 버논,버논,2026-08-27,,,,unknown,,,first_seen,
 버니앤텔,버니앤텔,2026-11-27,2026-10-07,4,2,newcomer,재즈,,verified,profile
@@ -3110,7 +3109,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 범진,범진,2021-03-27,2018-06-03,5277,66,famous,인디팝·발라드,JMG (더블엑스엔터테인먼트),verified,profile
 범키,범키,2021-10-20,,,,unknown,힙합·R&B,,first_seen,inferred
 범프투소울,범프투소울,2025-01-06,,,,unknown,힙합,,first_seen,press
-범피즈,범피즈,2024-11-07,,,,unknown,록·밴드,,first_seen,inferred
+범피즈,범피즈,2024-11-07,,,,unknown,,,first_seen,
 범호랑,범호랑,2022-03-25,,,,unknown,,,first_seen,
 벗,벗,2020-10-11,,,,unknown,,,first_seen,
 벙커프로덕션,벙커프로덕션,2026-07-23,,,,unknown,록·밴드,,first_seen,inferred
@@ -3139,8 +3138,8 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 베이비셀렉츠,베이비셀렉츠,2026-11-24,,,,unknown,,,first_seen,
 베이비슈가,베이비슈가,2021-08-11,,,,unknown,,,first_seen,
 베이비야나,베이비 야나,2021-09-06,,,,unknown,힙합,,first_seen,profile
-베이비카이트,베이비 카이트,2026-03-20,,,,unknown,록·밴드,,first_seen,inferred
-베이비필,베이비필,2026-08-01,,,,unknown,록·밴드,,first_seen,inferred
+베이비카이트,베이비 카이트,2026-03-20,,,,unknown,록·밴드,,first_seen,inferred_low
+베이비필,베이비필,2026-08-01,,,,unknown,,,first_seen,
 베이빌론,베이빌론,2018-10-15,,,,unknown,힙합,,first_seen,press
 베이스,베이스,2022-09-19,,,,unknown,힙합·R&B,,first_seen,inferred
 베이스심기복,베이스 심기복,2016-10-15,,,,unknown,,,first_seen,
@@ -3169,7 +3168,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 변정아,변정아,2022-02-21,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 변지혜,변지혜,2025-09-25,,,,unknown,,,first_seen,
 변지환,변지환(브로큰발렌타인),2022-10-06,,,,unknown,록·밴드,,first_seen,inferred
-변하금,변하금,2021-02-07,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
+변하금,변하금,2021-02-07,,,,unknown,,,first_seen,
 변하은,변하은,2021-08-28,,,,unknown,록·밴드,,first_seen,inferred
 변하은과하이에나,변하은과 하이에나,2023-06-25,,,,unknown,록·밴드,,first_seen,inferred
 변현우,변현우,2026-11-26,,,,unknown,,,first_seen,
@@ -3180,8 +3179,8 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 별보라,별보라,2020-10-30,,,,unknown,록·밴드,,first_seen,inferred
 별사랑,별사랑,2026-08-09,,,,unknown,,,first_seen,
 별양,별양,2021-01-18,,,,unknown,인디팝·발라드,,first_seen,review
-별은,별은,2026-07-25,,,,unknown,,,first_seen,
-병신정원,병신정원,2026-09-21,,,,unknown,힙합,,first_seen,inferred_low
+별은,별은,2026-07-25,2020-09-21,1937,39,famous,록·밴드,,verified,profile
+병신정원,병신정원,2026-09-21,,,,unknown,,,first_seen,
 병아리블루,병아리블루,2023-03-01,,,,unknown,록·밴드,,first_seen,inferred
 병준,병준,2026-10-21,,,,unknown,,,first_seen,
 보금,보금,2022-04-09,,,,unknown,,,first_seen,
@@ -3218,7 +3217,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 복밴드,복밴드,2024-04-11,,,,unknown,록·밴드,,first_seen,inferred
 복숭아를던져라,복숭아를 던져라,2026-08-15,,,,unknown,,,first_seen,
 복희,복희,2026-11-27,,,,unknown,록·밴드,,first_seen,inferred_low
-본,본,2021-03-25,,,,unknown,록·밴드,,first_seen,inferred
+본,본,2021-03-25,,,,unknown,힙합·R&B,,first_seen,inferred
 본디,본디,2020-09-18,,,,unknown,,,first_seen,
 본루츠,본루츠,2022-08-02,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 본하,본하,2026-04-16,2025-04-28,181,7,newcomer,R&B·소울,,verified,profile
@@ -3268,7 +3267,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 브라이언체이스,브라이언 체이스,2023-06-23,,,,unknown,힙합·R&B,,first_seen,inferred
 브라이트하우스,브라이트하우스,2026-05-16,,,,unknown,,,first_seen,
 브라이튼,브라이튼,2026-08-05,,,,unknown,,,first_seen,
-브랜뉴걸,브랜뉴걸,2022-08-05,,,,unknown,,,first_seen,
+브랜뉴걸,브랜뉴걸,2022-08-05,2015-11-24,27,3,established,일렉트로닉,BNG 엔터테인먼트,verified,profile
 브랫,브랫,2026-07-31,,,,unknown,힙합,,first_seen,inferred_low
 브레이브걸스,브레이브걸스,2021-03-01,,,,unknown,인디팝·발라드,,first_seen,review
 브레이크오브데이,브레이크 오브 데이,2026-10-24,,,,unknown,록·밴드,,first_seen,inferred_low
@@ -3327,7 +3326,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 블레이즈,블레이즈,2022-04-23,,,,unknown,,,first_seen,
 블루,블루,2021-02-04,,,,unknown,힙합·R&B,,unverified,inferred
 블루다이아,블루다이아,2022-07-18,,,,unknown,R&B·소울,,first_seen,inferred_low
-블루록,블루록,2026-02-28,,,,unknown,록·밴드,,first_seen,inferred
+블루록,블루록,2026-02-28,,,,unknown,,,first_seen,
 블루룸,블루룸,2022-04-29,,,,unknown,,,first_seen,
 블루문레코드,블루문레코드,2026-11-12,,,,unknown,록·밴드,,first_seen,inferred_low
 블루브,블루브,2026-08-15,,,,unknown,,,first_seen,
@@ -3384,7 +3383,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 비오,비오,2021-12-01,2020-04-09,61339,31,famous,힙합,BigPlanetMade,verified,profile
 비온,비온,2022-06-20,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 비온뒤맑음,비온뒤맑음,2023-05-15,,,,unknown,힙합·R&B,,first_seen,inferred
-비올라,비올라,2022-04-21,,,,unknown,록·밴드,,unverified,inferred
+비올라,비올라,2022-04-21,,,,unknown,록·밴드,,unverified,inferred_low
 비와이,비와이,2020-06-01,,,,unknown,힙합,,first_seen,press
 비와이심바자와디,비와이 & 심바 자와디,2020-06-22,,,,unknown,힙합,,first_seen,press
 비웨이브,비웨이브,2024-10-22,,,,unknown,,,first_seen,
@@ -3406,7 +3405,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 비트온,비트온,2017-12-19,,,,unknown,힙합,,first_seen,inferred_low
 비트펠라하우스,비트펠라하우스,2025-07-21,,,,unknown,인디팝·발라드,,first_seen,review
 비틀즈,비틀즈,2026-11-25,,,,unknown,,,first_seen,
-비포유슬립,비포유슬립,2020-01-09,,,,unknown,록·밴드,,first_seen,inferred
+비포유슬립,비포유슬립,2020-01-09,,,,unknown,,,first_seen,
 비프리,비프리,2020-11-30,,,,unknown,힙합,,first_seen,press
 빅나인밴드,빅나인 밴드,2022-07-22,,,,unknown,,,first_seen,
 빅나티,빅나티,2021-02-25,,,,unknown,힙합,,unverified,press
@@ -3429,7 +3428,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 빅포니,빅포니,2026-11-16,,,,unknown,,,first_seen,
 빅필러,빅필러,2017-09-16,,,,unknown,,,first_seen,
 빈공간,빈공간,2022-08-23,,,,unknown,,,first_seen,
-빈나리,빈나리,2026-10-28,,,,unknown,,,first_seen,
+빈나리,빈나리,2026-10-28,2026-08-11,0,1,newcomer,인디팝·발라드,,verified,profile
 빈달,빈달,2021-03-05,,1208,,unknown,,,first_seen,
 빈들에핀,빈들에 핀,2022-01-14,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 빈센트블루,빈센트 블루,2026-10-31,,,,unknown,재즈,,first_seen,inferred_low
@@ -3459,7 +3458,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 빨간의자,빨간의자,2020-01-16,,,,unknown,인디팝·발라드,,first_seen,profile
 빨강오뎅,빨강오뎅,2022-08-27,,,,unknown,록·밴드,,first_seen,inferred
 뻐킹매드니스,뻐킹매드니스,2022-06-10,,,,unknown,힙합,,first_seen,inferred_low
-뽀로로,뽀로로,2026-11-14,,,,unknown,,,first_seen,
+뽀로로,뽀로로,2026-11-14,2001-09-25,15104,267,famous,,(주)아이코닉스,verified,
 뽀빠이,뽀빠이,2022-11-30,,,,unknown,힙합·R&B,,first_seen,inferred
 뽕짝마니아,뽕짝마니아,2023-04-08,,,,unknown,록·밴드,,first_seen,inferred
 삐갤천하,삐갤천하,2025-09-05,,,,unknown,록·밴드,,first_seen,inferred
@@ -3480,7 +3479,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 사막꽃,사막꽃,2020-06-08,2020-04-14,181,8,established,R&B·소울,,verified,profile
 사모키요타,사모 키요타,2021-10-04,2017-05-27,46,7,established,힙합,,verified,profile
 사뮈,사뮈,2019-05-26,2016-12-21,2363,20,famous,포크·싱어송라이터,매직스트로베리사운드,verified,profile
-사바하,사바하,2024-06-09,,,,unknown,메탈·하드코어,,first_seen,inferred
+사바하,사바하,2024-06-09,2024-09-07,0,3,newcomer,일렉트로닉,,verified,profile
 사비나앤드론즈,사비나앤드론즈,2021-04-10,,,,unknown,일렉트로닉,,first_seen,profile
 사색,사색,2022-06-11,,,,unknown,힙합,,first_seen,press
 사샤,사샤,2022-03-07,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -3568,7 +3567,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 새닉,새닉,2022-03-17,,,,unknown,,,first_seen,
 새닉밴드,새닉밴드,2021-10-14,,,,unknown,,,first_seen,
 새드베이,새드베이,2022-09-06,,,,unknown,힙합·R&B,,first_seen,inferred
-새라,새라,2026-07-02,,,,unknown,록·밴드,,first_seen,inferred_low
+새라,새라,2026-07-02,,,,unknown,,,first_seen,
 새로운,새로운,2021-06-15,,,,unknown,힙합·R&B,,first_seen,inferred
 새로운강아지,새로운 강아지,2022-05-30,,,,unknown,힙합·R&B,,first_seen,inferred
 새리멕킨토시,새리멕킨토시,2025-09-28,,,,unknown,,,first_seen,
@@ -3596,13 +3595,13 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 샘이,샘이,2026-11-04,,682,,unknown,,,first_seen,
 샘플팩,샘플팩,2022-07-13,,,,unknown,힙합·R&B,,first_seen,inferred
 생각하기나름,생각하기 나름,2021-05-30,,,,unknown,,,first_seen,
-생선이하품하네,생선이하품하네,2021-10-24,,,,unknown,,,first_seen,
+생선이하품하네,생선이하품하네,2021-10-24,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 샤나,샤나,2022-06-14,,,,unknown,힙합·R&B,,first_seen,inferred
 샤부지,샤부지,2024-12-19,,,,unknown,,,first_seen,
 샤비,샤비,2026-07-05,,,,unknown,힙합,,first_seen,inferred_low
 샤빌레븐,샤빌레븐,2026-10-24,,,,unknown,록·밴드,,first_seen,inferred_low
 샤이니,샤이니,2021-03-01,,,,unknown,인디팝·발라드,,first_seen,review
-샤이닝콕스,샤이닝콕스,2022-06-18,,,,unknown,록·밴드,,first_seen,inferred
+샤이닝콕스,샤이닝콕스,2022-06-18,,,,unknown,록·밴드,,first_seen,inferred_low
 샤이보이토비,샤이보이토비,2023-01-25,2022-11-29,6802,20,established,힙합,주식회사 더나이스뮤직,verified,profile
 샤크라마,샤크라마,2020-03-19,,,,unknown,힙합,,first_seen,profile
 샤키,샤키,2023-05-25,,,,unknown,,,first_seen,
@@ -3649,7 +3648,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 서승현,서승현,2026-11-27,,,,unknown,,,first_seen,
 서안,서안,2023-09-21,,,,unknown,,,first_seen,
 서양미술사,서양미술사,2021-08-31,,,,unknown,포크·싱어송라이터,,first_seen,profile
-서연,서연,2026-05-31,,,,unknown,록·밴드,,first_seen,inferred
+서연,서연,2026-05-31,2003-05-01,400,20,established,인디팝·발라드,,verified,profile
 서연지,서연지,2022-11-18,,,,unknown,,,first_seen,
 서영,서영,2025-07-11,,,,unknown,,,first_seen,
 서영도,서영도,2022-04-09,,,,unknown,,,first_seen,
@@ -3749,7 +3748,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 성수지,성수지,2022-05-02,,,,unknown,,,first_seen,
 성시경,성시경,2021-06-01,,,,unknown,힙합·R&B,,first_seen,inferred
 성식,성식,2026-04-17,,,,unknown,,,first_seen,
-성신,성신,2026-10-28,,,,unknown,,,first_seen,
+성신,성신,2026-10-28,,,,unknown,인디팝·발라드,,first_seen,inferred_low
 성아지,성아지,2024-08-16,,,,unknown,,,first_seen,
 성에,성에,2025-05-16,,,,unknown,,,first_seen,
 성영주,성영주,2026-06-27,,,,unknown,,,first_seen,
@@ -3792,7 +3791,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 세이로,세이로,2026-11-04,,,,unknown,,,first_seen,
 세이마이네임,세이마이네임,2026-01-06,,,,unknown,,,first_seen,
 세이수미,세이수미,2018-06-13,2014-10-02,2521,29,famous,록·밴드,electric muse,verified,profile
-세이트,세이트,2022-08-06,,,,unknown,메탈·하드코어,,first_seen,inferred
+세이트,세이트,2022-08-06,,,,unknown,,,first_seen,
 세정,세정,2020-03-01,,,,unknown,인디팝·발라드,,unverified,review
 세진,세진,2023-05-22,,,,unknown,인디팝·발라드,,first_seen,review
 세카와루,세카와루,2023-01-07,,,,unknown,,,first_seen,
@@ -3833,7 +3832,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 소닉스톤즈,소닉스톤즈,2020-08-01,2017-04-07,435,15,established,록·밴드,,verified,profile
 소담,소담,2025-02-07,,,,unknown,R&B·소울,,first_seen,inferred_low
 소동,소동,2022-10-22,,,,unknown,록·밴드,,first_seen,inferred_low
-소또감바,소또감바,2022-06-04,,,,unknown,힙합,,first_seen,inferred_low
+소또감바,소또감바,2022-06-04,,,,unknown,,,first_seen,
 소띠,소띠,2020-09-10,,,,unknown,힙합,,first_seen,profile
 소란,소란,2017-08-14,,,,unknown,,,first_seen,
 소란하는밤,소란하는 밤,2025-02-16,,,,unknown,록·밴드,,first_seen,inferred
@@ -3863,13 +3862,13 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 소요,소요,2026-04-12,,,,unknown,,,first_seen,
 소우리,소우리,2022-06-04,,,,unknown,록·밴드,,first_seen,inferred_low
 소운,소운,2025-07-20,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
-소울네오,소울네오,2026-08-11,,,,unknown,록·밴드,,first_seen,inferred
+소울네오,소울네오,2026-08-11,,,,unknown,,,first_seen,
 소울라이츠,소울라이츠,2021-09-04,,,,unknown,,,first_seen,
 소울랜드,소울랜드,2018-07-14,,,,unknown,,,first_seen,
 소울렛,소울렛,2022-01-28,,,,unknown,힙합·R&B,,first_seen,inferred
 소울맨,소울맨,2022-11-26,,,,unknown,힙합·R&B,,first_seen,inferred
 소울바이서울,소울바이서울,2022-04-26,,,,unknown,힙합·R&B,,first_seen,inferred
-소울소스,소울소스,2020-07-16,,,,unknown,록·밴드,,first_seen,inferred
+소울소스,소울소스,2020-07-16,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 소울소스미츠김율희,소울소스미츠김율희,2020-03-16,,,,unknown,실험·기타,,unverified,review
 소울에코,소울에코,2021-01-11,,,,unknown,록·밴드,,first_seen,review
 소울캣,소울캣,2026-07-12,,,,unknown,,,first_seen,
@@ -3898,7 +3897,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 손무현,손무현,2024-03-18,,,,unknown,인디팝·발라드,,first_seen,review
 손민수,손민수,2026-11-07,,,,unknown,,,first_seen,
 손민욱,손민욱(투데이올드스니커즈),2023-02-23,,,,unknown,,,first_seen,
-손서정,손서정,2021-11-29,,,,unknown,포크·싱어송라이터,,first_seen,profile
+손서정,손서정,2021-11-29,2021-11-29,45,5,established,포크·싱어송라이터,,verified,profile
 손성제,손성제,2022-04-21,2006-01-01,1189,38,famous,재즈,,verified,profile
 손성제김율희정수욱서수진,손성제 김율희 정수욱 서수진,2022-12-08,,,,unknown,,,first_seen,
 손성훈,손성훈,2022-08-21,,,,unknown,,,first_seen,
@@ -3906,7 +3905,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 손심바,손 심바,2021-06-28,,,,unknown,힙합·R&B,,first_seen,inferred
 손예림,손예림,2020-01-20,,,,unknown,R&B·소울,,unverified,review
 손예인,손예인,2026-06-18,,,,unknown,,,first_seen,
-손예지,손예지,2024-04-27,,,,unknown,R&B·소울,,first_seen,profile
+손예지,손예지,2024-04-27,2024-04-27,683,23,established,R&B·소울,,verified,profile
 손원진과쌈바친구들,손원진과 쌈바친구들,2026-11-21,,,,unknown,,,first_seen,
 손을모아,손을모아,2024-08-28,2023-09-26,283,8,established,록·밴드,빅블루,verified,profile
 손이삭,손이삭,2025-09-17,,,,unknown,인디팝·발라드,,first_seen,profile
@@ -3969,7 +3968,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 송은채,송은채,2026-08-14,,,,unknown,,,first_seen,
 송인준,송인준,2024-03-15,,,,unknown,,,first_seen,
 송인효,송인효,2021-03-20,,,,unknown,포크·싱어송라이터,,first_seen,inferred
-송장벌레,송장벌레,2023-03-30,,,,unknown,록·밴드,,first_seen,inferred
+송장벌레,송장벌레,2023-03-30,2018-05-25,19,4,established,록·밴드,,verified,profile
 송재원,송재원,2024-08-13,,,,unknown,포크·싱어송라이터,,first_seen,profile
 송주,송주,2026-10-05,,,,unknown,,,first_seen,
 송창식,송창식,2020-10-01,,,,unknown,,,first_seen,
@@ -4101,7 +4100,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 스윗제이,스윗제이,2017-03-18,,,,unknown,,,first_seen,
 스윙스,스윙스,2020-04-01,,,,unknown,힙합,,first_seen,press
 스즈메노티어즈,스즈메노 티어즈,2025-06-25,,,,unknown,,,first_seen,
-스카썩스,스카썩스,2020-11-20,,,,unknown,록·밴드,,first_seen,inferred
+스카썩스,스카썩스,2020-11-20,,,,unknown,,,first_seen,
 스카웨이커스,스카웨이커스,2022-05-12,2012-08-20,222,15,established,록·밴드,,verified,profile
 스카이민혁,스카이민혁,2021-03-11,2019-08-01,3631,31,famous,힙합,그랜드라인엔터테인먼트,verified,inferred
 스카프,스카프,2022-05-29,,,,unknown,힙합,,first_seen,inferred_low
@@ -4129,11 +4128,11 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 스타비,스타비,2026-07-19,,,,unknown,,,first_seen,
 스타온더호라이즌,스타 온 더 호라이즌,2025-07-26,,,,unknown,,,first_seen,
 스타트라인,스타트라인,2026-09-18,,,,unknown,록·밴드,,first_seen,inferred
-스탑원,스탑원,2026-05-31,,,,unknown,록·밴드,,first_seen,inferred
+스탑원,스탑원,2026-05-31,,,,unknown,인디팝·발라드,,first_seen,inferred_low
 스탕달,스탕달,2024-06-20,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 스탠딩에그,스탠딩 에그,2020-12-01,,,,unknown,,,first_seen,
 스테고,스테고,2026-08-01,,,,unknown,,,first_seen,
-스테고로,스테고로,2026-04-18,,,,unknown,록·밴드,,first_seen,inferred
+스테고로,스테고로,2026-04-18,,,,unknown,,,first_seen,
 스테레오,스테레오,2026-11-06,,,,unknown,,,first_seen,
 스테레오버블,스테레오버블,2020-11-06,,,,unknown,,,first_seen,
 스테리웨이브,스테리웨이브,2021-06-01,,,,unknown,록·밴드,,first_seen,profile
@@ -4144,7 +4143,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 스토리텔러,스토리텔러,2020-12-27,,,,unknown,,,first_seen,
 스톤드,스톤드,2019-09-21,,,,unknown,록·밴드,,first_seen,inferred
 스톤차일드,스톤차일드,2022-09-25,,,,unknown,록·밴드,,first_seen,inferred_low
-스톰,스톰,2018-03-01,,,,unknown,록·밴드,,unverified,inferred
+스톰,스톰,2018-03-01,,,,unknown,메탈·하드코어,,unverified,review
 스트레이,스트레이,2026-11-21,,,,unknown,,,first_seen,
 스트레이키즈,스트레이 키즈,2020-07-01,,,,unknown,인디팝·발라드,,first_seen,review
 스트레이터스,스트레이터스,2023-06-17,2024-05-07,28,6,newcomer,록·밴드,,verified,profile
@@ -4202,7 +4201,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 슬림글락,슬림 글락,2023-01-11,,,,unknown,힙합·R&B,,first_seen,inferred
 슬립시네마,슬립시네마,2026-06-25,,,,unknown,R&B·소울,,first_seen,inferred_low
 슬피,슬피,2023-06-23,,,,unknown,록·밴드,,first_seen,inferred_low
-승끼,승끼,2026-07-30,,,,unknown,록·밴드,,first_seen,inferred_low
+승끼,승끼,2026-07-30,,,,unknown,록·밴드,,first_seen,inferred
 승민정,승민정,2021-06-25,,,,unknown,힙합,,first_seen,inferred_low
 승헌,승헌,2021-05-31,,,,unknown,힙합·R&B,,first_seen,inferred
 승혜,승혜,2021-06-11,,,,unknown,,,first_seen,
@@ -4262,7 +4261,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 시와,시와,2020-02-09,,,,unknown,힙합,,first_seen,profile
 시우,시우,2023-09-01,,,,unknown,R&B·소울,,first_seen,profile
 시원,시원,2026-08-16,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
-시월,시월,2022-11-10,,,,unknown,힙합·R&B,,first_seen,inferred
+시월,시월,2022-11-10,2025-06-10,10,1,newcomer,힙합·R&B,,verified,inferred
 시인과촌장,시인과 촌장,2025-10-16,,,,unknown,,,first_seen,
 시인을위하여,시인을 위하여,2021-10-28,2021-08-25,694,9,established,포크·싱어송라이터,,verified,profile
 시인의수영장,시인의 수영장,2025-05-19,,,,unknown,재즈,,first_seen,profile
@@ -4276,7 +4275,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 시티걸,시티걸,2022-06-05,,,,unknown,힙합·R&B,,first_seen,inferred
 시티모그,시티 모그,2022-03-11,,,,unknown,힙합·R&B,,first_seen,inferred
 시한송,시한송,2021-05-17,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
-시호,시호,2026-07-11,,,,unknown,록·밴드,,first_seen,inferred
+시호,시호,2026-07-11,,,,unknown,R&B·소울,,first_seen,inferred_low
 시황,시황,2020-01-03,,,,unknown,포크·싱어송라이터,,first_seen,profile
 식구,식구,2025-05-12,,,,unknown,힙합,,first_seen,review
 식보이,식보이,2021-09-25,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -4549,7 +4548,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 아이리스킴,아이리스킴,2022-05-29,,,,unknown,힙합,,first_seen,inferred_low
 아이리스트,아이리스트,2026-11-18,,,,unknown,,,first_seen,
 아이린,아이린,2020-07-20,,,,unknown,인디팝·발라드,,first_seen,review
-아이반,아이반,2021-06-25,,,,unknown,,,first_seen,
+아이반,아이반,2021-06-25,2025-07-16,41,9,newcomer,힙합,,verified,profile
 아이보리코스트,아이보리코스트,2017-07-21,,,,unknown,,,first_seen,
 아이브,아이브,2021-12-01,,,,unknown,인디팝·발라드,,first_seen,review
 아이브이,아이브이,2021-02-01,,,,unknown,힙합·R&B,,unverified,inferred
@@ -4620,8 +4619,8 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 악단광칠,악단광칠,2020-07-18,,,,unknown,힙합,,first_seen,profile
 악단어떤,악단 어떤,2024-05-04,,,,unknown,,,first_seen,
 악몽,악몽,2020-10-31,,,,unknown,,,first_seen,
-악퉁,악퉁,2020-10-01,,,,unknown,,,first_seen,
-악학궤범,악학궤범,2023-03-30,,,,unknown,록·밴드,,first_seen,inferred_low
+악퉁,악퉁,2020-10-01,2008-10-01,900,35,established,,,verified,
+악학궤범,악학궤범,2023-03-30,,,,unknown,록·밴드,,first_seen,inferred
 안경잽이,안경잽이,2021-04-20,,,,unknown,힙합,,first_seen,profile
 안경쟁이,안경쟁이,2021-11-11,,,,unknown,힙합·R&B,,first_seen,inferred
 안광현,안광현,2026-06-24,,,,unknown,,,first_seen,
@@ -4671,10 +4670,10 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 안키모,안키모,2022-07-10,,,,unknown,,,first_seen,
 안태영,안태영,1990-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 안트,안트,2026-11-27,,447,,unknown,,,first_seen,
-안티사피엔,안티사피엔,2026-05-07,,,,unknown,록·밴드,,first_seen,inferred
+안티사피엔,안티사피엔,2026-05-07,,,,unknown,,,first_seen,
 안티테제,안티테제,2025-11-03,,,,unknown,재즈,,first_seen,inferred_low
 안필주,안필주,2026-09-17,,,,unknown,,,first_seen,
-안현준,안현준,2026-09-21,,,,unknown,힙합,,first_seen,inferred_low
+안현준,안현준,2026-09-21,,,,unknown,,,first_seen,
 안형진,안형진,2022-02-07,,,,unknown,,,first_seen,
 안홍근,안홍근,2020-08-15,,,,unknown,,,first_seen,
 안효식윤혜경,"안효식, 윤혜경",2008-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
@@ -4742,7 +4741,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 앨리스유,앨리스유,2026-09-24,,,,unknown,,,first_seen,
 앨리스피어스,앨리스피어스,2022-02-13,,,,unknown,,,first_seen,
 앨리워드,앨리워드,2026-10-15,,,,unknown,,,first_seen,
-앨리하우스,앨리하우스,2026-08-01,,,,unknown,록·밴드,,first_seen,inferred
+앨리하우스,앨리하우스,2026-08-01,,,,unknown,록·밴드,,first_seen,inferred_low
 앨버트헤이츠블루스,앨버트헤이츠블루스,2021-10-18,,,,unknown,포크·싱어송라이터,,first_seen,review
 앰비규어스댄스컴퍼니,앰비규어스댄스컴퍼니,2019-06-30,,,,unknown,록·밴드,,first_seen,inferred
 앰퍼샌드원,앰퍼샌드원,2024-11-06,,,,unknown,,,first_seen,
@@ -4930,7 +4929,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 에코앤더머신,에코 앤 더 머신,2021-11-12,,,,unknown,,,first_seen,
 에포킬라,에포킬라,2024-05-30,,,,unknown,,,first_seen,
 에프비,에프비,2026-07-31,,,,unknown,힙합,,first_seen,inferred_low
-에프키스,에프키스,2026-10-17,,,,unknown,,,first_seen,
+에프키스,에프키스,2026-10-17,,,,unknown,인디팝·발라드,,first_seen,inferred_low
 에피,에피,2022-03-21,2020-07-19,5211,23,famous,힙합,,verified,press
 에피텐드,에피텐드,2022-07-08,,,,unknown,힙합·R&B,,first_seen,inferred
 에피톤프로젝트,에피톤 프로젝트,2020-12-01,2006-02-17,33498,46,famous,록·밴드,(주)인터파크,verified,profile
@@ -5004,7 +5003,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 여현우,여현우,2024-08-23,,,,unknown,,,first_seen,
 여호,여호,2023-02-22,,,,unknown,힙합·R&B,,first_seen,inferred
 연,연,2020-12-31,,,,unknown,,,unverified,
-연관형,연관형,2023-01-27,,,,unknown,,,first_seen,
+연관형,연관형,2023-01-27,2018-04-27,93,9,established,,,verified,
 연광모,연광모(극동아시아타이거즈),2023-02-23,,,,unknown,,,first_seen,
 연구,연구,2022-05-07,,,,unknown,,,first_seen,
 연리목,연리목,2023-03-16,,,,unknown,포크·싱어송라이터,,first_seen,inferred
@@ -5043,7 +5042,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 영도,영도,2026-05-19,,,,unknown,R&B·소울,,first_seen,inferred_low
 영독,영 독,2024-03-07,,,,unknown,힙합·R&B,,first_seen,inferred
 영록,영록,2024-10-24,,,,unknown,,,first_seen,
-영롱,영롱,2022-06-26,,,,unknown,,,first_seen,
+영롱,영롱,2022-06-26,2022-01-19,205,12,established,,,verified,
 영밴드,영밴드,2021-03-18,,,,unknown,,,first_seen,
 영베이스,영베이스,2022-07-28,,,,unknown,힙합·R&B,,first_seen,inferred
 영보이슈웨이,영보이 슈웨이,2022-12-01,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -5071,7 +5070,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 영카이,영 카이,2026-11-16,,,,unknown,,,first_seen,
 영캐슬,영캐슬,2020-09-22,,,,unknown,인디팝·발라드,,first_seen,profile
 영톤,영톤,2026-07-21,,,,unknown,록·밴드,,first_seen,inferred_low
-영파씨,영파씨,2023-11-01,,,,unknown,힙합·R&B,,first_seen,inferred
+영파씨,영파씨,2023-11-01,,,,unknown,힙합,,first_seen,inferred
 영프로즈,영프로즈,2021-02-05,,,,unknown,힙합·R&B,,unverified,inferred
 영하,영하,2021-02-19,,,,unknown,,,first_seen,
 영형스,영형스,2022-04-21,,,,unknown,,,first_seen,
@@ -5118,7 +5117,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 옐로우,옐로우,2016-08-17,,,,unknown,록·밴드,,first_seen,press
 옐로우컨테이너,옐로우 컨테이너,2022-02-07,,,,unknown,,,first_seen,
 옐로우하우스,옐로우하우스,2023-12-31,,,,unknown,,,first_seen,
-옐로은,옐로은,2021-05-01,,,,unknown,록·밴드,,first_seen,inferred_low
+옐로은,옐로은,2021-05-01,,,,unknown,,,first_seen,
 옛그리움,옛그리움,2023-04-21,,,,unknown,,,first_seen,
 오감,오감(리도어),2021-08-26,,,,unknown,,,first_seen,
 오구름,오구름,2026-04-25,,,,unknown,,,first_seen,
@@ -5129,7 +5128,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 오늘,오늘,2021-07-14,,,,unknown,R&B·소울,,first_seen,inferred_low
 오늘도무사히,오늘도 무사히,2019-11-25,,,,unknown,록·밴드,,first_seen,inferred
 오늘의날씨는,오늘의 날씨는,2023-06-29,,,,unknown,록·밴드,,first_seen,inferred
-오늘하루,오늘하루,2021-08-20,,,,unknown,일렉트로닉,,first_seen,inferred_low
+오늘하루,오늘하루,2021-08-20,,,,unknown,,,first_seen,
 오니은,오니은,2023-06-22,,,,unknown,,,first_seen,
 오니클럽,오니클럽,2023-10-04,,,,unknown,힙합·R&B,,first_seen,inferred
 오다준,오다준,2026-02-14,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
@@ -5203,7 +5202,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 오션검,오션검,2022-02-07,,,,unknown,힙합·R&B,,first_seen,inferred
 오션오,오션 오,2025-06-12,,,,unknown,힙합,,first_seen,profile
 오션프롬더블루,오션프롬더블루,2021-04-28,,,,unknown,힙합,,first_seen,press
-오소영,오소영,1994-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
+오소영,오소영,1994-12-31,1994-01-01,588,22,established,포크·싱어송라이터,애프터눈레코드,verified,inferred
 오송희,오송희,2025-08-27,,,,unknown,록·밴드,,first_seen,inferred_low
 오수경,오수경,2024-06-08,,,,unknown,,,first_seen,
 오쉽,오쉽,2026-02-19,,,,unknown,록·밴드,,first_seen,inferred
@@ -5289,7 +5288,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 오피아,오피아,2025-12-04,2023-12-14,10,5,newcomer,록·밴드,,verified,profile
 오하이오래빗,오하이오래빗,2022-03-20,,,,unknown,힙합·R&B,,first_seen,inferred
 오하이오블루팁,오하이오블루팁,2025-01-25,,,,unknown,록·밴드,,first_seen,inferred
-오하일,오하일,2026-04-17,2021-04-16,16,10,established,,,verified,
+오하일,오하일,2026-04-17,2021-04-16,16,10,established,힙합,,verified,inferred
 오한주,오한주,2023-10-12,,,,unknown,포크·싱어송라이터,,first_seen,profile
 오함마,오함마,2022-07-16,,,,unknown,,,first_seen,
 오헬렌,오헬렌,2021-03-08,,,,unknown,R&B·소울,,first_seen,profile
@@ -5409,7 +5408,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 우간다,우간다,2022-07-26,,,,unknown,,,first_seen,
 우건,우건,2021-11-15,,,,unknown,힙합,,first_seen,press
 우고케프페랜드,우고케! 프페랜드,2026-11-25,,,,unknown,,,first_seen,
-우고프페,우고프페,2026-11-20,,,,unknown,록·밴드,,first_seen,inferred
+우고프페,우고프페,2026-11-20,,,,unknown,록·밴드,,first_seen,inferred_low
 우기,우기,2021-05-24,,,,unknown,인디팝·발라드,,first_seen,review
 우나,우나,2025-09-04,2024-08-01,217,6,newcomer,록·밴드,,verified,profile
 우노,우노,2022-03-26,,,,unknown,힙합,,first_seen,profile
@@ -5502,7 +5501,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 원더티에이프,원더티에이프,2026-07-03,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 원더하이,원더하이,2022-08-28,,,,unknown,,,first_seen,
 원디렉션,원 디렉션,2024-10-29,,,,unknown,,,first_seen,
-원디비,원디비,2020-01-22,,,,unknown,록·밴드,,first_seen,profile
+원디비,원디비,2020-01-22,2018-09-05,264,24,established,록·밴드,,verified,profile
 원디올,원디올,2022-05-01,,,,unknown,힙합·R&B,,first_seen,inferred
 원모어나이트,원모어나이트,2023-07-22,,,,unknown,록·밴드,,first_seen,inferred
 원백,원백,2018-10-22,,,,unknown,,,unverified,
@@ -5645,7 +5644,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 유도리,유도리,2024-10-06,,,,unknown,,,first_seen,
 유도원,유도원,2024-12-21,,,,unknown,록·밴드,,first_seen,inferred_low
 유라,유라,2021-02-01,2018-06-20,24567,34,famous,힙합,,verified,press
-유라사이,유라사이,2021-05-09,,,,unknown,,,first_seen,
+유라사이,유라사이,2021-05-09,2022-02-07,20,4,established,,,verified,
 유라시아,유라시아,2022-09-24,,,,unknown,,,first_seen,
 유란,유란,2023-03-01,,,,unknown,인디팝·발라드,,first_seen,profile
 유랑,유랑,2021-07-08,2009-01-01,9,2,established,록·밴드,,verified,profile
@@ -5758,7 +5757,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 유하림,유하림,2022-11-22,,,,unknown,,,first_seen,
 유하은,유하은,2026-07-31,,,,unknown,일렉트로닉,,first_seen,inferred
 유하정,유하정,2021-04-25,,,,unknown,힙합,,first_seen,inferred_low
-유한성,유한성,2020-04-27,,,,unknown,재즈,,first_seen,review
+유한성,유한성,2020-04-27,2020-04-15,4,1,established,재즈,,verified,review
 유할매,유할매,2022-06-11,,,,unknown,,,first_seen,
 유해인,유해인,2022-06-21,,,,unknown,R&B·소울,,first_seen,inferred_low
 유환주,유환주(화노),2022-07-07,,,,unknown,록·밴드,,first_seen,inferred_low
@@ -5768,7 +5767,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 유희열,유희열,1992-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 육남매,육남매,2022-08-27,,,,unknown,록·밴드,,first_seen,inferred_low
 육중완,육중완,2021-04-14,,,,unknown,,,first_seen,
-육중완밴드,육중완밴드,2021-03-12,,,,unknown,,,first_seen,
+육중완밴드,육중완밴드,2021-03-12,2022-04-28,604,34,established,,록스타뮤직앤라이브,verified,
 윤건,윤건,2020-02-01,,,,unknown,,,unverified,
 윤그루,윤그루,2026-09-14,,,,unknown,,,first_seen,
 윤기윤,윤기윤,2025-12-06,,,,unknown,,,first_seen,
@@ -5794,7 +5793,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 윤석원,윤석원,2026-09-19,,,,unknown,,,first_seen,
 윤석철,윤석철,2023-05-22,,,,unknown,인디팝·발라드,,first_seen,review
 윤석철세진,윤석철 세진,2024-03-28,,,,unknown,,,first_seen,
-윤석철트리오,윤석철트리오,2018-09-15,,,,unknown,재즈,,first_seen,review
+윤석철트리오,윤석철트리오,2018-09-15,2009-12-11,5409,12,famous,재즈,(주)프라이빗커브,verified,profile
 윤석현과거미줄,윤석현과 거미줄,2026-09-20,,,,unknown,록·밴드,,first_seen,inferred
 윤석훈,윤석훈,2022-02-14,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 윤성기,윤성기,2019-11-08,,,,unknown,,,first_seen,
@@ -5847,7 +5846,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 윤희,윤희,2026-09-16,,,,unknown,,,first_seen,
 율그루브,율그루브,2026-11-07,,,,unknown,,,first_seen,
 율랴율례쁑,율랴율례쁑,2021-03-15,,,,unknown,,,first_seen,
-율음,율음,2022-03-17,2021-08-04,2382,14,famous,힙합·R&B,린치핀뮤직 주식회사,verified,inferred
+율음,율음,2022-03-17,2021-08-04,2382,14,famous,힙합,린치핀뮤직 주식회사,verified,inferred
 윰마,윰마,2025-02-15,,,,unknown,,,first_seen,
 윰피,윰피,2025-08-20,,0,,unknown,,,first_seen,
 융진,융진,2025-03-20,,,,unknown,,,first_seen,
@@ -5867,7 +5866,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 은종,은종,2018-11-06,,,,unknown,포크·싱어송라이터,,first_seen,profile
 은하단,은하단,2021-09-22,,,,unknown,,,first_seen,
 은하수밴드,은하수밴드,2023-07-20,,,,unknown,록·밴드,,first_seen,inferred
-은한,은한,2022-11-11,,,,unknown,인디팝·발라드,,first_seen,inferred_low
+은한,은한,2022-11-11,,,,unknown,,,first_seen,
 은해,은해,2024-03-20,,,,unknown,,,first_seen,
 은혁,은혁,2025-02-11,,,,unknown,,,first_seen,
 은혜씨,은혜씨,2022-08-29,,,,unknown,,,first_seen,
@@ -5909,7 +5908,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 이그린,이그린,2021-06-28,,,,unknown,,,first_seen,
 이근형,이근형,2023-03-27,,,,unknown,록·밴드,,first_seen,review
 이글라프,이글라프,2022-11-16,,,,unknown,힙합·R&B,,first_seen,inferred
-이글루,이글루,2020-02-19,,,,unknown,록·밴드,,first_seen,profile
+이글루,이글루,2020-02-19,2018-12-12,247,16,established,록·밴드,,verified,profile
 이글루베이,이글루베이,2022-02-10,,,,unknown,,,first_seen,
 이기찬,이기찬,2020-01-04,,,,unknown,,,first_seen,
 이기현,이기현,2022-08-14,,,,unknown,록·밴드,,first_seen,inferred_low
@@ -6329,7 +6328,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 이훈주,이훈주,2022-06-04,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 이희문,이희문,2020-03-01,,,,unknown,인디팝·발라드,,unverified,review
 이희문오방신과,이희문 오방신과,2025-10-27,,,,unknown,실험·기타,,first_seen,review
-이희상,이희상,2021-01-22,,,,unknown,R&B·소울,,first_seen,profile
+이희상,이희상,2021-01-22,2021-01-22,4246,12,famous,R&B·소울,,verified,profile
 이희상브로산디,이희상&브로산디,2022-10-29,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 이희주,이희주,2025-10-24,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 이희진,이희진,2022-05-20,,,,unknown,,,first_seen,
@@ -6438,8 +6437,8 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 임주은,임주은,2015-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 임주찬,임주찬,2024-08-23,,,,unknown,,,first_seen,
 임준형,임준형,2022-07-18,,,,unknown,,,first_seen,
-임지우,임지우,2026-07-24,,,,unknown,,,first_seen,
-임지원,임지원,2022-05-22,,,,unknown,포크·싱어송라이터,,first_seen,inferred
+임지우,임지우,2026-07-24,2022-11-17,912,19,established,,해피로봇 레코드,verified,
+임지원,임지원,2022-05-22,2021-08-24,4,3,established,포크·싱어송라이터,,verified,profile
 임진모,임진모,2026-10-25,,,,unknown,록·밴드,,first_seen,inferred_low
 임창덕,임창덕,2022-01-01,,,,unknown,,,first_seen,
 임창정,임창정,2020-11-01,,,,unknown,,,first_seen,
@@ -6469,7 +6468,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 자매,자매,2012-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 자메즈,자메즈,2021-05-10,,,,unknown,힙합·R&B,,first_seen,inferred
 자신,자신,2022-03-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
-자연,자연,2021-06-10,,,,unknown,,,first_seen,
+자연,자연,2021-06-10,2019-06-01,33,9,established,R&B·소울,트리버스엔터테인먼트,verified,profile
 자오선,자오선,2024-06-20,,,,unknown,,,first_seen,
 자우림,자우림,2020-07-01,,,,unknown,록·밴드,,first_seen,review
 자운영,자운영,2018-07-26,,,,unknown,,,first_seen,
@@ -6559,10 +6558,10 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 재만,재만,2023-10-27,,,,unknown,,,first_seen,
 재서,재서,2024-10-11,,,,unknown,,,first_seen,
 재연,재연,2023-05-25,,,,unknown,,,first_seen,
-재영아이,재영아이,2026-09-21,,,,unknown,힙합,,first_seen,inferred
+재영아이,재영아이,2026-09-21,,,,unknown,,,first_seen,
 재우,재우,2024-12-18,,2091,,unknown,록·밴드,,first_seen,inferred_low
 재유,재유,2026-05-09,,,,unknown,,,first_seen,
-재윤,재윤,2026-01-03,,,,unknown,R&B·소울,,first_seen,inferred_low
+재윤,재윤,2026-01-03,2017-09-13,2415,45,famous,록·밴드,,verified,profile
 재이,재이,2026-07-16,,,,unknown,록·밴드,,first_seen,inferred_low
 재주소년,재주소년,2018-11-29,,,,unknown,포크·싱어송라이터,,first_seen,profile
 재주소년소녀,재주소년소녀,2021-08-06,,,,unknown,포크·싱어송라이터,,first_seen,profile
@@ -6587,7 +6586,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 쟁반땅콩,쟁반땅콩,2018-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 쟈니로얄,쟈니로얄,2026-05-12,2002-08-11,45,8,established,록·밴드,,verified,profile
 쟈니리,쟈니 리,2021-12-01,,,,unknown,,,first_seen,
-쟈니스파크,쟈니스파크,2020-06-26,,,,unknown,록·밴드,,first_seen,inferred
+쟈니스파크,쟈니스파크,2020-06-26,2015-11-10,81,10,established,록·밴드,,verified,inferred
 쟈드,쟈드,2020-01-21,,,,unknown,R&B·소울,,first_seen,profile
 쟈쟈,쟈쟈,2022-03-10,,,,unknown,힙합·R&B,,first_seen,inferred
 쟈코비,쟈코비,2023-06-15,,,,unknown,,,first_seen,
@@ -6645,7 +6644,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 전지선,전지선,2024-08-27,,,,unknown,포크·싱어송라이터,,first_seen,profile
 전지우,전지우,2026-03-02,,,,unknown,R&B·소울,,first_seen,review
 전지한,전지한,1999-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
-전지혜,전지혜,2021-07-10,,,,unknown,,,first_seen,
+전지혜,전지혜,2021-07-10,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 전진희,전진희,2020-07-02,2012-05-10,5102,43,famous,포크·싱어송라이터,,verified,profile
 전진희강아솔박현서신온유,전진희 강아솔 박현서 신온유,2024-06-20,,,,unknown,,,first_seen,
 전진희신온유김민성,전진희 신온유 김민성,2024-12-12,,,,unknown,,,first_seen,
@@ -6676,9 +6675,9 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 정기가,정기가,2024-04-15,,,,unknown,포크·싱어송라이터,,first_seen,profile
 정기고,정기고,2017-07-01,,,,unknown,힙합·R&B,,first_seen,inferred
 정기훈,정기훈,2026-09-30,,,,unknown,,,first_seen,
-정나현,정나현,2021-09-02,,,,unknown,,,first_seen,
+정나현,정나현,2021-09-02,2021-12-23,4,7,established,,,verified,
 정다운,정다운,2003-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
-정다운밴드,정다운밴드,2021-06-17,,,,unknown,,,first_seen,
+정다운밴드,정다운밴드,2021-06-17,2007-01-31,18,7,established,록·밴드,,verified,profile
 정대현,정대현,2026-11-28,,,,unknown,록·밴드,,first_seen,inferred
 정도기,정도기,2026-05-03,,,,unknown,록·밴드,,first_seen,inferred
 정도현,정도현,2007-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
@@ -6731,7 +6730,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 정영재,정영재(앤드오어),2021-05-20,,,,unknown,,,first_seen,
 정예경,정예경,2003-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 정예원,정예원,2021-07-02,,,,unknown,,,first_seen,
-정오,정오,2026-01-03,,,,unknown,R&B·소울,,first_seen,inferred_low
+정오,정오,2026-01-03,,,,unknown,,,first_seen,
 정오월,정오월,2020-02-27,,,,unknown,록·밴드,,first_seen,profile
 정온,정온,2023-10-17,,,,unknown,R&B·소울,,first_seen,profile
 정용찬,정용찬,2026-11-13,,,,unknown,힙합,,first_seen,profile
@@ -6740,7 +6739,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 정우물,정우물,2020-03-26,,,,unknown,포크·싱어송라이터,,first_seen,profile
 정우진,정우진,2026-11-25,2025-09-28,0,1,newcomer,인디팝·발라드,,verified,profile
 정욱,정욱,2026-10-24,2018-08-29,265,13,established,R&B·소울,,verified,profile
-정원사,정원사,2026-04-10,,,,unknown,록·밴드,,first_seen,inferred
+정원사,정원사,2026-04-10,2025-06-17,1,2,newcomer,록·밴드,,verified,inferred
 정원영,정원영,2022-05-26,,,,unknown,,,unverified,
 정월패,정월패,2022-11-17,,,,unknown,,,first_seen,
 정유빈,정유빈,2020-03-30,,,,unknown,R&B·소울,,first_seen,profile
@@ -6863,7 +6862,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 제주코미디클럽,제주코미디클럽,2026-09-12,,,,unknown,R&B·소울,,first_seen,inferred_low
 제주특별자치도립무용단,제주특별자치도립무용단,2026-11-26,,249,,unknown,,,first_seen,
 제퍼,제퍼,2021-03-20,,,,unknown,록·밴드,,first_seen,inferred_low
-제프,제프,2021-04-22,,,,unknown,,,first_seen,
+제프,제프,2021-04-22,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 제프리화이트,제프리 화이트,2023-12-28,,,,unknown,힙합·R&B,,first_seen,inferred
 제프벡,제프 벡,2023-01-01,,,,unknown,,,first_seen,
 제희,제희,2022-09-01,,,,unknown,,,first_seen,
@@ -6916,7 +6915,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 조애란,조애란,2016-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 조에스더,조에스더,2024-06-29,,,,unknown,,,first_seen,
 조여진이나래,"조여진, 이나래",2014-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
-조연호,조연호,2025-02-28,,,,unknown,,,first_seen,
+조연호,조연호,2025-02-28,2020-05-18,1158,38,famous,,,verified,
 조연희,조연희,2018-12-15,,,,unknown,포크·싱어송라이터,,unverified,inferred_low
 조영남,조영남,2021-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 조영빈,조영빈,2021-04-10,,,,unknown,,,first_seen,
@@ -6957,7 +6956,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 조정현,조정현,2024-10-24,,,,unknown,,,first_seen,
 조정희,조정희,2022-11-03,,,,unknown,,,first_seen,
 조제,조제,2020-02-08,,,,unknown,R&B·소울,,first_seen,profile
-조제해시,조제해시,2021-06-26,,,,unknown,,,first_seen,
+조제해시,조제해시,2021-06-26,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 조종근,조종근,2023-05-30,,,,unknown,재즈,,first_seen,profile
 조주,조주,2021-04-10,,,,unknown,,,first_seen,
 조준호,조준호,2024-09-12,,,,unknown,록·밴드,,first_seen,inferred
@@ -6975,7 +6974,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 조하,조하,2025-01-22,,,,unknown,R&B·소울,,first_seen,profile
 조항조,조항조,2016-10-22,,,,unknown,,,first_seen,
 조해인,조해인,2022-01-21,,,,unknown,R&B·소울,,first_seen,profile
-조현,조현,2026-04-20,,,,unknown,실험·기타,,first_seen,review
+조현,조현,2026-04-20,2018-04-11,14,19,established,일렉트로닉,,verified,profile
 조현아,조현아,2023-12-01,,,,unknown,,,first_seen,
 조형민,조형민,2022-08-02,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 조형우,조형우,2020-09-20,,,,unknown,R&B·소울,,first_seen,profile
@@ -7063,7 +7062,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 준킴,준킴,2020-04-20,,,,unknown,록·밴드,,first_seen,review
 준한,준한,2024-03-03,,,,unknown,,,first_seen,
 준현,준현,2022-07-16,,,,unknown,록·밴드,,first_seen,inferred_low
-줄라이,줄라이,2026-03-05,,,,unknown,록·밴드,,first_seen,inferred
+줄라이,줄라이,2026-03-05,2007-01-01,246,4,established,록·밴드,,verified,inferred
 줄라이앤모,줄라이앤모,2025-11-27,,,,unknown,록·밴드,,first_seen,inferred_low
 줄라이온,줄라이온,2022-09-05,,,,unknown,R&B·소울,,first_seen,review
 줄라이원츠모어,줄라이원츠모어,2026-03-05,2026-06-18,39,7,newcomer,록·밴드,,verified,profile
@@ -7076,7 +7075,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 중식이밴드,중식이밴드,2021-04-17,,,,unknown,록·밴드,,first_seen,inferred
 중앙제일밴드,중앙제일밴드,2026-02-05,,,,unknown,,,first_seen,
 중원,중원,2021-06-18,,,,unknown,,,first_seen,
-중창단,중창단,2026-07-11,,,,unknown,록·밴드,,first_seen,inferred
+중창단,중창단,2026-07-11,,,,unknown,R&B·소울,,first_seen,inferred_low
 쥐고기월드,쥐고기월드,2026-11-15,,,,unknown,,,first_seen,
 쥬드,쥬드,2024-02-11,,646,,unknown,록·밴드,,first_seen,inferred
 쥬로욘,쥬로욘,2024-09-17,,,,unknown,,,first_seen,
@@ -7084,7 +7083,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 쥬이안,쥬이안,2026-11-06,,,,unknown,힙합,,first_seen,inferred
 쥬쥬밴드,쥬쥬밴드,2012-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 지고,지고,2021-12-26,,,,unknown,,,first_seen,
-지구,지구,2021-04-24,,,,unknown,,,first_seen,
+지구,지구,2021-04-24,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 지금이재철,지금이재철,2024-04-27,,,,unknown,힙합,,first_seen,inferred_low
 지나,지나,2023-12-18,,,,unknown,힙합·R&B,,first_seen,inferred
 지나가던조씨,지나가던조씨,2021-03-21,,,,unknown,,,first_seen,
@@ -7207,7 +7206,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 짙은,짙은,2021-01-01,,,,unknown,,,first_seen,
 짱유,짱유,2019-12-08,,,,unknown,힙합,,first_seen,profile
 짱유시바세키,짱유 시바세키,2023-08-07,,,,unknown,힙합,,first_seen,profile
-째파이,째파이,2026-09-21,,,,unknown,힙합,,first_seen,inferred
+째파이,째파이,2026-09-21,,,,unknown,,,first_seen,
 쯔위,쯔위,2024-09-17,,,,unknown,,,first_seen,
 차,차,2026-03-28,,,,unknown,일렉트로닉,,first_seen,review
 차가운체리,차가운체리,2018-04-20,,,,unknown,,,first_seen,
@@ -7268,7 +7267,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 채보훈,채보훈,2022-02-19,,,,unknown,,,first_seen,
 채빈,채빈,2018-10-25,,,,unknown,,,first_seen,
 채소현,채소현,2026-04-11,,,,unknown,록·밴드,,first_seen,inferred
-채송아,채송아,2022-09-17,,,,unknown,록·밴드,,first_seen,inferred
+채송아,채송아,2022-09-17,,,,unknown,,,first_seen,
 채수윤,채수윤,2026-10-19,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 채수현,채수현,2011-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 채영,채영,2023-02-07,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -7314,7 +7313,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 청난,청난,2025-05-03,,,,unknown,록·밴드,,first_seen,profile
 청년들,청년들,2014-08-08,,,,unknown,록·밴드,,first_seen,press
 청록,청록,2024-11-23,,,,unknown,,,first_seen,
-청룡당,청룡당,2021-12-11,,,,unknown,재즈,,first_seen,review
+청룡당,청룡당,2021-12-11,,,,unknown,록·밴드,,first_seen,inferred
 청백,청백,2024-04-27,,,,unknown,힙합,,first_seen,inferred_low
 청새,청새,2026-09-02,,,,unknown,록·밴드,,first_seen,inferred_low
 청새치밴드,청새치밴드,2025-05-09,,,,unknown,R&B·소울,,first_seen,inferred_low
@@ -7334,7 +7333,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 체리콕,체리콕,2020-09-24,,,,unknown,힙합,,first_seen,press
 체리필터,체리필터,2022-01-23,,,,unknown,록·밴드,,first_seen,review
 체셔,체셔,2021-03-25,,,,unknown,,,first_seen,
-체이스,체이스,2022-10-02,,,,unknown,,,first_seen,
+체이스,체이스,2022-10-02,2024-01-12,48,5,newcomer,힙합,,verified,profile
 체이싱러블리,체이싱러블리,2022-07-23,,,,unknown,,,first_seen,
 체인리액션,체인리액션,2022-08-14,2015-08-24,54,6,established,록·밴드,위시본프로젝트,verified,profile
 체인지,체인지,2023-12-26,,,,unknown,록·밴드,,first_seen,inferred
@@ -7363,7 +7362,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 초하,초하,2026-11-13,,,,unknown,록·밴드,,first_seen,inferred_low
 초현,초현,2026-02-27,,,,unknown,,,first_seen,
 초희,초희,2022-06-19,,,,unknown,,,first_seen,
-총체적난국,총체적난국,2022-06-18,,,,unknown,록·밴드,,first_seen,inferred
+총체적난국,총체적난국,2022-06-18,,,,unknown,록·밴드,,first_seen,inferred_low
 최가은,최가은,2020-01-06,,,,unknown,R&B·소울,,unverified,review
 최간지,최간지,2022-09-16,,,,unknown,록·밴드,,first_seen,inferred
 최강창민,최강창민,2020-04-01,,,,unknown,R&B·소울,,first_seen,review
@@ -7444,18 +7443,18 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 최초록,최초록,2026-04-29,,,,unknown,,,first_seen,
 최춘목밴드,최춘목밴드,2025-12-06,,,,unknown,록·밴드,,first_seen,review
 최충현,최충현,2026-08-07,,,,unknown,,,first_seen,
-최키드,최키드,2023-10-22,,,,unknown,록·밴드,,first_seen,inferred
+최키드,최키드,2023-10-22,,,,unknown,,,first_seen,
 최태식,최태식,2021-10-16,,,,unknown,,,first_seen,
 최태현,최태현,2025-11-22,,,,unknown,,,first_seen,
 최파랑,최파랑,2022-02-18,,,,unknown,록·밴드,,first_seen,inferred_low
 최파랑밴드,최파랑 밴드,2022-06-27,,,,unknown,,,first_seen,
 최평화,최평화,2026-11-06,,,,unknown,록·밴드,,first_seen,inferred_low
-최하트,최하트,2023-04-24,,,,unknown,인디팝·발라드,,first_seen,review
+최하트,최하트,2023-04-24,2022-02-07,133,4,established,R&B·소울,,verified,profile
 최한별,최한별,2006-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 최항석과부기몬스터,최항석과 부기몬스터,2020-11-09,,,,unknown,포크·싱어송라이터,,first_seen,review
 최현석,최현석,2023-11-09,,,,unknown,,,first_seen,
 최현욱,최현욱,2026-04-01,,,,unknown,,,first_seen,
-최현종,최현종,2021-05-01,,,,unknown,록·밴드,,first_seen,inferred_low
+최현종,최현종,2021-05-01,,,,unknown,,,first_seen,
 최현준,최현준,2021-03-01,,,,unknown,,,first_seen,
 최혜빈,최혜빈,2022-02-21,,,,unknown,,,first_seen,
 최호섭,최호섭,2023-07-01,,,,unknown,,,first_seen,
@@ -7477,12 +7476,12 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 취급주의,취급주의,2022-11-13,,,,unknown,일렉트로닉,,first_seen,inferred_low
 취미,취미,2018-12-18,,,,unknown,,,first_seen,
 취향상점,취향상점,2022-02-09,2018-12-10,371,21,established,포크·싱어송라이터,,verified,profile
-츄,츄,2023-10-30,,,,unknown,인디팝·발라드,,first_seen,review
+츄,츄,2023-10-30,2020-07-29,13230,38,famous,인디팝·발라드,,verified,profile
 츄요,츄요,2026-06-20,,,,unknown,,,first_seen,
 츄파스,츄파스,2025-03-20,,,,unknown,록·밴드,,first_seen,inferred
 츠브츠브,츠브츠브,2026-09-09,,,,unknown,,,first_seen,
 츠쿠,츠쿠,2026-07-18,,,,unknown,힙합,,first_seen,inferred
-츤코,츤코,2023-03-11,,,,unknown,,,first_seen,
+츤코,츤코,2023-03-11,,,,unknown,실험·기타,,first_seen,inferred_low
 치기,치기,2026-05-28,,,,unknown,록·밴드,,first_seen,inferred
 치스비치,"치스비치 (치즈, 스텔라장, 러비, 박문치)",2020-07-14,,,,unknown,인디팝·발라드,,first_seen,profile
 치오치카노,치오 치카노,2023-10-04,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -7548,7 +7547,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 칸호야쿠시지,칸호 야쿠시지,2026-10-30,,,,unknown,,,first_seen,
 칼리킴,칼리 킴,2021-02-16,,,,unknown,힙합·R&B,,unverified,inferred
 칼리프롬더터프,칼리 프롬 더 터프,2021-08-12,,,,unknown,힙합·R&B,,first_seen,inferred
-칼블루독,칼블루독,2022-12-24,,,,unknown,록·밴드,,first_seen,inferred
+칼블루독,칼블루독,2022-12-24,2023-11-16,2,1,established,록·밴드,,verified,inferred
 칼있으마,칼있으마,2026-08-07,,,,unknown,,,first_seen,
 칼카이져,칼카이져,2026-10-25,,,,unknown,록·밴드,,first_seen,inferred_low
 캄보,캄보,2023-06-08,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -7568,14 +7567,13 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 캔위,캔위,2026-03-21,,,,unknown,록·밴드,,first_seen,inferred
 캔트비블루,캔트비블루,2024-02-01,2024-06-20,6227,14,established,R&B·소울,고양이수염,verified,profile
 캡스톤엔도어,캡스톤엔도어,2026-02-02,,,,unknown,힙합,,first_seen,review
-캡틴락,캡틴락,2021-05-27,,,,unknown,,,first_seen,
+캡틴락,캡틴락,2021-05-27,1996-01-01,343,48,established,록·밴드,드럭레코드,verified,profile
 캣더레인,캣더레인,2026-08-02,,,,unknown,록·밴드,,first_seen,inferred
 캣삼,캣삼,2023-03-06,,,,unknown,일렉트로닉,,first_seen,review
 캣츠아이,캣츠아이,2026-06-25,,,,unknown,,,first_seen,
 캣츠파다,캣츠파다,2023-09-04,,,,unknown,힙합,,first_seen,profile
 커드,커드,2022-09-13,,,,unknown,힙합·R&B,,first_seen,inferred
 커런트무드,커런트무드,2023-06-22,,,,unknown,록·밴드,,first_seen,inferred
-커먼그라운드,커먼그라운드,2021-09-13,,,,unknown,재즈,,first_seen,review
 커서,커서,2020-08-25,,,,unknown,R&B·소울,,first_seen,profile
 커즈레인,커즈레인,2020-09-26,,,,unknown,,,first_seen,
 커프,커프,2022-08-18,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -7590,7 +7588,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 컬트게이저,컬트게이저,2026-07-11,,,,unknown,,,first_seen,
 컬트케이저,컬트케이저,2026-09-13,,,,unknown,,,first_seen,
 컴배티브포스트,컴배티브 포스트,2020-09-25,,,,unknown,록·밴드,,first_seen,profile
-컷딥,컷딥,2021-11-27,,,,unknown,,,first_seen,
+컷딥,컷딥,2021-11-27,,,,unknown,록·밴드,,first_seen,inferred
 케네시,케네시,2022-08-19,,,,unknown,힙합·R&B,,first_seen,inferred
 케리건메이,케리건 메이,2020-08-12,,,,unknown,힙합,,first_seen,profile
 케빈박,케빈박,2022-12-15,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -7624,7 +7622,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 코드네임타이탄,코드네임 타이탄,2025-02-10,2017-06-08,29,12,established,록·밴드,,verified,profile
 코드쿤스트,코드 쿤스트,2020-04-01,,,,unknown,힙합,,first_seen,press
 코드포,코드포,2026-11-26,2025-11-06,3,6,newcomer,R&B·소울,,verified,profile
-코랄로,코랄로,2022-10-15,,,,unknown,록·밴드,,first_seen,inferred
+코랄로,코랄로,2022-10-15,2016-12-14,13,2,established,록·밴드,,verified,inferred
 코레와코레다,코레와 코레다,2022-12-18,,,,unknown,,,first_seen,
 코로나,코로나,2022-10-23,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 코르노이,코르노이,2023-04-12,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -7649,18 +7647,18 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 코요,코요,2021-05-06,,,,unknown,,,first_seen,
 코요태,코요태,2020-11-01,,,,unknown,,,first_seen,
 코웨이,코웨이,2021-10-18,,,,unknown,힙합·R&B,,first_seen,inferred
-코이와이코토리,코이와이 코토리,2023-03-11,,,,unknown,,,first_seen,
+코이와이코토리,코이와이 코토리,2023-03-11,,,,unknown,실험·기타,,first_seen,inferred_low
 코이필리,코이 필리,2022-08-02,,,,unknown,힙합·R&B,,first_seen,inferred
 코인클래식,코인클래식,2020-02-22,,,,unknown,록·밴드,,first_seen,inferred
 코즈모스,코즈모스,2020-01-06,,,,unknown,일렉트로닉,,unverified,review
 코지앤노이지,코지앤노이지,2023-01-05,,,,unknown,,,first_seen,
 코지캣,코지캣,2026-07-10,,,,unknown,,,first_seen,
 코지코튼,코지코튼,2022-04-30,,,,unknown,,,first_seen,
-코커,코커,2021-12-18,,,,unknown,일렉트로닉,,first_seen,inferred_low
+코커,코커,2021-12-18,2019-11-08,282,15,established,R&B·소울,,verified,profile
 코커핸즈,코커핸즈,2024-11-30,,,,unknown,,,first_seen,
 코코나,코코나,2022-10-12,,,,unknown,힙합·R&B,,first_seen,inferred
 코코어,코코어,2022-05-12,,,,unknown,,,unverified,
-코코이야,코코이야,2023-12-12,,,,unknown,,,first_seen,
+코코이야,코코이야,2023-12-12,2024-12-30,27,3,newcomer,,,verified,
 코토바,코토바,2020-07-13,2019-08-29,815,22,established,록·밴드,,verified,press
 코튼스틱,코튼스틱,2020-07-11,,,,unknown,,,first_seen,
 코튼일랜드,코튼일랜드,2022-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
@@ -7783,7 +7781,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 클로버잭,클로버잭,2023-04-27,,,,unknown,,,first_seen,
 클로이,클로이,2026-07-09,,,,unknown,R&B·소울,,first_seen,inferred_low
 클로젯로켓,클로젯로켓,2021-04-09,,,,unknown,록·밴드,,first_seen,inferred
-클로즈유어아이즈,클로즈 유어 아이즈,2025-04-30,,,,unknown,,,first_seen,
+클로즈유어아이즈,클로즈 유어 아이즈,2025-04-30,2025-04-02,3427,17,established,R&B·소울,언코어 주식회사,verified,profile
 클론,클론,2022-11-01,,,,unknown,,,first_seen,
 클리언,클리언,2021-07-21,,,,unknown,힙합,,first_seen,profile
 클릿츠,클릿츠,2021-09-11,,,,unknown,,,first_seen,
@@ -7829,7 +7827,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 키즈나시뮬레이션,키즈나 시뮬레이션,2021-10-10,,,,unknown,,,first_seen,
 키츠,키츠,2025-11-29,,,,unknown,,,first_seen,
 키츠요지,키츠요지,2021-01-28,,,,unknown,힙합,,unverified,profile
-키치스,키치스,2022-07-30,,,,unknown,록·밴드,,first_seen,inferred
+키치스,키치스,2022-07-30,,,,unknown,,,first_seen,
 키코,키코,2020-11-22,,,,unknown,,,first_seen,
 키쿠오,키쿠오,2022-06-10,,,,unknown,,,first_seen,
 키키,키키,2020-06-23,,3695,,unknown,록·밴드,,first_seen,profile
@@ -7873,7 +7871,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 타임코스모스,타임코스모스,2022-04-14,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 타잔로카,타잔로카,2021-11-20,,,,unknown,,,first_seen,
 타짜,타짜,2026-09-20,,,,unknown,힙합·R&B,,first_seen,inferred
-타카키미유,타카키 미유,2023-03-11,,,,unknown,,,first_seen,
+타카키미유,타카키 미유,2023-03-11,,,,unknown,실험·기타,,first_seen,inferred_low
 타카피,타카피,2021-04-18,,,,unknown,록·밴드,,first_seen,inferred
 타쿠와,타쿠와,2021-07-19,,,,unknown,힙합·R&B,,first_seen,inferred
 타쿤,타쿤,2022-09-16,,,,unknown,,,first_seen,
@@ -7948,7 +7946,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 토루,토루,2022-09-07,,,,unknown,힙합·R&B,,first_seen,inferred
 토르토르,토르토르,2020-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 토리밴드,토리밴드,2021-11-20,,,,unknown,,,first_seen,
-토리스트,토리스트,2026-09-21,,,,unknown,힙합,,first_seen,inferred_low
+토리스트,토리스트,2026-09-21,,,,unknown,,,first_seen,
 토마방갈테르,토마 방갈테르,2022-07-04,,,,unknown,록·밴드,,first_seen,review
 토마스쿡,토마스 쿡,2025-12-21,,,,unknown,록·밴드,,first_seen,inferred
 토마토맛,토마토맛,2025-07-11,2025-07-11,328,4,newcomer,일렉트로닉,,verified,profile
@@ -8010,7 +8008,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 트레봉봉,트레봉봉,2023-07-08,,,,unknown,일렉트로닉,,first_seen,inferred_low
 트레비,트레비,2022-02-19,,,,unknown,록·밴드,,first_seen,inferred
 트레스,트레스,2026-11-27,,,,unknown,,,first_seen,
-트레이드엘,트레이드 엘,2021-11-25,,,,unknown,힙합·R&B,,first_seen,inferred
+트레이드엘,트레이드 엘,2021-11-25,2019-04-12,7035,35,famous,힙합,,verified,profile
 트레이비,트레이비,2023-08-21,2023-02-15,2490,13,established,힙합·R&B,더리플레이 레코즈,verified,inferred
 트레이터,트레이터,2020-12-14,,,,unknown,록·밴드,,first_seen,inferred
 트레저,트레저,2021-01-25,2020-08-07,34079,14,famous,인디팝·발라드,(주)YG엔터테인먼트,verified,review
@@ -8143,7 +8141,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 퍼포먼스비디오,퍼포먼스 비디오,2023-11-06,,,,unknown,힙합·R&B,,first_seen,inferred
 퍼퓨라,퍼퓨라,2025-11-21,,,,unknown,록·밴드,,first_seen,inferred
 퍼플러즈,퍼플러즈,2021-04-26,,,,unknown,R&B·소울,,first_seen,review
-퍼플레이디블루스,퍼플레이디블루스,2023-03-13,,,,unknown,포크·싱어송라이터,,first_seen,review
+퍼플레이디블루스,퍼플레이디블루스,2023-03-13,2019-11-28,11,2,established,포크·싱어송라이터,,verified,profile
 퍼플레인,퍼플레인,2020-03-09,,,,unknown,록·밴드,,unverified,review
 퍼플오션,퍼플오션,2022-01-15,,,,unknown,,,first_seen,
 퍼플웨일,퍼플웨일,2020-11-20,2020-01-16,388,11,established,일렉트로닉,,verified,profile
@@ -8218,7 +8216,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 포유,포유,2026-07-07,,,,unknown,,,first_seen,
 포이,포이,2022-12-14,,,,unknown,힙합·R&B,,first_seen,inferred
 포이즈,포이즈,2023-08-09,,,,unknown,일렉트로닉,,first_seen,inferred
-포장마차,포장마차,2021-12-21,,,,unknown,힙합,,first_seen,inferred_low
+포장마차,포장마차,2021-12-21,2015-08-19,13,1,established,힙합,,verified,inferred_low
 포져군단,포져군단,2024-05-30,,,,unknown,록·밴드,,first_seen,profile
 포지션,포지션,2025-10-05,,,,unknown,,,first_seen,
 포춘,포춘,2020-11-07,,,,unknown,,,first_seen,
@@ -8286,7 +8284,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 프로듀서버터스카치,버터스카치,2022-05-10,,,,unknown,힙합·R&B,,first_seen,inferred
 프로듀서암모나이트,암모나이트,2022-01-04,,,,unknown,힙합·R&B,,first_seen,inferred
 프로듀서엔드오프,엔드오프,2022-01-06,,,,unknown,힙합·R&B,,first_seen,inferred
-프로미스나인,프로미스나인,2020-09-01,,,,unknown,,,first_seen,
+프로미스나인,프로미스나인,2020-09-01,2017-11-30,62844,27,famous,인디팝·발라드,주식회사 어센드엔터테인먼트,verified,profile
 프로젝트반했나,프로젝트반했나,2020-11-14,,,,unknown,,,first_seen,
 프로젝트소행성,프로젝트 소행성,2026-04-12,,,,unknown,,,first_seen,
 프로젝트엑스,프로젝트 엑스,2026-07-10,,,,unknown,록·밴드,,first_seen,inferred
@@ -8340,7 +8338,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 플린,플린,2026-11-27,2020-04-19,333,23,established,R&B·소울,,verified,profile
 플린트,플린트,2022-02-11,,,,unknown,,,first_seen,
 플릿,플릿,2025-03-13,2024-04-15,1533,9,newcomer,록·밴드,,verified,profile
-피기,피기,2022-03-10,,,,unknown,,,first_seen,
+피기,피기,2022-03-10,2015-01-01,69,8,established,,,verified,
 피기브라더,피기브라더,2017-03-04,,,,unknown,,,first_seen,
 피난,피난,2020-09-07,,,,unknown,록·밴드,,first_seen,inferred
 피노다인,피노다인,2021-09-26,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -8364,7 +8362,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 피원하모니,피원하모니,2023-06-01,,,,unknown,,,first_seen,
 피제이,피제이,2023-05-23,,,,unknown,힙합·R&B,,first_seen,inferred
 피지엘,피지엘,2022-02-28,,,,unknown,힙합·R&B,,first_seen,inferred
-피치슬래머,피치슬래머,2026-02-28,,,,unknown,록·밴드,,first_seen,inferred
+피치슬래머,피치슬래머,2026-02-28,,,,unknown,,,first_seen,
 피치트럭하이재커스,피치트럭하이재커스,2024-09-13,2025-11-18,176,1,newcomer,록·밴드,,verified,profile
 피카,피카,2022-02-27,,,,unknown,,,first_seen,
 피카블룸,피카블룸,2026-02-09,,,,unknown,메탈·하드코어,,first_seen,review
@@ -8399,14 +8397,14 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 하경,하경,2025-07-24,,,,unknown,,,first_seen,
 하곤,하곤,2020-08-21,,,,unknown,힙합,,first_seen,profile
 하균,하균,2026-07-03,,,,unknown,,,first_seen,
-하나쿠소,하나쿠소,2026-07-11,,,,unknown,록·밴드,,first_seen,inferred
+하나쿠소,하나쿠소,2026-07-11,,,,unknown,R&B·소울,,first_seen,inferred_low
 하노,하노,2024-02-11,,,,unknown,,,first_seen,
 하늘,하늘,2010-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 하늘과바다와날개의끝,하늘과바다와날개의끝,2021-04-18,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 하늘해밴드,하늘해밴드,2023-12-16,,,,unknown,,,first_seen,
 하늘호,하늘호,2024-12-26,,,,unknown,,,first_seen,
 하다,하다,2020-11-22,,,,unknown,,,first_seen,
-하도,하도,2022-01-09,,,,unknown,,,first_seen,
+하도,하도,2022-01-09,2006-09-11,32,3,established,,,verified,
 하동균,하동균,2020-05-18,,,,unknown,인디팝·발라드,,first_seen,review
 하디,하디,2022-08-24,,,,unknown,힙합·R&B,,first_seen,inferred
 하디윅,하디윅,2023-05-22,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -8441,7 +8439,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 하시,하시,2026-01-28,,,,unknown,실험·기타,,first_seen,profile
 하얀달ㅇ,하얀달ㅇ,2021-09-09,,,,unknown,,,first_seen,
 하여름,하여름,2023-03-31,,,,unknown,R&B·소울,,first_seen,inferred_low
-하연,하연,2021-06-10,,,,unknown,,,first_seen,
+하연,하연,2021-06-10,2023-03-24,15,1,established,,,verified,
 하연우,하연우,2026-09-02,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 하영훈,하영훈,2026-09-02,,,,unknown,록·밴드,,first_seen,inferred_low
 하예지,하예지,2020-09-21,,,,unknown,인디팝·발라드,,first_seen,profile
@@ -8466,7 +8464,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 하이잭키드,하이잭 키드,2021-12-25,,,,unknown,,,first_seen,
 하이크,하이크,2026-04-24,,,,unknown,,,first_seen,
 하이키,하이키,2023-01-01,,,,unknown,인디팝·발라드,,first_seen,review
-하이투모로우,하이투모로우,2023-05-18,,,,unknown,록·밴드,,first_seen,inferred_low
+하이투모로우,하이투모로우,2023-05-18,,,,unknown,록·밴드,,first_seen,inferred
 하이투힘,하이투힘,2022-11-19,,,,unknown,,,first_seen,
 하이틴팝스,하이틴팝스,2019-01-19,,,,unknown,,,first_seen,
 하이파이유니콘,하이파이유니콘,2026-08-01,,,,unknown,,,first_seen,
@@ -8526,7 +8524,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 한민지,한민지,2021-08-02,,,,unknown,인디팝·발라드,,first_seen,profile
 한방,한방,2024-07-09,,,,unknown,일렉트로닉,,first_seen,profile
 한백,한백,2021-05-14,,,,unknown,록·밴드,,first_seen,inferred
-한별,한별,2022-10-02,,,,unknown,,,first_seen,
+한별,한별,2022-10-02,,,,unknown,힙합,,first_seen,inferred_low
 한빈,한빈,2024-10-06,,,,unknown,,,first_seen,
 한빈킴,한빈킴,2026-09-13,,,,unknown,,,first_seen,
 한사랑조수정,한사랑&조수정,2021-10-30,,,,unknown,,,first_seen,
@@ -8553,7 +8551,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 한영애,한영애,2022-05-22,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 한예,한예,2026-01-19,,,,unknown,R&B·소울,,first_seen,review
 한예솔,한예솔,2022-06-26,,,,unknown,힙합,,first_seen,inferred_low
-한온,한온,2025-02-07,,,,unknown,R&B·소울,,first_seen,inferred_low
+한온,한온,2025-02-07,2023-05-16,8,2,established,R&B·소울,,verified,inferred_low
 한올,한올,2021-10-12,2014-08-26,16467,51,famous,포크·싱어송라이터,ALLABOUT,verified,profile
 한요한,한요한,2019-03-30,2012-11-30,60024,43,famous,힙합,ROCKSTAR CLUB,verified,profile
 한용희,한용희,2026-08-19,,,,unknown,록·밴드,,first_seen,inferred_low
@@ -8695,7 +8693,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 허찬조,허찬조,2023-04-26,,,,unknown,힙합,,first_seen,profile
 허찬회,허찬회,2022-08-24,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 허챈,허챈,2020-08-08,,,,unknown,R&B·소울,,first_seen,profile
-허클베리피,허클베리피,2018-06-03,,,,unknown,힙합,,first_seen,inferred
+허클베리피,허클베리피,2018-06-03,2011-10-20,15456,42,famous,힙합,Hi-Lite Records,verified,profile
 허클베리핀,허클베리핀,2017-03-25,,4580,,unknown,록·밴드,,first_seen,review
 허튼,허튼,2020-08-14,,,,unknown,록·밴드,,first_seen,inferred
 허험스,허험스,2024-04-08,,,,unknown,포크·싱어송라이터,,first_seen,review
@@ -8707,7 +8705,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 헤드터너,헤드터너,2023-12-02,,,,unknown,,,first_seen,
 헤르쯔아날로그,헤르쯔 아날로그,2021-07-03,,,,unknown,R&B·소울,,first_seen,profile
 헤르츠,헤르츠,2021-08-07,,,,unknown,록·밴드,,first_seen,inferred_low
-헤마타이트,헤마타이트,2026-02-28,,,,unknown,록·밴드,,first_seen,inferred
+헤마타이트,헤마타이트,2026-02-28,,,,unknown,,,first_seen,
 헤메코초초,헤메코 & 초초,2020-03-13,,,,unknown,일렉트로닉,,first_seen,profile
 헤비게이지,헤비게이지,2021-03-27,,,,unknown,록·밴드,,first_seen,inferred
 헤아린,헤아린,2023-12-09,,,,unknown,,,first_seen,
@@ -8716,7 +8714,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 헤이린,헤이린,2022-07-26,,,,unknown,록·밴드,,first_seen,inferred_low
 헤이마,헤이마,2021-07-12,,,,unknown,록·밴드,,first_seen,inferred
 헤이맨,헤이맨,2021-02-14,,,,unknown,록·밴드,,first_seen,review
-헤이오,헤이오,2024-12-08,,,,unknown,록·밴드,,first_seen,inferred
+헤이오,헤이오,2024-12-08,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 헤이유니즌,헤이 유니즌,2022-04-15,,,,unknown,,,first_seen,
 헤이즈,헤이즈,2020-06-01,,,,unknown,힙합·R&B,,first_seen,inferred
 헤이즈문,헤이즈문,2020-04-08,,,,unknown,포크·싱어송라이터,,first_seen,profile
@@ -8757,7 +8755,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 혜아,혜아,2021-01-26,,,,unknown,록·밴드,,first_seen,profile
 혜은이,혜은이,2026-10-15,,,,unknown,,,first_seen,
 혜화동소년,혜화동소년,2022-07-07,,,,unknown,R&B·소울,,first_seen,inferred_low
-혠,혠,2022-10-16,,,,unknown,록·밴드,,first_seen,inferred
+혠,혠,2022-10-16,,,,unknown,,,first_seen,
 호네호네,호네호네,2026-11-14,,,,unknown,,,first_seen,
 호도리,호도리,2022-06-18,,,,unknown,,,first_seen,
 호란,호란,2021-06-05,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
@@ -8767,7 +8765,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 호미들,호미들,2020-12-31,,,,unknown,힙합,,first_seen,press
 호선,호선,2022-02-24,,,,unknown,,,first_seen,
 호소,호소,2025-11-14,,,,unknown,일렉트로닉,,first_seen,inferred_low
-호수,호수,2022-10-02,,,,unknown,,,first_seen,
+호수,호수,2022-10-02,,,,unknown,힙합,,first_seen,inferred_low
 호시,호시,2023-11-01,,,,unknown,힙합·R&B,,first_seen,inferred
 호아,호아,2017-10-14,2016-05-30,1295,23,famous,일렉트로닉,,verified,profile
 호온도,호온도 (소음해금),2021-10-15,,,,unknown,일렉트로닉,,first_seen,profile
@@ -8854,7 +8852,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 화지,화지,2021-09-25,,,,unknown,힙합·R&B,,first_seen,inferred
 화지서이,화지서이,2026-11-26,2026-11-26,1,1,newcomer,인디팝·발라드,,verified,profile
 화평,화평,2021-06-24,,,,unknown,힙합,,first_seen,profile
-화희,화희,2021-10-01,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
+화희,화희,2021-10-01,,0,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 화희중,화희중,2022-05-16,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 확인,확인,2024-09-09,,,,unknown,록·밴드,,first_seen,review
 환상특급,환상특급,2026-05-07,,,,unknown,재즈,,first_seen,inferred_low
@@ -8892,7 +8890,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 황재,황재,2021-12-07,,,,unknown,힙합·R&B,,first_seen,inferred
 황정환,황정환,2022-03-13,,,,unknown,,,first_seen,
 황종률,황종률(블루앤블루),1994-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
-황종엽,황종엽(우물),2022-08-11,,,,unknown,,,first_seen,
+황종엽,황종엽(우물),2022-08-11,2021-01-29,14,8,established,,,verified,
 황주원,황주원,2026-07-11,,,,unknown,,,first_seen,
 황준익,황준익,1995-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 황지상,황지상,2022-01-01,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -8927,7 +8925,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 후루츄,후루츄,2026-11-02,,,,unknown,,,first_seen,
 후맵네,후맵네,2022-05-09,,,,unknown,록·밴드,,first_seen,review
 후스,후스,2023-09-04,,,,unknown,인디팝·발라드,,first_seen,review
-후엔,후엔,2021-04-05,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
+후엔,후엔,2021-04-05,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 후유,후유,2021-05-26,,,,unknown,힙합·R&B,,first_seen,inferred
 후지와라사쿠라,후지와라 사쿠라,2018-07-21,,,,unknown,,,first_seen,
 후추스,후추스,2015-09-01,,,,unknown,록·밴드,,first_seen,press
@@ -8951,7 +8949,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 흐림주의보,흐림주의보,2025-10-30,,,,unknown,록·밴드,,first_seen,inferred_low
 흑백,흑백,2025-11-29,,,,unknown,,,first_seen,
 흑심,흑심,2022-06-04,,,,unknown,,,first_seen,
-흑염소,흑염소,2026-09-12,,,,unknown,록·밴드,,first_seen,inferred
+흑염소,흑염소,2026-09-12,,,,unknown,,,first_seen,
 흑월,흑월,2022-11-20,,,,unknown,힙합,,first_seen,inferred_low
 흔적,흔적,2011-12-31,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 흥쇼콰이어,흥쇼콰이어,2022-05-29,,,,unknown,록·밴드,,first_seen,inferred_low
@@ -9010,7 +9008,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 030,030,2022-07-23,,,,unknown,힙합·R&B,,first_seen,inferred
 033,033,2026-04-16,,,,unknown,R&B·소울,,first_seen,inferred_low
 04limitedsazabys,04 Limited Sazabys,2024-09-28,,,,unknown,,,first_seen,
-070shake,070 shake,2025-04-08,,,,unknown,,,first_seen,
+070shake,070 Shake,2025-04-08,2016-03-29,1690,51,famous,,,verified,
 0do,0do,2026-07-26,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 0mn,0m!n,2023-12-19,,,,unknown,포크·싱어송라이터,,first_seen,profile
 0nn1,0NN1,2020-12-28,,,,unknown,일렉트로닉,,first_seen,profile
@@ -9052,7 +9050,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 문13,문13,2023-05-22,,,,unknown,,,first_seen,
 1300,1300,2021-03-05,,,,unknown,힙합,,first_seen,profile
 13children,13CHILDREN,2022-03-24,,,,unknown,,,first_seen,
-13steps,13 STEPS,2026-09-12,,,,unknown,록·밴드,,first_seen,inferred
+13steps,13 STEPS,2026-09-12,,,,unknown,,,first_seen,
 1415,1415,2022-01-15,,,,unknown,포크·싱어송라이터,,first_seen,profile
 15,1.5,2017-12-19,,,,unknown,힙합,,first_seen,inferred_low
 15iterations,1.5 Iterations,2026-09-13,,,,unknown,,,first_seen,
@@ -9092,7 +9090,7 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 213,213,2026-05-22,,,,unknown,,,first_seen,
 215,215,2024-03-10,,,,unknown,,,first_seen,
 215soundsystem,215 SOUND SYSTEM,2025-08-11,,,,unknown,일렉트로닉,,first_seen,profile
-21savage,21 Savage,2021-05-04,,,,unknown,,,first_seen,
+21savage,21 Savage,2021-05-04,2014-11-12,9917,109,famous,힙합,,verified,profile
 21scott,21SCOTT,2024-02-02,,,,unknown,록·밴드,,first_seen,inferred
 챕터22,챕터22,2026-07-23,,,,unknown,,,first_seen,
 풀업22,풀업22,2024-02-22,,,,unknown,힙합·R&B,,first_seen,inferred
@@ -9172,12 +9170,12 @@ team_key,display_name,first_seen,first_release,fan_count,album_count,profile_sta
 45층,4.5층,2022-04-16,,,,unknown,록·밴드,,first_seen,review
 45rpm,45RPM,2021-03-14,,,,unknown,힙합·R&B,,first_seen,inferred
 마포구자카46,마포구자카46,2023-12-12,,,,unknown,,,first_seen,
-49몰핀즈,49몰핀즈,2022-08-14,,,,unknown,,,first_seen,
+49몰핀즈,49몰핀즈,2022-08-14,2004-09-01,48,2,established,록·밴드,,verified,profile
 루트49,루트49,2022-07-28,,,,unknown,,,first_seen,
 49morphines,49MORPHINES,2026-11-06,,,,unknown,록·밴드,,first_seen,inferred
 4bottles,4 BOTTLES,2025-11-08,,,,unknown,록·밴드,,first_seen,inferred
 4dam,4DAM,2020-09-18,,,,unknown,힙합,,first_seen,profile
-4lunair,4LUNAIR,2026-09-21,,,,unknown,힙합,,first_seen,inferred_low
+4lunair,4LUNAIR,2026-09-21,,,,unknown,,,first_seen,
 4q,4Q,2026-10-04,,,,unknown,메탈·하드코어,,first_seen,inferred_low
 4sale,4sale,2026-11-17,,665,,unknown,,,first_seen,
 4shoboiz,4shoboiz,2026-09-28,,,,unknown,,,first_seen,
@@ -9320,13 +9318,13 @@ afrikanspaceprogram,afrikanspaceprogram,2026-11-12,,,,unknown,,,first_seen,
 아프리람포afrirampo,아프리람포 Afrirampo,2026-10-17,,,,unknown,,,first_seen,
 aftehourskr,aftehourskr,2026-06-22,,,,unknown,,,first_seen,
 afterpartyclub,After Party Club,2026-10-24,,,,unknown,록·밴드,,first_seen,inferred_low
-afterservice,After Service,2026-04-17,,,,unknown,,,first_seen,
+afterservice,After Service,2026-04-17,,,,unknown,힙합,,first_seen,inferred
 aftertheband,aftertheband,2026-10-29,,,,unknown,,,first_seen,
 afterthoughts,After Thoughts,2021-07-12,,,,unknown,일렉트로닉,,first_seen,profile
 aftonroamer,aftonroamer,2026-11-13,,,,unknown,,,first_seen,
 ag3mio,ag3mio,2026-02-10,,,,unknown,,,unverified,
 agaragar,Agar Agar,2022-06-29,,,,unknown,일렉트로닉,,first_seen,review
-agclub,AG CLUB,2024-04-29,,,,unknown,힙합,,first_seen,review
+agclub,AG Club,2024-04-29,2018-12-18,170,35,established,힙합,,verified,profile
 agcook,A. G. COOK,2024-01-03,,,,unknown,일렉트로닉,,first_seen,review
 agenda,Agenda,2025-09-04,,,,unknown,R&B·소울,,first_seen,review
 와이아현agenda,와이아현 (Agenda,2026-10-05,,,,unknown,일렉트로닉,,first_seen,review
@@ -9360,7 +9358,7 @@ akaiforehead,akaiforehead,2026-11-16,,,,unknown,일렉트로닉,,first_seen,infe
 akamong,A.K.A Mong,2022-10-01,,,,unknown,,,first_seen,
 akaneyonezawa,AKANE YONEZAWA,2026-11-07,,,,unknown,,,first_seen,
 akasa,AKASA,2025-12-26,,,,unknown,,,first_seen,
-akiiro,AKIIRO,2026-04-30,,,,unknown,록·밴드,,first_seen,inferred
+akiiro,AKIIRO,2026-04-30,2026-04-21,2,3,newcomer,,,verified,
 akira,AKIRA-,2026-07-03,,,,unknown,,,first_seen,
 akkujava,akkujava,2026-11-03,,,,unknown,,,first_seen,
 akmu,AKMU,2020-11-01,,,,unknown,인디팝·발라드,,first_seen,review
@@ -9372,7 +9370,7 @@ aldovaneyck,aldo van eyck,2026-09-05,,,,unknown,,,first_seen,
 alecjohnsuch,Alec John Such,2022-06-08,,,,unknown,,,first_seen,
 알레프alephmingginyu,알레프 (ALEPH) Mingginyu (밍기뉴),2023-05-25,,,,unknown,,,first_seen,
 alexanderbosserman,alexanderbosserman,2026-10-13,,,,unknown,,,first_seen,
-alexandros,[Alexandros],2026-11-21,,,,unknown,,,first_seen,
+alexandros,[Alexandros],2026-11-21,2023-06-21,896,57,established,,,verified,
 alexctorres,alexctorres,2026-11-25,,,,unknown,,,first_seen,
 alexg,Alex G,2025-07-31,,,,unknown,,,first_seen,
 alexho,Alex Ho,2021-11-23,,,,unknown,일렉트로닉,,first_seen,review
@@ -9418,7 +9416,7 @@ ancorevd,ancorevd,2026-11-21,,,,unknown,,,first_seen,
 andow,andow,2026-11-03,,,,unknown,,,first_seen,
 andr3000,André 3000,2023-11-21,,,,unknown,힙합,,first_seen,review
 andras,Andras,2020-02-01,,,,unknown,일렉트로닉,,unverified,review
-andreatran,Andrea Tran,2022-06-04,,,,unknown,,,first_seen,
+andreatran,Andrea Tran,2022-06-04,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 andrewvanwyngarden,Andrew VanWynGarden,2020-03-11,,,,unknown,,,unverified,
 andromedameo,andromedameo,2026-10-05,,,,unknown,,,first_seen,
 andyshauf,Andy Shauf,2023-11-24,,,,unknown,,,first_seen,
@@ -9448,7 +9446,7 @@ antimizmo,ANTI MIZMO,2025-08-15,,,,unknown,힙합,,first_seen,inferred_low
 antisocialbenz,antisocialbenz,2026-06-08,,,,unknown,,,first_seen,
 antoniacytrynowicz,Antonia Cytrynowicz,2022-05-27,,,,unknown,재즈,,first_seen,review
 anvil,anvil,2023-11-09,,,,unknown,힙합,,first_seen,profile
-anxious,Anxious,2022-02-09,,,,unknown,록·밴드,,first_seen,inferred
+anxious,Anxious,2022-02-09,,,,unknown,록·밴드,,first_seen,inferred_low
 anyasiii,anyasiii,2026-08-30,,,,unknown,,,first_seen,
 anyma,ANYMA,2026-07-28,,,,unknown,,,first_seen,
 anyo,ANYO,2023-09-04,,,,unknown,록·밴드,,first_seen,profile
@@ -9490,7 +9488,7 @@ arloparks,arlo parks,2023-07-08,,,,unknown,,,first_seen,
 armanakhanistan,armanakhanistan,2026-05-13,,,,unknown,,,first_seen,
 armandhammer,Armand Hammer,2021-06-05,,,,unknown,힙합,,first_seen,review
 arnaudriviere,arnaud___riviere,2026-11-26,,,,unknown,,,first_seen,
-arryam,ARRYAM,2023-07-16,,,,unknown,록·밴드,,first_seen,inferred
+arryam,ARRYAM,2023-07-16,,,,unknown,,,first_seen,
 art4,ART4,2024-09-27,,,,unknown,록·밴드,,first_seen,inferred
 arti7svn,arti7svn,2026-11-11,,,,unknown,,,first_seen,
 artifex,Artifex,2026-03-24,,,,unknown,,,first_seen,
@@ -9498,7 +9496,7 @@ artinb,Artinb,2020-03-01,,,,unknown,힙합,,first_seen,profile
 artis,Artis,2026-09-20,,,,unknown,힙합,,first_seen,inferred
 artistphj,artistphj,2026-11-18,,12000,,famous,,,first_seen,
 artistsanonymous,ARTISTS ANONYMOUS,2023-03-24,,,,unknown,록·밴드,,first_seen,inferred_low
-artiy,ARTIY,2026-09-21,,,,unknown,힙합,,first_seen,inferred_low
+artiy,ARTIY,2026-09-21,,,,unknown,,,first_seen,
 artproject,ART PROJECT,2022-05-19,,,,unknown,일렉트로닉,,first_seen,profile
 arushijain,Arushi Jain,2021-07-13,,,,unknown,일렉트로닉,,first_seen,review
 asahina,Asahina (ina),2026-06-28,,,,unknown,록·밴드,,first_seen,inferred
@@ -9547,7 +9545,7 @@ avove,AVOVE,2020-10-05,,,,unknown,R&B·소울,,first_seen,profile
 awan我完아완,Awan我完아완,2026-09-19,,,,unknown,,,first_seen,
 아완awan,아완AWAN,2025-03-01,,,,unknown,,,first_seen,
 awon,Awon,2020-05-14,,,,unknown,힙합,,first_seen,profile
-axehelvete,AXE HELVETE,2026-09-12,,,,unknown,록·밴드,,first_seen,inferred
+axehelvete,AXE HELVETE,2026-09-12,,,,unknown,,,first_seen,
 axivxn,axivxn,2026-10-26,,,,unknown,,,first_seen,
 axlandgoldman,Axl and Goldman,2020-06-04,,,,unknown,일렉트로닉,,first_seen,profile
 axmxp,AxMxP,2025-11-29,2025-05-06,2148,6,newcomer,R&B·소울,FNC엔터테인먼트,verified,profile
@@ -9632,11 +9630,11 @@ bandmechanic,bandmechanic,2026-11-11,,,,unknown,,,first_seen,
 bandmyveryend,bandmyveryend,2026-11-23,,,,unknown,록·밴드,,first_seen,inferred
 bandnok,band__nok,2026-11-21,,,,unknown,록·밴드,,first_seen,inferred
 bandrovers,bandrovers,2026-11-23,,,,unknown,록·밴드,,first_seen,inferred
-bandshady,bandshady,2026-10-26,,,,unknown,록·밴드,,first_seen,inferred
+bandshady,bandshady,2026-10-26,,,,unknown,,,first_seen,
 bandsrg,Band SRG,2026-03-26,,,,unknown,록·밴드,,first_seen,inferred_low
 bandthemooii,bandthemooii,2026-11-27,,,,unknown,,,first_seen,
 bane,Bane,2020-05-18,,,,unknown,메탈·하드코어,,first_seen,review
-banger,BANGER,2026-09-21,,,,unknown,힙합,,first_seen,inferred_low
+banger,BANGER,2026-09-21,,,,unknown,,,first_seen,
 bantaown,bantaown,2026-10-20,,,,unknown,,,first_seen,
 barbiedolls,Barbie Dolls,2024-07-20,,,,unknown,록·밴드,,first_seen,inferred
 bard,Bard,2022-09-01,,,,unknown,,,first_seen,
@@ -9645,7 +9643,7 @@ baritalia,bar italia,2024-06-17,,,,unknown,록·밴드,,first_seen,review
 barry2gan,barry2gan,2026-11-17,,,,unknown,,,first_seen,
 barshy,Barshy,2024-06-24,,,,unknown,일렉트로닉,,first_seen,profile
 bartoszholoszkiewicz,bartoszholoszkiewicz,2026-11-22,,,,unknown,,,first_seen,
-bartskils,BART SKILS,2026-10-16,,,,unknown,,,first_seen,
+bartskils,Bart Skils,2026-10-16,2011-11-14,9,87,established,일렉트로닉,,verified,profile
 baseck,Baseck,2023-07-11,,,,unknown,,,first_seen,
 basecreamwheelbug,basecreamwheelbug,2026-10-20,,,,unknown,,,first_seen,
 basementzero,basementzero,2026-09-19,,,,unknown,,,first_seen,
@@ -9656,7 +9654,7 @@ basswithmaguni,basswithmaguni,2026-11-10,,,,unknown,,,first_seen,
 bastille,Bastille,2022-10-01,,,,unknown,,,first_seen,
 baths,Baths,2025-03-08,,,,unknown,인디팝·발라드,,first_seen,review
 bau,BAU,2023-08-02,,,,unknown,힙합,,first_seen,profile
-bauhaus,Bauhaus,2022-03-24,,,,unknown,록·밴드,,first_seen,review
+bauhaus,Bauhaus,2022-03-24,1988-01-25,105,29,established,록·밴드,,verified,review
 bbalegunjohde,bbalegunjohde,2026-11-24,,,,unknown,,,first_seen,
 bbbbomb,bbbbomb,2024-11-22,,,,unknown,록·밴드,,first_seen,inferred
 bbbomb,BBbomb,2026-09-12,,,,unknown,,,first_seen,
@@ -9680,7 +9678,7 @@ beer,Beer,2020-12-19,2020-12-19,562,4,established,R&B·소울,,verified,profile
 begoniahandmade,begoniahandmade,2026-10-09,,,,unknown,,,first_seen,
 beheaded,Beheaded,2025-03-26,,,,unknown,실험·기타,,first_seen,profile
 behindthemoon,BehindtheMoon,2020-06-06,,,,unknown,일렉트로닉,,first_seen,profile
-behindthetongue,behindthetongue,2026-11-03,,,,unknown,록·밴드,,first_seen,inferred
+behindthetongue,behindthetongue,2026-11-03,,,,unknown,록·밴드,,first_seen,inferred_low
 being可愛い,Being 可愛い,2026-05-05,,,,unknown,일렉트로닉,,first_seen,profile
 bela,bela,2021-02-05,,,,unknown,일렉트로닉,,first_seen,review
 belaver,Belaver,2025-04-18,,,,unknown,록·밴드,,first_seen,inferred
@@ -9714,7 +9712,7 @@ bicep,Bicep,2021-01-27,,,,unknown,일렉트로닉,,first_seen,review
 bielro,BIELRO,2020-08-25,,,,unknown,,,first_seen,
 big9ulpo,BIG 9ULPO,2026-11-17,,,,unknown,힙합,,first_seen,inferred
 bigbabycam,Big Baby Cam,2026-09-12,,,,unknown,,,first_seen,
-bigbet,Bigbet,2026-02-14,,,,unknown,록·밴드,,first_seen,inferred
+bigbet,Bigbet,2026-02-14,,,,unknown,일렉트로닉,,first_seen,inferred_low
 bigdd,BigDD,2026-09-02,,,,unknown,힙합,,first_seen,inferred_low
 bigmerv,Big Merv,2022-01-27,,,,unknown,,,first_seen,
 bigpantsguy,BIG PANTS GUY,2024-12-19,,,,unknown,록·밴드,,first_seen,inferred
@@ -9734,7 +9732,7 @@ binsejin,BINSEJIN,2026-07-11,,,,unknown,힙합,,first_seen,inferred_low
 biohazard,Biohazard,2021-06-18,,,,unknown,힙합,,first_seen,review
 birthdaylyn,birthdaylyn,2026-10-26,,,,unknown,,,first_seen,
 birthdaysindrome,BIRTHDAY SiNDROME,2026-06-28,,,,unknown,록·밴드,,first_seen,inferred
-birushanah,birushanah,2026-09-05,,,,unknown,록·밴드,,first_seen,inferred
+birushanah,birushanah,2026-09-05,,,,unknown,,,first_seen,
 biskit,biskit!,2023-09-08,,,,unknown,R&B·소울,,first_seen,profile
 blackbird,Blackbird,2021-05-31,,,,unknown,,,first_seen,
 blackcountrynewroad,"Black Country, New Road",2024-02-21,,,,unknown,,,first_seen,
@@ -9772,7 +9770,7 @@ bluealdorain,bluealdorain,2026-11-24,,,,unknown,,,first_seen,
 blued,Blue.D,2025-01-17,,,,unknown,R&B·소울,,first_seen,inferred
 blueencount,BLUE ENCOUNT,2026-04-11,,,,unknown,록·밴드,,first_seen,inferred
 bluemoon,Blue Moon,2025-04-24,,,,unknown,,,first_seen,
-bluerock,BLUEROCK,2026-02-28,,,,unknown,록·밴드,,first_seen,inferred
+bluerock,BLUEROCK,2026-02-28,,,,unknown,,,first_seen,
 blueroom,BLUE ROOM,2021-12-31,,,,unknown,힙합,,first_seen,profile
 blueskyfreebird,blueskyfreebird,2026-11-16,,,,unknown,,,first_seen,
 bluewagon,Blue Wagon,2024-08-15,,,,unknown,록·밴드,,first_seen,inferred
@@ -9801,7 +9799,7 @@ bodymeat,Body Meat,2024-06-11,,,,unknown,,,first_seen,
 bodypile,BODYPILE,2023-05-13,,,,unknown,록·밴드,,first_seen,inferred
 boen,bo en,2023-11-20,,,,unknown,일렉트로닉,,first_seen,review
 boggie,Boggie,2026-09-06,,,,unknown,,,first_seen,
-boiledpic,boiledpic,2026-10-26,,,,unknown,록·밴드,,first_seen,inferred
+boiledpic,boiledpic,2026-10-26,,,,unknown,,,first_seen,
 bojvck,bojvck,2023-04-25,,,,unknown,힙합,,first_seen,profile
 boldyjames,Boldy James,2021-07-27,,,,unknown,힙합,,first_seen,review
 bolispupul,Bolis Pupul,2022-03-11,,,,unknown,R&B·소울,,first_seen,review
@@ -9810,7 +9808,7 @@ bon,bon,2024-04-07,,,,unknown,R&B·소울,,first_seen,profile
 bonethugsnharmony,Bone Thugs-N-Harmony,2021-09-10,,,,unknown,힙합,,first_seen,review
 boniver,Bon Iver,2022-03-17,,,,unknown,포크·싱어송라이터,,first_seen,review
 bonjovi,Bon Jovi,2022-06-08,,,,unknown,,,first_seen,
-bonobo,Bonobo,2020-09-25,,,,unknown,일렉트로닉,,first_seen,review
+bonobo,Bonobo,2020-09-25,2000-01-01,800,100,established,일렉트로닉,,verified,profile
 bonuspoints,Bonus Points,2021-04-15,,,,unknown,힙합,,first_seen,profile
 boobagraphy,boobagraphy,2025-12-16,,,,unknown,,,unverified,
 boody,bOOdy,2022-08-23,,,,unknown,R&B·소울,,first_seen,inferred_low
@@ -9818,7 +9816,7 @@ bookbookbalance,BookBookBalance,2024-08-21,,,,unknown,록·밴드,,first_seen,pr
 bookert,Booker T,2021-01-11,,,,unknown,,,first_seen,
 booookyung,booookyung,2026-10-28,,,,unknown,,,first_seen,
 bootiebrown,Bootie Brown,2022-09-09,,,,unknown,,,first_seen,
-bootsycollins,Bootsy Collins,2023-01-09,,,,unknown,R&B·소울,,first_seen,review
+bootsycollins,Bootsy Collins,2023-01-09,1976-01-01,233,94,established,R&B·소울,,verified,profile
 boredapedonutshop,Bored Ape Donut Shop,2023-03-30,,,,unknown,록·밴드,,first_seen,review
 born2blues,Born2Blues,2026-07-25,,,,unknown,,,first_seen,
 borntoblues,Born to Blues!,2026-10-16,,,,unknown,,,first_seen,
@@ -9852,7 +9850,7 @@ brianeno,Brian Eno,2020-04-22,,,,unknown,일렉트로닉,,first_seen,review
 brianloveskimchi,brianloveskimchi,2026-10-20,,,,unknown,,,first_seen,
 brianshin,Brian Shin,2021-03-11,,,,unknown,힙합,,first_seen,profile
 brick,Brick,2022-05-26,2017-06-28,874,64,established,R&B·소울,,verified,profile
-bright,BRIGHT,2026-09-21,,,,unknown,힙합,,first_seen,inferred_low
+bright,Bright,2026-09-21,2008-04-15,55,18,established,실험·기타,,verified,profile
 brighten,BRIGHTEN,2026-08-14,,,,unknown,록·밴드,,first_seen,inferred
 brighthouse,Bright House,2026-05-16,2026-08-27,1,2,newcomer,,,verified,
 brigidmaepower,Brigid Mae Power,2021-08-11,,,,unknown,포크·싱어송라이터,,first_seen,review
@@ -9896,7 +9894,7 @@ burningmonkeys,Burning Monkeys,2026-09-19,,,,unknown,록·밴드,,first_seen,inf
 burnoutsyndromes,burnout syndromes,2023-08-26,,,,unknown,,,first_seen,
 busanlottegiants,busanlottegiants,2026-11-07,,,,unknown,,,first_seen,
 bussytemple,bussytemple,2026-11-14,,,,unknown,,,first_seen,
-bustabomb,Bustabomb,2023-02-04,,,,unknown,,,first_seen,
+bustabomb,Bustabomb,2023-02-04,,,,unknown,힙합,,first_seen,inferred
 busynessmane,busynessmane,2026-07-21,,,,unknown,,,first_seen,
 bxh,BXH,2022-12-23,,,,unknown,록·밴드,,first_seen,inferred
 bysmusicproduction,bysmusicproduction,2026-11-24,,,,unknown,,,first_seen,
@@ -9992,13 +9990,13 @@ charlietunes,charlietunes,2026-11-14,,,,unknown,,,first_seen,
 charlixcx,Charli XCX,2024-06-04,,,,unknown,일렉트로닉,,first_seen,review
 charlottefever,charlottefever,2022-12-15,,,,unknown,,,first_seen,
 charminglips,Charming Lips,2022-06-06,,,,unknown,R&B·소울,,first_seen,profile
-chasm,Chasm,2026-11-21,,,,unknown,록·밴드,,first_seen,inferred
+chasm,Chasm,2026-11-21,,,,unknown,,,first_seen,
 che,Che,2020-12-18,,,,unknown,힙합,,first_seen,press
 checkpointmusicart,checkpointmusicart,2026-07-14,,,,unknown,,,first_seen,
 cheery,CHEERY,2022-04-23,,,,unknown,,,first_seen,
 cheeze,CHEEZE,2020-05-18,,,,unknown,R&B·소울,,first_seen,profile
 chei,CHE_I,2023-04-30,,,,unknown,,,first_seen,
-cherryboy17,CHERRY BOY 17,2026-11-22,,,,unknown,힙합,,first_seen,inferred_low
+cherryboy17,CHERRY BOY 17,2026-11-22,,,,unknown,힙합,,first_seen,inferred
 이규리chettyjay,"이규리, Chetty jay",2026-02-12,,,,unknown,,,first_seen,
 chevee,che!vee,2024-01-12,2023-05-21,15,4,established,록·밴드,,verified,inferred
 chevon,Chevon,2026-11-22,,,,unknown,,,first_seen,
@@ -10018,7 +10016,7 @@ chiochicano,CHIO CHICANO,2026-07-04,,,,unknown,힙합,,first_seen,inferred
 chiptanaka,Chip Tanaka,2020-07-26,,,,unknown,,,first_seen,
 chitkey,CHITKEY,,,,,unknown,,,first_seen,
 chivan,Chivan,2026-10-03,,,,unknown,,,first_seen,
-chlalsdud,CHLALSDUD,2026-03-24,,,,unknown,,,first_seen,
+chlalsdud,CHLALSDUD,2026-03-24,,,,unknown,힙합,,first_seen,inferred
 chloe,Chloe,2026-08-27,,,,unknown,R&B·소울,,first_seen,inferred_low
 chlwhdqls,chlwhdqls,2026-09-06,,,,unknown,,,first_seen,
 chocolatd,CHOCOLAT.D,2017-07-08,,,,unknown,,,first_seen,
@@ -10045,7 +10043,7 @@ chunkyandthepinknoise,CHUNKY AND THE PINK NOISE,2026-10-31,,,,unknown,,,first_se
 chupas,chupas,2026-11-01,,,,unknown,록·밴드,,first_seen,inferred_low
 chwvin,chwvin,2024-07-31,,,,unknown,힙합,,first_seen,inferred_low
 cicadaandmayfly,CICADA AND MAYFLY,2026-10-09,,,,unknown,록·밴드,,first_seen,inferred
-cielo,CIELO,2026-04-17,,,,unknown,,,first_seen,
+cielo,CIELO,2026-04-17,,,,unknown,힙합,,first_seen,inferred
 cifika,CIFIKA,2020-09-01,,,,unknown,일렉트로닉,,first_seen,inferred
 cigarettesaftersex,CIGARETTES AFTER SEX,2021-10-02,,,,unknown,,,first_seen,
 cika,CIKA,2021-01-21,,,,unknown,힙합·R&B,,unverified,inferred
@@ -10056,7 +10054,7 @@ cindysaray,Cindy Saray,2026-06-25,,,,unknown,,,first_seen,
 cinemas,Cinema’s,2026-11-09,,,,unknown,,,first_seen,
 cinta,Cinta,2022-04-30,,,,unknown,,,first_seen,
 circlejerks,Circle Jerks,2022-02-19,,,,unknown,록·밴드,,first_seen,review
-citibeck,citibeck,2022-03-10,,,,unknown,록·밴드,,first_seen,review
+citibeck,citibeck,2022-03-10,2020-04-23,65,3,established,록·밴드,,verified,profile
 citiesaviv,Cities Aviv,2026-09-16,,,,unknown,힙합,,first_seen,review
 citijeong,Citi Jeong,2024-04-24,,,,unknown,인디팝·발라드,,first_seen,review
 citizendj,Citizen DJ,2020-04-29,,,,unknown,,,first_seen,
@@ -10076,7 +10074,7 @@ claralasan,Clara La San,2024-06-21,,,,unknown,R&B·소울,,first_seen,review
 claremont56,Claremont 56,2020-10-30,,,,unknown,일렉트로닉,,first_seen,review
 clarinet차민규,Clarinet 차민규,2018-08-11,,,,unknown,,,first_seen,
 claud,Clau.D,2022-06-28,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
-clave,CLAVE,2025-03-07,,,,unknown,,,first_seen,
+clave,CLAVE,2025-03-07,,,,unknown,R&B·소울,,first_seen,inferred_low
 clavita,Clavita,2021-11-29,,,,unknown,R&B·소울,,first_seen,profile
 cleave,CLEAVE,2026-10-15,,,,unknown,,,first_seen,
 clevermoose,Clever Moose,2026-09-06,,,,unknown,,,first_seen,
@@ -10119,6 +10117,7 @@ colors,COLORS,2025-11-01,,,,unknown,록·밴드,,first_seen,inferred
 comacakeclub,COMA CAKE CLUB,2026-10-04,,,,unknown,록·밴드,,first_seen,inferred
 combust,Combust,2022-03-29,,,,unknown,메탈·하드코어,,first_seen,review
 comfy,comfy,2025-08-08,,,,unknown,,,first_seen,
+commonground,COMMON GROUND,2021-09-13,2004-05-01,982,37,established,R&B·소울,브이컴퍼니,verified,profile
 communityswimmingpool,Community Swimming Pool,2022-08-26,,,,unknown,인디팝·발라드,,first_seen,review
 como,COMO,2021-12-11,,,,unknown,힙합,,first_seen,inferred_low
 compello,Compello,2022-09-23,,,,unknown,,,first_seen,
@@ -10161,7 +10160,7 @@ cozyhoon,cozyhoon,2026-09-14,,,,unknown,,,first_seen,
 cr태규,CR태규,2021-04-17,2012-10-05,87,17,established,포크·싱어송라이터,,verified,profile
 crackcloud,CRACK CLOUD,2022-08-05,,,,unknown,,,first_seen,
 crane,Crane,2026-11-24,2013-01-25,0,1,established,,,verified,
-crawler,CRAWLER,2023-07-16,,,,unknown,록·밴드,,first_seen,inferred
+crawler,CRAWLER,2023-07-16,,,,unknown,,,first_seen,
 crb,CRB,2022-07-09,,,,unknown,,,first_seen,
 creamy,cream__y,2026-11-23,,,,unknown,,,first_seen,
 creek,Creek,2026-06-13,,,,unknown,록·밴드,,first_seen,inferred_low
@@ -10171,13 +10170,13 @@ crewsociety,CREW SOCIETY,2017-05-20,,,,unknown,,,first_seen,
 crossfaith,Crossfaith,2024-09-28,,,,unknown,,,first_seen,
 crossx,CrossX,2022-12-31,2012-01-13,0,3,established,힙합,,verified,inferred_low
 crozboyce,Croz Boyce,2026-04-27,,,,unknown,,,first_seen,
-crudia,Crudia,2026-11-21,,,,unknown,록·밴드,,first_seen,inferred
+crudia,Crudia,2026-11-21,,,,unknown,,,first_seen,
 crying,Crying,2020-09-18,,,,unknown,인디팝·발라드,,first_seen,review
 cryptopsy,CRYPTOPSY,2025-12-08,,,,unknown,,,first_seen,
 crystalmurray,Crystal Murray,2026-09-04,,,,unknown,,,first_seen,
 카더가든csquared,카더가든 C SQUARED,2018-09-09,,,,unknown,록·밴드,,first_seen,inferred_low
 cst,C-st,2021-05-13,,,,unknown,힙합,,first_seen,profile
-cudoa,CUDOA,2025-05-16,,,,unknown,록·밴드,,first_seen,inferred
+cudoa,CUDOA,2025-05-16,,,,unknown,,,first_seen,
 cullinanthebrilhante,cullinanthebrilhante,2026-11-09,,,,unknown,,,first_seen,
 cultgazer,Cultgazer,2024-11-15,2024-11-15,0,3,newcomer,록·밴드,,verified,profile
 cuprumcu,cuprum___cu,2026-07-01,,,,unknown,힙합,,first_seen,inferred_low
@@ -10335,7 +10334,7 @@ desertflowerofficial,desertflowerofficial,2026-11-08,,,,unknown,록·밴드,,fir
 deservetodie,Deserve To Die,2024-01-07,,,,unknown,록·밴드,,first_seen,inferred
 desktoperror,Desktop Error,2022-10-01,,,,unknown,,,first_seen,
 desolatechen,Desolate Chen,2024-12-04,,,,unknown,인디팝·발라드,,first_seen,profile
-desonide,DESONIDE,2026-01-11,,,,unknown,록·밴드,,first_seen,inferred
+desonide,DESONIDE,2026-01-11,,,,unknown,메탈·하드코어,,first_seen,inferred_low
 deul,DEUL,2021-09-07,,,,unknown,힙합·R&B,,first_seen,inferred
 devinelectronica,devinelectronica,2026-11-08,,,,unknown,,,first_seen,
 devonaokismine,devonaokismine,2026-11-04,,,,unknown,,,first_seen,
@@ -10475,7 +10474,7 @@ djrum,Djrum,2025-04-30,,,,unknown,,,first_seen,
 djryeom,DJ Ryeom,2026-07-16,,,,unknown,,,first_seen,
 djseolon,DJ SEOLON,2023-10-21,,,,unknown,힙합,,first_seen,inferred_low
 djshadow,DJ Shadow,2023-08-21,,,,unknown,힙합,,first_seen,review
-djsim,DJ SIM,2026-11-22,,,,unknown,힙합,,first_seen,inferred_low
+djsim,DJ SIM,2026-11-22,,,,unknown,힙합,,first_seen,inferred
 djsoichiyamamoto,DJ SOICHI YAMAMOTO,2022-08-21,,,,unknown,,,first_seen,
 djsoul2,DJ Soul2,2020-12-02,,,,unknown,,,first_seen,
 djsoulscape,DJ soulscape,2023-07-26,,,,unknown,R&B·소울,,first_seen,review
@@ -10579,7 +10578,7 @@ duofiore,Duo Fiore,2017-06-24,,,,unknown,,,first_seen,
 dustbox,dustbox,2023-06-10,,,,unknown,록·밴드,,first_seen,inferred
 duumok,duumok,2026-11-08,,,,unknown,,,first_seen,
 dvi,DV-i,2024-08-09,,,,unknown,,,first_seen,
-dx,D-X,2025-11-01,,,,unknown,록·밴드,,first_seen,inferred_low
+dx,D-X,2025-11-01,,,,unknown,,,first_seen,
 dydsu,dydsu,2026-11-17,,,,unknown,,,first_seen,
 dygl,DYGL,2026-10-02,,,,unknown,,,first_seen,
 dykobar,dykobar,2026-11-04,,,,unknown,,,first_seen,
@@ -10603,7 +10602,7 @@ easthopeman,easthopeman,2026-11-02,,,,unknown,일렉트로닉,,first_seen,inferr
 eastpaw,Eastpaw,2024-03-22,,,,unknown,록·밴드,,first_seen,inferred
 eastsummer,East____summer,2026-11-27,,,,unknown,,,first_seen,
 easylife,Easy Life,2022-10-13,,,,unknown,인디팝·발라드,,first_seen,review
-easymind,Easymind,2023-09-15,,,,unknown,힙합,,first_seen,profile
+easymind,Easymind,2023-09-15,2018-01-26,83,11,established,힙합,,verified,profile
 easyoon,easyoon,2026-06-22,,,,unknown,,,first_seen,
 ebeomho,ebeomho,2026-11-26,,,,unknown,힙합,,first_seen,inferred_low
 ebm,EBM,2023-05-12,,,,unknown,일렉트로닉,,first_seen,review
@@ -10647,7 +10646,7 @@ eitarosato,eitaro sato,2026-11-20,,,,unknown,록·밴드,,first_seen,inferred_lo
 ejo,EJO,2021-02-13,,,,unknown,힙합,,first_seen,profile
 ejoandthemidgets,ejoandthemidgets,2026-04-01,,,,unknown,힙합,,first_seen,inferred_low
 ek,EK,2021-02-15,2014-04-25,6599,46,famous,힙합,,verified,profile
-ekd,EKD,2026-10-04,,,,unknown,,,first_seen,
+ekd,EKD,2026-10-04,,0,,unknown,,,first_seen,
 ekdyloschangaras,EKD y LOS CHANGARAS,2026-10-02,,,,unknown,,,first_seen,
 elainekshin,elainekshin,2026-10-16,,,,unknown,,,first_seen,
 elaminus,Ela Minus,2025-01-28,,,,unknown,일렉트로닉,,first_seen,review
@@ -10722,7 +10721,7 @@ eson,ESON,2025-06-14,,,,unknown,록·밴드,,first_seen,inferred
 esum,ESUM,2026-10-17,,,,unknown,,,first_seen,
 esunplayalone,esunplayalone,2026-11-23,,,,unknown,록·밴드,,first_seen,inferred
 et1c,et1c,2026-10-28,,,,unknown,,,first_seen,
-etc,ETC,2021-03-03,,,,unknown,일렉트로닉,,first_seen,inferred
+etc,ETC,2021-03-03,,,,unknown,,,first_seen,
 etham,etham,2023-09-24,,,,unknown,,,first_seen,
 ethan,Ethan,2022-06-18,2000-01-01,29,36,established,인디팝·발라드,,verified,profile
 ethangruska,Ethan Gruska,2022-03-17,,,,unknown,인디팝·발라드,,first_seen,review
@@ -10872,7 +10871,7 @@ fnmnl,FNMNL,2020-05-11,,,,unknown,,,first_seen,
 fog,FOG,2022-02-13,,,,unknown,,,first_seen,
 foggyatthebottom,Foggyatthebottom,2023-02-23,,,,unknown,힙합·R&B,,first_seen,inferred
 foixx0,foixx0,2026-11-17,,,,unknown,,,first_seen,
-foley,Foley,2025-10-26,,,,unknown,록·밴드,,first_seen,inferred_low
+foley,Foley,2025-10-26,2022-10-27,0,2,established,인디팝·발라드,,verified,profile
 folk9,folk9,2024-11-06,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 fontainesdc,Fontaines D.C.,2024-06-25,,,,unknown,록·밴드,,first_seen,review
 fontanafolle,Fontana Folle,2020-04-17,,,,unknown,재즈,,first_seen,profile
@@ -10893,10 +10892,10 @@ foxyb34r,Foxyb34r,2024-03-04,,,,unknown,힙합,,first_seen,profile
 fr333shair,fr333shair,2026-10-28,,,,unknown,일렉트로닉,,first_seen,inferred_low
 fr33oo,fr33oo,2026-11-12,,,,unknown,,,first_seen,
 fragmentedservice,Fragmented Service,2023-11-21,,,,unknown,일렉트로닉,,first_seen,review
-francis,FRANCIS,2026-09-21,,,,unknown,힙합,,first_seen,inferred_low
+francis,FRANCIS,2026-09-21,,,,unknown,,,first_seen,
 frankieknuckles,Frankie Knuckles,2024-03-29,,,,unknown,일렉트로닉,,first_seen,review
 franklyspeaking,Frankly Speaking,2023-11-15,,,,unknown,힙합,,first_seen,profile
-frankocean,Frank Ocean,2020-08-21,,,,unknown,R&B·소울,,first_seen,review
+frankocean,Frank Ocean,2020-08-21,2011-01-01,24241,17,famous,R&B·소울,,verified,profile
 franky,FRANKY,2026-11-01,,,,unknown,힙합,,first_seen,inferred
 freaks,FREAKS,2022-11-26,,,,unknown,,,first_seen,
 fredagain,Fred again,2023-03-21,,,,unknown,일렉트로닉,,first_seen,review
@@ -10911,7 +10910,7 @@ freereina,freereina!,2026-11-25,,1193,,unknown,,,first_seen,
 freethefulltime,freethefulltime,2026-05-11,,,,unknown,,,first_seen,
 freewill,FREEWILL,2026-04-30,,,,unknown,록·밴드,,first_seen,inferred
 frefra,FreFra (JAPAN),,,,,unknown,록·밴드,,first_seen,inferred
-freshair,Fresh Air,2026-07-31,,,,unknown,,,first_seen,
+freshair,Fresh Air,2026-07-31,,,,unknown,힙합,,first_seen,inferred
 friction,FRICTION,2026-11-07,,,,unknown,,,first_seen,
 fridayyy,FRIDAYYY,2022-05-13,,,,unknown,,,first_seen,
 frism,FRISM,2026-11-04,,,,unknown,록·밴드,,first_seen,inferred_low
@@ -10929,7 +10928,7 @@ fruitiger,Fruitiger,2026-09-03,,,,unknown,,,first_seen,
 ftisland,FTISLAND,2023-09-01,,,,unknown,록·밴드,,first_seen,review
 ftk,FTK,2026-09-05,,,,unknown,,,first_seen,
 fuckingmadness,Fucking Madness,2020-05-23,,,,unknown,재즈,,first_seen,profile
-fuckyouiworkfortraitor,FUCKYOUIWORKFORTRAITOR,2023-07-14,,,,unknown,,,first_seen,
+fuckyouiworkfortraitor,FUCKYOUIWORKFORTRAITOR,2023-07-14,,,,unknown,R&B·소울,,first_seen,inferred_low
 fujiikaze,Fujii Kaze,2026-01-08,,,,unknown,,,first_seen,
 fukhed,fukhed,2026-07-07,,,,unknown,,,first_seen,
 fulltime,FULLTIME,2026-09-01,,,,unknown,,,first_seen,
@@ -11041,19 +11040,19 @@ glok,Glok,2020-05-29,,,,unknown,일렉트로닉,,first_seen,review
 gloowhale,GLOOWHALE,2026-10-21,,,,unknown,,,first_seen,
 glowcean,GLOWCEAN,2021-01-21,,,,unknown,R&B·소울,,first_seen,profile
 glowingdog,glowingdog,2020-04-24,,,,unknown,일렉트로닉,,first_seen,profile
-glowmoss,glowmoss,2026-10-29,,,,unknown,록·밴드,,first_seen,inferred_low
+glowmoss,glowmoss,2026-10-29,2025-05-29,19,2,newcomer,록·밴드,,verified,inferred_low
 glowupmag,GLOWUPMAG,2026-07-16,,,,unknown,,,first_seen,
 gnar,GNAR,2026-07-16,,,,unknown,,,first_seen,
 gnbchili,GnB Chili,2023-12-14,,,,unknown,힙합,,first_seen,review
 gndloop,gndloop,2026-10-22,,,,unknown,,,first_seen,
-gnis밴드,GNIS밴드,2021-06-17,,,,unknown,,,first_seen,
+gnis밴드,GNIS밴드,2021-06-17,,,,unknown,록·밴드,,first_seen,inferred_low
 gnncjegrgr,gnncjegrgr,2026-11-25,,,,unknown,힙합,,first_seen,inferred
 gobchang,GobChang,2026-05-09,,,,unknown,록·밴드,,first_seen,inferred
 godam,GO DAM,2020-08-31,,,,unknown,,,first_seen,
 godfreeho,Godfree Ho,2024-04-13,,,,unknown,록·밴드,,first_seen,inferred
 godot,Godot,2023-10-22,,,,unknown,록·밴드,,first_seen,inferred_low
-godslavethedestroy,God Slave the Destroy,2026-09-05,,,,unknown,록·밴드,,first_seen,inferred
-godspeedyoublackemperor,Godspeed You! Black Emperor,2021-03-10,,,,unknown,록·밴드,,first_seen,review
+godslavethedestroy,God Slave the Destroy,2026-09-05,,,,unknown,,,first_seen,
+godspeedyoublackemperor,Godspeed You! Black Emperor,2021-03-10,1997-08-14,344,,established,록·밴드,,verified,review
 godtrippydog,@godtrippydog &,2026-11-12,,,,unknown,,,first_seen,
 gof,Gof,2025-11-27,,,,unknown,,,first_seen,
 gogo482,GOGO482,2022-07-29,,,,unknown,,,first_seen,
@@ -11217,7 +11216,7 @@ helicopterseoul,helicopterseoul,2026-11-11,,,,unknown,,,first_seen,
 hellboiii,HELLBOIII,2026-10-21,,,,unknown,,,first_seen,
 hellfiresurfers,HELLFIRE SURFERS,2026-10-05,,,,unknown,,,first_seen,
 헬리비젼hellivision,헬리비젼 Hellivision,2026-10-17,,,,unknown,,,first_seen,
-hematite,HEMATITE,2026-02-28,,,,unknown,록·밴드,,first_seen,inferred
+hematite,HEMATITE,2026-02-28,,,,unknown,,,first_seen,
 hemming,hemming,2021-07-18,,,,unknown,포크·싱어송라이터,,first_seen,profile
 hen,HEN,2025-03-30,,,,unknown,,,first_seen,
 henderr,hender__r,2026-11-10,,,,unknown,,,first_seen,
@@ -11257,7 +11256,7 @@ hipcut,Hipcut,2020-01-28,,,,unknown,힙합,,first_seen,profile
 hipe,HIPE,2023-01-04,,,,unknown,일렉트로닉,,first_seen,profile
 hipersona,HIPERSONA,2022-09-02,,,,unknown,,,first_seen,
 hiphople,HIPHOPLE,2021-06-01,,,,unknown,힙합,,first_seen,review
-hiphoppdjjpark,HIPHOPPD j_j.park,2026-04-17,,,,unknown,,,first_seen,
+hiphoppdjjpark,HIPHOPPD j_j.park,2026-04-17,,,,unknown,힙합,,first_seen,inferred
 hiphopplayameme,hiphopplayameme,2026-08-13,,,,unknown,,,first_seen,
 hippo,Hippo,2020-06-09,,,,unknown,R&B·소울,,first_seen,profile
 hippocampus,HIPPO CAMPUS,2021-10-02,,,,unknown,,,first_seen,
@@ -11316,7 +11315,7 @@ hooon,HOOON,2025-03-14,,,,unknown,,,first_seen,
 팩트horim,팩트 (Horim,2026-06-15,,,,unknown,R&B·소울,,first_seen,review
 horimshin,horimshin,2026-11-24,,,,unknown,,,first_seen,
 horimtheskajazzunit,Horim & The Ska Jazz Unit,2025-07-17,,,,unknown,재즈,,first_seen,profile
-horsedeer,HORSE&DEER,2026-08-22,,,,unknown,록·밴드,,first_seen,inferred
+horsedeer,HORSE&DEER,2026-08-22,,,,unknown,,,first_seen,
 horsegirl,Horsegirl,2022-07-01,,,,unknown,록·밴드,,first_seen,review
 horsemans,HORSEMANS,2026-10-09,,,,unknown,록·밴드,,first_seen,inferred
 hortensia,hortensia,2024-03-08,,,,unknown,,,first_seen,
@@ -11357,7 +11356,7 @@ hwanji,HWANJI,2024-02-07,,,,unknown,일렉트로닉,,first_seen,profile
 hwi,HWI,2023-04-25,,,,unknown,힙합,,first_seen,profile
 hwmusic,hwmusic,2026-11-22,,,,unknown,힙합,,first_seen,inferred
 hybs,HYBS,2022-09-02,,,,unknown,,,first_seen,
-hyeeun,HYEEUN,2022-10-17,,,,unknown,,,first_seen,
+hyeeun,HYEEUN,2022-10-17,,,,unknown,R&B·소울,,first_seen,inferred_low
 hyejin,Hyejin,2022-10-19,,,,unknown,,,first_seen,
 hyejin9w9,hyejin9w9,2024-04-30,,,,unknown,힙합,,first_seen,profile
 hyeonwoojin,hyeonwoojin,2026-11-19,,,,unknown,일렉트로닉,,first_seen,inferred_low
@@ -11394,7 +11393,7 @@ icekingkong,IceKingKong,2026-08-01,,,,unknown,,,first_seen,
 ichangedmyidalot,ichangedmyidalot,2021-11-26,,,,unknown,힙합,,first_seen,review
 icykof,ICYKOF,2025-09-30,,,,unknown,일렉트로닉,,first_seen,review
 id,ID,2022-09-20,,,,unknown,힙합·R&B,,first_seen,inferred
-ide,₩IDE,2026-09-21,,,,unknown,힙합,,first_seen,inferred_low
+ide,₩IDE,2026-09-21,,,,unknown,,,first_seen,
 ideal,ideal,2026-01-27,,,,unknown,힙합,,first_seen,profile
 idearth,ID:Earth,2023-09-01,2002-10-19,438,59,established,R&B·소울,,verified,review
 identifiedpatient,Identified Patient,2023-01-14,,,,unknown,일렉트로닉,,first_seen,review
@@ -11408,14 +11407,14 @@ iganana7,iganana7,2026-08-06,,,,unknown,록·밴드,,first_seen,inferred_low
 igarashi,Igarashi,2026-11-25,,,,unknown,,,first_seen,
 ight,Ight,2021-04-14,,,,unknown,일렉트로닉,,first_seen,review
 igigigiglgigigigig,igigigiglgigigigig,2026-10-26,,,,unknown,,,first_seen,
-iglooghost,Iglooghost,2024-05-14,,,,unknown,일렉트로닉,,first_seen,review
+iglooghost,Iglooghost,2024-05-14,2022-09-09,66,33,established,일렉트로닉,,verified,review
 ignite,IGNITE,2026-10-04,2008-08-28,1011,27,famous,록·밴드,,verified,inferred
 igotmother,igotmother,2026-07-30,,,,unknown,,,first_seen,
 ihatemodels,I Hate Models,2024-11-15,,,,unknown,일렉트로닉,,first_seen,review
 ihf,IHF,2020-11-19,,,,unknown,재즈,,first_seen,profile
 iigongfreq,iigongfreq,2026-11-02,,,,unknown,일렉트로닉,,first_seen,inferred_low
 ijdsquintet,IJDS Quintet,2024-06-20,,,,unknown,,,first_seen,
-ikas,IKASÉ,2026-11-22,,,,unknown,힙합,,first_seen,inferred_low
+ikas,IKASÉ,2026-11-22,,,,unknown,힙합,,first_seen,inferred
 ikbbo,Ikbbo,2025-10-24,,,,unknown,힙합,,first_seen,profile
 ikbuckjtong,ikbuckjtong,2026-11-24,,,,unknown,,,first_seen,
 ikigusare,Ikigusare,2026-01-05,,,,unknown,인디팝·발라드,,first_seen,review
@@ -11433,7 +11432,7 @@ imf,I.M.F,2026-01-11,2026-06-19,0,1,newcomer,메탈·하드코어,,verified,prof
 imlay,IMLAY,2022-06-09,,,,unknown,,,unverified,
 immanuelwilkins,Immanuel Wilkins,2024-10-21,,,,unknown,재즈,,first_seen,review
 imsoseyata,imsoseyata,2026-11-24,,,,unknown,,,first_seen,
-incense,INCENSE,2026-09-17,,,,unknown,,,first_seen,
+incense,INCENSE,2026-09-17,2016-05-30,6,6,established,일렉트로닉,,verified,profile
 incestrullust,INCESTRUL LUST,2022-07-19,,,,unknown,,,first_seen,
 indagroove,inda groove,2026-11-07,,,,unknown,,,first_seen,
 indegoaid,INDEGOAID,2026-09-20,,,,unknown,힙합,,first_seen,inferred
@@ -11470,7 +11469,7 @@ isaactoastt,isaactoastt,2026-10-26,,,,unknown,,,first_seen,
 isabelkwakyoga,isabelkwakyoga,2026-10-18,,,,unknown,,,first_seen,
 이서iseo,이서 iseo,2023-09-09,,,,unknown,록·밴드,,first_seen,inferred_low
 ishdaydeadass,ISHDAY DEADASS,2026-07-19,,,,unknown,,,first_seen,
-ishisharma,Ishi Sharma,2022-06-04,,,,unknown,,,first_seen,
+ishisharma,Ishi Sharma,2022-06-04,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 islander,islander,2025-04-23,,,,unknown,,,first_seen,
 iso,ISO,2026-02-28,,,,unknown,,,first_seen,
 isomerlee,isomerlee,2026-11-04,,,,unknown,,,first_seen,
@@ -11503,7 +11502,7 @@ j4yforpres,j4yforpres,2026-06-22,,,,unknown,,,first_seen,
 jabroni,Jabroni,2022-04-30,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 jackavery,Jack Avery,2026-11-21,,,,unknown,,,first_seen,
 jackharlow,jackharlow,2026-11-19,,,,unknown,,,first_seen,
-jackiekim,Jackie Kim,2022-06-04,,,,unknown,,,first_seen,
+jackiekim,Jackie Kim,2022-06-04,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 jacknife,JACKNIFE,2026-11-07,,,,unknown,,,first_seen,
 jackzebra,Jackzebra,2025-06-20,,,,unknown,힙합,,first_seen,review
 jacob,JACOB,2020-08-28,,,,unknown,인디팝·발라드,,first_seen,profile
@@ -11545,7 +11544,7 @@ jane,jANE,2022-04-18,,,,unknown,포크·싱어송라이터,,first_seen,profile
 janefitzislost,janefitzislost,2026-11-25,,,,unknown,,,first_seen,
 janeinc,Jane Inc.,2022-03-24,,,,unknown,인디팝·발라드,,first_seen,review
 janeremover,Jane Remover,2025-03-18,,,,unknown,일렉트로닉,,first_seen,review
-janetjackson,Janet Jackson,2022-10-07,,,,unknown,R&B·소울,,first_seen,review
+janetjackson,Janet Jackson,2022-10-07,1982-09-21,2793,106,famous,R&B·소울,,verified,review
 jangbeomjune,JANG BEOM JUNE,2026-08-01,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 jangeuihyeon,jangeuihyeon,2026-11-24,,,,unknown,,,first_seen,
 jangster,Jangster,2022-01-07,,,,unknown,,,first_seen,
@@ -11597,7 +11596,7 @@ jeffgoldblum,Jeff Goldblum,2025-05-20,,,,unknown,재즈,,first_seen,review
 jeffmills,Jeff Mills,2021-02-15,,,,unknown,일렉트로닉,,first_seen,review
 jehwan,JeHwan,2026-07-15,,,,unknown,,,first_seen,
 jeijin,jeijin,2025-07-24,,,,unknown,,,first_seen,
-jeiyuen,JEIYUEN,2026-04-17,,,,unknown,,,first_seen,
+jeiyuen,JEIYUEN,2026-04-17,,,,unknown,힙합,,first_seen,inferred
 jeje,jeje,2020-08-05,,,,unknown,R&B·소울,,first_seen,profile
 jeju43ff,jeju43ff,2026-11-17,,,,unknown,,,first_seen,
 jejucobaltblue,JEJU_Cobalt Blue,2026-11-27,,218,,unknown,,,first_seen,
@@ -11623,7 +11622,7 @@ jesseyou,JESSE YOU,2020-09-14,,,,unknown,일렉트로닉,,first_seen,review
 jessicagoh,Jessica Goh,2022-10-08,,,,unknown,,,first_seen,
 jessicako,Jessica Ko,2026-09-12,,,,unknown,,,first_seen,
 jessicakodjjamie,Jessica Ko & DJ Jamie,2022-08-20,,,,unknown,록·밴드,,first_seen,inferred
-jessicalee,Jessica Lee,2022-06-04,,,,unknown,,,first_seen,
+jessicalee,Jessica Lee,2022-06-04,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 jessylanza,Jessy Lanza,2023-08-06,,,,unknown,R&B·소울,,first_seen,review
 jettoyz,Jettoyz,2022-04-21,,,,unknown,R&B·소울,,first_seen,profile
 jettrunk,Jet Trunk,2025-07-08,,,,unknown,힙합,,first_seen,profile
@@ -11688,7 +11687,7 @@ jnkfood,jnkfood,2022-09-23,,,,unknown,일렉트로닉,,first_seen,profile
 jns,JNS,2020-10-30,,,,unknown,일렉트로닉,,first_seen,profile
 jnskim,jnskim,2026-11-10,,,,unknown,일렉트로닉,,first_seen,inferred_low
 jnwp,jnwp,2026-09-11,,,,unknown,,,first_seen,
-jo0ji,jo0ji,2026-11-20,,,,unknown,,,first_seen,
+jo0ji,jo0ji,2026-11-20,2023-09-06,116,20,established,록·밴드,,verified,profile
 joanna,Joanna,2026-11-14,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 프로job러talk쏘는,프로JOB러 TALK 쏘는,2026-11-25,,,,unknown,,,first_seen,
 jockey,Jockey,2025-11-17,,,,unknown,R&B·소울,,first_seen,profile
@@ -11716,7 +11715,7 @@ jomyty,jomyty,2026-11-16,,,,unknown,,,first_seen,
 jonahmarais,Jonah Marais,2026-11-21,,,,unknown,,,first_seen,
 jonbatiste,Jon Batiste,2024-11-25,,,,unknown,,,first_seen,
 jonesworks,jonesworks,2026-11-27,,,,unknown,,,first_seen,
-jonhassell,Jon Hassell,2021-06-29,,,,unknown,일렉트로닉,,first_seen,review
+jonhassell,Jon Hassell,2021-06-29,2017-12-08,24,30,established,일렉트로닉,,verified,review
 jonhopkins,Jon Hopkins,2020-02-11,,,,unknown,일렉트로닉,,unverified,review
 jonnygreenwood,Jonny Greenwood,2022-01-28,,,,unknown,,,first_seen,
 jonnynash,Jonny Nash,2023-06-01,,,,unknown,일렉트로닉,,first_seen,review
@@ -11778,7 +11777,7 @@ junlikehuh,junlikehuh,2026-11-17,,,,unknown,,,first_seen,
 junooh,Juno Oh,2023-02-05,,,,unknown,R&B·소울,,first_seen,profile
 junsongmusic,junsongmusic,2026-09-25,,,,unknown,,,first_seen,
 justborntochill,justborntochill,2026-11-24,,,,unknown,,,first_seen,
-justice,Justice,2021-05-13,,,,unknown,일렉트로닉,,first_seen,review
+justice,Justice,2021-05-13,2006-12-04,2847,79,famous,힙합,,verified,profile
 justinforthis,justinforthis,2026-11-03,,,,unknown,힙합,,first_seen,profile
 justins,JUSTIN S,2022-09-01,,,,unknown,힙합,,first_seen,profile
 juuihatsu,Juui Hatsu,2026-10-19,,,,unknown,,,first_seen,
@@ -11843,7 +11842,7 @@ kazuhikomaeda,Kazuhiko Maeda,2026-10-14,,,,unknown,,,first_seen,
 kazumikaneda,Kazumi Kaneda,2026-11-23,2017-08-26,1,8,established,힙합,,verified,profile
 밴드kbk,밴드 KBK,2026-04-26,,,,unknown,,,first_seen,
 kcitymarket,K-Citymarket,2025-06-02,,,,unknown,메탈·하드코어,,first_seen,review
-keanu,KEANU,2023-07-14,,,,unknown,,,first_seen,
+keanu,KEANU,2023-07-14,2023-10-29,9,22,established,R&B·소울,,verified,profile
 kebin,kebin,2025-10-22,,,,unknown,힙합,,first_seen,inferred_low
 keemchangbae,keemchangbae,2026-06-08,,,,unknown,,,first_seen,
 keemcool,KEEMCOOL,2022-06-22,,,,unknown,일렉트로닉,,first_seen,inferred_low
@@ -11970,10 +11969,10 @@ kkd,KKD,2021-09-25,,,,unknown,,,first_seen,
 kkumgoom,kkumgoom,2026-09-15,,,,unknown,,,first_seen,
 klaffv,klaffv,2026-11-23,,,,unknown,록·밴드,,first_seen,inferred
 klama,KLAMA,2025-03-13,,,,unknown,힙합,,unverified,inferred
-klonns,KLONNS,2023-07-14,,,,unknown,,,first_seen,
+klonns,KLONNS,2023-07-14,,,,unknown,R&B·소울,,first_seen,inferred_low
 kmru,KMRU,2024-07-09,,,,unknown,일렉트로닉,,first_seen,review
 knarftsitra,knarftsitra,2026-11-23,,,,unknown,,,first_seen,
-knightmello,Knight Mello,2026-11-21,,,,unknown,,,first_seen,
+knightmello,Knight Mello,2026-11-21,2026-03-18,13,3,newcomer,인디팝·발라드,,verified,profile
 knob,KNOB,2021-04-24,,,,unknown,록·밴드,,first_seen,inferred
 knockonmydoor,KNOCKONMYDOOR,2024-10-14,,,,unknown,,,first_seen,
 knosis,Knosis,2026-08-16,,,,unknown,,,first_seen,
@@ -12011,7 +12010,7 @@ kradness,kradness,2018-09-29,,,,unknown,,,first_seen,
 kraftwerk,Kraftwerk,2020-05-07,,,,unknown,일렉트로닉,,first_seen,review
 krankydoodle,Kranky Doodle,2024-10-05,,,,unknown,록·밴드,,first_seen,inferred
 krikorkouchian,Krikor Kouchian,2021-01-19,,,,unknown,,,first_seen,
-kristenpimley,Kristen Pimley,2022-06-04,,,,unknown,,,first_seen,
+kristenpimley,Kristen Pimley,2022-06-04,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 kristoffereikrem,Kristoffer Eikrem,2021-01-23,,,,unknown,힙합,,first_seen,review
 康士坦的變化球kst,康士坦的變化球 KST,2022-09-02,,,,unknown,,,first_seen,
 ksupermotel,k-supermotel,2026-04-25,,,,unknown,,,first_seen,
@@ -12084,7 +12083,7 @@ lazyfools,lazy fools,2026-05-14,,,,unknown,록·밴드,,first_seen,inferred_low
 lazykuma,LAZYKUMA,2022-10-28,,,,unknown,R&B·소울,,first_seen,inferred_low
 lazyneet,lazyNEET,2026-06-14,,,,unknown,일렉트로닉,,first_seen,inferred_low
 lazypalace,Lazy Palace,2024-11-29,,,,unknown,힙합,,first_seen,profile
-lazysuzan,LAZYSUZAN,2023-03-30,,,,unknown,록·밴드,,first_seen,inferred_low
+lazysuzan,LAZYSUZAN,2023-03-30,,,,unknown,록·밴드,,first_seen,inferred
 lcdsoundsystem,LCD Soundsystem,2022-10-05,,,,unknown,,,first_seen,
 lcy,LÜCY,2023-05-15,,,,unknown,포크·싱어송라이터,,first_seen,profile
 leafarlegov,Leafar Legov,2020-04-01,,,,unknown,일렉트로닉,,unverified,review
@@ -12093,7 +12092,7 @@ leanon,leanon,2023-02-08,2021-04-27,144,28,established,힙합,,verified,profile
 leaveourtears,Leaveourtears,2024-10-14,2024-10-14,0,5,newcomer,일렉트로닉,,verified,profile
 lee,Lee,2020-03-27,,,,unknown,힙합,,first_seen,profile
 leebido,Leebido,2026-03-06,,,,unknown,힙합,,first_seen,profile
-leech,Leech,2026-10-10,,,,unknown,록·밴드,,first_seen,inferred
+leech,Leech,2026-10-10,,,,unknown,,,first_seen,
 leechanjin,LeeChanjin,2025-06-30,,,,unknown,힙합,,first_seen,profile
 leechoihee,lee choihee,2025-08-05,,,,unknown,일렉트로닉,,first_seen,review
 leeguuooo,leeguuooo,2026-11-04,,,,unknown,,,first_seen,
@@ -12267,7 +12266,7 @@ lur,LUR,2026-01-24,,,,unknown,록·밴드,,first_seen,inferred
 lusbarreto,Luís Barreto,2026-09-15,,,,unknown,,,first_seen,
 lushh,Lushh,2020-01-01,2021-04-30,78,27,established,,,verified,
 lushroom,LushRoom,2025-08-31,,,,unknown,,,first_seen,
-lustrouble,lustrouble,2026-10-26,,,,unknown,록·밴드,,first_seen,inferred
+lustrouble,lustrouble,2026-10-26,,,,unknown,,,first_seen,
 lustyy,Lustyy,2026-11-11,,,,unknown,,,first_seen,
 luvliminall,luvliminall,2024-11-02,,,,unknown,록·밴드,,first_seen,inferred
 lvra,LVRA,2025-05-13,,,,unknown,일렉트로닉,,first_seen,review
@@ -12290,7 +12289,7 @@ mabinc,Mabinc,2023-05-18,,,,unknown,힙합,,first_seen,profile
 macaroom,macaroom,2024-09-26,,,,unknown,인디팝·발라드,,unverified,review
 macdemarco,Mac DeMarco,2021-12-23,,,,unknown,R&B·소울,,first_seen,review
 machhommy,Mach-Hommy,2021-08-24,,,,unknown,힙합,,first_seen,review
-machi,Machi,2021-05-10,,,,unknown,R&B·소울,,first_seen,inferred
+machi,Machi,2021-05-10,,,,unknown,,,first_seen,
 machinegirl,Machine Girl,2022-06-24,,,,unknown,일렉트로닉,,first_seen,review
 macmiller,Mac Miller,2020-01-10,,,,unknown,힙합,,unverified,review
 madalitsoband,Madalitso band,2026-08-17,,,,unknown,록·밴드,,first_seen,inferred_low
@@ -12320,7 +12319,7 @@ maizymoi,maizymoi,2026-10-29,,,,unknown,,,first_seen,
 makadi,Makadi,2023-08-25,,,,unknown,,,first_seen,
 makarath,MAKARATH,2026-09-05,,,,unknown,,,first_seen,
 makspabst,Maks Pabst,2026-08-15,,,,unknown,,,first_seen,
-maktoop,Maktoop,2026-08-07,,,,unknown,록·밴드,,first_seen,inferred_low
+maktoop,Maktoop,2026-08-07,,,,unknown,,,first_seen,
 makuta,MAKUTA,2026-10-09,,,,unknown,록·밴드,,first_seen,inferred
 malibu,Malibu,2025-08-08,,,,unknown,일렉트로닉,,first_seen,review
 malikb,Malik B.,2020-07-30,,,,unknown,힙합,,first_seen,review
@@ -12372,7 +12371,7 @@ marshall,marshall,2026-05-17,,647000,,famous,,,first_seen,
 marshallallen,Marshall Allen,2025-03-01,,,,unknown,재즈,,first_seen,review
 marshotel,Mars Hotel,2025-09-21,,,,unknown,록·밴드,,first_seen,inferred_low
 marswalk,MARS WALK,2026-09-05,,,,unknown,,,first_seen,
-martyrs,MARTYRS,2022-07-30,,,,unknown,록·밴드,,first_seen,inferred
+martyrs,MARTYRS,2022-07-30,,,,unknown,,,first_seen,
 marubiit,marubi__it,2026-11-21,,,,unknown,,,first_seen,
 maruchiarachi,MARUCHI&ARACHI,2025-07-05,,,,unknown,,,first_seen,
 maruja,Maruja,2025-02-27,,,,unknown,록·밴드,,first_seen,review
@@ -12426,7 +12425,7 @@ mcthatsuck,MC Thatsuck,2022-03-19,,,,unknown,,,first_seen,
 mcu,MCU,2025-05-20,,,,unknown,재즈,,first_seen,review
 mcxon,MCXON,2024-03-17,2024-03-17,9,5,newcomer,R&B·소울,,verified,profile
 md,MD,2026-10-15,,,,unknown,,,first_seen,
-me,Me,2023-03-11,,,,unknown,,,first_seen,
+me,Me,2023-03-11,,,,unknown,실험·기타,,first_seen,inferred_low
 me41units,ME-41 Units,2025-05-07,,,,unknown,일렉트로닉,,first_seen,profile
 meangurl2me,MEANGURL 2me,2026-10-21,,,,unknown,,,first_seen,
 mechanica,Mechanica,2023-11-04,,,,unknown,,,first_seen,
@@ -12593,13 +12592,13 @@ momomomonari,momomomonari,2026-09-01,,,,unknown,,,first_seen,
 monchmonch,MONCHMONCH,2026-09-03,,,,unknown,록·밴드,,first_seen,inferred
 mondayblues,MONDAY BLUES,2026-05-22,,,,unknown,,,first_seen,
 mondayoffwithbluesy,Monday Off With Bluesy,2020-10-27,,,,unknown,R&B·소울,,first_seen,profile
-mondaystudio,mondaystudio,2023-03-11,,,,unknown,,,first_seen,
+mondaystudio,mondaystudio,2023-03-11,,,,unknown,실험·기타,,first_seen,inferred_low
 mondogrosso,Mondo Grosso,2022-01-17,,,,unknown,재즈,,first_seen,review
 mondrianseoulitaewon,mondrianseoulitaewon,2026-01-14,,,,unknown,,,unverified,
 monet,Monet,2021-07-09,,,,unknown,R&B·소울,,first_seen,profile
 mongaif,Mongaif,2020-03-31,,,,unknown,R&B·소울,,first_seen,profile
 monghoon,Monghoon,2021-11-22,,,,unknown,힙합,,first_seen,profile
-monlaferte,Mon Laferte,2025-11-02,,,,unknown,인디팝·발라드,,first_seen,review
+monlaferte,Mon Laferte,2025-11-02,2025-10-24,57,114,established,인디팝·발라드,,verified,review
 monobox,Monobox,2021-12-08,,,,unknown,일렉트로닉,,first_seen,review
 monomono,MonoMono,2026-11-26,,,,unknown,,,first_seen,
 mononoaware,MONO NO AWARE,2024-12-22,,,,unknown,,,first_seen,
@@ -12626,7 +12625,7 @@ moonkyoo,Moon Kyoo,2023-02-16,,,,unknown,,,first_seen,
 moonnightmellow,Moon Night Mellow,2021-04-17,,,,unknown,R&B·소울,,first_seen,inferred_low
 moonnightstarts,"Moon, Night & Starts",2025-04-12,,,,unknown,,,first_seen,
 moonpil,moonpil,2026-11-23,,,,unknown,,,first_seen,
-moonpli,MOONPLI,2023-03-12,,,,unknown,록·밴드,,first_seen,inferred_low
+moonpli,MOONPLI,2023-03-12,2021-03-17,25,4,established,록·밴드,,verified,profile
 moonsomoon,Moonsomoon,2026-09-13,,,,unknown,,,first_seen,
 moonsunun,moonsunun,2026-10-25,,,,unknown,,,first_seen,
 moonyirang,MOON YIRANG,2020-10-16,,,,unknown,일렉트로닉,,first_seen,profile
@@ -12661,7 +12660,7 @@ mouseunr,mouseunr,2026-11-12,,,,unknown,록·밴드,,first_seen,inferred_low
 moyi,MOYI,2020-09-25,,,,unknown,일렉트로닉,,first_seen,profile
 moyo,moyo,2026-04-28,2023-05-22,124,7,established,재즈,,verified,profile
 moza,moza,2020-05-08,2019-02-19,109,17,established,R&B·소울,,verified,profile
-mp3,MP3,2026-04-17,,,,unknown,,,first_seen,
+mp3,MP3,2026-04-17,,,,unknown,힙합,,first_seen,inferred
 mpt,mpt,2026-06-02,,,,unknown,힙합,,first_seen,profile
 mrb,MRB,2020-05-14,,,,unknown,힙합,,first_seen,profile
 mrcoolandsauceman,Mr. Cool and Sauce man,2026-04-05,,,,unknown,힙합,,first_seen,inferred_low
@@ -12789,6 +12788,7 @@ nemophila,NEMOPHILA,2026-09-06,,,,unknown,,,first_seen,
 neoasfik,NEO-ASFiK,2023-08-20,,,,unknown,,,first_seen,
 neochimera,Neo Chimera,2024-10-16,,,,unknown,일렉트로닉,,first_seen,profile
 neogijang,neogijang,2026-11-25,,,,unknown,,,first_seen,
+neonthekids,NEONTHEKIDS,2025-03-07,2022-01-04,30,9,established,R&B·소울,,verified,profile
 neontype,Neontype,2024-05-15,,,,unknown,일렉트로닉,,first_seen,profile
 neosoulacidjazzcollective,Neo Soul Acid Jazz Collective,2020-06-22,,,,unknown,힙합,,first_seen,profile
 nerderz,NERDERZ,2024-02-18,,,,unknown,록·밴드,,first_seen,inferred
@@ -12804,7 +12804,7 @@ neveralandwithoutpeople,Never a Land Without People,2020-03-13,,,,unknown,,,unve
 neverandno,neverandno,2024-02-17,2025-04-07,0,1,newcomer,록·밴드,,verified,profile
 nevermind,NEVERMIND,2023-08-14,,,,unknown,,,first_seen,
 neversoberson,Never Sober Son,2020-06-08,,,,unknown,힙합,,first_seen,profile
-neveryoungbeach,never young beach,2022-10-01,,,,unknown,,,first_seen,
+neveryoungbeach,never young beach,2022-10-01,2019-05-08,525,20,established,,,verified,
 newaile,Newaile,2024-05-13,,,,unknown,힙합,,first_seen,profile
 newasia,New Asia,2020-03-24,,,,unknown,,,unverified,
 newbeat,NEWBEAT,2026-03-14,,,,unknown,,,first_seen,
@@ -12890,7 +12890,7 @@ nohd,NOHD,2025-10-24,,,,unknown,포크·싱어송라이터,,first_seen,inferred_
 noi,Noi,2022-07-01,,,,unknown,일렉트로닉,,first_seen,inferred
 noimnot,Noimnot,2020-09-04,,,,unknown,R&B·소울,,first_seen,review
 noin,noin,2026-08-18,,,,unknown,인디팝·발라드,,first_seen,profile
-noiz,NOIZ,2021-05-01,,,,unknown,록·밴드,,first_seen,inferred_low
+noiz,NOIZ,2021-05-01,,,,unknown,,,first_seen,
 noizplace,Noiz Place,2023-09-28,2024-05-24,2,2,newcomer,,,verified,
 nokdu쟈코비,nokdu 쟈코비,2023-06-15,,,,unknown,,,first_seen,
 nokjo,Nokjo,2023-04-06,,,,unknown,R&B·소울,,first_seen,inferred_low
@@ -12918,7 +12918,7 @@ nopitchonair,nopitchonair,2020-07-08,,,,unknown,힙합,,first_seen,profile
 nor,Nor,2022-08-10,,,,unknown,R&B·소울,,first_seen,profile
 norenn,Norenn,2023-08-26,,,,unknown,,,first_seen,
 norespectforbeauty,No Respect For Beauty,2025-01-16,,,,unknown,,,first_seen,
-norest,No Rest,2026-06-20,,,,unknown,록·밴드,,first_seen,inferred
+norest,No Rest,2026-06-20,,,,unknown,,,first_seen,
 normaetregula,Norma et Regula,2026-11-26,,111,,unknown,,,first_seen,
 norman,Norman,2025-03-07,,,,unknown,R&B·소울,,first_seen,profile
 northern19,Northern19,2025-08-09,,,,unknown,록·밴드,,first_seen,inferred
@@ -12938,7 +12938,7 @@ nottoolate,Not too Late,2026-09-09,,,,unknown,,,first_seen,
 nouera,NouerA,2025-03-07,,,,unknown,인디팝·발라드,,first_seen,review
 noulnabi,NOULNABI,2026-11-26,2026-10-29,0,2,newcomer,,,verified,
 nourishedbytime,Nourished by Time,2024-02-26,,,,unknown,R&B·소울,,first_seen,review
-novadies,NOVADIES,2026-09-12,,,,unknown,록·밴드,,first_seen,inferred
+novadies,NOVADIES,2026-09-12,,,,unknown,,,first_seen,
 novanaproject,Novana Project,2026-05-26,,,,unknown,,,first_seen,
 novasia,NOVASIA,2025-07-02,2025-07-02,16,2,newcomer,일렉트로닉,,verified,profile
 novoamor,Novo Amor,2024-03-05,,,,unknown,,,first_seen,
@@ -12956,7 +12956,7 @@ nthrd,NTH RD,2025-10-31,,,,unknown,록·밴드,,first_seen,inferred_low
 nube,NUBE,2023-10-25,,,,unknown,일렉트로닉,,first_seen,profile
 nubset,Nubset,2020-02-06,,,,unknown,힙합,,first_seen,profile
 nubyagarcia,Nubya Garcia,2024-10-04,,,,unknown,재즈,,unverified,review
-nuera,nuera,2026-09-21,,,,unknown,힙합,,first_seen,inferred_low
+nuera,nuera,2026-09-21,,,,unknown,,,first_seen,
 nugenea,Nu Genea,2022-05-20,,,,unknown,재즈,,first_seen,review
 nuh,nuh,2026-05-02,2016-04-29,52,7,established,록·밴드,,verified,inferred
 nujabes,Nujabes,2024-05-20,,,,unknown,,,first_seen,
@@ -12969,7 +12969,7 @@ nuts,Nuts,2022-07-23,,,,unknown,일렉트로닉,,first_seen,inferred_low
 nutty,Nutty,2024-01-22,,,,unknown,R&B·소울,,first_seen,profile
 nvm,NVM,2025-06-19,2017-07-04,1,48,established,힙합,,verified,profile
 nwit,NWIT,2020-07-10,,,,unknown,일렉트로닉,,first_seen,profile
-nwv,NWV,2024-09-12,,,,unknown,,,first_seen,
+nwv,NWV,2024-09-12,,,,unknown,힙합,,first_seen,inferred
 nxps,NXPS,2022-02-08,,,,unknown,힙합·R&B,,first_seen,inferred
 nxworries,NxWorries,2023-05-20,,,,unknown,,,first_seen,
 ny물고기,NY물고기,2022-07-07,,,,unknown,,,unverified,
@@ -13002,7 +13002,7 @@ oeprsoeprs,oeprsoeprs,2026-10-24,,,,unknown,,,first_seen,
 김윤철of모던다락방,김윤철 of 모던다락방,2017-12-09,,,,unknown,,,first_seen,
 offb,OFFB,2023-11-18,,,,unknown,,,first_seen,
 offcable,Off Cable,2025-11-07,,,,unknown,일렉트로닉,,first_seen,profile
-offcourse,Offcourse,2020-11-27,,,,unknown,일렉트로닉,,first_seen,review
+offcourse,Offcourse,2020-11-27,1973-06-05,130,24,established,록·밴드,,verified,profile
 officialausbub,officialausbub,2026-11-16,,,,unknown,,,first_seen,
 officialbyredo,@officialbyredo,2026-07-17,,,,unknown,,,first_seen,
 official髭男dism,Official髭男dism,2024-07-25,,,,unknown,록·밴드,,unverified,review
@@ -13010,7 +13010,7 @@ officialnobrain,officialnobrain,2026-11-09,,,,unknown,록·밴드,,first_seen,in
 offing,Offing,2019-11-26,,,,unknown,록·밴드,,first_seen,profile
 offstore,OFFSTORE,2020-10-05,,,,unknown,힙합,,first_seen,profile
 offtheroad,Off the Road,2023-09-24,,,,unknown,,,first_seen,
-offthetown,off the town,2023-06-03,,,,unknown,,,first_seen,
+offthetown,off the town,2023-06-03,2023-08-14,7,3,established,R&B·소울,,verified,profile
 ofjj,OFJJ,2026-05-16,,165,,unknown,록·밴드,,first_seen,inferred_low
 ofrm,ofrm,2022-06-16,,,,unknown,일렉트로닉,,first_seen,profile
 ogeow,ogeow,2026-08-08,,,,unknown,,,first_seen,
@@ -13025,7 +13025,7 @@ ohno,Oh no,2023-05-09,,,,unknown,,,first_seen,
 ohnuyhkim,ohnuyhkim,2026-05-30,,,,unknown,,,first_seen,
 ohsol,ohsol,2022-03-21,,,,unknown,R&B·소울,,first_seen,profile
 ohsukkuhn,OH SUK KUHN,2022-10-02,,,,unknown,,,first_seen,
-oibro,OIBRO,2026-10-16,,,,unknown,,,first_seen,
+oibro,OIBRO,2026-10-16,,,,unknown,일렉트로닉,,first_seen,inferred_low
 oiseum,OiSEUM!,2026-08-16,,,,unknown,록·밴드,,first_seen,inferred
 okao,OKAO,2026-11-05,2026-11-05,6,1,newcomer,R&B·소울,,verified,profile
 okapullupboi,okapullupboi,2026-11-08,,,,unknown,,,first_seen,
@@ -13083,7 +13083,7 @@ onzu,ONZU,2026-11-25,2021-08-27,322,4,established,힙합,,verified,profile
 oogimix,oogimix,2026-04-19,,,,unknown,록·밴드,,first_seen,inferred
 ooo,O.O.O,2017-10-28,,,,unknown,록·밴드,,first_seen,review
 ooooot,OoOoot,2021-10-25,,,,unknown,일렉트로닉,,first_seen,profile
-ooro,OORO,2026-10-16,,,,unknown,,,first_seen,
+ooro,OORO,2026-10-16,2026-06-27,18,2,newcomer,록·밴드,,verified,profile
 ooswu,ooswu,2026-10-31,,,,unknown,록·밴드,,first_seen,inferred
 opcd,OPCD,2022-07-13,,,,unknown,힙합·R&B,,first_seen,inferred
 option,Option,2024-10-11,,,,unknown,R&B·소울,,first_seen,profile
@@ -13113,7 +13113,7 @@ osun,OSUN,2022-09-01,2021-04-24,9433,17,famous,힙합·R&B,,verified,inferred
 osunejune,osunejune,2026-11-10,,,,unknown,,,first_seen,
 otakhee,Otakhee,2024-09-05,,,,unknown,일렉트로닉,,first_seen,review
 otakotak,otakotak,2025-10-20,,,,unknown,인디팝·발라드,,first_seen,review
-otb,OTB,2022-11-11,,,,unknown,인디팝·발라드,,first_seen,inferred_low
+otb,OTB,2022-11-11,2011-11-10,0,9,established,힙합,Iboga Records,verified,profile
 othersmayforgetyoubutnoti,othersmayforgetyoubutnoti,2026-09-12,,,,unknown,,,first_seen,
 otter,Otter,2023-03-17,,,,unknown,,,first_seen,
 otwo,OTWO,2023-03-10,,,,unknown,R&B·소울,,first_seen,inferred_low
@@ -13201,7 +13201,7 @@ patch,Patch,2026-08-23,,,,unknown,,,first_seen,
 patchroom,patchroom,2026-08-29,,,,unknown,,,first_seen,
 patomatoi,patomatoi,2026-09-15,,,,unknown,,,first_seen,
 pattarunningteam,pattarunningteam,2026-10-31,,,,unknown,,,first_seen,
-patten,patten,2023-01-23,,,,unknown,일렉트로닉,,first_seen,review
+patten,Patten,2023-01-23,2011-09-26,9,11,established,힙합,,verified,profile
 pattymade,PATTYMADE,2024-07-18,,,,unknown,일렉트로닉,,first_seen,profile
 patz,PATZ,2023-09-25,,,,unknown,일렉트로닉,,first_seen,profile
 paulgilbert,Paul Gilbert,2026-10-18,,,,unknown,,,first_seen,
@@ -13218,7 +13218,7 @@ pcr,PCR,2025-01-01,2025-01-01,353,6,newcomer,록·밴드,,verified,profile
 peacepizzapiece,peacepizzapiece,2026-11-01,,,,unknown,록·밴드,,first_seen,inferred
 peach3slash7pitch,peach3slash7pitch,2026-10-30,,,,unknown,,,first_seen,
 peachgreen,PeachGreen,2020-12-08,,,,unknown,인디팝·발라드,,first_seen,profile
-peachslammer,PeachSlammer,2026-02-28,,,,unknown,록·밴드,,first_seen,inferred
+peachslammer,PeachSlammer,2026-02-28,,,,unknown,,,first_seen,
 peachtreerascals,peach tree rascals,2023-07-14,,,,unknown,,,first_seen,
 pearlhaze,Pearl Haze,2026-10-08,,,,unknown,R&B·소울,,first_seen,inferred_low
 pearsonsound,Pearson Sound,2022-10-09,,,,unknown,일렉트로닉,,first_seen,review
@@ -13265,7 +13265,7 @@ pianoshoegazerx장명선,Piano Shoegazer X 장명선,2024-08-08,,,,unknown,일�
 picnic,PICNIC,2024-03-09,,,,unknown,록·밴드,,first_seen,inferred
 pictures,Pictures,2026-07-28,,,,unknown,,,first_seen,
 pida,pida,2021-05-25,,,,unknown,R&B·소울,,first_seen,profile
-pierreblanche,Pierre Blanche,2022-05-16,,,,unknown,일렉트로닉,,first_seen,review
+pierreblanche,Pierre Blanche,2022-05-16,,,,unknown,일렉트로닉,,first_seen,inferred
 pigeon,Pigeon,2026-07-03,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 pigfrog,pigfrog,2023-04-21,,,,unknown,일렉트로닉,,first_seen,profile
 pigrider,PIG RIDER,2026-06-18,,,,unknown,일렉트로닉,,first_seen,profile
@@ -13308,7 +13308,7 @@ playinzaddy,playinzaddy,2026-11-04,,,,unknown,힙합,,first_seen,inferred
 pleas3gong,pleas3gong,2026-10-15,,,,unknown,힙합,,first_seen,inferred_low
 pleasepleaseplease,pleasepleaseplease,2020-07-28,,,,unknown,일렉트로닉,,first_seen,profile
 pleyn,Pleyn,2020-05-04,,,,unknown,일렉트로닉,,first_seen,profile
-plomo,plomo,2022-03-31,,,,unknown,일렉트로닉,,first_seen,review
+plomo,plomo,2022-03-31,2020-12-02,4,12,established,일렉트로닉,,verified,review
 plscooperateiwannalovehumanity,plscooperateiwannalovehumanity,2026-10-25,,,,unknown,,,first_seen,
 pluck,pluck,2026-05-18,,,,unknown,,,first_seen,
 plue,PLUE (JP),2023-10-28,,,,unknown,R&B·소울,,first_seen,inferred_low
@@ -13337,13 +13337,13 @@ ponzuisland,Ponzu Island,2022-11-23,,,,unknown,일렉트로닉,,first_seen,revie
 popomo,PoPoMo,2023-05-30,,,,unknown,R&B·소울,,first_seen,profile
 poppy,Poppy,2024-11-18,,,,unknown,록·밴드,,first_seen,review
 popstore,PopStore,2024-08-08,,,,unknown,,,first_seen,
-popxick,POPXICK,2026-10-30,,,,unknown,힙합,,first_seen,inferred_low
+popxick,POPXICK,2026-10-30,,,,unknown,힙합,,first_seen,inferred
 porcelain,Porcelain,2021-02-27,,,,unknown,,,first_seen,
 porcelainboy,Porcelain Boy,2026-11-28,2026-07-30,0,4,newcomer,,,verified,
 porcelainboyclub,porcelainboyclub,2026-11-04,,,,unknown,,,first_seen,
 pores,PORES,2024-09-18,,,,unknown,,,first_seen,
 porridgeradio,Porridge Radio,2024-10-24,,,,unknown,록·밴드,,first_seen,review
-porterrobinson,Porter Robinson,2024-07-28,,,,unknown,인디팝·발라드,,unverified,review
+porterrobinson,Porter Robinson,2024-07-28,2011-09-13,4276,78,famous,인디팝·발라드,,verified,review
 portishead,Portishead,2022-04-11,,,,unknown,포크·싱어송라이터,,first_seen,review
 poseridiott,poseridiott,2026-11-27,,,,unknown,,,first_seen,
 postmalone,Post Malone,2024-07-28,,,,unknown,,,unverified,
@@ -13360,7 +13360,7 @@ prada,prada,2026-11-22,,,,unknown,,,first_seen,
 prectxe,PRECTXE(,2026-11-24,,,,unknown,,,first_seen,
 prep,PREP,2022-09-02,,,,unknown,,,first_seen,
 presidentdaif,presidentdaif,2026-11-15,,,,unknown,일렉트로닉,,first_seen,inferred_low
-presti,Presti,2023-03-11,,,,unknown,록·밴드,,first_seen,inferred_low
+presti,Presti,2023-03-11,,,,unknown,,,first_seen,
 prettynighttt,prettynighttt,2026-08-14,,,,unknown,,,first_seen,
 prettysick,Pretty Sick,2022-07-26,,,,unknown,일렉트로닉,,first_seen,review
 primalscream,Primal Scream,2024-11-12,,,,unknown,록·밴드,,first_seen,review
@@ -13477,7 +13477,7 @@ rainyknight,Rainy Knight,2023-11-30,,,,unknown,록·밴드,,first_seen,profile
 raku,RAKU,2021-11-27,,,,unknown,,,first_seen,
 rakunelama,RAKUNELAMA,2025-08-20,2024-11-21,1091,5,newcomer,R&B·소울,,verified,profile
 ram,Ram,2021-07-19,,,,unknown,포크·싱어송라이터,,first_seen,profile
-ramimoon,Rami Moon,2022-06-04,,,,unknown,,,first_seen,
+ramimoon,Rami Moon,2022-06-04,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 ratboys,Ratboys,2026-02-24,,,,unknown,록·밴드,,first_seen,review
 rathuna,Rathuna,2026-10-06,2023-09-20,0,5,established,R&B·소울,,verified,profile
 ratino,Ratino,2024-02-17,,,,unknown,록·밴드,,first_seen,inferred
@@ -13578,8 +13578,8 @@ roberthood,Robert Hood,2021-12-08,,,,unknown,일렉트로닉,,first_seen,review
 나희경robertomenescal,나희경 Roberto Menescal,2024-08-22,,,,unknown,,,first_seen,
 robiq,Robiq,2023-04-24,,,,unknown,,,first_seen,
 robyn,Robyn,2026-04-05,,,,unknown,인디팝·발라드,,first_seen,review
-roccon,ROCCON,2026-05-16,,,,unknown,록·밴드,,first_seen,inferred
-roccon六根,ROCCON 六根,2025-05-16,,,,unknown,록·밴드,,first_seen,inferred
+roccon,ROCCON,2026-05-16,,,,unknown,,,first_seen,
+roccon六根,ROCCON 六根,2025-05-16,,,,unknown,,,first_seen,
 rochellejordan,Rochelle Jordan,2025-10-06,,,,unknown,R&B·소울,,first_seen,review
 rochemusique,Roche Musique,2021-06-04,,,,unknown,일렉트로닉,,first_seen,review
 rocket,ROCKET,2023-11-23,,,,unknown,,,first_seen,
@@ -13620,7 +13620,7 @@ route3,route__3,2026-07-22,,,,unknown,,,first_seen,
 roxy,roxy,2025-12-31,,,,unknown,록·밴드,,first_seen,inferred
 royal44k,@royal44k,2026-09-29,,,,unknown,힙합,,first_seen,inferred
 royayers,Roy Ayers,2020-06-17,,,,unknown,R&B·소울,,first_seen,review
-roze,ROZE,2023-07-14,,,,unknown,,,first_seen,
+roze,ROZE,2023-07-14,,,,unknown,R&B·소울,,first_seen,inferred_low
 rpboo,RP BOO,2023-03-22,,,,unknown,일렉트로닉,,first_seen,review
 rtpwboib,rtpwboib,2026-09-08,,,,unknown,,,first_seen,
 rtrp,RTRP,2026-03-27,,,,unknown,록·밴드,,first_seen,inferred_low
@@ -13654,7 +13654,7 @@ s1969dna,s1969dna,2026-10-09,,,,unknown,,,first_seen,
 s1rena,S1RENA,2025-09-17,,,,unknown,일렉트로닉,,first_seen,review
 s2kida,S2KIDA,2022-10-16,,,,unknown,R&B·소울,,first_seen,inferred_low
 s3okbin,s3okbin,2026-11-04,,,,unknown,,,first_seen,
-s4dong,S4DONG,2023-03-11,,,,unknown,,,first_seen,
+s4dong,S4DONG,2023-03-11,,,,unknown,실험·기타,,first_seen,inferred_low
 sabanoid,Saba & No I.D.,2025-03-29,,,,unknown,힙합,,first_seen,review
 sabasister,SABASISTER,2026-08-14,,,,unknown,,,first_seen,
 sablehills,Sable Hills,2026-08-16,,,,unknown,,,first_seen,
@@ -13697,7 +13697,7 @@ sambomaster,SAMBOMASTER,2026-11-21,,,,unknown,,,first_seen,
 samfender,Sam Fender,2025-03-03,,,,unknown,록·밴드,,first_seen,review
 samgendel,Sam Gendel,2021-07-22,,,,unknown,재즈,,first_seen,review
 samia,Samia,2025-05-02,,,,unknown,록·밴드,,first_seen,review
-sammak,SAMMAK,2023-03-11,,,,unknown,,,first_seen,
+sammak,SAMMAK,2023-03-11,,0,,unknown,실험·기타,,first_seen,profile
 sammhenshaw,Samm Henshaw,2024-11-10,,,,unknown,,,first_seen,
 sammy,sammy,2026-11-26,2023-04-27,1,5,established,R&B·소울,,verified,profile
 samoedo,SAMOEDO,2022-05-06,,,,unknown,록·밴드,,first_seen,profile
@@ -13733,7 +13733,7 @@ savy,Savy,2025-08-18,,,,unknown,R&B·소울,,first_seen,profile
 saxsion,sax._sion,2026-11-20,,,,unknown,,,first_seen,
 saxsquatch,Saxsquatch,2020-07-26,,,,unknown,,,first_seen,
 saya,SAYA,2026-05-27,,,,unknown,,,first_seen,
-sayagray,Saya Gray,2025-02-24,,,,unknown,인디팝·발라드,,first_seen,review
+sayagray,Saya Gray,2025-02-24,2022-05-24,59,19,established,인디팝·발라드,,verified,review
 saymynamehan,saymyname__han,2026-10-14,,,,unknown,록·밴드,,first_seen,inferred
 sayo,Sayo,2026-07-24,,,,unknown,,,first_seen,
 saza최우준,SAZA최우준,2022-07-01,,,,unknown,록·밴드,,first_seen,inferred
@@ -13743,7 +13743,7 @@ scandal,SCANDAL,2024-06-15,,,,unknown,,,first_seen,
 scarletkimband,SCARLETKIM BAND,2023-08-10,,,,unknown,록·밴드,,first_seen,inferred
 sccreation,sc._.creation,2026-11-10,,,,unknown,,,first_seen,
 schematist,Schematist,2020-04-03,,,,unknown,힙합,,first_seen,profile
-schmy,SCHMY,2026-04-17,,,,unknown,,,first_seen,
+schmy,SCHMY,2026-04-17,,,,unknown,힙합,,first_seen,inferred
 sckatt528,Sckatt528,2026-11-24,,,,unknown,,,first_seen,
 scopvik,SCOPÁVIK,2023-02-01,,,,unknown,일렉트로닉,,first_seen,review
 scorchedevrth,Scorched Evrth,2022-01-30,,,,unknown,일렉트로닉,,first_seen,review
@@ -13939,10 +13939,9 @@ sis,SiS!,2026-09-07,,,,unknown,포크·싱어송라이터,,first_seen,inferred_l
 siso시소앨리스유,siso(시소) 앨리스유,2026-09-24,,,,unknown,,,first_seen,
 sissi,SISSI,2024-02-17,,,,unknown,,,first_seen,
 sisu,SiSu,2022-05-04,,,,unknown,,,first_seen,
-siwoel,siwoel,2026-07-31,,,,unknown,,,first_seen,
 siwon,SIWON,2025-04-10,,,,unknown,,,unverified,
 siwonpark,siwon__park,2026-11-20,,,,unknown,,,first_seen,
-sixlounge,SIX LOUNGE,2026-10-31,,,,unknown,록·밴드,,first_seen,inferred
+sixlounge,SIX LOUNGE,2026-10-31,2018-03-07,143,50,established,록·밴드,,verified,profile
 sixseeds,SIX SEEDS,2026-09-06,,,,unknown,,,first_seen,
 sj색소폰밴드,SJ 색소폰 밴드,2016-11-20,,,,unknown,,,first_seen,
 skeemask,Skee Mask,2022-12-27,,,,unknown,일렉트로닉,,first_seen,review
@@ -13953,7 +13952,7 @@ skindred,Skindred,2026-05-07,,,,unknown,록·밴드,,first_seen,review
 skinnybrownn,skinnybrownn,2026-10-27,,,,unknown,힙합,,first_seen,inferred
 skinnychase,Skinny Chase,2024-08-01,,,,unknown,힙합,,unverified,review
 skope,Skope,2021-02-10,,,,unknown,R&B·소울,,first_seen,review
-skream,Skream,2022-07-21,,,,unknown,일렉트로닉,,first_seen,review
+skream,Skream,2022-07-21,2005-10-31,58,91,established,일렉트로닉,,verified,review
 skrewdriver,Skrewdriver,2022-01-27,,,,unknown,,,first_seen,
 skrillex,Skrillex,2023-03-21,,,,unknown,일렉트로닉,,first_seen,review
 skunkanansie,Skunk Anansie,2025-06-09,,,,unknown,록·밴드,,first_seen,review
@@ -13978,7 +13977,7 @@ slipknot,Slipknot,2020-04-26,,,,unknown,메탈·하드코어,,first_seen,review
 sloe,Slo:E,2025-01-27,,,,unknown,,,first_seen,
 slosolo,Slosolo,2026-11-24,,,,unknown,,,first_seen,
 slosxlo,slosxlo,2026-10-05,,,,unknown,,,first_seen,
-slowdance,Slowdance,2023-12-12,,,,unknown,인디팝·발라드,,first_seen,review
+slowdance,Slowdance,2023-12-12,2023-12-06,42,8,newcomer,R&B·소울,,verified,profile
 slowdiveofficial,slowdiveofficial,2026-11-26,,,,unknown,,,first_seen,
 slowthai,slowthai,2021-01-09,,,,unknown,힙합,,first_seen,review
 slowwves,Slowwves,2026-08-17,,,,unknown,록·밴드,,first_seen,profile
@@ -14077,7 +14076,7 @@ soundburger,Sound Burger,2022-11-03,,,,unknown,,,first_seen,
 soundplanetfestival,soundplanetfestival,2026-09-15,,,,unknown,,,first_seen,
 soundspace,SoundSpace,2026-11-24,,10,,unknown,,,first_seen,
 soutalz,soutalz,2026-10-25,,,,unknown,,,first_seen,
-southkoreaindie,southkoreaindie,2026-10-26,,,,unknown,록·밴드,,first_seen,inferred
+southkoreaindie,southkoreaindie,2026-10-26,,,,unknown,,,first_seen,
 southway,Southway,2026-02-21,,,,unknown,록·밴드,,first_seen,inferred
 사일런스이스오버sover,사일런스 이스 오버-sover,2024-06-08,,,,unknown,,,first_seen,
 sowall,SOWALL,2020-11-15,,,,unknown,일렉트로닉,,first_seen,profile
@@ -14096,7 +14095,7 @@ specialrequest,Special Request,2020-01-03,,,,unknown,,,unverified,
 specialthanks,SpecialThanks,2024-08-15,,,,unknown,록·밴드,,first_seen,inferred
 speed,Speed,2022-07-18,,,,unknown,메탈·하드코어,,first_seen,review
 speed98,SPEED! 98%,2026-11-24,2025-08-06,8,2,newcomer,,,verified,
-speednoisehell,SPEED! NOISE! HELL!,2023-03-03,,,,unknown,록·밴드,,first_seen,inferred
+speednoisehell,SPEED! NOISE! HELL!,2023-03-03,,,,unknown,록·밴드,,first_seen,inferred_low
 spellling,SPELLLING,2025-04-10,,,,unknown,록·밴드,,first_seen,review
 spensr,SPENSR,2024-11-02,,,,unknown,록·밴드,,first_seen,inferred
 sphereofnihil,Sphere of Nihil,2026-10-10,,,,unknown,,,first_seen,
@@ -14208,7 +14207,7 @@ summerna,summer_.na,2026-07-23,,,,unknown,,,first_seen,
 summersalt,Summer Salt,2023-05-23,,,,unknown,록·밴드,,first_seen,review
 summersby,SUMMERSBY,2022-07-06,,,,unknown,록·밴드,,first_seen,inferred
 summersnow,summersnow,2025-04-01,2024-03-21,0,5,newcomer,일렉트로닉,,verified,profile
-summersoul,Summer Soul,2020-06-03,,,,unknown,R&B·소울,,first_seen,profile
+summersoul,Summer Soul,2020-06-03,2023-09-20,3121,37,established,R&B·소울,,verified,profile
 sun,SUN,2026-07-11,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 sunaoira,Sunaoira,2026-07-11,,,,unknown,록·밴드,,first_seen,inferred
 sunburnkids,Sunburnkids,2024-03-21,,,,unknown,,,first_seen,
@@ -14334,7 +14333,7 @@ taraclerkintrio,Tara Clerkin Trio,2026-06-10,,,,unknown,일렉트로닉,,first_s
 tas,ætas,2022-12-21,,,,unknown,일렉트로닉,,first_seen,inferred_low
 tashidelk,TASHI DELÄK,2023-05-17,,,,unknown,힙합,,first_seen,profile
 tastyhills,TASTY HILLS,2022-06-18,,,,unknown,,,first_seen,
-tatemcrae,Tate McRae,2025-02-24,,,,unknown,인디팝·발라드,,first_seen,review
+tatemcrae,Tate McRae,2025-02-24,2017-12-04,6592,106,famous,일렉트로닉,,verified,profile
 tayan,TAYAN,2025-11-20,2024-09-26,7,19,established,R&B·소울,,verified,profile
 taylorhawkins,Taylor Hawkins,2022-03-28,,,,unknown,,,first_seen,
 tayy,Tayy,2020-08-03,,,,unknown,힙합,,first_seen,profile
@@ -14440,7 +14439,7 @@ themeans,THE MEANS,2026-10-10,,,,unknown,,,first_seen,
 themesstheticsjamesbrandonlewis,The Messthetics & James Brandon Lewis,2026-04-26,,,,unknown,재즈,,first_seen,review
 themoonz,theMoonz,2026-04-25,,,,unknown,,,first_seen,
 themoss,The Moss,2022-06-09,,,,unknown,,,unverified,
-thenap,The Nap,2025-12-27,,,,unknown,록·밴드,,first_seen,inferred
+thenap,The Nap,2025-12-27,2017-09-05,4,1,established,록·밴드,,verified,inferred
 theneptunes,The Neptunes,2024-04-02,,,,unknown,,,first_seen,
 theneq,The NEQ,2022-12-08,,,,unknown,,,first_seen,
 theneverminds,The Neverminds,2026-09-17,,,,unknown,록·밴드,,first_seen,inferred_low
@@ -14497,7 +14496,7 @@ thewonmijung,thewonmijung,2026-09-25,,,,unknown,,,first_seen,
 thewons,The Wons,2022-09-17,,,,unknown,,,first_seen,
 thexx,The XX,2022-05-25,,,,unknown,인디팝·발라드,,first_seen,review
 theynevxrchange,theynevxrchange,2026-10-07,,,,unknown,,,first_seen,
-thingswesay,THINGS WE SAY,2023-04-15,,,,unknown,록·밴드,,first_seen,inferred
+thingswesay,THINGS WE SAY,2023-04-15,,,,unknown,,,first_seen,
 thirdfriend,THIRDFRIEND,2023-09-09,,,,unknown,,,first_seen,
 thisisaboutwiki,thisisaboutwiki,2026-11-19,,,,unknown,,,first_seen,
 thisisjusthis,thisisjusthis,2026-11-16,,,,unknown,힙합,,first_seen,inferred
@@ -14506,7 +14505,7 @@ thisisqandn,thisisqandn,2026-05-22,,,,unknown,힙합,,first_seen,inferred
 thisloop,thisloop,2026-02-02,,,,unknown,,,unverified,
 thismans,THIS MAN'S,2026-07-09,,,,unknown,록·밴드,,first_seen,inferred_low
 thomasbangalter,Thomas Bangalter,2022-11-04,,,,unknown,록·밴드,,first_seen,review
-thomyorke,Thom Yorke,2020-12-03,,,,unknown,일렉트로닉,,first_seen,review
+thomyorke,Thom Yorke,2020-12-03,2006-01-01,2330,91,famous,일렉트로닉,,verified,profile
 thornsoftheblackrose,Thorns of the Black Rose,2022-04-30,,,,unknown,,,first_seen,
 three1989,THREE1989,2019-03-23,,,,unknown,R&B·소울,,first_seen,profile
 thund,Thund,2026-11-23,,,,unknown,힙합,,first_seen,inferred_low
@@ -14524,7 +14523,7 @@ timf음악교실가곡반,TIMF음악교실 가곡반,2025-03-22,,,,unknown,,,fir
 timidmood,TIMID MOOD,2022-10-11,,,,unknown,포크·싱어송라이터,,first_seen,inferred
 timlindacher,timlindacher,2026-10-28,,,,unknown,,,first_seen,
 tina,Tina,2021-03-15,,,,unknown,,,first_seen,
-tinashe,Tinashe,2024-08-18,,,,unknown,R&B·소울,,unverified,review
+tinashe,Tinashe,2024-08-18,2014-01-21,10509,157,famous,R&B·소울,Rca Records Label,verified,profile
 tinoone,TINOone,2024-07-31,,,,unknown,일렉트로닉,,first_seen,profile
 tinouk,tino___uk,2025-12-09,,,,unknown,,,unverified,
 tinydeskconcert,Tiny Desk Concert,2021-07-14,,,,unknown,메탈·하드코어,,first_seen,review
@@ -14565,10 +14564,10 @@ tomorrowcomestheharvest,Tomorrow Comes The Harvest,2023-07-07,,,,unknown,일렉�
 tomoyaogishiba,Tomoya Ogishiba,2024-03-20,,,,unknown,일렉트로닉,,first_seen,inferred
 tomtomtom,Tom Tom Tom,2023-12-30,,,,unknown,록·밴드,,first_seen,inferred
 ton80,TON80,2020-01-16,,,,unknown,재즈,,first_seen,profile
-tonedeafosk,tonedeafosk,2026-11-04,,,,unknown,록·밴드,,first_seen,inferred
+tonedeafosk,tonedeafosk,2026-11-04,,,,unknown,록·밴드,,first_seen,inferred_low
 tontojang,tontojang,2026-11-27,,,,unknown,,,first_seen,
 tonyayumi,Tony Ayumi,2026-04-05,,,,unknown,힙합,,first_seen,inferred_low
-tonyrayn,TONY&RAYN*,2026-09-21,,,,unknown,힙합,,first_seen,inferred_low
+tonyrayn,TONY&RAYN*,2026-09-21,,,,unknown,,,first_seen,
 tonyryu,tonyryu,2025-02-10,,,,unknown,,,first_seen,
 toomuch,Too Much,2022-08-20,,,,unknown,록·밴드,,first_seen,inferred
 tornadowallace,Tornado Wallace,2022-06-10,,,,unknown,일렉트로닉,,first_seen,review
@@ -14662,7 +14661,7 @@ tyrant,TYRANT,2026-05-17,,,,unknown,,,first_seen,
 tyson,TYSON,,,,,unknown,,,first_seen,
 tyve,TYVE,2026-04-06,2025-11-28,25,6,newcomer,인디팝·발라드,,verified,inferred_low
 uffie,Uffie,2025-04-10,,,,unknown,일렉트로닉,,first_seen,review
-ugopoupee,ugopoupee,2026-10-24,,,,unknown,록·밴드,,first_seen,inferred
+ugopoupee,ugopoupee,2026-10-24,,,,unknown,록·밴드,,first_seen,inferred_low
 ugoslabier,UGOSLABIER,2024-08-27,,,,unknown,록·밴드,,first_seen,inferred
 ugp피타입ptype장한나joonssecondlifemanny,UGP 피타입 (P-TYPE) 장한나 Joon's Second Life Manny,2026-07-09,,,,unknown,,,first_seen,
 uigeadailtrace,Uigeadail Trace,2023-10-06,,,,unknown,R&B·소울,,first_seen,profile
@@ -14758,7 +14757,7 @@ vassline,Vassline,2026-01-03,,,,unknown,,,first_seen,
 vaundy,Vaundy,2024-10-20,,,,unknown,인디팝·발라드,,unverified,review
 vbellmago,V.Bell Mago,2021-08-03,,,,unknown,재즈,,first_seen,profile
 vc,VC,2026-07-16,,,,unknown,,,first_seen,
-vector,Vector,2025-11-08,,,,unknown,록·밴드,,first_seen,inferred
+vector,Vector,2025-11-08,2007-01-01,3,35,established,R&B·소울,,verified,profile
 vegetableorchestra,Vegetable Orchestra,2025-04-11,,,,unknown,,,first_seen,
 vegyn,Vegyn,2024-02-27,,,,unknown,,,first_seen,
 veil,Veil,2026-07-29,,,,unknown,록·밴드,,first_seen,inferred_low
@@ -14976,7 +14975,7 @@ wsh,W!SH,2025-09-07,,,,unknown,,,first_seen,
 wtchcrft,WTCHCRFT,2022-06-23,,,,unknown,일렉트로닉,,first_seen,review
 wuda,WUDA,2021-11-13,,,,unknown,,,first_seen,
 wultimum,WULTIMUM,2021-01-05,,,,unknown,,,first_seen,
-wuri,WURi,2026-10-16,,,,unknown,,,first_seen,
+wuri,WURi,2026-10-16,,,,unknown,록·밴드,,first_seen,inferred_low
 wuso,wuso,2025-08-07,,,,unknown,,,first_seen,
 wwhale,W&Whale,2025-02-13,,,,unknown,,,first_seen,
 wyattshears,Wyatt Shears,2023-06-08,,,,unknown,,,first_seen,
@@ -15024,7 +15023,7 @@ wyxx,WYXX,2021-03-18,,,,unknown,일렉트로닉,,first_seen,profile
 헬리비젼x김오키,헬리비젼 X 김오키,2019-06-30,,,,unknown,,,first_seen,
 혜은이x재주소년,혜은이x재주소년,2022-01-15,,,,unknown,,,first_seen,
 호시x우지,호시X우지(세븐틴),2025-03-17,,,,unknown,,,first_seen,
-x33d,X33D,2024-09-12,,,,unknown,,,first_seen,
+x33d,X33D,2024-09-12,,,,unknown,힙합,,first_seen,inferred
 x8tmrg,x8tmrg,2026-09-14,,,,unknown,,,first_seen,
 xanexx,Xanexx,2022-05-03,,,,unknown,일렉트로닉,,first_seen,review
 xaoil,xaoil (451),2026-11-21,2021-09-24,23,6,established,힙합,,verified,profile
@@ -15032,7 +15031,7 @@ xaoil,xaoil (451),2026-11-21,2021-09-24,23,6,established,힙합,,verified,profil
 xaviersobased,xaviersobased,2026-02-10,,,,unknown,힙합,,first_seen,review
 지성찬xbuddahsbelly,지성찬 X buddah’s belly (부다스 벨리),2024-10-14,,,,unknown,,,first_seen,
 xdinaryheroes,Xdinary Heroes,2023-05-27,2021-12-06,18486,23,famous,록·밴드,(주)JYP엔터테인먼트,verified,profile
-xeinhossler,Xein Hossler,2026-04-17,,,,unknown,,,first_seen,
+xeinhossler,Xein Hossler,2026-04-17,,,,unknown,힙합,,first_seen,inferred
 xensapphire,Xen Sapphire,2026-09-13,,,,unknown,,,first_seen,
 xg,XG,2023-01-25,,,,unknown,힙합·R&B,,first_seen,inferred
 xgthecore,XG - THE CORE,2026-01-28,,,,unknown,인디팝·발라드,,first_seen,review
@@ -15106,7 +15105,7 @@ yedi,YEDI,2023-10-21,,,,unknown,힙합,,first_seen,inferred_low
 불안한yee,불안한yee,2020-05-28,,,,unknown,R&B·소울,,first_seen,profile
 yeesangyueesang,yeesangyueesang,2026-09-25,,,,unknown,,,first_seen,
 yein,YEIN,2022-02-01,,,,unknown,록·밴드,,first_seen,profile
-yejikim,Yeji Kim,2026-08-16,,,,unknown,,,first_seen,
+yejikim,YeJi Kim,2026-08-16,2023-08-23,3,2,established,,,verified,
 yejinladytoe,yejin__ladytoe,2026-11-26,,,,unknown,힙합,,first_seen,inferred_low
 yeliinbb,yeliinbb,2026-09-08,,,,unknown,,,first_seen,
 yellaboyz,YellaBoyz,2025-04-10,,,,unknown,,,unverified,
@@ -15129,8 +15128,8 @@ yeonggyeonkim,yeonggyeonkim,2026-11-27,,,,unknown,,,first_seen,
 yeonjoonyoon,yeonjoonyoon,2026-09-25,,,,unknown,,,first_seen,
 yeonjun,Yeonjun,2026-11-25,,,,unknown,,,first_seen,
 yeop,YEOP,2026-10-05,,,,unknown,,,first_seen,
-yeori,YEORI,2026-10-23,,,,unknown,,,first_seen,
-yesjunior,Yes Junior,2026-10-30,,,,unknown,힙합,,first_seen,inferred_low
+yeori,YEORI,2026-10-23,,,,unknown,일렉트로닉,,first_seen,inferred_low
+yesjunior,Yes Junior,2026-10-30,2020-04-13,666,12,established,힙합,,verified,profile
 yesl,YESL,2026-02-12,,,,unknown,,,unverified,
 yesltape,yesl.tape,2026-02-18,,,,unknown,,,unverified,
 yesyes,YESYES,2026-06-27,,,,unknown,,,first_seen,
@@ -15175,7 +15174,7 @@ yonyonsumin수민takutakahashi,YonYon SUMIN (수민) ☆Taku Takahashi,2026-01-0
 yooin,Yooin,2025-04-24,,,,unknown,,,first_seen,
 yooji,yooji,2024-01-03,,,,unknown,포크·싱어송라이터,,first_seen,profile
 yoomyoungwoo,YOOMYOUNGWOO,2020-08-20,,,,unknown,R&B·소울,,first_seen,profile
-yoon,YOON,2022-06-02,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
+yoon,YOON,2022-06-02,,,,unknown,,,first_seen,
 yoonanplz,yoonanplz,2026-11-14,,,,unknown,,,first_seen,
 yoonkeekim,Yoonkee Kim,2023-02-10,,,,unknown,,,first_seen,
 yoonmirae,Yoonmirae,2026-09-06,,,,unknown,,,first_seen,
@@ -15183,7 +15182,7 @@ yoonmustdie,yoonmustdie,2026-07-03,,,,unknown,포크·싱어송라이터,,first_
 yoono,yoono,2021-05-14,,,,unknown,일렉트로닉,,first_seen,profile
 yoonsukhun,yoonsukhun,2026-11-13,,,,unknown,,,first_seen,
 yoontertainer,yoontertainer,2026-10-26,,,,unknown,,,first_seen,
-yoonthree,yoonthree,2026-04-01,,,,unknown,록·밴드,,first_seen,inferred
+yoonthree,yoonthree,2026-04-01,,,,unknown,힙합,,first_seen,inferred_low
 yoonyoon,yoonyoon,2026-03-16,,,,unknown,포크·싱어송라이터,,first_seen,inferred_low
 yooyounjunstudio,yooyounjunstudio,2026-11-26,,,,unknown,,,first_seen,
 yoruyouryoru,yoruyouryoru,2026-11-10,,,,unknown,,,first_seen,

@@ -5843,8 +5843,6 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 네스티요나,발매,bugs,,,2026-11-25,,pending
 네스티요나,발매,genie,,,2026-11-25,,pending
 네시,발매,poclanos,,,2020-11-06,,pending
-네온더키즈,공연,indistreet,,,2025-03-07,Cafe PPnF,discovery
-네온더키즈,공연,indistreet,,,2026-07-25,공연장 미정,discovery
 네온스,공연,indistreet,,,2024-03-01,오방가르드,discovery
 네요,공연,indistreet,,,2022-03-20,오방가르드,discovery
 네요,공연,indistreet,,,2022-04-16,오방가르드,discovery
@@ -23450,6 +23448,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 시월,큐레이션,hiphople,HIPHOPLE,,2022-11-10,,pending
 시월,큐레이션,hiphople,HIPHOPLE,,2023-07-10,,pending
 시월,공연,indiego,,,2026-07-31,우주정거장,pending
+시월,공연,indistreet,,,2026-07-31,우주정거장,discovery
 시인과촌장,큐레이션,izm,IZM,,2025-10-16,,context
 시인을위하여,공연,indistreet,,,2021-10-28,우주정거장,discovery
 시인을위하여,공연,indistreet,,,2022-07-31,카페 언플러그드 홍대점,discovery
@@ -39785,8 +39784,6 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 커런트무드,공연,indistreet,,,2023-11-25,공연장 미정,discovery
 커런트무드,공연,regional,,,2026-10-09,광주음악창작소,pending
 커런트무드,공연,regional,,,2026-11-08,기지제 야외공연장,pending
-커먼그라운드,큐레이션,musicy,음악취향Y,,2021-09-13,,discovery
-커먼그라운드,큐레이션,trackzero,멜론 트랙제로,,2026-08-20,,pending
 커서,발매,poclanos,,,2020-08-25,,pending
 커서,큐레이션,hiphople,HIPHOPLE,,2022-05-02,,pending
 커서,공연,indistreet,,,2022-07-08,스페이스브릭,discovery
@@ -50472,6 +50469,8 @@ colors,공연,indistreet,,,2025-11-01,오방가르드,discovery
 comacakeclub,공연,indistreet,,,2026-10-04,Club Victim,discovery
 combust,큐레이션,visla,VISLA,,2022-03-29,,context
 comfy,공연,indistreet,,,2025-08-08,Cafe PPnF,discovery
+commonground,큐레이션,musicy,음악취향Y,,2021-09-13,,discovery
+commonground,큐레이션,trackzero,멜론 트랙제로,,2026-08-20,,pending
 communityswimmingpool,큐레이션,visla,VISLA,,2022-08-26,,context
 como,공연,indistreet,,,2021-12-11,클럽헤비,discovery
 compello,공연,sangsangmadang,,,2022-09-23,KT&G 상상마당 부산 13층 루프탑,discovery
@@ -56279,6 +56278,8 @@ neochimera,발매,poclanos,,,2024-10-16,,pending
 neochimera,큐레이션,visla,VISLA,,2024-10-16,,context
 neochimera,발매,poclanos,,,2025-12-16,,pending
 neogijang,공연,instagram,@cakeshopseoul,,2026-11-25,Cakeshop,pending
+neonthekids,공연,indistreet,,,2025-03-07,Cafe PPnF,discovery
+neonthekids,공연,indistreet,,,2026-07-25,공연장 미정,discovery
 neontype,발매,poclanos,,,2024-05-15,,pending
 neontype,발매,poclanos,,,2024-06-27,,pending
 neontype,발매,poclanos,,,2024-12-09,,pending
@@ -59046,7 +59047,6 @@ sis,공연,indistreet,,,2026-10-24,카페 언플러그드 홍대점,discovery
 siso시소앨리스유,큐레이션,trackzero,멜론 트랙제로,,2026-09-24,,pending
 sissi,공연,indistreet,,,2024-02-17,공연장 미정,discovery
 sisu,공연,indistreet,,,2022-05-04,오방가르드,discovery
-siwoel,공연,indistreet,,,2026-07-31,우주정거장,discovery
 siwon,선정·지원,routenote,superrookie,2,2025-04-10,,pending
 siwonpark,공연,instagram,@goyoroom,,2026-11-20,고요의 방,pending
 sixlounge,공연,indistreet,,,2026-10-31,Bender,discovery

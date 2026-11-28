@@ -1,13 +1,13 @@
 {
  "today": "2026-11-28",
- "generated": "2026-11-28T23:33+09:00",
+ "generated": "2026-11-28T23:36+09:00",
  "summary": "통과 22 · 경고 5 · 실패 0",
  "checks": [
   {
    "key": "meta_fresh",
    "name": "랩 데이터 갱신 시각",
    "rule": "1일 넘게 안 바뀌면 실패",
-   "value": "2026-11-28 23:32 (0일 전)",
+   "value": "2026-11-28 23:36 (0일 전)",
    "status": "pass",
    "fix": "daily_run.sh의 export_lab_data.py 줄이 실패했는지 records/daily_run.log 확인",
    "details": []
@@ -25,7 +25,7 @@
    "key": "row_change",
    "name": "전날 대비 행 수",
    "rule": "어제 20행 이상인 표가 30% 넘게 줄면 실패, 50% 넘게 늘면 경고",
-   "value": "급증: signals 26,534→62,195, teams 9,096→15,327, outcomes 723→1,218, links 1,100→4,090, videos 1,736→5,464, images 241→449",
+   "value": "급증: signals 26,534→62,195, teams 9,096→15,326, outcomes 723→1,218, links 1,100→4,254, videos 1,736→5,464, images 241→449",
    "status": "warn",
    "fix": "줄었으면 그날 수집·적재 로그 확인(수집 실패·연결표 오류), 늘었으면 같은 행이 두 번 들어갔는지 확인",
    "details": []
@@ -70,7 +70,7 @@
    "key": "orphan_side",
    "name": "링크·사진·영상의 팀이 팀 표에 있나",
    "rule": "표마다 팀 표에 없는 팀 비율이 15% 넘으면 경고",
-   "value": "links 118/4,090 (2.9%) · images 27/449 (6.0%) · videos 247/5,464 (4.5%)",
+   "value": "links 125/4,254 (2.9%) · images 27/449 (6.0%) · videos 247/5,464 (4.5%)",
    "status": "pass",
    "fix": "신호 없이 프로필만 받은 팀(멜론 보강 명단)인지, 팀 키 표기가 달라 못 이은 것인지 몇 개 열어 본다",
    "details": []
@@ -293,7 +293,7 @@
    "key": "genre",
    "name": "장르 미분류",
    "rule": "프로필 있는 팀 중 장르 빈칸이 20% 넘으면 경고, 60% 넘으면 실패",
-   "value": "프로필 팀 76/950 (8.0%) · 전체 팀 41.6%",
+   "value": "프로필 팀 103/1,081 (9.5%) · 전체 팀 41.6%",
    "status": "pass",
    "fix": "build_dashboard_data._infer_genres의 장르 이름표에 새 표기(멜론·스포티파이 장르)를 추가한다",
    "details": []
@@ -302,7 +302,7 @@
    "key": "first_release",
    "name": "첫 발매일 보유율",
    "rule": "프로필 있는 팀 중 첫 발매일이 있는 비율이 90% 밑이면 경고, 70% 밑이면 실패",
-   "value": "프로필 팀 922/950 (97.1%) · 전체 팀 6.0%",
+   "value": "프로필 팀 1053/1,081 (97.4%) · 전체 팀 6.9%",
    "status": "pass",
    "fix": "멜론·스포티파이 프로필 수집기가 발매일을 못 읽는지(페이지 구조 변경) 확인한다",
    "details": []
@@ -311,7 +311,7 @@
    "key": "url_shapes",
    "name": "링크·사진 주소 모양",
    "rule": "https가 아니거나 플랫폼 주소가 아니면 이상 — 하나라도 있으면 경고, 2% 넘으면 실패 (주소를 실제로 열어 보지는 않음)",
-   "value": "이상 0건 / 4,539건 (0.0%)",
+   "value": "이상 0건 / 4,703건 (0.0%)",
    "status": "pass",
    "fix": "export_lab_data._link_url·image_rows의 주소 규칙(URL_TEMPLATES·IMAGE_CACHE_HOSTS)을 확인",
    "details": []
@@ -338,7 +338,7 @@
    "key": "extras",
    "name": "앱 보조 데이터 8개",
    "rule": "meta.json extras 목록에 다 있고, 파일이 있고 비어 있지 않아야 함 — 하나라도 빠지면 실패",
-   "value": "모두 있음 (갱신 2026-11-28 23:33)",
+   "value": "모두 있음 (갱신 2026-11-28 23:36)",
    "status": "pass",
    "fix": "daily_run.sh의 앱 보조 데이터 묶음(build_app_extras.sh)이 실패했는지 records/daily_run.log 확인 후 다시 돌린다",
    "details": []
@@ -347,7 +347,7 @@
    "key": "team_labels",
    "name": "팀 표 신인 확인·장르 확신도 분포",
    "rule": "newcomer_check·genre_confidence 칸에 정해진 값만 — 모르는 값이 있으면 경고 (분포는 참고)",
-   "value": "newcomer_check: first_seen 13,943 · verified 926 · unverified 458 / genre_confidence: (빈칸) 6,378 · inferred 3,088 · profile 2,510 · review 1,823 · inferred_low 1,344 · press 184 — 모르는 값: review",
+   "value": "newcomer_check: first_seen 13,815 · verified 1,057 · unverified 454 / genre_confidence: (빈칸) 6,378 · inferred 3,026 · profile 2,581 · review 1,800 · inferred_low 1,357 · press 184 — 모르는 값: review",
    "status": "warn",
    "fix": "export_lab_data.py의 newcomer_check·genre_confidence 값 목록과 data_checks.py NEWCOMER_CHECKS·GENRE_CONFIDENCES를 맞춘다",
    "details": []
@@ -365,7 +365,7 @@
    "key": "venue_coverage",
    "name": "공연장 좌표·체급 보유율 (공연 밤 기준)",
    "rule": "좌표 85% 밑 경고·60% 밑 실패, 체급 70% 밑 경고·40% 밑 실패 ('공연장 미정' 제외)",
-   "value": "좌표 10,540/11,288 (93.4%) · 체급 8,988/11,288 (79.6%) — 체급 빠진 곳(밤 많은 순): 펫사운즈 339, 카페 아이다호 189, Hukez 128, 고인물 125, 서브라이엇 해방촌 85, 달빛산책 72, KT&G 상상마당 춘천 55, 세종 음악창작소 누리락 55 외 344",
+   "value": "좌표 10,540/11,288 (93.4%) · 체급 8,988/11,288 (79.6%) — 체급 빠진 곳(밤 많은 순): 펫사운즈 339, 카페 아이다호 189, Hukez 128, 고인물 125, 서브라이엇 해방촌 85, 달빛산책 72, 세종 음악창작소 누리락 55, KT&G 상상마당 춘천 55 외 344",
    "status": "pass",
    "fix": "공연 많은 공연장부터 config/venue_capacity.json(체급)·좌표 캐시를 채운다 — 아래 값의 '빠진 곳'부터",
    "details": []
@@ -419,7 +419,7 @@
    "key": "pg_own_release",
    "name": "멜론 본인 음반 첫 발매(first_release_own)",
    "rule": "최신 멜론 프로필 중 보유율 50% 밑이면 경고, 본인 음반이 전체보다 이르면(계산 오류) 경고",
-   "value": "본인 음반 첫 발매 224/964 (23.2%) · 전체 첫 발매 954 · 본인 음반이 3년 넘게 늦은 프로필 23개 · 본인이 더 이른 오류 0개",
+   "value": "본인 음반 첫 발매 352/1104 (31.9%) · 전체 첫 발매 1090 · 본인 음반이 3년 넘게 늦은 프로필 32개 · 본인이 더 이른 오류 0개",
    "status": "warn",
    "fix": "collect_artists.py --refresh가 7일마다 다시 받아 채움 — '늦은 프로필'은 참여·소속 음반 때문에 첫 발매가 앞당겨졌던 팀(뷰가 본인 음반 기준으로 바로잡음)",
    "details": []

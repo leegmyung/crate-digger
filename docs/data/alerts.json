@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-28T23:33:32+09:00",
+ "generated_at": "2026-11-28T23:36:18+09:00",
  "as_of": "2026-11-28",
  "baseline": {
   "kind": "state",
@@ -35,7 +35,7 @@
   "past_outcome": 20
  },
  "counts_found": {
-  "past_outcome": 22,
+  "past_outcome": 23,
   "new_selection": 50,
   "blank_first_mention": 1,
   "stage_up": 98,
@@ -11019,6 +11019,25 @@
   {
    "type": "past_outcome",
    "type_label": "과거 수상·선정 기록 추가",
+   "team_key": "summersoul",
+   "name": "Summer Soul",
+   "date": "2023-05-17",
+   "text": "뮤콘(MU:CON) (B등급)",
+   "evidence": [
+    {
+     "program": "mucon",
+     "date": "2023-05-17"
+    }
+   ],
+   "importance": 5,
+   "rank": null,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "past_outcome",
+   "type_label": "과거 수상·선정 기록 추가",
    "team_key": "gonggonggoo009",
    "name": "공공구",
    "date": "2023-03-09",
@@ -11046,25 +11065,6 @@
     {
      "program": "kma_rookie",
      "date": "2023-03-05"
-    }
-   ],
-   "importance": 5,
-   "rank": null,
-   "also": [],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "past_outcome",
-   "type_label": "과거 수상·선정 기록 추가",
-   "team_key": "idearth",
-   "name": "ID:Earth",
-   "date": "2022-05-24",
-   "text": "CJ 튠업 (S등급)",
-   "evidence": [
-    {
-     "program": "cj_tuneup",
-     "date": "2022-05-24"
     }
    ],
    "importance": 5,
