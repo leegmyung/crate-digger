@@ -28,6 +28,12 @@ class TargetsTest(unittest.TestCase):
         got = ci.targets(links, cache={"a": {"url": "x"}})
         self.assertEqual(got, [("b", "BBBBBBBBBBBBBBBBBBBBBB")])
 
+    def test_priority_order_puts_top_candidates_first(self):
+        links = [{"team_key": k, "platform": "spotify", "url": "https://open.spotify.com/artist/" + k.upper() * 22}
+                 for k in ("a", "b", "c")]
+        got = ci.targets(links, cache={}, order=["c", "a"])
+        self.assertEqual([t for t, _ in got], ["c", "a", "b"])
+
 
 class RunTest(unittest.TestCase):
     def test_fetches_and_stops_at_budget(self):
@@ -40,6 +46,14 @@ class RunTest(unittest.TestCase):
         self.assertEqual(sorted(cache), ["a", "b"])
         self.assertEqual(cache["a"]["source"], "spotify")
         self.assertEqual(len(calls), 2)
+
+    def test_photo_known_from_search_needs_no_request(self):
+        calls = []
+        cache = ci.fetch_images([("a", "A" * 22), ("b", "B" * 22)], lambda p, q: calls.append(p) or {"images": IMAGES},
+                                cache={}, budget=1, known={"A" * 22: "https://i.scdn.co/image/known"})
+        self.assertEqual(cache["a"]["url"], "https://i.scdn.co/image/known")
+        self.assertEqual(cache["b"]["url"], "https://i.scdn.co/image/mid")
+        self.assertEqual(calls, ["/artists/" + "B" * 22])
 
     def test_missing_image_is_cached_as_none_so_not_retried(self):
         cache = ci.fetch_images([("a", "A" * 22)], lambda p, q: {"images": []}, cache={}, budget=5)

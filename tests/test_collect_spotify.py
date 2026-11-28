@@ -77,6 +77,12 @@ class MatchTest(unittest.TestCase):
     def test_no_hit(self):
         self.assertIsNone(cs.pick_match("실리카겔", [artist("a", "HANRORO")]))
 
+    def test_keeps_search_result_photo_so_no_extra_request_is_needed(self):
+        item = dict(artist("c", "공원"), images=[{"url": "https://i.scdn.co/image/big", "width": 640},
+                                                 {"url": "https://i.scdn.co/image/mid", "width": 320}])
+        self.assertEqual(cs.pick_match("공원", [item])["image"], "https://i.scdn.co/image/mid")
+        self.assertNotIn("image", cs.pick_match("공원", [dict(artist("c", "공원"), images=[])]))
+
 
 class ReleaseSummaryTest(unittest.TestCase):
     def test_earliest_partial_date_and_ignores_zero_dates(self):
@@ -153,6 +159,12 @@ class InputNamesTest(unittest.TestCase):
             self._write(d, "raw_outcome_x.csv", ["artist_text"], [["정답팀(Answer)"]])
             names = cs.input_names(Path(d))
         self.assertEqual(sorted(names), sorted(["실리카겔", "새팀", "두번팀", "기사팀", "정답팀(Answer)"]))
+
+    def test_priority_names_come_first_without_duplicates(self):
+        with tempfile.TemporaryDirectory() as d:
+            self._write(d, "raw_kr_release_x.csv", ["artist_text"], [["실리카겔"], ["기사팀"]])
+            names = cs.input_names(Path(d), priority=["상위팀", "기사 팀", ""])
+        self.assertEqual(names, ["상위팀", "기사 팀", "실리카겔"])
 
 
 class RunTest(unittest.TestCase):

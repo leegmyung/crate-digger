@@ -25,6 +25,7 @@ from build_dashboard_data import PROGRAM_NAMES, _has_xref_table, psql_csv  # noq
 from csv_schema import OUTCOME_TIER  # noqa: E402
 import genre as genre_mod  # noqa: E402
 import genre_fill  # noqa: E402
+import players as players_mod  # noqa: E402
 import video_match  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -33,6 +34,8 @@ SPOTIFY_MATCH = ROOT / "data" / "raw" / "state" / "spotify_match.json"
 XREF_FILE = ROOT / "data" / "raw" / "state" / "artist_xref.json"
 RAW_DIR = ROOT / "data" / "raw"
 IMAGE_CACHE = ROOT / "data" / "raw" / "state" / "artist_images.json"
+MUSICBRAINZ_FILE = ROOT / "data" / "raw" / "state" / "musicbrainz.json"   # collect_musicbrainz: 공식 링크
+YT_CHANNELS = ROOT / "data" / "raw" / "state" / "yt_channels.json"   # collect_yt_channels: 팀 공식 채널·아바타
 
 SIGNAL_FIELDS = ["team_key", "branch", "source", "program", "stage_rank", "signal_date", "venue", "role"]
 TEAM_FIELDS = ["team_key", "display_name", "first_seen", "first_release", "fan_count", "album_count",
@@ -40,8 +43,11 @@ TEAM_FIELDS = ["team_key", "display_name", "first_seen", "first_release", "fan_c
 # 신인 판정 확인 상태 (2026-11-27 사용자 결정: 후보에서 빼지 않고 표시만, 점수·검증엔 안 씀)
 NEWCOMER_CHECK_DAYS = 90   # 출처 수집 시작 뒤 이 기간 안에 처음 본 팀은 그 전부터 활동했을 수 있다 (데이터 시작점에 잘림)
 LINK_FIELDS = ["team_key", "platform", "url"]
-IMAGE_FIELDS = ["team_key", "url", "source"]
+IMAGE_FIELDS = ["team_key", "url", "source", "page_url"]   # page_url = 사진 출처 페이지(표시할 때 링크로 걸기)
 IMAGE_CACHE_HOSTS = ("i.scdn.co",)
+YT_AVATAR_HOSTS = ("yt3.ggpht.com", "yt3.googleusercontent.com")   # YouTube Data API channels.list 썸네일
+SPOTIFY_ID_RE = re.compile(r"[A-Za-z0-9]{22}")
+CHANNEL_ID_RE = re.compile(r"UC[A-Za-z0-9_-]{22}")
 VIDEO_FIELDS = ["team_key", "video_id", "title", "channel_title", "published_at", "kind"]
 VIDEO_KIND_ORDER = {"stage": 0, "official_live": 1, "official": 2, "search": 3}
 VIDEOS_PER_TEAM = 6
@@ -402,8 +408,20 @@ def spotify_refs(matches: dict, key_of: Callable[[str], str]) -> List[dict]:
             if m and m.get("id") and int(m.get("namesakes") or 1) <= 1]
 
 
+MUSICBRAINZ_PLATFORMS = ("youtube", "spotify", "instagram")
+
+
+def musicbrainz_refs(state: dict) -> List[dict]:
+    """collect_musicbrainz 상태 → 연결 (찾은 팀의 유튜브 채널 주소·스포티파이 번호·인스타 계정). 주소 검사는 link_rows 가 한다."""
+    refs: List[dict] = []
+    for team, entry in sorted(state.items()):
+        urls = (entry or {}).get("urls") or {} if (entry or {}).get("mbid") else {}
+        refs += [{"team_key": team, "platform": p, "ref": v} for p in MUSICBRAINZ_PLATFORMS for v in urls.get(p) or []]
+    return refs
+
+
 def _extra_refs() -> List[dict]:
-    """PostgreSQL 밖의 연결: 스포티파이 이름 매칭, 연결표의 인스타 계정. 파일이 없으면 빈 목록."""
+    """PostgreSQL 밖의 연결: 스포티파이 이름 매칭, 연결표의 인스타 계정, MusicBrainz 공식 링크. 파일이 없으면 빈 목록."""
     from artist_xref import canonical_key, load_xref
 
     index = load_xref()
@@ -420,11 +438,12 @@ def _extra_refs() -> List[dict]:
                  if isinstance(h, dict) and h.get("confidence") in ("high", "mid")]   # 확신 낮은 계정은 안 붙임
     except (OSError, ValueError, TypeError, KeyError):
         pass
+    refs += musicbrainz_refs(_read_json_dict(MUSICBRAINZ_FILE))   # 맨 뒤: 같은 팀에 이미 있는 연결이 먼저 쓰인다
     return refs
 
 
-def video_rows(raw: List[dict], per_team: int = VIDEOS_PER_TEAM) -> List[dict]:
-    """수집한 유튜브 영상 → 팀별 무대 영상(무대 > 공식 라이브 > 공식 > 검색, 같은 순위는 최신순, 팀당 최대 per_team).
+def filtered_videos(raw: List[dict]) -> List[dict]:
+    """수집한 유튜브 영상 → 거른 전체 목록 (팀·영상 번호마다 한 줄, 자르기 전).
     제목 ↔ 팀 이름은 video_match 규칙(흔한 낱말·짧은 이름)으로 다시 걸러낸다 — 원본 raw_video 는 그대로."""
     raw, _ = video_match.filter_rows(raw)
     best: Dict[tuple, dict] = {}
@@ -437,8 +456,13 @@ def video_rows(raw: List[dict], per_team: int = VIDEOS_PER_TEAM) -> List[dict]:
         row = {k: r.get(k) or "" for k in VIDEO_FIELDS}
         row["published_at"] = row["published_at"][:10]
         best.setdefault((row["team_key"], vid), row)
+    return list(best.values())
+
+
+def video_rows(raw: List[dict], per_team: int = VIDEOS_PER_TEAM, filtered: List[dict] | None = None) -> List[dict]:
+    """팀별 무대 영상(무대 > 공식 라이브 > 공식 > 검색, 같은 순위는 최신순, 팀당 최대 per_team)."""
     by_team: Dict[str, List[dict]] = {}
-    for row in best.values():
+    for row in (filtered_videos(raw) if filtered is None else filtered):
         by_team.setdefault(row["team_key"], []).append(row)
     out = []
     for team in sorted(by_team):
@@ -448,22 +472,62 @@ def video_rows(raw: List[dict], per_team: int = VIDEOS_PER_TEAM) -> List[dict]:
     return out
 
 
-def image_rows(cache: dict) -> List[dict]:
-    """collect_artist_images 캐시 → 팀별 사진 주소 (https + 허용 도메인만)."""
-    out = []
-    for team, v in sorted(cache.items()):
-        url = (v or {}).get("url") or ""
-        p = urlparse(url)
-        if p.scheme == "https" and p.netloc in IMAGE_CACHE_HOSTS:
-            out.append({"team_key": team, "url": url, "source": v.get("source", "")})
-    return out
+def _safe_image(url: str, hosts: tuple) -> bool:
+    p = urlparse(url or "")
+    return p.scheme == "https" and p.netloc in hosts
+
+
+def image_rows(cache: dict, yt_channels: dict | None = None) -> List[dict]:
+    """팀별 사진 1장: 스포티파이 아티스트 사진(collect_artist_images) → 없으면 유튜브 공식 채널 아바타(collect_yt_channels).
+    https + 허용 도메인만. page_url 은 출처 페이지(앱이 사진에 출처 링크를 걸 수 있게)."""
+    picked: Dict[str, dict] = {}
+    for team, v in cache.items():
+        v = v or {}
+        if _safe_image(v.get("url") or "", IMAGE_CACHE_HOSTS):
+            sid = v.get("spotify_id") or ""
+            page = f"https://open.spotify.com/artist/{sid}" if SPOTIFY_ID_RE.fullmatch(sid) else ""
+            picked[team] = {"team_key": team, "url": v["url"], "source": v.get("source", ""), "page_url": page}
+    for team, ch in (yt_channels or {}).items():
+        ch = ch or {}
+        cid = ch.get("channel_id") or ""
+        if team in picked or not CHANNEL_ID_RE.fullmatch(cid) or not _safe_image(ch.get("avatar") or "", YT_AVATAR_HOSTS):
+            continue
+        picked[team] = {"team_key": team, "url": ch["avatar"], "source": "youtube",
+                        "page_url": f"https://www.youtube.com/channel/{cid}"}
+    return [picked[t] for t in sorted(picked)]
+
+
+def _read_json_dict(path: Path) -> dict:
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return data if isinstance(data, dict) else {}
 
 
 def _image_cache() -> dict:
-    try:
-        return json.loads(IMAGE_CACHE.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        return {}
+    return _read_json_dict(IMAGE_CACHE)
+
+
+YT_KEEP_DAYS = 30   # YouTube API 정책: API 데이터는 30일 안에 새로 받거나 지운다
+
+
+def fresh_channels(teams: dict, today: str, days: int = YT_KEEP_DAYS) -> dict:
+    """확인(checked)한 지 days 일이 안 된 채널만 (오래된 아바타는 앱에 걸지 않는다)."""
+    def fresh(v: dict) -> bool:
+        try:
+            return (date.fromisoformat(today) - date.fromisoformat((v or {}).get("checked") or "")).days <= days
+        except ValueError:
+            return False
+    return {k: v for k, v in teams.items() if fresh(v)}
+
+
+def _yt_channels() -> dict:
+    return fresh_channels(_read_json_dict(YT_CHANNELS).get("teams") or {}, date.today().isoformat())
+
+
+def _video_views() -> Dict[str, int]:
+    return players_mod.latest_views(RAW_DIR)
 
 
 def period_end_date(text: str, precision: str = "") -> str:
@@ -575,6 +639,8 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
            extra_refs: Callable[[], List[dict]] | None = _extra_refs,
            raw_videos: Callable[[], List[dict]] | None = _raw_videos,
            image_cache: Callable[[], dict] | None = _image_cache,
+           yt_channels: Callable[[], dict] | None = _yt_channels,
+           video_views: Callable[[], Dict[str, int]] | None = _video_views,
            raw_collabs: Callable[[], tuple] | None = _raw_collabs,
            press_genre_ref: Callable[[], Dict[str, str]] | None = _press_genre_ref) -> dict:
     use_xref = _has_xref_table(run)
@@ -602,9 +668,13 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
     # 앱이 역할 설명·근거를 보여 줄 수 있게 분류표 사본 (원본: config/source_roles.json)
     (out_dir / "source_roles.json").write_text(json.dumps(roles, ensure_ascii=False, indent=1), encoding="utf-8")
     _write_csv(out_dir / "links.csv", LINK_FIELDS, links)
-    videos = video_rows(raw_videos()) if raw_videos else []
+    all_videos = filtered_videos(raw_videos()) if raw_videos else []
+    videos = video_rows([], filtered=all_videos)
     _write_csv(out_dir / "videos.csv", VIDEO_FIELDS, videos)
-    images = image_rows(image_cache()) if image_cache else []
+    # 바로 듣기 표: 팀마다 스포티파이 1줄 + 대표 유튜브 영상 1줄 (규칙: scripts/players.py)
+    players = players_mod.player_rows(links, all_videos, video_views() if video_views else {})
+    _write_csv(out_dir / "players.csv", players_mod.PLAYER_FIELDS, players)
+    images = image_rows(image_cache() if image_cache else {}, yt_channels() if yt_channels else {})
     _write_csv(out_dir / "images.csv", IMAGE_FIELDS, images)
     raw_c, raw_p = raw_collabs() if raw_collabs else ([], [])
     collabs = collab_rows(raw_c, raw_p, teams, outcomes) if raw_c else []
@@ -623,6 +693,7 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
         "uses_artist_xref": use_xref,
         "rows": {"signals": len(signals), "teams": len(teams), "outcomes": len(outcomes),
                  "programs": len(programs), "links": len(links), "videos": len(videos), "images": len(images),
+                 "players": len(players),
                  "collabs": len(collabs)},
     }
     (out_dir / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")

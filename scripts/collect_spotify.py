@@ -54,6 +54,8 @@ GIG_SINCE = "2025-06-01"
 GIG_MIN_COUNT = 2
 SELECTION_SINCE_YEAR = "2024"
 TRAILING_ALIAS = re.compile(r"\s*[\(\[]([^\)\]]+)[\)\]]\s*$")
+IMAGE_TARGET_WIDTH = 200     # 사진은 가로 이 이상 중 가장 작은 것 (앱 썸네일)
+IMAGE_HOSTS = ("i.scdn.co",)
 
 
 class RateLimited(RuntimeError):
@@ -181,13 +183,26 @@ def name_keys(name):
     return {k for k in keys if k}
 
 
+def pick_image(images, target=IMAGE_TARGET_WIDTH):
+    """스포티파이 사진 목록 → i.scdn.co https 주소 중 가로 target 이상에서 가장 작은 것 (없으면 가장 큰 것, 아예 없으면 None)."""
+    ok = [i for i in images or [] if urllib.parse.urlparse(i.get("url", "")).scheme == "https"
+          and urllib.parse.urlparse(i["url"]).netloc in IMAGE_HOSTS]
+    if not ok:
+        return None
+    big_enough = sorted((i for i in ok if (i.get("width") or 0) >= target), key=lambda i: i.get("width") or 0)
+    return (big_enough[0] if big_enough else max(ok, key=lambda i: i.get("width") or 0))["url"]
+
+
 def pick_match(query_name, items):
-    """검색 결과 중 이름 키가 같은 첫 팀. 같은 키 팀 수(namesakes)를 같이 남긴다."""
+    """검색 결과 중 이름 키가 같은 첫 팀. 같은 키 팀 수(namesakes)를 같이 남긴다.
+    검색 결과에 사진이 있으면 image 로 같이 남긴다 → collect_artist_images 가 따로 묻지 않는다(요청 절약)."""
     want = name_keys(query_name)
     hits = [a for a in items if artist_key(a.get("name", "")) in want]
     if not hits:
         return None
-    return {"id": hits[0]["id"], "name": hits[0]["name"], "namesakes": len(hits)}
+    match = {"id": hits[0]["id"], "name": hits[0]["name"], "namesakes": len(hits)}
+    image = pick_image(hits[0].get("images"))
+    return {**match, "image": image} if image else match
 
 
 def summarize(items, total):
@@ -224,9 +239,11 @@ def _frequent_gig_artists(raw_dir):
     return [names[k] for k, g in gigs.items() if len(g) >= GIG_MIN_COUNT]
 
 
-def input_names(raw_dir):
-    """후보·정답 팀 이름 (같은 키는 처음 본 표기 하나만). 정답 이름을 먼저 둔다 — 별칭이 붙은 경우가 많아서."""
+def input_names(raw_dir, priority=()):
+    """후보·정답 팀 이름 (같은 키는 처음 본 표기 하나만). 정답 이름을 먼저 둔다 — 별칭이 붙은 경우가 많아서.
+    priority(오늘 후보 상위 → 정답 팀, coverage_targets)가 있으면 그 이름을 맨 앞에 — 하루 예산을 상위 팀에 먼저 쓴다."""
     groups = [
+        list(priority),
         [r.get("artist_text") for r in _rows(raw_dir, "raw_outcome_*.csv")],
         [r.get("artist_text") for r in _rows(raw_dir, "raw_kr_release_*.csv")],
         [r.get("artist_text") for r in _rows(raw_dir, "raw_kr_selection_*.csv")
@@ -339,7 +356,9 @@ def main(argv):
     try:
         client = SpotifyClient(env.get("SPOTIFY_CLIENT_ID"), env.get("SPOTIFY_CLIENT_SECRET"), http=sb.BudgetedHttp(urllib_http))
         now = datetime.now(KST).replace(microsecond=0)
-        res = run(client, input_names(RAW_DIR), RAW_DIR, f"{now:%Y-%m-%d}", now.isoformat(), limit=args.limit)
+        import coverage_targets              # 오늘 후보 상위 500 → 정답 팀 순서 (없으면 빈 목록)
+        priority = [t.get("display_name") or "" for t in coverage_targets.load_targets()]
+        res = run(client, input_names(RAW_DIR, priority), RAW_DIR, f"{now:%Y-%m-%d}", now.isoformat(), limit=args.limit)
     except (SpotifyError, OSError) as e:
         print(f"⚠️ 스포티파이 수집 실패: {e}")
         return 1

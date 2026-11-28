@@ -295,6 +295,22 @@ def _v(team, vid, title, channel="스페이스 공감", kind="stage", date="2026
             "published_at": date, "kind": kind}
 
 
+class MusicBrainzRefsTest(unittest.TestCase):
+    def test_hits_become_link_refs_and_misses_are_ignored(self):
+        state = {"pj": {"checked": "2026-11-28", "mbid": "m1", "urls": {
+                     "youtube": ["https://www.youtube.com/channel/UCALPByojGBk2ngqNeOb-nqg"],
+                     "spotify": ["4Z8W4fKeB5YxbusRsdQVPb"], "instagram": ["poseridiott"]}},
+                 "cd": {"checked": "2026-11-28", "mbid": None}}
+        refs = ex.musicbrainz_refs(state)
+        self.assertEqual(sorted((r["platform"], r["ref"]) for r in refs),
+                         [("instagram", "poseridiott"), ("spotify", "4Z8W4fKeB5YxbusRsdQVPb"),
+                          ("youtube", "https://www.youtube.com/channel/UCALPByojGBk2ngqNeOb-nqg")])
+        links = ex.link_rows(refs)
+        self.assertEqual(len(links), 3)
+        self.assertIn({"team_key": "pj", "platform": "spotify",
+                       "url": "https://open.spotify.com/artist/4Z8W4fKeB5YxbusRsdQVPb"}, links)
+
+
 class VideoRowsTest(unittest.TestCase):
     def test_drops_interviews_shorts_and_non_live_kbs_clips(self):
         rows = ex.video_rows([
@@ -340,7 +356,44 @@ class ImageRowsTest(unittest.TestCase):
         rows = ex.image_rows({"a": {"url": "https://i.scdn.co/image/x", "source": "spotify"},
                               "b": {"url": None, "source": "spotify"},
                               "c": {"url": "http://i.scdn.co/image/y", "source": "spotify"}})
-        self.assertEqual(rows, [{"team_key": "a", "url": "https://i.scdn.co/image/x", "source": "spotify"}])
+        self.assertEqual(rows, [{"team_key": "a", "url": "https://i.scdn.co/image/x", "source": "spotify",
+                                 "page_url": ""}])
+
+    def test_youtube_avatar_fills_teams_without_spotify_photo(self):
+        spotify = {"a": {"url": "https://i.scdn.co/image/x", "source": "spotify", "spotify_id": "A" * 22},
+                   "b": {"url": None, "source": "spotify"}}
+        yt = {"a": {"channel_id": "UC" + "a" * 22, "avatar": "https://yt3.ggpht.com/aaa=s240"},
+              "b": {"channel_id": "UC" + "b" * 22, "avatar": "https://yt3.ggpht.com/bbb=s240"},
+              "c": {"channel_id": "UC" + "c" * 22, "avatar": "https://evil.example/c.jpg"},
+              "d": {"channel_id": "", "avatar": ""}}
+        rows = ex.image_rows(spotify, yt)
+        self.assertEqual([(r["team_key"], r["source"]) for r in rows], [("a", "spotify"), ("b", "youtube")])
+        self.assertEqual(rows[0]["page_url"], "https://open.spotify.com/artist/" + "A" * 22)
+        self.assertEqual(rows[1]["page_url"], "https://www.youtube.com/channel/UC" + "b" * 22)
+
+
+class FreshChannelsTest(unittest.TestCase):
+    def test_channels_older_than_30_days_are_dropped(self):
+        teams = {"a": {"checked": "2026-11-01"}, "b": {"checked": "2026-10-28"}, "c": {}}
+        self.assertEqual(sorted(ex.fresh_channels(teams, "2026-11-28")), ["a"])
+
+
+class PlayersExportTest(unittest.TestCase):
+    def test_export_writes_players_from_links_and_all_filtered_videos(self):
+        def v(vid, title, kind="stage", date="2026-01-01T00:00:00Z"):
+            return {"team_key": "abc", "display_name": "에이비씨", "video_id": vid, "title": title,
+                    "channel_title": "딩고 뮤직", "published_at": date, "kind": kind}
+        # 무대 영상 7개(videos.csv 는 6개로 자름) + 7번째로 밀리는 공식 MV — 대표는 공식 MV
+        raw = [v(f"STAGE{i:06d}", f"에이비씨 - 노래 {i} [it's Live]") for i in range(7)]
+        raw.append(v("OFFICIALMV1", "에이비씨 'Song' Official MV", kind="official", date="2024-01-01T00:00:00Z"))
+        with tempfile.TemporaryDirectory() as d:
+            meta = ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=lambda: raw,
+                             image_cache=None, video_views=lambda: {})
+            with open(Path(d) / "players.csv", encoding="utf-8") as f:
+                rows = list(csv.DictReader(f))
+        self.assertEqual([(r["team_key"], r["kind"], r["id"], r["source"]) for r in rows],
+                         [("abc", "youtube", "OFFICIALMV1", "official")])
+        self.assertEqual(meta["rows"]["players"], 1)
 
 
 ROLES = {"default_role": "pending",

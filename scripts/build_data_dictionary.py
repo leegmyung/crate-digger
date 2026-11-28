@@ -19,6 +19,7 @@ import collect_spotify_collabs as cc  # noqa: E402
 import collect_videos as cv  # noqa: E402
 import csv_schema as cs  # noqa: E402
 import export_lab_data as ex  # noqa: E402
+import players as players_mod  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data_dictionary.md"
@@ -84,7 +85,15 @@ COLUMN_DOC: Dict[str, str] = {
     "raw_collab.role": "협업 형태 (co_lead 공동 주인 / feat_on_own 우리 곡에 피처링 / guest_on_partner 상대 곡에 참여)",
     "collabs.role": "협업 형태 (co_lead / feat_on_own / guest_on_partner)",
     "programs.kind": "프로그램 종류 (signal 신호 / outcome 정답)",
-    "images.source": "사진 출처 (spotify)", "images.url": "사진 주소 (i.scdn.co 만)",
+    "images.source": "사진 출처 (spotify 먼저, 없으면 youtube 공식 채널 아바타)",
+    "images.url": "사진 주소 (i.scdn.co · yt3.ggpht.com · yt3.googleusercontent.com 의 https 만)",
+    "images.page_url": "사진 출처 페이지 (스포티파이 아티스트·유튜브 채널) — 사진 옆 출처 링크용",
+    "players.kind": "재생 종류 (spotify 아티스트 삽입 재생 / youtube 영상 삽입 재생)",
+    "players.id": "재생 번호 (spotify: 'artist:<22자>', youtube: 영상 번호 11자)",
+    "players.title": "영상 제목 (spotify 는 빈칸)", "players.channel_title": "영상 올린 채널 (spotify 는 빈칸)",
+    "players.source": "고른 근거 (spotify / official 팀 공식 채널 / stage 무대 채널 / search 검색)",
+    "players.published_at": "영상 올린 날 YYYY-MM-DD (spotify 는 빈칸)",
+    "players.view_count": "가장 최근 조회수 (모르면 빈칸)",
     "links.url": "아티스트 페이지 주소",
 }
 
@@ -121,7 +130,8 @@ def all_tables() -> List[dict]:
            ("outcomes", ex.OUTCOME_FIELDS, "정답 + 등급 (config/source_roles.json)", "정답"),
            ("programs", ["program", "label", "kind"], "선정·지원·정답 프로그램 이름표", "참고"),
            ("links", ex.LINK_FIELDS, "플랫폼 아티스트 페이지 연결 (동명 없는 것만)", "보조"),
-           ("images", ex.IMAGE_FIELDS, "아티스트 사진 주소 (스포티파이)", "보조"),
+           ("images", ex.IMAGE_FIELDS, "아티스트 사진 주소 (스포티파이 → 유튜브 공식 채널 아바타)", "보조"),
+           ("players", players_mod.PLAYER_FIELDS, "바로 듣기: 팀마다 스포티파이 1줄 + 대표 유튜브 영상 1줄 (scripts/players.py)", "보조"),
            ("videos", ex.VIDEO_FIELDS, "팀별 무대·공식 영상 (최대 6개)", "보조"),
            ("collabs", ex.COLLAB_FIELDS, "스포티파이 협업 (기성 파트너 판정 포함)", "협업 (검증 대기)"),
            ("snapshots", ["team_key", "score", "rank"], "날짜별 점수 상위 300팀 (snapshots/<날짜>.csv)", "점수 기록")]
