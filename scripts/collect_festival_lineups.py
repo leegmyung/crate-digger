@@ -66,7 +66,7 @@ def rows_from_config(cfg: dict, collected_at: str, skip: Optional[Set[Tuple[str,
     rows = []
     for fest, f in cfg["festivals"].items():
         for year, e in f["editions"].items():
-            acts = [a for a in e["acts"] if a.get("korean")]
+            acts = [a for a in e["acts"] if a.get("korean") and not a.get("unlinked")]   # unlinked = 동명 위험, 팀에 안 붙임
             by_day: Dict[str, List[dict]] = {}
             for a in acts:
                 by_day.setdefault(a["day"], []).append(a)

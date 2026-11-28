@@ -69,6 +69,18 @@ FESTIVALS: Tuple[Festival, ...] = (
     Festival("soundplanet", "사운드 플래닛 페스티벌", "lineup", "", lineup="soundplanet"),
     Festival("gyeonggi_indie", "경기인디뮤직페스티벌", "lineup", "", lineup="gyeonggi_indie"),
     Festival("zandari", "잔다리페스타", "lineup", "", lineup="zandari"),
+    # '날짜·장소만' 목록에서 고른 인디·록 페스티벌 — 포스터로 라인업 채움 (2026-11-28)
+    Festival("thebridge", "더 브릿지 페스티벌", "lineup", "", lineup="thebridge"),
+    Festival("thesub", "페스티벌 더 서브", "lineup", "", lineup="thesub"),
+    Festival("gongpyeong", "공평사운즈", "lineup", "", lineup="gongpyeong"),
+    Festival("jumf", "전주 얼티밋 뮤직 페스티벌", "lineup", "", lineup="jumf"),
+    Festival("herorock", "히어로 락 페스티벌", "lineup", "", lineup="herorock"),
+    Festival("blockparty", "블록파티 페스티벌", "lineup", "", lineup="blockparty"),
+    Festival("tongyeong_fringe", "통영프린지", "lineup", "", lineup="tongyeong_fringe"),
+    Festival("punklodge", "PUNK LODGE", "lineup", "", lineup="punklodge"),
+    Festival("siot", "KT&G 페스티벌 시옷", "lineup", "", lineup="siot"),
+    Festival("dongducheon_rock", "동두천 락 페스티벌", "lineup", "", lineup="dongducheon_rock"),
+    Festival("simf", "서울인디뮤직페스타", "lineup", "", lineup="simf"),   # 주최 측 기사로 채움
 )
 LINEUPS = lab_sql.ROOT / "config" / "festival_lineups.json"
 XREF = lab_sql.ROOT / "data" / "raw" / "state" / "artist_xref.json"
@@ -125,7 +137,7 @@ def collect_appearances(signals: Iterable[dict], outcomes: Iterable[dict],
                 for a in e.get("acts", []):
                     d = _day(a.get("day"))
                     team = key_of(a.get("name", ""))
-                    if a.get("rookie_stage"):          # 부산록페 히든 스테이지 신인 경연 — 본무대 아님(정답 규칙과 같게)
+                    if a.get("rookie_stage") or a.get("unlinked"):   # 루키즈 무대(본무대 아님) · 동명 위험(팀에 안 붙임)
                         continue
                     if a.get("korean") and d and team and (f.key, team, d.year) not in have:
                         seen.setdefault((f.key, team, d), "lineup")
@@ -146,7 +158,10 @@ def official_totals(lineups: Optional[dict], festivals: Sequence[Festival] = FES
 # 페스티벌라이프 목록 이름 → 라인업 페스티벌 키 (이름에 이 낱말이 들어 있으면 같은 페스티벌)
 CATALOG_MATCH = (("펜타포트", "penta_main"), ("부산국제록", "burock_main"), ("부산국제락", "burock_main"),
                  ("그랜드민트", "gmf"), ("뷰티풀민트", "bml"), ("피스트레인", "dmz"), ("라이브클럽데이", "liveclubday"),
-                 ("렛츠락", "letsrock"), ("사운드플래닛", "soundplanet"), ("경기인디", "gyeonggi_indie"), ("잔다리", "zandari"))
+                 ("렛츠락", "letsrock"), ("사운드플래닛", "soundplanet"), ("경기인디", "gyeonggi_indie"), ("잔다리", "zandari"),
+                 ("더브릿지", "thebridge"), ("더서브", "thesub"), ("공평사운즈", "gongpyeong"), ("전주얼티밋", "jumf"),
+                 ("히어로락", "herorock"), ("블락파티", "blockparty"), ("블록파티", "blockparty"), ("통영프린지", "tongyeong_fringe"),
+                 ("punklodge", "punklodge"), ("시옷", "siot"), ("동두천락", "dongducheon_rock"), ("서울인디뮤직", "simf"))
 CATALOG = lab_sql.ROOT / "config" / "festival_catalog.json"
 
 

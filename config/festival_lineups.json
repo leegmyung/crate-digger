@@ -1,5 +1,5 @@
 {
- "_설명": "국내 큰 페스티벌 연도별 라인업 (scripts/collect_festival_lineups.py 가 공연 원본 행으로, scripts/festival_profiles.py 가 페스티벌 화면으로 읽음). 표는 나무위키 연도별 문서·본 문서 연도 구역의 라인업 표(공식 포스터·타임테이블을 옮긴 것)를 2026-11-28 읽어 옮김 — source_url 에 문서 주소. korean=false 는 해외 팀(또는 확인 못 한 팀)이라 공연 원본 행·페스티벌 화면 팀 목록에 넣지 않음(정답·점수에 영향 없게). day = 그 팀이 선 날(표의 날짜 칸), stage = 무대 이름(표에 있으면). 펜타포트 2026 은 기존 검토 파일(data/raw/review, 나무위키 표 국내 팀)에서. rookie_stage=true 는 부산록페 히든 스테이지 신인 경연(루키즈 온 더 부락) 팀 — 공연 원본 행은 쓰되 페스티벌 화면 '본무대'에는 넣지 않음(정답 규칙 outcome_rules.excluded_rows 와 같게). 회차 venue_text 가 있으면 그 회차 장소(뷰민라 2026 = 문화비축기지, 나무위키 2026년 구역 '장소'). name_risk = 흔한 낱말·짧은 이름·아이돌 멤버처럼 다른 팀과 이름이 겹칠 위험(이름 맞추기 주의). 2026-11-28 공식 포스터로 채운 회차는 source_note 에 어느 포스터인지.",
+ "_설명": "국내 큰 페스티벌 연도별 라인업 (scripts/collect_festival_lineups.py 가 공연 원본 행으로, scripts/festival_profiles.py 가 페스티벌 화면으로 읽음). 표는 나무위키 연도별 문서·본 문서 연도 구역의 라인업 표(공식 포스터·타임테이블을 옮긴 것)를 2026-11-28 읽어 옮김 — source_url 에 문서 주소. korean=false 는 해외 팀(또는 확인 못 한 팀)이라 공연 원본 행·페스티벌 화면 팀 목록에 넣지 않음(정답·점수에 영향 없게). day = 그 팀이 선 날(표의 날짜 칸), stage = 무대 이름(표에 있으면). 펜타포트 2026 은 기존 검토 파일(data/raw/review, 나무위키 표 국내 팀)에서. rookie_stage=true 는 부산록페 히든 스테이지 신인 경연(루키즈 온 더 부락) 팀 — 공연 원본 행은 쓰되 페스티벌 화면 '본무대'에는 넣지 않음(정답 규칙 outcome_rules.excluded_rows 와 같게). 회차 venue_text 가 있으면 그 회차 장소(뷰민라 2026 = 문화비축기지, 나무위키 2026년 구역 '장소'). name_risk = 흔한 낱말·짧은 이름·아이돌 멤버처럼 다른 팀과 이름이 겹칠 위험(이름 맞추기 주의). 2026-11-28 공식 포스터로 채운 회차는 source_note 에 어느 포스터인지. unlinked=true 는 동명 위험이 커서 우리 팀 키에 붙이지 않는 이름(공연 원본·화면 팀 목록에 안 넣음, 공식 수엔 셈). no_edition = 열리지 않은 해와 근거(취소·첫 회 이전).",
  "checked": "2026-11-28",
  "festivals": {
   "penta": {
@@ -62,7 +62,7 @@
        "day": "2021-10-09",
        "stage": "",
        "korean": true,
-       "name_risk": "펜타 유스스타(신인) — 표기 확인 필요"
+       "name_risk": "펜타 유스스타(신인) — 표기 확인 필요 — Club FF·A.O.R 공연 기록이 있는 팀으로 봄"
       },
       {
        "name": "MOGWAI",
@@ -117,7 +117,7 @@
        "day": "2021-10-10",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 낱말"
+       "name_risk": "흔한 낱말 — Club FF 등 같은 시기 홍대 공연 기록이 있는 팀으로 봄"
       },
       {
        "name": "Phum Viphurit",
@@ -749,10 +749,11 @@
        "korean": true
       },
       {
-       "name": "Snake Chicken Soup",
+       "name": "스네이크치킨수프",
        "day": "2023-08-05",
        "stage": "무신사 스테이지",
-       "korean": true
+       "korean": true,
+       "name_note": "포스터 표기 'Snake Chicken Soup' — 다른 회차와 같은 한글 이름으로 적음"
       },
       {
        "name": "김늑",
@@ -1919,7 +1920,7 @@
        "day": "2022-10-01",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 이름"
+       "name_risk": "흔한 이름 — 2016년 데뷔 싱어송라이터 민수로 봄(IZM·VISLA 소개 기록)"
       },
       {
        "name": "보수동쿨러",
@@ -2495,10 +2496,11 @@
        "korean": true
       },
       {
-       "name": "Snake Chicken Soup",
+       "name": "스네이크치킨수프",
        "day": "2024-10-04",
        "stage": "",
-       "korean": true
+       "korean": true,
+       "name_note": "포스터 표기 'Snake Chicken Soup' — 다른 회차와 같은 한글 이름으로 적음"
       },
       {
        "name": "엔플라잉",
@@ -4693,10 +4695,11 @@
        "korean": true
       },
       {
-       "name": "Snake Chicken Soup",
+       "name": "스네이크치킨수프",
        "day": "2026-05-30",
        "stage": "",
-       "korean": true
+       "korean": true,
+       "name_note": "포스터 표기 'Snake Chicken Soup' — 다른 회차와 같은 한글 이름으로 적음"
       },
       {
        "name": "Wah Wah Wah",
@@ -4891,7 +4894,7 @@
        "day": "2022-10-23",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 낱말"
+       "name_risk": "흔한 낱말 — Club FF 등 같은 시기 홍대 공연 기록이 있는 팀으로 봄"
       },
       {
        "name": "데이브레이크",
@@ -5848,7 +5851,9 @@
        "name": "KEN",
        "day": "2025-10-18",
        "stage": "",
-       "korean": true
+       "korean": true,
+       "unlinked": true,
+       "name_risk": "아이돌(빅스 켄)일 수 있어 우리 데이터의 '켄'과 같은 사람인지 근거 없음"
       },
       {
        "name": "OurR",
@@ -7147,7 +7152,7 @@
        "day": "2022-09-24",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 낱말"
+       "name_risk": "흔한 낱말 — 상상마당·구름아래소극장 공연 기록이 있는 팀으로 봄"
       },
       {
        "name": "원태림",
@@ -7214,7 +7219,7 @@
        "day": "2022-09-25",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 낱말"
+       "name_risk": "흔한 낱말 — 인디 공연 기록(Club FF·오방가르드)이 있는 팀으로 봄"
       },
       {
        "name": "안녕하신가영",
@@ -7227,14 +7232,15 @@
        "day": "2022-09-25",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 이름"
+       "name_risk": "흔한 이름 — 싱어송라이터 유라(youra)로 봄"
       },
       {
        "name": "공돌",
        "day": "2022-09-25",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 낱말"
+       "name_risk": "흔한 낱말 — 근거 없음",
+       "unlinked": true
       }
      ]
     },
@@ -7349,7 +7355,7 @@
        "day": "2023-09-03",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 낱말"
+       "name_risk": "흔한 낱말 — 상상마당·구름아래소극장 공연 기록이 있는 팀으로 봄"
       },
       {
        "name": "실리카겔",
@@ -7362,7 +7368,7 @@
        "day": "2023-09-03",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 낱말"
+       "name_risk": "흔한 낱말 — 인디 공연 기록(Club FF·오방가르드)이 있는 팀으로 봄"
       },
       {
        "name": "허회경",
@@ -7664,6 +7670,9 @@
       }
      ]
     }
+   },
+   "no_edition": {
+    "2024": "취소 — 난지한강공원 주변 민원으로 공원 이용 허가를 받지 못해 열리지 않음 (나무위키 렛츠락 페스티벌, 2026-11-28 확인)"
    }
   },
   "soundplanet": {
@@ -7840,7 +7849,7 @@
        "day": "2025-09-13",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 낱말"
+       "name_risk": "흔한 낱말 — 인디 공연 기록(Club FF·오방가르드)이 있는 팀으로 봄"
       },
       {
        "name": "PIETA",
@@ -8019,7 +8028,8 @@
        "day": "2025-09-14",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 이름·아이돌 멤버일 수 있음"
+       "name_risk": "아이돌(빅스 켄)일 수 있어 우리 데이터의 '켄'과 같은 사람인지 근거 없음",
+       "unlinked": true
       },
       {
        "name": "보라미유",
@@ -8045,7 +8055,7 @@
        "day": "2025-09-14",
        "stage": "",
        "korean": true,
-       "name_risk": "'오이스터즈'와 다른 팀일 수 있음"
+       "name_risk": "'오이스터즈'와 다른 팀일 수 있음 — '오이스터즈'와 다른 팀 — 우리 데이터의 '오이스터'(2025~ 홍대 공연)로 봄"
       },
       {
        "name": "중식이밴드",
@@ -8231,7 +8241,8 @@
        "day": "2026-09-05",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 이름·아이돌 멤버일 수 있음"
+       "name_risk": "아이돌(빅스 켄)일 수 있어 우리 데이터의 '켄'과 같은 사람인지 근거 없음",
+       "unlinked": true
       },
       {
        "name": "김종현",
@@ -8244,7 +8255,8 @@
        "day": "2026-09-05",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 이름"
+       "name_risk": "흔한 이름(아이돌 펜타곤 진호일 수 있음) — 우리 팀 목록에 없음",
+       "unlinked": true
       },
       {
        "name": "To More Raw",
@@ -8569,6 +8581,12 @@
       }
      ]
     }
+   },
+   "no_edition": {
+    "2021": "열리지 않은 해 — 롤링홀 개관 30주년 기념으로 2025년 파라다이스시티에서 첫 회 (기사 hbnpress 2026, 2026-11-28 확인)",
+    "2022": "열리지 않은 해 — 롤링홀 개관 30주년 기념으로 2025년 파라다이스시티에서 첫 회 (기사 hbnpress 2026, 2026-11-28 확인)",
+    "2023": "열리지 않은 해 — 롤링홀 개관 30주년 기념으로 2025년 파라다이스시티에서 첫 회 (기사 hbnpress 2026, 2026-11-28 확인)",
+    "2024": "열리지 않은 해 — 롤링홀 개관 30주년 기념으로 2025년 파라다이스시티에서 첫 회 (기사 hbnpress 2026, 2026-11-28 확인)"
    }
   },
   "gyeonggi_indie": {
@@ -8711,7 +8729,8 @@
        "day": "2022-10-16",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 이름"
+       "name_risk": "흔한 이름 — 근거 없음",
+       "unlinked": true
       },
       {
        "name": "아이반",
@@ -8761,14 +8780,16 @@
        "day": "2022-10-16",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 사람 이름"
+       "name_risk": "흔한 사람 이름 — 우리 데이터의 '김태훈'(2021~22 카페 공연)과 같은 사람인지 근거 없음",
+       "unlinked": true
       },
       {
        "name": "헌",
        "day": "2022-10-16",
        "stage": "",
        "korean": true,
-       "name_risk": "한 글자 이름"
+       "name_risk": "한 글자 이름 — 근거 없음",
+       "unlinked": true
       }
      ],
      "venue_text": "경인아라뱃길 아라마리나 (경기도 김포시)"
@@ -8833,11 +8854,11 @@
        "name_risk": "흔한 낱말"
       },
       {
-       "name": "Hwanho",
+       "name": "화노",
        "day": "2023-10-13",
        "stage": "",
        "korean": true,
-       "name_risk": "필기체 로고를 읽은 것 — 확인 필요"
+       "name_note": "필기체 로고 'Hwanho' = 화노(별칭표, 경기인디 2022에도 출연)"
       },
       {
        "name": "전인권밴드",
@@ -8862,7 +8883,7 @@
        "day": "2023-10-14",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 낱말"
+       "name_risk": "흔한 낱말 — 인디 공연 기록(Club FF·오방가르드)이 있는 팀으로 봄"
       },
       {
        "name": "NERD CONNECTION",
@@ -9185,7 +9206,8 @@
        "day": "2025-09-20",
        "stage": "",
        "korean": true,
-       "name_risk": "한 글자 이름"
+       "name_risk": "한 글자 이름 — 근거 없음",
+       "unlinked": true
       },
       {
        "name": "비트펠라하우스",
@@ -9385,7 +9407,7 @@
        "day": "2026-10-17",
        "stage": "",
        "korean": true,
-       "name_risk": "'중식이밴드'와 같은 팀일 수 있음"
+       "name_risk": "'중식이밴드'와 같은 팀일 수 있음 — 우리 데이터의 '중식이'(2024~ 공연)로 봄 — '중식이밴드'와 같은 팀인지는 미확인"
       },
       {
        "name": "캐치더영",
@@ -9503,7 +9525,7 @@
        "day": "2025-10-18",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 낱말"
+       "name_risk": "흔한 낱말 · 연결 근거: 상상마당·인디고 공연 20건"
       },
       {
        "name": "김바다",
@@ -9528,7 +9550,7 @@
        "day": "2025-10-18",
        "stage": "",
        "korean": true,
-       "name_risk": "지명과 같음"
+       "name_risk": "지명과 같음 · 연결 근거: 인디스트릿(무신사개러지)·트랙제로 6건"
       },
       {
        "name": "오이스터즈",
@@ -9541,7 +9563,7 @@
        "day": "2025-10-18",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 낱말"
+       "name_risk": "흔한 낱말 — O3ohn(오존)으로 봄 — 포스터에 'O3ohn' 영문 표기 · 연결 근거: 비슬라·벅스 14건"
       },
       {
        "name": "우륵과풍각쟁이들",
@@ -9566,7 +9588,7 @@
        "day": "2025-10-18",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 이름"
+       "name_risk": "흔한 이름 · 연결 근거: 인디스트릿 공연 6건"
       },
       {
        "name": "잭킹콩",
@@ -9579,7 +9601,7 @@
        "day": "2025-10-18",
        "stage": "",
        "korean": true,
-       "name_risk": "짧은 이름"
+       "name_risk": "짧은 이름 · 연결 근거: 트랙제로·인디스트릿 4건"
       },
       {
        "name": "향우회",
@@ -9592,7 +9614,7 @@
        "day": "2025-10-18",
        "stage": "",
        "korean": true,
-       "name_risk": "짧은 이름"
+       "name_risk": "짧은 이름 · 연결 근거: 상상마당·인디스트릿 36건"
       },
       {
        "name": "baan",
@@ -9743,7 +9765,7 @@
        "day": "2025-10-19",
        "stage": "",
        "korean": true,
-       "name_risk": "흔한 낱말"
+       "name_risk": "흔한 낱말 · 연결 근거: 인디스트릿·인디고 공연 35건"
       },
       {
        "name": "안다영",
@@ -9900,6 +9922,3270 @@
        "day": "2025-10-19",
        "stage": "",
        "korean": false
+      }
+     ]
+    },
+    "2022": {
+     "source_url": "https://namu.wiki/w/%EC%9E%94%EB%8B%A4%EB%A6%AC%20%ED%8E%98%EC%8A%A4%ED%83%80#s-3.11",
+     "days": [
+      "2022-09-02",
+      "2022-09-03",
+      "2022-09-04"
+     ],
+     "official_total": null,
+     "source_note": "나무위키 잔다리 페스타 2022 라인업 그림(공식 포스터, 날짜별 구분 없음 — 첫날로 적음, 최종인지 알 수 없어 공식 수 비움). 국가 표시(괄호) 있는 팀 = 해외 — 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "김뜻돌",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "갤럭시익스프레스",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "글렌체크",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "다정",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · unlinked: 우리 데이터의 '다정'은 뮤직와이 기사(2021~2024)뿐, 공연 기록 없음 — 잔다리 2022의 싱어송라이터 다정과 같은 사람인지 근거 없음",
+       "unlinked": true
+      },
+      {
+       "name": "무토",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 비슬라·트랙제로(2022, 전자음악·영상 듀오)"
+      },
+      {
+       "name": "불고기디스코",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "봉제인간",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "세이수미",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "신해남과환자들",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "실리카겔",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이날치",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "조웅",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "키라라",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "해파",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 뮤직와이·웹진 22건(2022~2026)"
+      },
+      {
+       "name": "해파리",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "효도앤베이스",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "까데호",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Darren Eedens",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Elasi",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "GRANDE",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "HIPERSONA",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "HYBS",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Noovy",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "OVDS",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": ":PAPERCUTZ",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Silhouette Tuesday",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "The Rodeo",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Vanarin",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "YellowStraps",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "KST",
+       "day": "2022-09-02",
+       "stage": "",
+       "korean": false
+      }
+     ]
+    },
+    "2023": {
+     "source_url": "https://namu.wiki/w/%EC%9E%94%EB%8B%A4%EB%A6%AC%20%ED%8E%98%EC%8A%A4%ED%83%80#s-3.12",
+     "days": [
+      "2023-10-05",
+      "2023-10-06",
+      "2023-10-07"
+     ],
+     "official_total": 37,
+     "source_note": "나무위키 잔다리 페스타 2023 포스터(공식, 날짜별 구분 없음 — 첫날로 적음). 한글 표기가 있는 팀 = 국내, 영문만 = 해외로 둠. 합동 표기 '로다운 30 × 메타'는 팀별로 나눔 — 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "갤럭시익스프레스",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "구남과여라이딩스텔라",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "나상현씨밴드",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "다브다",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "데드버튼즈",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "로다운 30",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "메타",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말(힙합 MC 메타) · 연결 근거: 합동 무대 '로다운 30 × 메타'의 힙합 MC 메타 — 웹진·포크라노스 10건"
+      },
+      {
+       "name": "바밍타이거",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "봉제인간",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "스네이크치킨수프",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true,
+       "name_note": "포스터 표기 '스네이크치킨스프' — 다른 회차와 같은 한글 이름으로 적음"
+      },
+      {
+       "name": "신해남과환자들",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "오마르와동방전력",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "윈디시티",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이날치",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이디오테잎",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이민휘",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "콤아겐즈",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "효도앤베이스",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "1300",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "CONSCIOUS & THE GOODNESS",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "DJ TXAKO",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "EUGÉNIE",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "FAZI",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "FLU",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "FUDASCA",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "HOME",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "JOHNNY MAFIA",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "KYOYOKO",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "NEOMAK",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "SARO",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "SILHOUETTE TUESDAY",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "SUA",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "TERESA IN THE MOON",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "THE ROYSTON CLUB",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "TILLY BIRDS",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "TOSH",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "UUDEE'S SWASHBUCKLING DANDIES",
+       "day": "2023-10-05",
+       "stage": "",
+       "korean": false
+      }
+     ]
+    },
+    "2024": {
+     "source_url": "https://namu.wiki/w/%EC%9E%94%EB%8B%A4%EB%A6%AC%20%ED%8E%98%EC%8A%A4%ED%83%80#s-3.13",
+     "days": [
+      "2024-10-03",
+      "2024-10-04",
+      "2024-10-05"
+     ],
+     "official_total": 57,
+     "source_note": "나무위키 잔다리 페스타 2024 최종 라인업 포스터(공식). 국가 표시 있는 팀 = 해외. 합동 표기 '팻햄스터 & 캉뉴'는 팀별로 나눔 — 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "ZIN CHOI",
+       "day": "2024-10-03",
+       "stage": "",
+       "korean": true,
+       "name_risk": "영문 이름(국내 음악가로 확인) · 연결 근거: 국내 음악가 — 트랙제로·포크라노스 13건"
+      },
+      {
+       "name": "10CM",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "구남과여라이딩스텔라",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "급한노새",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "김도언",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "리셋터즈",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "멋진인생",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "몽돌",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · 연결 근거: 인디스트릿 공연 6건"
+      },
+      {
+       "name": "불나방스타쏘세지클럽",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "선우정아",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "세일러 허니문",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "신인류",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이날치",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "정차식",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "향우회",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "힙노시스 테라피",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "CARNIVAL YOUTH",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "DICTAPHONE",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "DVTR",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "INDIGO",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "INK WARUNTORN",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "JOSE MIGUEL",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "kanekoayano",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "LOKEE REDLIGHT",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "MARGUERITE THIAM",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "MINDFREAKKK",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "PAMI",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "PUULUUP",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "THE COLORS",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "TWST",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "UUDEE'S SWASHBUCKLING DANDIES",
+       "day": "2024-10-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "소음발광",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "실리카겔",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "애니멀다이버스",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "윤지영",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이승윤",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "재키",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름 · 연결 근거: 인디스트릿 공연 6건"
+      },
+      {
+       "name": "취향상점",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "킹스턴 루디스카",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "팻햄스터",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "캉뉴",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "퍼지퍼그",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "향니",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 포크라노스·인디스트릿 9건"
+      },
+      {
+       "name": "CHS",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 비슬라·트랙제로 30건"
+      },
+      {
+       "name": "BNKR44",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "CANBLASTER",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "COSMODROME",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "CYRIL CYRIL",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "FANCYWALL",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "JAMES ALYN",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "JAPAN GUITAR SHOP",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "JOHNNIVAN",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "MAD MADMEN",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "RAY?OH...NEEDA!!",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "THE ROYAL HEARTACHES",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "THROES+THE SHINE",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "VIOLET INDIGO",
+       "day": "2024-10-05",
+       "stage": "",
+       "korean": false
+      }
+     ]
+    },
+    "2026": {
+     "source_url": "https://namu.wiki/w/%EC%9E%94%EB%8B%A4%EB%A6%AC%20%ED%8E%98%EC%8A%A4%ED%83%80#s-3.15",
+     "days": [
+      "2026-09-04",
+      "2026-09-05",
+      "2026-09-06"
+     ],
+     "official_total": null,
+     "source_note": "나무위키 잔다리 페스타 2026 2차 라인업 포스터(공식, 최종 아님 — 공식 수 비움, 날짜별 구분 없음 — 첫날로 적음). 국가 표시 있는 팀 = 해외. 영문 표기 64ksana·87dance 는 우리 데이터의 한글 이름(64크사나·팔칠댄스)으로 적음 — 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "64크사나",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "팔칠댄스",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "교정",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · 연결 근거: 상상마당·인디고 공연 20건"
+      },
+      {
+       "name": "김뜻돌",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "남도콜링",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "두억시니",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "뷰렛",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "브로콜리너마저",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "산보",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · 연결 근거: 인디스트릿·인디고 공연 35건"
+      },
+      {
+       "name": "세이수미",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "세일러허니문",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true,
+       "name_risk": "표기 — '세일러 허니문'"
+      },
+      {
+       "name": "스네이크치킨수프",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "애니멀다이버스",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "애리",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 상상마당·인디스트릿 30건"
+      },
+      {
+       "name": "양반들",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "오이스터즈",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "전기뱀장어",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "전자양",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "콤아겐즈",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "타루",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 웹진 리뷰 + 인디스트릿 공연(스페이스브릭)"
+      },
+      {
+       "name": "포져군단",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "피치트럭하이재커스",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "할로우잰",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Wack",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 비슬라·인디스트릿 6건"
+      },
+      {
+       "name": "800 Gondomar",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "aldo van eyck",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Boggie",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Clever Moose",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Emerald",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "FTK",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Hate Moss",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Meule",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Morbid Monke",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "mui zyu",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "ODUCHU",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Queen Chubby",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "S.O.L.E.",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "SADU",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Sunflowers",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Tramhaus",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Treaks",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "vgtbl.pl",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "Zoobombs",
+       "day": "2026-09-04",
+       "stage": "",
+       "korean": false
+      }
+     ]
+    }
+   }
+  },
+  "thebridge": {
+   "label": "더 브릿지 페스티벌",
+   "venue_text": "성수 일대 (서울특별시 성동구)",
+   "editions": {
+    "2026": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=174662290",
+     "days": [
+      "2026-10-10",
+      "2026-10-11"
+     ],
+     "official_total": 27,
+     "source_note": "최종 라인업 포스터 — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "산새",
+       "day": "2026-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "아렉시보",
+       "day": "2026-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "몽글덤",
+       "day": "2026-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이태훈",
+       "day": "2026-10-10",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 사람 이름 · 연결 근거: 인디스트릿·트랙제로에 2021~2026 공연 19건(홍대·성수 소규모 무대)"
+      },
+      {
+       "name": "수피",
+       "day": "2026-10-10",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 인디스트릿 공연 1건(2025, 언플러그드 라운지) — 같은 소규모 무대권"
+      },
+      {
+       "name": "따마",
+       "day": "2026-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "신드럼",
+       "day": "2026-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "카키",
+       "day": "2026-10-10",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · unlinked: 우리 데이터의 '카키'는 힙합 기사 래퍼뿐 — 같은 사람인지 근거 없음",
+       "unlinked": true
+      },
+      {
+       "name": "정병욱",
+       "day": "2026-10-10",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 사람 이름"
+      },
+      {
+       "name": "정수민",
+       "day": "2026-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "조이",
+       "day": "2026-10-10",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름·아이돌 멤버(레드벨벳)와 같음 · unlinked: 우리 데이터의 '조이'는 웹진 리뷰·힙합 기사(아이돌·래퍼)뿐 — 성수 인디 무대 출연과 같은 사람인지 근거 없음",
+       "unlinked": true
+      },
+      {
+       "name": "이파란",
+       "day": "2026-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "라이프라디오",
+       "day": "2026-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "으악새",
+       "day": "2026-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "칵투스",
+       "day": "2026-10-10",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "더지먼지",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "우희준",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "사심",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · 연결 근거: 인디스트릿 2026 공연 9건(언플러그드)"
+      },
+      {
+       "name": "맘브림즈",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "시대",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · 연결 근거: 인디고 공연 1건(2026-08, 채널1969)"
+      },
+      {
+       "name": "애니멀다이버스",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "오이스터즈",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "아시안스파이스하우스",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "웨이킹선즈",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "한가",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · 연결 근거: 인디스트릿·인스타 2022~2026 공연 16건"
+      },
+      {
+       "name": "김광현",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 사람 이름"
+      },
+      {
+       "name": "빅직",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true
+      }
+     ]
+    }
+   }
+  },
+  "thesub": {
+   "label": "페스티벌 더 서브",
+   "venue_text": "홍대 축제거리 R4 (서울특별시 마포구)",
+   "editions": {
+    "2026": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=173537771",
+     "days": [
+      "2026-10-11"
+     ],
+     "official_total": 7,
+     "source_note": "공식 포스터 — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "오칠",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 인디스트릿 2021~2026 공연 27건"
+      },
+      {
+       "name": "팎",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true,
+       "name_risk": "한 글자 이름 · 연결 근거: 상상마당·인디고 공연 14건(2018~2026)"
+      },
+      {
+       "name": "전국비둘기연합",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "로우하이로우",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "할로우잰",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이상의날개",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "잠비나이",
+       "day": "2026-10-11",
+       "stage": "",
+       "korean": true
+      }
+     ]
+    }
+   }
+  },
+  "gongpyeong": {
+   "label": "공평사운즈",
+   "venue_text": "제임스레코드·소리정원 (대구광역시 중구 동성로3길)",
+   "editions": {
+    "2026": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=173377646",
+     "days": [
+      "2026-09-11",
+      "2026-09-12",
+      "2026-09-13"
+     ],
+     "official_total": 24,
+     "source_note": "공식 포스터(사흘 일정, 날짜별 구분 없음 — 첫날로 적음) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "비제로",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "BB Bomb",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "모임별",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "까데호",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "칠번국도",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "추다혜차지스",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "단편선",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "순간들",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "DJ 기훈이형",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "드링킹소년소녀합창단",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "유령서점",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "제4집단",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "하퍼스",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "잔물결",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "조웅",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "김산돌",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "릴리잇머신",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true,
+       "name_risk": "국적 표시 없음 — 확인 필요 · 연결 근거: 국내 팀 — 인디스트릿·트랙제로 공연 29건"
+      },
+      {
+       "name": "미미크리엑스",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true,
+       "name_risk": "국적 표시 없음 — 확인 필요 · 연결 근거: 국내 팀 — 인디스트릿·인스타 공연 14건(부산음악창작소 등)"
+      },
+      {
+       "name": "녹이녹",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true,
+       "name_risk": "표기 확인 필요 · 연결 근거: 인디스트릿·인디고 공연 17건(무대륙 등)"
+      },
+      {
+       "name": "Paranoid Void",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "피치트럭하이재커스",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "슬로우진",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "스위머스",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "우희준",
+       "day": "2026-09-11",
+       "stage": "",
+       "korean": true
+      }
+     ]
+    }
+   }
+  },
+  "jumf": {
+   "label": "전주 얼티밋 뮤직 페스티벌",
+   "venue_text": "전주대학교 인조잔디구장 (전북특별자치도 전주시)",
+   "editions": {
+    "2026": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=172154152",
+     "days": [
+      "2026-08-14",
+      "2026-08-15",
+      "2026-08-16"
+     ],
+     "official_total": 61,
+     "source_note": "최종 라인업 포스터 — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "FLOW",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "10CM",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "페퍼톤스",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "로맨틱펀치",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "숀",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름 · 연결 근거: 트랙제로 2023 + 같은 날 인디스트릿 공연 기록"
+      },
+      {
+       "name": "SABASISTER",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "QWER",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "나상현씨밴드",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "오월오일",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "로시",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 웹진 리뷰(2021) + 같은 날 인디스트릿 공연 기록"
+      },
+      {
+       "name": "디에이드",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ONEWE",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "can't be blue",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "KAMI WA SAIKORO WO FURANAI",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "그리즐리",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "송은채",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "다다다",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Tokai",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "하츠웨이브",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "NIBUY",
+       "day": "2026-08-14",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "자우림",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "NELL",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "국카스텐",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "블랙홀",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "리도어",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "극동아시아타이거즈",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "브로큰발렌타인",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "레이지본",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "신빠람",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이박사",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "까치산",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "송소희",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "윤마치",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "밴드기린",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "와와와",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "고니",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 인디스트릿 공연 2건(2025 Club Victim, 같은 날)"
+      },
+      {
+       "name": "천진우",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이십사일",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "D82",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Nyteh",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "LIF",
+       "day": "2026-08-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "YB",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "김광진",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Sable Hills",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "이디오테잎",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Knosis",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "너드커넥션",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "카디",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 인디스트릿·지역 공연 19건"
+      },
+      {
+       "name": "더 픽스",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "소닉스톤즈",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "EMNW",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "초록불꽃소년단",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "라이엇키즈",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "스네이크치킨수프",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true,
+       "name_note": "포스터 표기 'Snake Chicken Soup' — 다른 회차와 같은 한글 이름으로 적음"
+      },
+      {
+       "name": "스키조",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Synsnake",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "타카피",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "드링킹소년소녀합창단",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "루아멜",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "BrokenTeeth",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "우무해",
+       "day": "2026-08-16",
+       "stage": "",
+       "korean": true
+      }
+     ]
+    }
+   }
+  },
+  "herorock": {
+   "label": "히어로 락 페스티벌",
+   "venue_text": "문화비축기지 (서울특별시 마포구 증산로 87)",
+   "editions": {
+    "2026": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=170822381",
+     "days": [
+      "2026-04-25",
+      "2026-04-26"
+     ],
+     "official_total": 58,
+     "source_note": "최종 라인업 포스터 — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "체리필터",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "QWER",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "스키조",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "브로큰발렌타인",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "카디",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 인디스트릿·지역 공연 19건"
+      },
+      {
+       "name": "크랙샷",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "가이즈",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · 연결 근거: 인디스트릿 공연 5건(같은 날 포함)"
+      },
+      {
+       "name": "피싱걸스",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "데이브레이크",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "로맨틱펀치",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "디아블로",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "해리빅버튼",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "롤링쿼츠",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "더 픽스",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ABTB",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "포져군단",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "소란",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이브",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름·다른 가수(이브)와 같을 수 있음 · unlinked: 우리 데이터의 '이브'는 음악 기사·힙합 기사(솔로 가수)뿐 — 록 페스티벌의 밴드 이브(1990년대 결성)와 다른 팀일 수 있음",
+       "unlinked": true
+      },
+      {
+       "name": "네미시스",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "바닐라유니티",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "캔트비블루",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "더베인",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "블루화",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "솔루션스",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "트랜스픽션",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "딕펑스",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "타카피",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "라이엇키즈",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "소소욘",
+       "day": "2026-04-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "국카스텐",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "노브레인",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크래쉬",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · 연결 근거: 인디스트릿 공연 7건(록 무대)"
+      },
+      {
+       "name": "메써드",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "갤럭시익스프레스",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "소음발광",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "스킵잭",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "신스네이크",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크라잉넛",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "쏜애플",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "블랙홀",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "닥터코어911",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "초록불꽃소년단",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "제로지",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "다운헬",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "해티스",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "서울전자음악단",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "내귀에 도청장치",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "뷰렛",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "안녕바다",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "팔칠댄스",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "맥거핀",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "노야",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 인디스트릿·인디고 공연 53건"
+      },
+      {
+       "name": "극동아시아타이거즈",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "레이지본",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "소닉스톤즈",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "심아일랜드",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "워킹애프터유",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "스트레이터스",
+       "day": "2026-04-26",
+       "stage": "",
+       "korean": true
+      }
+     ]
+    }
+   }
+  },
+  "blockparty": {
+   "label": "블록파티 페스티벌",
+   "venue_text": "해방촌 일대 실내 공연장 (서울특별시 용산구)",
+   "editions": {
+    "2025": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=167630184",
+     "days": [
+      "2025-09-20",
+      "2025-09-21"
+     ],
+     "official_total": 79,
+     "source_note": "공식 포스터(공연 아닌 프로그램은 뺌) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "18FEVERS",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "64크사나",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "아시안 스파이스 하우스",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "블랙우든도어",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "BIG BABY CAM",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "CARE LESS",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "CLAUDINE",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "지윤해",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "DAISY GUN",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "단편선",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이보람",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 사람 이름 · unlinked: 우리 데이터의 '이보람'은 웹진 리뷰 1건(2022, 가수)뿐 — 같은 사람인지 근거 없음",
+       "unlinked": true
+      },
+      {
+       "name": "DDBB",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "팻햄스터",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "캉뉴",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "FREEKIND",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "구남과여라이딩스텔라",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "GEOFFREY LEWIS",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "초록불꽃소년단",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "GRAND SOUL CENTRAL",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "해리빅버튼",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "HONEY JAM SAM",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "JOHNNIVAN",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "JENI WAI",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "JESSICA KO",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "콘트라젤리",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "LUNAR ISLES",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "MARS HOTEL",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "오희정",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "옴..",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true,
+       "name_risk": "표기에 점 — 이름 맞추기 주의 · unlinked: 인스타 공간·파티 계정 omm..(@weloveomm, 팀 아님으로 뺀 이름)과 같은 표기 — 공연 팀인지 근거 없음",
+       "unlinked": true
+      },
+      {
+       "name": "오마르와 동방전력",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "PCR",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "레인보우99",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "럭스",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · 연결 근거: 인디스트릿 공연 34건(펑크 무대)"
+      },
+      {
+       "name": "SABBAHA",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "샐리에브리웨어",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "SOMBRA",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "향우회",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "물장구클럽",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "THE JONNYBIRDS",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "텐거",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 인디스트릿 공연 1건(2022)"
+      },
+      {
+       "name": "윈디시티",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "잠",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true,
+       "name_risk": "한 글자 이름 · 연결 근거: 포크라노스·인디스트릿 30건"
+      },
+      {
+       "name": "1.5 ITERATIONS",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ANT WALLACE",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "비빔빌",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "칩 포스트 갱",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "아톰뮤직하트",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크리스탈 티",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "담담구구",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "젬베콜라",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "유령서점",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "GRITTY KITTY",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "교정",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · 연결 근거: 상상마당·인디고 공연 20건"
+      },
+      {
+       "name": "하헌진",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "해머링",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "우희준",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "박지휘",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "지누콘다",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "지수",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름·아이돌 멤버(블랙핑크)와 같음 · unlinked: 우리 데이터의 '지수'는 웹진 리뷰(아이돌 솔로)뿐 — 같은 사람인지 근거 없음",
+       "unlinked": true
+      },
+      {
+       "name": "릴리 잇 머신",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "최미루",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "맨앤뎀",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "나로틱",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "야생마와 자유부인",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "오티스 림",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "장필순",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "피치 트럭 하이재커스",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "피슈",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 비슬라·인디고 공연 2건(채널1969)"
+      },
+      {
+       "name": "POP ENTS",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "파일랫",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "PRETTY CITY LIGHTS",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "리니어",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · 연결 근거: 인디스트릿 공연 32건"
+      },
+      {
+       "name": "리코타 재즈 패밀리",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ROOM SOUND",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "산보",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · 연결 근거: 인디스트릿·인디고 공연 35건"
+      },
+      {
+       "name": "스키틀즈",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true,
+       "name_risk": "상품 이름과 같음 · 연결 근거: 인디스트릿·인디고 공연 27건"
+      },
+      {
+       "name": "양반들",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "XEN",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "신세하",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      }
+     ]
+    }
+   }
+  },
+  "tongyeong_fringe": {
+   "label": "통영프린지",
+   "venue_text": "통영 강구안 해상무대·윤이상기념관·죽림 만남의광장 (경상남도 통영시)",
+   "editions": {
+    "2025": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=158551890",
+     "days": [
+      "2025-03-22",
+      "2025-03-28",
+      "2025-04-05"
+     ],
+     "official_total": null,
+     "source_note": "아티스트 라인업 포스터 — 특별 출연만 옮김(본 공연 약 90팀은 아마추어·클래식이 섞이고 글씨가 작아 옮기지 않음) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "최엘비",
+       "day": "2025-03-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "전자양",
+       "day": "2025-03-22",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "브로콜리너마저",
+       "day": "2025-03-28",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "서울전자음악단",
+       "day": "2025-04-05",
+       "stage": "",
+       "korean": true
+      }
+     ]
+    }
+   }
+  },
+  "punklodge": {
+   "label": "PUNK LODGE",
+   "venue_text": "롤링홀 (서울특별시 마포구 어울마당로 35)",
+   "editions": {
+    "2025": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=148699709",
+     "days": [
+      "2025-03-15"
+     ],
+     "official_total": 5,
+     "source_note": "공식 포스터 — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "크라잉넛",
+       "day": "2025-03-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "노브레인",
+       "day": "2025-03-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "SWANKY DANK",
+       "day": "2025-03-15",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "GUMX",
+       "day": "2025-03-15",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "RIOT KIDZ",
+       "day": "2025-03-15",
+       "stage": "",
+       "korean": true,
+       "name_risk": "라이엇키즈의 영문 표기로 보임 · 연결 근거: 별칭표로 라이엇키즈에 붙음(공연 125건)"
+      }
+     ]
+    }
+   }
+  },
+  "siot": {
+   "label": "KT&G 페스티벌 시옷",
+   "venue_text": "KT&G 상상마당 부산 (부산광역시 부산진구)",
+   "editions": {
+    "2023": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=16425932",
+     "days": [
+      "2023-10-27",
+      "2023-10-28",
+      "2023-10-29"
+     ],
+     "official_total": 18,
+     "source_note": "공식 포스터(합동 무대 'A X B'는 팀별로 나눔) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "데이브레이크",
+       "day": "2023-10-27",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "나노말",
+       "day": "2023-10-27",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "백노루",
+       "day": "2023-10-27",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "콩브로",
+       "day": "2023-10-27",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "유예성",
+       "day": "2023-10-27",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "박재정",
+       "day": "2023-10-28",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "소란",
+       "day": "2023-10-28",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "박문치",
+       "day": "2023-10-28",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "더 튜나스",
+       "day": "2023-10-28",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "ddbb",
+       "day": "2023-10-28",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "마그",
+       "day": "2023-10-28",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 인디스트릿 공연 5건(상상마당 부산 포함)"
+      },
+      {
+       "name": "minZu",
+       "day": "2023-10-28",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "밴드기린",
+       "day": "2023-10-28",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "밴드 나인즈",
+       "day": "2023-10-28",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "최언서",
+       "day": "2023-10-28",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "박정웅",
+       "day": "2023-10-29",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이온",
+       "day": "2023-10-29",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · 연결 근거: 상상마당 부산·인디고 공연 8건"
+      },
+      {
+       "name": "조니영",
+       "day": "2023-10-29",
+       "stage": "",
+       "korean": true
+      }
+     ]
+    }
+   }
+  },
+  "dongducheon_rock": {
+   "label": "동두천 락 페스티벌",
+   "venue_text": "소요산 입구 광장 특설무대 (경기도 동두천시)",
+   "editions": {
+    "2022": {
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=12787342",
+     "days": [
+      "2022-09-24",
+      "2022-09-25"
+     ],
+     "official_total": 11,
+     "source_note": "공식 포스터(9/25 '미국 뉴올리안스 펑크락밴드'는 이름이 없어 뺌, 첫날은 전국락밴드챔피언쉽 본선 — 본무대 아님) — 페스티벌라이프 글의 공식 포스터 그림을 읽어 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "와우러밴드",
+       "day": "2022-09-24",
+       "stage": "전국락밴드챔피언쉽 본선",
+       "korean": true,
+       "rookie_stage": true
+      },
+      {
+       "name": "유원지밴드",
+       "day": "2022-09-24",
+       "stage": "전국락밴드챔피언쉽 본선",
+       "korean": true,
+       "rookie_stage": true
+      },
+      {
+       "name": "스프링벅밴드",
+       "day": "2022-09-24",
+       "stage": "전국락밴드챔피언쉽 본선",
+       "korean": true,
+       "rookie_stage": true
+      },
+      {
+       "name": "주한미군 드래곤힐 락밴드",
+       "day": "2022-09-24",
+       "stage": "전국락밴드챔피언쉽 본선",
+       "korean": false,
+       "rookie_stage": true
+      },
+      {
+       "name": "UK QUEEN",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "로맨틱펀치",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "스트릿건즈",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "최희선밴드",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "크랙샷",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "롤링쿼츠",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "스프링스",
+       "day": "2022-09-25",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · 연결 근거: 인디스트릿·인디고 공연 25건(Club 빵)"
+      }
+     ]
+    }
+   }
+  },
+  "simf": {
+   "label": "서울인디뮤직페스타 (SIMf) 레이블마켓&쇼케이스",
+   "venue_text": "망원한강공원 서울함공원 (서울특별시 마포구)",
+   "editions": {
+    "2025": {
+     "source_url": "https://www.spotvnews.co.kr/news/articleView.html?idxno=767094",
+     "days": [
+      "2025-09-20",
+      "2025-09-21"
+     ],
+     "official_total": 14,
+     "source_note": "주최 측 쇼케이스 라인업 기사(스포티비뉴스 2025-08-29) — 이름을 기사 글에서 옮김 — 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "젬베콜라",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "윌콕스",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "오모",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 인디스트릿 공연(코스모스루비) 등 6건"
+      },
+      {
+       "name": "파라솔웨이브",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "웨더보트",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "윤석원",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "추승엽",
+       "day": "2025-09-20",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "리슨",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 낱말 · 연결 근거: 인디스트릿 공연 1건(2025 얼라이브홀)"
+      },
+      {
+       "name": "브라운티거",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "마인드유",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "새라세린",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "바비핀스",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "새벽공방",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "배인혁",
+       "day": "2025-09-21",
+       "stage": "",
+       "korean": true,
+       "name_risk": "로맨틱펀치 보컬의 솔로 무대 · 연결 근거: 상상마당·인디스트릿 공연 7건"
+      }
+     ]
+    },
+    "2026": {
+     "source_url": "https://www.osen.co.kr/article/G1112885830",
+     "days": [
+      "2026-10-03",
+      "2026-10-04"
+     ],
+     "official_total": 15,
+     "source_note": "주최 측 최종 라인업 기사(OSEN 2026-10-01, bnt뉴스 2026-09-16) — 교류 무대 '오아'(지역 음악창작소)와 해외 교류 'EKD y Los Changaras'는 날짜가 기사에 없어 첫날로 적음, 합동 표기 '팻햄스터&캉뉴'는 팀별로 나눔 — 옮김 (2026-11-28)",
+     "acts": [
+      {
+       "name": "오아",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 포크라노스·인디스트릿 60건"
+      },
+      {
+       "name": "EKD y Los Changaras",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": false
+      },
+      {
+       "name": "아이아이",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "블라",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 영문 blah — 트랙제로·인디스트릿(롤링홀) 3건"
+      },
+      {
+       "name": "김소연",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 사람 이름 · 연결 근거: 인디스트릿·인스타 공연 8건"
+      },
+      {
+       "name": "히미츠 더 어쿠스틱 듀오",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "팻햄스터",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "캉뉴",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "키라라",
+       "day": "2026-10-03",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "유리킴",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 이름 · 연결 근거: 인디스트릿 공연 1건(살롱문보우)"
+      },
+      {
+       "name": "이상웅",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true,
+       "name_risk": "흔한 사람 이름 · 연결 근거: 인디스트릿·인디고 공연 16건"
+      },
+      {
+       "name": "아월",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true,
+       "name_risk": "짧은 이름 · 연결 근거: 상상마당·인디고 공연 26건"
+      },
+      {
+       "name": "테종",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true,
+       "name_risk": "표기 확인 필요 · 연결 근거: 인디스트릿 공연 20건"
+      },
+      {
+       "name": "이병찬",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "브로콜리너마저",
+       "day": "2026-10-04",
+       "stage": "",
+       "korean": true
       }
      ]
     }
