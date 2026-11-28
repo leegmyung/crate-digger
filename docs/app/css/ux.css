@@ -269,3 +269,32 @@ table.stack-table tr.ux-row-extra { display: none !important; }   /* 375 카드�
   .cand-table th.cand-score-col,
   .cand-table td.cand-score-col { width: 66px; }
 }
+
+/* ---------- 홈·팀 개요 마무리 다듬기 (2026-11-28, tests/e2e/polish_check.mjs) ----------
+   제목 3단계(화면 24 · 블록 17 · 칸 14), 간격은 4·8·12·16·24 단계만, 블록 사이는 16px 하나로. 정돈만, 기능 변화 없음. */
+
+/* 홈: '이번 주 브리핑'은 화면 제목(24px) — 블록 제목 17px 와 1px 차이로 위계가 흐려지던 것 */
+.home-headline-title { font-size: var(--text-h1); }
+.home-headline { padding: var(--space-4); }
+/* 홈 블록 사이 = 세로 묶음 간격 16px 하나 (처음 시작하기 아래만 32px 이던 것) */
+#homePageRoot > .onboard-strip,
+#homePageRoot > #todayAlertsHost > .block:last-child { margin-bottom: 0; }
+.home-charts-grid { gap: var(--space-4); }
+.home-evidence-bar { padding: var(--space-3) var(--space-4); gap: var(--space-2) var(--space-4); }
+
+/* 팀 머리: 숫자 4칸 위아래 여백을 좌우와 같은 12px · 휴대폰 머리 띠 여백 16px */
+.ks-tile { padding: var(--space-3); }
+@media (max-width: 760px) {
+  .action-banner { padding: var(--space-4); }
+}
+@media (max-width: 640px) {
+  .home-headline { padding: var(--space-4); }
+}
+
+/* 사진 없는 팀의 큰 머리(72px): 장르 색 대신 차분한 회색 바탕 + 이니셜 — 따뜻한 바탕 위에 파랑 네모가 튀지 않게 */
+.team-avatar-col .avatar-initial {
+  background: var(--surface-2);
+  color: var(--ink-muted);
+  border: 1px solid var(--line);
+  font-weight: var(--weight-bold);
+}
