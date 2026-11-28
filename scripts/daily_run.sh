@@ -33,7 +33,7 @@ if command -v aside >/dev/null 2>&1; then
     "$PY" scripts/collect_indiego_sns.py || echo "⚠️ 인디고 공식 인스타 실패"   # 30일 지난 팀만
     "$PY" scripts/followers_watch.py || echo "⚠️ 팔로워 관찰 목록 실패"
     [ -s data/raw/state/followers_watch_melon_extra.txt ] && { "$PY" scripts/collect_artists.py --ids-file data/raw/state/followers_watch_melon_extra.txt || echo "⚠️ 관심 팀 멜론 팬 수 다시 받기 실패"; }
-    "$PY" scripts/collect_ig_artists.py --handles-file data/raw/state/followers_watch_instagram.txt --limit 100 || echo "⚠️ 관찰 팀 인스타 팔로워 다시 보기 실패"
+    "$PY" scripts/collect_ig_artists.py --handles-file data/raw/state/followers_watch_instagram.txt --limit 220 || echo "⚠️ 관찰 팀 인스타 팔로워 다시 보기 실패"
   fi
   "$PY" scripts/collect_insta.py || echo "⚠️ 인스타 매거진 수집 실패"   # 가장 오래 걸려서 aside 묶음 맨 뒤 (길어져도 다른 수집이 안 밀리게)
 else

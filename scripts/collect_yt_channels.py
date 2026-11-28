@@ -6,7 +6,10 @@
 - 채널 주소를 '확인된 곳'에서만 모은다 (핸들 추측 안 함 — 2026-11-28 시험: 아는 59팀 중 4팀만 맞음):
   1) docs/lab/data/links.csv 의 youtube 줄  2) MusicBrainz 공식 링크(collect_musicbrainz)
   3) 팀 인스타 소개란의 유튜브 채널 링크(data/raw/state/ig_artist_links.json, 인스타 계정 → 팀은 links.csv·MusicBrainz).
+  3') 인디스트릿·인디고 아티스트 페이지 구조화 데이터 sameAs 의 채널(data/raw/state/indistreet_sns.json·indiego_sns.json,
+      채널 주소가 하나뿐일 때만 — MusicBrainz 다음 순위).
   4) 채널 검색(yt_channel_search, 하루 20번, 상위 300 중 링크 없는 팀)으로 찾은 채널.
+- --teams-file: 한 줄에 팀 키 하나 — coverage_targets 밖 팀도 대상 뒤에 붙여 받는다.
 - 비용(YouTube Data API v3): channels.list 1단위(snippet: 제목·아바타, contentDetails: 업로드 목록),
   links.csv 에 없는 채널만 playlistItems.list 1단위로 최신 영상 10개 (links.csv 채널은 collect_videos 가 매일 받는다).
   search.list(100단위)는 쓰지 않는다.
@@ -38,6 +41,9 @@ LINKS_FILE = ROOT / "docs" / "lab" / "data" / "links.csv"
 MUSICBRAINZ_FILE = ROOT / "data" / "raw" / "state" / "musicbrainz.json"
 IG_LINKS_FILE = ROOT / "data" / "raw" / "state" / "ig_artist_links.json"
 YT_SEARCH_FILE = ROOT / "data" / "raw" / "state" / "yt_search.json"   # yt_channel_search
+SAMEAS_FILES = (("indistreet", ROOT / "data" / "raw" / "state" / "indistreet_sns.json"),   # collect_indistreet_sns
+                ("indiego", ROOT / "data" / "raw" / "state" / "indiego_sns.json"))         # collect_indiego_sns
+
 RAW_DIR = ROOT / "data" / "raw"
 DEFAULT_BUDGET = 400
 REFRESH_DAYS = 30
@@ -62,9 +68,17 @@ def _insta_handle(url: str) -> str:
     return parts[0].lower() if p.netloc in INSTAGRAM_HOSTS and len(parts) == 1 else ""
 
 
+def sameas_channel(same_as: List[str]) -> Optional[str]:
+    """sameAs 중 유튜브 '채널' 주소가 정확히 하나면 그 주소(꼬리 뗌), 없거나 둘 이상이면 None (어느 쪽이 팀 것인지 모름)."""
+    found = list(dict.fromkeys(u for u in (_clean_channel_url(x) for x in same_as or [] if isinstance(x, str)) if u))
+    return found[0] if len(found) == 1 else None
+
+
 def candidate_channels(links: List[dict], musicbrainz: dict, ig_links: dict,
-                       yt_search: Optional[dict] = None) -> Dict[str, Tuple[str, str]]:
-    """팀 → (채널 주소, 출처). 출처 우선순위 links > musicbrainz > instagram > yt_search, 같은 출처 안에서는 처음 것."""
+                       yt_search: Optional[dict] = None,
+                       sameas: Optional[List[Tuple[str, dict]]] = None) -> Dict[str, Tuple[str, str]]:
+    """팀 → (채널 주소, 출처). 출처 우선순위 links > musicbrainz > sameas(인디스트릿 → 인디고) > instagram > yt_search,
+    같은 출처 안에서는 처음 것."""
     out: Dict[str, Tuple[str, str]] = {}
     for r in links:
         url = _clean_channel_url(r.get("url") or "") if r.get("platform") == "youtube" else None
@@ -83,6 +97,11 @@ def candidate_channels(links: List[dict], musicbrainz: dict, ig_links: dict,
             url = _clean_channel_url(raw)
             if url:
                 out.setdefault(team, (url, "musicbrainz"))
+    for source, state in sameas or []:                           # 팀이 페이지에 적은(또는 사이트가 붙인) 공식 채널
+        for team, entry in sorted((state or {}).items()):
+            url = sameas_channel((entry or {}).get("same_as") if isinstance(entry, dict) else None)
+            if url:
+                out.setdefault(team, (url, source))
     for handle, entry in (ig_links or {}).items():
         team = insta_team.get(handle.lower())
         if handle == "non_artists" or not team:
@@ -186,6 +205,18 @@ def run(targets: List[dict], candidates: Dict[str, Tuple[str, str]], state: dict
     return {"teams": teams, "misses": misses}, rows
 
 
+def with_extra_targets(targets: List[dict], keys: List[str], display: Dict[str, str]) -> List[dict]:
+    """대상 뒤에 --teams-file 팀을 붙인다 (이미 있는 팀·빈 줄은 뺌)."""
+    have = {t.get("team_key") for t in targets}
+    extra = []
+    for k in keys:
+        k = (k or "").strip()
+        if k and k not in have:
+            have.add(k)
+            extra.append({"team_key": k, "display_name": display.get(k, k)})
+    return list(targets) + extra
+
+
 def write_raw(raw_dir: Path, now: datetime, rows: List[dict]) -> Path:
     path = Path(raw_dir) / f"raw_video_{now:%Y-%m-%d}_channels.csv"
     cv.write_rows(path, rows)
@@ -203,14 +234,21 @@ def _read_json(path: Path) -> dict:
 def main(argv: Optional[List[str]] = None) -> int:
     ap = argparse.ArgumentParser(description="팀 공식 유튜브 채널 아바타·최신 영상")
     ap.add_argument("--budget", type=int, default=DEFAULT_BUDGET, help="이번 실행에 쓸 최대 단위 (기본 400)")
+    ap.add_argument("--teams-file", help="한 줄에 팀 키 하나 — coverage_targets 밖 팀도 대상 뒤에 붙여 받기")
     args = ap.parse_args(argv)
     targets = coverage_targets.load_targets()
+    if args.teams_file:
+        keys = Path(args.teams_file).read_text(encoding="utf-8").splitlines()
+        with open(LINKS_FILE.parent / "teams.csv", encoding="utf-8") as f:
+            display = {r["team_key"]: r.get("display_name") or r["team_key"] for r in csv.DictReader(f)}
+        targets = with_extra_targets(targets, keys, display)
     if not targets:
         print("⏭ 대상 목록이 없어요 (먼저 .venv/bin/python scripts/coverage_targets.py)")
         return 0
     with open(LINKS_FILE, encoding="utf-8") as f:
         links = list(csv.DictReader(f))
-    candidates = candidate_channels(links, _read_json(MUSICBRAINZ_FILE), _read_json(IG_LINKS_FILE), _read_json(YT_SEARCH_FILE))
+    candidates = candidate_channels(links, _read_json(MUSICBRAINZ_FILE), _read_json(IG_LINKS_FILE), _read_json(YT_SEARCH_FILE),
+                                    [(name, _read_json(path)) for name, path in SAMEAS_FILES])
     linked = {k for k, (_, src) in candidates.items() if src == "links"}
     env = cv.load_env(cv.ENV_FILE)
     try:

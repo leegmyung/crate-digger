@@ -118,3 +118,10 @@ fi
            if r["platform"] == "instagram" and r["team_key"] not in have_ig]
   ```
 - **daily_run.sh 월요일 블록 제안**: `collect_indistreet_sns.py` 다음 줄에 `"$PY" scripts/collect_indiego_sns.py || echo "⚠️ 인디고 공식 인스타 실패"` (30일 지난 팀만).
+
+## 9. 유튜브 후보 출처 · 인디고 나머지 · 인스타 다시 보기 주기 (2026-11-28 밤)
+
+- **collect_yt_channels.py**: `candidate_channels()`에 인디스트릿·인디고 sameAs 유튜브 채널(채널 주소가 하나뿐일 때만)을 MusicBrainz 다음 순위로(links > musicbrainz > indistreet > indiego > instagram > yt_search), `--teams-file`(팀 키 목록 → coverage_targets 뒤에 붙여 받기) 추가(+테스트 2). 지금 데이터로 후보 출처: links 322 · indistreet 7 · yt_search 6 · instagram 2 · indiego 1 (5bbf21f export 뒤라 인디스트릿 채널 대부분은 이미 links 에 있음).
+- **인디고 sameAs**: 1,880팀 모두 확인 끝(실패 0). sameAs 안 플랫폼은 인스타 1,879 · 링크트리 4 · **유튜브 2 · 스포티파이 1** — 유튜브·스포티파이는 거의 없어서 refs 로 따로 넣을 실익이 작다(넣는다면 indistreet_sns_refs 와 같은 함수를 인스타 제외 확신 mid 로: export `indiego_sns_refs` 안에서 `platform in ("youtube", "spotify")` 줄도 통과시키면 됨, 대상 3팀).
+- **월요일 인스타 다시 보기**: 관찰 300팀 중 인스타 계정 **206개**(followers_watch_instagram.txt). `collect_ig_artists --handles-file … --limit 100` 이면 한 바퀴 2~3주 → 계정마다 기록 간격 14~21일이라 30일 비교(21~35일 전 기록)가 대체로 되지만, 한 주만 빠져도 간격이 42일이 되어 비교가 끊긴다.
+  **제안: `--limit 220`** (매주 한 바퀴, 기록 간격 7일 → 28일 전 기록이 늘 있음). 한 계정 약 3초 + 로그인 벽 쉼(3번 연속 시 60초)이라 1회 약 12~20분. aside 묶음 맨 뒤(인스타 매거진 수집 앞)라 다른 수집을 밀지 않는다. 로그인 벽이 잦아지면 그 주만 150으로 낮춘다.

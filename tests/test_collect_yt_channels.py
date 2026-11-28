@@ -43,6 +43,32 @@ class YtSearchCandidateTest(unittest.TestCase):
         self.assertNotIn("c", got)
 
 
+class SameAsCandidateTest(unittest.TestCase):
+    """인디스트릿·인디고 아티스트 페이지 sameAs 의 유튜브 채널 — musicbrainz 다음 순위, 채널 주소가 하나뿐일 때만."""
+
+    def test_sameas_after_musicbrainz_before_instagram(self):
+        mbz = {"a": {"mbid": "m", "urls": {"youtube": ["https://www.youtube.com/@a_mb"]}}}
+        indistreet = {"a": {"same_as": ["https://www.youtube.com/@a_is"]},
+                      "b": {"same_as": ["https://www.youtube.com/@b_is?si=1", "https://www.instagram.com/b/"]},
+                      "d": {"same_as": ["https://www.youtube.com/@d1", "https://www.youtube.com/@d2"]},     # 둘 → 모름
+                      "e": {"same_as": ["https://www.youtube.com/watch?v=dQw4w9WgXcQ"]}}                  # 영상 주소
+        indiego = {"b": {"same_as": ["https://www.youtube.com/@b_ig"]}, "c": {"same_as": ["https://youtube.com/@c_ig"]}}
+        got = yc.candidate_channels([], mbz, {}, None, [("indistreet", indistreet), ("indiego", indiego)])
+        self.assertEqual(got["a"], ("https://www.youtube.com/@a_mb", "musicbrainz"))
+        self.assertEqual(got["b"], ("https://www.youtube.com/@b_is", "indistreet"))
+        self.assertEqual(got["c"], ("https://youtube.com/@c_ig", "indiego"))
+        self.assertNotIn("d", got)
+        self.assertNotIn("e", got)
+
+
+class TeamsFileTest(unittest.TestCase):
+    def test_extra_teams_appended_after_targets_once(self):
+        targets = [{"team_key": "a", "display_name": "에이"}]
+        got = yc.with_extra_targets(targets, ["b", "a", "", "c"], {"b": "비"})
+        self.assertEqual(got, [{"team_key": "a", "display_name": "에이"}, {"team_key": "b", "display_name": "비"},
+                               {"team_key": "c", "display_name": "c"}])
+
+
 class AvatarTest(unittest.TestCase):
     def test_prefers_medium_https_google_host(self):
         th = {"default": {"url": "https://yt3.ggpht.com/a=s88"}, "medium": {"url": "https://yt3.ggpht.com/a=s240"},
