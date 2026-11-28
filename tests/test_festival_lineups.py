@@ -56,7 +56,7 @@ class RawRowsTest(unittest.TestCase):
     def test_rows_only_korean_and_valid(self):
         rows = cfl.rows_from_config(MINI, "2026-11-28T12:00:00+09:00")
         self.assertEqual([r["artist_text"] for r in rows], ["에이", "비"])
-        self.assertEqual(rows[0]["source"], "regional")
+        self.assertEqual(rows[0]["source"], "festival")
         self.assertEqual(rows[0]["gig_date"], "2024-10-26")
         self.assertIn("그랜드 민트 페스티벌", rows[0]["title"])
         spec = TABLES["raw_kr_gig"]
@@ -85,3 +85,21 @@ class FestivalPageTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CatalogTest(unittest.TestCase):
+    """페스티벌라이프 목록(config/festival_catalog.json) → 화면 '날짜·장소만' 목록 + 라인업 페스티벌 연결."""
+
+    CAT = {"festivals": {
+        "그랜드민트페스티벌": {"name": "그랜드민트페스티벌", "editions": {
+            "2022": {"dates": ["2022-10-22"], "venue": "올림픽공원", "posts": [{"title": "t", "kind": "최종 라인업", "url": "https://www.festivallife.kr/festival/?bmode=view&idx=1"}], "lineup_text": False}}},
+        "잔다리페스티벌": {"name": "잔다리페스타", "editions": {
+            "2024": {"dates": ["2024-10-03", "2024-10-04"], "venue": "홍대 일대", "posts": [{"title": "t2", "kind": "개최 일정", "url": "https://www.festivallife.kr/festival/?bmode=view&idx=2"}], "lineup_text": False}}}}}
+
+    def test_catalog_entries(self):
+        rows = {r["name"]: r for r in fp.catalog_entries(self.CAT)}
+        self.assertEqual(rows["그랜드민트페스티벌"]["festival"], "gmf")        # 라인업 페스티벌과 연결
+        self.assertIsNone(rows["잔다리페스타"]["festival"])                     # 날짜·장소만
+        e = rows["잔다리페스타"]["editions"]["2024"]
+        self.assertEqual(e, {"dates": ["2024-10-03", "2024-10-04"], "venue": "홍대 일대",
+                             "url": "https://www.festivallife.kr/festival/?bmode=view&idx=2"})

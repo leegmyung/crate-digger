@@ -1097,7 +1097,22 @@ def _compute_deltas(sections, prev):
     }
 
 
+_V_SIGNAL = re.compile(r"core\.v_signal\b(?!_)(\s+(?!(?:WHERE|GROUP|ORDER|JOIN|LEFT|RIGHT|INNER|ON|UNION|LIMIT|HAVING)\b)[A-Za-z_]\w*)?",
+                       re.IGNORECASE)
+
+
+def scored_signal_sql(sql):
+    """core.v_signal 을 '큰 페스티벌 본무대(source=festival) 행을 뺀 신호'로 바꾼다 — 정답 성격 무대라 점수·검증에 안 씀
+    (config/source_roles.json '공연:festival' excluded). 질의마다 psql 을 따로 띄워 임시 뷰를 못 쓰므로 글자로 바꾼다."""
+    sub = "(SELECT * FROM core.v_signal WHERE source <> 'festival')"
+
+    def repl(m):
+        return sub + (m.group(1) or " AS v_signal")   # 별칭이 없으면 붙임(옛 Postgres 는 하위 질의 별칭 필수)
+    return _V_SIGNAL.sub(repl, sql)
+
+
 def psql_csv(sql):
+    sql = scored_signal_sql(sql)
     proc = subprocess.run([PSQL, "-v", "ON_ERROR_STOP=1", "-q", "--csv", "-d", DB, "-c", sql],
                           capture_output=True, text=True)
     if proc.returncode != 0:

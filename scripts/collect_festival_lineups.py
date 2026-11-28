@@ -10,7 +10,9 @@
 규칙
 - korean=false(해외 팀·확인 못 한 팀)는 쓰지 않는다 — 해외 팀이 새 팀으로 생겨 신인 후보에 끼지 않게(정답·점수 영향 없음).
 - 같은 날 같은 팀(이름 키)이 이미 다른 공연 원본에 있으면 쓰지 않는다 — 같은 무대가 신호로 두 번 잡히지 않게.
-- source = 'regional'(csv_schema.GIG_SOURCES), collector = 'manual', gig_url = 근거 문서 주소 + '#날짜'.
+- source = 'festival'(csv_schema.GIG_SOURCES), collector = 'manual', gig_url = 근거 문서 주소 + '#날짜'.
+  큰 페스티벌 본무대는 '정답 성격'(크고 경쟁 센 무대)이라 후보 신호로 쓰지 않는다 — config/source_roles.json '공연:festival' = excluded
+  (알림·사건 별점·점수 특징·같은 무대·공연장 사다리는 역할로 거르고, 공연장 프로필·예전 대시보드·페스티벌 '먼저 본 팀'은 따로 막음).
 """
 from __future__ import annotations
 
@@ -32,7 +34,7 @@ RAW_DIR = ROOT / "data" / "raw"
 KST = timezone(timedelta(hours=9))
 COLUMNS = [f.name for f in TABLES["raw_kr_gig"]["fields"]]
 KEY = TABLES["raw_kr_gig"]["key"]
-SOURCE = "regional"
+SOURCE = "festival"            # 큰 페스티벌 본무대 = 정답 성격 → 점수·검증에 안 씀(source_roles '공연:festival' excluded)
 FILE_TAG = "festival"
 
 
@@ -84,15 +86,15 @@ def rows_from_config(cfg: dict, collected_at: str, skip: Optional[Set[Tuple[str,
 
 
 def existing_gig_keys(raw_dir: Path = RAW_DIR) -> Tuple[Set[Tuple[str, str]], Set[tuple]]:
-    """이미 있는 공연 원본의 (날짜, 이름 키)와, 이 수집기가 이미 쓴 행 키(source, gig_url, artist_text)."""
+    """이미 있는 모든 공연 원본의 (날짜, 이름 키)와, 이 수집기가 이미 쓴 행 키(source, gig_url, artist_text)."""
     day_names, mine = set(), set()
     for path in sorted(raw_dir.glob("raw_kr_gig_*.csv")):
         with open(path, encoding="utf-8", newline="") as fh:
             for r in csv.DictReader(fh):
                 if f"_{FILE_TAG}" in path.name:
                     mine.add(tuple(r.get(c, "") for c in KEY))
-                else:
-                    day_names.add(((r.get("gig_date") or "")[:10], name_key(r.get("artist_text") or "")))
+                # 같은 날·같은 팀이 이미 어느 원본에든(이 수집기가 예전에 쓴 것 포함) 있으면 다시 쓰지 않음 — 근거 주소가 바뀌어도
+                day_names.add(((r.get("gig_date") or "")[:10], name_key(r.get("artist_text") or "")))
     return day_names, mine
 
 

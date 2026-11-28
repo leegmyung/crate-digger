@@ -101,7 +101,8 @@ def _day(s: str) -> Optional[date]:
 def load_lab(data_dir: Path = lab_sql.DATA_DIR):
     """(공연, 팀 이름, 정답, 최신 스냅샷 {팀: (순위, 점수)}, 기준 날짜)."""
     gigs = sorted({(r["team_key"], d, r["venue"].strip()) for r in _read_csv(data_dir / "signals.csv")
-                   if r["branch"] == "공연" and r["venue"].strip() not in SKIP and (d := _day(r["signal_date"]))})
+                   if r["branch"] == "공연" and r["venue"].strip() not in SKIP and r.get("role") != "excluded"
+                   and (d := _day(r["signal_date"]))})   # 제외 출처(큰 페스티벌 본무대 등)는 공연장 계산에 안 씀
     teams = {r["team_key"]: r.get("display_name") or r["team_key"] for r in _read_csv(data_dir / "teams.csv")}
     outcomes = [{"team_key": r["team_key"], "announced_date": d, "counted": r.get("counted") == "true",
                  "program_label": r.get("program_label") or r.get("program", ""), "grade": r.get("grade", "")}

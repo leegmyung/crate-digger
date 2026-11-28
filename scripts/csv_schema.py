@@ -19,7 +19,7 @@ RELEASE_SOURCES = {
     "bugs", "flo", "genie", "melon", "bandcamp_kr",                # 음원 플랫폼
     "manual",
 }
-GIG_SOURCES = {"indiego", "indistreet", "sangsangmadang", "manual", "regional"}   # regional: 지역 음악창작소·지역 페스티벌 (collect_regional_gigs)
+GIG_SOURCES = {"indiego", "indistreet", "sangsangmadang", "manual", "regional", "festival", "kopis"}   # regional: 지역 음악창작소·지역 페스티벌 (collect_regional_gigs) · festival: 큰 페스티벌 본무대 라인업(collect_festival_lineups — 화면 정보만, 점수·검증에 안 씀) · kopis: 공연예술통합전산망 대중음악 공연(collect_kopis)
 PRESS_SOURCES = {"musicy", "rhythmer", "liak", "izm", "weiv", "youtube", "rss", "manual",
                  "visla", "overtone", "instagram", "hiphople", "trackzero"}
 OUTCOME_SOURCES = {"manual", "aside"}

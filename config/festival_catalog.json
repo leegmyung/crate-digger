@@ -1,0 +1,8844 @@
+{
+ "_설명": "페스티벌라이프 '국내 페스티벌' 게시판에서 모은 국내 페스티벌·회차 (scripts/collect_festivallife.py). 날짜·장소는 글 본문 글자, 라인업은 포스터 그림이라 없음(lineup_text=false) — 라인업 팀은 config/festival_lineups.json. posts = 글 제목·번호·날짜·장소(다음 갱신 때 합치려고 보관).",
+ "checked": "2026-11-28",
+ "source": "https://www.festivallife.kr/festival",
+ "festivals": {
+  "11해브어나이스데이": {
+   "name": "Have A Nice Day #11 해브 어 나이스 데이",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-04-12",
+      "2025-04-13"
+     ],
+     "venue": "인천 상상플랫폼",
+     "posts": [
+      {
+       "title": "Have A Nice Day #11 해브 어 나이스 데이 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=156487791"
+      },
+      {
+       "title": "Have A Nice Day #11 (해브 어 나이스 데이)",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=151175284"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "<제5회티페스티벌통영>": {
+   "name": "<제 5회 티페스타 통영>",
+   "editions": {
+    "2022": {
+     "dates": [
+      "2022-09-27",
+      "2022-09-28",
+      "2022-09-29",
+      "2022-09-30",
+      "2022-10-01",
+      "2022-10-02"
+     ],
+     "venue": "경남 통영 서피랑공원 및 통영시 일대",
+     "posts": [
+      {
+       "title": "<제 5회 티페스타 통영>",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12753763"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "dldkkorea": {
+   "name": "DLDK KOREA",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-04-20"
+     ],
+     "venue": "서울랜드",
+     "posts": [
+      {
+       "title": "DLDK KOREA 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=17865127"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "edckorea": {
+   "name": "EDC Korea",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-04-25",
+      "2025-04-26"
+     ],
+     "venue": "인스파이어 엔터테인먼트 리조트",
+     "posts": [
+      {
+       "title": "2025 EDC KOREA - 일자별 라인업 및 티켓 오픈",
+       "kind": "일자별 라인업 및 티켓 오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=156283364"
+      },
+      {
+       "title": "2025 EDC KOREA - 개최 일정",
+       "kind": "개최 일정",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=134719395"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-10-03",
+      "2026-10-04"
+     ],
+     "venue": "인스파이어 엔터테인먼트 리조트",
+     "posts": [
+      {
+       "title": "EDC Korea 2026 - 라인업 및 티켓오픈",
+       "kind": "라인업 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171856895"
+      },
+      {
+       "title": "EDC Korea 2026 - 개최 발표",
+       "kind": "개최 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169951735"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "hausofwonder": {
+   "name": "Haus of Wonder",
+   "editions": {
+    "2022": {
+     "dates": [
+      "2022-08-06",
+      "2022-08-07"
+     ],
+     "venue": "일산 킨텍스",
+     "posts": [
+      {
+       "title": "Haus of Wonder 2022 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11455752"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "haveanicetrip": {
+   "name": "HAVE A NICE TRIP",
+   "editions": {
+    "2023": {
+     "dates": [
+      "2023-07-15",
+      "2023-07-16"
+     ],
+     "venue": "킨텍스 제2전시장",
+     "posts": [
+      {
+       "title": "Have A Nice Trip - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15439848"
+      },
+      {
+       "title": "Have A Nice Trip - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15227494"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [
+      "2024-07-27",
+      "2024-07-28"
+     ],
+     "venue": "킨텍스",
+     "posts": [
+      {
+       "title": "HAVE A NICE TRIP 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=28823367"
+      },
+      {
+       "title": "HAVE A NICE TRIP 2024 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=23019261"
+      },
+      {
+       "title": "HAVE A NICE TRIP 2024 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=21027211"
+      },
+      {
+       "title": "HAVE A NICE TRIP 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=19207905"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "ktg상상실현페스티벌": {
+   "name": "KT&G 상상실현 페스티벌",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-04-27",
+      "2024-04-28"
+     ],
+     "venue": "KT&G 상상마당 춘천 아트센터",
+     "posts": [
+      {
+       "title": "KT&G 상상실현 페스티벌 2024",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=18016583"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-04-19",
+      "2025-04-20"
+     ],
+     "venue": "KT&G 상상마당 춘천 아트센터",
+     "posts": [
+      {
+       "title": "2025 KT&G 상상실현 페스티벌 - 라인업 발표 및 티켓오픈",
+       "kind": "라인업 발표 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=153149912"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [],
+     "venue": "KT&G 상상마당 춘천 아트센터",
+     "posts": [
+      {
+       "title": "2026 KT&G 상상실현 페스티벌 - 라인업 및 티켓오픈",
+       "kind": "라인업 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169835089"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "ktg상상페스티벌": {
+   "name": "KT&G 상상페스티벌",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-04-19",
+      "2025-04-20"
+     ],
+     "venue": "KT&G 상상마당 춘천 아트센터",
+     "posts": [
+      {
+       "title": "2025 KT&G 상상페스티벌 - 개최 공지",
+       "kind": "개최 공지",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=152226723"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "ktg페스티벌시옷": {
+   "name": "KT&G 페스티벌 시옷",
+   "editions": {
+    "2023": {
+     "dates": [
+      "2023-10-27",
+      "2023-10-28",
+      "2023-10-29"
+     ],
+     "venue": "상상마당 부산",
+     "posts": [
+      {
+       "title": "KT&G 페스티벌 시옷 2023",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=16425932"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "kt＆g상상실현페스티벌": {
+   "name": "KT＆G 상상실현페스티벌",
+   "editions": {
+    "2023": {
+     "dates": [],
+     "venue": "상상마당 춘천 아트센터",
+     "posts": [
+      {
+       "title": "2023 KT＆G 상상실현페스티벌",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15056456"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "lovesome": {
+   "name": "LOVESOME",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-04-26",
+      "2025-04-27"
+     ],
+     "venue": "한강난지공원",
+     "posts": [
+      {
+       "title": "LOVESOME 2025 - 개최 발표",
+       "kind": "개최 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=142614671"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2025-04-11",
+      "2025-04-12"
+     ],
+     "venue": "연세대학교 노천극장",
+     "posts": [
+      {
+       "title": "LOVESOME 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170163544"
+      },
+      {
+       "title": "LOVESOME 2026 - 1차 라인업 및 얼리버드 티켓오픈",
+       "kind": "1차 라인업 및 얼리버드 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169731022"
+      },
+      {
+       "title": "LOVESOME 2026 - 개최 발표 및 티켓오픈",
+       "kind": "개최 발표 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169559455"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "openportsound": {
+   "name": "Open Port Sound",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-07-26",
+      "2025-07-27"
+     ],
+     "venue": "인천 1883 개항광장",
+     "posts": [
+      {
+       "title": "Open Port Sound 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166928761"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "punklodge": {
+   "name": "PUNK LODGE",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-03-15"
+     ],
+     "venue": "롤링홀",
+     "posts": [
+      {
+       "title": "PUNK LODGE 2025",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=148699709"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "rapbeat": {
+   "name": "RAPBEAT",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-06-20",
+      "2026-06-21"
+     ],
+     "venue": "문화비축기지",
+     "posts": [
+      {
+       "title": "RAPBEAT 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171088794"
+      },
+      {
+       "title": "RAPBEAT 2026 - 1차 라인업 및 티켓오픈",
+       "kind": "1차 라인업 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170186027"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "s2okorea": {
+   "name": "S2O Korea",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-07-13",
+      "2024-07-14"
+     ],
+     "venue": "서울랜드",
+     "posts": [
+      {
+       "title": "S2O Korea 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=30542427"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "sodafesta": {
+   "name": "SODA FESTA",
+   "editions": {
+    "2024": {
+     "dates": [],
+     "venue": "꿈빛극장",
+     "posts": [
+      {
+       "title": "2024 SODA FESTA",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=22878382"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "theairhouse": {
+   "name": "THE AIR HOUSE",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2025-05-23",
+      "2025-05-24",
+      "2025-05-25"
+     ],
+     "venue": "춘천 남이섬",
+     "posts": [
+      {
+       "title": "THE AIR HOUSE 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169344054"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "theflood": {
+   "name": "THE FLOOD",
+   "editions": {
+    "2026": {
+     "dates": [],
+     "venue": "서울대 파워플랜트",
+     "posts": [
+      {
+       "title": "THE FLOOD 2026 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171888679"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "theglow": {
+   "name": "THE GLOW",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-04-13",
+      "2024-04-14"
+     ],
+     "venue": "킨텍스",
+     "posts": [
+      {
+       "title": "THE GLOW 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=18398801"
+      },
+      {
+       "title": "THE GLOW 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=17879850"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "xmf": {
+   "name": "XMF",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-10-03",
+      "2026-10-04"
+     ],
+     "venue": "파라다이스시티",
+     "posts": [
+      {
+       "title": "XMF 2026 - 최종 라인업 및 티켓오픈",
+       "kind": "최종 라인업 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173830041"
+      },
+      {
+       "title": "XMF 2026 - 2차 라인업 및 티켓오픈",
+       "kind": "2차 라인업 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173041544"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "경기모아뮤직페스티벌": {
+   "name": "경기모아뮤직 페스티벌",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-06-15",
+      "2024-06-16"
+     ],
+     "venue": "가평 자라섬",
+     "posts": [
+      {
+       "title": "경기모아뮤직 페스티벌 2024",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=24670497"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "경기인디뮤직페스티벌": {
+   "name": "경기인디뮤직페스티벌",
+   "editions": {
+    "2022": {
+     "dates": [],
+     "venue": "경인아라뱃길 아라마리나",
+     "posts": [
+      {
+       "title": "경기인디뮤직페스티벌 2022",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=13008494"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2023": {
+     "dates": [
+      "2023-10-13",
+      "2023-10-14",
+      "2023-10-15"
+     ],
+     "venue": "안산 와 스타디움",
+     "posts": [
+      {
+       "title": "경기 인디 뮤직 페스티벌 2023 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=16133495"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [
+      "2024-10-12",
+      "2024-10-13"
+     ],
+     "venue": "임진각 평화누리공원",
+     "posts": [
+      {
+       "title": "경기인디뮤직페스티벌 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=87944376"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-09-20",
+      "2025-09-21"
+     ],
+     "venue": "",
+     "posts": [
+      {
+       "title": "경기인디뮤직페스티벌 2025 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166937461"
+      },
+      {
+       "title": "경기 인디 뮤직 페스티벌 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166720636"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-10-17",
+      "2026-10-18"
+     ],
+     "venue": "수원 서호잔디광장",
+     "posts": [
+      {
+       "title": "경기인디뮤직페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173480190"
+      },
+      {
+       "title": "경기인디뮤직페스티벌 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172694828"
+      },
+      {
+       "title": "경기 인디 뮤직 페스티벌 2026 개최 발표",
+       "kind": "개최 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170589537"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "경기한류페스티벌": {
+   "name": "GHOST (경기 한류 OST) 페스티벌",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-10-09",
+      "2026-10-10",
+      "2026-10-11"
+     ],
+     "venue": "임진각 평화누리",
+     "posts": [
+      {
+       "title": "GHOST (경기 한류 OST) 페스티벌 2026 - 최종 라인업 및 레귤러 티켓",
+       "kind": "최종 라인업 및 레귤러 티켓",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173189815"
+      },
+      {
+       "title": "GHOST (경기 한류 OST) 페스티벌 2026 - 1차 라인업 및 얼리버드",
+       "kind": "1차 라인업 및 얼리버드",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172397868"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "공평사운즈": {
+   "name": "공평사운즈",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-09-11",
+      "2026-09-12",
+      "2026-09-13"
+     ],
+     "venue": "대구 제임스레코드 및 소리정원",
+     "posts": [
+      {
+       "title": "2026 공평사운즈",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173377646"
+      },
+      {
+       "title": "공평사운즈 2026",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170711317"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "그랜드민트페스티벌": {
+   "name": "그랜드민트페스티벌",
+   "editions": {
+    "2021": {
+     "dates": [],
+     "venue": "",
+     "posts": [
+      {
+       "title": "그랜드 민트 페스티벌 2021 - 취소 공지",
+       "kind": "취소 공지",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=8241922"
+      },
+      {
+       "title": "그랜드 민트 페스티벌 2021 - 개최 및 티켓오픈 안내",
+       "kind": "개최 및 티켓오픈 안내",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=7754034"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2022": {
+     "dates": [
+      "2022-10-22",
+      "2022-10-23"
+     ],
+     "venue": "올림픽공원",
+     "posts": [
+      {
+       "title": "그랜드민트페스티벌 2022 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12832371"
+      },
+      {
+       "title": "그랜드민트페스티벌 2022 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12627331"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2023": {
+     "dates": [
+      "2023-10-20",
+      "2023-10-21",
+      "2023-10-22"
+     ],
+     "venue": "올림픽공원",
+     "posts": [
+      {
+       "title": "그랜드 민트 페스티벌 2023 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=16332676"
+      },
+      {
+       "title": "그랜드 민트 페스티벌 2023 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=16113724"
+      },
+      {
+       "title": "그랜드 민트 페스티벌 2023 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15939515"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [],
+     "venue": "올림픽공원",
+     "posts": [
+      {
+       "title": "그랜드 민트 페스티벌 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=113612947"
+      },
+      {
+       "title": "그랜드 민트 페스티벌 2024 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=97677124"
+      },
+      {
+       "title": "그랜드 민트 페스티벌 2024 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=85876066"
+      },
+      {
+       "title": "그랜드 민트 페스티벌 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=62083471"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-10-18",
+      "2025-10-19"
+     ],
+     "venue": "",
+     "posts": [
+      {
+       "title": "그랜드 민트 페스티벌 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167676757"
+      },
+      {
+       "title": "그랜드 민트 페스티벌 2025 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167189964"
+      },
+      {
+       "title": "그랜드 민트 페스티벌 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166720743"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-10-17",
+      "2026-10-18"
+     ],
+     "venue": "올림픽공원",
+     "posts": [
+      {
+       "title": "그랜드민트페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=174243065"
+      },
+      {
+       "title": "그랜드민트페스티벌 2026 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173454033"
+      },
+      {
+       "title": "그랜드민트페스티벌 2026 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172914287"
+      },
+      {
+       "title": "그랜드민트페스티벌 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172457456"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "그린캠프페스티벌": {
+   "name": "그린캠프페스티벌",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-05-17",
+      "2025-05-18"
+     ],
+     "venue": "송도달빛축제공원",
+     "posts": [
+      {
+       "title": "그린캠프페스티벌 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=162289385"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2025-04-17",
+      "2025-04-18",
+      "2025-04-19"
+     ],
+     "venue": "이천 지산포레스트 리조트",
+     "posts": [
+      {
+       "title": "그린캠프페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169958483"
+      },
+      {
+       "title": "그린캠프페스티벌 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169561691"
+      },
+      {
+       "title": "그린캠프 페스티벌 2026 - 개최 일정 발표",
+       "kind": "개최 일정 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169344082"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "대구힙합페스티벌": {
+   "name": "대구 힙합 페스티벌",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-05-04",
+      "2024-05-05"
+     ],
+     "venue": "대구스타디움 보조경기장",
+     "posts": [
+      {
+       "title": "대구 힙합페스티벌 2024 - 5차 라인업",
+       "kind": "5차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=18356562"
+      },
+      {
+       "title": "대구 힙합 페스티벌 2024 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=17967497"
+      },
+      {
+       "title": "대구 힙합페스티벌 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=17834391"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-06-28",
+      "2025-06-29"
+     ],
+     "venue": "대구 엑스코",
+     "posts": [
+      {
+       "title": "대구 힙합 페스티벌 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=165647709"
+      },
+      {
+       "title": "대구 힙합 페스티벌 2025 - 4차 라인업",
+       "kind": "4차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=163415157"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "대구힙합페스티벌시즌2": {
+   "name": "대구힙합페스티벌 시즌2",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-09-28",
+      "2024-09-29"
+     ],
+     "venue": "대구 엑스코",
+     "posts": [
+      {
+       "title": "2024 대구힙합페스티벌 시즌2",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=104668187"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "더그레이트풀캠프": {
+   "name": "더그레이트풀캠프",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-09-05",
+      "2025-09-06",
+      "2025-09-07"
+     ],
+     "venue": "전라남도 신안 짱뚱어 해수욕장 일대",
+     "posts": [
+      {
+       "title": "더 그레이트풀 캠프 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166998027"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-09-04",
+      "2026-09-05",
+      "2026-09-06"
+     ],
+     "venue": "전남 짱뚱어해수욕장 일대",
+     "posts": [
+      {
+       "title": "더그레이트풀캠프 2026 - 1차 라인업 및 티켓오픈",
+       "kind": "1차 라인업 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171513298"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "더글로우": {
+   "name": "더 글로우 The Glow",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-03-29",
+      "2025-03-30"
+     ],
+     "venue": "고양 킨텍스",
+     "posts": [
+      {
+       "title": "더 글로우 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=152252409"
+      },
+      {
+       "title": "더 글로우 2025 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=148485956"
+      },
+      {
+       "title": "THE GLOW 더 글로우 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=142099976"
+      },
+      {
+       "title": "더 글로우 2025 개최 발표",
+       "kind": "개최 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=137073894"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-03-21",
+      "2026-03-22"
+     ],
+     "venue": "고양 킨텍스",
+     "posts": [
+      {
+       "title": "더 글로우 The Glow 2026 - 라인업 및 티켓오픈",
+       "kind": "라인업 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169694554"
+      },
+      {
+       "title": "더 글로우 THE GLOW 2026 개최 발표",
+       "kind": "개최 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169286039"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "더브릿지페스티벌": {
+   "name": "더 브릿지 페스티벌",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-10-10",
+      "2026-10-11"
+     ],
+     "venue": "성수일대",
+     "posts": [
+      {
+       "title": "더 브릿지 페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=174662290"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "더플러드1차": {
+   "name": "THE FLOOD 더 플러드- 1차",
+   "editions": {
+    "2026": {
+     "dates": [],
+     "venue": "서울대 파워플랜트",
+     "posts": [
+      {
+       "title": "THE FLOOD 2026 더 플러드- 1차 라인업",
+       "kind": "라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171597855"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "동두천락페스티벌": {
+   "name": "동두천 락 페스티벌",
+   "editions": {
+    "2022": {
+     "dates": [],
+     "venue": "소요산 입구 광장 특설무대",
+     "posts": [
+      {
+       "title": "동두천 락 페스티벌 2022",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12787342"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "라우드브릿지페스티벌": {
+   "name": "라우드 브릿지 페스티벌",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-04-13",
+      "2024-04-14"
+     ],
+     "venue": "예스24 라이브홀",
+     "posts": [
+      {
+       "title": "라우드 브릿지 페스티벌 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=18018448"
+      },
+      {
+       "title": "라우드 브릿지 페스티벌 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=17537535"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-04-12",
+      "2025-04-13"
+     ],
+     "venue": "예스24 라이브홀",
+     "posts": [
+      {
+       "title": "라우드 브릿지 페스티벌 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=145514897"
+      },
+      {
+       "title": "LOUD BRIDGE FESTIVAL SEOUL 라우드 브릿지 페스티벌 2025 - 개최 발표",
+       "kind": "개최 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=142876924"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-04-11",
+      "2026-04-12"
+     ],
+     "venue": "예스24 라이브홀",
+     "posts": [
+      {
+       "title": "라우드 브릿지 페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169365935"
+      },
+      {
+       "title": "라우드 브릿지 페스티벌 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=168478147"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "랩비트": {
+   "name": "RAPBEAT 랩비트",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-06-20",
+      "2026-06-21"
+     ],
+     "venue": "문화비축기지",
+     "posts": [
+      {
+       "title": "RAPBEAT 랩비트 2026 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170369727"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "랩비트페스티벌": {
+   "name": "랩비트 페스티벌",
+   "editions": {
+    "2021": {
+     "dates": [],
+     "venue": "추후공지",
+     "posts": [
+      {
+       "title": "랩비트 페스티벌 2021",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=6882910"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2022": {
+     "dates": [
+      "2022-09-03",
+      "2022-09-04"
+     ],
+     "venue": "서울랜드",
+     "posts": [
+      {
+       "title": "랩비트 페스티벌 2022 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11807938"
+      },
+      {
+       "title": "랩비트 페스티벌 2022 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11337240"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2023": {
+     "dates": [
+      "2023-09-02",
+      "2023-09-03"
+     ],
+     "venue": "서울랜드",
+     "posts": [
+      {
+       "title": "랩비트 페스티벌 2023 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15642054"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "러브썸": {
+   "name": "러브썸 LOVESOME",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-04-26",
+      "2025-04-27"
+     ],
+     "venue": "난지한강공원",
+     "posts": [
+      {
+       "title": "러브썸 LOVESOME 2025 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=156562437"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "러브썸페스티벌": {
+   "name": "러브썸 페스티벌",
+   "editions": {
+    "2022": {
+     "dates": [
+      "2022-09-17",
+      "2022-09-18"
+     ],
+     "venue": "연세대학교 노천극장",
+     "posts": [
+      {
+       "title": "러브썸 페스티벌 2022 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12335122"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2023": {
+     "dates": [
+      "2023-04-22",
+      "2023-04-23"
+     ],
+     "venue": "잠실 올림픽주경기장",
+     "posts": [
+      {
+       "title": "러브썸 페스티벌 2023 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=14447804"
+      },
+      {
+       "title": "러브썸 페스티벌 2023 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=14319678"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "러브인서울": {
+   "name": "LOVE IN SEOUL 러브 인 서울",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-11-13",
+      "2024-11-14",
+      "2024-11-15",
+      "2024-11-16",
+      "2024-11-17",
+      "2024-11-18",
+      "2024-11-19",
+      "2024-11-20",
+      "2024-11-21",
+      "2024-11-22",
+      "2024-11-23",
+      "2024-11-24"
+     ],
+     "venue": "블루스퀘어 마스터카드홀",
+     "posts": [
+      {
+       "title": "LOVE IN SEOUL 러브 인 서울 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=117840546"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "러브칩스페스티벌": {
+   "name": "러브칩스 페스티벌",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-09-28",
+      "2024-09-29"
+     ],
+     "venue": "인천 상상플랫폼 야외광장",
+     "posts": [
+      {
+       "title": "러브칩스 페스티벌 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=98202542"
+      },
+      {
+       "title": "러브칩스 페스티벌 2024 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=42991426"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-09-06",
+      "2025-09-07"
+     ],
+     "venue": "인천 상상플랫폼 야외광장",
+     "posts": [
+      {
+       "title": "러브칩스 페스티벌 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167228420"
+      },
+      {
+       "title": "러브칩스 페스티벌 2025 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166632851"
+      },
+      {
+       "title": "러브칩스 페스티벌 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=164487307"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "렛츠락페스티벌": {
+   "name": "렛츠락페스티벌",
+   "editions": {
+    "2022": {
+     "dates": [
+      "2022-09-24",
+      "2022-09-25"
+     ],
+     "venue": "난지한강공원",
+     "posts": [
+      {
+       "title": "렛츠락 페스티벌 2022 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12612817"
+      },
+      {
+       "title": "렛츠락 페스티벌 2022 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12488092"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2023": {
+     "dates": [
+      "2023-09-02",
+      "2023-09-03"
+     ],
+     "venue": "난지한강공원",
+     "posts": [
+      {
+       "title": "렛츠락 페스티벌 2023 - 4차 라인업",
+       "kind": "4차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15772785"
+      },
+      {
+       "title": "렛츠락 페스티벌 2023 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15691401"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-09-06",
+      "2025-09-07"
+     ],
+     "venue": "난지한강공원",
+     "posts": [
+      {
+       "title": "렛츠락 페스티벌 2025 - 4차 라인업(KEEP ON BURNING)",
+       "kind": "4차 라인업(KEEP ON BURNING)",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166439848"
+      },
+      {
+       "title": "렛츠락 페스티벌 2025 - 3차 라인업(Broken The Stage)",
+       "kind": "3차 라인업(Broken The Stage)",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=165302730"
+      },
+      {
+       "title": "렛츠락 페스티벌 2025 - 2차 라인업(We Are Rockstars)",
+       "kind": "2차 라인업(We Are Rockstars)",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=164424172"
+      },
+      {
+       "title": "렛츠락 페스티벌 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=164198524"
+      },
+      {
+       "title": "렛츠락 페스티벌 2025 - 개최 일정",
+       "kind": "개최 일정",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=162396875"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-10-03",
+      "2026-10-04"
+     ],
+     "venue": "난지한강공원",
+     "posts": [
+      {
+       "title": "렛츠락페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173180791"
+      },
+      {
+       "title": "렛츠락페스티벌 2026 - 2차 요일별 라인업",
+       "kind": "2차 요일별 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172861237"
+      },
+      {
+       "title": "렛츠락페스티벌 2026 - 요일별 라인업",
+       "kind": "요일별 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172706960"
+      },
+      {
+       "title": "렛츠락페스티벌 2026 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172694853"
+      },
+      {
+       "title": "렛츠락페스티벌 2026 - 1차 라인업 및 얼리버드 티켓오픈",
+       "kind": "1차 라인업 및 얼리버드 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172555341"
+      },
+      {
+       "title": "렛츠락 페스티벌 2026 - 개최 일정 발표",
+       "kind": "개최 일정 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171856968"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "로킹온소닉": {
+   "name": "로킹온소닉 rockin'on sonic",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-01-04"
+     ],
+     "venue": "도쿄 마쿠하리 멧세",
+     "posts": [
+      {
+       "title": "로킹온소닉 rockin'on sonic 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167473894"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "리스펙페스티벌": {
+   "name": "리스펙 페스티벌",
+   "editions": {
+    "2022": {
+     "dates": [
+      "2022-08-27",
+      "2022-08-28"
+     ],
+     "venue": "올림픽공원 88잔디마당",
+     "posts": [
+      {
+       "title": "리스펙 페스티벌 2022 - 최종 라인업 및 할인 티켓",
+       "kind": "최종 라인업 및 할인 티켓",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12135377"
+      },
+      {
+       "title": "리스펙 페스티벌 2022 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11897022"
+      },
+      {
+       "title": "리스펙 페스티벌 2022 - 개최 및 일정 공개",
+       "kind": "개최 및 일정 공개",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11854757"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "매들리메들리": {
+   "name": "매들리 메들리",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-10-18",
+      "2025-10-19"
+     ],
+     "venue": "파라다이스시티",
+     "posts": [
+      {
+       "title": "매들리 메들리 2025 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167687773"
+      },
+      {
+       "title": "매들리 메들리 2025 - 헤드라이너 G-DRAGON",
+       "kind": "헤드라이너 G-DRAGON",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166884668"
+      },
+      {
+       "title": "매들리 메들리 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166708900"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-09-05",
+      "2026-09-06"
+     ],
+     "venue": "문화비축기지",
+     "posts": [
+      {
+       "title": "매들리 메들리 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173080936"
+      },
+      {
+       "title": "매들리 메들리 2026 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172716381"
+      },
+      {
+       "title": "Madly Medley 매들리 메들리 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172142212"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "메가필드페스티벌": {
+   "name": "메가필드 페스티벌",
+   "editions": {
+    "2022": {
+     "dates": [
+      "2022-09-03",
+      "2022-09-04"
+     ],
+     "venue": "연세대학교 노천극장",
+     "posts": [
+      {
+       "title": "메가필드 페스티벌 2022",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12605196"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "뮤즈온데이": {
+   "name": "뮤즈온 데이",
+   "editions": {
+    "2022": {
+     "dates": [],
+     "venue": "",
+     "posts": [
+      {
+       "title": "2022 뮤즈온 데이",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12953255"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "뮤직플로우페스티벌": {
+   "name": "뮤직 플로우 페스티벌",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-08-30",
+      "2024-08-31"
+     ],
+     "venue": "부평 아트센터 야외광장, 달누리극장",
+     "posts": [
+      {
+       "title": "뮤직 플로우 페스티벌 2024",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=87380524"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-08-29",
+      "2025-08-30"
+     ],
+     "venue": "부평아트센터 해누리극장 및 야외광장",
+     "posts": [
+      {
+       "title": "2025 뮤직 플로우 페스티벌 (MUSIC FLOW FESTIVAL)",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167267208"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-08-29"
+     ],
+     "venue": "부평아트센터 야외광장 일대",
+     "posts": [
+      {
+       "title": "2026 뮤직 플로우 페스티벌",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173022432"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "버저비트페스티벌": {
+   "name": "버저비트 페스티벌",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-04-13",
+      "2024-04-14"
+     ],
+     "venue": "KBS아레나, 제 2체육관",
+     "posts": [
+      {
+       "title": "버저비트 페스티벌 2024",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=18317235"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-03-01",
+      "2025-03-02"
+     ],
+     "venue": "KBS 아레나",
+     "posts": [
+      {
+       "title": "버저비트 페스티벌 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=150316779"
+      },
+      {
+       "title": "버저비트 페스티벌 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=148486357"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "벡터페스티벌": {
+   "name": "벡터 페스티벌",
+   "editions": {
+    "2022": {
+     "dates": [],
+     "venue": "대구 종합경기장",
+     "posts": [
+      {
+       "title": "벡터 페스티벌 2022",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12837129"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "벨포레위크": {
+   "name": "벨포레위크",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-06-06"
+     ],
+     "venue": "벨포레리조트 모토아레나",
+     "posts": [
+      {
+       "title": "벨포레위크 2026 - 추가 라인업",
+       "kind": "추가 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171267482"
+      },
+      {
+       "title": "벨포레위크 2026 - 개최 발표 및 라인업 공개",
+       "kind": "개최 발표 및 라인업 공개",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170792374"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "부산국제락페스티벌": {
+   "name": "부산 국제 록 페스티벌",
+   "editions": {
+    "2021": {
+     "dates": [
+      "2021-10-02"
+     ],
+     "venue": "부산 삼락생태공원, 온라인 중계",
+     "posts": [
+      {
+       "title": "부산국제록페스티벌 2021 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=8012250"
+      },
+      {
+       "title": "부산국제록페스티벌 2021 온오프 축소 개최",
+       "kind": "온오프 축소 개최",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=7976239"
+      },
+      {
+       "title": "부산국제록페스티벌 2021 개최 일정 및 장소 공개!",
+       "kind": "개최 일정 및 장소 공개!",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=7019490"
+      },
+      {
+       "title": "부산국제록페스티벌 2021 개최 소식",
+       "kind": "개최 소식",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=6788843"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2022": {
+     "dates": [
+      "2022-10-01",
+      "2022-10-02"
+     ],
+     "venue": "삼락생태공원",
+     "posts": [
+      {
+       "title": "부산 국제 록 페스티벌 2022 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12783796"
+      },
+      {
+       "title": "부산 국제 록 페스티벌 2022 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12688621"
+      },
+      {
+       "title": "부산 국제 록 페스티벌 2022 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12488930"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2023": {
+     "dates": [
+      "2023-10-07",
+      "2023-10-08"
+     ],
+     "venue": "부산 삼락생태공원",
+     "posts": [
+      {
+       "title": "부산 국제 록 페스티벌 2023 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=16387918"
+      },
+      {
+       "title": "부산 국제 록 페스티벌 2023 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=16304381"
+      },
+      {
+       "title": "부산 국제 록 페스티벌 2023 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15999932"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [
+      "2024-10-04",
+      "2024-10-05",
+      "2024-10-06"
+     ],
+     "venue": "부산 삼락생태공원",
+     "posts": [
+      {
+       "title": "부산국제록페스티벌 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=100421976"
+      },
+      {
+       "title": "부산국제록페스티벌 2024 - 5차 라인업",
+       "kind": "5차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=87249678"
+      },
+      {
+       "title": "부산국제록페스티벌 2024 - 4차 라인업",
+       "kind": "4차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=69619288"
+      },
+      {
+       "title": "부산국제록페스티벌 2024 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=46694415"
+      },
+      {
+       "title": "부산국제록페스티벌 2024 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=37467315"
+      },
+      {
+       "title": "부산국제록페스티벌 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=24936347"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-09-26",
+      "2025-09-27",
+      "2025-09-28"
+     ],
+     "venue": "부산 삼락생태공원",
+     "posts": [
+      {
+       "title": "부산국제록페스티벌 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167504602"
+      },
+      {
+       "title": "부산국제록페스티벌 2025 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167189919"
+      },
+      {
+       "title": "부산 국제 록 페스티벌 2025 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=165662631"
+      },
+      {
+       "title": "부산 국제 록 페스티벌 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=163722143"
+      },
+      {
+       "title": "부산국제록페스티벌 2025 - 개최 일정 발표",
+       "kind": "개최 일정 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=151989595"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-10-02",
+      "2026-10-03",
+      "2026-10-04"
+     ],
+     "venue": "삼락생태공원",
+     "posts": [
+      {
+       "title": "부산 국제 록 페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173720995"
+      },
+      {
+       "title": "부산 국제 록 페스티벌 2026 - 2차 라인업 및 2차 얼리버드 할인 티켓",
+       "kind": "2차 라인업 및 2차 얼리버드 할인 티켓",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172469538"
+      },
+      {
+       "title": "부산 국제 록 페스티벌 2026 - 1차 라인업 및 얼리버드 티켓오픈",
+       "kind": "1차 라인업 및 얼리버드 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171875869"
+      },
+      {
+       "title": "부산국제록페스티벌 2026 - 개최일 발표",
+       "kind": "개최일 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170377684"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "뷰티풀민트라이프": {
+   "name": "뷰티풀민트라이프",
+   "editions": {
+    "2021": {
+     "dates": [],
+     "venue": "",
+     "posts": [
+      {
+       "title": "뷰티풀 민트 라이프 2021 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=6788835"
+      },
+      {
+       "title": "뷰티풀 민트 라이프 2021 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=6766370"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2022": {
+     "dates": [
+      "2022-05-14",
+      "2022-05-15"
+     ],
+     "venue": "올림픽공원",
+     "posts": [
+      {
+       "title": "뷰티풀 민트 라이프 2022 추가 일정 전야제",
+       "kind": "추가 일정 전야제",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11270527"
+      },
+      {
+       "title": "뷰티풀 민트 라이프 2022 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11161043"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2023": {
+     "dates": [
+      "2023-05-13",
+      "2023-05-14"
+     ],
+     "venue": "올림픽공원",
+     "posts": [
+      {
+       "title": "뷰티풀 민트 라이프 2023 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=14750972"
+      },
+      {
+       "title": "뷰티풀 민트 라이프 2023 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=14305582"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [
+      "2024-05-11",
+      "2024-05-12"
+     ],
+     "venue": "올림픽공원",
+     "posts": [
+      {
+       "title": "뷰티풀 민트 라이프 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=19263409"
+      },
+      {
+       "title": "뷰티풀 민트 라이프 2024 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=18435119"
+      },
+      {
+       "title": "뷰티풀 민트 라이프 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=18125296"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-06-13",
+      "2025-06-14",
+      "2025-06-15"
+     ],
+     "venue": "올림픽공원",
+     "posts": [
+      {
+       "title": "뷰티풀 민트 라이프 2025 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=161703034"
+      },
+      {
+       "title": "뷰티풀 민트 라이프 2025 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=158746226"
+      },
+      {
+       "title": "뷰티풀 민트 라이프 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=154473492"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-05-30",
+      "2026-05-31"
+     ],
+     "venue": "서울 문화비축기지",
+     "posts": [
+      {
+       "title": "뷰티풀민트라이프 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170984423"
+      },
+      {
+       "title": "뷰티풀 민트 라이프 2026 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170369219"
+      },
+      {
+       "title": "뷰티풀민트라이프 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169996758"
+      },
+      {
+       "title": "뷰티풀 민트 라이프 2026 - 개최 공지(장소 변경)",
+       "kind": "개최 공지(장소 변경)",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169615916"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "블락파티페스티벌": {
+   "name": "블록파티 페스티벌",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-09-20",
+      "2025-09-21"
+     ],
+     "venue": "해방촌 일대 실내 공연장",
+     "posts": [
+      {
+       "title": "블록파티 페스티벌 2025",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167630184"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "사운드베리페스티벌": {
+   "name": "사운드베리 페스타",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-07-18",
+      "2026-07-19"
+     ],
+     "venue": "킨텍스",
+     "posts": [
+      {
+       "title": "사운드베리 페스타 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171752070"
+      },
+      {
+       "title": "사운드베리 페스타 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170969803"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "사운드플래닛페스티벌": {
+   "name": "사운드 플래닛 페스티벌",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-09-13",
+      "2025-09-14"
+     ],
+     "venue": "파라다이스 시티",
+     "posts": [
+      {
+       "title": "사운드 플래닛 페스티벌 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167092097"
+      },
+      {
+       "title": "사운드 플래닛 페스티벌 2025 - 4차 라인업",
+       "kind": "4차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166626146"
+      },
+      {
+       "title": "사운드 플래닛 페스티벌 2025 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166439916"
+      },
+      {
+       "title": "사운드 플래닛 페스티벌 2025 - 2.5차 라인업",
+       "kind": "2.5차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=164644102"
+      },
+      {
+       "title": "사운드 플래닛 페스티벌 2025 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=164056965"
+      },
+      {
+       "title": "사운드 플래닛 페스티벌 2025 - 개최 발표",
+       "kind": "개최 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=161280839"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-09-05",
+      "2026-09-06"
+     ],
+     "venue": "파라다이스 시티",
+     "posts": [
+      {
+       "title": "사운드 플래닛 페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172933003"
+      },
+      {
+       "title": "사운드 플래닛 페스티벌 2026 - 추가 라인업",
+       "kind": "추가 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171942599"
+      },
+      {
+       "title": "사운드 플래닛 페스티벌 2026 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171495218"
+      },
+      {
+       "title": "사운드 플래닛 페스티벌 2026 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171046347"
+      },
+      {
+       "title": "사운드 플래닛 페스티벌 2026 - 1.5차 라인업 및 2차 할인 티켓",
+       "kind": "1.5차 라인업 및 2차 할인 티켓",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170897921"
+      },
+      {
+       "title": "사운드 플래닛 페스티벌 2026 - 1차 라인업 및 얼리버드 티켓",
+       "kind": "1차 라인업 및 얼리버드 티켓",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170311961"
+      },
+      {
+       "title": "사운드 플래닛 페스티벌 2026 - 개최 발표",
+       "kind": "개최 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170147284"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "상상실현페스티벌": {
+   "name": "상상실현 페스티벌",
+   "editions": {
+    "2022": {
+     "dates": [],
+     "venue": "상상마당 춘천",
+     "posts": [
+      {
+       "title": "2022 상상실현 페스티벌",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11359173"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-08-23"
+     ],
+     "venue": "KT&G 상상마당 부산",
+     "posts": [
+      {
+       "title": "2025 KT&G 상상실현 페스티벌 BUSAN",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167257190"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-04-11",
+      "2026-04-12"
+     ],
+     "venue": "KT&G 상상마당 춘천 아트센터",
+     "posts": [
+      {
+       "title": "2026 상상실현 페스티벌 - 개최 발표",
+       "kind": "개최 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169636619"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "서울숲재즈페스티벌": {
+   "name": "서울숲재즈페스티벌",
+   "editions": {
+    "2021": {
+     "dates": [
+      "2021-10-30",
+      "2021-10-31"
+     ],
+     "venue": "서울숲",
+     "posts": [
+      {
+       "title": "서울숲 재즈페스티벌 2021 - 일정 변경",
+       "kind": "일정 변경",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=8241938"
+      },
+      {
+       "title": "서울숲재즈페스티벌 2021 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=7995515"
+      },
+      {
+       "title": "서울 숲 재즈 페스티벌 2021",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=7709869"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2023": {
+     "dates": [
+      "2023-09-23",
+      "2023-09-24"
+     ],
+     "venue": "서울숲",
+     "posts": [
+      {
+       "title": "서울숲재즈페스티벌 2023 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=16250000"
+      },
+      {
+       "title": "서울숲재즈페스티벌 2023 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15854595"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-09-19",
+      "2025-09-20",
+      "2025-09-21"
+     ],
+     "venue": "서울숲",
+     "posts": [
+      {
+       "title": "서울숲재즈페스티벌 2025 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167257171"
+      },
+      {
+       "title": "서울숲재즈페스티벌 2025 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166439966"
+      },
+      {
+       "title": "서울숲재즈페스티벌 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=165785569"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "서울어쿠스틱": {
+   "name": "서울 어쿠스틱",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-09-05",
+      "2024-09-06"
+     ],
+     "venue": "KT&G 상상마당 라이브홀",
+     "posts": [
+      {
+       "title": "서울 어쿠스틱 2024",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=59170240"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "서울재즈페스티벌": {
+   "name": "서울 재즈 페스티벌",
+   "editions": {
+    "2022": {
+     "dates": [],
+     "venue": "올림픽공원 88잔디마당",
+     "posts": [
+      {
+       "title": "서울재즈페스티벌 2022 라인업 공개",
+       "kind": "라인업 공개",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11214925"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2023": {
+     "dates": [
+      "2023-05-26",
+      "2023-05-27",
+      "2023-05-28"
+     ],
+     "venue": "올림픽공원 일대",
+     "posts": [
+      {
+       "title": "서울재즈페스티벌 2023 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=14592821"
+      },
+      {
+       "title": "서울재즈페스티벌 2023 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=14411261"
+      },
+      {
+       "title": "서울재즈페스티벌 2023 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=14182830"
+      },
+      {
+       "title": "서울재즈페스티벌 2023 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=13958880"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [
+      "2024-05-31",
+      "2024-06-01",
+      "2024-06-02"
+     ],
+     "venue": "올림픽공원",
+     "posts": [
+      {
+       "title": "서울 재즈 페스티벌 2024 - 5차 라인업",
+       "kind": "5차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=19207889"
+      },
+      {
+       "title": "서울 재즈 페스티벌 2024 - 4차 라인업",
+       "kind": "4차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=18556078"
+      },
+      {
+       "title": "서울 재즈 페스티벌 2024 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=18202294"
+      },
+      {
+       "title": "서울 재즈 페스티벌 2024 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=17840645"
+      },
+      {
+       "title": "서울 재즈 페스티벌 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=17331764"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-05-30",
+      "2025-05-31",
+      "2025-06-01"
+     ],
+     "venue": "올림픽공원 일대",
+     "posts": [
+      {
+       "title": "서울재즈페스티벌 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=162458521"
+      },
+      {
+       "title": "서울재즈페스티벌 2025 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=160908195"
+      },
+      {
+       "title": "서울재즈페스티벌 2025 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=158836750"
+      },
+      {
+       "title": "서울재즈페스티벌 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=152742678"
+      },
+      {
+       "title": "서울재즈페스티벌 2025 - 개최 공지",
+       "kind": "개최 공지",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=134379886"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-05-22",
+      "2026-05-23",
+      "2026-05-24"
+     ],
+     "venue": "올림픽공원",
+     "posts": [
+      {
+       "title": "서울 재즈 페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170880124"
+      },
+      {
+       "title": "서울 재즈 페스티벌 2026 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170362514"
+      },
+      {
+       "title": "서울 재즈 페스티벌 2026 - 2차 라인업 및 1일권 티켓오픈",
+       "kind": "2차 라인업 및 1일권 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170147600"
+      },
+      {
+       "title": "서울 재즈 페스티벌 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169509369"
+      },
+      {
+       "title": "서울 재즈 페스티벌 2026 - 개최 일정",
+       "kind": "개최 일정",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169376725"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "서울파크뮤직페스티벌": {
+   "name": "서울 파크 뮤직 페스티벌",
+   "editions": {
+    "2023": {
+     "dates": [
+      "2023-06-24",
+      "2023-06-25"
+     ],
+     "venue": "올림픽공원 일대",
+     "posts": [
+      {
+       "title": "서울 파크 뮤직 페스티벌 2023 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=14988551"
+      },
+      {
+       "title": "서울 파크 뮤직 페스티벌 2023 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=14482665"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [
+      "2024-06-29",
+      "2024-06-30"
+     ],
+     "venue": "올림픽공원",
+     "posts": [
+      {
+       "title": "서울파크뮤직페스티벌 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=18389214"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-06-28",
+      "2025-06-29"
+     ],
+     "venue": "올림픽공원",
+     "posts": [
+      {
+       "title": "서울 파크 뮤직 페스티벌 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=163479902"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-06-20",
+      "2026-06-21"
+     ],
+     "venue": "올림픽공원",
+     "posts": [
+      {
+       "title": "서울 파크 뮤직 페스티벌 2026 - 1차 라인업 및 티켓오픈",
+       "kind": "1차 라인업 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170320370"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "세종보헤미안락페스티벌": {
+   "name": "세종 보헤미안 락 페스티벌",
+   "editions": {
+    "2023": {
+     "dates": [],
+     "venue": "세종중앙공원 도시축제마당",
+     "posts": [
+      {
+       "title": "세종 보헤미안 락 페스티벌 2023",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=16264831"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "세종보헤미안뮤직페스티벌": {
+   "name": "세종보헤미안뮤직페스티벌",
+   "editions": {
+    "2024": {
+     "dates": [],
+     "venue": "세종중앙공원 도시축제마당",
+     "posts": [
+      {
+       "title": "세종보헤미안 뮤직페스티벌 2024 라인업",
+       "kind": "라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=38881808"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-10-24",
+      "2025-10-25",
+      "2025-10-26"
+     ],
+     "venue": "세종중앙공원 도시축제마당",
+     "posts": [
+      {
+       "title": "세종보헤미안뮤직페스티벌 2025",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166934119"
+      },
+      {
+       "title": "세종보헤미안뮤직페스티벌 2025 - 개최 발표",
+       "kind": "개최 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=155865896"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-10-30",
+      "2026-10-31",
+      "2026-11-01"
+     ],
+     "venue": "세종중앙공원 도시축제마당",
+     "posts": [
+      {
+       "title": "세종보헤미안뮤직페스티벌 2026 - 라인업 및 얼리버드",
+       "kind": "라인업 및 얼리버드",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172842015"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "세종보헤미안스테이지": {
+   "name": "세종 보헤미안 스테이지",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-06-27",
+      "2026-06-28"
+     ],
+     "venue": "세종예술의전당",
+     "posts": [
+      {
+       "title": "세종 보헤미안 스테이지 2026 - 추가 일정 라인업 발표",
+       "kind": "추가 일정 라인업 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171515326"
+      },
+      {
+       "title": "세종 보헤미안 스테이지 2026 - 라인업 발표 및 공연 개요",
+       "kind": "라인업 발표 및 공연 개요",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171086294"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "슬로우라이프슬로우라이브": {
+   "name": "슬로우 라이프 슬로우 라이브",
+   "editions": {
+    "2022": {
+     "dates": [
+      "2022-10-08",
+      "2022-10-09",
+      "2022-10-10"
+     ],
+     "venue": "올림픽공원 88잔디마당",
+     "posts": [
+      {
+       "title": "﻿슬로우 라이프 슬로우 라이브 2022 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12411343"
+      },
+      {
+       "title": "슬로우 라이프 슬로우 라이브 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11982797"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2023": {
+     "dates": [
+      "2023-10-07",
+      "2023-10-08",
+      "2023-10-09"
+     ],
+     "venue": "올림픽공원 88잔디마당",
+     "posts": [
+      {
+       "title": "슬로우 라이프 슬로우 라이브 2023",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=16177393"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [
+      "2024-10-11",
+      "2024-10-12",
+      "2024-10-13"
+     ],
+     "venue": "올림픽공원",
+     "posts": [
+      {
+       "title": "슬로우 라이프 슬로우 라이브 2024 - 1차 라인업 (슬라슬라)",
+       "kind": "1차 라인업 (슬라슬라)",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=88004823"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "아시안팝페스티벌": {
+   "name": "아시안 팝 페스티벌",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-06-22",
+      "2024-06-23"
+     ],
+     "venue": "인천 파라다이스 시티",
+     "posts": [
+      {
+       "title": "아시안 팝 페스티벌 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=22354335"
+      },
+      {
+       "title": "아시안 팝 페스티벌 2024 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=19474869"
+      },
+      {
+       "title": "아시안 팝 페스티벌 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=18989343"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-06-21",
+      "2025-06-22"
+     ],
+     "venue": "인천 파라다이스 시티",
+     "posts": [
+      {
+       "title": "아시안 팝 페스티벌 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=164110416"
+      },
+      {
+       "title": "아시안 팝 페스티벌 2025 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=163065279"
+      },
+      {
+       "title": "아시안 팝 페스티벌 2025 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=160907715"
+      },
+      {
+       "title": "아시안 팝 페스티벌 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=156505802"
+      },
+      {
+       "title": "아시안 팝 페스티벌 2025 - 개최 발표",
+       "kind": "개최 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=143486074"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [],
+     "venue": "인천 파라다이스시티",
+     "posts": [
+      {
+       "title": "아시안 팝 페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170860628"
+      },
+      {
+       "title": "아시안 팝 페스티벌 2026 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170430253"
+      },
+      {
+       "title": "아시안 팝 페스티벌 2026 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170013168"
+      },
+      {
+       "title": "아시안 팝 페스티벌 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169634240"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "아트포레스트페스티벌": {
+   "name": "아트 포레스트 페스티벌",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-10-05"
+     ],
+     "venue": "올림픽공원 88 잔디마당",
+     "posts": [
+      {
+       "title": "아트 포레스트 페스티벌 2024",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=81183925"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "어스어스페스티벌": {
+   "name": "어스어스 페스티벌",
+   "editions": {
+    "2023": {
+     "dates": [
+      "2023-08-12",
+      "2023-08-13"
+     ],
+     "venue": "부산 다대포해수욕장",
+     "posts": [
+      {
+       "title": "어스어스 페스티벌 2023 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15368662"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "어썸뮤직페스티벌": {
+   "name": "어썸 뮤직 페스티벌",
+   "editions": {
+    "2022": {
+     "dates": [
+      "2022-10-22",
+      "2022-10-23"
+     ],
+     "venue": "난지 한강공원",
+     "posts": [
+      {
+       "title": "어썸 뮤직 페스티벌 2022 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12861620"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "여우락페스티벌": {
+   "name": "여우락 페스티벌",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-07-04"
+     ],
+     "venue": "국립극장 달오름, 하늘, 문화광장",
+     "posts": [
+      {
+       "title": "2024 여우락 페스티벌",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=24674758"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [],
+     "venue": "국립극장 하늘극장",
+     "posts": [
+      {
+       "title": "2025 여우락 페스티벌",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=164405978"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "영희페스티벌": {
+   "name": "영희 페스티벌",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-06-12",
+      "2026-06-13",
+      "2026-06-14"
+     ],
+     "venue": "마포아트센터 (아트홀맥, 플레이맥, 갤러리맥, 야외광장)",
+     "posts": [
+      {
+       "title": "영희 페스티벌",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171399797"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "오피시디스테이지": {
+   "name": "OPCD STAGE: Universe (오피시디 스테이지)",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-10-10"
+     ],
+     "venue": "서울시 도봉구 창동역 1번 출구",
+     "posts": [
+      {
+       "title": "2026 OPCD STAGE: Universe (오피시디 스테이지)",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173955665"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "울트라코리아": {
+   "name": "울트라코리아",
+   "editions": {
+    "2022": {
+     "dates": [
+      "2022-09-24",
+      "2022-09-25"
+     ],
+     "venue": "서울",
+     "posts": [
+      {
+       "title": "울트라 코리아 2022 - 개최 발표",
+       "kind": "개최 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12489493"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [
+      "2024-06-07",
+      "2024-06-08",
+      "2024-06-09"
+     ],
+     "venue": "인천 파라다이스 시티",
+     "posts": [
+      {
+       "title": "울트라 코리아 2024 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=20510795"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-09-20"
+     ],
+     "venue": "문화비축기지",
+     "posts": [
+      {
+       "title": "울트라코리아 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167474241"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "원더리벳": {
+   "name": "원더리벳",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-11-08",
+      "2024-11-09",
+      "2024-11-10"
+     ],
+     "venue": "킨텍스",
+     "posts": [
+      {
+       "title": "원더리벳 wonderlivet 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=122277481"
+      },
+      {
+       "title": "원더리벳 2024 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=89095601"
+      },
+      {
+       "title": "원더리벳 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=54346571"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-11-14",
+      "2025-11-15",
+      "2025-11-16"
+     ],
+     "venue": "킨텍스",
+     "posts": [
+      {
+       "title": "원더리벳 WonderLivet 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167956562"
+      },
+      {
+       "title": "원더리벳 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167286412"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2025-11-20",
+      "2025-11-21",
+      "2025-11-22"
+     ],
+     "venue": "킨텍스",
+     "posts": [
+      {
+       "title": "원더리벳 2026 - 라인업 공개 및 티켓오픈",
+       "kind": "라인업 공개 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173490194"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "원유니버스페스티벌": {
+   "name": "원유니버스페스티벌",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-08-15",
+      "2025-08-16"
+     ],
+     "venue": "서울대공원 주차광장",
+     "posts": [
+      {
+       "title": "원 유니버스 페스티벌 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166439782"
+      },
+      {
+       "title": "원 유니버스 페스티벌 2025 - Charli xcx 발표",
+       "kind": "Charli xcx 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=165564678"
+      },
+      {
+       "title": "원 유니버스 페스티벌 2025 - Charlie Puth 찰리 푸스",
+       "kind": "Charlie Puth 찰리 푸스",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=164669632"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-07-25",
+      "2026-07-26"
+     ],
+     "venue": "파라다이스시티",
+     "posts": [
+      {
+       "title": "원유니버스페스티벌 2026 - 최종 라인업 및 티켓가 조정",
+       "kind": "최종 라인업 및 티켓가 조정",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172338349"
+      },
+      {
+       "title": "원유니버스페스티벌 2026 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171618918"
+      },
+      {
+       "title": "원유니버스페스티벌 2026 - 스페셜 라인업",
+       "kind": "스페셜 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171513812"
+      },
+      {
+       "title": "원유니버스페스티벌 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171296140"
+      },
+      {
+       "title": "원 유니버스 페스티벌 2026 - 헤드라이너 공개 및 티켓오픈",
+       "kind": "헤드라이너 공개 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171241278"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "월드디제이페스티벌": {
+   "name": "월드 디제이 페스티벌",
+   "editions": {
+    "2021": {
+     "dates": [
+      "2021-10-09",
+      "2021-10-10",
+      "2021-10-11"
+     ],
+     "venue": "장충체육관",
+     "posts": [
+      {
+       "title": "월드 디제이 페스티벌 2021 - 오프라인 취소 및 온라인 전환",
+       "kind": "오프라인 취소 및 온라인 전환",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=8241941"
+      },
+      {
+       "title": "월드 디제이 페스티벌 2021",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=7709787"
+      },
+      {
+       "title": "월드 디제이 페스티벌 2021 개최",
+       "kind": "개최",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=7662990"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2023": {
+     "dates": [
+      "2023-06-02",
+      "2023-06-03",
+      "2023-06-04"
+     ],
+     "venue": "영화의전당",
+     "posts": [
+      {
+       "title": "월드 디제이 페스티벌 2023 - 부산",
+       "kind": "부산",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=14676914"
+      },
+      {
+       "title": "월드 디제이 페스티벌 2023 - 전체 라인업",
+       "kind": "전체 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=14469804"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [
+      "2024-06-15",
+      "2024-06-16"
+     ],
+     "venue": "서울랜드",
+     "posts": [
+      {
+       "title": "월드 디제이 페스티벌 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=21626240"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-06-14",
+      "2025-06-15"
+     ],
+     "venue": "서울랜드",
+     "posts": [
+      {
+       "title": "월드 디제이 페스티벌 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=162803298"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-06-13",
+      "2026-06-14"
+     ],
+     "venue": "서울랜드",
+     "posts": [
+      {
+       "title": "월드 디제이 페스티벌 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170570878"
+      },
+      {
+       "title": "월드 디제이 페스티벌 2026 - 20주년 개최 일정 발표",
+       "kind": "20주년 개최 일정 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169344095"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "이슬라이브페스티벌": {
+   "name": "이슬라이브 페스티벌",
+   "editions": {
+    "2023": {
+     "dates": [
+      "2023-09-02"
+     ],
+     "venue": "경기도 가평군 자라섬 중도",
+     "posts": [
+      {
+       "title": "2023 이슬라이브 페스티벌 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=16038120"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "인천펜타포트락페스티벌": {
+   "name": "인천 펜타포트 락 페스티벌",
+   "editions": {
+    "2021": {
+     "dates": [
+      "2021-10-09",
+      "2021-10-10"
+     ],
+     "venue": "",
+     "posts": [
+      {
+       "title": "인천 펜타포트 락 페스티벌 2021 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=8006718"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=7662983"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2021 개최 일정 공개",
+       "kind": "개최 일정 공개",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=7131589"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2022": {
+     "dates": [
+      "2022-08-05",
+      "2022-08-06",
+      "2022-08-07"
+     ],
+     "venue": "인천 송도달빛축제공원",
+     "posts": [
+      {
+       "title": "인천 펜타포트 락 페스티벌 - 최종 라인업 및 타임테이블",
+       "kind": "최종 라인업 및 타임테이블",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12413868"
+      },
+      {
+       "title": "﻿인천 펜타포트 락 페스티벌 2022 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11914394"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2022 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11763683"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2022 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11593809"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2022 개최 확정",
+       "kind": "개최 확정",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11321141"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2023": {
+     "dates": [
+      "2023-08-04",
+      "2023-08-05",
+      "2023-08-06"
+     ],
+     "venue": "인천 송도달빛축제공원",
+     "posts": [
+      {
+       "title": "인천 펜타포트 락 페스티벌 2023 - 최종 및 스테이지별 라인업",
+       "kind": "최종 및 스테이지별 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15711561"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2023 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15642047"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2023 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15259401"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2023 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15132685"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [
+      "2024-08-02",
+      "2024-08-03",
+      "2024-08-04"
+     ],
+     "venue": "송도달빛축제공원",
+     "posts": [
+      {
+       "title": "인천 펜타포트 락 페스티벌 2024 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=26287348"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2024 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=22541426"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=21252162"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-08-01",
+      "2025-08-02",
+      "2025-08-03"
+     ],
+     "venue": "송도달빛축제공원",
+     "posts": [
+      {
+       "title": "인천 펜타포트 락 페스티벌 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166785383"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2025 - 4차 라인업",
+       "kind": "4차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=165572548"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2025 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=164270004"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2025 - 2차 라인업 및 일자별 라인업",
+       "kind": "2차 라인업 및 일자별 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=163925735"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=162966679"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2025 - 개최 일정",
+       "kind": "개최 일정",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=161282195"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-07-31",
+      "2026-08-01",
+      "2026-08-02"
+     ],
+     "venue": "송도달빛축제공원",
+     "posts": [
+      {
+       "title": "인천 펜타포트 락 페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172086658"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2026 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171640509"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2026 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171280119"
+      },
+      {
+       "title": "인천 펜타포트 락 페스티벌 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171191842"
+      },
+      {
+       "title": "인천펜타포트락페스티벌 2026 - 개최일 발표",
+       "kind": "개최일 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170266105"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "잇츠더쉽코리아": {
+   "name": "잇츠더쉽코리아 (IT’S THE SHIP KOREA)",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-05-23",
+      "2024-05-24",
+      "2024-05-25",
+      "2024-05-26"
+     ],
+     "venue": "코스타세레나호 / 부산 <-> 나가사키",
+     "posts": [
+      {
+       "title": "잇츠더쉽코리아 2024 (IT’S THE SHIP KOREA)",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=18425709"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "자라섬재즈페스티벌": {
+   "name": "자라섬 재즈 페스티벌",
+   "editions": {
+    "2021": {
+     "dates": [
+      "2021-11-05",
+      "2021-11-06",
+      "2021-11-07"
+     ],
+     "venue": "경기도 가평 자라섬 일대",
+     "posts": [
+      {
+       "title": "2021 자라섬재즈페스티벌 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=8151284"
+      },
+      {
+       "title": "2021 자라섬재즈페스티벌 - 일정 연기",
+       "kind": "일정 연기",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=8100494"
+      },
+      {
+       "title": "자라섬재즈페스티벌 2021 개최 일정",
+       "kind": "개최 일정",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=7081072"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2022": {
+     "dates": [
+      "2022-10-01",
+      "2022-10-02",
+      "2022-10-03"
+     ],
+     "venue": "가평 자라섬 및 가평 일대",
+     "posts": [
+      {
+       "title": "자라섬 재즈 페스티벌 2022 - 1차 라인업 및 티켓오픈",
+       "kind": "1차 라인업 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12243737"
+      },
+      {
+       "title": "자라섬 재즈 페스티벌 2022 개최",
+       "kind": "개최",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11294932"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2023": {
+     "dates": [
+      "2023-10-07",
+      "2023-10-08",
+      "2023-10-09"
+     ],
+     "venue": "경기도 가평 자라섬",
+     "posts": [
+      {
+       "title": "자라섬 재즈 페스티벌 2023 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15788224"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [
+      "2024-10-18",
+      "2024-10-19",
+      "2024-10-20"
+     ],
+     "venue": "자라섬 및 가평 일대",
+     "posts": [
+      {
+       "title": "자라섬 재즈 페스티벌 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=93035553"
+      },
+      {
+       "title": "자라섬 재즈 페스티벌 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=49931951"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-10-17",
+      "2025-10-18",
+      "2025-10-19"
+     ],
+     "venue": "경기도 가평군 자라섬 및 읍내 일대",
+     "posts": [
+      {
+       "title": "자라섬 재즈 페스티벌 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167595500"
+      },
+      {
+       "title": "자라섬 재즈 페스티벌 2025 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167460529"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-10-09",
+      "2026-10-10",
+      "2026-10-11"
+     ],
+     "venue": "자라섬 및 가평 일대",
+     "posts": [
+      {
+       "title": "자라섬 재즈 페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173415043"
+      },
+      {
+       "title": "자라섬 재즈 페스티벌 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172033342"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "잔다리페스티벌": {
+   "name": "잔다리페스타",
+   "editions": {
+    "2025": {
+     "dates": [],
+     "venue": "홍대 일대 라이브클럽",
+     "posts": [
+      {
+       "title": "잔다리페스타 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=168084932"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "전주얼티밋뮤직페스티벌": {
+   "name": "전주 얼티밋 뮤직 페스티벌",
+   "editions": {
+    "2021": {
+     "dates": [],
+     "venue": "전주 한국소리문화의전당",
+     "posts": [
+      {
+       "title": "전주얼티밋뮤직페스티벌 2021 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=8320825"
+      },
+      {
+       "title": "전주얼티밋뮤직페스티벌 2021 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=8103171"
+      },
+      {
+       "title": "전주얼티밋뮤직페스티벌 2021 개최 안내",
+       "kind": "개최 안내",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=7976229"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2022": {
+     "dates": [
+      "2022-08-26",
+      "2022-08-27",
+      "2022-08-28"
+     ],
+     "venue": "전주종합경기장",
+     "posts": [
+      {
+       "title": "전주 얼티밋 뮤직 페스티벌 2022 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12490161"
+      },
+      {
+       "title": "전주 얼티밋 뮤직 페스티벌 2022 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12400546"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2023": {
+     "dates": [
+      "2023-08-11",
+      "2023-08-12",
+      "2023-08-13"
+     ],
+     "venue": "전주 종합경기장",
+     "posts": [
+      {
+       "title": "전주 얼티밋 뮤직 페스티벌 2023 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15623170"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [],
+     "venue": "전주종합경기장",
+     "posts": [
+      {
+       "title": "전주얼티밋뮤직페스티벌 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=38870232"
+      },
+      {
+       "title": "전주얼티밋뮤직페스티벌 2024 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=30755996"
+      },
+      {
+       "title": "전주얼티밋뮤직페스티벌 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=28536061"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-08-15",
+      "2025-08-16",
+      "2025-08-17"
+     ],
+     "venue": "전북대학교 대운동장",
+     "posts": [
+      {
+       "title": "전주 얼티밋 뮤직 페스티벌 2025 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=166439888"
+      },
+      {
+       "title": "전주 얼티밋 뮤직 페스티벌 2025 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=165534776"
+      },
+      {
+       "title": "전주 얼티밋 뮤직 페스티벌 JUMF 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=164954325"
+      },
+      {
+       "title": "전주 얼티밋 뮤직 페스티벌 2025 - 개최일정 발표",
+       "kind": "개최일정 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=157526328"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-08-14",
+      "2026-08-15",
+      "2026-08-16"
+     ],
+     "venue": "전주대학교 축구장",
+     "posts": [
+      {
+       "title": "전주 얼티밋 뮤직 페스티벌 2026 - 스테이지별 라인업 및 스토리",
+       "kind": "스테이지별 라인업 및 스토리",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172543644"
+      },
+      {
+       "title": "전주 얼티밋 뮤직 페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172154152"
+      },
+      {
+       "title": "전주 얼티밋 뮤직 페스티벌 2026 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171840277"
+      },
+      {
+       "title": "전주 얼티밋 뮤직 페스티벌 JUMF 2026 - 개최 장소 발표",
+       "kind": "개최 장소 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170558728"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "제72회라이브클럽데이": {
+   "name": "제72회 라이브 클럽 데이",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-04-25"
+     ],
+     "venue": "홍대 일대 라이브클럽",
+     "posts": [
+      {
+       "title": "제72회 라이브 클럽 데이",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=161046610"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "체리블라썸뮤직페스티벌": {
+   "name": "체리블라썸 뮤직 페스티벌",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-03-29",
+      "2025-03-30"
+     ],
+     "venue": "진해공설운동장",
+     "posts": [
+      {
+       "title": "체리블라썸 뮤직 페스티벌",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=158319757"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "카운트다운판타지": {
+   "name": "카운트다운판타지",
+   "editions": {
+    "2023": {
+     "dates": [
+      "2023-12-30",
+      "2023-12-31"
+     ],
+     "venue": "킨텍스",
+     "posts": [
+      {
+       "title": "카운트다운 판타지 2023-2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=16786627"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [
+      "2024-12-30",
+      "2024-12-31"
+     ],
+     "venue": "킨텍스",
+     "posts": [
+      {
+       "title": "카운트 다운 판타지 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=130469499"
+      },
+      {
+       "title": "카운트 다운 판타지 2024 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=126716098"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-12-30",
+      "2025-12-31"
+     ],
+     "venue": "킨텍스",
+     "posts": [
+      {
+       "title": "카운트다운 판타지 2025-2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=168797761"
+      },
+      {
+       "title": "카운트다운 판타지 2025 - 1차 라인업 및 티켓오픈 안내",
+       "kind": "1차 라인업 및 티켓오픈 안내",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167956575"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-12-31"
+     ],
+     "venue": "킨텍스",
+     "posts": [
+      {
+       "title": "카운트다운판타지 26/27 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=175405499"
+      },
+      {
+       "title": "카운트다운판타지 2026-2027 - 1차 라인업 및 티켓오픈",
+       "kind": "1차 라인업 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=174978848"
+      },
+      {
+       "title": "카운트다운판타지 COUNTDOWN FANTASY 2026-2027",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=174881549"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "카운트다운판타지202320242차": {
+   "name": "카운트다운 판타지 2023-2024 2차",
+   "editions": {
+    "2023": {
+     "dates": [
+      "2023-12-30",
+      "2023-12-31"
+     ],
+     "venue": "킨텍스",
+     "posts": [
+      {
+       "title": "카운트다운 판타지 2023-2024 2차 라인업",
+       "kind": "라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=16904600"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "카운트다운판타지20232024최종": {
+   "name": "카운트다운 판타지 2023-2024 최종",
+   "editions": {
+    "2023": {
+     "dates": [
+      "2023-12-30",
+      "2023-12-31"
+     ],
+     "venue": "킨텍스",
+     "posts": [
+      {
+       "title": "카운트다운 판타지 2023-2024 최종 라인업",
+       "kind": "라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=17067767"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "통영프린지": {
+   "name": "통영프린지",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-03-22",
+      "2025-03-23"
+     ],
+     "venue": "통영 강구안 해상무대, 윤이상 기념관, 죽림 만남의광장",
+     "posts": [
+      {
+       "title": "통영프린지 2025 - 아티스트 라인업",
+       "kind": "아티스트 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=158551890"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "통영프린지페스티벌": {
+   "name": "통영프린지 페스티벌",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-03-20"
+     ],
+     "venue": "통영 시내 야외 무대 4곳",
+     "posts": [
+      {
+       "title": "2026 통영프린지 페스티벌",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170401337"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "파크뮤직페스티벌": {
+   "name": "파크 뮤직 페스티벌",
+   "editions": {
+    "2022": {
+     "dates": [],
+     "venue": "올림픽공원 88잔디마당",
+     "posts": [
+      {
+       "title": "파크 뮤직 페스티벌 2022 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=11270518"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "페스티벌": {
+   "name": "MOBBO 페스티벌",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-10-17",
+      "2026-10-18"
+     ],
+     "venue": "킨텍스",
+     "posts": [
+      {
+       "title": "MOBBO 페스티벌",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173510062"
+      },
+      {
+       "title": "NOL 페스티벌 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173188343"
+      },
+      {
+       "title": "NOL 페스티벌 - 3차 라인업",
+       "kind": "3차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173096238"
+      },
+      {
+       "title": "NOL 페스티벌 - 2차 라인업 및 티켓 응모",
+       "kind": "2차 라인업 및 티켓 응모",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=172501736"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "페스티벌더서브": {
+   "name": "FESTIVAL THE SUB 페스티벌 더 서브",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-10-11"
+     ],
+     "venue": "홍대 상상마당 앞 거리",
+     "posts": [
+      {
+       "title": "FESTIVAL THE SUB 페스티벌 더 서브 2026",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=173537771"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "페스티벌시옷": {
+   "name": "페스티벌 시옷",
+   "editions": {
+    "2022": {
+     "dates": [
+      "2022-10-21"
+     ],
+     "venue": "상상마당 부산",
+     "posts": [
+      {
+       "title": "페스티벌 시옷",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=13130510"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "피스트레인": {
+   "name": "DMZ피스트레인",
+   "editions": {
+    "2022": {
+     "dates": [
+      "2022-10-01",
+      "2022-10-02"
+     ],
+     "venue": "강원도 철원군 고석정 일대",
+     "posts": [
+      {
+       "title": "DMZ 피스트레인 2022 - 일자별 라인업",
+       "kind": "일자별 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12744327"
+      },
+      {
+       "title": "DMZ 피스트레인 2022 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12694338"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-06-12",
+      "2026-06-13",
+      "2026-06-14"
+     ],
+     "venue": "철원 고석정",
+     "posts": [
+      {
+       "title": "DMZ피스트레인 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=171240229"
+      },
+      {
+       "title": "DMZ피스트레인 2026 - 2차 라인업 및 티켓오픈",
+       "kind": "2차 라인업 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170838362"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "피스트레인뮤직페스티벌": {
+   "name": "DMZ 피스트레인 뮤직 페스티벌",
+   "editions": {
+    "2023": {
+     "dates": [
+      "2023-09-02",
+      "2023-09-03"
+     ],
+     "venue": "강원도 철원군 고석정",
+     "posts": [
+      {
+       "title": "DMZ 피스트레인 뮤직 페스티벌 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15642016"
+      },
+      {
+       "title": "DMZ 피스트레인 뮤직 페스티벌 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=15182517"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [
+      "2024-06-15",
+      "2024-06-16"
+     ],
+     "venue": "철원 고석정",
+     "posts": [
+      {
+       "title": "DMZ 피스트레인 뮤직 페스티벌 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=21114275"
+      },
+      {
+       "title": "DMZ 피스트레인 뮤직페스티벌 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=18435213"
+      },
+      {
+       "title": "DMZ 피스트레인 뮤직 페스티벌 2024 - 개최 일정",
+       "kind": "개최 일정",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=17931711"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-06-13",
+      "2025-06-14",
+      "2025-06-15"
+     ],
+     "venue": "철원 고석정",
+     "posts": [
+      {
+       "title": "DMZ 피스트레인 뮤직페스티벌 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=161108695"
+      },
+      {
+       "title": "DMZ 피스트레인 뮤직페스티벌 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=157095263"
+      },
+      {
+       "title": "DMZ 피스트레인 뮤직페스티벌 2025 - 티켓오픈 및 가격",
+       "kind": "티켓오픈 및 가격",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=152171115"
+      },
+      {
+       "title": "DMZ 피스트레인 뮤직페스티벌 2025 - 개최 일정",
+       "kind": "개최 일정",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=135391290"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-06-12",
+      "2026-06-13",
+      "2026-06-14"
+     ],
+     "venue": "철원 고석정",
+     "posts": [
+      {
+       "title": "DMZ 피스트레인 뮤직 페스티벌 - 1차 라인업 및 티켓오픈",
+       "kind": "1차 라인업 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170425174"
+      },
+      {
+       "title": "DMZ 피스트레인 뮤직페스티벌 2026 - 슬로건 발표 및 블라인드 티켓",
+       "kind": "슬로건 발표 및 블라인드 티켓",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170147806"
+      },
+      {
+       "title": "DMZ 피스트레인 뮤직페스티벌 2026 - 개최일정 발표",
+       "kind": "개최일정 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=168963595"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "피크페스티벌": {
+   "name": "피크 페스티벌",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-05-23",
+      "2026-05-24"
+     ],
+     "venue": "난지한강공원",
+     "posts": [
+      {
+       "title": "피크 페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170769098"
+      },
+      {
+       "title": "피크 페스티벌 2026 - 2차 라인업 및 티켓오픈",
+       "kind": "2차 라인업 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170243468"
+      },
+      {
+       "title": "피크 페스티벌 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169910272"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "한대음페스티벌": {
+   "name": "한대음 페스티벌",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-05-02",
+      "2025-05-03"
+     ],
+     "venue": "현대카드 언더스테이지",
+     "posts": [
+      {
+       "title": "2025 한대음 페스티벌 - 개최 및 티켓오픈",
+       "kind": "개최 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=161015546"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "해브어나이스데이": {
+   "name": "해브 어 나이스 데이",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-09-14"
+     ],
+     "venue": "KT&G 상상마당 춘천아트센터",
+     "posts": [
+      {
+       "title": "해브 어 나이스 데이 2024",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=83242625"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "해브어나이스데이#9": {
+   "name": "해브어나이스데이 #9",
+   "editions": {
+    "2023": {
+     "dates": [
+      "2023-04-15",
+      "2023-04-16"
+     ],
+     "venue": "노들섬",
+     "posts": [
+      {
+       "title": "해브어나이스데이 #9",
+       "kind": "",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=14482689"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "황금카니발": {
+   "name": "황금 카니발",
+   "editions": {
+    "2024": {
+     "dates": [
+      "2024-09-28",
+      "2024-09-29"
+     ],
+     "venue": "경주 봉황대, 중심상가 일대",
+     "posts": [
+      {
+       "title": "황금 카니발 2024 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=89128543"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "황오동카니발": {
+   "name": "황오동 카니발",
+   "editions": {
+    "2025": {
+     "dates": [
+      "2025-11-01"
+     ],
+     "venue": "",
+     "posts": [
+      {
+       "title": "황오동 카니발 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=168023544"
+      },
+      {
+       "title": "황오동 카니발 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=167806287"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "히어로락페스티벌": {
+   "name": "히어로 락 페스티벌",
+   "editions": {
+    "2026": {
+     "dates": [],
+     "venue": "문화비축기지",
+     "posts": [
+      {
+       "title": "히어로 락 페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170822381"
+      },
+      {
+       "title": "히어로 락 페스티벌 2026 - 2차 라인업 및 티켓오픈 (수량한정)",
+       "kind": "2차 라인업 및 티켓오픈 (수량한정)",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170314067"
+      },
+      {
+       "title": "히어로 락 페스티벌 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170041353"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "히어로락페스티벌인천": {
+   "name": "히어로 락 페스티벌 인천",
+   "editions": {
+    "2026": {
+     "dates": [
+      "2026-12-18",
+      "2026-12-19",
+      "2026-12-20"
+     ],
+     "venue": "송도컨벤시아",
+     "posts": [
+      {
+       "title": "히어로 락 페스티벌 2026 인천 - 2차 라인업 및 티켓오픈",
+       "kind": "2차 라인업 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=175290766"
+      },
+      {
+       "title": "히어로 락 페스티벌 2026 인천 - 1차 라인업 및 티켓오픈",
+       "kind": "1차 라인업 및 티켓오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=174988530"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  },
+  "힙합플레이야페스티벌": {
+   "name": "힙합플레이야 페스티벌",
+   "editions": {
+    "2022": {
+     "dates": [
+      "2022-09-17",
+      "2022-09-18"
+     ],
+     "venue": "난지한강공원",
+     "posts": [
+      {
+       "title": "힙합플레이야 페스티벌 2022 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12814682"
+      },
+      {
+       "title": "힙합플레이야 페스티벌 2022 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12465221"
+      },
+      {
+       "title": "힙합플레이야 페스티벌 2022 - 1차 라인업 및 티켓 오픈",
+       "kind": "1차 라인업 및 티켓 오픈",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=12258643"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2024": {
+     "dates": [
+      "2024-05-04",
+      "2024-05-05"
+     ],
+     "venue": "난지한강공원",
+     "posts": [
+      {
+       "title": "힙합플레이야페스티벌 2024 - 2차 라인업",
+       "kind": "2차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=18957646"
+      },
+      {
+       "title": "힙합플레이야 페스티벌 2024 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=18132320"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2025": {
+     "dates": [
+      "2025-05-03"
+     ],
+     "venue": "킨텍스",
+     "posts": [
+      {
+       "title": "힙합플레이야 페스티벌 2025 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=162388723"
+      },
+      {
+       "title": "힙합플레이야 페스티벌 2025 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=153771906"
+      }
+     ],
+     "lineup_text": false
+    },
+    "2026": {
+     "dates": [
+      "2026-05-02"
+     ],
+     "venue": "킨텍스",
+     "posts": [
+      {
+       "title": "힙합플레이야 페스티벌 2026 - 최종 라인업",
+       "kind": "최종 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170536704"
+      },
+      {
+       "title": "힙합플레이야 페스티벌 2026 - 1차 라인업",
+       "kind": "1차 라인업",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=170201110"
+      },
+      {
+       "title": "힙합플레이야 페스티벌 2026 - 개최 일정 발표",
+       "kind": "개최 일정 발표",
+       "url": "https://www.festivallife.kr/festival/?bmode=view&idx=169344069"
+      }
+     ],
+     "lineup_text": false
+    }
+   }
+  }
+ },
+ "posts": [
+  {
+   "idx": "175986541",
+   "title": "랩비트 RAPBEAT 페스티벌 2027 - 개최 일정 및 티켓 오픈",
+   "dates": [
+    "2027-04-09"
+   ],
+   "venue": "공지전"
+  },
+  {
+   "idx": "175985849",
+   "title": "힙합플레이야 페스티벌 2027 - 개최 일정 발표",
+   "dates": [
+    "2027-05-01"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "175763531",
+   "title": "퍼스트 뮤직 스테이션 2027 - 1차 라인업",
+   "dates": [
+    "2027-01-30",
+    "2027-01-31"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "175546813",
+   "title": "체리블라썸 뮤직 콘서트 인 윈터",
+   "dates": [],
+   "venue": "창원컨벤션센터"
+  },
+  {
+   "idx": "175405499",
+   "title": "카운트다운판타지 26/27 - 2차 라인업",
+   "dates": [
+    "2026-12-31"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "175290766",
+   "title": "히어로 락 페스티벌 2026 인천 - 2차 라인업 및 티켓오픈",
+   "dates": [
+    "2026-12-18",
+    "2026-12-19",
+    "2026-12-20"
+   ],
+   "venue": "송도컨벤시아"
+  },
+  {
+   "idx": "174988530",
+   "title": "히어로 락 페스티벌 2026 인천 - 1차 라인업 및 티켓오픈",
+   "dates": [
+    "2026-12-18",
+    "2026-12-19",
+    "2026-12-20"
+   ],
+   "venue": "송도컨벤시아"
+  },
+  {
+   "idx": "174978848",
+   "title": "카운트다운판타지 2026-2027 - 1차 라인업 및 티켓오픈",
+   "dates": [
+    "2026-12-31"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "174881549",
+   "title": "카운트다운판타지 COUNTDOWN FANTASY 2026-2027",
+   "dates": [
+    "2026-12-31"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "174662290",
+   "title": "더 브릿지 페스티벌 2026 - 최종 라인업",
+   "dates": [
+    "2026-10-10",
+    "2026-10-11"
+   ],
+   "venue": "성수일대"
+  },
+  {
+   "idx": "174243065",
+   "title": "그랜드민트페스티벌 2026 - 최종 라인업",
+   "dates": [
+    "2026-10-17",
+    "2026-10-18"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "173999677",
+   "title": "광인셔틀 오픈! (부락, 렛츠락, XMF / 부산 - 인천&서울 - 부산 당일치기 왕복)",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "173955665",
+   "title": "2026 OPCD STAGE: Universe (오피시디 스테이지)",
+   "dates": [
+    "2026-10-10"
+   ],
+   "venue": "서울시 도봉구 창동역 1번 출구"
+  },
+  {
+   "idx": "173830041",
+   "title": "XMF 2026 - 최종 라인업 및 티켓오픈",
+   "dates": [
+    "2026-10-03",
+    "2026-10-04"
+   ],
+   "venue": "파라다이스시티"
+  },
+  {
+   "idx": "173720995",
+   "title": "부산 국제 록 페스티벌 2026 - 최종 라인업",
+   "dates": [
+    "2026-10-02",
+    "2026-10-03",
+    "2026-10-04"
+   ],
+   "venue": "삼락생태공원"
+  },
+  {
+   "idx": "173537771",
+   "title": "FESTIVAL THE SUB 페스티벌 더 서브 2026",
+   "dates": [
+    "2026-10-11"
+   ],
+   "venue": "홍대 상상마당 앞 거리"
+  },
+  {
+   "idx": "173510062",
+   "title": "MOBBO 페스티벌",
+   "dates": [
+    "2026-10-10",
+    "2026-10-11"
+   ],
+   "venue": "파주 아시아출판문화정보센터"
+  },
+  {
+   "idx": "173490194",
+   "title": "원더리벳 2026 - 라인업 공개 및 티켓오픈",
+   "dates": [
+    "2025-11-20",
+    "2025-11-21",
+    "2025-11-22"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "173480190",
+   "title": "경기인디뮤직페스티벌 2026 - 최종 라인업",
+   "dates": [
+    "2026-10-17",
+    "2026-10-18"
+   ],
+   "venue": "수원 서호잔디광장"
+  },
+  {
+   "idx": "173454547",
+   "title": "페스티벌라이프 앱 출시🎉",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "173454033",
+   "title": "그랜드민트페스티벌 2026 - 3차 라인업",
+   "dates": [
+    "2026-10-17",
+    "2026-10-18"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "173415043",
+   "title": "자라섬 재즈 페스티벌 2026 - 최종 라인업",
+   "dates": [
+    "2026-10-09",
+    "2026-10-10",
+    "2026-10-11"
+   ],
+   "venue": "자라섬 및 가평 일대"
+  },
+  {
+   "idx": "173377646",
+   "title": "2026 공평사운즈",
+   "dates": [
+    "2026-09-11",
+    "2026-09-12",
+    "2026-09-13"
+   ],
+   "venue": "대구 제임스레코드 및 소리정원"
+  },
+  {
+   "idx": "173189815",
+   "title": "GHOST (경기 한류 OST) 페스티벌 2026 - 최종 라인업 및 레귤러 티켓",
+   "dates": [
+    "2026-10-09",
+    "2026-10-10",
+    "2026-10-11"
+   ],
+   "venue": "임진각 평화누리"
+  },
+  {
+   "idx": "173188343",
+   "title": "NOL 페스티벌 - 최종 라인업",
+   "dates": [
+    "2026-10-17",
+    "2026-10-18"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "173180791",
+   "title": "렛츠락페스티벌 2026 - 최종 라인업",
+   "dates": [
+    "2026-10-03",
+    "2026-10-04"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "173096238",
+   "title": "NOL 페스티벌 - 3차 라인업",
+   "dates": [
+    "2026-10-17",
+    "2026-10-18"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "173080936",
+   "title": "매들리 메들리 2026 - 최종 라인업",
+   "dates": [
+    "2026-09-05",
+    "2026-09-06"
+   ],
+   "venue": "문화비축기지"
+  },
+  {
+   "idx": "173041544",
+   "title": "XMF 2026 - 2차 라인업 및 티켓오픈",
+   "dates": [
+    "2026-10-03",
+    "2026-10-04"
+   ],
+   "venue": "파라다이스시티"
+  },
+  {
+   "idx": "173022432",
+   "title": "2026 뮤직 플로우 페스티벌",
+   "dates": [
+    "2026-08-29"
+   ],
+   "venue": "부평아트센터 야외광장 일대"
+  },
+  {
+   "idx": "172933003",
+   "title": "사운드 플래닛 페스티벌 2026 - 최종 라인업",
+   "dates": [
+    "2026-09-05",
+    "2026-09-06"
+   ],
+   "venue": "파라다이스 시티"
+  },
+  {
+   "idx": "172914287",
+   "title": "그랜드민트페스티벌 2026 - 2차 라인업",
+   "dates": [
+    "2026-10-17",
+    "2026-10-18"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "172861237",
+   "title": "렛츠락페스티벌 2026 - 2차 요일별 라인업",
+   "dates": [
+    "2026-10-03",
+    "2026-10-04"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "172842015",
+   "title": "세종보헤미안뮤직페스티벌 2026 - 라인업 및 얼리버드",
+   "dates": [
+    "2026-10-30",
+    "2026-10-31",
+    "2026-11-01"
+   ],
+   "venue": "세종중앙공원 도시축제마당"
+  },
+  {
+   "idx": "172720035",
+   "title": "페스티벌라이프 앱 출시 예고🎉",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "172716381",
+   "title": "매들리 메들리 2026 - 2차 라인업",
+   "dates": [
+    "2026-09-05",
+    "2026-09-06"
+   ],
+   "venue": "문화비축기지"
+  },
+  {
+   "idx": "172706960",
+   "title": "렛츠락페스티벌 2026 - 요일별 라인업",
+   "dates": [
+    "2026-10-03",
+    "2026-10-04"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "172694853",
+   "title": "렛츠락페스티벌 2026 - 2차 라인업",
+   "dates": [
+    "2026-10-03",
+    "2026-10-04"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "172694828",
+   "title": "경기인디뮤직페스티벌 2026 - 1차 라인업",
+   "dates": [
+    "2026-10-17",
+    "2026-10-18"
+   ],
+   "venue": "수원 서호잔디광장"
+  },
+  {
+   "idx": "172555341",
+   "title": "렛츠락페스티벌 2026 - 1차 라인업 및 얼리버드 티켓오픈",
+   "dates": [
+    "2026-10-03",
+    "2026-10-04"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "172543644",
+   "title": "전주 얼티밋 뮤직 페스티벌 2026 - 스테이지별 라인업 및 스토리",
+   "dates": [
+    "2026-08-14",
+    "2026-08-15",
+    "2026-08-16"
+   ],
+   "venue": "전주대학교 축구장"
+  },
+  {
+   "idx": "172501736",
+   "title": "NOL 페스티벌 - 2차 라인업 및 티켓 응모",
+   "dates": [
+    "2026-10-17",
+    "2026-10-18"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "172469538",
+   "title": "부산 국제 록 페스티벌 2026 - 2차 라인업 및 2차 얼리버드 할인 티켓",
+   "dates": [
+    "2026-10-02",
+    "2026-10-03",
+    "2026-10-04"
+   ],
+   "venue": "삼락생태공원"
+  },
+  {
+   "idx": "172457456",
+   "title": "그랜드민트페스티벌 2026 - 1차 라인업",
+   "dates": [
+    "2026-10-17",
+    "2026-10-18"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "172397868",
+   "title": "GHOST (경기 한류 OST) 페스티벌 2026 - 1차 라인업 및 얼리버드",
+   "dates": [
+    "2026-10-09",
+    "2026-10-10",
+    "2026-10-11"
+   ],
+   "venue": "임진각 평화누리"
+  },
+  {
+   "idx": "172338349",
+   "title": "원유니버스페스티벌 2026 - 최종 라인업 및 티켓가 조정",
+   "dates": [
+    "2026-07-25",
+    "2026-07-26"
+   ],
+   "venue": "파라다이스시티"
+  },
+  {
+   "idx": "172154152",
+   "title": "전주 얼티밋 뮤직 페스티벌 2026 - 최종 라인업",
+   "dates": [],
+   "venue": "전주대학교 축구장"
+  },
+  {
+   "idx": "172142212",
+   "title": "Madly Medley 매들리 메들리 2026 - 1차 라인업",
+   "dates": [
+    "2026-09-05",
+    "2026-09-06"
+   ],
+   "venue": "문화비축기지"
+  },
+  {
+   "idx": "172086658",
+   "title": "인천 펜타포트 락 페스티벌 2026 - 최종 라인업",
+   "dates": [
+    "2026-07-31",
+    "2026-08-01",
+    "2026-08-02"
+   ],
+   "venue": "송도달빛축제공원"
+  },
+  {
+   "idx": "172033342",
+   "title": "자라섬 재즈 페스티벌 2026 - 1차 라인업",
+   "dates": [
+    "2026-10-09",
+    "2026-10-10",
+    "2026-10-11"
+   ],
+   "venue": "자라섬 및 가평 일대"
+  },
+  {
+   "idx": "171942599",
+   "title": "사운드 플래닛 페스티벌 2026 - 추가 라인업",
+   "dates": [
+    "2026-09-05",
+    "2026-09-06"
+   ],
+   "venue": "파라다이스 시티"
+  },
+  {
+   "idx": "171888679",
+   "title": "THE FLOOD 2026 - 2차 라인업",
+   "dates": [],
+   "venue": "서울대 파워플랜트"
+  },
+  {
+   "idx": "171875869",
+   "title": "부산 국제 록 페스티벌 2026 - 1차 라인업 및 얼리버드 티켓오픈",
+   "dates": [
+    "2026-10-02",
+    "2026-10-03",
+    "2026-10-04"
+   ],
+   "venue": "삼락생태공원"
+  },
+  {
+   "idx": "171856968",
+   "title": "렛츠락 페스티벌 2026 - 개최 일정 발표",
+   "dates": [
+    "2026-10-03",
+    "2026-10-04"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "171856895",
+   "title": "EDC Korea 2026 - 라인업 및 티켓오픈",
+   "dates": [
+    "2026-10-03",
+    "2026-10-04"
+   ],
+   "venue": "인스파이어 엔터테인먼트 리조트"
+  },
+  {
+   "idx": "171840277",
+   "title": "전주 얼티밋 뮤직 페스티벌 2026 - 2차 라인업",
+   "dates": [
+    "2026-08-14",
+    "2026-08-15",
+    "2026-08-16"
+   ],
+   "venue": "전주대학교 축구장"
+  },
+  {
+   "idx": "171752070",
+   "title": "사운드베리 페스타 2026 - 최종 라인업",
+   "dates": [
+    "2026-07-18",
+    "2026-07-19"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "171640509",
+   "title": "인천 펜타포트 락 페스티벌 2026 - 3차 라인업",
+   "dates": [
+    "2026-07-31",
+    "2026-08-01",
+    "2026-08-02"
+   ],
+   "venue": "송도달빛축제공원"
+  },
+  {
+   "idx": "171618918",
+   "title": "원유니버스페스티벌 2026 - 2차 라인업",
+   "dates": [
+    "2026-07-25",
+    "2026-07-26"
+   ],
+   "venue": "추후공개"
+  },
+  {
+   "idx": "171597855",
+   "title": "THE FLOOD 2026 더 플러드- 1차 라인업",
+   "dates": [],
+   "venue": "서울대 파워플랜트"
+  },
+  {
+   "idx": "171515326",
+   "title": "세종 보헤미안 스테이지 2026 - 추가 일정 라인업 발표",
+   "dates": [
+    "2026-06-27",
+    "2026-06-28"
+   ],
+   "venue": "세종예술의전당"
+  },
+  {
+   "idx": "171513812",
+   "title": "원유니버스페스티벌 2026 - 스페셜 라인업",
+   "dates": [
+    "2026-07-25",
+    "2026-07-26"
+   ],
+   "venue": "추후공개"
+  },
+  {
+   "idx": "171513298",
+   "title": "더그레이트풀캠프 2026 - 1차 라인업 및 티켓오픈",
+   "dates": [
+    "2026-09-04",
+    "2026-09-05",
+    "2026-09-06"
+   ],
+   "venue": "전남 짱뚱어해수욕장 일대"
+  },
+  {
+   "idx": "171495218",
+   "title": "사운드 플래닛 페스티벌 2026 - 3차 라인업",
+   "dates": [
+    "2026-09-05",
+    "2026-09-06"
+   ],
+   "venue": "파라다이스 시티"
+  },
+  {
+   "idx": "171399797",
+   "title": "영희 페스티벌",
+   "dates": [
+    "2026-06-12",
+    "2026-06-13",
+    "2026-06-14"
+   ],
+   "venue": "마포아트센터 (아트홀맥, 플레이맥, 갤러리맥, 야외광장)"
+  },
+  {
+   "idx": "171296140",
+   "title": "원유니버스페스티벌 2026 - 1차 라인업",
+   "dates": [],
+   "venue": "추후공개"
+  },
+  {
+   "idx": "171280119",
+   "title": "인천 펜타포트 락 페스티벌 2026 - 2차 라인업",
+   "dates": [
+    "2026-07-31",
+    "2026-08-01",
+    "2026-08-02"
+   ],
+   "venue": "송도달빛축제공원"
+  },
+  {
+   "idx": "171267482",
+   "title": "벨포레위크 2026 - 추가 라인업",
+   "dates": [
+    "2026-06-06"
+   ],
+   "venue": "벨포레리조트 모토아레나"
+  },
+  {
+   "idx": "171241278",
+   "title": "원 유니버스 페스티벌 2026 - 헤드라이너 공개 및 티켓오픈",
+   "dates": [
+    "2026-07-25",
+    "2026-07-26"
+   ],
+   "venue": "추후공개"
+  },
+  {
+   "idx": "171240229",
+   "title": "DMZ피스트레인 2026 - 최종 라인업",
+   "dates": [],
+   "venue": "철원 고석정"
+  },
+  {
+   "idx": "171191842",
+   "title": "인천 펜타포트 락 페스티벌 2026 - 1차 라인업",
+   "dates": [
+    "2026-07-31",
+    "2026-08-01",
+    "2026-08-02"
+   ],
+   "venue": "송도달빛축제공원"
+  },
+  {
+   "idx": "171088794",
+   "title": "RAPBEAT 2026 - 최종 라인업",
+   "dates": [
+    "2026-06-20",
+    "2026-06-21"
+   ],
+   "venue": "문화비축기지"
+  },
+  {
+   "idx": "171086294",
+   "title": "세종 보헤미안 스테이지 2026 - 라인업 발표 및 공연 개요",
+   "dates": [
+    "2026-06-27"
+   ],
+   "venue": "세종예술의전당"
+  },
+  {
+   "idx": "171046347",
+   "title": "사운드 플래닛 페스티벌 2026 - 2차 라인업",
+   "dates": [
+    "2026-09-05",
+    "2026-09-06"
+   ],
+   "venue": "파라다이스 시티"
+  },
+  {
+   "idx": "170984423",
+   "title": "뷰티풀민트라이프 2026 - 최종 라인업",
+   "dates": [
+    "2026-05-30",
+    "2026-05-31"
+   ],
+   "venue": "서울 문화비축기지"
+  },
+  {
+   "idx": "170969803",
+   "title": "사운드베리 페스타 2026 - 1차 라인업",
+   "dates": [
+    "2026-07-18",
+    "2026-07-19"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "170897921",
+   "title": "사운드 플래닛 페스티벌 2026 - 1.5차 라인업 및 2차 할인 티켓",
+   "dates": [
+    "2026-09-05",
+    "2026-09-06"
+   ],
+   "venue": "파라다이스 시티"
+  },
+  {
+   "idx": "170880124",
+   "title": "서울 재즈 페스티벌 2026 - 최종 라인업",
+   "dates": [
+    "2026-05-22",
+    "2026-05-23",
+    "2026-05-24"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "170860628",
+   "title": "아시안 팝 페스티벌 2026 - 최종 라인업",
+   "dates": [],
+   "venue": "인천 파라다이스시티"
+  },
+  {
+   "idx": "170838362",
+   "title": "DMZ피스트레인 2026 - 2차 라인업 및 티켓오픈",
+   "dates": [
+    "2026-06-12",
+    "2026-06-13",
+    "2026-06-14"
+   ],
+   "venue": "철원 고석정"
+  },
+  {
+   "idx": "170822381",
+   "title": "히어로 락 페스티벌 2026 - 최종 라인업",
+   "dates": [],
+   "venue": "문화비축기지"
+  },
+  {
+   "idx": "170792374",
+   "title": "벨포레위크 2026 - 개최 발표 및 라인업 공개",
+   "dates": [
+    "2026-06-06"
+   ],
+   "venue": "벨포레리조트 모토아레나"
+  },
+  {
+   "idx": "170769098",
+   "title": "피크 페스티벌 2026 - 최종 라인업",
+   "dates": [
+    "2026-05-23",
+    "2026-05-24"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "170711317",
+   "title": "공평사운즈 2026",
+   "dates": [
+    "2026-05-01",
+    "2026-05-02",
+    "2026-05-03"
+   ],
+   "venue": "대구 제임스레코드, 소리정원"
+  },
+  {
+   "idx": "170589537",
+   "title": "경기 인디 뮤직 페스티벌 2026 개최 발표",
+   "dates": [
+    "2026-10-17",
+    "2026-10-18"
+   ],
+   "venue": "수원특례시 서호 잔디광장"
+  },
+  {
+   "idx": "170570878",
+   "title": "월드 디제이 페스티벌 2026 - 1차 라인업",
+   "dates": [
+    "2026-06-13",
+    "2026-06-14"
+   ],
+   "venue": "서울랜드"
+  },
+  {
+   "idx": "170558728",
+   "title": "전주 얼티밋 뮤직 페스티벌 JUMF 2026 - 개최 장소 발표",
+   "dates": [
+    "2026-08-14",
+    "2026-08-15",
+    "2026-08-16"
+   ],
+   "venue": "전주대학교 인조잔디구장 A, B 일원"
+  },
+  {
+   "idx": "170536704",
+   "title": "힙합플레이야 페스티벌 2026 - 최종 라인업",
+   "dates": [
+    "2026-05-02"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "170439641",
+   "title": "DMZ 피스트레인 뮤직 페스티벌 - 숙소 패키지 '피스개더링' 오픈",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "170430253",
+   "title": "아시안 팝 페스티벌 2026 - 3차 라인업",
+   "dates": [],
+   "venue": "인천 파라다이스시티"
+  },
+  {
+   "idx": "170425174",
+   "title": "DMZ 피스트레인 뮤직 페스티벌 - 1차 라인업 및 티켓오픈",
+   "dates": [
+    "2026-06-12",
+    "2026-06-13",
+    "2026-06-14"
+   ],
+   "venue": "철원 고석정"
+  },
+  {
+   "idx": "170401337",
+   "title": "2026 통영프린지 페스티벌",
+   "dates": [
+    "2026-03-20"
+   ],
+   "venue": "통영 시내 야외 무대 4곳"
+  },
+  {
+   "idx": "170377684",
+   "title": "부산국제록페스티벌 2026 - 개최일 발표",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "170369727",
+   "title": "RAPBEAT 랩비트 2026 - 2차 라인업",
+   "dates": [
+    "2026-06-20",
+    "2026-06-21"
+   ],
+   "venue": "문화비축기지"
+  },
+  {
+   "idx": "170369219",
+   "title": "뷰티풀 민트 라이프 2026 - 2차 라인업",
+   "dates": [
+    "2026-05-30",
+    "2026-05-31"
+   ],
+   "venue": "서울 문화비축기지"
+  },
+  {
+   "idx": "170362514",
+   "title": "서울 재즈 페스티벌 2026 - 3차 라인업",
+   "dates": [
+    "2026-05-22",
+    "2026-05-23",
+    "2026-05-24"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "170320370",
+   "title": "서울 파크 뮤직 페스티벌 2026 - 1차 라인업 및 티켓오픈",
+   "dates": [
+    "2026-06-20",
+    "2026-06-21"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "170314067",
+   "title": "히어로 락 페스티벌 2026 - 2차 라인업 및 티켓오픈 (수량한정)",
+   "dates": [],
+   "venue": "문화비축기지"
+  },
+  {
+   "idx": "170311961",
+   "title": "사운드 플래닛 페스티벌 2026 - 1차 라인업 및 얼리버드 티켓",
+   "dates": [
+    "2026-09-05",
+    "2026-09-06"
+   ],
+   "venue": "파라다이스 시티"
+  },
+  {
+   "idx": "170266105",
+   "title": "인천펜타포트락페스티벌 2026 - 개최일 발표",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "170243468",
+   "title": "피크 페스티벌 2026 - 2차 라인업 및 티켓오픈",
+   "dates": [
+    "2026-05-23",
+    "2026-05-24"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "170201110",
+   "title": "힙합플레이야 페스티벌 2026 - 1차 라인업",
+   "dates": [
+    "2026-05-02"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "170186027",
+   "title": "RAPBEAT 2026 - 1차 라인업 및 티켓오픈",
+   "dates": [
+    "2026-06-20",
+    "2026-06-21"
+   ],
+   "venue": "문화비축기지"
+  },
+  {
+   "idx": "170163544",
+   "title": "LOVESOME 2026 - 최종 라인업",
+   "dates": [
+    "2025-04-11",
+    "2025-04-12"
+   ],
+   "venue": "연세대학교 노천극장"
+  },
+  {
+   "idx": "170147806",
+   "title": "DMZ 피스트레인 뮤직페스티벌 2026 - 슬로건 발표 및 블라인드 티켓",
+   "dates": [
+    "2026-06-12",
+    "2026-06-13",
+    "2026-06-14"
+   ],
+   "venue": "철원 고석정"
+  },
+  {
+   "idx": "170147600",
+   "title": "서울 재즈 페스티벌 2026 - 2차 라인업 및 1일권 티켓오픈",
+   "dates": [
+    "2026-05-22",
+    "2026-05-23",
+    "2026-05-24"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "170147284",
+   "title": "사운드 플래닛 페스티벌 2026 - 개최 발표",
+   "dates": [
+    "2026-09-05",
+    "2026-09-06"
+   ],
+   "venue": "파라다이스 시티"
+  },
+  {
+   "idx": "170041353",
+   "title": "히어로 락 페스티벌 2026 - 1차 라인업",
+   "dates": [],
+   "venue": "문화비축기지"
+  },
+  {
+   "idx": "170013168",
+   "title": "아시안 팝 페스티벌 2026 - 2차 라인업",
+   "dates": [],
+   "venue": "인천 파라다이스시티"
+  },
+  {
+   "idx": "169996758",
+   "title": "뷰티풀민트라이프 2026 - 1차 라인업",
+   "dates": [],
+   "venue": "서울 문화비축기지"
+  },
+  {
+   "idx": "169958483",
+   "title": "그린캠프페스티벌 2026 - 최종 라인업",
+   "dates": [],
+   "venue": "이천 지산포레스트 리조트"
+  },
+  {
+   "idx": "169951735",
+   "title": "EDC Korea 2026 - 개최 발표",
+   "dates": [
+    "2026-10-03",
+    "2026-10-04"
+   ],
+   "venue": "인스파이어"
+  },
+  {
+   "idx": "169910272",
+   "title": "피크 페스티벌 2026 - 1차 라인업",
+   "dates": [
+    "2026-05-23",
+    "2026-05-24"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "169835089",
+   "title": "2026 KT&G 상상실현 페스티벌 - 라인업 및 티켓오픈",
+   "dates": [],
+   "venue": "KT&G 상상마당 춘천 아트센터"
+  },
+  {
+   "idx": "169731022",
+   "title": "LOVESOME 2026 - 1차 라인업 및 얼리버드 티켓오픈",
+   "dates": [
+    "2025-04-11",
+    "2025-04-12"
+   ],
+   "venue": "인스파이어 디스커버리 파크"
+  },
+  {
+   "idx": "169694554",
+   "title": "더 글로우 The Glow 2026 - 라인업 및 티켓오픈",
+   "dates": [],
+   "venue": "고양 킨텍스"
+  },
+  {
+   "idx": "169636619",
+   "title": "2026 상상실현 페스티벌 - 개최 발표",
+   "dates": [
+    "2026-04-11",
+    "2026-04-12"
+   ],
+   "venue": "KT&G 상상마당 춘천 아트센터"
+  },
+  {
+   "idx": "169634240",
+   "title": "아시안 팝 페스티벌 2026 - 1차 라인업",
+   "dates": [],
+   "venue": "인천 파라다이스시티"
+  },
+  {
+   "idx": "169615916",
+   "title": "뷰티풀 민트 라이프 2026 - 개최 공지(장소 변경)",
+   "dates": [
+    "2026-05-30",
+    "2026-05-31"
+   ],
+   "venue": "서울 문화비축기지"
+  },
+  {
+   "idx": "169561691",
+   "title": "그린캠프페스티벌 2026 - 1차 라인업",
+   "dates": [],
+   "venue": "이천 지산포레스트 리조트"
+  },
+  {
+   "idx": "169559455",
+   "title": "LOVESOME 2026 - 개최 발표 및 티켓오픈",
+   "dates": [
+    "2025-04-11",
+    "2025-04-12"
+   ],
+   "venue": "인스파이어 디스커버리 파크"
+  },
+  {
+   "idx": "169509369",
+   "title": "서울 재즈 페스티벌 2026 - 1차 라인업",
+   "dates": [
+    "2026-05-22",
+    "2026-05-23",
+    "2026-05-24"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "169376725",
+   "title": "서울 재즈 페스티벌 2026 - 개최 일정",
+   "dates": [
+    "2026-05-22",
+    "2026-05-23",
+    "2026-05-24"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "169365935",
+   "title": "라우드 브릿지 페스티벌 2026 - 최종 라인업",
+   "dates": [
+    "2026-04-11",
+    "2026-04-12"
+   ],
+   "venue": "예스24 라이브홀"
+  },
+  {
+   "idx": "169344095",
+   "title": "월드 디제이 페스티벌 2026 - 20주년 개최 일정 발표",
+   "dates": [
+    "2025-06-13",
+    "2025-06-14"
+   ],
+   "venue": "과천 서울랜드"
+  },
+  {
+   "idx": "169344082",
+   "title": "그린캠프 페스티벌 2026 - 개최 일정 발표",
+   "dates": [
+    "2025-04-17",
+    "2025-04-18",
+    "2025-04-19"
+   ],
+   "venue": "이천 지산리조트"
+  },
+  {
+   "idx": "169344069",
+   "title": "힙합플레이야 페스티벌 2026 - 개최 일정 발표",
+   "dates": [
+    "2025-05-02"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "169344054",
+   "title": "THE AIR HOUSE 2026 - 1차 라인업",
+   "dates": [
+    "2025-05-23",
+    "2025-05-24",
+    "2025-05-25"
+   ],
+   "venue": "춘천 남이섬"
+  },
+  {
+   "idx": "169310923",
+   "title": "RAPBEAT 랩비트 개최 확정 발표",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "169286039",
+   "title": "더 글로우 THE GLOW 2026 개최 발표",
+   "dates": [
+    "2026-03-21",
+    "2026-03-22"
+   ],
+   "venue": "킨텍스 7, 8, 9홀"
+  },
+  {
+   "idx": "168963595",
+   "title": "DMZ 피스트레인 뮤직페스티벌 2026 - 개최일정 발표",
+   "dates": [
+    "2026-06-12",
+    "2026-06-13",
+    "2026-06-14"
+   ],
+   "venue": "철원 고석정 일대"
+  },
+  {
+   "idx": "168797761",
+   "title": "카운트다운 판타지 2025-2026 - 최종 라인업",
+   "dates": [
+    "2025-12-30",
+    "2025-12-31"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "168478147",
+   "title": "라우드 브릿지 페스티벌 2026 - 1차 라인업",
+   "dates": [
+    "2026-04-11",
+    "2026-04-12"
+   ],
+   "venue": "예스24 라이브홀"
+  },
+  {
+   "idx": "168084932",
+   "title": "잔다리페스타 2025 - 최종 라인업",
+   "dates": [],
+   "venue": "홍대 일대 라이브클럽"
+  },
+  {
+   "idx": "168023544",
+   "title": "황오동 카니발 2025 - 최종 라인업",
+   "dates": [
+    "2025-11-01"
+   ],
+   "venue": ""
+  },
+  {
+   "idx": "167956575",
+   "title": "카운트다운 판타지 2025 - 1차 라인업 및 티켓오픈 안내",
+   "dates": [
+    "2025-12-30",
+    "2025-12-31"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "167956562",
+   "title": "원더리벳 WonderLivet 2025 - 최종 라인업",
+   "dates": [
+    "2025-11-14",
+    "2025-11-15",
+    "2025-11-16"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "167806287",
+   "title": "황오동 카니발 2025 - 1차 라인업",
+   "dates": [
+    "2025-11-01"
+   ],
+   "venue": ""
+  },
+  {
+   "idx": "167687773",
+   "title": "매들리 메들리 2025 - 2차 라인업",
+   "dates": [
+    "2025-10-18",
+    "2025-10-19"
+   ],
+   "venue": "파라다이스시티"
+  },
+  {
+   "idx": "167676757",
+   "title": "그랜드 민트 페스티벌 2025 - 최종 라인업",
+   "dates": [
+    "2025-10-18",
+    "2025-10-19"
+   ],
+   "venue": ""
+  },
+  {
+   "idx": "167630184",
+   "title": "블록파티 페스티벌 2025",
+   "dates": [
+    "2025-09-20",
+    "2025-09-21"
+   ],
+   "venue": "해방촌 일대 실내 공연장"
+  },
+  {
+   "idx": "167595500",
+   "title": "자라섬 재즈 페스티벌 2025 - 최종 라인업",
+   "dates": [
+    "2025-10-17",
+    "2025-10-18",
+    "2025-10-19"
+   ],
+   "venue": "경기도 가평군 자라섬 및 읍내 일대"
+  },
+  {
+   "idx": "167504602",
+   "title": "부산국제록페스티벌 2025 - 최종 라인업",
+   "dates": [
+    "2025-09-26",
+    "2025-09-27",
+    "2025-09-28"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "167474241",
+   "title": "울트라코리아 2025 - 최종 라인업",
+   "dates": [
+    "2025-09-20"
+   ],
+   "venue": "문화비축기지"
+  },
+  {
+   "idx": "167473894",
+   "title": "로킹온소닉 rockin'on sonic 2026 - 1차 라인업",
+   "dates": [
+    "2026-01-04"
+   ],
+   "venue": "도쿄 마쿠하리 멧세"
+  },
+  {
+   "idx": "167460529",
+   "title": "자라섬 재즈 페스티벌 2025 - 2차 라인업",
+   "dates": [
+    "2025-10-17",
+    "2025-10-18",
+    "2025-10-19"
+   ],
+   "venue": "경기도 가평군 자라섬 및 읍내 일대"
+  },
+  {
+   "idx": "167286412",
+   "title": "원더리벳 2025 - 1차 라인업",
+   "dates": [
+    "2025-11-14",
+    "2025-11-15",
+    "2025-11-16"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "167267208",
+   "title": "2025 뮤직 플로우 페스티벌 (MUSIC FLOW FESTIVAL)",
+   "dates": [
+    "2025-08-29",
+    "2025-08-30"
+   ],
+   "venue": "부평아트센터 해누리극장 및 야외광장"
+  },
+  {
+   "idx": "167257190",
+   "title": "2025 KT&G 상상실현 페스티벌 BUSAN",
+   "dates": [
+    "2025-08-23"
+   ],
+   "venue": "KT&G 상상마당 부산"
+  },
+  {
+   "idx": "167257171",
+   "title": "서울숲재즈페스티벌 2025 - 3차 라인업",
+   "dates": [
+    "2025-09-19",
+    "2025-09-20",
+    "2025-09-21"
+   ],
+   "venue": "서울숲"
+  },
+  {
+   "idx": "167228420",
+   "title": "러브칩스 페스티벌 2025 - 최종 라인업",
+   "dates": [
+    "2025-09-06",
+    "2025-09-07"
+   ],
+   "venue": "인천 상상플랫폼 야외광장"
+  },
+  {
+   "idx": "167189964",
+   "title": "그랜드 민트 페스티벌 2025 - 2차 라인업",
+   "dates": [
+    "2025-10-18",
+    "2025-10-19"
+   ],
+   "venue": ""
+  },
+  {
+   "idx": "167189919",
+   "title": "부산국제록페스티벌 2025 - 3차 라인업",
+   "dates": [
+    "2025-09-26",
+    "2025-09-27",
+    "2025-09-28"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "167092097",
+   "title": "사운드 플래닛 페스티벌 2025 - 최종 라인업",
+   "dates": [
+    "2025-09-13",
+    "2025-09-14"
+   ],
+   "venue": "파라다이스 시티"
+  },
+  {
+   "idx": "166998027",
+   "title": "더 그레이트풀 캠프 2025 - 1차 라인업",
+   "dates": [
+    "2025-09-05",
+    "2025-09-06",
+    "2025-09-07"
+   ],
+   "venue": "전라남도 신안 짱뚱어 해수욕장 일대"
+  },
+  {
+   "idx": "166937461",
+   "title": "경기인디뮤직페스티벌 2025 - 2차 라인업",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "166934119",
+   "title": "세종보헤미안뮤직페스티벌 2025",
+   "dates": [
+    "2025-10-24",
+    "2025-10-25",
+    "2025-10-26"
+   ],
+   "venue": "세종중앙공원 도시축제마당"
+  },
+  {
+   "idx": "166928761",
+   "title": "Open Port Sound 2025 - 최종 라인업",
+   "dates": [
+    "2025-07-26",
+    "2025-07-27"
+   ],
+   "venue": "인천 1883 개항광장"
+  },
+  {
+   "idx": "166906516",
+   "title": "<브릿팝광인단체셔틀> 부락-뮤즈-부락 셔틀 상품",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "166884668",
+   "title": "매들리 메들리 2025 - 헤드라이너 G-DRAGON",
+   "dates": [
+    "2025-10-18",
+    "2025-10-19"
+   ],
+   "venue": "파라다이스시티"
+  },
+  {
+   "idx": "166785383",
+   "title": "인천 펜타포트 락 페스티벌 2025 - 최종 라인업",
+   "dates": [
+    "2025-08-01",
+    "2025-08-02",
+    "2025-08-03"
+   ],
+   "venue": "송도달빛축제공원"
+  },
+  {
+   "idx": "166720743",
+   "title": "그랜드 민트 페스티벌 2025 - 1차 라인업",
+   "dates": [
+    "2025-10-18",
+    "2025-10-19"
+   ],
+   "venue": ""
+  },
+  {
+   "idx": "166720636",
+   "title": "경기 인디 뮤직 페스티벌 2025 - 1차 라인업",
+   "dates": [
+    "2025-09-20",
+    "2025-09-21"
+   ],
+   "venue": ""
+  },
+  {
+   "idx": "166708900",
+   "title": "매들리 메들리 2025 - 1차 라인업",
+   "dates": [
+    "2025-10-18",
+    "2025-10-19"
+   ],
+   "venue": "파라다이스시티"
+  },
+  {
+   "idx": "166632851",
+   "title": "러브칩스 페스티벌 2025 - 2차 라인업",
+   "dates": [
+    "2025-09-06",
+    "2025-09-07"
+   ],
+   "venue": "인천 상상플랫폼 야외광장"
+  },
+  {
+   "idx": "166627920",
+   "title": "인천펜타포트 락 페스티벌 - 20주년 기념 관객 인터뷰",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "166626146",
+   "title": "사운드 플래닛 페스티벌 2025 - 4차 라인업",
+   "dates": [
+    "2025-09-13",
+    "2025-09-14"
+   ],
+   "venue": "파라다이스 시티"
+  },
+  {
+   "idx": "166439966",
+   "title": "서울숲재즈페스티벌 2025 - 2차 라인업",
+   "dates": [
+    "2025-09-19",
+    "2025-09-20",
+    "2025-09-21"
+   ],
+   "venue": "서울숲"
+  },
+  {
+   "idx": "166439916",
+   "title": "사운드 플래닛 페스티벌 2025 - 3차 라인업",
+   "dates": [
+    "2025-09-13",
+    "2025-09-14"
+   ],
+   "venue": "파라다이스 시티"
+  },
+  {
+   "idx": "166439888",
+   "title": "전주 얼티밋 뮤직 페스티벌 2025 - 3차 라인업",
+   "dates": [
+    "2025-08-15",
+    "2025-08-16",
+    "2025-08-17"
+   ],
+   "venue": "전북대학교 대운동장"
+  },
+  {
+   "idx": "166439848",
+   "title": "렛츠락 페스티벌 2025 - 4차 라인업(KEEP ON BURNING)",
+   "dates": [
+    "2025-09-06",
+    "2025-09-07"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "166439782",
+   "title": "원 유니버스 페스티벌 2025 - 1차 라인업",
+   "dates": [
+    "2025-08-15",
+    "2025-08-16"
+   ],
+   "venue": "서울대공원 주차광장"
+  },
+  {
+   "idx": "165785569",
+   "title": "서울숲재즈페스티벌 2025 - 1차 라인업",
+   "dates": [
+    "2025-09-19",
+    "2025-09-20",
+    "2025-09-21"
+   ],
+   "venue": "서울숲"
+  },
+  {
+   "idx": "165662631",
+   "title": "부산 국제 록 페스티벌 2025 - 2차 라인업",
+   "dates": [
+    "2025-09-26",
+    "2025-09-27",
+    "2025-09-28"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "165647709",
+   "title": "대구 힙합 페스티벌 2025 - 최종 라인업",
+   "dates": [
+    "2025-06-28",
+    "2025-06-29"
+   ],
+   "venue": "대구 엑스코"
+  },
+  {
+   "idx": "165572548",
+   "title": "인천 펜타포트 락 페스티벌 2025 - 4차 라인업",
+   "dates": [
+    "2025-08-01",
+    "2025-08-02",
+    "2025-08-03"
+   ],
+   "venue": "송도달빛축제공원"
+  },
+  {
+   "idx": "165564678",
+   "title": "원 유니버스 페스티벌 2025 - Charli xcx 발표",
+   "dates": [
+    "2025-08-15",
+    "2025-08-16"
+   ],
+   "venue": "추후 공개"
+  },
+  {
+   "idx": "165534776",
+   "title": "전주 얼티밋 뮤직 페스티벌 2025 - 2차 라인업",
+   "dates": [
+    "2025-08-15",
+    "2025-08-16",
+    "2025-08-17"
+   ],
+   "venue": "전북대학교 대운동장"
+  },
+  {
+   "idx": "165302730",
+   "title": "렛츠락 페스티벌 2025 - 3차 라인업(Broken The Stage)",
+   "dates": [
+    "2025-09-06",
+    "2025-09-07"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "164954325",
+   "title": "전주 얼티밋 뮤직 페스티벌 JUMF 2025 - 1차 라인업",
+   "dates": [
+    "2025-08-15",
+    "2025-08-16",
+    "2025-08-17"
+   ],
+   "venue": "전북대학교 대운동장"
+  },
+  {
+   "idx": "164669632",
+   "title": "원 유니버스 페스티벌 2025 - Charlie Puth 찰리 푸스",
+   "dates": [
+    "2025-08-15",
+    "2025-08-16"
+   ],
+   "venue": "추후 공개"
+  },
+  {
+   "idx": "164644102",
+   "title": "사운드 플래닛 페스티벌 2025 - 2.5차 라인업",
+   "dates": [
+    "2025-09-13",
+    "2025-09-14"
+   ],
+   "venue": "파라다이스 시티"
+  },
+  {
+   "idx": "164487307",
+   "title": "러브칩스 페스티벌 2025 - 1차 라인업",
+   "dates": [
+    "2025-09-06",
+    "2025-09-07"
+   ],
+   "venue": "인천 상상플랫폼 야외광장"
+  },
+  {
+   "idx": "164424172",
+   "title": "렛츠락 페스티벌 2025 - 2차 라인업(We Are Rockstars)",
+   "dates": [
+    "2025-09-06",
+    "2025-09-07"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "164405978",
+   "title": "2025 여우락 페스티벌",
+   "dates": [],
+   "venue": "국립극장 하늘극장"
+  },
+  {
+   "idx": "164270004",
+   "title": "인천 펜타포트 락 페스티벌 2025 - 3차 라인업",
+   "dates": [
+    "2025-08-01",
+    "2025-08-02",
+    "2025-08-03"
+   ],
+   "venue": "송도달빛축제공원"
+  },
+  {
+   "idx": "164198524",
+   "title": "렛츠락 페스티벌 2025 - 1차 라인업",
+   "dates": [
+    "2025-09-06",
+    "2025-09-07"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "164110416",
+   "title": "아시안 팝 페스티벌 2025 - 최종 라인업",
+   "dates": [],
+   "venue": "인천 파라다이스 시티"
+  },
+  {
+   "idx": "164056965",
+   "title": "사운드 플래닛 페스티벌 2025 - 2차 라인업",
+   "dates": [
+    "2025-09-13",
+    "2025-09-14"
+   ],
+   "venue": "파라다이스 시티"
+  },
+  {
+   "idx": "163925735",
+   "title": "인천 펜타포트 락 페스티벌 2025 - 2차 라인업 및 일자별 라인업",
+   "dates": [
+    "2025-08-01",
+    "2025-08-02",
+    "2025-08-03"
+   ],
+   "venue": "송도달빛축제공원"
+  },
+  {
+   "idx": "163722143",
+   "title": "부산 국제 록 페스티벌 2025 - 1차 라인업",
+   "dates": [
+    "2025-09-26",
+    "2025-09-27",
+    "2025-09-28"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "163479902",
+   "title": "서울 파크 뮤직 페스티벌 2025 - 최종 라인업",
+   "dates": [
+    "2025-06-28",
+    "2025-06-29"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "163415157",
+   "title": "대구 힙합 페스티벌 2025 - 4차 라인업",
+   "dates": [
+    "2025-06-28",
+    "2025-06-29"
+   ],
+   "venue": "대구 엑스코"
+  },
+  {
+   "idx": "163065279",
+   "title": "아시안 팝 페스티벌 2025 - 3차 라인업",
+   "dates": [
+    "2025-06-21",
+    "2025-06-22"
+   ],
+   "venue": "인천 파라다이스 시티"
+  },
+  {
+   "idx": "162966679",
+   "title": "인천 펜타포트 락 페스티벌 2025 - 1차 라인업",
+   "dates": [
+    "2025-08-01",
+    "2025-08-02",
+    "2025-08-03"
+   ],
+   "venue": "송도달빛축제공원"
+  },
+  {
+   "idx": "162803298",
+   "title": "월드 디제이 페스티벌 2025 - 최종 라인업",
+   "dates": [
+    "2025-06-14",
+    "2025-06-15"
+   ],
+   "venue": "서울랜드"
+  },
+  {
+   "idx": "162458521",
+   "title": "서울재즈페스티벌 2025 - 최종 라인업",
+   "dates": [
+    "2025-05-30",
+    "2025-05-31",
+    "2025-06-01"
+   ],
+   "venue": "올림픽공원 일대"
+  },
+  {
+   "idx": "162396875",
+   "title": "렛츠락 페스티벌 2025 - 개최 일정",
+   "dates": [
+    "2025-09-06",
+    "2025-09-07"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "162388723",
+   "title": "힙합플레이야 페스티벌 2025 - 최종 라인업",
+   "dates": [
+    "2025-05-03"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "162289385",
+   "title": "그린캠프페스티벌 2025 - 최종 라인업",
+   "dates": [
+    "2025-05-17",
+    "2025-05-18"
+   ],
+   "venue": "송도달빛축제공원"
+  },
+  {
+   "idx": "161703034",
+   "title": "뷰티풀 민트 라이프 2025 - 3차 라인업",
+   "dates": [
+    "2025-06-13",
+    "2025-06-14",
+    "2025-06-15"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "161282195",
+   "title": "인천 펜타포트 락 페스티벌 2025 - 개최 일정",
+   "dates": [
+    "2025-08-01",
+    "2025-08-02",
+    "2025-08-03"
+   ],
+   "venue": "인천 송도달빛축제공원"
+  },
+  {
+   "idx": "161280839",
+   "title": "사운드 플래닛 페스티벌 2025 - 개최 발표",
+   "dates": [
+    "2025-09-13",
+    "2025-09-14"
+   ],
+   "venue": "파라다이스 시티"
+  },
+  {
+   "idx": "161108695",
+   "title": "DMZ 피스트레인 뮤직페스티벌 - 2차 라인업",
+   "dates": [
+    "2025-06-13",
+    "2025-06-14",
+    "2025-06-15"
+   ],
+   "venue": "철원 고석정"
+  },
+  {
+   "idx": "161046610",
+   "title": "제72회 라이브 클럽 데이",
+   "dates": [
+    "2025-04-25"
+   ],
+   "venue": "홍대 일대 라이브클럽"
+  },
+  {
+   "idx": "161015546",
+   "title": "2025 한대음 페스티벌 - 개최 및 티켓오픈",
+   "dates": [
+    "2025-05-02",
+    "2025-05-03"
+   ],
+   "venue": "현대카드 언더스테이지"
+  },
+  {
+   "idx": "160908195",
+   "title": "서울재즈페스티벌 2025 - 3차 라인업",
+   "dates": [
+    "2025-05-30",
+    "2025-05-31",
+    "2025-06-01"
+   ],
+   "venue": "올림픽공원 일대"
+  },
+  {
+   "idx": "160907715",
+   "title": "아시안 팝 페스티벌 2025 - 2차 라인업",
+   "dates": [
+    "2025-06-21",
+    "2025-06-22"
+   ],
+   "venue": "인천 파라다이스 시티"
+  },
+  {
+   "idx": "158836750",
+   "title": "서울재즈페스티벌 2025 - 2차 라인업",
+   "dates": [],
+   "venue": "올림픽공원 일대"
+  },
+  {
+   "idx": "158746226",
+   "title": "뷰티풀 민트 라이프 2025 - 2차 라인업",
+   "dates": [
+    "2025-06-13",
+    "2025-06-14",
+    "2025-06-15"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "158551890",
+   "title": "통영프린지 2025 - 아티스트 라인업",
+   "dates": [
+    "2025-03-22",
+    "2025-03-23"
+   ],
+   "venue": "통영 강구안 해상무대, 윤이상 기념관, 죽림 만남의광장"
+  },
+  {
+   "idx": "158319757",
+   "title": "체리블라썸 뮤직 페스티벌",
+   "dates": [
+    "2025-03-29",
+    "2025-03-30"
+   ],
+   "venue": "진해공설운동장"
+  },
+  {
+   "idx": "157526328",
+   "title": "전주 얼티밋 뮤직 페스티벌 2025 - 개최일정 발표",
+   "dates": [
+    "2025-08-15",
+    "2025-08-16",
+    "2025-08-17"
+   ],
+   "venue": "추후 공개"
+  },
+  {
+   "idx": "157095263",
+   "title": "DMZ 피스트레인 뮤직페스티벌 2025 - 1차 라인업",
+   "dates": [
+    "2025-06-13",
+    "2025-06-14",
+    "2025-06-15"
+   ],
+   "venue": "철원 고석정"
+  },
+  {
+   "idx": "156562437",
+   "title": "러브썸 LOVESOME 2025 - 2차 라인업",
+   "dates": [
+    "2025-04-26",
+    "2025-04-27"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "156505802",
+   "title": "아시안 팝 페스티벌 2025 - 1차 라인업",
+   "dates": [
+    "2025-06-21",
+    "2025-06-22"
+   ],
+   "venue": "인천 파라다이스 시티"
+  },
+  {
+   "idx": "156487791",
+   "title": "Have A Nice Day #11 해브 어 나이스 데이 - 최종 라인업",
+   "dates": [
+    "2025-04-12",
+    "2025-04-13"
+   ],
+   "venue": "인천 상상플랫폼"
+  },
+  {
+   "idx": "156283364",
+   "title": "2025 EDC KOREA - 일자별 라인업 및 티켓 오픈",
+   "dates": [
+    "2025-04-25",
+    "2025-04-26"
+   ],
+   "venue": "인스파이어 엔터테인먼트 리조트"
+  },
+  {
+   "idx": "155865896",
+   "title": "세종보헤미안뮤직페스티벌 2025 - 개최 발표",
+   "dates": [
+    "2025-10-25",
+    "2025-10-26"
+   ],
+   "venue": "세종중앙공원(예정)"
+  },
+  {
+   "idx": "154473492",
+   "title": "뷰티풀 민트 라이프 2025 - 1차 라인업",
+   "dates": [
+    "2025-06-13",
+    "2025-06-14",
+    "2025-06-15"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "153771906",
+   "title": "힙합플레이야 페스티벌 2025 - 1차 라인업",
+   "dates": [
+    "2025-05-03"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "153149912",
+   "title": "2025 KT&G 상상실현 페스티벌 - 라인업 발표 및 티켓오픈",
+   "dates": [
+    "2025-04-19",
+    "2025-04-20"
+   ],
+   "venue": "KT&G 상상마당 춘천 아트센터"
+  },
+  {
+   "idx": "152742678",
+   "title": "서울재즈페스티벌 2025 - 1차 라인업",
+   "dates": [
+    "2025-05-30",
+    "2025-05-31",
+    "2025-06-01"
+   ],
+   "venue": "올림픽공원 일대"
+  },
+  {
+   "idx": "152252409",
+   "title": "더 글로우 2025 - 최종 라인업",
+   "dates": [
+    "2025-03-29",
+    "2025-03-30"
+   ],
+   "venue": "고양 킨텍스"
+  },
+  {
+   "idx": "152226723",
+   "title": "2025 KT&G 상상페스티벌 - 개최 공지",
+   "dates": [
+    "2025-04-19",
+    "2025-04-20"
+   ],
+   "venue": "KT&G 상상마당 춘천 아트센터"
+  },
+  {
+   "idx": "152171115",
+   "title": "DMZ 피스트레인 뮤직페스티벌 2025 - 티켓오픈 및 가격",
+   "dates": [
+    "2025-06-13",
+    "2025-06-14",
+    "2025-06-15"
+   ],
+   "venue": "철원 고석정"
+  },
+  {
+   "idx": "151989595",
+   "title": "부산국제록페스티벌 2025 - 개최 일정 발표",
+   "dates": [
+    "2025-09-26",
+    "2025-09-27",
+    "2025-09-28"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "151175284",
+   "title": "Have A Nice Day #11 (해브 어 나이스 데이)",
+   "dates": [
+    "2025-04-12",
+    "2025-04-13"
+   ],
+   "venue": "인천 상상플랫폼"
+  },
+  {
+   "idx": "150316779",
+   "title": "버저비트 페스티벌 2025 - 최종 라인업",
+   "dates": [
+    "2025-03-01",
+    "2025-03-02"
+   ],
+   "venue": "KBS 아레나"
+  },
+  {
+   "idx": "148699709",
+   "title": "PUNK LODGE 2025",
+   "dates": [
+    "2025-03-15"
+   ],
+   "venue": "롤링홀"
+  },
+  {
+   "idx": "148486357",
+   "title": "버저비트 페스티벌 2025 - 1차 라인업",
+   "dates": [
+    "2025-03-01",
+    "2025-03-02"
+   ],
+   "venue": "KBS 아레나"
+  },
+  {
+   "idx": "148485956",
+   "title": "더 글로우 2025 - 2차 라인업",
+   "dates": [
+    "2025-03-29",
+    "2025-03-30"
+   ],
+   "venue": "고양 킨텍스"
+  },
+  {
+   "idx": "145514897",
+   "title": "라우드 브릿지 페스티벌 2025 - 1차 라인업",
+   "dates": [
+    "2025-04-12",
+    "2025-04-13"
+   ],
+   "venue": "예스24 라이브홀"
+  },
+  {
+   "idx": "143486074",
+   "title": "아시안 팝 페스티벌 2025 - 개최 발표",
+   "dates": [
+    "2025-06-21",
+    "2025-06-22"
+   ],
+   "venue": "인천 파라다이스 시티"
+  },
+  {
+   "idx": "142876924",
+   "title": "LOUD BRIDGE FESTIVAL SEOUL 라우드 브릿지 페스티벌 2025 - 개최 발표",
+   "dates": [
+    "2025-04-12",
+    "2025-04-13"
+   ],
+   "venue": "예스24 라이브홀"
+  },
+  {
+   "idx": "142614671",
+   "title": "LOVESOME 2025 - 개최 발표",
+   "dates": [
+    "2025-04-26",
+    "2025-04-27"
+   ],
+   "venue": "한강난지공원"
+  },
+  {
+   "idx": "142099976",
+   "title": "THE GLOW 더 글로우 2025 - 1차 라인업",
+   "dates": [
+    "2025-03-29",
+    "2025-03-30"
+   ],
+   "venue": "고양 킨텍스"
+  },
+  {
+   "idx": "137073894",
+   "title": "더 글로우 2025 개최 발표",
+   "dates": [
+    "2025-03-29",
+    "2025-03-30"
+   ],
+   "venue": "킨텍스 제 2전시장"
+  },
+  {
+   "idx": "135391290",
+   "title": "DMZ 피스트레인 뮤직페스티벌 2025 - 개최 일정",
+   "dates": [],
+   "venue": "철원 고석정 일대"
+  },
+  {
+   "idx": "134719395",
+   "title": "2025 EDC KOREA - 개최 일정",
+   "dates": [
+    "2025-04-25",
+    "2025-04-26"
+   ],
+   "venue": "인스파이어 엔터테인먼트 리조트"
+  },
+  {
+   "idx": "134379886",
+   "title": "서울재즈페스티벌 2025 - 개최 공지",
+   "dates": [],
+   "venue": "올림픽공원 일대"
+  },
+  {
+   "idx": "130469499",
+   "title": "카운트 다운 판타지 2024 - 최종 라인업",
+   "dates": [
+    "2024-12-30",
+    "2024-12-31"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "126716098",
+   "title": "카운트 다운 판타지 2024 - 2차 라인업",
+   "dates": [
+    "2024-12-30",
+    "2024-12-31"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "122277481",
+   "title": "원더리벳 wonderlivet 2024 - 최종 라인업",
+   "dates": [
+    "2024-11-08",
+    "2024-11-09",
+    "2024-11-10"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "121774604",
+   "title": "Any Good Music Here? FES!",
+   "dates": [],
+   "venue": "무대륙"
+  },
+  {
+   "idx": "117840546",
+   "title": "LOVE IN SEOUL 러브 인 서울 2024 - 1차 라인업",
+   "dates": [
+    "2024-11-13",
+    "2024-11-14",
+    "2024-11-15",
+    "2024-11-16",
+    "2024-11-17",
+    "2024-11-18",
+    "2024-11-19",
+    "2024-11-20",
+    "2024-11-21",
+    "2024-11-22",
+    "2024-11-23",
+    "2024-11-24"
+   ],
+   "venue": "블루스퀘어 마스터카드홀"
+  },
+  {
+   "idx": "113612947",
+   "title": "그랜드 민트 페스티벌 2024 - 최종 라인업",
+   "dates": [],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "104668187",
+   "title": "2024 대구힙합페스티벌 시즌2",
+   "dates": [
+    "2024-09-28",
+    "2024-09-29"
+   ],
+   "venue": "대구 엑스코"
+  },
+  {
+   "idx": "100421976",
+   "title": "부산국제록페스티벌 2024 - 최종 라인업",
+   "dates": [
+    "2024-10-04",
+    "2024-10-05",
+    "2024-10-06"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "98202542",
+   "title": "러브칩스 페스티벌 2024 - 최종 라인업",
+   "dates": [
+    "2024-09-28",
+    "2024-09-29"
+   ],
+   "venue": "인천 상상플랫폼 야외광장"
+  },
+  {
+   "idx": "97677124",
+   "title": "그랜드 민트 페스티벌 2024 - 3차 라인업",
+   "dates": [],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "93035553",
+   "title": "자라섬 재즈 페스티벌 2024 - 최종 라인업",
+   "dates": [
+    "2024-10-18",
+    "2024-10-19",
+    "2024-10-20"
+   ],
+   "venue": "자라섬 및 가평 일대"
+  },
+  {
+   "idx": "89128543",
+   "title": "황금 카니발 2024 - 최종 라인업",
+   "dates": [
+    "2024-09-28",
+    "2024-09-29"
+   ],
+   "venue": "경주 봉황대, 중심상가 일대"
+  },
+  {
+   "idx": "89095601",
+   "title": "원더리벳 2024 - 2차 라인업",
+   "dates": [
+    "2024-11-08",
+    "2024-11-09",
+    "2024-11-10"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "88004823",
+   "title": "슬로우 라이프 슬로우 라이브 2024 - 1차 라인업 (슬라슬라)",
+   "dates": [
+    "2024-10-11",
+    "2024-10-12",
+    "2024-10-13"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "87944376",
+   "title": "경기인디뮤직페스티벌 2024 - 최종 라인업",
+   "dates": [
+    "2024-10-12",
+    "2024-10-13"
+   ],
+   "venue": "임진각 평화누리공원"
+  },
+  {
+   "idx": "87380524",
+   "title": "뮤직 플로우 페스티벌 2024",
+   "dates": [
+    "2024-08-30",
+    "2024-08-31"
+   ],
+   "venue": "부평 아트센터 야외광장, 달누리극장"
+  },
+  {
+   "idx": "87249678",
+   "title": "부산국제록페스티벌 2024 - 5차 라인업",
+   "dates": [
+    "2024-10-04",
+    "2024-10-05",
+    "2024-10-06"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "85876066",
+   "title": "그랜드 민트 페스티벌 2024 - 2차 라인업",
+   "dates": [],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "83242625",
+   "title": "해브 어 나이스 데이 2024",
+   "dates": [
+    "2024-09-14"
+   ],
+   "venue": "KT&G 상상마당 춘천아트센터"
+  },
+  {
+   "idx": "81183925",
+   "title": "아트 포레스트 페스티벌 2024",
+   "dates": [
+    "2024-10-05"
+   ],
+   "venue": "올림픽공원 88 잔디마당"
+  },
+  {
+   "idx": "69619288",
+   "title": "부산국제록페스티벌 2024 - 4차 라인업",
+   "dates": [
+    "2024-10-04",
+    "2024-10-05",
+    "2024-10-06"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "62083471",
+   "title": "그랜드 민트 페스티벌 2024 - 1차 라인업",
+   "dates": [],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "59170240",
+   "title": "서울 어쿠스틱 2024",
+   "dates": [
+    "2024-09-05",
+    "2024-09-06"
+   ],
+   "venue": "KT&G 상상마당 라이브홀"
+  },
+  {
+   "idx": "54346571",
+   "title": "원더리벳 2024 - 1차 라인업",
+   "dates": [
+    "2024-11-08",
+    "2024-11-09",
+    "2024-11-10"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "49931951",
+   "title": "자라섬 재즈 페스티벌 2024 - 1차 라인업",
+   "dates": [
+    "2024-10-18",
+    "2024-10-19",
+    "2024-10-20"
+   ],
+   "venue": "자라섬 및 가평 일대"
+  },
+  {
+   "idx": "46694415",
+   "title": "부산국제록페스티벌 2024 - 3차 라인업",
+   "dates": [
+    "2024-10-04",
+    "2024-10-05",
+    "2024-10-06"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "42991426",
+   "title": "러브칩스 페스티벌 2024 - 2차 라인업",
+   "dates": [
+    "2024-09-28",
+    "2024-09-29"
+   ],
+   "venue": "인천 상상플랫폼 야외광장"
+  },
+  {
+   "idx": "38881808",
+   "title": "세종보헤미안 뮤직페스티벌 2024 라인업",
+   "dates": [],
+   "venue": "세종중앙공원 도시축제마당"
+  },
+  {
+   "idx": "38870232",
+   "title": "전주얼티밋뮤직페스티벌 2024 - 최종 라인업",
+   "dates": [],
+   "venue": "전주종합경기장"
+  },
+  {
+   "idx": "37467315",
+   "title": "부산국제록페스티벌 2024 - 2차 라인업",
+   "dates": [
+    "2024-10-04",
+    "2024-10-05",
+    "2024-10-06"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "30755996",
+   "title": "전주얼티밋뮤직페스티벌 2024 - 2차 라인업",
+   "dates": [],
+   "venue": "전주종합경기장"
+  },
+  {
+   "idx": "30542427",
+   "title": "S2O Korea 2024 - 최종 라인업",
+   "dates": [
+    "2024-07-13",
+    "2024-07-14"
+   ],
+   "venue": "서울랜드"
+  },
+  {
+   "idx": "28823367",
+   "title": "HAVE A NICE TRIP 2024 - 최종 라인업",
+   "dates": [
+    "2024-07-27",
+    "2024-07-28"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "28536061",
+   "title": "전주얼티밋뮤직페스티벌 2024 - 1차 라인업",
+   "dates": [],
+   "venue": "전주종합경기장"
+  },
+  {
+   "idx": "26287348",
+   "title": "인천 펜타포트 락 페스티벌 2024 - 3차 라인업",
+   "dates": [
+    "2024-08-02",
+    "2024-08-03",
+    "2024-08-04"
+   ],
+   "venue": "송도달빛축제공원"
+  },
+  {
+   "idx": "24936347",
+   "title": "부산국제록페스티벌 2024 - 1차 라인업",
+   "dates": [
+    "2024-10-04",
+    "2024-10-05",
+    "2024-10-06"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "24674758",
+   "title": "2024 여우락 페스티벌",
+   "dates": [
+    "2024-07-04"
+   ],
+   "venue": "국립극장 달오름, 하늘, 문화광장"
+  },
+  {
+   "idx": "24670497",
+   "title": "경기모아뮤직 페스티벌 2024",
+   "dates": [
+    "2024-06-15",
+    "2024-06-16"
+   ],
+   "venue": "가평 자라섬"
+  },
+  {
+   "idx": "23019261",
+   "title": "HAVE A NICE TRIP 2024 - 3차 라인업",
+   "dates": [
+    "2024-07-27",
+    "2024-07-28"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "22878382",
+   "title": "2024 SODA FESTA",
+   "dates": [],
+   "venue": "꿈빛극장"
+  },
+  {
+   "idx": "22541426",
+   "title": "인천 펜타포트 락 페스티벌 2024 - 2차 라인업",
+   "dates": [
+    "2024-08-02",
+    "2024-08-03",
+    "2024-08-04"
+   ],
+   "venue": "송도달빛축제공원"
+  },
+  {
+   "idx": "22354335",
+   "title": "아시안 팝 페스티벌 2024 - 최종 라인업",
+   "dates": [
+    "2024-06-22",
+    "2024-06-23"
+   ],
+   "venue": "인천 파라다이스 시티"
+  },
+  {
+   "idx": "21626240",
+   "title": "월드 디제이 페스티벌 2024 - 최종 라인업",
+   "dates": [
+    "2024-06-15",
+    "2024-06-16"
+   ],
+   "venue": "서울랜드"
+  },
+  {
+   "idx": "21252162",
+   "title": "인천 펜타포트 락 페스티벌 2024 - 1차 라인업",
+   "dates": [
+    "2024-08-02",
+    "2024-08-03",
+    "2024-08-04"
+   ],
+   "venue": "송도달빛축제공원"
+  },
+  {
+   "idx": "21114275",
+   "title": "DMZ 피스트레인 뮤직 페스티벌 2024 - 최종 라인업",
+   "dates": [
+    "2024-06-15",
+    "2024-06-16"
+   ],
+   "venue": "철원 고석정"
+  },
+  {
+   "idx": "21027211",
+   "title": "HAVE A NICE TRIP 2024 - 2차 라인업",
+   "dates": [
+    "2024-07-27",
+    "2024-07-28"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "20510795",
+   "title": "울트라 코리아 2024 - 2차 라인업",
+   "dates": [
+    "2024-06-07",
+    "2024-06-08",
+    "2024-06-09"
+   ],
+   "venue": "인천 파라다이스 시티"
+  },
+  {
+   "idx": "19474869",
+   "title": "아시안 팝 페스티벌 2024 - 2차 라인업",
+   "dates": [
+    "2024-06-22",
+    "2024-06-23"
+   ],
+   "venue": "인천 파라다이스 시티"
+  },
+  {
+   "idx": "19263409",
+   "title": "뷰티풀 민트 라이프 2024 - 최종 라인업",
+   "dates": [
+    "2024-05-11",
+    "2024-05-12"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "19207905",
+   "title": "HAVE A NICE TRIP 2024 - 1차 라인업",
+   "dates": [
+    "2024-07-27",
+    "2024-07-28"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "19207889",
+   "title": "서울 재즈 페스티벌 2024 - 5차 라인업",
+   "dates": [
+    "2024-05-31",
+    "2024-06-01",
+    "2024-06-02"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "18989343",
+   "title": "아시안 팝 페스티벌 2024 - 1차 라인업",
+   "dates": [
+    "2024-06-22",
+    "2024-06-23"
+   ],
+   "venue": "파라다이스 시티"
+  },
+  {
+   "idx": "18957646",
+   "title": "힙합플레이야페스티벌 2024 - 2차 라인업",
+   "dates": [
+    "2024-05-04",
+    "2024-05-05"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "18556078",
+   "title": "서울 재즈 페스티벌 2024 - 4차 라인업",
+   "dates": [],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "18435213",
+   "title": "DMZ 피스트레인 뮤직페스티벌 2024 - 1차 라인업",
+   "dates": [
+    "2024-06-15",
+    "2024-06-16"
+   ],
+   "venue": "철원 고석정"
+  },
+  {
+   "idx": "18435119",
+   "title": "뷰티풀 민트 라이프 2024 - 2차 라인업",
+   "dates": [
+    "2024-05-11",
+    "2024-05-12"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "18425709",
+   "title": "잇츠더쉽코리아 2024 (IT’S THE SHIP KOREA)",
+   "dates": [
+    "2024-05-23",
+    "2024-05-24",
+    "2024-05-25",
+    "2024-05-26"
+   ],
+   "venue": "코스타세레나호 / 부산 <-> 나가사키"
+  },
+  {
+   "idx": "18398801",
+   "title": "THE GLOW 2024 - 최종 라인업",
+   "dates": [
+    "2024-04-13",
+    "2024-04-14"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "18389214",
+   "title": "서울파크뮤직페스티벌 2024 - 1차 라인업",
+   "dates": [
+    "2024-06-29",
+    "2024-06-30"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "18356562",
+   "title": "대구 힙합페스티벌 2024 - 5차 라인업",
+   "dates": [
+    "2024-05-04",
+    "2024-05-05"
+   ],
+   "venue": "대구스타디움 보조경기장"
+  },
+  {
+   "idx": "18317235",
+   "title": "버저비트 페스티벌 2024",
+   "dates": [
+    "2024-04-13",
+    "2024-04-14"
+   ],
+   "venue": "KBS아레나, 제 2체육관"
+  },
+  {
+   "idx": "18202294",
+   "title": "서울 재즈 페스티벌 2024 - 3차 라인업",
+   "dates": [
+    "2024-05-31",
+    "2024-06-01",
+    "2024-06-02"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "18132320",
+   "title": "힙합플레이야 페스티벌 2024 - 1차 라인업",
+   "dates": [
+    "2024-05-04",
+    "2024-05-05"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "18125296",
+   "title": "뷰티풀 민트 라이프 2024 - 1차 라인업",
+   "dates": [
+    "2024-05-11",
+    "2024-05-12"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "18018448",
+   "title": "라우드 브릿지 페스티벌 2024 - 최종 라인업",
+   "dates": [
+    "2024-04-13",
+    "2024-04-14"
+   ],
+   "venue": "예스24 라이브홀"
+  },
+  {
+   "idx": "18016583",
+   "title": "KT&G 상상실현 페스티벌 2024",
+   "dates": [
+    "2024-04-27",
+    "2024-04-28"
+   ],
+   "venue": "KT&G 상상마당 춘천 아트센터"
+  },
+  {
+   "idx": "17967497",
+   "title": "대구 힙합 페스티벌 2024 - 2차 라인업",
+   "dates": [
+    "2024-05-04",
+    "2024-05-05"
+   ],
+   "venue": "대구스타디움 보조경기장"
+  },
+  {
+   "idx": "17931711",
+   "title": "DMZ 피스트레인 뮤직 페스티벌 2024 - 개최 일정",
+   "dates": [
+    "2024-06-15",
+    "2024-06-16"
+   ],
+   "venue": "강원도 철원 고석정"
+  },
+  {
+   "idx": "17879850",
+   "title": "THE GLOW 2024 - 1차 라인업",
+   "dates": [
+    "2024-04-13",
+    "2024-04-14"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "17865127",
+   "title": "DLDK KOREA 2024 - 최종 라인업",
+   "dates": [
+    "2024-04-20"
+   ],
+   "venue": "서울랜드"
+  },
+  {
+   "idx": "17840645",
+   "title": "서울 재즈 페스티벌 2024 - 2차 라인업",
+   "dates": [
+    "2024-05-31",
+    "2024-06-01",
+    "2024-06-02"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "17834391",
+   "title": "대구 힙합페스티벌 2024 - 1차 라인업",
+   "dates": [
+    "2024-05-04",
+    "2024-05-05"
+   ],
+   "venue": "대구스타디움 보조경기장"
+  },
+  {
+   "idx": "17537535",
+   "title": "라우드 브릿지 페스티벌 2024 - 1차 라인업",
+   "dates": [
+    "2024-04-13",
+    "2024-04-14"
+   ],
+   "venue": "예스24 라이브홀"
+  },
+  {
+   "idx": "17331764",
+   "title": "서울 재즈 페스티벌 2024 - 1차 라인업",
+   "dates": [
+    "2024-05-31",
+    "2024-06-01",
+    "2024-06-02"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "17067767",
+   "title": "카운트다운 판타지 2023-2024 최종 라인업",
+   "dates": [
+    "2023-12-30",
+    "2023-12-31"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "16904600",
+   "title": "카운트다운 판타지 2023-2024 2차 라인업",
+   "dates": [
+    "2023-12-30",
+    "2023-12-31"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "16786627",
+   "title": "카운트다운 판타지 2023-2024 - 1차 라인업",
+   "dates": [
+    "2023-12-30",
+    "2023-12-31"
+   ],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "16425932",
+   "title": "KT&G 페스티벌 시옷 2023",
+   "dates": [
+    "2023-10-27",
+    "2023-10-28",
+    "2023-10-29"
+   ],
+   "venue": "상상마당 부산"
+  },
+  {
+   "idx": "16408824",
+   "title": "서울숲 재즈 페스티벌 - OK캐쉬백 티켓 예매 혜택",
+   "dates": [],
+   "venue": "서울숲"
+  },
+  {
+   "idx": "16408808",
+   "title": "자라섬 재즈 페스티벌 - OK캐쉬백 티켓 예매 혜택",
+   "dates": [],
+   "venue": "가평 자라섬"
+  },
+  {
+   "idx": "16387918",
+   "title": "부산 국제 록 페스티벌 2023 - 3차 라인업",
+   "dates": [
+    "2023-10-07",
+    "2023-10-08"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "16332676",
+   "title": "그랜드 민트 페스티벌 2023 - 최종 라인업",
+   "dates": [
+    "2023-10-20",
+    "2023-10-21",
+    "2023-10-22"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "16304381",
+   "title": "부산 국제 록 페스티벌 2023 - 2차 라인업",
+   "dates": [
+    "2023-10-07",
+    "2023-10-08"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "16264831",
+   "title": "세종 보헤미안 락 페스티벌 2023",
+   "dates": [],
+   "venue": "세종중앙공원 도시축제마당"
+  },
+  {
+   "idx": "16250000",
+   "title": "서울숲재즈페스티벌 2023 - 3차 라인업",
+   "dates": [
+    "2023-09-23",
+    "2023-09-24"
+   ],
+   "venue": "서울숲"
+  },
+  {
+   "idx": "16177393",
+   "title": "슬로우 라이프 슬로우 라이브 2023",
+   "dates": [
+    "2023-10-07",
+    "2023-10-08",
+    "2023-10-09"
+   ],
+   "venue": "올림픽공원 88잔디마당"
+  },
+  {
+   "idx": "16133495",
+   "title": "경기 인디 뮤직 페스티벌 2023 - 최종 라인업",
+   "dates": [
+    "2023-10-13",
+    "2023-10-14",
+    "2023-10-15"
+   ],
+   "venue": "안산 와 스타디움"
+  },
+  {
+   "idx": "16113724",
+   "title": "그랜드 민트 페스티벌 2023 - 2차 라인업",
+   "dates": [
+    "2023-10-20",
+    "2023-10-21",
+    "2023-10-22"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "16038120",
+   "title": "2023 이슬라이브 페스티벌 - 최종 라인업",
+   "dates": [
+    "2023-09-02"
+   ],
+   "venue": "경기도 가평군 자라섬 중도"
+  },
+  {
+   "idx": "15999932",
+   "title": "부산 국제 록 페스티벌 2023 - 1차 라인업",
+   "dates": [
+    "2023-10-07",
+    "2023-10-08"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "15939515",
+   "title": "그랜드 민트 페스티벌 2023 - 1차 라인업",
+   "dates": [
+    "2023-10-20",
+    "2023-10-21",
+    "2023-10-22"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "15854595",
+   "title": "서울숲재즈페스티벌 2023 - 1차 라인업",
+   "dates": [
+    "2023-09-23",
+    "2023-09-24"
+   ],
+   "venue": "서울숲"
+  },
+  {
+   "idx": "15788224",
+   "title": "자라섬 재즈 페스티벌 2023 - 1차 라인업",
+   "dates": [
+    "2023-10-07",
+    "2023-10-08",
+    "2023-10-09"
+   ],
+   "venue": "경기도 가평 자라섬"
+  },
+  {
+   "idx": "15772785",
+   "title": "렛츠락 페스티벌 2023 - 4차 라인업",
+   "dates": [
+    "2023-09-02",
+    "2023-09-03"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "15711561",
+   "title": "인천 펜타포트 락 페스티벌 2023 - 최종 및 스테이지별 라인업",
+   "dates": [
+    "2023-08-04",
+    "2023-08-05",
+    "2023-08-06"
+   ],
+   "venue": "인천 송도달빛축제공원"
+  },
+  {
+   "idx": "15709798",
+   "title": "우드스탁 코리아 취소 및 일정 연기",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "15691401",
+   "title": "렛츠락 페스티벌 2023 - 3차 라인업",
+   "dates": [
+    "2023-09-02",
+    "2023-09-03"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "15642054",
+   "title": "랩비트 페스티벌 2023 - 1차 라인업",
+   "dates": [
+    "2023-09-02",
+    "2023-09-03"
+   ],
+   "venue": "서울랜드"
+  },
+  {
+   "idx": "15642047",
+   "title": "인천 펜타포트 락 페스티벌 2023 - 3차 라인업",
+   "dates": [
+    "2023-08-04",
+    "2023-08-05",
+    "2023-08-06"
+   ],
+   "venue": "인천 송도달빛축제공원"
+  },
+  {
+   "idx": "15642016",
+   "title": "DMZ 피스트레인 뮤직 페스티벌 - 2차 라인업",
+   "dates": [
+    "2023-09-02",
+    "2023-09-03"
+   ],
+   "venue": "강원도 철원군 고석정"
+  },
+  {
+   "idx": "15623170",
+   "title": "전주 얼티밋 뮤직 페스티벌 2023 - 최종 라인업",
+   "dates": [
+    "2023-08-11",
+    "2023-08-12",
+    "2023-08-13"
+   ],
+   "venue": "전주 종합경기장"
+  },
+  {
+   "idx": "15439848",
+   "title": "Have A Nice Trip - 최종 라인업",
+   "dates": [
+    "2023-07-15",
+    "2023-07-16"
+   ],
+   "venue": "킨텍스 제2전시장"
+  },
+  {
+   "idx": "15368662",
+   "title": "어스어스 페스티벌 2023 - 1차 라인업",
+   "dates": [
+    "2023-08-12",
+    "2023-08-13"
+   ],
+   "venue": "부산 다대포해수욕장"
+  },
+  {
+   "idx": "15350090",
+   "title": "Have A Nice Trip - 2차 라인업",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "15259401",
+   "title": "인천 펜타포트 락 페스티벌 2023 - 2차 라인업",
+   "dates": [
+    "2023-08-04",
+    "2023-08-05",
+    "2023-08-06"
+   ],
+   "venue": "인천 송도달빛축제공원"
+  },
+  {
+   "idx": "15227494",
+   "title": "Have A Nice Trip - 1차 라인업",
+   "dates": [
+    "2023-07-15",
+    "2023-07-16"
+   ],
+   "venue": "킨텍스 제2전시장"
+  },
+  {
+   "idx": "15182517",
+   "title": "DMZ 피스트레인 뮤직 페스티벌 - 1차 라인업",
+   "dates": [
+    "2023-09-02",
+    "2023-09-03"
+   ],
+   "venue": "강원도 철원군 고석정"
+  },
+  {
+   "idx": "15132685",
+   "title": "인천 펜타포트 락 페스티벌 2023 - 1차 라인업",
+   "dates": [
+    "2023-08-04",
+    "2023-08-05",
+    "2023-08-06"
+   ],
+   "venue": "인천 송도달빛축제공원"
+  },
+  {
+   "idx": "15056456",
+   "title": "2023 KT＆G 상상실현페스티벌",
+   "dates": [],
+   "venue": "상상마당 춘천 아트센터"
+  },
+  {
+   "idx": "14988551",
+   "title": "서울 파크 뮤직 페스티벌 2023 - 최종 라인업",
+   "dates": [
+    "2023-06-24",
+    "2023-06-25"
+   ],
+   "venue": "올림픽공원 일대"
+  },
+  {
+   "idx": "14750972",
+   "title": "뷰티풀 민트 라이프 2023 - 최종 라인업",
+   "dates": [
+    "2023-05-13",
+    "2023-05-14"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "14676914",
+   "title": "월드 디제이 페스티벌 2023 - 부산",
+   "dates": [],
+   "venue": "영화의전당"
+  },
+  {
+   "idx": "14676793",
+   "title": "돈 렛 대디 노우 코리아",
+   "dates": [],
+   "venue": "과천 서울랜드"
+  },
+  {
+   "idx": "14592821",
+   "title": "서울재즈페스티벌 2023 - 최종 라인업",
+   "dates": [
+    "2023-05-26",
+    "2023-05-27",
+    "2023-05-28"
+   ],
+   "venue": "올림픽공원 일대"
+  },
+  {
+   "idx": "14482689",
+   "title": "해브어나이스데이 #9",
+   "dates": [
+    "2023-04-15",
+    "2023-04-16"
+   ],
+   "venue": "노들섬"
+  },
+  {
+   "idx": "14482665",
+   "title": "서울 파크 뮤직 페스티벌 2023 - 1차 라인업",
+   "dates": [
+    "2023-06-24",
+    "2023-06-25"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "14469804",
+   "title": "월드 디제이 페스티벌 2023 - 전체 라인업",
+   "dates": [
+    "2023-06-02",
+    "2023-06-03",
+    "2023-06-04"
+   ],
+   "venue": "서울랜드"
+  },
+  {
+   "idx": "14447804",
+   "title": "러브썸 페스티벌 2023 - 2차 라인업",
+   "dates": [
+    "2023-04-22",
+    "2023-04-23"
+   ],
+   "venue": "잠실 올림픽주경기장"
+  },
+  {
+   "idx": "14411261",
+   "title": "서울재즈페스티벌 2023 - 3차 라인업",
+   "dates": [
+    "2023-05-26",
+    "2023-05-27",
+    "2023-05-28"
+   ],
+   "venue": "올림픽공원 일대"
+  },
+  {
+   "idx": "14319678",
+   "title": "러브썸 페스티벌 2023 - 1차 라인업",
+   "dates": [
+    "2023-04-22",
+    "2023-04-23"
+   ],
+   "venue": "잠실 올림픽주경기장"
+  },
+  {
+   "idx": "14305582",
+   "title": "뷰티풀 민트 라이프 2023 - 1차 라인업",
+   "dates": [
+    "2023-05-13",
+    "2023-05-14"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "14182830",
+   "title": "서울재즈페스티벌 2023 - 2차 라인업",
+   "dates": [
+    "2023-05-26",
+    "2023-05-27",
+    "2023-05-28"
+   ],
+   "venue": "올림픽공원 일대"
+  },
+  {
+   "idx": "13958880",
+   "title": "서울재즈페스티벌 2023 - 1차 라인업",
+   "dates": [
+    "2023-05-26",
+    "2023-05-27",
+    "2023-05-28"
+   ],
+   "venue": "올림픽공원 일대"
+  },
+  {
+   "idx": "13380999",
+   "title": "핑퐁클럽",
+   "dates": [],
+   "venue": "원주 아름드리, 레코드어데이"
+  },
+  {
+   "idx": "13130510",
+   "title": "페스티벌 시옷",
+   "dates": [
+    "2022-10-21"
+   ],
+   "venue": "상상마당 부산"
+  },
+  {
+   "idx": "13019882",
+   "title": "STAY.G 054 x 황남동 카니발",
+   "dates": [],
+   "venue": "경주 황리단길 일대"
+  },
+  {
+   "idx": "13008494",
+   "title": "경기인디뮤직페스티벌 2022",
+   "dates": [],
+   "venue": "경인아라뱃길 아라마리나"
+  },
+  {
+   "idx": "12958724",
+   "title": "OST For Rest in 서울숲",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "12953255",
+   "title": "2022 뮤즈온 데이",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "12861620",
+   "title": "어썸 뮤직 페스티벌 2022 - 최종 라인업",
+   "dates": [
+    "2022-10-22",
+    "2022-10-23"
+   ],
+   "venue": "난지 한강공원"
+  },
+  {
+   "idx": "12837129",
+   "title": "벡터 페스티벌 2022",
+   "dates": [],
+   "venue": "대구 종합경기장"
+  },
+  {
+   "idx": "12832371",
+   "title": "그랜드민트페스티벌 2022 - 최종 라인업",
+   "dates": [
+    "2022-10-22",
+    "2022-10-23"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "12814682",
+   "title": "힙합플레이야 페스티벌 2022 - 최종 라인업",
+   "dates": [
+    "2022-09-17",
+    "2022-09-18"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "12787342",
+   "title": "동두천 락 페스티벌 2022",
+   "dates": [],
+   "venue": "소요산 입구 광장 특설무대"
+  },
+  {
+   "idx": "12783796",
+   "title": "부산 국제 록 페스티벌 2022 - 3차 라인업",
+   "dates": [
+    "2022-10-01",
+    "2022-10-02"
+   ],
+   "venue": "삼락생태공원"
+  },
+  {
+   "idx": "12753763",
+   "title": "<제 5회 티페스타 통영>",
+   "dates": [
+    "2022-09-27",
+    "2022-09-28",
+    "2022-09-29",
+    "2022-09-30",
+    "2022-10-01",
+    "2022-10-02"
+   ],
+   "venue": "경남 통영 서피랑공원 및 통영시 일대"
+  },
+  {
+   "idx": "12744327",
+   "title": "DMZ 피스트레인 2022 - 일자별 라인업",
+   "dates": [
+    "2022-10-01",
+    "2022-10-02"
+   ],
+   "venue": "강원도 철원군 고석정 일대"
+  },
+  {
+   "idx": "12734336",
+   "title": "US EARTH FESTIVAL ESG festival 2022（어스어스 페스티벌）",
+   "dates": [],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "12694338",
+   "title": "DMZ 피스트레인 2022 - 2차 라인업",
+   "dates": [
+    "2022-10-01",
+    "2022-10-02"
+   ],
+   "venue": "강원도 철원군 고석정 일대"
+  },
+  {
+   "idx": "12688621",
+   "title": "부산 국제 록 페스티벌 2022 - 2차 라인업",
+   "dates": [
+    "2022-10-01",
+    "2022-10-02"
+   ],
+   "venue": "삼락생태공원"
+  },
+  {
+   "idx": "12627331",
+   "title": "그랜드민트페스티벌 2022 - 1차 라인업",
+   "dates": [
+    "2022-10-22",
+    "2022-10-23"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "12612817",
+   "title": "렛츠락 페스티벌 2022 - 1차 라인업",
+   "dates": [
+    "2022-09-24",
+    "2022-09-25"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "12605196",
+   "title": "메가필드 페스티벌 2022",
+   "dates": [
+    "2022-09-03",
+    "2022-09-04"
+   ],
+   "venue": "연세대학교 노천극장"
+  },
+  {
+   "idx": "12490161",
+   "title": "전주 얼티밋 뮤직 페스티벌 2022 - 최종 라인업",
+   "dates": [
+    "2022-08-26",
+    "2022-08-27",
+    "2022-08-28"
+   ],
+   "venue": "전주종합경기장"
+  },
+  {
+   "idx": "12489493",
+   "title": "울트라 코리아 2022 - 개최 발표",
+   "dates": [
+    "2022-09-24",
+    "2022-09-25"
+   ],
+   "venue": "서울"
+  },
+  {
+   "idx": "12488930",
+   "title": "부산 국제 록 페스티벌 2022 - 1차 라인업",
+   "dates": [
+    "2022-10-01",
+    "2022-10-02"
+   ],
+   "venue": "삼락생태공원"
+  },
+  {
+   "idx": "12488092",
+   "title": "렛츠락 페스티벌 2022 - 1차 라인업",
+   "dates": [
+    "2022-09-24",
+    "2022-09-25"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "12465221",
+   "title": "힙합플레이야 페스티벌 2022 - 2차 라인업",
+   "dates": [
+    "2022-09-17",
+    "2022-09-18"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "12413868",
+   "title": "인천 펜타포트 락 페스티벌 - 최종 라인업 및 타임테이블",
+   "dates": [
+    "2022-08-05",
+    "2022-08-06",
+    "2022-08-07"
+   ],
+   "venue": "인천 송도달빛축제공원"
+  },
+  {
+   "idx": "12411343",
+   "title": "﻿슬로우 라이프 슬로우 라이브 2022 - 최종 라인업",
+   "dates": [
+    "2022-10-08",
+    "2022-10-09",
+    "2022-10-10"
+   ],
+   "venue": "올림픽공원 88잔디마당"
+  },
+  {
+   "idx": "12400546",
+   "title": "전주 얼티밋 뮤직 페스티벌 2022 - 2차 라인업",
+   "dates": [
+    "2022-08-26",
+    "2022-08-27",
+    "2022-08-28"
+   ],
+   "venue": "전주종합경기장"
+  },
+  {
+   "idx": "12335122",
+   "title": "러브썸 페스티벌 2022 - 1차 라인업",
+   "dates": [
+    "2022-09-17",
+    "2022-09-18"
+   ],
+   "venue": "연세대학교 노천극장"
+  },
+  {
+   "idx": "12258643",
+   "title": "힙합플레이야 페스티벌 2022 - 1차 라인업 및 티켓 오픈",
+   "dates": [
+    "2022-09-17",
+    "2022-09-18"
+   ],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "12243737",
+   "title": "자라섬 재즈 페스티벌 2022 - 1차 라인업 및 티켓오픈",
+   "dates": [
+    "2022-10-01",
+    "2022-10-02",
+    "2022-10-03"
+   ],
+   "venue": "가평 자라섬 및 가평 일대"
+  },
+  {
+   "idx": "12135377",
+   "title": "리스펙 페스티벌 2022 - 최종 라인업 및 할인 티켓",
+   "dates": [
+    "2022-08-27",
+    "2022-08-28"
+   ],
+   "venue": "올림픽공원 88잔디마당"
+  },
+  {
+   "idx": "11982797",
+   "title": "슬로우 라이프 슬로우 라이브 - 2차 라인업",
+   "dates": [
+    "2022-10-08",
+    "2022-10-09",
+    "2022-10-10"
+   ],
+   "venue": "올림픽공원 88잔디마당"
+  },
+  {
+   "idx": "11914394",
+   "title": "﻿인천 펜타포트 락 페스티벌 2022 - 3차 라인업",
+   "dates": [
+    "2022-08-05",
+    "2022-08-06",
+    "2022-08-07"
+   ],
+   "venue": "인천 송도달빛축제공원"
+  },
+  {
+   "idx": "11897022",
+   "title": "리스펙 페스티벌 2022 - 1차 라인업",
+   "dates": [
+    "2022-08-27",
+    "2022-08-28"
+   ],
+   "venue": "올림픽공원 88잔디마당"
+  },
+  {
+   "idx": "11854757",
+   "title": "리스펙 페스티벌 2022 - 개최 및 일정 공개",
+   "dates": [],
+   "venue": "올림픽공원 88잔디마당"
+  },
+  {
+   "idx": "11807938",
+   "title": "랩비트 페스티벌 2022 - 2차 라인업",
+   "dates": [
+    "2022-09-03",
+    "2022-09-04"
+   ],
+   "venue": "서울랜드"
+  },
+  {
+   "idx": "11763683",
+   "title": "인천 펜타포트 락 페스티벌 2022 - 2차 라인업",
+   "dates": [
+    "2022-08-05",
+    "2022-08-06",
+    "2022-08-07"
+   ],
+   "venue": "인천 송도달빛축제공원"
+  },
+  {
+   "idx": "11593809",
+   "title": "인천 펜타포트 락 페스티벌 2022 - 1차 라인업",
+   "dates": [
+    "2022-08-05",
+    "2022-08-06",
+    "2022-08-07"
+   ],
+   "venue": "인천 송도달빛축제공원"
+  },
+  {
+   "idx": "11551277",
+   "title": "서울 파크 뮤직 페스티벌 - 최종 라인업",
+   "dates": [],
+   "venue": "올림픽공원 88잔디마당"
+  },
+  {
+   "idx": "11455752",
+   "title": "Haus of Wonder 2022 - 1차 라인업",
+   "dates": [
+    "2022-08-06",
+    "2022-08-07"
+   ],
+   "venue": "일산 킨텍스"
+  },
+  {
+   "idx": "11359173",
+   "title": "2022 상상실현 페스티벌",
+   "dates": [],
+   "venue": "상상마당 춘천"
+  },
+  {
+   "idx": "11337240",
+   "title": "랩비트 페스티벌 2022 - 1차 라인업",
+   "dates": [
+    "2022-09-03",
+    "2022-09-04"
+   ],
+   "venue": "서울랜드"
+  },
+  {
+   "idx": "11321141",
+   "title": "인천 펜타포트 락 페스티벌 2022 개최 확정",
+   "dates": [
+    "2022-08-05",
+    "2022-08-06",
+    "2022-08-07"
+   ],
+   "venue": "인천 송도달빛축제공원"
+  },
+  {
+   "idx": "11294932",
+   "title": "자라섬 재즈 페스티벌 2022 개최",
+   "dates": [],
+   "venue": "가평 자라섬 및 가평 일대"
+  },
+  {
+   "idx": "11270527",
+   "title": "뷰티풀 민트 라이프 2022 추가 일정 전야제",
+   "dates": [
+    "2022-05-13"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "11270518",
+   "title": "파크 뮤직 페스티벌 2022 - 1차 라인업",
+   "dates": [],
+   "venue": "올림픽공원 88잔디마당"
+  },
+  {
+   "idx": "11214925",
+   "title": "서울재즈페스티벌 2022 라인업 공개",
+   "dates": [],
+   "venue": "올림픽공원 88잔디마당"
+  },
+  {
+   "idx": "11161097",
+   "title": "Have A Nice Day x 전주국제영화제",
+   "dates": [],
+   "venue": "전주국제영화제 전주 돔"
+  },
+  {
+   "idx": "11161043",
+   "title": "뷰티풀 민트 라이프 2022 - 최종 라인업",
+   "dates": [
+    "2022-05-14",
+    "2022-05-15"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "9011991",
+   "title": "카운트다운 판타지 2021-2022",
+   "dates": [],
+   "venue": "킨텍스"
+  },
+  {
+   "idx": "8320825",
+   "title": "전주얼티밋뮤직페스티벌 2021 - 최종 라인업",
+   "dates": [],
+   "venue": "전주 한국소리문화의전당"
+  },
+  {
+   "idx": "8241941",
+   "title": "월드 디제이 페스티벌 2021 - 오프라인 취소 및 온라인 전환",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "8241938",
+   "title": "서울숲 재즈페스티벌 2021 - 일정 변경",
+   "dates": [
+    "2021-10-30",
+    "2021-10-31"
+   ],
+   "venue": "서울숲"
+  },
+  {
+   "idx": "8241926",
+   "title": "Have A Nice Day #9 - 취소 및 일정/형태 변경 공지",
+   "dates": [],
+   "venue": "이화여자대학교 삼성홀"
+  },
+  {
+   "idx": "8241922",
+   "title": "그랜드 민트 페스티벌 2021 - 취소 공지",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "8241913",
+   "title": "DMZ 피스트레인 뮤직페스티벌 - 최종 공지 (개최 무산)",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "8151284",
+   "title": "2021 자라섬재즈페스티벌 - 최종 라인업",
+   "dates": [
+    "2021-11-05",
+    "2021-11-06",
+    "2021-11-07"
+   ],
+   "venue": "경기도 가평 자라섬 일대"
+  },
+  {
+   "idx": "8103171",
+   "title": "전주얼티밋뮤직페스티벌 2021 - 1차 라인업",
+   "dates": [],
+   "venue": "전주 한국소리문화의전당"
+  },
+  {
+   "idx": "8100494",
+   "title": "2021 자라섬재즈페스티벌 - 일정 연기",
+   "dates": [
+    "2021-11-05",
+    "2021-11-06",
+    "2021-11-07"
+   ],
+   "venue": "경기도 가평 자라섬 일대"
+  },
+  {
+   "idx": "8012250",
+   "title": "부산국제록페스티벌 2021 - 최종 라인업",
+   "dates": [
+    "2021-10-02"
+   ],
+   "venue": "부산 삼락생태공원, 온라인 중계"
+  },
+  {
+   "idx": "8006718",
+   "title": "인천 펜타포트 락 페스티벌 2021 - 최종 라인업",
+   "dates": [
+    "2021-10-09",
+    "2021-10-10"
+   ],
+   "venue": ""
+  },
+  {
+   "idx": "7995515",
+   "title": "서울숲재즈페스티벌 2021 - 2차 라인업",
+   "dates": [
+    "2021-10-16",
+    "2021-10-17"
+   ],
+   "venue": "서울숲"
+  },
+  {
+   "idx": "7976239",
+   "title": "부산국제록페스티벌 2021 온오프 축소 개최",
+   "dates": [
+    "2021-10-02"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "7976229",
+   "title": "전주얼티밋뮤직페스티벌 2021 개최 안내",
+   "dates": [],
+   "venue": "전주 한국소리문화의전당"
+  },
+  {
+   "idx": "7905758",
+   "title": "그랜드민트페스티벌 - 최종 라인업",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "7754034",
+   "title": "그랜드 민트 페스티벌 2021 - 개최 및 티켓오픈 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "7754030",
+   "title": "Have A Nice Day #9 - 라인업 공개",
+   "dates": [],
+   "venue": "파라다이스시티"
+  },
+  {
+   "idx": "7709869",
+   "title": "서울 숲 재즈 페스티벌 2021",
+   "dates": [],
+   "venue": "서울숲"
+  },
+  {
+   "idx": "7709787",
+   "title": "월드 디제이 페스티벌 2021",
+   "dates": [
+    "2021-10-09",
+    "2021-10-10",
+    "2021-10-11"
+   ],
+   "venue": "장충체육관"
+  },
+  {
+   "idx": "7662993",
+   "title": "Have A Nice Day #9 개최",
+   "dates": [],
+   "venue": "파라다이스시티"
+  },
+  {
+   "idx": "7662990",
+   "title": "월드 디제이 페스티벌 2021 개최",
+   "dates": [],
+   "venue": "장충체육관"
+  },
+  {
+   "idx": "7662983",
+   "title": "인천 펜타포트 락 페스티벌 - 1차 라인업",
+   "dates": [
+    "2021-10-09",
+    "2021-10-10"
+   ],
+   "venue": ""
+  },
+  {
+   "idx": "7611661",
+   "title": "자라섬재즈페스티벌 1차 라인업 및 티켓 오픈",
+   "dates": [],
+   "venue": "경기도 가평 자라섬 일대"
+  },
+  {
+   "idx": "7131589",
+   "title": "인천 펜타포트 락 페스티벌 2021 개최 일정 공개",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "7081072",
+   "title": "자라섬재즈페스티벌 2021 개최 일정",
+   "dates": [],
+   "venue": "경기도 가평 자라섬 일대"
+  },
+  {
+   "idx": "7019490",
+   "title": "부산국제록페스티벌 2021 개최 일정 및 장소 공개!",
+   "dates": [
+    "2021-10-02",
+    "2021-10-03"
+   ],
+   "venue": "부산 삼락생태공원"
+  },
+  {
+   "idx": "6882910",
+   "title": "랩비트 페스티벌 2021",
+   "dates": [],
+   "venue": "추후공지"
+  },
+  {
+   "idx": "6788843",
+   "title": "부산국제록페스티벌 2021 개최 소식",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "6788835",
+   "title": "뷰티풀 민트 라이프 2021 - 최종 라인업",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "6766370",
+   "title": "뷰티풀 민트 라이프 2021 - 1차 라인업",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "5962205",
+   "title": "'2021 LOVESOME - 참 애썼다, 그것으로 되었다'",
+   "dates": [],
+   "venue": "노들섬 라이브 하우스"
+  },
+  {
+   "idx": "5135273",
+   "title": "그랜드민트페스티벌 2020 취소 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "5135257",
+   "title": "월디페 2020 온라인 중계 일정 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "5134525",
+   "title": "잔다리 언리얼 2020 해외 라인업 공개 (잔다리 페스타)",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "5083658",
+   "title": "인천 펜타포트 락 페스티벌 2020 - 타임테이블 공개",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "5083651",
+   "title": "잔다리 언리얼 2020 국내 라인업 공개 (잔다리 페스타)",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "5050166",
+   "title": "인천 펜타포트 락 페스티벌 2020 - 추가 라인업",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "4960503",
+   "title": "그랜드민트페스티벌 2020 - 최종 라인업",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "4959977",
+   "title": "인천 펜타포트 락 페스티벌 2020 - 라인업 발표",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "4863296",
+   "title": "카운트다운 판타지 2020-2021",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "4862365",
+   "title": "그랜드민트페스티벌 2020 - 3차 라인업",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "4622719",
+   "title": "파란만장",
+   "dates": [],
+   "venue": "혜화 마로니에 야외공연장, 공공그라운드 001 라운지"
+  },
+  {
+   "idx": "4570558",
+   "title": "KB 랩비트 페스티벌 2020 - 취소 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "4476523",
+   "title": "서울재즈페스티벌 2020 취소 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "4398888",
+   "title": "그랜드민트페스티벌 2020 - 2차 라인업",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "4393048",
+   "title": "그린플러그드 경주 2020 취소 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "4392085",
+   "title": "자라섬재즈페스티벌 2020 온라인 개최 변경 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "4392029",
+   "title": "인천 펜타포트 락페스티벌 2020 개최",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "4333374",
+   "title": "서울숲재즈페스티벌 2020 - 2차 라인업",
+   "dates": [],
+   "venue": "서울숲공원일대"
+  },
+  {
+   "idx": "4272217",
+   "title": "렛츠락 페스티벌 2020 - 미개최 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "4272193",
+   "title": "썸데이 페스티벌 2020 - 1차 라인업",
+   "dates": [],
+   "venue": "난지 한강공원"
+  },
+  {
+   "idx": "4272159",
+   "title": "그랜드민트페스티벌 2020 - 1차 라인업",
+   "dates": [],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "4237441",
+   "title": "자라섬 국제재즈페스티벌 2020 - 1차 라인업",
+   "dates": [
+    "2020-10-09",
+    "2020-10-10",
+    "2020-10-11"
+   ],
+   "venue": "경기 가평군 자라섬"
+  },
+  {
+   "idx": "4235905",
+   "title": "EDC 코리아 2020 - 개최 취소 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "4199551",
+   "title": "그린플러그드 경주 2020 - 1차 라인업",
+   "dates": [],
+   "venue": "경주 세계문화엑스포공원 일대"
+  },
+  {
+   "idx": "4139257",
+   "title": "서울숲재즈페스티벌 2020 - 1차 라인업",
+   "dates": [],
+   "venue": "서울숲공원일대"
+  },
+  {
+   "idx": "4094012",
+   "title": "부산국제록페스티벌 2020 - 개최 취소 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "4036151",
+   "title": "그린플러그드 동해 2020 취소 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "4034634",
+   "title": "디엠지 피스트레인 뮤직페스티벌 2020 - 타임테이블 공개",
+   "dates": [
+    "2020-07-18"
+   ],
+   "venue": "강원 철원군 고석정"
+  },
+  {
+   "idx": "4017668",
+   "title": "KB 랩비트 페스티벌 2020 - 최종 라인업",
+   "dates": [
+    "2020-09-19",
+    "2020-09-20"
+   ],
+   "venue": "서울랜드"
+  },
+  {
+   "idx": "3972894",
+   "title": "그린플러그드 서울 2020 취소 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3971410",
+   "title": "부산국제록페스티벌 2020 - 개최 일정 연기 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3941798",
+   "title": "뻔하지않은듯뻔한페스티벌",
+   "dates": [],
+   "venue": "연세대학교 노천극장"
+  },
+  {
+   "idx": "3912653",
+   "title": "(변경) 파크 뮤직 페스티벌 2020 - 1차 라인업",
+   "dates": [],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "3912132",
+   "title": "서울재즈페스티벌 2020 - 3차 라인업",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3907912",
+   "title": "그린플러그드 동해 2020 - 1차 라인업",
+   "dates": [],
+   "venue": "동해 망상해수욕장"
+  },
+  {
+   "idx": "3871363",
+   "title": "강원락페스티벌 2020 - 미개최",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3841128",
+   "title": "파크 뮤직페스티벌 2020 일정 연기 안내",
+   "dates": [
+    "2020-09-05"
+   ],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "3839601",
+   "title": "DMZ 피스트레인 뮤직 페스티벌 2020 - 변경 및 일자별 라인업 공개",
+   "dates": [
+    "2020-07-18"
+   ],
+   "venue": "강원 철원군 고석정"
+  },
+  {
+   "idx": "3819123",
+   "title": "DMZ 피스트레인 뮤직페스티벌 일정 연기 안내",
+   "dates": [
+    "2020-07-18"
+   ],
+   "venue": "강원도 철원"
+  },
+  {
+   "idx": "3819087",
+   "title": "5타디움(5TARDIUM) 일정 취소 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3808971",
+   "title": "울트라 코리아 2020 일정 연기 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3803432",
+   "title": "서울재즈페스티벌 2020 일정 변경 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3775725",
+   "title": "KB 랩비트 페스티벌 2020 1차 라인업 공개 & 초대권 이벤트🎉",
+   "dates": [
+    "2020-09-19",
+    "2020-09-20"
+   ],
+   "venue": "서울랜드"
+  },
+  {
+   "idx": "3773233",
+   "title": "2020 월드 디제이 페스티벌, 월디페 일정 연기 및 환불 안내",
+   "dates": [],
+   "venue": "서울랜드(동일)"
+  },
+  {
+   "idx": "3767987",
+   "title": "해브어나이스데이 - On your HAND 세계 최초 야외 온라인 뮤직 페스티벌 생중계",
+   "dates": [
+    "2020-04-30"
+   ],
+   "venue": "누구도 방해하지 않을 나만의 공간, 어디서나"
+  },
+  {
+   "idx": "3757678",
+   "title": "뷰티풀민트라이프 2020 - 취소 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3736317",
+   "title": "해브 어 나이스 데이(Have A NIce Day) #8 오프라인 일정 취소 및 온라인 생중계 전환 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3708022",
+   "title": "DMZ 피스트레인 뮤직 페스티벌 2020 - 최종 라인업 공개",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3687320",
+   "title": "그린플러그드 2020 일정 연기 안내",
+   "dates": [],
+   "venue": "서울대공원 인근"
+  },
+  {
+   "idx": "3672661",
+   "title": "서울재즈페스티벌 2020 일정 연기 안내",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3653403",
+   "title": "힙합플레이야 페스티벌 연기 공지",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3650360",
+   "title": "DMZ 피스트레인 뮤직페스티벌 2020 - 3차 라인업",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3637809",
+   "title": "뷰티풀민트라이프 2020 - 최종 라인업",
+   "dates": [],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "3597414",
+   "title": "Have A Nice Day #8 (해브어나이스데이)",
+   "dates": [],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "3567213",
+   "title": "파크 뮤직 페스티벌 2020 - 3차 라인업",
+   "dates": [],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "3562309",
+   "title": "DMZ 피스트레인 뮤직페스티벌 2020 - 2차 라인업",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3427370",
+   "title": "DMZ 피스트레인 뮤직페스티벌 2020 - 1차 라인업",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3420925",
+   "title": "뷰티풀민트라이프 2020 - 2차 라인업",
+   "dates": [],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "3415972",
+   "title": "그린플러그드 2020 - 3차 라인업",
+   "dates": [],
+   "venue": "서울대공원 인근"
+  },
+  {
+   "idx": "3301747",
+   "title": "힙합플레이야 페스티벌 2020 - 3차 라인업",
+   "dates": [],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "3288370",
+   "title": "힙합플레이야 페스티벌 2020 - 2차 라인업",
+   "dates": [],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "3161100",
+   "title": "파크 뮤직 페스티벌 2020 - 2차 라인업",
+   "dates": [],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "3152172",
+   "title": "힙합플레이야 페스티벌 2020 - 1차 라인업",
+   "dates": [],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "3150457",
+   "title": "뷰티풀민트라이프 2020 - 1차 라인업",
+   "dates": [],
+   "venue": "올림픽공원"
+  },
+  {
+   "idx": "3128443",
+   "title": "서울재즈페스티벌 2020 - 2차 라인업",
+   "dates": [],
+   "venue": "올림픽공원 일대"
+  },
+  {
+   "idx": "3119240",
+   "title": "DMZ 피스트레인 뮤직페스티벌 개최일정 공개!",
+   "dates": [],
+   "venue": ""
+  },
+  {
+   "idx": "3118026",
+   "title": "그린플러그드 2020 - 2차 라인업",
+   "dates": [],
+   "venue": "추후공개 (연기)"
+  },
+  {
+   "idx": "3111226",
+   "title": "부산국제록페스티벌 2020 - 개최일정 공개!",
+   "dates": [
+    "2020-07-24"
+   ],
+   "venue": ""
+  },
+  {
+   "idx": "3091238",
+   "title": "월드 디제이 페스티벌 2020 - 1차 라인업",
+   "dates": [],
+   "venue": "잠실 올림픽 주경기장"
+  },
+  {
+   "idx": "3031479",
+   "title": "5TARDUIM - 추가 라인업",
+   "dates": [],
+   "venue": "추후공개 (서울)"
+  },
+  {
+   "idx": "3024761",
+   "title": "그린플러그드 2020 - 1차 라인업",
+   "dates": [],
+   "venue": "추후공개"
+  },
+  {
+   "idx": "3024756",
+   "title": "[변경] 해브어나이스데이 HAND #8",
+   "dates": [],
+   "venue": "난지한강공원"
+  },
+  {
+   "idx": "3024751",
+   "title": "서울재즈페스티벌 2020 - 1차 라인업",
+   "dates": [],
+   "venue": "올림픽공원 일대"
+  }
+ ]
+}

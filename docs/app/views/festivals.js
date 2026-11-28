@@ -6,7 +6,7 @@
  */
 import { loadFestivalProfiles } from '../db_venue.js';
 import { escapeHtml, fmtInt, naCell } from '../ui.js';
-import { festivalKindLabel, pctText } from './festival_rows.js';
+import { catalogTableHtml, festivalKindLabel, pctText } from './festival_rows.js';
 
 export { editionRowHtml, festivalKindLabel, pctText } from './festival_rows.js';
 
@@ -34,6 +34,19 @@ function cardHtml(key, f) {
     </li>`;
 }
 
+/** 날짜·장소만 있는 페스티벌 (페스티벌라이프 목록) — 라인업 팀이 있는 페스티벌과 연결된 줄도 같이 */
+function catalogSectionHtml(catalog) {
+  const rows = Array.isArray(catalog) ? catalog : [];
+  if (!rows.length) return '';
+  const only = rows.filter(r => !r.festival).length;
+  return `
+    <section class="block fest-catalog">
+      <div class="block-head"><h2>날짜·장소만 있는 페스티벌</h2><span class="block-meta">${fmtInt(rows.length)}곳 (라인업 팀 없는 곳 ${fmtInt(only)}) · 2021~2026</span></div>
+      <p class="small muted">페스티벌라이프 '국내 페스티벌' 글에서 모은 일정·장소예요. 라인업은 포스터 그림이라 팀은 아직 없어요 — 회차 연도를 누르면 근거 글이 열려요.</p>
+      ${catalogTableHtml(rows)}
+    </section>`;
+}
+
 /** @param {HTMLElement} host */
 export async function renderFestivalsList(host) {
   const fp = await loadFestivalProfiles();
@@ -51,5 +64,6 @@ export async function renderFestivalsList(host) {
       </div>
     </div>
     <ul class="place-cards">${items.map(([k, f]) => cardHtml(k, f)).join('')}</ul>
+    ${catalogSectionHtml(fp.catalog)}
     <p class="small muted place-evidence">새 팀 = 이 페스티벌 앞선 회차(우리 데이터)에 없던 팀 · 그 뒤 수상·선정 = 회차 날짜보다 뒤에 받은 큰 수상·선정(같은 주최 수상·선정은 뺌) · 라인업은 우리가 모은 기록만이라 실제보다 적을 수 있음</p>`;
 }

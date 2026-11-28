@@ -286,6 +286,7 @@ table.data-table td :is([class*="-pill"], [class*="-chip"], [class*="-badge"], .
     border: 0;
     text-align: left;
     white-space: normal;
+    overflow-wrap: anywhere;           /* 긴 이름·주소가 칸을 밀어내지 않게 */
   }
 
   table.data-table.stack-table td::before {

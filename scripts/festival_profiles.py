@@ -138,6 +138,35 @@ def official_totals(lineups: Optional[dict], festivals: Sequence[Festival] = FES
     return out
 
 
+# 페스티벌라이프 목록 이름 → 라인업 페스티벌 키 (이름에 이 낱말이 들어 있으면 같은 페스티벌)
+CATALOG_MATCH = (("펜타포트", "penta_main"), ("부산국제록", "burock_main"), ("부산국제락", "burock_main"),
+                 ("그랜드민트", "gmf"), ("뷰티풀민트", "bml"), ("피스트레인", "dmz"), ("라이브클럽데이", "liveclubday"))
+CATALOG = lab_sql.ROOT / "config" / "festival_catalog.json"
+
+
+def _best_post(posts: List[dict]) -> str:
+    """근거 글: '최종' 글 우선, 없으면 목록 첫 글(가장 최근)."""
+    best = next((p for p in posts if "최종" in (p.get("kind") or "")), posts[0] if posts else {})
+    return best.get("url", "")
+
+
+def catalog_entries(catalog: Optional[dict]) -> List[dict]:
+    """페스티벌라이프 목록(config/festival_catalog.json) → 화면용 [{name, festival(라인업 페스티벌 키|None), editions}].
+    라인업은 포스터 그림이라 없음 — 회차마다 날짜·장소·근거 글(가장 최근 글) 주소만."""
+    out = []
+    for key, f in sorted((catalog or {}).get("festivals", {}).items()):
+        squashed = key.replace(" ", "")
+        match = next((fk for word, fk in CATALOG_MATCH if word in squashed), None)
+        eds = {y: {"dates": e.get("dates") or [], "venue": e.get("venue") or "",
+                   "url": _best_post(e.get("posts") or [])}
+               for y, e in sorted(f.get("editions", {}).items())}
+        if eds:
+            out.append({"name": f.get("name") or key, "festival": match, "editions": eds})
+    # 라인업 페스티벌과 연결된 곳 → 회차 많은 곳 → 최근 회차 순
+    out.sort(key=lambda r: (r["festival"] is None, -len(r["editions"]), -int(max(r["editions"])), r["name"]))
+    return out
+
+
 def make_key_of(xref_path: Path = XREF) -> Callable[[str], str]:
     """이름 → 팀 키 (공연 원본이 팀 키를 만드는 것과 같은 규칙: 이름 키 → artist_xref 대표 키, 없으면 이름 키)."""
     import normalize as nz
@@ -155,7 +184,7 @@ def _first_signal_days(signals: Iterable[dict], festivals: Sequence[Festival]) -
     first: Dict[str, date] = {}
     for r in signals:
         d = _day(r.get("signal_date"))
-        if d and r.get("team_key") and r.get("program", "") not in fest_programs:
+        if d and r.get("team_key") and r.get("program", "") not in fest_programs and r.get("role") != "excluded":
             t = r["team_key"]
             first[t] = min(first.get(t, d), d)
     return first
@@ -408,6 +437,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         if y in prof.get(fk, {}).get("editions", {}):
             prof[fk]["editions"][y]["official_lineup"] = n
     data = payload(prof, festival_flows(apps), as_of)
+    catalog = json.loads(CATALOG.read_text(encoding="utf-8")) if CATALOG.exists() else None
+    data["catalog"] = catalog_entries(catalog)                     # 날짜·장소만 있는 페스티벌·회차 (페스티벌라이프)
     args.out.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     if not args.no_doc:
         args.doc.write_text(render_doc(data), encoding="utf-8")

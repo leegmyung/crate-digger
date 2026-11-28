@@ -2675,7 +2675,7 @@
        "name": "Tokai",
        "day": "2025-09-26",
        "stage": "",
-       "korean": false
+       "korean": true
       },
       {
        "name": "플라워",
@@ -5392,154 +5392,311 @@
      ]
     },
     "2026": {
-     "source_url": "https://namu.wiki/w/%EA%B7%B8%EB%9E%9C%EB%93%9C%20%EB%AF%BC%ED%8A%B8%20%ED%8E%98%EC%8A%A4%ED%8B%B0%EB%B2%8C#2026년",
+     "source_url": "https://www.festivallife.kr/festival/?bmode=view&idx=174243065",
      "days": [
       "2026-10-17",
       "2026-10-18"
      ],
-     "official_total": 24,
+     "official_total": 50,
+     "source_note": "공식 최종 라인업 포스터(페스티벌라이프 '그랜드민트페스티벌 2026 - 최종 라인업' 글의 그림, 민트페이퍼 포스터)를 읽어 옮김 — '십란(10CM X 소란)'은 팀별로 나눔. 나무위키 표는 24팀뿐이라 포스터로 바꿈 (2026-11-28)",
      "acts": [
       {
        "name": "이소라",
-       "day": "2026-10-18",
-       "stage": "",
-       "korean": true
-      },
-      {
-       "name": "장기하",
-       "day": "2026-10-18",
-       "stage": "",
-       "korean": true
-      },
-      {
-       "name": "적재",
-       "day": "2026-10-18",
-       "stage": "",
-       "korean": true
-      },
-      {
-       "name": "정준일",
-       "day": "2026-10-18",
-       "stage": "",
-       "korean": true
-      },
-      {
-       "name": "지소쿠리클럽",
-       "day": "2026-10-18",
-       "stage": "",
-       "korean": true
-      },
-      {
-       "name": "연정",
-       "day": "2026-10-18",
-       "stage": "",
-       "korean": true
-      },
-      {
-       "name": "윤하",
-       "day": "2026-10-17",
-       "stage": "",
-       "korean": true
-      },
-      {
-       "name": "로이킴",
-       "day": "2026-10-17",
-       "stage": "",
-       "korean": true
-      },
-      {
-       "name": "정승환",
-       "day": "2026-10-17",
-       "stage": "",
-       "korean": true
-      },
-      {
-       "name": "볼빨간사춘기",
-       "day": "2026-10-17",
-       "stage": "",
-       "korean": true
-      },
-      {
-       "name": "신인류",
-       "day": "2026-10-17",
-       "stage": "",
-       "korean": true
-      },
-      {
-       "name": "산보",
        "day": "2026-10-17",
        "stage": "",
        "korean": true
       },
       {
        "name": "이승윤",
-       "day": "2026-10-18",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "장기하",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "페퍼톤스",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "홍이삭",
+       "day": "2026-10-17",
        "stage": "",
        "korean": true
       },
       {
        "name": "카더가든",
-       "day": "2026-10-18",
+       "day": "2026-10-17",
        "stage": "",
        "korean": true
       },
       {
        "name": "터치드",
-       "day": "2026-10-18",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "적재",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "정준일",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "라쿠나",
+       "day": "2026-10-17",
        "stage": "",
        "korean": true
       },
       {
        "name": "리도어",
-       "day": "2026-10-18",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "바이 바이 배드맨",
+       "day": "2026-10-17",
        "stage": "",
        "korean": true
       },
       {
        "name": "오월오일",
-       "day": "2026-10-18",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "지소쿠리클럽",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "알레프",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "유라",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "수민",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "g0nny",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "연정",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Hi-Fi",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Un!corn",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Leaveourtears",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "컨파인드 화이트",
+       "day": "2026-10-17",
        "stage": "",
        "korean": true
       },
       {
        "name": "FuturePeerClub",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "love is cycle",
+       "day": "2026-10-17",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "윤하",
        "day": "2026-10-18",
        "stage": "",
        "korean": true
       },
       {
-       "name": "십란(10CMX 소란)",
-       "day": "2026-10-17",
+       "name": "10CM",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "소란",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이석원",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "CNBLUE",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "로이킴",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "쏜애플",
+       "day": "2026-10-18",
        "stage": "",
        "korean": true
       },
       {
        "name": "엔플라잉",
-       "day": "2026-10-17",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "정승환",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "볼빨간사춘기",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "선우정아",
+       "day": "2026-10-18",
        "stage": "",
        "korean": true
       },
       {
        "name": "솔루션스",
-       "day": "2026-10-17",
+       "day": "2026-10-18",
        "stage": "",
        "korean": true
       },
       {
        "name": "원위",
-       "day": "2026-10-17",
+       "day": "2026-10-18",
        "stage": "",
        "korean": true
       },
       {
-       "name": "이오욱",
-       "day": "2026-10-17",
+       "name": "Dragon Pony",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "극동아시아타이거즈",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "까치산",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "신인류",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "신지훈",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "이오욱(LOW)",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "nib.archive",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "로시",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "Tokai",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "산보",
+       "day": "2026-10-18",
+       "stage": "",
+       "korean": true
+      },
+      {
+       "name": "구구",
+       "day": "2026-10-18",
        "stage": "",
        "korean": true
       },
       {
        "name": "kwacamolee",
-       "day": "2026-10-17",
+       "day": "2026-10-18",
        "stage": "",
        "korean": true
       }

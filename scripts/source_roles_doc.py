@@ -28,7 +28,7 @@ LABELS = {
     "선정·지원:yoojaeha_finalist": "유재하 경연 본선", "공연:sangsangmadang": "상상마당 공연", "큐레이션:musicy": "음악취향Y",
     "공연:indistreet": "인디스트릿 공연", "큐레이션:rhythmer": "리드머", "선정·지원:dmz_lineup": "DMZ 피스트레인 라인업",
     "선정·지원:gb_creation": "경북 창작소", "큐레이션:hiphople": "힙합엘이 국내 뉴스", "선정·지원:superrookie": "슈퍼루키챌린지",
-    "큐레이션:instagram": "인스타 매거진", "공연:instagram": "공연장 인스타 라인업", "공연:indiego": "인디고",
+    "큐레이션:instagram": "인스타 매거진", "공연:instagram": "공연장 인스타 라인업", "공연:indiego": "인디고", "공연:festival": "큰 페스티벌 본무대 라인업",
     "선정·지원:burock_rookies": "부산록페 루키즈",
 }
 

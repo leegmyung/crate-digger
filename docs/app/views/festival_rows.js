@@ -28,3 +28,42 @@ export function editionRowHtml(year, e) {
       <td data-label="그 뒤 수상·선정">${e.upcoming ? naCell('아직 열리지 않은 회차라 세지 않습니다', { label: '—' }) : `<span><strong>${fmtInt(e.later_winners_total || 0)}팀</strong>${names ? ` <span class="small">${names}</span>` : ''}${winners.length > 4 ? ` <span class="small muted">외 ${fmtInt(winners.length - 4)}</span>` : ''}</span>`}</td>
     </tr>`;
 }
+
+function _dayRange(dates) {
+  if (!Array.isArray(dates) || !dates.length) return '';
+  const md = d => String(d).slice(5).replace('-', '/');
+  return dates.length > 1 ? `${md(dates[0])}~${md(dates[dates.length - 1])}` : md(dates[0]);
+}
+
+/**
+ * 날짜·장소만 있는 페스티벌 표 (페스티벌라이프 목록 — 라인업은 포스터 그림이라 팀이 없음).
+ * 줄 = 페스티벌 · 회차 연도(누르면 근거 글) · 최근 회차 날짜 · 장소. 라인업 페스티벌과 연결되면 이름이 그 페이지로.
+ * @param {{name: string, festival: string|null, editions: Object<string, {dates: string[], venue: string, url: string}>}[]} rows
+ */
+export function catalogTableHtml(rows) {
+  if (!Array.isArray(rows) || !rows.length) return '';
+  const body = rows.map((r) => {
+    const eds = Object.entries(r.editions || {}).sort((a, b) => a[0].localeCompare(b[0]));
+    const [lastYear, last] = eds[eds.length - 1] || ['', {}];
+    const name = r.festival
+      ? `<a href="#/festival/${encodeURIComponent(r.festival)}"><strong>${escapeHtml(r.name)}</strong></a>`
+      : `<strong>${escapeHtml(r.name)}</strong>`;
+    const years = eds.map(([y, e]) => (e.url
+      ? `<a class="fest-cat-year" href="${escapeHtml(e.url)}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(_dayRange(e.dates) || y)} · 근거 글(페스티벌라이프)">${escapeHtml(y)}</a>`
+      : escapeHtml(y))).join(' ');
+    return `
+    <tr>
+      <td class="col-name" data-label="페스티벌">${name}</td>
+      <td data-label="회차">${years}</td>
+      <td class="mono col-fit" data-label="최근 날짜">${escapeHtml(lastYear)} ${escapeHtml(_dayRange(last.dates))}</td>
+      <td data-label="장소">${escapeHtml(last.venue || '—')}</td>
+    </tr>`;
+  }).join('');
+  return `
+    <div class="table-wrap">
+      <table class="data-table stack-table fest-catalog-table">
+        <thead><tr><th>페스티벌</th><th>회차 (누르면 근거 글)</th><th class="col-fit">최근 날짜</th><th>장소</th></tr></thead>
+        <tbody>${body}</tbody>
+      </table>
+    </div>`;
+}
