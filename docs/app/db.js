@@ -3,6 +3,7 @@ import { ALL_BRANCHES, appState, DEFAULT_WEIGHTS } from './state.js';
 import { parsePlayersRows } from './player_pick.js';
 import { easyAlertTypeLabel, easyText } from './easy_terms.js';
 import { fairnessLine, fairnessShort } from './score_fairness.js';
+import { parseVenueTierRows, venueTierValuesSql } from './venue_tiers.js';
 
 const DUCKDB_CDN = 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.32.0/dist';
 const MANUAL_BUNDLES = {
@@ -1176,14 +1177,18 @@ export async function ensureVenueTiersLoaded() {
     venueTiersAttempted = true;
     if (!connInstance) return;
     try {
-      const vp = await loadVenueProfiles();
-      const venuesObj = vp && typeof vp === 'object' ? (vp.venues || null) : null;
-      if (!venuesObj) return;
-      const pairs = Object.entries(venuesObj)
-        .filter(([, info]) => info && typeof info === 'object' && info.tier)
-        .map(([name, info]) => `(${sqlStringLiteral(name)}, ${sqlStringLiteral(String(info.tier))})`);
-      if (!pairs.length) return;
-      await connInstance.query(`DELETE FROM venue_tiers; INSERT INTO venue_tiers VALUES ${pairs.join(', ')};`);
+      // 작은 venue_tiers.csv(약 2KB)를 먼저 — 예전엔 venue_profiles.json(약 600KB)을 크기만 뽑으려고 통째로 받았다(홈·발굴 첫 진입)
+      let tiers = new Map();
+      if (labExtraListed('venue_tiers')) {
+        tiers = parseVenueTierRows(parseCsvObjects(await fetchText('lab/data/venue_tiers.csv', true) || ''));
+      }
+      if (!tiers.size) {
+        const vp = await loadVenueProfiles();
+        const venuesObj = vp && typeof vp === 'object' ? (vp.venues || {}) : {};
+        tiers = parseVenueTierRows(Object.entries(venuesObj).map(([venue, info]) => ({ venue, tier: info?.tier })));
+      }
+      if (!tiers.size) return;
+      await connInstance.query(`DELETE FROM venue_tiers; INSERT INTO venue_tiers VALUES ${venueTierValuesSql(tiers)};`);
     } catch (_) {}
   })();
   try {

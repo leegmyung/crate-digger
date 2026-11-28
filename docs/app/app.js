@@ -18,6 +18,7 @@ import { initMiniPlayer } from './components/mini_player.js';
 import { initCompareTray } from './components/compare_tray.js';
 import { initChartPng } from './chart_png.js';
 import { applyChartDefaults } from './chart_theme.js';
+import { skeletonAllowed } from './render_guard.js';
 
 const ADVANCED_ROUTES = new Set(['verify', 'backtest', 'signals', 'evidence', 'scorecard', 'quality', 'sql']);
 
@@ -442,8 +443,12 @@ async function renderCurrentView() {
   setStatus('계산 중...', true);
 
   root.dataset.skelPending = String(seq);
+  const startNode = root.firstElementChild;
   const skelTimer = setTimeout(() => {
-    if (seq === renderSeq && root && root.dataset.skelPending === String(seq)) {
+    // 화면이 이미 자기 틀을 그렸으면 덮지 않는다 (덮으면 느린 망에서 화면이 영영 뼈대로 남음 — render_guard.js)
+    if (root && skeletonAllowed({
+      pending: root.dataset.skelPending, seq, current: renderSeq, startNode, firstNode: root.firstElementChild,
+    })) {
       root.innerHTML = renderViewSkeleton();
     }
   }, 90);

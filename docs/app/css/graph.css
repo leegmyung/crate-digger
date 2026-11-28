@@ -5,7 +5,7 @@
    색은 의미로만: focus = 주인공(점수·후보·이곳) · compare/compare-2 = 비교 기준(회색 두 단계) · neutral = 뜻 없는 한 계열
    · weak = 표본 적음·흐리게 · ref = 기준선 · gig/sel/rel/cur = 신호 갈래. 값은 dataviz 검사기로 맞춤(docs/layout_rules.md 그림 규칙). */
 :root {
-  --viz-focus: var(--accent);
+  --viz-focus: #b4501f;   /* 밝은 테마 그림 주인공 — dataviz 검사로 맞춘 값(글자 강조색 --accent 는 대비 때문에 조금 더 진함) */
   --viz-compare: #5e5d5c;
   --viz-compare-2: #929190;
   --viz-neutral: #929190;
@@ -28,6 +28,7 @@
 }
 
 [data-theme="dark"] {
+  --viz-focus: var(--accent);
   --viz-compare: #94928e;
   --viz-compare-2: #5c5a57;
   --viz-neutral: #7d7b77;

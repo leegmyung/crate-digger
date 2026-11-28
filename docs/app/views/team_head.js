@@ -57,7 +57,7 @@ export function renderKeyStatsHtml({ scored, rc, videos, links, displayName }) {
     </div>`).join('');
   const platHtml = plats.length
     ? `<div class="ks-plats" aria-label="연결된 플랫폼">
-        ${plats.map(p => `<a class="ks-plat ks-plat-${escapeHtml(p.key)}" href="${escapeHtml(p.url)}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(`${displayName} · ${p.label}`)}" aria-label="${escapeHtml(`${displayName} ${p.label}에서 열기`)}">${escapeHtml(p.abbr)}</a>`).join('')}
+        ${plats.map(p => `<a class="ks-plat ks-plat-${escapeHtml(p.key)}" href="${escapeHtml(p.url)}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(`${displayName} · ${p.label}`)}" aria-label="${escapeHtml(`${p.abbr} — ${displayName} ${p.label}에서 열기`)}">${escapeHtml(p.abbr)}</a>`).join('')}
       </div>`
     : '<div class="ks-plats ks-plats-empty small muted">연결된 플랫폼 없음</div>';
   return `<div class="team-keystats" aria-label="핵심 숫자">${tileHtml}${platHtml}</div>`;

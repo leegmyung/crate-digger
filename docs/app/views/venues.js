@@ -4,7 +4,7 @@ import {
   queryMonthlyNewcomerVenues, queryUpcomingGigs,
 } from '../db.js';
 import {
-  avatarHtml, ensureChartJs, ensureD3, escapeHtml, fmtInt, fmtNum, formatKoreanShortDate,
+  avatarHtml, ensureChartJs, escapeHtml, fmtInt, fmtNum, formatKoreanShortDate,
   formatNextGigText, plainWhyLine, renderActionBanner, renderTableCsvBtn, spotifyButtonHtml,
   triggerTableCsvExport, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
@@ -47,7 +47,6 @@ export async function renderVenuesView(root) {
     queryCandidates({ limit: 300 }),
     queryUpcomingGigs({ asOf }),
     loadSceneMap(),
-    ensureD3().catch(() => null),
     loadDashboardJson().catch(() => null),
   ]);
   const monthly = await queryMonthlyNewcomerVenues(candRows, asOf);
