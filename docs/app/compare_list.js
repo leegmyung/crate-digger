@@ -5,6 +5,7 @@
 
 export const COMPARE_MAX = 4;
 const KEY = 'gr_compare_v1';
+export const COMPARE_STORAGE_KEY = KEY;   // key_aliases.js 가 팀 키 바뀜을 옮길 때도 씀
 let memory = [];
 
 /**

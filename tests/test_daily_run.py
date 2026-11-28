@@ -24,6 +24,13 @@ class DailyRunGenreSeenTest(unittest.TestCase):
         line = self.lines[self._index("scripts/genre_seen.py")]
         self.assertRegex(line, r'\|\| echo "⚠️ ')
 
+    def test_key_aliases_after_export_before_snapshot(self):
+        """팀 키가 바뀌면 옛 키→새 키 표를 만들고 지난 스냅샷 키를 고친 뒤에 오늘 스냅샷을 찍는다 (지난주 ▲▼ 비교가 '새로'로 깨지지 않게)."""
+        k = self._index("scripts/key_aliases.py")
+        self.assertLess(self._index("scripts/export_lab_data.py"), k)
+        self.assertLess(k, self._index("scripts/lab_snapshot.py"))
+        self.assertRegex(self.lines[k], r'\|\| echo "⚠️ ')
+
     def test_auto_commit_includes_lab_data_folder(self):
         add = next(line for line in self.lines if line.startswith("git add "))
         self.assertIn(" docs/lab/data ", f" {add} ")                         # docs/lab/data/genre_seen.csv 가 같이 실림

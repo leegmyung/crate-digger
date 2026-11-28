@@ -625,6 +625,34 @@
         "유튜브 공식 채널 이름 '윤새 Yunsae' (data/raw raw_video, 영상 수집)"
       ],
       "checked": "2026-11-28"
+    },
+    {
+      "main": "플라이데이즈",
+      "aliases": ["band_flydaze"],
+      "reason": "같은 팀 — 밴드 플라이데이즈의 인스타 계정명. 공연장 게시물(@cosmosruby_)에 이름 대신 계정만 태그됨",
+      "evidence": ["https://www.instagram.com/band_flydaze/ (프로필 이름 'Band FlyDaze 플라이데이즈', 소개 '밴드 플라이데이즈 입니다')"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "안락밴드",
+      "aliases": ["anrock_band"],
+      "reason": "같은 팀 — 안락밴드(AnRock)의 인스타 계정명. '안락'(다른 팀일 수 있음)이 아니라 '안락밴드'로 묶음",
+      "evidence": ["https://www.instagram.com/anrock_band/ (프로필 이름 '안락밴드 AnRock')"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "아이언피그",
+      "aliases": ["band_ironpig"],
+      "reason": "같은 팀 — 록 밴드 아이언피그(Ironpig)의 인스타 계정명. 우리 데이터에는 계정명으로만 잡혀 있어 이름을 붙임",
+      "evidence": ["https://www.instagram.com/band_ironpig/ (프로필 이름 '밴드 아이언피그', 소개 'Rock Band Ironpig')"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "쥬드",
+      "aliases": ["bandjude_official"],
+      "reason": "같은 팀 — 쥬드(JUDE)의 인스타 계정명. 소개글의 공연(11.1 라라라온@오방가르드)이 팀 '쥬드'의 2026-11-01 오방가르드 공연(인디스트릿·인디고)과 같음",
+      "evidence": ["https://www.instagram.com/bandjude_official/ (프로필 이름 '쥬드 | JUDE')", "팀 '쥬드' 줄: indistreet·indiego 공연 2026-11-01 오방가르드"],
+      "checked": "2026-11-28"
     }
   ],
   "distinct": [
@@ -1067,6 +1095,24 @@
       "evidence": [
         "계정명 'sangsangcinema' (상상마당 게시물에 태그되어 팀처럼 잡힘)"
       ],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "marvel",
+      "reason": "마블 엔터테인먼트(만화·영화) 공식 계정 — 팀 아님",
+      "evidence": ["https://www.instagram.com/marvel/ (프로필 이름 'Marvel Entertainment')"],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "redhotchilihotsauce",
+      "reason": "패션 디자인 계정 — 팀 아님",
+      "evidence": ["https://www.instagram.com/redhotchilihotsauce/ (소개 'Fashion Design and some more')"],
+      "checked": "2026-11-28"
+    },
+    {
+      "handle": "dotolim",
+      "reason": "실험음악 공연장·레이블 닻올림 계정 — 팀 아님",
+      "evidence": ["https://www.instagram.com/dotolim/ (프로필 이름 'dotolim 닻올림', 소개 '#닻올림')"],
       "checked": "2026-11-28"
     }
   ]

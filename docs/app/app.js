@@ -4,9 +4,10 @@ import {
   resetViewFilters, setExportContext, syncHash, toggleWatch,
 } from './state.js';
 import {
-  bootstrapData, computeDataHealth, getSnapshotDiff,
+  bootstrapData, computeDataHealth, fetchText, getSnapshotDiff,
   loadAlertsJson, loadSourceReview, queryCandidates, queryWeeklyDigestExtras,
 } from './db.js';
+import { applyKeyAliases, parseAliasCsv, remapHash } from './key_aliases.js';
 import {
   buildWeeklySummaryText, cssVar, escapeHtml,
   fmtInt, friendlySqlError, getWatchlistAlerts, hideRowHoverPreview,
@@ -551,6 +552,8 @@ function wireGlobalEvents() {
   });
 
   window.addEventListener('hashchange', () => {
+    const fixedHash = remapHash(window.location.hash, keyAliasMap);   // 옛 팀 키 주소 → 새 키 (docs/lab/data/key_aliases.csv)
+    if (fixedHash !== window.location.hash) history.replaceState(null, '', fixedHash);
     const prevR = appState.route;
     const prevP = appState.routeParam;
     parseHash();
@@ -586,6 +589,19 @@ function wireGlobalEvents() {
 
 // ---------- Boot ----------
 
+// 팀 대표 키가 바뀐 뒤 저장된 관심 팀·비교 담기·옛 주소를 새 키로 (scripts/key_aliases.py → docs/lab/data/key_aliases.csv)
+let keyAliasMap = new Map();
+
+async function applyKeyAliasesOnBoot() {
+  keyAliasMap = parseAliasCsv(await fetchText('lab/data/key_aliases.csv', true).catch(() => null));
+  if (!keyAliasMap.size) return;
+  const moved = applyKeyAliases(keyAliasMap);
+  if (moved.watch) window.dispatchEvent(new CustomEvent('app:watchlist'));
+  if (moved.compare) window.dispatchEvent(new CustomEvent('app:compare-changed'));
+  const fixedHash = remapHash(window.location.hash, keyAliasMap);
+  if (fixedHash !== window.location.hash) history.replaceState(null, '', fixedHash);
+}
+
 async function boot() {
   initTheme();
   initGlobalSearch();
@@ -610,6 +626,7 @@ async function boot() {
     if (!window.location.hash.includes('as_of=')) {
       appState.cfg.as_of = appState.dataEnd;
     }
+    await applyKeyAliasesOnBoot();
     parseHash();
     updateNavActive();
 

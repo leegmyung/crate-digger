@@ -147,7 +147,7 @@ export const DEFAULTS = {
 };
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
-const WATCH_KEY = 'crate_digger_watchlist_v1';
+export const WATCH_KEY = 'crate_digger_watchlist_v1';   // key_aliases.js 가 팀 키 바뀜을 옮길 때도 씀
 const WATCH_VIEW_KEY = 'crate_digger_watch_view_v1';
 
 export function cloneDefaults() {
