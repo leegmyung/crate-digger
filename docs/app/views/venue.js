@@ -455,17 +455,17 @@ export async function renderVenueView(root, venueName) {
       ${profile ? `
         <div class="venue-kpi-strip">
           <div class="venue-kpi-card">
-            <span class="venue-kpi-lbl">최근 12개월 공연</span>
+            <span class="venue-kpi-lbl">최근 12개월 공연${infoTip('최근 12개월 공연', INFO_TIPS.venue_nights_12m, { compact: true })}</span>
             <strong class="venue-kpi-val mono">${nights12 !== undefined && nights12 !== null ? `${fmtInt(nights12)}일` : '—'}</strong>
             <span class="venue-kpi-sub">같은 날 = 1일 · 기준 ${escapeHtml(effectiveAsOf)}</span>
           </div>
           <div class="venue-kpi-card">
-            <span class="venue-kpi-lbl">첫 무대 신인 비율</span>
+            <span class="venue-kpi-lbl">첫 무대 신인 비율${infoTip('첫 무대 신인 비율', INFO_TIPS.first_timer_share, { compact: true })}</span>
             <strong class="venue-kpi-val mono">${escapeHtml(sharePct)}</strong>
             <span class="venue-kpi-sub">최근 1년 ${fmtInt(profile.teams_1y || 0)}팀 중 ${fmtInt(profile.first_timers_1y || 0)}팀</span>
           </div>
           <div class="venue-kpi-card">
-            <span class="venue-kpi-lbl">정답 전에 선 팀</span>
+            <span class="venue-kpi-lbl">정답 전에 선 팀${infoTip('정답 전에 선 팀', INFO_TIPS.venue_pre_outcome, { compact: true })}</span>
             <strong class="venue-kpi-val mono">${fmtInt(profile.later_winners_total || 0)}팀</strong>
             <span class="venue-kpi-sub">수상·선정 전에 이곳</span>
           </div>

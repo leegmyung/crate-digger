@@ -242,7 +242,7 @@ export function formatRankDeltaHtml(rc, displayRank) {
       return `<span class="rank-delta is-bracket" title="${escapeHtml(`${tipPrefix}: 상위 300 밖에서 ${band}위대로 진입`)}">300위 밖→${band}위대</span>`;
     }
     if (curRank > 0 && curRank <= 100) {
-      return `<span class="rank-delta is-up" title="${escapeHtml(`${tipPrefix}: 상위 300 밖에서 ${curRank}위로 신규 진입`)}">NEW</span>`;
+      return `<span class="rank-delta is-up" title="${escapeHtml(`${tipPrefix}: 상위 300 밖에서 ${curRank}위로 신규 진입`)}">새로</span>`;
     }
     return '';
   }

@@ -4,8 +4,8 @@
  * 공연: 날짜 · 출연진 · 출처(인디스트릿·상상마당·인디고·인스타 등)
  */
 import {
-  escapeHtml, fmtInt, fmtNum, gradeBadgeHtml, naCell, renderTableCsvBtn, SOURCE_LABELS,
-  STAGE_META, stageBadgeHtml, triggerTableCsvExport, updateSortHeaders,
+  avatarHtml, escapeHtml, fmtInt, fmtNum, gradeBadgeHtml, naCell, playButtonHtml, renderTableCsvBtn, SOURCE_LABELS,
+  STAGE_META, stageBadgeHtml, triggerTableCsvExport, updateSortHeaders, wireAvatarFallbacks,
 } from '../ui.js';
 
 const TEAMS_FIRST = 20;
@@ -39,10 +39,12 @@ function outcomeCell(r) {
   return `<span class="venue-team-outcome">${gradeBadgeHtml(r.grade)}<span class="small muted">${escapeHtml(r.first_outcome || '')}${after ? ' · 이 무대 뒤' : ''}</span></span>`;
 }
 
-function teamRowHtml(r) {
+/** 출연 팀 표 한 줄 — 사진·▶ 바로 듣기 포함 (다른 팀 목록과 같은 모양, docs/ui_review_2026-11-28.md) */
+export function venueTeamRowHtml(r) {
+  const name = r.display_name || r.team_key;
   return `
     <tr>
-      <td data-label="팀"><a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(r.display_name)}</strong></a>${r.primary_genre ? ` <span class="small muted">${escapeHtml(r.primary_genre)}</span>` : ''}</td>
+      <td data-label="팀"><span class="team-cell-inline">${avatarHtml(r.team_key, name, 28, { shape: 'circle', genre: r.primary_genre })}<a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(name)}</strong></a>${playButtonHtml(r.team_key, name, { variant: 'icon' })}</span>${r.primary_genre ? ` <span class="small muted">${escapeHtml(r.primary_genre)}</span>` : ''}</td>
       <td class="num" data-label="공연 수">${fmtInt(r.gigs)}회${r.upcoming ? ` <span class="small muted">+예정 ${fmtInt(r.upcoming)}</span>` : ''}</td>
       <td class="mono nowrap" data-label="첫 출연">${escapeHtml(r.first_here || '—')}</td>
       <td class="mono nowrap" data-label="마지막">${escapeHtml(r.last_here || '—')}</td>
@@ -112,12 +114,13 @@ export function mountVenueTables(root, ctx) {
         <div class="table-wrap">
           <table class="data-table stack-table venue-teams-table" id="venueTeamsTable">
             <thead><tr>${th('name', '팀')}${th('gigs', '공연 수', 'num')}${th('first_here', '첫 출연')}${th('last_here', '마지막')}${th('score', '후보 점수', 'num')}${th('stage', '발굴 단계')}${th('grade', '정답')}</tr></thead>
-            <tbody>${shown.map(teamRowHtml).join('')}</tbody>
+            <tbody>${shown.map(venueTeamRowHtml).join('')}</tbody>
           </table>
         </div>
         ${sorted.length > shown.length ? `<div class="more-row"><span>${fmtInt(shown.length)} / ${fmtInt(sorted.length)}팀</span><button type="button" class="btn btn-sm" data-vt-more="1">20팀 더 보기</button></div>` : ''}
       ` : '<p class="muted small" style="margin:0;">이 공연장의 출연 기록이 없습니다.</p>'}`;
     updateSortHeaders(el.querySelector('#venueTeamsTable'), teamSort.col, teamSort.dir, 'vtSort');
+    wireAvatarFallbacks(el);
   }
 
   function paintShows() {

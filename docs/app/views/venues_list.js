@@ -229,7 +229,7 @@ export async function renderVenueListTab(host) {
     const tableHtml = shown.length ? `
       <div class="table-wrap">
         <table class="data-table stack-table vl-table">
-          <thead><tr><th>공연장</th><th>도시</th><th>종류</th><th>체급</th><th>최근 12개월</th><th class="num">첫 무대 신인</th><th class="num">정답 전</th><th class="num">발굴 주목도</th></tr></thead>
+          <thead><tr><th>공연장</th><th>도시</th><th>종류</th><th>체급</th><th>최근 12개월${infoTip('최근 12개월 공연', INFO_TIPS.venue_nights_12m, { compact: true })}</th><th class="num">첫 무대 신인${infoTip('첫 무대 신인 비율', INFO_TIPS.first_timer_share, { compact: true })}</th><th class="num">정답 전${infoTip('정답 전에 선 팀', INFO_TIPS.venue_pre_outcome, { compact: true })}</th><th class="num">발굴 주목도${infoTip('발굴 주목도', INFO_TIPS.venue_discovery, { compact: true })}</th></tr></thead>
           <tbody>${shown.map(v => rowHtml(v, months)).join('')}</tbody>
         </table>
       </div>` : empty;

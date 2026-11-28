@@ -145,7 +145,7 @@ export async function renderCityPage(host, city) {
         ${listOrEmpty(c.later_winners || [], '기록이 없습니다.', w => `<li>${teamItem(w.team_key, w.name)} ${gradeBadgeHtml(w.grade)} <span class="small muted">${escapeHtml(w.outcome || '')} · ${fmtInt(w.lead_months)}개월 전 이 도시</span></li>`)}
       </section>
     </div>
-    <p class="small muted place-evidence">근거: 도시 = 공연장 마스터 목록(config/venues_kr.json)의 도시 · 첫 무대 = 우리 데이터에서 도시를 아는 첫 공연 · 수집 상태는 <a href="#/verify/quality">검증 › 데이터 품질</a></p>`;
+    <p class="small muted place-evidence">근거: 도시 = 우리가 정리한 공연장 목록의 도시 · 첫 무대 = 우리 데이터에서 도시를 아는 첫 공연 · 수집 상태는 <a href="#/verify/quality">검증 › 데이터 품질</a></p>`;
 
   const first = await queryCityFirstStageTeams(city, venueCity, asOf, RECENT_DAYS);
   if (!host.isConnected) return;

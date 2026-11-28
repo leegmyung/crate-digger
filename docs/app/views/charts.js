@@ -26,8 +26,8 @@ const DEFINITIONS = {
   all: "전체 = 신인 후보 점수(v2) 순위 — 기준일 전 3년 신호 · 신인 3년 이내 · 유명 팀과 이미 정답 받은 팀 제외 · 기본 가중치(공연장 수는 최근 2년). 내 필터·가중치와 상관없이 고정.",
   genre: "장르별 = '전체'와 같은 정의에서 대표 장르가 이 장르인 팀(추정 장르 포함 — 이름 옆 '추정' 꼬리표).",
   city: "도시별 = '전체' 정의의 상위 300팀 중 활동 도시(공연 날짜가 가장 많은 도시)가 이 도시인 팀.",
-  rising: '떠오르는 = 유명 제외 · 공연장 체급 M 이하 · 멜론 팬 1만 이하 · 최근 30일 남의 언급이 그 전 30일보다 많은 팀, 증가 폭 순 (rising_preset.sql).',
-  debut: '갓 데뷔 = 기준일 전 12개월 안에 첫 발매했고 그 전 신호가 없던 백지 신인만 따로 매긴 순위 (debut_candidates.sql).',
+  rising: '떠오르는 = 유명 제외 · 공연장 체급 M 이하 · 멜론 팬 1만 이하 · 최근 30일 남의 언급이 그 전 30일보다 많은 팀, 증가 폭 순.',
+  debut: '갓 데뷔 = 기준일 전 12개월 안에 첫 발매했고 그 전 신호가 없던 백지 신인만 따로 매긴 순위.',
 };
 const TAB_LABELS = { all: '전체', genre: '장르별', city: '도시별', rising: '떠오르는', debut: '갓 데뷔' };
 
@@ -61,7 +61,7 @@ async function chartRows(kind, param, asOf) {
 }
 
 function deltaHtml(cur, prevPos) {
-  if (prevPos === undefined) return '<span class="rank-delta is-up" title="지난주 이 차트에 없던 팀">NEW</span>';
+  if (prevPos === undefined) return '<span class="rank-delta is-up" title="지난주 이 차트에 없던 팀">새로</span>';
   const d = prevPos - cur;
   if (d > 0) return `<span class="rank-delta is-up" title="지난주 ${prevPos}위">▲${fmtInt(d)}</span>`;
   if (d < 0) return `<span class="rank-delta is-down" title="지난주 ${prevPos}위">▼${fmtInt(-d)}</span>`;
@@ -143,7 +143,7 @@ export async function renderChartsView(root) {
       ${top.length ? `
         <div class="table-wrap">
           <table class="data-table stack-table chart-table" aria-label="${escapeHtml(TAB_LABELS[kind])} 차트">
-            <thead><tr><th class="num">#</th><th>지난주</th><th>팀</th><th>단계</th><th class="num">점수</th>${numHeads}<th>근거</th></tr></thead>
+            <thead><tr><th class="num">#</th><th>지난주</th><th>팀</th><th>단계${infoTip('발굴 단계', INFO_TIPS.status_stage, { compact: true })}</th><th class="num">점수${infoTip('종합 점수', INFO_TIPS.score, { compact: true })}</th>${numHeads}<th>근거</th></tr></thead>
             <tbody>${top.map((r, i) => rowHtml(r, i, prevPos.get(r.team_key), stageByTeam, kind)).join('')}</tbody>
           </table>
         </div>` : `<div style="padding:16px;">${naCell(kind === 'city' && !appState.teamCitiesByTeam.size ? '팀별 활동 도시 자료(team_cities.csv)가 아직 없습니다' : '이 정의에 맞는 팀이 없습니다', { block: true })}</div>`}

@@ -51,5 +51,5 @@ export async function renderCitiesList(host) {
     </div>
     ${f.local_start ? `<p class="place-lead">지방에서 첫 무대를 연 <strong>${fmtInt(f.local_start)}팀</strong> 중 <strong>${fmtInt(f.reached_seoul || 0)}팀</strong>이 서울 무대에 올랐습니다(걸린 기간 중앙값 ${f.median_months !== null && f.median_months !== undefined ? `${fmtNum(f.median_months, 1)}개월` : '—'}).</p>` : ''}
     <ul class="place-cards">${cities.map(([n, c]) => cardHtml(n, c, asOf, f)).join('')}</ul>
-    <p class="small muted place-evidence">기록 많음/적음 = 공연 날짜 ${fmtInt(LOW_COVERAGE_NIGHTS)}일 기준 · 도시 = 공연장 마스터 목록(config/venues_kr.json) · 수집 상태는 <a href="#/verify/quality">검증 › 데이터 품질</a></p>`;
+    <p class="small muted place-evidence">기록 많음/적음 = 공연 날짜 ${fmtInt(LOW_COVERAGE_NIGHTS)}일 기준 · 도시 = 우리가 정리한 공연장 목록의 도시 · 수집 상태는 <a href="#/verify/quality">검증 › 데이터 품질</a></p>`;
 }

@@ -28,6 +28,7 @@ import { fillSavedCard, renderSavedCardShellHtml } from './today_saved.js';
 import { renderVenueSubsHtml } from './venue_subs_view.js';
 import { renderOnboardingStripHtml } from '../components/onboarding_cards.js';
 import { renderEvidenceFooterHtml } from './mine.js';
+import { homeChartRowHtml } from '../home_chart_rows.js';
 
 const HEADLINE_ALERT_TYPES = [
   ['new_outcome', '새 정답'],
@@ -86,20 +87,7 @@ function renderRisingPreviewHtml(rows) {
         } else if (r.prev_n === 0 && r.recent_n > 0) {
           metricBits.push('신규 급증');
         }
-        return `
-          <li class="home-chart-row">
-            <span class="home-chart-rank mono">${idx + 1}</span>
-            <a class="home-chart-team" href="#/team/${encodeURIComponent(r.team_key)}">
-              ${avatarHtml(r.team_key, name, 28, { shape: 'circle', genre: r.primary_genre })}
-              <span class="home-chart-team-text">
-                <strong class="cell-truncate">${escapeHtml(name)}</strong>
-                ${r.primary_genre ? `<span class="small muted cell-truncate">${escapeHtml(r.primary_genre)}</span>` : ''}
-              </span>
-            </a>
-            <span class="home-chart-metric mono">${escapeHtml(metricBits.join(' · ') || '—')}</span>
-            <span class="home-chart-act">${watchButtonHtml(r.team_key, name, true, true)}</span>
-          </li>
-        `;
+        return homeChartRowHtml(idx, { team_key: r.team_key, name, genre: r.primary_genre, metric: metricBits.join(' · ') });
       }).join('')}
     </ol>
   `;
@@ -120,20 +108,7 @@ function renderDebutPreviewHtml(debutData) {
         const metric = mCnt > 0
           ? `언급 ${fmtInt(mCnt)}곳`
           : (t.first_release ? `발매 ${String(t.first_release).slice(0, 10)}` : '언급 전');
-        return `
-          <li class="home-chart-row">
-            <span class="home-chart-rank mono">${idx + 1}</span>
-            <a class="home-chart-team" href="#/team/${encodeURIComponent(t.team_key)}">
-              ${avatarHtml(t.team_key, name, 28, { shape: 'circle', genre: t.primary_genre })}
-              <span class="home-chart-team-text">
-                <strong class="cell-truncate">${escapeHtml(name)}</strong>
-                ${t.primary_genre ? `<span class="small muted cell-truncate">${escapeHtml(t.primary_genre)}</span>` : ''}
-              </span>
-            </a>
-            <span class="home-chart-metric mono">${escapeHtml(metric)}</span>
-            <span class="home-chart-act">${watchButtonHtml(t.team_key, name, true, true)}</span>
-          </li>
-        `;
+        return homeChartRowHtml(idx, { team_key: t.team_key, name, genre: t.primary_genre, metric });
       }).join('')}
     </ol>
   `;

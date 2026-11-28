@@ -216,7 +216,7 @@ export async function renderCompareView(root) {
     </div>
     ${teams.length < 2 ? '<p class="notice">한 팀만 담겼어요 — 한 팀 더 담으면 나란히 보입니다.</p>' : ''}
     ${tableHtml(teams)}
-    <p class="small muted place-evidence">근거: 핵심 숫자는 후보 점수(lab_scored)·공연·매체·영상 기록, 큰 사건은 사건 별점(event_stars), 최근 4주 움직임은 신호 수를 지난 24주의 4주 평균과 비교한 것.</p>`;
+    <p class="small muted place-evidence">근거: 핵심 숫자는 후보 점수·공연·매체·영상 기록, 큰 사건은 사건 별점, 최근 4주 움직임은 신호 수를 지난 24주의 4주 평균과 비교한 것.</p>`;
   wireAvatarFallbacks(root);
   wirePicker(root, keys);
   root.querySelector('.cmp-wrap')?.addEventListener('click', (e) => {

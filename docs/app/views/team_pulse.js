@@ -155,7 +155,7 @@ function rankTile(rc, days) {
   const ch = useMonth ? rc.month_change : rc.week_change;
   const label = useMonth ? rc.month_label : rc.week_label;
   let sub;
-  if (label === 'NEW') sub = '<span class="tc-delta is-up">NEW</span> <span class="tc-delta-ref">새로 상위 300 진입</span>';
+  if (label === 'NEW') sub = '<span class="tc-delta is-up">새로</span> <span class="tc-delta-ref">상위 300 진입</span>';
   else if (ch > 0) sub = `<span class="tc-delta is-up">▲${fmtInt(ch)}</span> <span class="tc-delta-ref">계단 상승</span>`;
   else if (ch < 0) sub = `<span class="tc-delta is-down">▼${fmtInt(-ch)}</span> <span class="tc-delta-ref">계단 하락</span>`;
   else sub = '<span class="tc-delta is-flat">–</span> <span class="tc-delta-ref">그대로</span>';
