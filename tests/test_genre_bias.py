@@ -124,6 +124,34 @@ class SideBySideTest(unittest.TestCase):
         self.assertIn("| 록·밴드 | 10 | 2 |", text)
 
 
+class ConfirmedCompositionTest(unittest.TestCase):
+    """2절 확인된 장르 팀끼리 판: 미분류를 빼고, 상위 N 을 풀 크기에 비례(최소 min_top)로 다시 잰다 (감사 문서 제안)."""
+
+    def test_proportional_top_with_floor(self):
+        rows = ([_r(f"u{i}", "미분류", 0) for i in range(80)]
+                + [_r(f"r{i}", "록", 10 - i) for i in range(10)] + [_r(f"f{i}", "포크", 5 - i) for i in range(10)])
+        comp, n_top, n_pool = gb.composition_confirmed(rows, top_n=10, min_top=4)
+        self.assertEqual(n_pool, 20)
+        self.assertEqual(n_top, 4)                       # 비례로는 10×20/100 = 2팀 → 최소 4팀
+        by = {c["genre"]: c for c in comp}
+        self.assertNotIn("미분류", by)
+        self.assertEqual(by["록"]["top_count"], 4)       # 록 점수 10·9·8·7 이 포크(5 이하)보다 위
+        self.assertAlmostEqual(by["록"]["pool_share"], 0.5)
+        self.assertAlmostEqual(by["록"]["bias"], 2.0)
+
+    def test_proportional_when_large_enough(self):
+        rows = [_r(f"u{i}", "미분류", 0) for i in range(50)] + [_r(f"r{i}", "록", i) for i in range(50)]
+        _, n_top, n_pool = gb.composition_confirmed(rows, top_n=20, min_top=4)
+        self.assertEqual((n_top, n_pool), (10, 50))      # 20 × 50/100
+
+    def test_section_text(self):
+        comp = [{"genre": "록", "top_count": 4, "all_count": 10, "top_share": 1.0, "pool_share": 0.5, "bias": 2.0}]
+        text = "\n".join(gb.section_current_confirmed(comp, 4, 20, 100, 1000))
+        self.assertIn("확인된 장르 팀끼리", text)
+        self.assertIn("| 록 | 4 |", text)
+        self.assertIn("최소", text)                       # 비례 2팀 < 4팀이라 최소를 썼다는 설명
+
+
 class TopTest(unittest.TestCase):
     def test_top_indices_tie_break_like_app(self):
         # 앱 순서: 마지막 신호 없으면 md5(team_key) 순 (md5('c') < md5('b'))

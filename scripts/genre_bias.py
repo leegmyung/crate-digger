@@ -28,6 +28,7 @@ UNCLASSIFIED = "미분류"
 TOP_N = 100
 MIN_POS = 5              # 장르 안 AUC를 믿으려면 정답이 이만큼은 있어야
 CURRENT_LIMIT = 100000   # 지금 후보 전체
+CONFIRMED_MIN_TOP = 20   # 2절 확인된 장르 팀끼리 판: 비례로 자른 상위 N 이 이보다 작으면 이만큼 (너무 적으면 의미 없음)
 SHOW_PER_GENRE = 3       # 장르 안 순위 예시 팀 수
 # 사람 확인이 필요해 보이는 팀 (2026-11-27 생성 때 발견) — 지금 후보에 있으면 해석에 예로 적는다
 SUSPECT_FAMOUS = frozenset({"사이먼도미닉"})      # 프로필이 없어 유명 팀 제외가 안 된 기성 래퍼로 보임
@@ -174,6 +175,17 @@ def composition(rows: Sequence[dict], top_n: int = TOP_N) -> List[dict]:
         out.append({"genre": g, "top_count": t, "all_count": a, "top_share": top_share, "pool_share": pool_share,
                     "bias": bias_index(top_share, pool_share)})
     return sorted(out, key=lambda c: (-c["top_count"], -c["all_count"], c["genre"]))
+
+
+def composition_confirmed(rows: Sequence[dict], top_n: int = TOP_N,
+                          min_top: int = CONFIRMED_MIN_TOP) -> Tuple[List[dict], int, int]:
+    """확인된 장르 팀끼리 장르 구성: 미분류를 빼고, 상위 N 을 풀 크기에 비례(전체 상위 top_n 과 같은 비율, 최소 min_top)로 자른다.
+    전체 상위 100 으로 그냥 자르면 확인된 장르 팀(프로필 받은 상위 후보)이 거의 다 들어가 쏠림 지수가 부푼다 (0절)."""
+    conf = [r for r in rows if r["genre"] != UNCLASSIFIED]
+    if not conf or not rows:
+        return [], 0, len(conf)
+    n_top = min(len(conf), max(min_top, round(top_n * len(conf) / len(rows))))
+    return composition(conf, n_top), n_top, len(conf)
 
 
 def source_shares(team_sources: Dict[str, Set[str]], team_genre: Dict[str, str]) -> Dict[str, Dict[str, float]]:
@@ -431,6 +443,22 @@ def section_backtest_all(table: List[dict]) -> List[str]:
     return lines
 
 
+def section_current_confirmed(comp: List[dict], n_top: int, n_pool: int, top_n: int, n_all: int) -> List[str]:
+    """2-2절: 확인된 장르 팀끼리 판 (상위 N 을 풀 크기 비례로)."""
+    prop = round(top_n * n_pool / n_all) if n_all else 0
+    how = (f"전체 후보 {n_all:,}팀 중 상위 {top_n}과 같은 비율이면 {prop}팀인데 너무 적어 최소 {n_top}팀으로 잘랐다"
+           if n_top > prop else f"전체 후보 {n_all:,}팀 중 상위 {top_n}과 같은 비율({n_top}팀)로 잘랐다")
+    lines = [f"### 2-2. 확인된 장르 팀끼리 판 — 상위 {n_top} / {n_pool:,}팀", "",
+             f"위 표의 쏠림 지수{BIASED_MARK}는 확인된 장르 팀(프로필 받은 상위 후보)이 상위 {top_n}에 거의 다 들어가 부푼다. "
+             f"그래서 미분류를 빼고 확인된 장르 팀 {n_pool:,}팀 안에서 다시 줄 세웠다 — {how}. "
+             "여기서도 1보다 크면 같은 '주목받은 팀'끼리 비교해도 점수가 그 장르를 위로 민다는 뜻이다.", "",
+             f"| 장르 | 상위 {n_top} 안 | 상위 비율 | 확인된 장르 팀 | 풀 비율 | 쏠림 지수 |", "|---|---|---|---|---|---|"]
+    for c in comp:
+        lines.append(f"| {c['genre']} | {c['top_count']} | {_pct(c['top_share'])} | {c['all_count']:,} | "
+                     f"{_pct(c['pool_share'])} | {_fb(c['bias'])} |")
+    return lines
+
+
 def section_current(comp: List[dict], rows: List[dict], shares: Dict[str, Dict[str, float]]) -> List[str]:
     missing = profile_missing_share(rows)
     lines = ["| 장르 | 상위 100 안 | 상위 100 비율 | 후보 전체 | 후보 비율 | 쏠림 지수* | 프로필 없는 팀 |",
@@ -480,7 +508,7 @@ def main() -> int:
     split_rows, split_summary = confirmation_split(data, conf, raw)
     lines = build_doc(day, table, overall, comp, rows, shares, note, cov,
                       section_confirmation(split_rows, split_summary), confirmed_row(data),
-                      genre_table(relabel(data, raw))) + card_lines
+                      genre_table(relabel(data, raw)), composition_confirmed(rows)) + card_lines
     OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))
     print(f"✅ → {OUT.relative_to(lab_sql.ROOT)}")
@@ -581,7 +609,8 @@ def interpret_scorecard(ws: Dict[str, dict], sub: int = 5, idols: Sequence[str] 
 def build_doc(day: str, table: List[dict], overall: dict, comp: List[dict], rows: List[dict],
               shares: Dict[str, Dict[str, float]], note: Dict[str, int], cov: Optional[dict] = None,
               confirmation: Optional[List[str]] = None, confirmed: Optional[dict] = None,
-              table_all: Optional[List[dict]] = None) -> List[str]:
+              table_all: Optional[List[dict]] = None,
+              comp_conf: Optional[Tuple[List[dict], int, int]] = None) -> List[str]:
     return ["# 장르별 편향 점검 (점수 v2)", "",
             "_자동 생성: `.venv/bin/python scripts/genre_bias.py`_", "",
             *(confirmation or []),
@@ -594,6 +623,8 @@ def build_doc(day: str, table: List[dict], overall: dict, comp: List[dict], rows
             f"## 2. 지금({day}) 후보 상위 {TOP_N}의 장르 구성", "",
             f"앱 '후보 목록'과 같은 계산(candidates.sql, 이미 정답 받은 팀 제외). 후보 전체 {len(rows):,}팀.", "",
             *section_current(comp, rows, shares), "",
+            *(section_current_confirmed(*comp_conf, TOP_N, len(rows)) if comp_conf and comp_conf[2] else []),
+            *([""] if comp_conf and comp_conf[2] else []),
             "## 3. 장르는 어떻게 붙나 (해석 전에 꼭 볼 것)", "",
             "팀 표의 장르(`primary_genre`)는 멜론·발매 장르 태그로 정하고, 태그가 없을 때만 확실한 출처로 보완한다"
             "(리드머 소개 → 힙합, 밴드 디스커버리 선정 → 록·밴드; `build_dashboard_data._infer_genres`). "

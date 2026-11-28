@@ -15,6 +15,7 @@ import {
 import { initGlobalSearch } from './components/global_search.js';
 import { initMiniPlayer } from './components/mini_player.js';
 import { initCompareTray } from './components/compare_tray.js';
+import { initChartPng } from './chart_png.js';
 
 const ADVANCED_ROUTES = new Set(['verify', 'backtest', 'signals', 'evidence', 'scorecard', 'quality', 'sql']);
 
@@ -590,6 +591,7 @@ async function boot() {
   initGlobalSearch();
   initMiniPlayer();
   initCompareTray();
+  initChartPng();
   initExportMenu();
   wireGlobalEvents();
   parseHash();

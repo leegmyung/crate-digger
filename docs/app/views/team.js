@@ -14,13 +14,14 @@ import {
   renderTableCsvBtn, roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml,
   spotifyUrlOf, summarizeWhyTeam, TERMS, triggerTableCsvExport,
   watchButtonHtml, wireAvatarFallbacks,
-  routeBackLabel,
+  routeBackLabel, STAGE_META,
 } from '../ui.js';
 import { mountTeamGraphBlock } from './graph.js';
 import { compareButtonHtml, renderKeyStatsHtml, renderTeamFactsHtml } from './team_head.js';
 import { compareToggleHtml } from '../components/compare_tray.js';
 import { timelineAnomaly } from '../insight_text.js';
 import { renderSimilarHtml } from './team_similar.js';
+import { printSheetHtml, recentEvents, recentGigs } from '../team_print.js';
 import { spikeSentence } from './today_alerts.js';
 import { activeTeamTab, renderTeamTabsHtml, teamPanelHtml, wireTeamTabs } from './team_tabs.js';
 import {
@@ -703,6 +704,7 @@ export async function renderTeamView(root, teamKey) {
         ${watchButtonHtml(teamKey, displayName, false)}
         ${compareToggleHtml(teamKey, displayName)}
         ${compareButtonHtml(genre)}
+        <button type="button" class="btn" id="btnTeamPrint" title="팀 머리·핵심 숫자·발굴 단계·최근 사건 5개·공연 5개를 한 장으로 인쇄 (인쇄 창에서 'PDF로 저장' 가능)">한 장 요약 인쇄</button>
       </div>
     </div>
     ${renderKeyStatsHtml({ scored, rc: rcRow, videos, links, displayName })}
@@ -855,6 +857,43 @@ export async function renderTeamView(root, teamKey) {
         primaryGenre: genre,
       });
     }
+  });
+
+  // 사건 설명 속 프로그램 코드(burock_rookies 등)를 programs.csv 이름으로 (team_events.js 와 같은 규칙)
+  const readableProgram = (text) => {
+    let out = String(text || '');
+    for (const [code, label] of appState.programLabels || []) if (code && out.includes(code)) out = out.split(code).join(label);
+    return out;
+  };
+  // 한 장 요약 인쇄 (team_print.js · css/print.css): 인쇄할 때만 보이는 칸을 채우고 브라우저 인쇄 창을 연다
+  root.querySelector('#btnTeamPrint')?.addEventListener('click', () => {
+    let host = document.getElementById('teamPrintSheet');
+    if (!host) {
+      host = document.createElement('div');
+      host.id = 'teamPrintSheet';
+      host.className = 'print-sheet-host';
+      document.body.appendChild(host);
+    }
+    const stageCode = stageInfo ? Number(stageInfo.stage) : null;
+    host.innerHTML = printSheetHtml({
+      name: displayName,
+      asOf,
+      url: window.location.href,
+      photoHtml: avatarHtml(teamKey, displayName, 96, { shape: 'rounded', genre }),
+      factsHtml: teamFactsHtml,
+      keyStatsHtml: renderKeyStatsHtml({ scored, rc: rcRow, videos, links, displayName }),
+      stageLabel: stageCode === null ? '' : (STAGE_META[stageCode]?.label || ''),
+      stageNext: stageCode === null ? '' : (STAGE_META[stageCode]?.next || ''),
+      events: recentEvents(teamEvents, mergedTimeline, asOf).map(e => ({ ...e, detail: readableProgram(e.detail) })),
+      gigs: recentGigs(timeline, asOf),
+    });
+    document.body.classList.add('is-printing-team');
+    const done = () => {
+      document.body.classList.remove('is-printing-team');
+      window.removeEventListener('afterprint', done);
+    };
+    window.addEventListener('afterprint', done);
+    window.print();
   });
 
   root.querySelector('#btnTeamBack')?.addEventListener('click', () => {

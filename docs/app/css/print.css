@@ -1,0 +1,52 @@
+/* 팀 한 장 요약 인쇄 (views/team.js '한 장 요약 인쇄', team_print.js) + 그래프 PNG 단추 (chart_png.js) */
+
+.print-sheet-host { display: none; }
+
+/* 그래프 오른쪽 위 작은 'PNG' 단추 */
+.png-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 3;
+  padding: 2px 8px;
+  font-size: var(--text-xs);
+  opacity: 0.85;
+}
+.png-btn:hover, .png-btn:focus-visible { opacity: 1; }
+
+@media print {
+  @page { size: A4; margin: 14mm; }
+  .png-btn { display: none !important; }
+
+  /* 한 장 요약을 누른 때만: 그 칸만 남기고 모두 숨김 */
+  body.is-printing-team > *:not(#teamPrintSheet) { display: none !important; }
+  body.is-printing-team { background: #fff !important; padding: 0 !important; }
+  body.is-printing-team #teamPrintSheet { display: block !important; }
+
+  .print-sheet {
+    color: #111;
+    background: #fff;
+    font-size: 11pt;
+    line-height: 1.45;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .print-sheet .ps-head { display: flex; gap: 14px; align-items: center; margin-bottom: 10px; }
+  .print-sheet .ps-head .avatar { flex: 0 0 auto; width: 96px !important; height: 96px !important; }
+  .print-sheet h1 { font-size: 22pt; margin: 0 0 4px; }
+  .print-sheet h2 { font-size: 12pt; margin: 12px 0 4px; border-bottom: 1px solid #ccc; padding-bottom: 2px; }
+  .print-sheet .team-facts { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 10pt; }
+  .print-sheet .team-keystats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 8px 0; }
+  .print-sheet .ks-plats { display: none; }          /* 링크 아이콘은 종이에선 쓸모없음 */
+  .print-sheet .ks-tile { border: 1px solid #ccc; border-radius: 6px; padding: 6px 8px; background: #fff; }
+  .print-sheet .ks-value { font-size: 16pt; }
+  .print-sheet .ps-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .print-sheet .ps-list { margin: 0; padding-left: 18px; }
+  .print-sheet .ps-list li { margin: 2px 0; break-inside: avoid; }
+  .print-sheet .ps-date { font-variant-numeric: tabular-nums; color: #555; margin-right: 4px; }
+  .print-sheet .ps-stars { color: #b4501f; margin-right: 4px; }
+  .print-sheet .ps-detail { color: #555; }
+  .print-sheet .ps-tag { border: 1px solid #b4501f; color: #b4501f; border-radius: 4px; padding: 0 4px; font-size: 9pt; }
+  .print-sheet .ps-foot { margin-top: 14px; font-size: 8.5pt; color: #777; word-break: break-all; }
+  .print-sheet .cd-infotip, .print-sheet button { display: none !important; }
+}
