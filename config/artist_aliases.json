@@ -1264,13 +1264,6 @@
       "checked": "2026-11-28"
     },
     {
-      "main": "이지연",
-      "aliases": ["Lee Jiyeun Jazz Orchestra"],
-      "reason": "같은 음악가 — 한대음 19회 영어 표기 'Lee Jiyeun Jazz Orchestra – Blue Flower' = 한대음 누리집 '이지연 [푸른꽃]'(Blue Flower = 푸른꽃)",
-      "evidence": ["https://koreanmusicawards.com/project/이지연-푸른꽃/", "https://en.wikipedia.org/wiki/19th_Korean_Music_Awards"],
-      "checked": "2026-11-28"
-    },
-    {
       "main": "김유진",
       "aliases": ["Kim Yu-jin"],
       "reason": "같은 음악가 — 한대음 20회 영어 표기 'Kim Yu-jin – A Piece and the Whole' = 한대음 누리집 '김유진 [한 조각 그리고 전체]'. 우리 데이터의 김유진도 R&B·소울(트랙제로 2022~·포크라노스 발매 2023-11)",
@@ -1468,6 +1461,12 @@
       "names": ["변하은", "변하은과하이에나"],
       "reason": "같은 사람이 이끌지만 다른 활동 이름 — 변하은 개인과 밴드 '변하은과 하이에나'는 따로 셈 (인스타는 같음 hilltown501)",
       "evidence": ["https://www.instagram.com/hilltown501/"],
+      "checked": "2026-11-28"
+    },
+    {
+      "names": ["Lee Jiyeun Jazz Orchestra", "이지연"],
+      "reason": "동명이인 — 한대음 19회 재즈 음반 후보 'Lee Jiyeun Jazz Orchestra – Blue Flower'(한대음 누리집 '이지연 [푸른꽃]', 재즈 작곡가·오케스트라)와 우리 신호의 '이지연'(2022 언플러그드 신촌점 'Inside Out Busking' 버스킹)은 다른 사람으로 봄. 정답은 'Lee Jiyeun Jazz Orchestra' 키로 따로 두어 우리 신호와 묶지 않음(틀린 적중 막기)",
+      "evidence": ["https://koreanmusicawards.com/project/이지연-푸른꽃/", "https://en.wikipedia.org/wiki/19th_Korean_Music_Awards", "https://indistreet.com/gigs/t4pnpgeuqetxt7vygbkmgc55"],
       "checked": "2026-11-28"
     }
   ],

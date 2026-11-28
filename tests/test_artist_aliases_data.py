@@ -39,8 +39,10 @@ OUTCOME_LINKS = [("포쳐군단", "포져군단"), ("스윔레빗", "swimrabbit"
                  # 한대음 19·20회 영어 위키 로마자 이름 → 한대음 누리집 한글 이름 (2026-11-28)
                  ("leavesblack", "검은잎들"), ("joyul", "조율"), ("doildoshi", "도일도시"), ("namyoosun", "남유선"),
                  ("yongseoklee", "이용석"), ("buyounglee", "이부영"), ("jipark", "지박"), ("송이전", "전송이"),
-                 ("leejiyeunjazzorchestra", "이지연"), ("kimyujin", "김유진"), ("hookimbigband", "김영후빅밴드"),
+                 ("kimyujin", "김유진"), ("hookimbigband", "김영후빅밴드"),
                  ("yutaesung", "유태성")]
+# (정답 키, 우리 신호 키): 이름은 같지만 다른 사람으로 판단 — 정답 전용 키로 따로 둔다
+NAMESAKES = [("leejiyeunjazzorchestra", "이지연")]
 # (키1, 키2): 다른 팀(다른 인스타·멜론 번호, 또는 뜻이 다른 이름)
 DIFFERENT = [
     ("윤석철", "윤석철트리오"), ("오이스터", "오이스터즈"), ("롱아일랜드", "심아일랜드"), ("루시드림", "루시드폴"),
@@ -48,6 +50,8 @@ DIFFERENT = [
     ("에이티즈", "에이퍼즈"), ("크리스탈", "크리스피"), ("트라이비", "트레이비"), ("트레이비", "트레이터"),
     ("오렌지맨", "오렌지섬"), ("나르디스", "나르키스"), ("네모난구", "네모지구"), ("다운", "따운"), ("라이스", "라이즈"),
     ("변하은", "변하은과하이에나"),
+    # 정답 쪽 이름은 맞지만 우리 신호의 같은 이름 행이 다른 사람 (동명이인 — 가짜 적중 막기)
+    ("leejiyeunjazzorchestra", "이지연"),
 ]
 
 
@@ -69,6 +73,13 @@ class ArtistAliasesDataTest(unittest.TestCase):
         groups = [{artist_xref.artist_key(n) for n in [e["main"], *e["aliases"]]} for e in cur["aliases"]]
         for outcome_key, signal_key in OUTCOME_LINKS:
             self.assertTrue(any(outcome_key in g and signal_key in g for g in groups), f"{outcome_key} → {signal_key} 연결 없음")
+
+    def test_namesake_outcome_keys_stay_separate(self):
+        """동명이인으로 판단한 정답 키는 우리 신호 키와 같은 별칭 묶음에 있으면 안 되고, '다른 팀'에 적혀 있어야 한다."""
+        cur = artist_xref.load_curation(PATH)
+        distinct = [{artist_xref.artist_key(n) for n in e["names"]} for e in cur["distinct"]]
+        for outcome_key, signal_key in NAMESAKES:
+            self.assertTrue(any(outcome_key in g and signal_key in g for g in distinct), f"{outcome_key} ≠ {signal_key} 표시 없음")
 
     def test_same_and_different_do_not_overlap(self):
         cur = artist_xref.load_curation(PATH)
