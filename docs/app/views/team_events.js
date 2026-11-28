@@ -4,6 +4,7 @@
  */
 import { appState } from '../state.js';
 import { escapeHtml, fmtInt, INFO_TIPS, infoTip, renderNoRecordLine } from '../ui.js';
+import { eventAfterSentence, eventsSummarySentence } from '../insight_text.js';
 
 const FIRST_SHOWN = 6;
 const WINDOW_DAYS = 28;
@@ -44,6 +45,12 @@ function readableDetail(detail) {
   return out;
 }
 
+/** Chartmetric 이벤트 분석기 요약처럼: 큰 사건들 뒤 28일 평균 변화 한 줄 */
+function summaryLine(past, asOf) {
+  const txt = eventsSummarySentence(past, asOf);
+  return txt ? `<p class="event-summary">${escapeHtml(txt)}</p>` : '';
+}
+
 function eventRowHtml(ev) {
   return `
     <li class="event-row">
@@ -54,6 +61,7 @@ function eventRowHtml(ev) {
           <strong class="event-kind">${escapeHtml(ev.kind_label)}</strong>
           <span class="event-detail" title="${escapeHtml(readableDetail(ev.reason))}">${escapeHtml(readableDetail(ev.detail))}</span>
         </div>
+        ${eventAfterSentence(ev) ? `<p class="event-after small">${escapeHtml(eventAfterSentence(ev))}</p>` : ''}
         ${windowTableHtml(ev)}
       </div>
     </li>`;
@@ -77,6 +85,7 @@ export function renderEventLogHtml(events, asOf, showAll = false) {
       <div class="event-log-head">
         <span class="event-log-title">사건 ${fmtInt(past.length)}건${fives ? ` · 별 4개 이상 ${fmtInt(fives)}건` : ''}${infoTip('사건 별점', INFO_TIPS.event_stars, { compact: true })}</span>
       </div>
+      ${summaryLine(past, asOf)}
       <ol class="event-list">${shown.map(eventRowHtml).join('')}</ol>
       ${more > 0 ? `<div class="more-row"><span>${fmtInt(shown.length)} / ${fmtInt(past.length)}건</span><button type="button" class="btn btn-sm" data-event-more="1">사건 모두 보기</button></div>` : ''}
     </div>`;

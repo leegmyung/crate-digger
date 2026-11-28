@@ -16,6 +16,7 @@ import {
   playButtonHtml, stageBadgeHtml, wireAvatarFallbacks,
 } from '../ui.js';
 import { attachTeamPeek, peekKeyFromHash } from '../components/team_peek.js';
+import { compareToggleHtml } from '../components/compare_tray.js';
 
 const CHART_SIZE = 50;
 const POOL = 300; // 도시 차트는 전체 상위 300 안에서 고른다
@@ -99,7 +100,7 @@ function rowHtml(r, i, prevPos, stageByTeam, kind) {
     <tr class="clickable" tabindex="0" data-team-key="${escapeHtml(r.team_key)}">
       <td class="num chart-rank" data-label="순위"><strong>${i + 1}</strong></td>
       <td class="nowrap" data-label="지난주 대비">${deltaHtml(i + 1, prevPos)}</td>
-      <td data-label="팀"><span class="team-cell-inline">${avatarHtml(r.team_key, name, 28, { shape: 'circle', genre: r.primary_genre })}<span><a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(name)}</strong></a> ${genre}</span>${playButtonHtml(r.team_key, name, { variant: 'icon' })}</span></td>
+      <td data-label="팀"><span class="team-cell-inline">${avatarHtml(r.team_key, name, 28, { shape: 'circle', genre: r.primary_genre })}<span><a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(name)}</strong></a> ${genre}</span>${playButtonHtml(r.team_key, name, { variant: 'icon' })}${compareToggleHtml(r.team_key, name, { variant: 'icon' })}</span></td>
       <td data-label="단계">${stage !== undefined ? stageBadgeHtml(stage, { short: true }) : naCell('발굴 단계를 계산하지 않은 팀입니다', { label: '—' })}</td>
       <td class="num" data-label="점수">${r.score !== null && r.score !== undefined ? fmtNum(Number(r.score), 2) : '—'}</td>
       ${nums}

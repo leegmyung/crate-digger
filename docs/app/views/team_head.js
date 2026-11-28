@@ -67,7 +67,7 @@ export function compareButtonHtml(genre) {
   const g = genre && genre !== '미분류' ? genre : '';
   const href = `#/discover?view=heat${g ? `&genre=${encodeURIComponent(g)}` : ''}`;
   const title = g ? `${g} 후보들과 색 지도로 비교` : '전체 후보와 색 지도로 비교';
-  return `<a class="btn" href="${escapeHtml(href)}" title="${escapeHtml(title)}">비교</a>`;
+  return `<a class="btn" href="${escapeHtml(href)}" title="${escapeHtml(title)}">색 지도</a>`;
 }
 
 /**

@@ -13,6 +13,7 @@ import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText, genreConfidenceBadgeHtml,
   playButtonHtml, stageBadgeHtml, watchButtonHtml, wireAvatarFallbacks,
 } from '../ui.js';
+import { compareToggleHtml } from './compare_tray.js';
 
 const PANEL_ID = 'teamPeek';
 const SCORE_LINES = 3;
@@ -167,6 +168,7 @@ async function render(key) {
     <div class="peek-actions">
       <a class="btn btn-primary" href="#/team/${encodeURIComponent(key)}">팀 페이지 열기 →</a>
       ${playButtonHtml(key, name, { variant: 'sm' })}
+      ${compareToggleHtml(key, name)}
       ${watchButtonHtml(key, name, false)}
     </div>`;
   wireAvatarFallbacks(body);

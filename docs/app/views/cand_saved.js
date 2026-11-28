@@ -1,16 +1,19 @@
 /**
  * 5-1 후보 목록 '저장한 필터' 줄 — 필터 줄 위. 문장 이름으로 저장·적용·이름 바꾸기·지우기.
- * 저장할 때 '지난주였다면 몇 팀이 새로 걸렸을지'를 브리핑 카드와 같은 규칙(db_saved.js)으로 미리 보여 준다.
+ * 저장할 때 '알림 규칙 미리보기'(지금 맞는 팀 수 · 최근 4주 주마다 새로 걸린 팀 수 → 한 주 평균 알림 수)를
+ * 브리핑 카드와 같은 규칙(db_saved.js)으로 보여 준다 — Chartmetric 알림 만들기의 '알림 예측'처럼.
  */
 import { appState, buildHashUrl } from '../state.js';
 import { buildActiveFilterChips } from '../components/cand_filters.js';
 import { savedFilterName, specFromState } from '../components/saved_match.js';
-import { isoMinusDays } from '../components/team_metrics.js';
-import { querySavedNewMatches } from '../db_saved.js';
+import { querySavedWeeklyForecast } from '../db_saved.js';
+import { alertForecastText } from '../insight_text.js';
 import {
   addSavedFilter, applySavedFilter, listSavedFilters, removeSavedFilter, renameSavedFilter, SAVED_MAX,
 } from '../saved_filters.js';
-import { escapeHtml, fmtInt } from '../ui.js';
+import { escapeHtml } from '../ui.js';
+
+const EXAMPLE_NAMES = 3;
 
 const ui = { saving: false, renamingId: '', preview: '', notice: '' };
 
@@ -42,7 +45,7 @@ function newFormHtml() {
       <input class="input saved-input" name="name" value="${escapeHtml(currentName())}" maxlength="60" aria-label="저장할 필터 이름">
       <button type="submit" class="btn btn-sm btn-primary">저장</button>
       <button type="button" class="btn btn-sm" data-saved-cancel="1">취소</button>
-      <span class="saved-preview small muted" aria-live="polite">${escapeHtml(ui.preview || '지난주였다면 몇 팀이 새로 걸렸을지 계산 중…')}</span>
+      <span class="saved-preview small muted" aria-live="polite">${escapeHtml(ui.preview || '이 규칙이면 알림이 얼마나 올지 계산 중…')}</span>
     </form>`;
 }
 
@@ -62,11 +65,12 @@ export function renderSavedRowHtml() {
 }
 
 async function loadPreview(host) {
-  const to = isoMinusDays(appState.dataEnd, 7);
-  if (!to) return;
+  if (!appState.dataEnd) return;
   try {
-    const res = await querySavedNewMatches(specFromState(appState), to);
-    ui.preview = `지난주(${res.to})였다면 새로 맞는 팀 ${fmtInt(res.added.length)}팀 (그때 전체 ${fmtInt(res.total)}팀)`;
+    const res = await querySavedWeeklyForecast(specFromState(appState), appState.dataEnd);
+    const ex = res.lastWeek.slice(0, EXAMPLE_NAMES).map(r => r.display_name).join(', ');
+    const cap = Number(specFromState(appState)?.cfg?.limit) || Number(appState.cfg.limit) || 0;
+    ui.preview = `${alertForecastText({ ...res, cap })}${ex ? ` · 지난주 예: ${ex}${res.lastWeek.length > EXAMPLE_NAMES ? ' 등' : ''}` : ''}`;
   } catch (_) {
     ui.preview = '미리보기를 계산하지 못했습니다';
   }

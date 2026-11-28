@@ -7,7 +7,9 @@
 import { appState } from '../state.js';
 import { queryCandidates, queryDiscoveryStages } from '../db.js';
 import { loadFestivalProfiles } from '../db_venue.js';
-import { escapeHtml, fmtInt, fmtNum, gradeBadgeHtml, naCell, stageBadgeHtml } from '../ui.js';
+import {
+  avatarHtml, escapeHtml, fmtInt, fmtNum, gradeBadgeHtml, naCell, playButtonHtml, stageBadgeHtml,
+} from '../ui.js';
 import { editionRowHtml, pctText } from './festivals.js';
 
 const SCORE_BANDS = [[6, '6점 이상'], [4, '4~6점'], [0, '4점 미만']];
@@ -47,7 +49,7 @@ function lineupTableHtml(year, e, ctx) {
         <thead><tr><th>팀</th><th class="num">지금 후보 점수</th><th>발굴 단계</th><th>그 뒤 정답</th></tr></thead>
         <tbody>${rows.map(r => `
           <tr>
-            <td data-label="팀"><a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(r.name || r.team_key)}</strong></a></td>
+            <td data-label="팀"><span class="team-cell-inline">${avatarHtml(r.team_key, r.name || r.team_key, 24, { shape: 'circle' })}<a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(r.name || r.team_key)}</strong></a>${playButtonHtml(r.team_key, r.name || r.team_key, { variant: 'icon' })}</span></td>
             <td class="num" data-label="후보 점수">${r.cand ? `${fmtNum(r.cand.score, 2)} <span class="small muted">#${fmtInt(r.cand.rank)}</span>` : naCell('지금 후보 상위 300팀 밖이거나 신인이 아닙니다', { label: '—' })}</td>
             <td data-label="발굴 단계">${r.stage !== undefined && r.stage !== null ? stageBadgeHtml(r.stage, { short: true }) : naCell('발굴 단계를 계산하지 않은 팀입니다', { label: '—' })}</td>
             <td data-label="그 뒤 정답">${r.win ? `${gradeBadgeHtml(r.win.grade)} <span class="small">${escapeHtml(r.win.outcome || '')} · ${fmtInt(r.win.lead_months)}개월 뒤</span>` : (e.upcoming ? '<span class="small muted">아직 안 열림</span>' : '<span class="small muted">없음</span>')}</td>

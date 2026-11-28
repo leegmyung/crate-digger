@@ -1,3 +1,4 @@
+import { compareHash, compareKeysFromQuery } from './compare_list.js';
 export const ALL_BRANCHES = ['공연', '선정·지원', '발매', '큐레이션'];
 export const PRESET_CUTOFFS = ['2022-01-01', '2023-01-01', '2024-01-01', '2024-07-01', '2025-01-01', '2025-07-01'];
 export const PRESET_KS = [10, 20, 30, 50, 100, 200];
@@ -20,6 +21,7 @@ export const ROUTES = [
   'alerts',
   'search',
   'help',
+  'compare',
 ];
 
 // ---------- 정보 구조 v2 (docs/app_structure_v2.md) ----------
@@ -169,6 +171,7 @@ export const appState = {
   chartKind: 'all', // CHART_KINDS — #/charts/<종류>[/<장르·도시>]
   chartParam: '',
   mineTab: 'watch', // MINE_TABS — #/mine?tab=
+  compareKeys: [], // 팀 나란히 비교 #/compare?teams= (compare_list.js)
   searchQuery: '', // #/search?q=
   festivalName: '', // #/festival/<이름>
   prevRoute: null,
@@ -473,6 +476,9 @@ function parseHashString(hash) {
     appState.mineTab = MINE_TABS.includes(p.get('tab')) ? p.get('tab') : 'watch';
   } else if (head === 'help') {
     appState.route = 'help';
+  } else if (head === 'compare') {
+    appState.route = 'compare';
+    appState.compareKeys = compareKeysFromQuery(queryPart);   // 키 안 쉼표를 지키려고 원문에서 직접 나눔
   } else if (head === 'search') {
     appState.route = 'search';
     appState.searchQuery = String(p.get('q') || '').slice(0, 100);
@@ -634,6 +640,8 @@ function publicPath(normRoute, param, verifyTab, p) {
     case 'search':
       if (appState.searchQuery) p.set('q', appState.searchQuery);
       return '#/search';
+    case 'compare':
+      return '#/compare';
     case 'verify':
       return `#/verify/${verifyTab}`;
     case 'quality':
@@ -737,6 +745,11 @@ export function buildHashUrl(route = appState.route, param = appState.routeParam
   const curPeek = new URLSearchParams(curHash.split('?')[1] || '').get('peek');
   if (curPeek && curHash.split('?')[0] === basePath) p.set('peek', curPeek);
   const qs = p.toString();
+  if (normRoute === 'compare') {
+    // teams 는 팀마다 따로 인코딩해 쉼표로 잇는다(URLSearchParams 로 넣으면 쉼표가 %2C 가 돼 키 안 쉼표와 구별이 안 됨)
+    const base = compareHash(appState.compareKeys || []);
+    return qs ? `${base}${base.includes('?') ? '&' : '?'}${qs}` : base;
+  }
   return qs ? `${basePath}?${qs}` : basePath;
 }
 

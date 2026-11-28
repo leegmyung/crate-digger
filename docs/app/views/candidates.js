@@ -17,6 +17,7 @@ import {
   updateSortHeaders, watchButtonHtml, wireAvatarFallbacks,
   wireTableKeyboardNav, wireTableRowHoverPreview, youtubeQuickInfo,
 } from '../ui.js';
+import { compareToggleHtml } from '../components/compare_tray.js';
 import {
   formatRankDeltaHtml, matchesReleaseMonths, RELEASE_MONTH_OPTIONS,
   renderCandPanelHtml, renderCandResultsBarHtml,
@@ -444,7 +445,7 @@ async function renderDebutCandidatesView(root) {
             <td class="debut-mentions-col">${mentionsHtml}</td>
             <td class="num"><strong>${r.score !== null ? fmtNum(r.score, 2) : '—'}</strong></td>
             <td class="nowrap cand-listen-col">${renderRowListenControl(r)}</td>
-            <td class="nowrap">${watchButtonHtml(r.team_key, nameTxt, true, true)}</td>
+            <td class="nowrap">${watchButtonHtml(r.team_key, nameTxt, true, true)} ${compareToggleHtml(r.team_key, nameTxt, { variant: 'icon' })}</td>
           </tr>
         `;
       }).join('');
@@ -1199,7 +1200,7 @@ export async function renderCandidatesView(root) {
           <td class="num nowrap cand-activity-col">${actCellHtml}</td>
           <td class="num cand-score-col">${scoreCellHtml}</td>
           <td class="nowrap cand-listen-col">${renderRowListenControl(r)}</td>
-          <td class="nowrap cand-watch-col">${watchButtonHtml(r.team_key, nameTxt, true, true)}</td>
+          <td class="nowrap cand-watch-col">${watchButtonHtml(r.team_key, nameTxt, true, true)} ${compareToggleHtml(r.team_key, nameTxt, { variant: 'icon' })}</td>
         </tr>
       `;
     }).join('');

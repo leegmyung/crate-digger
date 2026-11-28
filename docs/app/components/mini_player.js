@@ -39,7 +39,7 @@ function frameHtml(opt) {
   if (!src) return '<p class="mp-empty">재생할 수 없는 항목입니다.</p>';
   const cls = opt.kind === 'youtube' ? 'mp-frame mp-frame-video' : 'mp-frame mp-frame-audio';
   return `<iframe class="${cls}" src="${escapeHtml(src)}" title="${escapeHtml(`${current.name} ${KIND_LABEL[opt.kind] || ''} 플레이어`)}"
-    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
 }
 
 function render() {

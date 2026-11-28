@@ -8,7 +8,9 @@ import {
   ensureTeamCitiesLoaded, loadVenueProfiles, queryCandidates, queryUpcomingGigs,
 } from '../db.js';
 import { loadCityProfiles, queryCityFirstStageTeams } from '../db_venue.js';
-import { escapeHtml, fmtInt, fmtNum, formatNextGigText, gradeBadgeHtml, naCell } from '../ui.js';
+import {
+  avatarHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText, gradeBadgeHtml, naCell, playButtonHtml,
+} from '../ui.js';
 import { isInstaAccountName } from '../components/venue_info.js';
 
 const RECENT_DAYS = 90;
@@ -19,6 +21,11 @@ const LIST_MAX = 12;
 
 function teamLink(key, name) {
   return `<a href="#/team/${encodeURIComponent(key)}">${escapeHtml(name || key)}</a>`;
+}
+
+/** 목록 한 줄의 팀: 사진 · 이름 · ▶ (공연 줄처럼 팀이 여럿 붙는 곳은 teamLink 만) */
+function teamItem(key, name) {
+  return `<span class="team-cell-inline">${avatarHtml(key, name || key, 22, { shape: 'circle' })}${teamLink(key, name)}${playButtonHtml(key, name || key, { variant: 'icon' })}</span>`;
 }
 
 function listOrEmpty(items, emptyText, render) {
@@ -121,10 +128,10 @@ export async function renderCityPage(host, city) {
     </section>
     <div class="city-grid">
       <section class="block"><div class="block-head"><h3>이 도시에서 뜨는 후보</h3><span class="block-meta">최근 3년 이 도시에서 공연한 팀 중 점수 상위</span></div>
-        ${listOrEmpty(c.top_candidates || [], '기록이 없습니다.', r => `<li>${teamLink(r.team_key, r.name)} <span class="small muted">#${fmtInt(r.rank)} · ${fmtNum(r.score, 2)}점 · 마지막 ${escapeHtml(r.last_here || '')}</span></li>`)}
+        ${listOrEmpty(c.top_candidates || [], '기록이 없습니다.', r => `<li>${teamItem(r.team_key, r.name)} <span class="small muted">#${fmtInt(r.rank)} · ${fmtNum(r.score, 2)}점 · 마지막 ${escapeHtml(r.last_here || '')}</span></li>`)}
       </section>
       <section class="block"><div class="block-head"><h3>이 도시가 활동 도시인 후보</h3><span class="block-meta">후보 상위 300 중 ${fmtInt(homeCands.length)}팀</span></div>
-        ${listOrEmpty(homeCands, appState.teamCitiesByTeam.size ? '이 도시를 활동 도시로 둔 후보가 없습니다.' : '팀별 활동 도시 자료(team_cities.csv)가 아직 없습니다.', r => `<li>${teamLink(r.team_key, r.display_name)} <span class="small muted">#${fmtInt(r.rank)} · ${fmtNum(r.score, 2)}점</span></li>`)}
+        ${listOrEmpty(homeCands, appState.teamCitiesByTeam.size ? '이 도시를 활동 도시로 둔 후보가 없습니다.' : '팀별 활동 도시 자료(team_cities.csv)가 아직 없습니다.', r => `<li>${teamItem(r.team_key, r.display_name)} <span class="small muted">#${fmtInt(r.rank)} · ${fmtNum(r.score, 2)}점</span></li>`)}
       </section>
       <section class="block"><div class="block-head"><h3>최근 3개월 이 도시에서 첫 무대를 연 신인</h3><span class="block-meta" id="cityFirstMeta">계산 중…</span></div><div id="cityFirstBody"><p class="small muted">계산 중…</p></div></section>
       <section class="block"><div class="block-head"><h3>다가오는 공연 (${UPCOMING_DAYS}일)</h3><span class="block-meta">${fmtInt(byGig.size)}건</span></div>
@@ -135,7 +142,7 @@ export async function renderCityPage(host, city) {
       </section>
       <section class="block"><div class="block-head"><h3>지방 → 서울 흐름</h3></div>${flowHtml(cp, city)}</section>
       <section class="block"><div class="block-head"><h3>여기서 공연한 뒤 상 받은 팀</h3><span class="block-meta">${fmtInt(c.later_winners_total || 0)}팀</span></div>
-        ${listOrEmpty(c.later_winners || [], '기록이 없습니다.', w => `<li>${teamLink(w.team_key, w.name)} ${gradeBadgeHtml(w.grade)} <span class="small muted">${escapeHtml(w.outcome || '')} · ${fmtInt(w.lead_months)}개월 전 이 도시</span></li>`)}
+        ${listOrEmpty(c.later_winners || [], '기록이 없습니다.', w => `<li>${teamItem(w.team_key, w.name)} ${gradeBadgeHtml(w.grade)} <span class="small muted">${escapeHtml(w.outcome || '')} · ${fmtInt(w.lead_months)}개월 전 이 도시</span></li>`)}
       </section>
     </div>
     <p class="small muted place-evidence">근거: 도시 = 공연장 마스터 목록(config/venues_kr.json)의 도시 · 첫 무대 = 우리 데이터에서 도시를 아는 첫 공연 · 수집 상태는 <a href="#/verify/quality">검증 › 데이터 품질</a></p>`;
@@ -146,6 +153,6 @@ export async function renderCityPage(host, city) {
   const meta = host.querySelector('#cityFirstMeta');
   if (meta) meta.textContent = `${fmtInt(first.length)}팀`;
   if (body) {
-    body.innerHTML = listOrEmpty(first, venueCity.size ? '최근 3개월 이 도시에서 첫 무대를 연 팀이 없습니다.' : '공연장 → 도시 자료가 없어 계산하지 못했습니다.', t => `<li>${teamLink(t.team_key, t.display_name)} <span class="small muted">${escapeHtml(t.first_date)} · <a class="inline-venue-link" href="#/venue/${encodeURIComponent(t.first_venue)}">${escapeHtml(t.first_venue)}</a></span></li>`);
+    body.innerHTML = listOrEmpty(first, venueCity.size ? '최근 3개월 이 도시에서 첫 무대를 연 팀이 없습니다.' : '공연장 → 도시 자료가 없어 계산하지 못했습니다.', t => `<li>${teamItem(t.team_key, t.display_name)} <span class="small muted">${escapeHtml(t.first_date)} · <a class="inline-venue-link" href="#/venue/${encodeURIComponent(t.first_venue)}">${escapeHtml(t.first_venue)}</a></span></li>`);
   }
 }

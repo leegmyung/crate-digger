@@ -78,3 +78,18 @@ export async function querySavedNewMatches(spec, to) {
   const [nowRows, prevRows] = await Promise.all([querySavedMatches(spec, to), querySavedMatches(spec, from)]);
   return { from, to, total: nowRows.length, added: newMatches(nowRows, prevRows) };
 }
+
+/**
+ * 알림 규칙 미리보기 (Chartmetric '알림 예측'처럼): 지금 맞는 팀 수 + 최근 weeks 주 동안 주마다 새로 걸린 팀 수.
+ * @param {object} spec 저장 필터 규격
+ * @param {string} end 데이터 기준일
+ * @returns {Promise<{ total: number, weekly: number[], lastWeek: Array<{ team_key: string, display_name: string }> }>}
+ *   weekly = [지난주, 2주 전, …] (insight_text.js alertForecastText 가 읽는 순서)
+ */
+export async function querySavedWeeklyForecast(spec, end, weeks = 4) {
+  const dates = Array.from({ length: weeks + 1 }, (_, i) => isoMinusDays(end, i * WEEK_DAYS));
+  if (dates.some(d => !d)) return { total: 0, weekly: [], lastWeek: [] };
+  const rows = await Promise.all(dates.map(d => querySavedMatches(spec, d)));
+  const weekly = rows.slice(0, weeks).map((r, i) => newMatches(r, rows[i + 1]).length);
+  return { total: rows[0].length, weekly, lastWeek: newMatches(rows[0], rows[1]) };
+}

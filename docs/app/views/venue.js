@@ -1,11 +1,12 @@
 import { appState, navigateTo, setExportContext, VENUE_TABS } from '../state.js';
 import {
-  loadVenueProfiles, queryCandidates, queryDiscoveryStages, queryVenueRecentShows,
+  loadAlertsJson, loadVenueProfiles, queryCandidates, queryDiscoveryStages, queryVenueRecentShows,
 } from '../db.js';
 import { loadVenueLadder, queryVenueTeams } from '../db_venue.js';
 import { buildVenueFlow } from '../components/venue_flow.js';
 import { mountVenueTables } from './venue_tables.js';
-import { isVenueSubscribed, toggleVenueSub } from '../venue_subs.js';
+import { alertsForSubscribedVenues, isVenueSubscribed, toggleVenueSub } from '../venue_subs.js';
+import { venueSubForecastText } from '../insight_text.js';
 import { confidenceLabel, venueStatusBadge, venueTypeLabel } from '../components/venue_info.js';
 import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, gradeBadgeHtml,
@@ -368,6 +369,7 @@ export async function renderVenueView(root, venueName) {
   const actionsHtml = `
     <div class="venue-hero-actions">
       <button type="button" class="btn btn-sm${subOn ? ' btn-active' : ''}" id="btnVenueSub" aria-pressed="${subOn}" title="여기 처음 선 신인·큰 공연장 첫 무대·새 공연을 내 목록과 홈에서 알려 줍니다">${subOn ? '★ 구독 중' : '☆ 이 공연장 구독'}</button>
+      <span class="small muted venue-sub-preview" id="venueSubPreview" aria-live="polite"></span>
       <a class="team-report-link" href="${escapeHtml(reportUrl)}" target="_blank" rel="noopener noreferrer" title="공개 저장소 이슈로 접수돼요 — 개인 연락처는 적지 마세요">정보가 틀려요 ↗</a>
     </div>`;
   const disc = profile?.discovery || null;
@@ -564,7 +566,14 @@ export async function renderVenueView(root, venueName) {
   const candByKey = new Map(candRows.map((r, i) => [r.team_key, { score: r.score, rank: i + 1 }]));
   const stageByTeam = new Map((stageData?.rows || []).map(r => [r.team_key, r.stage]));
   mountVenueTables(root, { venue: cleanVenue, asOf: effectiveAsOf, teams: venueTeams, showGroups, candByKey, stageByTeam, totalNights: profile ? Number(profile.nights) + Number(profile.upcoming_nights || 0) : null });
-  // 5-5 공연장 구독
+  // 5-5 공연장 구독 + 알림 미리보기(이번 주 알림 중 이 공연장 관련 건수)
+  loadAlertsJson().then((ad) => {
+    const el = root.querySelector('#venueSubPreview');
+    if (!el || !ad) return;
+    const counts = {};
+    for (const a of alertsForSubscribedVenues(ad, [cleanVenue]).get(cleanVenue) || []) counts[a.type] = (counts[a.type] || 0) + 1;
+    el.textContent = venueSubForecastText(counts, ad.types || {});
+  }).catch(() => null);
   root.querySelector('#btnVenueSub')?.addEventListener('click', (e) => {
     const btn = e.currentTarget;
     const res = toggleVenueSub(cleanVenue);

@@ -18,6 +18,9 @@ import {
 } from '../ui.js';
 import { mountTeamGraphBlock } from './graph.js';
 import { compareButtonHtml, renderKeyStatsHtml, renderTeamFactsHtml } from './team_head.js';
+import { compareToggleHtml } from '../components/compare_tray.js';
+import { timelineAnomaly } from '../insight_text.js';
+import { spikeSentence } from './today_alerts.js';
 import { activeTeamTab, renderTeamTabsHtml, teamPanelHtml, wireTeamTabs } from './team_tabs.js';
 import {
   queryScenePeerWinners, renderChangeRowHtml, renderTeamStatusBarsHtml, wireChangeRow,
@@ -385,6 +388,12 @@ export async function renderTeamView(root, teamKey) {
 
 
   const teamAlerts = alertsData?.byTeam?.get(teamKey) || [];
+  // 개요 '눈에 띄는 움직임' (Chartmetric '주목할 만한 통찰력'처럼): 이번 주 언급 급증 알림이 있으면 그 문장, 없으면 최근 4주 대 지난 24주
+  const spikeAlert = teamAlerts.find(a => a.type === 'spike');
+  const anomaly = spikeAlert ? { kind: 'up', text: spikeSentence(spikeAlert) } : timelineAnomaly(timeline, asOf);
+  const anomalyHtml = anomaly
+    ? `<p class="team-anomaly team-anomaly-${escapeHtml(anomaly.kind)}"><span class="team-anomaly-tag">${anomaly.kind === 'quiet' ? '조용해짐' : '눈에 띄는 움직임'}</span>${escapeHtml(anomaly.text)}</p>`
+    : '';
   const teamAlertsLineHtml = teamAlerts.length
     ? `<div class="team-alerts-line" aria-label="이 팀 최근 알림">
         <span class="team-alerts-lbl">최근 알림</span>
@@ -691,6 +700,7 @@ export async function renderTeamView(root, teamKey) {
       <div class="action-banner-btns">
         ${renderListenButtons(teamKey, displayName, links, videos.length > 0)}
         ${watchButtonHtml(teamKey, displayName, false)}
+        ${compareToggleHtml(teamKey, displayName)}
         ${compareButtonHtml(genre)}
       </div>
     </div>
@@ -701,6 +711,7 @@ export async function renderTeamView(root, teamKey) {
     ${teamPanelHtml('overview', activeTab, `
       <section class="block team-pulse" id="teamPulseBlock" aria-label="상태와 변화">
         ${renderTeamStatusBarsHtml({ stageInfo, scored, timeline, sceneWinners, asOf })}
+        ${anomalyHtml}
         ${renderChangeRowHtml(pulseCtx)}
       </section>
       ${summarySectionHtml}

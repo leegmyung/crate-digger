@@ -14,6 +14,7 @@ import {
 } from './ui.js';
 import { initGlobalSearch } from './components/global_search.js';
 import { initMiniPlayer } from './components/mini_player.js';
+import { initCompareTray } from './components/compare_tray.js';
 
 const ADVANCED_ROUTES = new Set(['verify', 'backtest', 'signals', 'evidence', 'scorecard', 'quality', 'sql']);
 
@@ -32,6 +33,7 @@ const VIEW_LOADERS = {
   alerts: () => import('./views/alerts.js').then(m => m.renderAlertsView),
   search: () => import('./views/search.js').then(m => m.renderSearchView),
   help: () => import('./views/help.js').then(m => m.renderHelpView),
+  compare: () => import('./views/compare.js').then(m => m.renderCompareView),
 };
 
 // 왼쪽 메뉴 키(data-route) — 안쪽 경로 이름과 다를 수 있음 (docs/app_structure_v2.md 2-1)
@@ -587,6 +589,7 @@ async function boot() {
   initTheme();
   initGlobalSearch();
   initMiniPlayer();
+  initCompareTray();
   initExportMenu();
   wireGlobalEvents();
   parseHash();
