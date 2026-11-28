@@ -451,6 +451,27 @@ class ManualAliasTest(unittest.TestCase):
         artists, _ = ax.build_xref(names, [], [], [], manual_aliases=[plain])
         self.assertEqual(next(a for a in artists if "gonggonggoo009" in a["keys"])["display_name"], "GongGongGoo009")
 
+    def test_display_string_picks_one_spelling(self):
+        # display 에 글자를 주면 그 표기로 (멜론 공식 표기 'Bandits' — 공연 목록엔 소문자 'bandits'가 더 많음)
+        names = [{"table": "gig", "name": "bandits", "count": 7}, {"table": "gig", "name": "밴디츠", "count": 6}]
+        entry = {"main": "밴디츠", "aliases": ["bandits"], "reason": "같은 팀", "evidence": ["https://example.com/b"],
+                 "checked": "2026-11-28", "display": "Bandits"}
+        artists, _ = ax.build_xref(names, [], [], [], manual_aliases=[entry])
+        team = next(a for a in artists if "bandits" in a["keys"])
+        self.assertEqual(team["display_name"], "Bandits")
+        self.assertEqual(team["artist_key"], "bandits")
+
+    def test_display_string_must_be_one_of_the_names(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "a.json"
+            bad = {**self.ENTRY, "display": "전혀 다른 이름"}
+            p.write_text(json.dumps({"aliases": [bad]}, ensure_ascii=False), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                ax.load_manual_aliases(p)
+            ok = {**self.ENTRY, "display": "포스트 이너 서클"}          # 띄어쓰기만 다른 같은 이름 키 → 통과
+            p.write_text(json.dumps({"aliases": [ok]}, ensure_ascii=False), encoding="utf-8")
+            self.assertEqual(ax.load_manual_aliases(p), [ok])
+
     def test_load_manual_aliases_validates(self):
         with tempfile.TemporaryDirectory() as d:
             p = Path(d) / "a.json"

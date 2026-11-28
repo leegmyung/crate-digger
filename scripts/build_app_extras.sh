@@ -8,15 +8,18 @@
 #   docs/lab/data/city_profiles.json · team_cities.csv (도시 층)            · docs/lab/data/lineup_roles.csv (단독·헤드라이너)
 #   docs/lab/data/event_stars.csv (사건 별점·전후 28일)                    · docs/lab/data/festival_profiles.json (국내 페스티벌 회차별 라인업)
 #   docs/lab/data/venue_tiers.csv (공연장 체급 — 앱이 config/ 를 못 읽어서)  · docs/data/alerts.json (오늘 새로 생긴 일)
+#   docs/lab/data/signals.parquet (signals.csv 의 Parquet 판, CSV 는 그대로) · docs/lab/data/venue_index.json (공연장 → 도시·크기)
 #   마지막에 docs/lab/data/meta.json 의 extras·extras_rows 를 갱신 (generated_at 은 그대로)
 set -u
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT" || exit 1
 PY="${PY:-$ROOT/.venv/bin/python}"
 # "이름|스크립트 인자" — 이름은 출력용
-STEPS=("venue_tiers|scripts/export_venue_tiers.py"
+STEPS=(   # signals_parquet(scripts/export_signals_parquet.py)는 보류 — 브라우저가 Parquet 부품을 외부(extensions.duckdb.org)에서 받아 실제 이득이 작음, 2026-11-28
+       "venue_tiers|scripts/export_venue_tiers.py"
        "venue_ladder|scripts/venue_ladder.py --json-only"
        "venue_profiles|scripts/venue_profiles.py"
+       "venue_index|scripts/venue_index.py"   # 공연장 이름 → 도시·크기만 (앱 팀 '공연' 탭, 프로필 600KB 대신 약 18KB)
        "city_profiles|scripts/city_profiles.py --data-only"
        "festival_profiles|scripts/festival_profiles.py --no-doc"
        "lineup_roles|scripts/lineup_roles.py --data-only"

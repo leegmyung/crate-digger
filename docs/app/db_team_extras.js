@@ -4,12 +4,13 @@
  *   event_stars.csv   scripts/event_stars.py
  *   lineup_roles.csv  scripts/lineup_roles.py
  *   venue_tiers.csv   scripts/export_venue_tiers.py (없으면 venue_profiles.json 의 tier)
- *   venue_profiles.json 의 city → 공연장 도시
+ *   venue_index.json 의 city → 공연장 도시 (scripts/venue_index.py, 없으면 venue_profiles.json 의 city)
  */
 import {
-  fetchText, fillTemplate, getSqlTemplate, labExtraListed, loadVenueProfiles, parseCsvObjects, runRawSql,
+  fetchJson, fetchText, fillTemplate, getSqlTemplate, labExtraListed, loadVenueProfiles, parseCsvObjects, runRawSql,
   sqlStringLiteral,
 } from './db.js';
+import { venueMetaFromIndex } from './venue_tiers.js';
 import { toNumOrNull as num } from './util.js';
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -90,6 +91,14 @@ export function loadVenueMeta() {
         .filter(([v, t]) => v && VALID_TIERS.has(t)));
     }
     let cities = null;
+    // 작은 venue_index.json(약 18KB, 이름 → 도시·크기)이 있으면 그걸로 — 예전엔 도시만 쓰려고 venue_profiles.json(약 600KB)을 받음
+    if (labExtraListed('venue_index')) {
+      const idx = venueMetaFromIndex(await fetchJson('lab/data/venue_index.json', true));
+      if (idx) {
+        if (!tiers && idx.tiers.size) tiers = idx.tiers;
+        return { tiers, cities: idx.cities.size ? idx.cities : null };
+      }
+    }
     if (labExtraListed('venue_profiles')) {
       const vp = await loadVenueProfiles();
       const venues = vp?.venues && typeof vp.venues === 'object' ? vp.venues : null;

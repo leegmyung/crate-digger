@@ -4,6 +4,7 @@ import { parsePlayersRows } from './player_pick.js';
 import { easyAlertTypeLabel, easyText } from './easy_terms.js';
 import { fairnessLine, fairnessShort } from './score_fairness.js';
 import { parseVenueTierRows, venueTierValuesSql } from './venue_tiers.js';
+import { signalsParquetOk } from './boot_files.js';
 
 const DUCKDB_CDN = 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.32.0/dist';
 const MANUAL_BUNDLES = {
@@ -371,6 +372,22 @@ export async function fetchText(path, optional = false, opts = {}) {
     if (optional) return null;
     throw err;
   }
+}
+
+/**
+ * signals 표 원본: 믿을 만한 Parquet 판(약 0.33MB)이 있으면 그것, 아니면·받기 실패면 CSV(약 4MB) — boot_files.js signalsParquetOk.
+ * Parquet 주소엔 extras_updated_at 을 붙인다(보조 파일만 다시 만든 날 브라우저 캐시가 옛 파일을 주지 않게).
+ * @returns {Promise<{kind: 'parquet', buf: ArrayBuffer} | {kind: 'csv', text: string}>}
+ */
+async function loadSignalsSource(meta) {
+  if (signalsParquetOk(meta)) {
+    try {
+      const url = resolveFetchUrl(`lab/data/signals.parquet?x=${encodeURIComponent(meta.extras_updated_at || '')}`);
+      const r = await fetch(url);
+      if (r.ok) return { kind: 'parquet', buf: await r.arrayBuffer() };
+    } catch (_) { /* CSV 로 */ }
+  }
+  return { kind: 'csv', text: await fetchText('lab/data/signals.csv') };
 }
 
 export async function fetchJson(path, optional = false, opts = {}) {
@@ -855,7 +872,7 @@ export async function bootstrapData(onStatus = () => {}) {
   });
 
   const [
-    sigCsv,
+    sigSrc,
     teamsCsv,
     outCsv,
     progCsv,
@@ -867,7 +884,7 @@ export async function bootstrapData(onStatus = () => {}) {
     linksCsv,
     imagesCsv,
   ] = await Promise.all([
-    fetchText('lab/data/signals.csv'),
+    loadSignalsSource(meta),
     fetchText('lab/data/teams.csv'),
     fetchText('lab/data/outcomes.csv'),
     fetchText('lab/data/programs.csv'),
@@ -910,8 +927,11 @@ export async function bootstrapData(onStatus = () => {}) {
     [snapBundle.monthDate, snapBundle.monthTxt],
   ].filter(([d, txt]) => d && DATE_RE.test(d) && txt);
 
+  appState.signalsSource = sigSrc.kind;   // 'parquet' | 'csv' (점검용)
   await Promise.all([
-    dbInstance.registerFileText('signals.csv', sigCsv),
+    sigSrc.kind === 'parquet'
+      ? dbInstance.registerFileBuffer('signals.parquet', new Uint8Array(sigSrc.buf))
+      : dbInstance.registerFileText('signals.csv', sigSrc.text),
     dbInstance.registerFileText('teams.csv', teamsCsv),
     dbInstance.registerFileText('outcomes.csv', outCsv),
     dbInstance.registerFileText('programs.csv', progCsv),
@@ -926,7 +946,7 @@ export async function bootstrapData(onStatus = () => {}) {
       FROM read_csv_auto('snap_${d}.csv', header=true);
     `).join('\n');
     const createSql = `
-      CREATE TABLE signals AS SELECT * FROM read_csv_auto('signals.csv', header=true);
+      CREATE TABLE signals AS SELECT * FROM ${sigSrc.kind === 'parquet' ? "read_parquet('signals.parquet')" : "read_csv_auto('signals.csv', header=true)"};
       CREATE TABLE teams AS SELECT * FROM read_csv_auto('teams.csv', header=true);
       CREATE TABLE outcomes AS SELECT * FROM read_csv_auto('outcomes.csv', header=true);
       CREATE TABLE programs AS SELECT * FROM read_csv_auto('programs.csv', header=true);

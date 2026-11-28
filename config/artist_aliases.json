@@ -2,6 +2,240 @@
   "_설명": "사람이 확인한 별칭 (2026-11-27 시작). 자동 규칙(한영 병기·인스타 이름)으로 못 묶는 같은 팀의 다른 표기를 적는다. scripts/artist_xref.py 가 신뢰도 high 간선으로 넣고, 자동 간선과 함께 충돌 검사(같은 별칭이 다른 대표에 붙으면 버리고 '확인 필요'로 보고)를 받는다. 항목마다 main(대표 이름), aliases(별칭 목록), reason(이유), evidence(근거 — 링크 또는 우리 데이터 설명), checked(확인 날짜 YYYY-MM-DD)가 모두 있어야 한다. 확신이 중간 이하인 쌍(예: nib ↔ nib.archive)은 넣지 말고 docs/candidate_audit.md 의 '확인 필요'에 둔다. 같은 파일의 다른 구역: distinct = 다른 팀(묶지 말 것). names 첫 이름(멤버·개인)은 따로 두고, 겹치는 별칭은 나머지 이름(그룹) 쪽에 남긴다 · platform_ids = 플랫폼 번호 고정(id = 맞는 번호, not = 다른 아티스트로 확인된 번호 — 어디서 왔든 버림) · non_artist_handles = 팀이 아닌 인스타 계정(브랜드·레이블·시장 등). 모든 항목에 reason·evidence·checked 필수.",
   "aliases": [
     {
+      "main": "웰컴투 초초랜드",
+      "aliases": [
+        "웰컴투초초랜드"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('웰컴투 초초랜드')로. 공연 목록·기사에서 더 자주 쓴 '웰컴투초초랜드'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 '웰컴투초초랜드' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=4352978",
+        "멜론 아티스트 4352978 '웰컴투 초초랜드'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "아나키 컬쳐",
+      "aliases": [
+        "아나키컬쳐"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('아나키 컬쳐')로. 공연 목록·기사에서 더 자주 쓴 '아나키컬쳐'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 '아나키컬쳐' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=5325395",
+        "멜론 아티스트 5325395 '아나키 컬쳐'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "안도 프로젝트",
+      "aliases": [
+        "안도프로젝트"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('안도 프로젝트 (Ando Project)')로. 공연 목록·기사에서 더 자주 쓴 '안도프로젝트'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 '안도프로젝트' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=2242244",
+        "멜론 아티스트 2242244 '안도 프로젝트 (Ando Project)'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "제임스 키스",
+      "aliases": [
+        "제임스키스"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('제임스 키스 (James Keys)')로. 공연 목록·기사에서 더 자주 쓴 '제임스키스'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 '제임스키스' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=856958",
+        "멜론 아티스트 856958 '제임스 키스 (James Keys)'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "릴리 잇 머신",
+      "aliases": [
+        "릴리잇머신"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('릴리 잇 머신 (Lilly Eat Machine)')로. 공연 목록·기사에서 더 자주 쓴 '릴리잇머신'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 '릴리잇머신' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=3573882",
+        "멜론 아티스트 3573882 '릴리 잇 머신 (Lilly Eat Machine)'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "투 데이 올드 스니커즈",
+      "aliases": [
+        "투데이올드스니커즈"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('투 데이 올드 스니커즈')로. 공연 목록·기사에서 더 자주 쓴 '투데이올드스니커즈'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 '투데이올드스니커즈' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=2558612",
+        "멜론 아티스트 2558612 '투 데이 올드 스니커즈'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "모스크바서핑클럽",
+      "aliases": [
+        "모스크바 서핑클럽"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('모스크바서핑클럽')로. 공연 목록·기사에서 더 자주 쓴 '모스크바 서핑클럽'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 '모스크바서핑클럽' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=2922108",
+        "멜론 아티스트 2922108 '모스크바서핑클럽'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "YU",
+      "aliases": [
+        "Yu"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('YU')로. 공연 목록·기사에서 더 자주 쓴 'Yu'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 'yu' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=3678576",
+        "멜론 아티스트 3678576 'YU'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "ROSIE",
+      "aliases": [
+        "Rosie"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('ROSIE')로. 공연 목록·기사에서 더 자주 쓴 'Rosie'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 'rosie' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=5213636",
+        "멜론 아티스트 5213636 'ROSIE'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "Nazu",
+      "aliases": [
+        "NAZU"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('Nazu')로. 공연 목록·기사에서 더 자주 쓴 'NAZU'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 'nazu' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=872655",
+        "멜론 아티스트 872655 'Nazu'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "Sunflowers",
+      "aliases": [
+        "SUNFLOWERS"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('Sunflowers')로. 공연 목록·기사에서 더 자주 쓴 'SUNFLOWERS'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 'sunflowers' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=3193722",
+        "멜론 아티스트 3193722 'Sunflowers'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "Viridian",
+      "aliases": [
+        "VIRIDIAN"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('Viridian')로. 공연 목록·기사에서 더 자주 쓴 'VIRIDIAN'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 'viridian' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=3937252",
+        "멜론 아티스트 3937252 'Viridian'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "MurderMartyr",
+      "aliases": [
+        "Murdermartyr"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('MurderMartyr (머더머더)')로. 공연 목록·기사에서 더 자주 쓴 'Murdermartyr'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 'murdermartyr' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=4190765",
+        "멜론 아티스트 4190765 'MurderMartyr (머더머더)'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "moim",
+      "aliases": [
+        "MoIM"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('moim (모임)')로. 공연 목록·기사에서 더 자주 쓴 'MoIM'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 'moim' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=2642517",
+        "멜론 아티스트 2642517 'moim (모임)'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "wakeupfinn",
+      "aliases": [
+        "Wakeupfinn"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('wakeupfinn')로. 공연 목록·기사에서 더 자주 쓴 'Wakeupfinn'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 'wakeupfinn' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=3611491",
+        "멜론 아티스트 3611491 'wakeupfinn'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "FIRR",
+      "aliases": [
+        "firr"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('FIRR')로. 공연 목록·기사에서 더 자주 쓴 'firr'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 'firr' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=4357566",
+        "멜론 아티스트 4357566 'FIRR'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "Fail Fast",
+      "aliases": [
+        "fail fast"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('Fail Fast')로. 공연 목록·기사에서 더 자주 쓴 'fail fast'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 'failfast' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=3938466",
+        "멜론 아티스트 3938466 'Fail Fast'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
+      "main": "xaoil (451)",
+      "aliases": [
+        "Xaoil (451)"
+      ],
+      "reason": "같은 팀 — 화면 이름을 멜론 아티스트 프로필 표기('xaoil (451)')로. 공연 목록·기사에서 더 자주 쓴 'Xaoil (451)'(띄어쓰기·대소문자만 다름)가 대표 표기로 뽑혀 있었음 (표시 이름 점검 2026-11-28, 팀 키 'xaoil' 그대로)",
+      "evidence": [
+        "https://www.melon.com/artist/detail.htm?artistId=2966932",
+        "멜론 아티스트 2966932 'xaoil (451)'"
+      ],
+      "checked": "2026-11-28",
+      "display": true
+    },
+    {
       "main": "공공구",
       "aliases": [
         "GongGongGoo009"
@@ -38,7 +272,8 @@
         "https://banditssk.bandcamp.com/",
         "docs/candidate_audit.md '확인 결과'"
       ],
-      "checked": "2026-11-27"
+      "checked": "2026-11-27",
+      "display": "Bandits"
     },
     {
       "main": "데킬라올드패션드",
@@ -49,7 +284,8 @@
       "evidence": [
         "docs/candidate_audit.md '301~600위 점검' — 우리 공연 기록"
       ],
-      "checked": "2026-11-27"
+      "checked": "2026-11-27",
+      "display": "데킬라 올드 패션드"
     },
     {
       "main": "올드카컬렉션",
@@ -375,7 +611,8 @@
       "evidence": [
         "우리 데이터: 힙합엘이 '프로듀서 버터스카치, …' 기사 1건(2022-05-10)"
       ],
-      "checked": "2026-11-27"
+      "checked": "2026-11-27",
+      "display": true
     },
     {
       "main": "암모나이트",
@@ -386,7 +623,8 @@
       "evidence": [
         "우리 데이터: 힙합엘이 '프로듀서 암모나이트, …' 기사 1건(2022-01-04)"
       ],
-      "checked": "2026-11-27"
+      "checked": "2026-11-27",
+      "display": true
     },
     {
       "main": "엔드오프",
@@ -397,7 +635,8 @@
       "evidence": [
         "우리 데이터: 힙합엘이 '프로듀서 엔드오프, …' 기사 1건(2022-01-06)"
       ],
-      "checked": "2026-11-27"
+      "checked": "2026-11-27",
+      "display": true
     },
     {
       "main": "제이돕",
@@ -995,7 +1234,8 @@
       "aliases": ["워크맨쉽 Maalib"],
       "reason": "같은 협업 — 말립×워크맨십(Maalib×WRKMS), 십/쉽 표기 흔들림 (음악취향Y 싱글 리뷰 두 편)",
       "evidence": ["http://musicy.kr/?c=review&s=1&gbn=view&ix=6964", "http://musicy.kr/?c=review&s=1&gbn=view&ix=8524"],
-      "checked": "2026-11-28"
+      "checked": "2026-11-28",
+      "display": true
     },
     {
       "main": "플랫폼 스테레오",
@@ -1051,7 +1291,8 @@
       "aliases": ["Henz Club", "thehenzclub"],
       "reason": "같은 팀 — 앞의 The 유무만 다름 (VISLA 기사·레이블 컴필레이션 글)",
       "evidence": ["https://visla.kr/article/music/169000/", "https://www.instagram.com/hausofmatters/p/DgP4HJpEhhw/"],
-      "checked": "2026-11-28"
+      "checked": "2026-11-28",
+      "display": true
     },
     {
       "main": "13CHILDREN",

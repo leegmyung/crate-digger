@@ -99,5 +99,62 @@ class UpdateTest(unittest.TestCase):
             self.assertIn("team_cities", meta["extras"])
 
 
+class NewExtrasTest(unittest.TestCase):
+    """2026-11-28 첫 진입 속도: 작은 공연장 색인(venue_index.json) · signals 의 Parquet 판(signals.parquet)."""
+
+    def test_listed(self):
+        self.assertIn("venue_index.json", um.EXTRAS)
+        self.assertIn("signals.parquet", um.EXTRAS)
+
+    def test_venue_index_is_json_extra(self):
+        with tempfile.TemporaryDirectory() as d:
+            _setup(Path(d))
+            (Path(d) / "venue_index.json").write_text('{"as_of": "x", "venues": {}}', encoding="utf-8")
+            got = um.scan(Path(d))
+        self.assertIs(got["venue_index.json"], True)
+        self.assertIn("venue_index", um.app_list(got))
+
+    def test_parquet_rows_when_fresh(self):
+        """Parquet 은 행 수를 적고(앱이 rows.signals 와 맞을 때만 읽음), extras 이름 배열에는 넣지 않는다('signals' 와 헷갈림)."""
+        with tempfile.TemporaryDirectory() as d:
+            _setup(Path(d))
+            (Path(d) / "signals.csv").write_text("a,b\n1,2\n3,4\n", encoding="utf-8")
+            pq = Path(d) / "signals.parquet"
+            pq.write_bytes(b"PAR1....PAR1")
+            got = um.scan(Path(d), parquet_rows=lambda path: 2)
+        self.assertEqual(got["signals.parquet"], 2)
+        self.assertNotIn("signals", um.app_list(got))
+
+    def test_stale_parquet_left_out(self):
+        """signals.csv 가 Parquet 보다 새것이면(내보내기만 다시 돈 날) 낡은 Parquet 을 목록에서 뺀다 — 앱은 CSV 를 읽음."""
+        with tempfile.TemporaryDirectory() as d:
+            _setup(Path(d))
+            pq = Path(d) / "signals.parquet"
+            pq.write_bytes(b"PAR1....PAR1")
+            csv_path = Path(d) / "signals.csv"
+            csv_path.write_text("a\n1\n", encoding="utf-8")
+            import os as _os
+            _os.utime(pq, (1000, 1000))
+            _os.utime(csv_path, (2000, 2000))
+            got = um.scan(Path(d), parquet_rows=lambda path: 1)
+        self.assertNotIn("signals.parquet", got)
+
+    def test_parquet_row_mismatch_left_out(self):
+        with tempfile.TemporaryDirectory() as d:
+            _setup(Path(d))
+            (Path(d) / "signals.csv").write_text("a\n1\n2\n3\n", encoding="utf-8")
+            (Path(d) / "signals.parquet").write_bytes(b"PAR1....PAR1")
+            got = um.scan(Path(d), parquet_rows=lambda path: 2)
+        self.assertNotIn("signals.parquet", got)
+
+    def test_broken_parquet_left_out(self):
+        with tempfile.TemporaryDirectory() as d:
+            _setup(Path(d))
+            (Path(d) / "signals.csv").write_text("a\n1\n", encoding="utf-8")
+            (Path(d) / "signals.parquet").write_bytes(b"not parquet")
+            got = um.scan(Path(d), parquet_rows=lambda path: 1)
+        self.assertNotIn("signals.parquet", got)
+
+
 if __name__ == "__main__":
     unittest.main()

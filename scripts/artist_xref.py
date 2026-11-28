@@ -398,6 +398,17 @@ def _ig_edges(cands: dict, occ: list[dict], base: set[str], spell: dict) -> list
     return edges
 
 
+def _display_ok(e: dict) -> bool:
+    """별칭 항목의 display: 없음 · true · main/aliases 와 이름 키가 같은 글자."""
+    d = e.get("display")
+    if d is None or d is True:
+        return True
+    if not isinstance(d, str) or not d.strip():
+        return False
+    names = [e.get("main") or "", *(e.get("aliases") or [])]
+    return artist_key(d) in {artist_key(n) for n in names if isinstance(n, str)}
+
+
 def load_manual_aliases(path: Path = MANUAL_ALIASES) -> list[dict]:
     """config/artist_aliases.json → 항목 목록. 파일이 없으면 빈 목록, 형식이 틀리면 어느 항목이 왜 틀렸는지 알리고 멈춘다."""
     try:
@@ -415,6 +426,7 @@ def load_manual_aliases(path: Path = MANUAL_ALIASES) -> list[dict]:
             (isinstance(e.get("reason"), str) and e["reason"].strip(), "reason(이유)이 비어 있음"),
             (isinstance(e.get("evidence"), list) and e["evidence"], "evidence(근거)가 비어 있음"),
             (isinstance(e.get("checked"), str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", e["checked"]), "checked(확인 날짜)가 YYYY-MM-DD가 아님"),
+            (_display_ok(e), "display(화면 이름)는 true 이거나 main·aliases 중 하나와 같은 이름(띄어쓰기·대소문자만 다른)이어야 함"),
         ) if not ok]
         if problems:
             raise ValueError(f"{path} 항목 {i + 1} ({e.get('main', '?')}): {', '.join(problems)}")
@@ -605,8 +617,14 @@ def build_xref(names: list[dict], ig_profiles: list[dict], ig_posts: list[dict],
 
     review[:] = [_settle_conflict(r, g) for r in review]   # 다른 근거(사람 확인 별칭 등)로 결국 한 팀이 된 충돌은 해결로
     ig_links = _link_instagram(cands, g, base, count, spell, review)
-    # 사람이 고른 화면 이름: 별칭 항목에 display=true 면 그 팀은 main 으로 보인다(팀 키는 그대로 — 저장값·주소 안 바뀜)
-    display_main = {artist_key(e["main"]): clean(e["main"]) for e in (manual_aliases or []) if e.get("display") is True}
+    # 사람이 고른 화면 이름: 별칭 항목의 display=true 면 main, 글자면 그 표기로 보인다(팀 키는 그대로 — 저장값·주소 안 바뀜)
+    display_main = {}
+    for e in manual_aliases or []:
+        d = e.get("display")
+        if d is True or (isinstance(d, str) and d.strip()):
+            text = clean(e["main"] if d is True else d)
+            for n in [e["main"], *e["aliases"]]:
+                display_main.setdefault(artist_key(n), text)
     ctx = {"g": g, "spell": spell, "tables": tables, "count": count, "base": base,
            "strong": strong, "evidence": evidence, "ig_links": ig_links, "combined": combined, "display_main": display_main}
     return _assemble(ctx, platform_ids, review)

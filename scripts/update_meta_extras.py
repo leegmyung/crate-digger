@@ -19,7 +19,7 @@ import sys
 import tempfile
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Sequence, Union
+from typing import Callable, Dict, List, Optional, Sequence, Union
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import lab_sql  # noqa: E402
@@ -27,9 +27,21 @@ import lab_sql  # noqa: E402
 EXTRAS = ("team_cities.csv", "venue_tiers.csv", "venue_profiles.json", "city_profiles.json",
           "festival_profiles.json", "lineup_roles.csv", "event_stars.csv", "venue_ladder.json",
           "players.csv",   # players.csv = 바로 듣기 표(team_key·kind·id·title·source)
-          "genre_seen.csv")   # 장르 처음 확인한 날 (scripts/genre_seen.py) — 앱 동료 비교 '그때 장르' 판
+          "genre_seen.csv",   # 장르 처음 확인한 날 (scripts/genre_seen.py) — 앱 동료 비교 '그때 장르' 판
+          "venue_index.json",   # 공연장 이름 → 도시·크기만 (scripts/venue_index.py) — 앱 팀 '공연' 탭 (프로필 600KB 대신)
+          "signals.parquet")    # signals.csv 의 Parquet 판 (scripts/export_signals_parquet.py) — 앱이 행 수가 맞을 때만 읽음
 
 Count = Union[int, bool]
+PARQUET_MAGIC = b"PAR1"
+
+
+def _parquet_rows_duckdb(path: Path) -> int:
+    import duckdb   # .venv 에만 있어 여기서 불러온다
+    con = duckdb.connect()
+    try:
+        return int(con.execute("SELECT COUNT(*) FROM read_parquet(?)", [str(path)]).fetchone()[0])
+    finally:
+        con.close()
 
 
 def _csv_rows(path: Path) -> int:
@@ -39,27 +51,54 @@ def _csv_rows(path: Path) -> int:
         return sum(1 for row in reader if any(cell.strip() for cell in row))
 
 
-def scan(data_dir: Path, names: Sequence[str] = EXTRAS) -> Dict[str, Count]:
-    """있는 보조 파일 → {이름: 행 수 또는 true}. 없는 파일·깨진 JSON·읽기 오류는 뺀다(앱이 받지 않게)."""
+def _parquet_count(path: Path, parquet_rows: Callable[[Path], int]) -> Optional[int]:
+    """믿을 만한 Parquet 판이면 행 수, 아니면 None — 깨진 파일 · 짝 CSV 보다 오래됨(CSV 만 다시 낸 날) · 행 수 다름."""
+    data = path.read_bytes()
+    if len(data) < 8 or not (data.startswith(PARQUET_MAGIC) and data.endswith(PARQUET_MAGIC)):
+        print(f"⚠️ {path.name}: Parquet 이 아님 — 목록에서 뺌", file=sys.stderr)
+        return None
+    csv_path = path.with_suffix(".csv")
+    if not csv_path.is_file():
+        print(f"⚠️ {path.name}: 짝 {csv_path.name} 이 없음 — 목록에서 뺌", file=sys.stderr)
+        return None
+    if path.stat().st_mtime < csv_path.stat().st_mtime:
+        print(f"⚠️ {path.name}: {csv_path.name} 보다 오래됨 — 목록에서 뺌(앱은 CSV 를 읽음)", file=sys.stderr)
+        return None
+    rows = parquet_rows(path)
+    if rows != _csv_rows(csv_path):
+        print(f"⚠️ {path.name}: 행 수가 {csv_path.name} 와 다름 — 목록에서 뺌", file=sys.stderr)
+        return None
+    return rows
+
+
+def scan(data_dir: Path, names: Sequence[str] = EXTRAS,
+         parquet_rows: Callable[[Path], int] = _parquet_rows_duckdb) -> Dict[str, Count]:
+    """있는 보조 파일 → {이름: 행 수 또는 true}. 없는 파일·깨진 JSON·읽기 오류·낡은 Parquet 은 뺀다(앱이 받지 않게)."""
     out: Dict[str, Count] = {}
     for name in names:
         path = data_dir / name
         if not path.is_file():
             continue
         try:
-            if name.endswith(".csv"):
+            if name.endswith(".parquet"):
+                rows = _parquet_count(path, parquet_rows)
+                if rows is not None:
+                    out[name] = rows
+            elif name.endswith(".csv"):
                 out[name] = _csv_rows(path)
             else:
                 json.loads(path.read_text(encoding="utf-8"))
                 out[name] = True
-        except (OSError, ValueError, csv.Error) as err:
+        except Exception as err:   # 읽기 실패(깨진 JSON·CSV·Parquet 등)는 목록에서만 빼고 다음 파일로
             print(f"⚠️ {name}: 읽기 실패 — 목록에서 뺌 ({err})", file=sys.stderr)
     return out
 
 
 def app_list(counts: Dict[str, Count]) -> List[str]:
-    """앱이 받을 파일 이름(확장자 뺀 것): CSV 는 1행 이상, JSON 은 true."""
-    return sorted(Path(n).stem for n, c in counts.items() if c is True or (not isinstance(c, bool) and c > 0))
+    """앱이 받을 파일 이름(확장자 뺀 것): CSV 는 1행 이상, JSON 은 true.
+    Parquet 판은 넣지 않는다('signals' 와 헷갈림) — 앱은 extras_rows['signals.parquet'] 행 수로 판단한다."""
+    return sorted(Path(n).stem for n, c in counts.items()
+                  if not n.endswith(".parquet") and (c is True or (not isinstance(c, bool) and c > 0)))
 
 
 def update(meta_path: Path, counts: Dict[str, Count], now: str) -> dict:

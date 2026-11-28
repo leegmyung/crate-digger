@@ -21,3 +21,21 @@ const quote = s => `'${String(s).replace(/'/g, "''")}'`;
 export function venueTierValuesSql(map) {
   return [...map.entries()].map(([v, t]) => `(${quote(v)}, ${quote(t)})`).join(', ');
 }
+
+/**
+ * venue_index.json(약 18KB, scripts/venue_index.py) → 팀 '공연' 탭이 쓰는 { tiers, cities } (예전엔 venue_profiles.json 600KB 에서 뽑음).
+ * @returns {{ tiers: Map<string,string>, cities: Map<string,string> } | null}
+ */
+export function venueMetaFromIndex(json) {
+  const venues = json && typeof json === 'object' ? json.venues : null;
+  if (!venues || typeof venues !== 'object' || Array.isArray(venues)) return null;
+  const tiers = new Map();
+  const cities = new Map();
+  for (const [name, info] of Object.entries(venues)) {
+    const tier = String(info?.tier || '').trim().toUpperCase();
+    const city = String(info?.city || '').trim();
+    if (VALID.has(tier)) tiers.set(name, tier);
+    if (city) cities.set(name, city);
+  }
+  return { tiers, cities };
+}
