@@ -4,7 +4,7 @@
  */
 import { appState } from '../state.js';
 import { compareToggleHtml } from '../components/compare_tray.js';
-import { avatarHtml, escapeHtml, fmtInt, playButtonHtml, renderNoRecordLine } from '../ui.js';
+import { INFO_TIPS, avatarHtml, escapeHtml, fmtInt, infoTip, playButtonHtml, renderNoRecordLine } from '../ui.js';
 
 const SHOWN_FIRST = 8;
 
@@ -56,8 +56,8 @@ function rowHtml(r) {
 export function renderSimilarHtml(rows, showAll = false) {
   const head = `
     <div class="block-head">
-      <h2>비슷한 팀</h2>
-      <span class="small muted">유사도 = 같은 무대 40 · 같은 출처 25 · 같은 장르 20 · 비슷한 체급 15 (수상 여부는 안 씀) — % 위에 마우스를 올리면 나눠 보기</span>
+      <h2>비슷한 팀${infoTip('비슷한 팀', INFO_TIPS.similar_teams, { compact: true })}</h2>
+      <span class="small muted">둘러보기용 — 예측력 확인 안 됨 · 유사도 = 같은 무대 40 · 같은 출처 25 · 같은 장르 20 · 비슷한 체급 15 (수상 여부는 안 씀) — % 위에 마우스를 올리면 나눠 보기</span>
     </div>`;
   if (rows === null) return `${head}<p class="small muted">비슷한 팀 찾는 중…</p>`;
   if (!rows.length) return `${head}${renderNoRecordLine('같은 무대나 같은 출처로 이어진 팀이 아직 없습니다')}`;

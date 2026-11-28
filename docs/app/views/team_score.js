@@ -95,7 +95,10 @@ function renderPeerArea(peer, scope, error) {
     return peerBar({ label: '종합 점수', infoTipHtml: tip, naReason: reason });
   }
   const top = topSharePct(peer.top_share);
-  return peerBar({
+  const genreNote = scope === 'genre'
+    ? '<p class="small muted score-peer-note">참고용: 확인된 장르는 멜론 프로필을 정답·상위 후보 위주로 받아 붙은 것이라, 같은 장르 이웃에는 이미 주목받은 팀이 몰려 있어 등급이 낮게 나오기 쉽습니다.</p>'
+    : '';
+  return genreNote + peerBar({
     label: '종합 점수',
     pct: top === null ? null : 100 - top,
     grade: peerGradeWord(peer.grade),

@@ -9,8 +9,9 @@ export const MIN_PEERS = 30; // peer_compare.sql 기본값(이웃이 이보다 �
 const CACHE_MAX = 6;
 const peerCache = new Map(); // sql -> { rows, byTeam }
 
-// peer_compare.sql 의 '팀마다 쓸 층' 줄 — scope 를 고정하려면 이 줄만 바꾼다(없으면 원래대로)
-const CHOSEN_LINE = "WHERE scope = CASE WHEN genre_key IS NULL THEN '단계' ELSE '단계+장르' END";
+// peer_compare.sql 의 '팀마다 쓸 층' 줄 — scope 를 고르려면 이 줄만 바꾼다(없으면 기본 = 모든 팀 단계만).
+// 2026-11-28: 기본을 '단계'로 — 확인된 장르는 사후 수집 편향이라 장르 이웃 등급이 낮게 나옴 (docs/methods.md)
+const CHOSEN_LINE = "WHERE scope = '단계'   -- 기본 비교군";
 const SCOPE_LINES = {
   stage: "WHERE scope = '단계'",          // 같은 발굴 단계 전체
   genre: "WHERE scope = '단계+장르'",      // 같은 단계 + 같은 장르(profile·press 장르 팀만, 추정 장르 제외)
@@ -42,7 +43,7 @@ function normalizeRow(r) {
 /**
  * 기준일 기준 이웃 비교 전체(또는 한 팀). 실패하거나 템플릿이 없으면 빈 결과.
  * @param {{ as_of?: string, team_key?: string, scope?: 'auto'|'stage'|'genre' }} [overrides]
- *   scope: auto = SQL 기본(장르를 알면 단계+장르), stage = 단계만, genre = 단계+장르만(장르 모르는 팀은 결과 없음)
+ *   scope: auto·stage = 같은 발굴 단계 전체(기본), genre = 단계+확인된 장르만(장르 모르는 팀은 결과 없음, 참고용 — 사후 수집 편향)
  * @returns {Promise<{ rows: object[], byTeam: Map<string, object>, error: string }>}
  */
 export async function queryPeerCompare(overrides = {}) {

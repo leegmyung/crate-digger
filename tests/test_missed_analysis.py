@@ -94,3 +94,29 @@ class SummaryTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class GenreKnownShareTest(unittest.TestCase):
+    """확인된 장르 = 사후 수집 편향: 우리 데이터에 없던 수상 팀은 프로필을 덜 받아 '미분류'가 많다 (docs/methods.md)."""
+
+    def test_share_of_known_genre_by_reason(self):
+        rs = [{"horizon": 6, "reason": "a_no_signal", "genre": "미분류"},
+              {"horizon": 6, "reason": "a_no_signal", "genre": "록·밴드"},
+              {"horizon": 6, "reason": "hit", "genre": "포크"},
+              {"horizon": 6, "reason": "b_low_score", "genre": "미분류"},
+              {"horizon": 12, "reason": "a_no_signal", "genre": "힙합"}]
+        got = ma.genre_known_share(rs, 6)
+        self.assertEqual(got, {"no_signal": (1, 2), "others": (1, 2)})
+
+    def test_caveat_line_mentions_profile_gap(self):
+        line = ma.genre_caveat_line({"no_signal": (5, 10), "others": (36, 50)})
+        self.assertIn("50%", line)
+        self.assertIn("72%", line)
+        self.assertIn("프로필", line)
+        self.assertEqual(ma.genre_caveat_line({"no_signal": (0, 0), "others": (0, 0)}), "")
+
+
+class GenreDisplayTest(unittest.TestCase):
+    def test_unclassified_shown_as_profile_not_collected(self):
+        self.assertEqual(ma.genre_display("미분류"), "프로필 미수집")
+        self.assertEqual(ma.genre_display("록·밴드"), "록·밴드")

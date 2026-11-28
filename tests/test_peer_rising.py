@@ -108,12 +108,24 @@ class PeerCompareTest(unittest.TestCase):
         self.assertEqual(r["low"]["peer_scope"], "단계")
         self.assertEqual(r["rev"]["peer_scope"], "단계")
         self.assertEqual(r["inf"]["peer_n"], 16)
-        self.assertEqual(r["g1"]["peer_n"], 2)             # 추정 팀은 장르 무리(록·밴드)에 안 들어감
 
-    def test_known_genre_compares_within_stage_and_genre(self):
+    def test_known_genre_compares_within_stage_by_default(self):
+        """2026-11-28: 확인된 장르는 정답·상위 후보 위주로 모은 것(사후 수집 편향, docs/methods.md) —
+        장르 이웃은 이미 주목받은 팀이 몰려 등급이 낮게 나오므로 기본 비교는 모든 팀 '단계'만."""
         r = self.rows(min_peers="3")
+        self.assertEqual(r["g1"]["peer_scope"], "단계")
+        self.assertEqual(r["g1"]["peer_n"], 16)
+
+    def test_genre_scope_still_available_when_asked(self):
+        """앱 '같은 장르 이웃' 단추(docs/app/db_peer.js SCOPE_LINES.genre)는 기본 줄을 바꿔 그대로 쓸 수 있다."""
+        sql = fill(read_sql("peer_compare.sql"), as_of=self.AS_OF, min_peers="3")
+        default_line = "WHERE scope = '단계'   -- 기본 비교군"
+        self.assertIn(default_line, sql)
+        cur = self.con.execute(sql.replace(default_line, "WHERE scope = '단계+장르'"))
+        cols = [d[0] for d in cur.description]
+        r = {row[0]: dict(zip(cols, row)) for row in cur.fetchall()}
         self.assertEqual(r["g1"]["peer_scope"], "단계+장르")
-        self.assertEqual(r["g1"]["peer_n"], 2)
+        self.assertEqual(r["g1"]["peer_n"], 2)              # g1·g2 — 추정·리뷰 장르 팀(inf·low·rev)은 장르 무리에 안 들어감
         self.assertEqual(r["g1"]["grade"], "비교군 작음")
 
     def test_grades_by_rank_share(self):

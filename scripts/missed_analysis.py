@@ -239,7 +239,7 @@ def horizon_section(results: List[dict], h: int) -> List[str]:
         group = [r for r in rs if r["reason"] == code]
         if not group:
             continue
-        genres = ", ".join(f"{g} {c}" for g, c in Counter(r["genre"] for r in group).most_common(3))
+        genres = ", ".join(f"{g} {c}" for g, c in Counter(genre_display(r["genre"]) for r in group).most_common(3))
         ex = "; ".join(_example(r) for r in sorted(group, key=lambda r: (-r["weight"], r["date"]))[:EXAMPLES])
         lines.append(f"| {REASONS[code]} | {counts[code]} | {counts[code] / n * 100:.0f}% | {genres} | {ex} |")
     weak = Counter(w for r in rs if r["reason"] == "e_low_rank" for w in r.get("weak", []))
@@ -283,9 +283,12 @@ def build(results: List[dict]) -> List[str]:
         a = [r for r in results if r["horizon"] == h and r["reason"] == "a_no_signal"]
         absent = [r for r in a if r["no_signal_kind"] == "absent"]
         lines.append(f"| 정답 {h}개월 전 | {len(a) - len(absent)} | {len(absent)} | "
-                     + (", ".join(f"{g} {c}" for g, c in Counter(r["genre"] for r in absent).most_common(4)) or "—") + " | "
+                     + (", ".join(f"{g} {c}" for g, c in Counter(genre_display(r["genre"]) for r in absent).most_common(4)) or "—") + " | "
                      + (", ".join(f"{p} {c}" for p, c in Counter(r["program"] for r in absent).most_common(4)) or "—") + " |")
+    caveat = genre_caveat_line(genre_known_share(results, HORIZONS[0]))
     lines += ["", "장르 공백은 [장르 편향 점검](genre_bias.md)·[힙합·R&B 출처 조사](research_2026-11-27_hiphop_rnb_sources.md) 참고.", ""]
+    if caveat:
+        lines += [caveat, ""]
     lines += interpret(results)
     lines += ["## 부록. 팀별 (정답 순)", "", "| 팀 | 정답 | 장르 | 12개월 전 | 6개월 전 |", "|---|---|---|---|---|"]
     by_team: Dict[str, Dict[int, dict]] = defaultdict(dict)
@@ -294,8 +297,35 @@ def build(results: List[dict]) -> List[str]:
     for k in sorted(by_team, key=lambda k: (by_team[k][6]["date"], k)):
         r6, r12 = by_team[k][6], by_team[k][12]
         cell = lambda r: (f"{r['rank']}위" if r["rank"] else "후보 아님") + f" · {REASONS[r['reason']].split(' ')[0]}"  # noqa: E731
-        lines.append(f"| {r6['name']} | {r6['date']} {r6['program']} {r6['grade']} | {r6['genre']} | {cell(r12)} | {cell(r6)} |")
+        lines.append(f"| {r6['name']} | {r6['date']} {r6['program']} {r6['grade']} | {genre_display(r6['genre'])} | {cell(r12)} | {cell(r6)} |")
     return lines + [""]
+
+
+def genre_display(g: str) -> str:
+    """정답 팀 장르 칸의 '미분류'는 장르 공백이 아니라 대부분 멜론 프로필을 아직 안 받은 팀 (사후 수집 편향, docs/methods.md)."""
+    return "프로필 미수집" if g == "미분류" else g
+
+
+def genre_known_share(results: List[dict], horizon: int) -> Dict[str, Tuple[int, int]]:
+    """정답 팀 중 장르를 아는(미분류 아닌) 비율 — '신호 없음' 팀 vs 나머지. 확인된 장르는 멜론 프로필을 받은 팀에만 붙어
+    (사후 수집 편향, docs/methods.md) 우리 데이터에 없던 팀은 '미분류'가 많을 수 있다."""
+    out = {"no_signal": [0, 0], "others": [0, 0]}
+    for r in results:
+        if r["horizon"] != horizon:
+            continue
+        k = "no_signal" if r["reason"] == "a_no_signal" else "others"
+        out[k][1] += 1
+        out[k][0] += int(r["genre"] != "미분류")
+    return {k: (v[0], v[1]) for k, v in out.items()}
+
+
+def genre_caveat_line(share: Dict[str, Tuple[int, int]]) -> str:
+    (a_known, a_n), (o_known, o_n) = share["no_signal"], share["others"]
+    if not a_n or not o_n:
+        return ""
+    return (f"⚠️ 장르를 아는 비율: '신호 없음' 팀 {a_known / a_n * 100:.0f}%({a_known}/{a_n}) · 나머지 정답 팀 {o_known / o_n * 100:.0f}%({o_known}/{o_n}). "
+            "확인된 장르는 멜론 프로필을 받은 팀에만 붙으므로(사후 수집 편향 — [방법 문서](methods.md)), 표의 '프로필 미수집'은 "
+            "'그 장르 출처가 없다'가 아니라 '멜론 프로필을 아직 안 받았다'는 뜻이다 — 장르 공백 판단은 장르를 아는 팀끼리만 비교한다.")
 
 
 def interpret(results: List[dict]) -> List[str]:

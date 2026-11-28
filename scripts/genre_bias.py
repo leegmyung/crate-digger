@@ -55,6 +55,49 @@ def bias_index(top_share: float, pool_share: float) -> Optional[float]:
     return top_share / pool_share if pool_share else None
 
 
+CONFIRMED_LEVELS = ("profile", "press", "(확신도 없음)")   # 분석이 쓰는 '확인된 장르' (analysis_genre 와 같은 규칙)
+BIASED_MARK = "*"                                        # 비정답 후보가 섞여 사후 수집 편향을 그대로 받는 숫자
+
+
+def confirmation_split(by_cutoff: Dict[str, List[dict]], conf: Dict[str, Optional[str]],
+                       genre_raw: Dict[str, Optional[str]]) -> Tuple[List[dict], dict]:
+    """장르를 확인한 경로(확신도)별 정답 행·정답 아닌 행 수 — 확인된 장르가 정답 팀에 몰렸는지 (docs/methods.md
+    '확인된 장르 = 사후 수집 편향'). 장르가 비었으면 확신도와 상관없이 '빈칸'."""
+    counts: Dict[str, List[int]] = defaultdict(lambda: [0, 0])
+    for rows in by_cutoff.values():
+        for r in rows:
+            k = r["team_key"]
+            raw = (genre_raw.get(k) or "").strip()
+            level = "빈칸" if raw in ("", UNCLASSIFIED) else ((conf.get(k) or "").strip() or "(확신도 없음)")
+            counts[level][0 if int(r["is_hit"]) else 1] += 1
+    out = [{"level": lv, "hits": h, "others": o} for lv, (h, o) in counts.items()]
+    out.sort(key=lambda r: (-(r["hits"] + r["others"]), r["level"]))
+    hits = sum(r["hits"] for r in out)
+    others = sum(r["others"] for r in out)
+    conf_h = sum(r["hits"] for r in out if r["level"] in CONFIRMED_LEVELS)
+    conf_o = sum(r["others"] for r in out if r["level"] in CONFIRMED_LEVELS)
+    return out, {"hits": hits, "others": others,
+                 "hit_share_confirmed": conf_h / hits if hits else 0.0,
+                 "other_share_confirmed": conf_o / others if others else 0.0}
+
+
+def section_confirmation(rows: List[dict], summary: dict) -> List[str]:
+    """0절: 장르 숫자를 읽기 전에 — 확인된 장르는 사후 수집 편향."""
+    lines = ["## 0. 먼저 볼 것 — 확인된 장르는 사후 수집 편향", "",
+             f"멜론 프로필(장르 확인)을 정답 팀·상위 후보 위주로 받았기 때문에, 확인된 장르(profile·press)는 **정답 행의 "
+             f"{_pct(summary['hit_share_confirmed'])}**에 붙어 있지만 **정답 아닌 후보 행은 {_pct(summary['other_share_confirmed'])}**에만 붙어 있다. "
+             "그래서 '장르가 있다' 자체가 '나중에 뜬 팀'이라는 신호가 된다 — 자세히는 [방법 문서](methods.md) '확인된 장르 = 사후 수집 편향'·"
+             "[장르 편향 새는 곳 점검](genre_bias_audit_2026-11-28.md).", "",
+             "| 장르 확인 경로 | 정답(행) | 정답 아닌 후보(행) | 기준율 |", "|---|---|---|---|"]
+    for r in rows:
+        n = r["hits"] + r["others"]
+        lines.append(f"| {r['level']} | {r['hits']} | {r['others']} | {_pct(r['hits'] / n) if n else '—'} |")
+    lines += ["", f"**읽는 법:** 장르끼리 비교할 때는 **정답 팀만으로 세는 숫자**(정답 중 비율 · 상위 {TOP_N} 안 정답 포착률 · 6-1 수상 팀 표)만 쓴다. "
+              f"정답 아닌 후보가 섞이는 숫자(기준율 · 장르 안 AUC · 쏠림 지수 · 6-2 적중률 — 표에 {BIASED_MARK} 표시)는 이 편향을 그대로 받아 "
+              "확인된 장르를 위로(기준율·쏠림) 또는 아래로(장르 안 AUC — 비교 상대가 이미 주목받은 팀) 비튼다.", ""]
+    return lines
+
+
 def top_indices(scores: Sequence[float], keys: Sequence[str], n: int,
                 last_seen: Optional[Sequence] = None) -> List[int]:
     """점수 상위 n개 위치. 순서는 앱과 같다(score_tune.app_order: 반올림 점수 → 마지막 신호 최근 순 → md5)."""
@@ -104,6 +147,15 @@ def overall_row(by_cutoff: Dict[str, List[dict]], top_n: int = TOP_N) -> dict:
     pos = sum(int(r["is_hit"]) for r in rows)
     return {"genre": "전체", "n": len(rows), "pos": pos, "base_rate": pos / len(rows) if rows else 0.0,
             "auc": _wauc(rows), "top_count": len(tops), "top_hits": sum(int(r["is_hit"]) for r in tops)}
+
+
+def confirmed_row(by_cutoff: Dict[str, List[dict]]) -> dict:
+    """확인된 장르(미분류 아님) 후보끼리만 모은 한 줄 — 장르 안 AUC 를 읽는 기준선.
+    전체 AUC 는 정답이 거의 없는 '미분류' 후보(쉬운 비교 상대)가 섞여 높게 나오므로, 장르 안 AUC 는 이 값과 비교한다."""
+    rows = [r for rs in by_cutoff.values() for r in rs if r["genre"] != UNCLASSIFIED]
+    pos = sum(int(r["is_hit"]) for r in rows)
+    return {"n": len(rows), "pos": pos, "base_rate": pos / len(rows) if rows else 0.0,
+            "auc": _wauc(rows) if pos and pos < len(rows) else None}
 
 
 def composition(rows: Sequence[dict], top_n: int = TOP_N) -> List[dict]:
@@ -217,6 +269,39 @@ def genre_source_hits(by_cutoff: Dict[str, List[dict]], team_src: Dict[str, Dict
     return {k: (v[0], v[1]) for k, v in out.items()}
 
 
+def source_hits_all(by_cutoff: Dict[str, List[dict]], team_src: Dict[str, Dict[str, Set[str]]]) -> Dict[str, Tuple[int, int]]:
+    """출처 → (후보 수, 정답 수), 장르와 상관없이 후보 전체 — 6-2 '같은 출처 전체 적중률' 기준선."""
+    out: Dict[str, List[int]] = defaultdict(lambda: [0, 0])
+    for c, rows in by_cutoff.items():
+        for r in rows:
+            for src in team_src.get(c, {}).get(r["team_key"], ()):
+                out[src][0] += 1
+                out[src][1] += int(r["is_hit"])
+    return {k: (v[0], v[1]) for k, v in out.items()}
+
+
+def genre_tagged_base(by_cutoff: Dict[str, List[dict]], team_genre: Dict[str, str]) -> Dict[str, Tuple[int, int]]:
+    """장르 → (태그 팀 후보 수, 정답 수), 출처와 상관없이 — 6-2 '그 장르 태그 팀 전체 적중률' 기준선."""
+    out: Dict[str, List[int]] = defaultdict(lambda: [0, 0])
+    for rows in by_cutoff.values():
+        for r in rows:
+            g = team_genre.get(r["team_key"])
+            if g:
+                out[g][0] += 1
+                out[g][1] += int(r["is_hit"])
+    return {k: (v[0], v[1]) for k, v in out.items()}
+
+
+def relabel(by_cutoff: Dict[str, List[dict]], genres: Dict[str, Optional[str]]) -> Dict[str, List[dict]]:
+    """같은 후보 행에 다른 장르표를 붙인 새 묶음 (원본은 그대로) — '추정 장르 포함 판'용."""
+    return {c: [{**r, "genre": genre_label(genres.get(r["team_key"]))} for r in rows] for c, rows in by_cutoff.items()}
+
+
+def display_genre(g: str) -> str:
+    """표에 보일 이름: 분석용 '미분류'는 장르 공백이 아니라 대부분 '프로필을 아직 안 받은' 팀이다 (0절)."""
+    return "미분류 (프로필 미수집·추정 장르)" if g == UNCLASSIFIED else g
+
+
 # ---------- 데이터 ----------
 
 def team_genres(con) -> Dict[str, str]:
@@ -311,21 +396,44 @@ def _fb(v: Optional[float]) -> str:
     return "—" if v is None else f"{v:.2f}"
 
 
-def section_backtest(table: List[dict], overall: dict) -> List[str]:
-    lines = ["| 장르 | 후보(행) | 정답 | 기준율 | 장르 안 AUC | 정답 중 비율 | 상위 100 안 | 상위 100 안 정답 (포착률) | 후보군 비율 | 상위 100 비율 | 쏠림 지수 |",
+def section_backtest(table: List[dict], overall: dict, confirmed: Optional[dict] = None) -> List[str]:
+    lines = ["| 장르 | 후보(행) | 정답 | 기준율* | 장르 안 AUC* | 정답 중 비율 | 상위 100 안 | 상위 100 안 정답 (포착률) | 후보군 비율 | 상위 100 비율 | 쏠림 지수* |",
              "|---|---|---|---|---|---|---|---|---|---|---|"]
     for t in table:
         auc = "표본 부족" if t["small"] else ("—" if t["auc"] is None else f"{t['auc']:.3f}")
-        lines.append(f"| {t['genre']} | {t['n']:,} | {t['pos']} | {_pct(t['base_rate'])} | {auc} | {_pct(t['hit_share'])} | "
+        lines.append(f"| {display_genre(t['genre'])} | {t['n']:,} | {t['pos']} | {_pct(t['base_rate'])} | {auc} | {_pct(t['hit_share'])} | "
                      f"{t['top_count']} | {t['top_hits']} ({'—' if t['top_recall'] is None else _pct(t['top_recall'])}) | {_pct(t['pool_share'])} | {_pct(t['top_share'])} | {_fb(t['bias'])} |")
     lines.append(f"| **전체** | {overall['n']:,} | {overall['pos']} | {_pct(overall['base_rate'])} | {overall['auc']:.3f} | 100% | "
                  f"{overall['top_count']} | {overall['top_hits']} ({_pct(overall['top_hits'] / overall['pos'])}) | 100% | 100% | 1.00 |")
+    if confirmed and confirmed.get("n"):
+        auc = "—" if confirmed["auc"] is None else f"{confirmed['auc']:.3f}"
+        lines.append(f"| **확인된 장르 팀 전체** (미분류 뺌) | {confirmed['n']:,} | {confirmed['pos']} | {_pct(confirmed['base_rate'])} | "
+                     f"**{auc}** | — | — | — | — | — | — |")
+        lines += ["", f"장르 안 AUC{BIASED_MARK}는 **'확인된 장르 팀 전체' AUC({auc})와 비교해 읽는다.** 전체 AUC({overall['auc']:.3f})는 정답이 거의 없는 "
+                  "'미분류' 후보(쉬운 비교 상대)가 섞여 높게 나온 값이라, 장르 안 AUC가 그보다 낮은 것은 장르 탓이 아니라 비교 상대가 "
+                  "이미 주목받은 팀(프로필을 받은 상위 후보)이기 때문이다 — 0절."]
+    return lines
+
+
+def section_backtest_all(table: List[dict]) -> List[str]:
+    """1-2절: 추정 장르 포함 판 (참고용) — 같은 후보·같은 점수, 장르만 추정·리뷰까지 넣은 팀 표 장르로."""
+    lines = [f"### 1-2. 추정 장르 포함 판 (참고용 — 같은 후보·점수, 장르만 추정·리뷰까지 넣음)", "",
+             "추정 장르(같은 무대 다수결·공연장 성향·약한 출처 힌트)와 매체 리뷰 장르까지 넣으면 장르가 비는 후보가 크게 줄어 "
+             "'장르가 있다 = 이미 주목받았다' 효과가 약해진다. 다만 추정은 틀릴 수 있고, 투표를 확인된 장르 팀이 하므로 편향이 다 없어지지는 않는다. "
+             "위 표와 방향이 같으면 장르 차이로, 다르면 수집 편향으로 읽는다.", "",
+             f"| 장르 | 후보(행) | 정답 | 정답 중 비율 | 상위 {TOP_N} 안 정답 (포착률) | 후보군 비율 | 상위 {TOP_N} 비율 | 쏠림 지수 |",
+             "|---|---|---|---|---|---|---|---|"]
+    for t in table:
+        name = "빈칸" if t["genre"] == UNCLASSIFIED else t["genre"]
+        lines.append(f"| {name} | {t['n']:,} | {t['pos']} | {_pct(t['hit_share'])} | "
+                     f"{t['top_hits']} ({'—' if t['top_recall'] is None else _pct(t['top_recall'])}) | {_pct(t['pool_share'])} | "
+                     f"{_pct(t['top_share'])} | {_fb(t['bias'])} |")
     return lines
 
 
 def section_current(comp: List[dict], rows: List[dict], shares: Dict[str, Dict[str, float]]) -> List[str]:
     missing = profile_missing_share(rows)
-    lines = ["| 장르 | 상위 100 안 | 상위 100 비율 | 후보 전체 | 후보 비율 | 쏠림 지수 | 프로필 없는 팀 |",
+    lines = ["| 장르 | 상위 100 안 | 상위 100 비율 | 후보 전체 | 후보 비율 | 쏠림 지수* | 프로필 없는 팀 |",
              "|---|---|---|---|---|---|---|"]
     for c in comp:
         lines.append(f"| {c['genre']} | {c['top_count']} | {_pct(c['top_share'])} | {c['all_count']:,} | "
@@ -367,7 +475,12 @@ def main() -> int:
                            {r["team_key"]: r["genre"] for r in rows})
     note = genre_source_note(con)
     card_lines, cov = section_scorecard(con, data)
-    lines = build_doc(day, table, overall, comp, rows, shares, note, cov) + card_lines
+    conf = dict(con.execute("SELECT team_key, genre_confidence FROM teams").fetchall())
+    raw = dict(con.execute("SELECT team_key, primary_genre FROM teams").fetchall())
+    split_rows, split_summary = confirmation_split(data, conf, raw)
+    lines = build_doc(day, table, overall, comp, rows, shares, note, cov,
+                      section_confirmation(split_rows, split_summary), confirmed_row(data),
+                      genre_table(relabel(data, raw))) + card_lines
     OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))
     print(f"✅ → {OUT.relative_to(lab_sql.ROOT)}")
@@ -386,7 +499,10 @@ def section_scorecard(con, data: Dict[str, List[dict]]) -> Tuple[List[str], dict
     cov = {"winner_tag": len(winners & set(tag_genre)) / max(len(winners), 1),
            "other_tag": len((all_teams - winners) & set(tag_genre)) / max(len(all_teams - winners), 1),
            "from_db": from_db}
-    hits = genre_source_hits(data, cutoff_sources(con), tag_genre)
+    csrc = cutoff_sources(con)
+    hits = genre_source_hits(data, csrc, tag_genre)
+    src_all = source_hits_all(data, csrc)
+    tag_base = genre_tagged_base(data, tag_genre)
     genres = sorted(set(tag_genre.values()), key=lambda g: -sum(1 for k in winners if tag_genre.get(k) == g))
     ws = {g: winner_sources(signals, outcomes, tag_genre, g) for g in genres}
     lines = ["## 6. 장르별 출처 성적표 (멜론·발매 장르 태그가 있는 팀만)", "",
@@ -404,8 +520,11 @@ def section_scorecard(con, data: Dict[str, List[dict]]) -> Tuple[List[str], dict
         top = ", ".join(f"{r['source']} {r['seen']}" for r in w["sources"][:3]) or "—"
         lines.append(f"| {g} | {w['winners']} | {w['winners'] - w['unseen']} | {_pct(w['unseen'] / w['winners'])} | {top} |")
     lines += ["", f"**6-2. 장르 × 출처** (수상 팀 {SCORECARD_MIN_WINNERS}팀 이상 장르). '잡음'은 수상 팀을 정답 전에 잡은 수(가장 먼저 / 그 출처에만). "
-              f"'적중률'은 기준일 6개 후보군(점수와 같은 후보, 그 출처에 3년 안에 나온 팀) 중 24개월 안 정답 비율 — 후보 {SCORECARD_MIN_TEAMS}행 미만은 표본 적음.", "",
-              "| 장르 | 출처 | 역할 | 수상 팀 잡음 (가장 먼저 / 유일) | 적중률 (정답 / 후보) |", "|---|---|---|---|---|"]
+              f"'적중률'은 기준일 6개 후보군(점수와 같은 후보, 그 출처에 3년 안에 나온 팀) 중 24개월 안 정답 비율 — 후보 {SCORECARD_MIN_TEAMS}행 미만은 표본 적음. "
+              f"**태그 팀은 정답 팀 위주로 프로필을 받아(0절) 적중률{BIASED_MARK}이 부푼다** — 옆의 '같은 출처 전체'(장르 상관없이 그 출처 후보 전체)와 "
+              "'그 장르 태그 팀 전체'(출처 상관없이)와 같이 읽고, 장르끼리는 태그 팀 안에서만 비교한다.", "",
+              "| 장르 | 출처 | 역할 | 수상 팀 잡음 (가장 먼저 / 유일) | 적중률* (정답 / 후보) | 같은 출처 전체 | 그 장르 태그 팀 전체 |",
+              "|---|---|---|---|---|---|---|"]
     for g in genres:
         if ws[g]["winners"] < SCORECARD_MIN_WINNERS:
             continue
@@ -415,7 +534,11 @@ def section_scorecard(con, data: Dict[str, List[dict]]) -> Tuple[List[str], dict
             r = srcs.get(src, {"seen": 0, "first": 0, "only": 0})
             n, h = hits.get((g, src), (0, 0))
             rate = f"{_pct(h / n)} ({h} / {n})" if n >= SCORECARD_MIN_TEAMS else (f"표본 적음 ({h} / {n})" if n else "—")
-            lines.append(f"| {g} | {src} | {role.get(src, '?')} | {r['seen']} ({r['first']} / {r['only']}) | {rate} |")
+            an, ah = src_all.get(src, (0, 0))
+            tn, th = tag_base.get(g, (0, 0))
+            all_rate = f"{_pct(ah / an)} ({ah} / {an:,})" if an else "—"
+            tag_rate = f"{_pct(th / tn)} ({th} / {tn:,})" if tn else "—"
+            lines.append(f"| {g} | {src} | {role.get(src, '?')} | {r['seen']} ({r['first']} / {r['only']}) | {rate} | {all_rate} | {tag_rate} |")
     sub = 3
     for g in FOCUS_GENRES:
         if g not in ws or not ws[g]["winners"]:
@@ -456,14 +579,18 @@ def interpret_scorecard(ws: Dict[str, dict], sub: int = 5, idols: Sequence[str] 
 
 
 def build_doc(day: str, table: List[dict], overall: dict, comp: List[dict], rows: List[dict],
-              shares: Dict[str, Dict[str, float]], note: Dict[str, int], cov: Optional[dict] = None) -> List[str]:
+              shares: Dict[str, Dict[str, float]], note: Dict[str, int], cov: Optional[dict] = None,
+              confirmation: Optional[List[str]] = None, confirmed: Optional[dict] = None,
+              table_all: Optional[List[dict]] = None) -> List[str]:
     return ["# 장르별 편향 점검 (점수 v2)", "",
             "_자동 생성: `.venv/bin/python scripts/genre_bias.py`_", "",
+            *(confirmation or []),
             f"## 1. 과거 기준일 6개 합산 ({', '.join(st.CUTOFFS)}, 관찰 {st.HORIZON_MONTHS}개월)", "",
             "후보군·점수·정답은 [점수 교차 검증](score_tuning.md)·[학습 모델 비교](score_model.md)와 같다. 같은 팀이 여러 기준일에 다시 셀 수 있어 '행'으로 센다. "
             f"장르 안 AUC는 그 장르 후보끼리만 비교한 등급 가중 AUC(정답 {MIN_POS}행 미만은 '표본 부족'). "
             f"쏠림 지수 = 상위 {TOP_N} 안 비율 ÷ 후보군 비율(기준일마다 상위 {TOP_N}을 뽑아 합산). 1보다 크면 점수가 그 장르를 위로 몰고, 작으면 아래로 민다.", "",
-            *section_backtest(table, overall), "",
+            *section_backtest(table, overall, confirmed), "",
+            *(section_backtest_all(table_all) if table_all else []), *([""] if table_all else []),
             f"## 2. 지금({day}) 후보 상위 {TOP_N}의 장르 구성", "",
             f"앱 '후보 목록'과 같은 계산(candidates.sql, 이미 정답 받은 팀 제외). 후보 전체 {len(rows):,}팀.", "",
             *section_current(comp, rows, shares), "",

@@ -1,6 +1,6 @@
 /**
  * 2-5: 후보 목록 '색 지도' 보기 — 행 = 팀, 열 = 신호 8개, 칸 = 1~5단계 진하기(--ramp-*), 값 없음 = 회색.
- * 등급: 같은 발굴 단계(장르를 알면 +장르) 이웃 안 백분위(docs/lab/sql/peer_compare.sql)를
+ * 등급: 같은 발굴 단계 이웃 안 백분위(docs/lab/sql/peer_compare.sql, 2026-11-28부터 장르로 나누지 않음)를
  *       components/heat_scale.js 의 경계(상위 10/30/70/90%)로 1~5 로 바꾼다.
  *       이웃 비교에 없는 열(최근 언급·지역 수)이나 이웃 비교에 없는 팀은 '지금 표 안' 백분위를 쓴다.
  */
@@ -130,7 +130,7 @@ export function renderHeatmapHtml(allRows, { sort, limit, loading = false, error
     : (error ? '<span class="small muted">이웃 비교를 못 불러와 표 안 비교로 보여 줍니다</span>' : '');
   const legend = `
     <div class="heat-legend">
-      <span class="heat-legend-lbl">진하기 = 같은 발굴 단계(장르를 알면 +장르) 이웃 안 위치${infoTip('색 지도 읽는 법', INFO_TIPS.heatmap, { compact: true })}</span>
+      <span class="heat-legend-lbl">진하기 = 같은 발굴 단계 이웃 안 위치${infoTip('색 지도 읽는 법', INFO_TIPS.heatmap, { compact: true })}</span>
       <span class="heat-scale" aria-label="1단계 낮음부터 5단계 높음">
         <span class="heat-scale-end">낮음</span>
         ${[1, 2, 3, 4, 5].map(l => `<span class="heat-chip lv${l}">${l}</span>`).join('')}

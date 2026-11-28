@@ -45,6 +45,85 @@ class AnalysisGenreTest(unittest.TestCase):
         self.assertEqual(gb.team_genres(con), {"a": "힙합", "b": "미분류", "c": "미분류", "d": "록·밴드"})
 
 
+class ConfirmationLeakTest(unittest.TestCase):
+    """확인된 장르 = 사후 수집 편향 (docs/methods.md): 장르를 확인한 경로가 정답 여부와 엮였는지 보여 주는 표."""
+
+    def test_confirmation_split_by_hit(self):
+        data = {"c1": [_r("a", "록·밴드", 1, hit=1), _r("b", "미분류", 1), _r("c", "미분류", 1)],
+                "c2": [_r("a", "록·밴드", 1, hit=1), _r("d", "미분류", 1, hit=1)]}
+        conf = {"a": "profile", "b": "inferred", "c": "", "d": "review"}
+        genre_raw = {"a": "록·밴드", "b": "록·밴드", "c": "", "d": "포크"}
+        rows, summary = gb.confirmation_split(data, conf, genre_raw)
+        by = {r["level"]: r for r in rows}
+        self.assertEqual(by["profile"]["hits"], 2)
+        self.assertEqual(by["profile"]["others"], 0)
+        self.assertEqual(by["inferred"]["others"], 1)
+        self.assertEqual(by["빈칸"]["others"], 1)              # 장르가 비면 확신도와 상관없이 '빈칸'
+        self.assertEqual(by["review"]["hits"], 1)
+        self.assertAlmostEqual(summary["hit_share_confirmed"], 2 / 3)    # 정답 3행 중 확인된 장르 2행
+        self.assertAlmostEqual(summary["other_share_confirmed"], 0 / 2)
+        self.assertEqual(summary["hits"], 3)
+        self.assertEqual(summary["others"], 2)
+
+    def test_section_marks_biased_columns(self):
+        rows = [{"level": "profile", "hits": 9, "others": 1}, {"level": "빈칸", "hits": 1, "others": 99}]
+        summary = {"hits": 10, "others": 100, "hit_share_confirmed": 0.9, "other_share_confirmed": 0.01}
+        text = "\n".join(gb.section_confirmation(rows, summary))
+        self.assertIn("사후 수집 편향", text)
+        self.assertIn("90.0%", text)
+        self.assertIn("정답 팀만으로", text)
+        self.assertIn("| profile | 9 | 1 |", text)
+
+
+class ConfirmedBaselineTest(unittest.TestCase):
+    """장르 안 AUC 는 '확인된 장르 팀끼리 전체' AUC 와 비교해 읽는다 (전체 AUC 는 쉬운 미분류 비교가 섞여 높음)."""
+
+    def test_confirmed_row_excludes_unclassified(self):
+        data = {"c": [_r("a", "록·밴드", 3, hit=1, weight=1), _r("b", "록·밴드", 1), _r("c", "포크", 2),
+                      _r("d", "포크", 4, hit=1, weight=1), _r("e", "미분류", 0), _r("f", "미분류", 0)]}
+        row = gb.confirmed_row(data)
+        self.assertEqual(row["n"], 4)
+        self.assertEqual(row["pos"], 2)
+        self.assertAlmostEqual(row["auc"], 1.0)      # 확인된 팀끼리: 정답 a(3)·d(4) > 비정답 b(1)·c(2)
+
+    def test_backtest_section_shows_confirmed_baseline(self):
+        table = [{"genre": "록·밴드", "n": 2, "pos": 1, "base_rate": 0.5, "auc": 0.6, "small": False, "hit_share": 1.0,
+                  "top_count": 1, "top_hits": 1, "top_recall": 1.0, "pool_share": 1.0, "top_share": 1.0, "bias": 1.0}]
+        overall = {"genre": "전체", "n": 2, "pos": 1, "base_rate": 0.5, "auc": 0.9, "top_count": 1, "top_hits": 1}
+        confirmed = {"n": 2, "pos": 1, "base_rate": 0.5, "auc": 0.645}
+        text = "\n".join(gb.section_backtest(table, overall, confirmed))
+        self.assertIn("확인된 장르 팀 전체", text)
+        self.assertIn("0.645", text)
+
+
+class SideBySideTest(unittest.TestCase):
+    """감사 문서(docs/genre_bias_audit_2026-11-28.md) 처방: 추정 장르 포함 판 나란히 · 6-2 기준선 칸 · 미분류 이름."""
+
+    def test_relabel_uses_given_genres_and_keeps_rows(self):
+        data = {"c": [_r("a", "미분류", 1), _r("b", "록·밴드", 2)]}
+        out = gb.relabel(data, {"a": "힙합", "b": ""})
+        self.assertEqual([r["genre"] for r in out["c"]], ["힙합", gb.UNCLASSIFIED])
+        self.assertEqual(data["c"][0]["genre"], "미분류")          # 원본은 그대로
+
+    def test_source_hits_all_and_genre_tagged_base(self):
+        data = {"c1": [_r("a", "x", 1, hit=1), _r("b", "x", 1), _r("c", "x", 1)]}
+        src = {"c1": {"a": {"s1"}, "b": {"s1", "s2"}, "c": {"s2"}}}
+        self.assertEqual(gb.source_hits_all(data, src), {"s1": (2, 1), "s2": (2, 0)})
+        tag = {"a": "록", "b": "록"}                                # c 는 태그 없음
+        self.assertEqual(gb.genre_tagged_base(data, tag), {"록": (2, 1)})
+
+    def test_display_genre_names_unclassified_as_profile_gap(self):
+        self.assertEqual(gb.display_genre(gb.UNCLASSIFIED), "미분류 (프로필 미수집·추정 장르)")
+        self.assertEqual(gb.display_genre("록·밴드"), "록·밴드")
+
+    def test_all_genre_section(self):
+        t = [{"genre": "록·밴드", "n": 10, "pos": 2, "base_rate": 0.2, "auc": None, "small": True, "hit_share": 1.0,
+              "top_count": 3, "top_hits": 2, "top_recall": 1.0, "pool_share": 0.5, "top_share": 0.6, "bias": 1.2}]
+        text = "\n".join(gb.section_backtest_all(t))
+        self.assertIn("추정 장르 포함", text)
+        self.assertIn("| 록·밴드 | 10 | 2 |", text)
+
+
 class TopTest(unittest.TestCase):
     def test_top_indices_tie_break_like_app(self):
         # 앱 순서: 마지막 신호 없으면 md5(team_key) 순 (md5('c') < md5('b'))

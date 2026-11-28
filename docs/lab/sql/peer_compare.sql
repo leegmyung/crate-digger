@@ -2,8 +2,11 @@
 -- 팀마다 '비슷한 처지'의 이웃 안에서 점수와 점수 항목이 몇 %인지, 위아래 5팀이 누구인지 보여 준다. 점수 계산은 바꾸지 않는다.
 --
 -- 이웃(비교군):
---   장르를 아는 팀   = 같은 발굴 단계 + 같은 장르(teams.primary_genre)            → peer_scope '단계+장르'
---   장르 빈칸·미분류 = 같은 발굴 단계 전체(장르를 아는 팀 포함)                    → peer_scope '단계'
+--   기본(모든 팀)    = 같은 발굴 단계 전체                                          → peer_scope '단계'
+--     (2026-11-28 바꿈: 예전엔 장르를 아는 팀을 '단계+장르'로 비교했는데, 확인된 장르는 멜론 프로필을 정답·상위 후보
+--      위주로 받아 붙은 것이라 장르 이웃에 이미 주목받은 팀이 몰린다 — 그 팀들 등급이 평균 상위 56%로 단계만(27%)보다
+--      크게 낮게 나왔다. docs/methods.md '확인된 장르 = 사후 수집 편향', docs/genre_bias_audit_2026-11-28.md)
+--   '단계+장르'      = 앱 '같은 장르 이웃' 단추로만(docs/app/db_peer.js 가 기본 줄을 바꿔 씀) — 참고용
 --   추정·리뷰 장르(teams.genre_confidence = inferred·review·inferred_low: 같은 무대 다수결·공연장 성향·약한 힌트·매체 리뷰·같은 무대 1표) = 빈칸처럼 단계로만
 --   (2026-11-27 결정: 비교·분석은 profile·press 장르만, 앱 필터·표시는 추정까지 '추정' 꼬리표 — docs/genre_fill.md)
 --   (장르 오분류 위험: 장르를 모르는 팀을 억지로 한 장르에 넣지 않는다. 외부 장르 표기는 쓰지 않는다.)
@@ -85,9 +88,9 @@ ranked AS (
            PERCENT_RANK() OVER (PARTITION BY scope, grp ORDER BY gigs_1y)     AS gigs_pct
     FROM levels
 ),
-chosen AS (                                     -- 팀마다 쓸 층: 장르를 알면 단계+장르, 모르면 단계
+chosen AS (                                     -- 팀마다 쓸 층 (앱이 이 줄을 바꿔 '단계+장르'를 고른다)
     SELECT *, (peer_rank / peer_n + ge_share) / 2 AS top_share_raw FROM ranked
-    WHERE scope = CASE WHEN genre_key IS NULL THEN '단계' ELSE '단계+장르' END
+    WHERE scope = '단계'   -- 기본 비교군
 ),
 neigh AS (
     SELECT c.team_key,
