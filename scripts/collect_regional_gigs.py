@@ -13,7 +13,9 @@
    1팀 공연(디깅라이브세종 [epN] 팀, 뮤즈세종 쇼케이스 팀 <앨범>, 월간 누리락 Vol.N '팀', 'X 단독…', 'X 전국투어…')만
    제목에서 팀을 뽑는다. 바이닐 스튜디오(음반 감상회)·아카데미·패키지 예매·합동공연·여러 팀 공연은 건너뛴다.
    (대관공연 일정 performanceManagementNo=4 는 클래식·국악·연극 대관이라 읽지 않는다.)
-2. 라인업 목록 scripts/collect_regional_lineups.py — 페스티벌·교류공연처럼 출연진이 그림(포스터·타임테이블)에만 있는
+2. 부산음악창작소 '공연지원' 게시판 (scripts/collect_regional_busan.py, robots 허용) — 2018~ 공연 카드에
+   날짜·장소·출연이 글자로 있다.
+3. 라인업 목록 scripts/collect_regional_lineups.py — 페스티벌·교류공연처럼 출연진이 그림(포스터·타임테이블)에만 있는
    공연을 사람이 읽어 옮긴 것. 근거 URL 이 행의 gig_url 이 된다.
 
 형식: scripts/csv_schema.py raw_kr_gig. source 는 'regional'(아래 SOURCE).
@@ -33,6 +35,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Dict, Iterable, List, Sequence
 
+import collect_regional_busan as crb
 import collect_regional_lineups as crl
 from csv_schema import TABLES
 
@@ -147,6 +150,13 @@ def rows_from_lineups(events: Sequence[crl.Event], collected_at: str) -> List[Di
     return rows
 
 
+def rows_from_gigs(gigs: Iterable[Dict[str, str]], collected_at: str) -> List[Dict[str, str]]:
+    """사이트별 모듈(collect_regional_busan 등)이 만든 공연 목록 → 공연 원본 행."""
+    return [_row(collected_at, "script", g["source_id"], g["day"], g["title"], g["venue_text"], g["artist"],
+                 g["url"], g.get("lineup_order", ""), g.get("lineup_time", ""), g.get("lineup_size", ""))
+            for g in gigs]
+
+
 def dedupe(rows: Iterable[Dict[str, str]]) -> List[Dict[str, str]]:
     seen, out = set(), []
     for r in rows:
@@ -155,6 +165,19 @@ def dedupe(rows: Iterable[Dict[str, str]]) -> List[Dict[str, str]]:
             seen.add(k)
             out.append(r)
     return out
+
+
+def existing_keys(raw_dir: Path) -> set:
+    """이미 쓴 지역 원본(raw_kr_gig_*_regional*.csv)의 (source, gig_url, artist_text) — 새 행만 쓰려고."""
+    keys = set()
+    for path in sorted(raw_dir.glob(f"raw_kr_gig_*_{FILE_TAG}*.csv")):
+        with open(path, encoding="utf-8", newline="") as fh:
+            keys.update(tuple(r.get(c, "") for c in KEY) for r in csv.DictReader(fh))
+    return keys
+
+
+def only_new(rows: Iterable[Dict[str, str]], seen: set) -> List[Dict[str, str]]:
+    return [r for r in rows if tuple(r[c] for c in KEY) not in seen]
 
 
 def write_csv(rows: Sequence[Dict[str, str]], out_dir: Path, day: str) -> Path:
@@ -193,19 +216,38 @@ def collect_nurirock(collected_at: str, report: List[str]) -> List[Dict[str, str
     return rows
 
 
+def collect_busan(collected_at: str, report: List[str]) -> List[Dict[str, str]]:
+    items: List[dict] = []
+    for page in range(1, MAX_PAGES + 1):
+        try:
+            got = crb.parse_list(fetch(crb.LIST_URL.format(page=page)))
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            report.append(f"  부산음악창작소 {page}쪽 읽기 실패: {e}")
+            break
+        if not got:
+            break
+        items.extend(got)
+    gigs = crb.gigs_from_items(items)
+    used = {g["source_id"] for g in gigs}
+    report.append(f"  부산음악창작소 공연지원 {len(items)}건 → {len(used)}건 ({len(gigs)}행), 건너뜀 {len(items) - len(used)}건")
+    return rows_from_gigs(gigs, collected_at)
+
+
 def main(argv: Sequence[str]) -> int:
-    ap = argparse.ArgumentParser(description="지역 공연장·페스티벌 공연 수집 (세종 누리락 + 라인업 목록)")
+    ap = argparse.ArgumentParser(description="지역 공연장·페스티벌 공연 수집 (세종 누리락·부산음악창작소 + 라인업 목록)")
     ap.add_argument("--no-fetch", action="store_true", help="누리집은 읽지 않고 라인업 목록만")
     ap.add_argument("--dry-run", action="store_true", help="파일을 쓰지 않음")
     args = ap.parse_args(argv)
     now = datetime.now(KST)
     collected_at = now.isoformat(timespec="seconds")
     report: List[str] = ["지역 공연 수집"]
-    rows = [] if args.no_fetch else collect_nurirock(collected_at, report)
+    rows = [] if args.no_fetch else [*collect_nurirock(collected_at, report), *collect_busan(collected_at, report)]
     lineup_rows = rows_from_lineups(crl.EVENTS, collected_at)
     report.append(f"  라인업 목록 {len(crl.EVENTS)}건 → {len(lineup_rows)}행")
     rows = dedupe([*rows, *lineup_rows])
-    report.append(f"  합계 {len(rows)}행")
+    fresh = only_new(rows, existing_keys(RAW_DIR))
+    report.append(f"  합계 {len(rows)}행 중 새 행 {len(fresh)}행 (이미 쓴 지역 원본과 겹치는 행은 안 씀)")
+    rows = fresh
     if rows and not args.dry_run:
         report.append(f"  → {write_csv(rows, RAW_DIR, now.date().isoformat())}")
     print("\n".join(report))

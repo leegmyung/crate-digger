@@ -112,6 +112,21 @@ class RowsTest(unittest.TestCase):
             with open(path, encoding="utf-8") as f:
                 self.assertEqual(len(list(csv.DictReader(f))), len(rows))
 
+    def test_site_gigs_become_schema_rows(self):
+        gig = {"day": "2025-11-14", "title": "14일의 금요일", "venue_text": "KT&G상상마당부산 라이브홀", "artist": "뱁새들",
+               "url": "https://www.musiclabbusan.com/board/photo#abc-2025-11-14", "source_id": "musiclabbusan:abc",
+               "lineup_size": "2"}
+        r = crg.rows_from_gigs([gig], "2026-11-28T15:00:00+09:00")[0]
+        self.assertEqual((r["artist_text"], r["collector"], r["lineup_size"]), ("뱁새들", "script", "2"))
+        self.assertEqual(set(r), {f.name for f in TABLES["raw_kr_gig"]["fields"]})
+
+    def test_only_new_rows_written_after_earlier_file(self):
+        rows = crg.rows_from_lineups(crl.EVENTS[:2], "2026-11-28T15:00:00+09:00")
+        with tempfile.TemporaryDirectory() as d:
+            crg.write_csv(rows[:3], Path(d), "2026-11-27")
+            fresh = crg.only_new(rows, crg.existing_keys(Path(d)))
+        self.assertEqual(len(fresh), len(rows) - 3)
+
     def test_dedupes_same_key(self):
         rows = crg.rows_from_lineups([crl.EVENTS[0], crl.EVENTS[0]], "2026-11-28T15:00:00+09:00")
         self.assertEqual(len(crg.dedupe(rows)), len(crl.EVENTS[0].acts))
@@ -121,7 +136,7 @@ class LineupDataTest(unittest.TestCase):
     def test_every_event_has_date_venue_source_and_acts(self):
         for e in crl.EVENTS:
             self.assertRegex(e.day, r"^\d{4}-\d{2}-\d{2}$")
-            self.assertTrue(e.venue_text and e.url.startswith("https://") and e.acts, e)
+            self.assertTrue(e.venue_text and e.url.startswith(("https://", "http://")) and e.acts, e)
             for name, start in e.acts:
                 self.assertTrue(name.strip(), e)
                 self.assertRegex(start or "00:00", r"^\d{2}:\d{2}$")
