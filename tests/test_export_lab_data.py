@@ -5,6 +5,7 @@ import json
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
@@ -284,6 +285,35 @@ class LinkBlocklistTest(unittest.TestCase):
         blocked = [{"team_key": "허재혁", "platform": "youtube", "ref": "https://www.youtube.com/channel/UCYgqAsGNjmpoHGPfDw9dAKA", **_BL_OK}]
         self.assertEqual(list(ex.drop_blocked_channels(channels, blocked)), ["eosa"])
 
+    def test_blocked_itunes_artist_gives_no_preview(self):
+        # 소여: iTunes '소여'(6834559596)는 웹소설 OST 가수 — 우리 밴드 소여가 아님
+        state = {"소여": {"artist_id": 6834559596, "artist_url": "https://music.apple.com/us/artist/x/6834559596?uo=4",
+                         "confidence": "year", "preview": {"preview_url": "https://audio-ssl.itunes.apple.com/a.m4a"}},
+                 "eosa": {"artist_id": 1, "artist_url": "https://music.apple.com/us/artist/eosa/1", "confidence": "year"}}
+        by_id = [{"team_key": "소여", "platform": "itunes", "ref": "6834559596", **_BL_OK}]
+        self.assertEqual(list(ex.drop_blocked_itunes(state, by_id)), ["eosa"])
+        by_url = [{"team_key": "소여", "platform": "itunes", "ref": "https://music.apple.com/us/artist/x/6834559596?uo=4", **_BL_OK}]
+        self.assertEqual(list(ex.drop_blocked_itunes(state, by_url)), ["eosa"])
+
+    def test_blocked_youtube_channel_videos_are_dropped(self):
+        rows = [{"team_key": "허재혁", "channel_id": "UCYgqAsGNjmpoHGPfDw9dAKA", "video_id": "AAAAAAAAAAA"},
+                {"team_key": "허재혁", "channel_id": "UCstagechannel00000000000", "video_id": "BBBBBBBBBBB"},
+                {"team_key": "eosa", "channel_id": "UCYgqAsGNjmpoHGPfDw9dAKA", "video_id": "CCCCCCCCCCC"}]
+        blocked = [{"team_key": "허재혁", "platform": "youtube", "ref": "https://www.youtube.com/channel/UCYgqAsGNjmpoHGPfDw9dAKA", **_BL_OK}]
+        self.assertEqual([r["video_id"] for r in ex.drop_blocked_videos(rows, blocked)], ["BBBBBBBBBBB", "CCCCCCCCCCC"])
+
+    def test_export_players_respect_blocklist(self):
+        blocked = [{"team_key": "abc", "platform": "itunes", "ref": "77", **_BL_OK},
+                   {"team_key": "abc", "platform": "spotify", "ref": "4Z8W4fKeB5YxbusRsdQVPb", **_BL_OK}]
+        itunes = {"abc": {"artist_id": 77, "confidence": "titles", "artist_name": "ABC",
+                          "preview": {"preview_url": "https://audio-ssl.itunes.apple.com/p/a.m4a", "track_url": ""}}}
+        refs = lambda: [{"team_key": "abc", "platform": "spotify", "ref": "4Z8W4fKeB5YxbusRsdQVPb"}]   # noqa: E731
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(ex, "_load_blocklist", lambda: blocked):
+            ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=refs, raw_videos=None, image_cache=None,
+                      video_views=lambda: {}, itunes_state=lambda: itunes)
+            text = (Path(d) / "players.csv").read_text(encoding="utf-8").strip()
+        self.assertEqual(text.splitlines()[1:], [])
+
     def test_config_file_entries_are_complete(self):
         data = json.loads((Path(__file__).resolve().parent.parent / "config" / "link_blocklist.json").read_text(encoding="utf-8"))
         for e in data["blocked"]:
@@ -547,6 +577,19 @@ class RoleTest(unittest.TestCase):
         base = {"program": "kma_rookie", "tier": "final", "announced_date": "2025-01-01", "counted": "t"}
         rows = ex.outcome_rows([{**base, "team_key": "투어스"}, {**base, "team_key": "인디팀"}], roles)
         self.assertEqual([r["team_key"] for r in rows], ["인디팀"])
+
+    def test_excluded_rows_drop_only_that_program_year(self):
+        # 2025 부산록페 '본무대' 정답에 섞인 신인 경연(루키즈·히든스테이지) 팀: 그해 그 프로그램 행만 빼고 다른 해 본무대는 남긴다
+        roles = {**ROLES, "outcome_rules": {"excluded_rows": [
+            {"program": "burock_main", "year": "2025", "teams": ["다다다"], "reason": "히든스테이지 신인 경연"}]}}
+        base = {"program": "burock_main", "tier": "mid", "counted": "t", "team_key": "다다다"}
+        rows = ex.outcome_rows([{**base, "announced_date": "2025-08-29"},
+                                {**base, "announced_date": "2026-09-04"},
+                                {**base, "program": "mucon", "announced_date": "2025-07-01"},
+                                {**base, "team_key": "국카스텐", "announced_date": "2025-08-29"}], roles)
+        got = sorted((r["team_key"], r["program"], r["announced_date"]) for r in rows)
+        self.assertEqual(got, [("국카스텐", "burock_main", "2025-08-29"), ("다다다", "burock_main", "2026-09-04"),
+                               ("다다다", "mucon", "2025-07-01")])
 
 
 class CollabDateTest(unittest.TestCase):

@@ -314,17 +314,22 @@ def _lower_grade(grade: str, weight) -> tuple:
 
 
 def outcome_rows(rows: List[dict], roles: dict | None = None) -> List[dict]:
-    """정답 행 + 등급. outcome_rules: lower_results(후보·최종 후보 등은 한 등급 아래), excluded_teams(정답에서 뺄 팀과 이유).
+    """정답 행 + 등급. outcome_rules: lower_results(후보·최종 후보 등은 한 등급 아래), excluded_teams(정답에서 뺄 팀과 이유),
+    excluded_rows(프로그램·발표 연도·팀이 모두 맞는 행만 뺌 — 원본 정답 파일에 잘못 들어간 행).
     같은 팀·같은 프로그램·같은 날짜가 후보와 수상으로 둘 다 있으면 가중치가 큰 행 하나만 남긴다."""
     roles = roles or {}
     grades = roles.get("outcomes") or {}
     rules = roles.get("outcome_rules") or {}
     lower = set(rules.get("lower_results") or [])
     excluded = rules.get("excluded_teams") or {}
+    excluded_rows = {(e.get("program"), str(e.get("year")), t)
+                     for e in rules.get("excluded_rows") or [] for t in e.get("teams") or []}
     best: Dict[tuple, dict] = {}
     for r in rows:
         if r.get("team_key") in excluded:
             continue
+        if (r.get("program"), (r.get("announced_date") or "")[:4], r.get("team_key")) in excluded_rows:
+            continue   # 그해 그 프로그램의 그 팀 행만 뺀다 (예: 본무대 정답에 섞인 신인 경연 팀)
         g = grades.get(r["program"]) or {}
         grade, weight = g.get("grade", DEFAULT_GRADE[0]), g.get("weight", DEFAULT_GRADE[1])
         if (r.get("result") or "") in lower:
@@ -394,11 +399,15 @@ def _norm_url(url: str) -> str:
 LINK_BLOCKLIST_FILE = ROOT / "config" / "link_blocklist.json"   # 사람이 틀리거나 애매하다고 본 연결 (docs/link_audit_2026-11-28.md)
 
 
+def _load_blocklist() -> List[dict]:
+    return json.loads(LINK_BLOCKLIST_FILE.read_text(encoding="utf-8")).get("blocked", []) if LINK_BLOCKLIST_FILE.exists() else []
+
+
 def drop_blocked_links(refs: List[dict], blocked: List[dict] | None = None) -> List[dict]:
     """차단 목록(팀 키·플랫폼·계정 또는 주소)에 있는 연결을 뺀다. 계정·주소 어느 꼴로 적어도 같은 주소면 막는다.
     항목마다 reason·checked 가 없으면 멈춘다. blocked 를 안 주면 config/link_blocklist.json 을 읽는다(없으면 빈 목록)."""
     if blocked is None:
-        blocked = json.loads(LINK_BLOCKLIST_FILE.read_text(encoding="utf-8")).get("blocked", []) if LINK_BLOCKLIST_FILE.exists() else []
+        blocked = _load_blocklist()
 
     def key(team: str, platform: str, ref: str):
         url = _link_url(platform, ref or "")
@@ -418,6 +427,28 @@ def drop_blocked_channels(channels: dict, blocked: List[dict] | None = None) -> 
             for t, c in channels.items()]
     keep = {r["team_key"] for r in drop_blocked_links(refs, blocked)}
     return {t: c for t, c in channels.items() if t in keep}
+
+
+def drop_blocked_itunes(state: dict, blocked: List[dict] | None = None) -> dict:
+    """collect_itunes 상태(팀 → iTunes 아티스트)에서 차단 목록(platform itunes, ref = 아티스트 번호 또는 주소)을 뺀다
+    → 막은 아티스트의 미리듣기가 players.csv 에 안 나간다."""
+    keep = {}
+    for team, e in state.items():
+        refs = [{"team_key": team, "platform": "itunes", "ref": str((e or {}).get(f) or "")} for f in ("artist_id", "artist_url")]
+        if len(drop_blocked_links(refs, blocked)) == len(refs):
+            keep[team] = e
+    return keep
+
+
+def drop_blocked_videos(rows: List[dict], blocked: List[dict] | None = None) -> List[dict]:
+    """영상 원본 줄 중 차단 목록의 유튜브 채널(그 팀) 영상을 뺀다 → 막은 채널 영상이 videos.csv·players.csv 에 안 나간다."""
+    blocked = _load_blocklist() if blocked is None else blocked
+    if not blocked:
+        return rows
+    refs = [{"team_key": r.get("team_key"), "platform": "youtube", "ref": f"https://www.youtube.com/channel/{r.get('channel_id') or ''}",
+             "_i": i} for i, r in enumerate(rows)]
+    keep = {x["_i"] for x in drop_blocked_links(refs, blocked)}
+    return [r for i, r in enumerate(rows) if i in keep]
 
 
 def link_rows(refs: List[dict]) -> List[dict]:
@@ -755,13 +786,13 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
     # 앱이 역할 설명·근거를 보여 줄 수 있게 분류표 사본 (원본: config/source_roles.json)
     (out_dir / "source_roles.json").write_text(json.dumps(roles, ensure_ascii=False, indent=1), encoding="utf-8")
     _write_csv(out_dir / "links.csv", LINK_FIELDS, links)
-    all_videos = filtered_videos(raw_videos()) if raw_videos else []
+    all_videos = filtered_videos(drop_blocked_videos(raw_videos())) if raw_videos else []
     videos = video_rows([], filtered=all_videos)
     _write_csv(out_dir / "videos.csv", VIDEO_FIELDS, videos)
     # 바로 듣기 표: 팀마다 스포티파이 1줄 + 대표 유튜브 영상 1줄 (규칙: scripts/players.py)
     players = players_mod.player_rows(links, all_videos, video_views() if video_views else {})
     # iTunes 30초 미리듣기 — 확인된(제목 겹침·첫 발매 연도) 것만 (규칙: scripts/collect_itunes.py)
-    players = sorted(players + collect_itunes.player_rows(itunes_state() if itunes_state else {}),
+    players = sorted(players + collect_itunes.player_rows(drop_blocked_itunes(itunes_state() if itunes_state else {})),
                      key=lambda r: (r["team_key"], ("spotify", "youtube", "itunes").index(r["kind"])))
     _write_csv(out_dir / "players.csv", players_mod.PLAYER_FIELDS, players)
     images = image_rows(image_cache() if image_cache else {}, drop_blocked_channels(yt_channels() if yt_channels else {}))
