@@ -1206,6 +1206,90 @@
       "reason": "같은 일렉트로닉 팀 — 한대음 2021 장르 부문 후보 '투 톤 쉐이프(Two Tone Shape)', 우리 데이터 포크라노스 발매·VISLA 'Two Tone Shape'",
       "evidence": ["https://www.hankookilbo.com/news/article/A2021012613540005605", "우리 데이터(signals.csv): twotoneshape 포크라노스 발매 2020-11~"],
       "checked": "2026-11-28"
+    },
+    {
+      "main": "검은잎들",
+      "aliases": ["Leaves Black"],
+      "reason": "같은 밴드 — 한대음 19회 후보 영어 표기 'Leaves Black – Farewell, My Books!' = 검은잎들 「책이여, 안녕!」(한대음 누리집·음악취향Y·IZM 리뷰)",
+      "evidence": ["https://koreanmusicawards.com/project/검은잎들-책이여-안녕/", "https://en.wikipedia.org/wiki/19th_Korean_Music_Awards", "http://musicy.kr/?c=review&s=1&gbn=view&ix=7438"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "조율",
+      "aliases": ["Joyul"],
+      "reason": "같은 음악가 — 한대음 19회 영어 표기 'Joyul – Earwitness' = 한대음 누리집 '조율 [Earwitness]'",
+      "evidence": ["https://koreanmusicawards.com/project/조율-earwitness/", "https://en.wikipedia.org/wiki/19th_Korean_Music_Awards"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "도일도시",
+      "aliases": ["Doildoshi"],
+      "reason": "같은 음악가 — 한대음 19회 영어 표기 'Doildoshi – Forest Illumination' = 한대음 누리집 '도일도시 Forest Illumination'",
+      "evidence": ["https://koreanmusicawards.com/project/도일도시-forest-illumination/", "https://en.wikipedia.org/wiki/19th_Korean_Music_Awards"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "남유선",
+      "aliases": ["Nam Yoo-sun"],
+      "reason": "같은 재즈 음악가 — 한대음 19회 영어 표기 'Nam Yoo-sun – Things We Lost & Found' = 한대음 누리집 '남유선 [Things We Lost & Found]'",
+      "evidence": ["https://koreanmusicawards.com/project/남유선-things-we-lost-found/", "https://en.wikipedia.org/wiki/19th_Korean_Music_Awards"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "이용석",
+      "aliases": ["Yongseok Lee"],
+      "reason": "같은 재즈 음악가 — 한대음 19회 영어 표기 'Yongseok Lee – The New Old One' = 한대음 누리집 '이용석 [The New Old One]'",
+      "evidence": ["https://koreanmusicawards.com/project/이용석-the-new-old-one/", "https://en.wikipedia.org/wiki/19th_Korean_Music_Awards"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "이부영",
+      "aliases": ["Bu-young Lee"],
+      "reason": "같은 음악가 — 한대음 19회 영어 표기 'Bu-young Lee – Love, Like A Song' = 한대음 누리집 '이부영 [Love, like a song]'",
+      "evidence": ["https://koreanmusicawards.com/project/이부영-love-like-a-song/", "https://en.wikipedia.org/wiki/19th_Korean_Music_Awards"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "지박",
+      "aliases": ["Ji Park", "지 박"],
+      "reason": "같은 음악가 — 한대음 20회 영어 표기 'Ji Park, BlankFor.ms, VRI String Quartet – Syntropy' = 한대음 누리집 '지박(Ji Park) & BlankFor.ms & VRI String Quartet [Syntropy]'",
+      "evidence": ["https://koreanmusicawards.com/project/지박ji-park-blankfor-ms-vri-string-quartet-syntropy/", "https://en.wikipedia.org/wiki/20th_Korean_Music_Awards"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "전송이",
+      "aliases": ["송이전", "Song Yi-jeon"],
+      "reason": "같은 재즈 보컬 — 영어 위키 'Song Yi-jeon & Vinicius Gomes – Home'의 성·이름 순서가 뒤집혀 '송이전'이 됨. 한대음 누리집 '전송이, Vinicius Gomes [HOME]'",
+      "evidence": ["https://koreanmusicawards.com/project/전송이-vinicius-gomes-home/", "https://en.wikipedia.org/wiki/20th_Korean_Music_Awards"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "이지연",
+      "aliases": ["Lee Jiyeun Jazz Orchestra"],
+      "reason": "같은 음악가 — 한대음 19회 영어 표기 'Lee Jiyeun Jazz Orchestra – Blue Flower' = 한대음 누리집 '이지연 [푸른꽃]'(Blue Flower = 푸른꽃)",
+      "evidence": ["https://koreanmusicawards.com/project/이지연-푸른꽃/", "https://en.wikipedia.org/wiki/19th_Korean_Music_Awards"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "김유진",
+      "aliases": ["Kim Yu-jin"],
+      "reason": "같은 음악가 — 한대음 20회 영어 표기 'Kim Yu-jin – A Piece and the Whole' = 한대음 누리집 '김유진 [한 조각 그리고 전체]'. 우리 데이터의 김유진도 R&B·소울(트랙제로 2022~·포크라노스 발매 2023-11)",
+      "evidence": ["https://koreanmusicawards.com/project/김유진-한-조각-그리고-전체/", "https://en.wikipedia.org/wiki/20th_Korean_Music_Awards"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "김영후 빅밴드",
+      "aliases": ["Hoo Kim Big Band"],
+      "reason": "같은 빅밴드 — 영어 위키 'Hoo Kim Big Band – Common Heritage of Humankind'는 이름을 잘못 옮긴 것. 한대음 누리집 '김영후 빅밴드 [범인류적 유산]'",
+      "evidence": ["https://koreanmusicawards.com/project/김영후-빅밴드-범인류적-유산/", "https://en.wikipedia.org/wiki/20th_Korean_Music_Awards"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "유태성",
+      "aliases": ["Yu Tae-sung"],
+      "reason": "같은 음악가 — 한대음 20회 영어 표기 'Yu Tae-sung – Michelangelo' = 한대음 누리집 '유태성 [미켈란젤로]'",
+      "evidence": ["https://koreanmusicawards.com/project/유태성-미켈란젤로/", "https://en.wikipedia.org/wiki/20th_Korean_Music_Awards"],
+      "checked": "2026-11-28"
     }
   ],
   "distinct": [
