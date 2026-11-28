@@ -75,11 +75,6 @@ def clean(fragment: str) -> str:
     return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", fragment or ""))).strip()
 
 
-def _iso(text: str) -> str:
-    m = DATE.search(text or "")
-    return f"{m.group(1)}-{m.group(2)}-{m.group(3)}" if m else ""
-
-
 def parse_nurirock_list(page: str) -> List[dict]:
     """프로그램 일정 한 쪽 → [{no, title, start, end, place}] (날짜 없는 옛 글은 start='')."""
     out = []

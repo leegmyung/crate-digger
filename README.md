@@ -130,19 +130,35 @@ PostgreSQL(17)과 `.env`(유튜브·스포티파이 키, 커밋 안 됨)는 수�
 
 | 단계 | 스크립트 | 결과 |
 |---|---|---|
-| 1. 수집 (스크립트) | `collect_poclanos` · `collect_selection` · `collect_superrookie`(슈퍼루키챌린지, 새 글만) | `data/raw/*.csv` (비공개) |
-| 1. 수집 (aside 브라우저) | `collect_gigs` · `collect_insta` · `collect_platforms` · `collect_artists`(새 아티스트) · `collect_hiphople`(힙합엘이 국내 뉴스) · `melon_names` → `collect_artists --names-file`(후보·정답 팀 프로필 보강) · `collect_artists --refresh`(관찰 팀 팬 수, 마지막으로 받은 지 7일 지난 것만) | 〃 |
+| 1. 수집 (스크립트) | `collect_poclanos` · `collect_selection` · `collect_superrookie`(슈퍼루키챌린지, 새 글만) · `collect_trackzero`(멜론 트랙제로) · `collect_webzines`(웹 매거진) · `collect_ssm_shows`(상상마당 공연) | `data/raw/*.csv` (비공개) |
+| 1. 수집 (aside 브라우저) | `collect_gigs` · `collect_insta` · `collect_platforms` · `collect_artists`(새 아티스트) · `collect_hiphople`(힙합엘이 국내 뉴스) · `collect_ig_artists`(인스타 아티스트 프로필·팔로워) · `melon_names` → `collect_artists --names-file`(후보·정답 팀 프로필 보강) · `collect_artists --refresh`(관찰 팀 팬 수, 마지막으로 받은 지 7일 지난 것만) | 〃 |
 | 1. 수집 (API) | `fan_history`(팬 수 날짜별 기록) · `collect_spotify` · `collect_spotify_collabs` · `collect_videos` | 〃, `data/raw/state/fan_history.json` + [팬 수 기록 요약](docs/fan_history.md) |
 | 2. 검사 | `validate_csv` | 형식 오류 표시 |
 | 3. 적재·묶기 | `build_site_data` · `load_pg` · `artist_xref --load-pg` · `venue_xref --load-pg` | 진행판 데이터, PostgreSQL |
 | 4. 분석 | `build_dashboard_data` · `run_pg_queries` | 대시보드 숫자, [SQL 결과](docs/sql/README.md) |
-| 5. 랩·결과물 | `collect_artist_images` · `export_lab_data` · `source_roles_doc`(월요일, [출처 분류](docs/source_roles.md) 성적표 표) · `source_review` · `score_review`(월요일) · `collect_video_stats` · `export_video_momentum` · `export_excel`(월요일) · `lab_snapshot` · `build_scene_map` | `docs/lab/data/`, 주간 엑셀, 사운드 지도 |
+| 5. 랩·결과물 | `collect_artist_images` · `export_lab_data` · `source_roles_doc`(월요일, [출처 분류](docs/source_roles.md) 성적표 표) · `source_review` · `score_review`(월요일) · `collect_video_stats` · `export_video_momentum` · `export_excel`(월요일) · `lab_snapshot` · `refresh_analyses.sh`(월요일, 분석 문서 일괄 갱신) · `build_app_extras.sh`(공연장·도시·페스티벌·라인업·사건·알림) · `build_scene_map` | `docs/lab/data/`, 주간 엑셀, 사운드 지도 |
 | 6. 기록 | `daily_note` · `build_status_report` → 커밋·push | `docs/log/<날짜>.md`, 진행 점검표 |
 
 사진·바로 듣기 보강 ([규칙](docs/media_coverage.md)): `coverage_targets`(후보 상위 500 → 정답 팀 대상·커버리지, .venv) · `collect_musicbrainz`(공식 유튜브·스포티파이·인스타 링크) · `collect_yt_channels`(공식 채널 아바타·최신 영상) · `yt_channel_search`(하루 20번 채널 검색) · `en_names`(검색 전용 영문 활동명) · `collect_itunes`(30초 미리듣기, 확인된 것만) → `export_lab_data`가 `images.csv`(스포티파이 → 유튜브 아바타)·`players.csv`(팀별 스포티파이 + 대표 유튜브 영상)를 만든다.
 틀리거나 애매한 연결은 [`config/link_blocklist.json`](config/link_blocklist.json)에 팀 키·플랫폼·계정(또는 주소)·이유·확인 날짜를 적기만 하면 다음 내보내기부터 링크·사진에서 빠진다 (틀린 연결보다 빈칸 — [점검](docs/link_audit_2026-11-28.md)).
 
-손으로 가끔 돌리는 수집기: `collect_gigs_history`(인디스트릿 지난 공연) · `collect_webzines`(웹진 과거 기록) · `collect_ig_artists` · `collect_ssm_shows` · `collect_trackzero`(멜론 트랙제로) · `collect_hiphople --backfill`(과거 기록, 21~23시 제외).
+### 손으로 가끔 돌리는 수집기 · 보강 · 분석
+
+- **과거 기록 수집**:
+  - `collect_gigs_history.py` — 인디스트릿 지난 공연 채우기 (과거 공연 보강 시)
+  - `collect_hiphople.py --backfill` — 힙합엘이 과거 기사 보강 (21~23시 제외)
+  - `collect_festival_lineups.py` — `config/festival_lineups.json` 국내 큰 페스티벌 라인업 → 공연 원본 CSV (회차 추가 시)
+- **운영 · 데이터 보강 (필요할 때)**:
+  - `add_missing_venues.py` → `geocode_venues.py` — 공연 기록에 새로 나타난 미등록 공연장을 `config/venues_kr.json`에 추가하고 좌표(lat·lon) 부여
+  - `build_kr_map.py` — 앱 지도(`docs/app/data/kr_sido.json`) 시·도 경계 재생성 (지도 데이터 변경 시)
+  - `profile_queue.py` — 프로필(멜론·스포티파이)이 빈 상위 후보 보강 대기열 뽑기
+  - `followers_spotify_weekly.py` · `followers.py` — 관찰 팀 스포티파이 팔로워 주 1회 기록 및 30일 변화 집계 (기록이 3~4주 쌓인 뒤 매일 실행 편입 예정)
+  - `collect_regional_audit.py` — 서울 밖 지방 공연장 최근 2년 공연 수·팀 수 점검
+  - `sql_to_bigquery.py` — `sql/kr/` PostgreSQL 분석 SQL → `sql/bigquery/` 변환·검사 (SQL 수정 시)
+- **일괄 분석 묶음 (`bash scripts/refresh_analyses.sh`, 매주 월요일 자동 + 수동 재실행)**:
+  - 전용 7개: `debut_cohort.py`(데뷔 코호트) · `missed_analysis.py`(놓친 팀 분석) · `rule_leakage.py`(시점 누수 점검) · `same_house.py`(같은 집안 효과) · `genre_bias.py`(장르별 편향) · `candidate_audit.py`(후보 비대상 팀 점검) · `discovery_stage.py`(발굴 단계·모멘텀 성적표) + `score_model.py`(점수 모형 요약)
+- **정기·수시 감사 · 실험 (규칙·점수 손보기 전후)**:
+  - `identity_audit.py`(팀 신원 중복·오매칭) · `newcomer_audit.py`(데뷔 5년 초과 기성 팀) · `dormant_check.py`(휴면 의심 팀) · `score_leak_audit.py`(점수 누수 감사) · `similar_validate.py`(비슷한 팀 SQL 검증) · `live_sessions.py`(라이브 세션 채널 평가) · `recency_lab.py`(최근 1·2년 기간 실험) · `backtrace.py`(정답 팀 선행 신호 역추적) · `festival_outcome_test.py`(페스티벌 메인 무대 시험 정답 실험)
 
 ### 손으로 다시 만들기
 
@@ -167,9 +183,9 @@ python3 scripts/check_links.py                 # 문서 링크 검사
 
 ---
 
-## 예전 단계 (참고용)
+## 예전 단계 — 해외 단계용(보관)
 
-프로젝트 초기에 만든 판매 대시보드와 취향 추천 프로토타입입니다. 지금 방향은 위의 국내 신인 발굴이고, 아래는 다시 만들 때를 위한 사용법입니다.
+프로젝트 초기에 만든 Bandcamp 판매 대시보드·취향 추천 프로토타입입니다. 현재 방향은 위의 국내 신인 발굴이지만, 국내 이후 **해외 단계(Bandcamp)**에서 다시 쓸 수 있어 아래 스크립트 8개를 지우지 않고 보관합니다: `build_db.py` · `build_reco.py` · `curate.py` · `fetch_lastfm_tags.py` · `generate_reco_sample.py` · `generate_sample.py` · `run_queries.py` · `voyager_index.py`. 아래는 다시 만들 때를 위한 사용법입니다.
 
 ### Bandcamp Sales Pulse (판매 대시보드)
 
