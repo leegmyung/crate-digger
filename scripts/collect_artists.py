@@ -20,6 +20,8 @@
   불일치는 괄호·'/'로 나뉜 부분과 영문 별칭까지 본 느슨한 키로 한 번 더 맞춘다(loose=True). 영문으로 찾으면 한글 이름 기록도 채운다.
 - 앨범 목록에서 앨범 아티스트 링크에 그 팀 번호가 있는 음반만 '본인 음반'으로 보고 first_release_own 에 따로 남긴다
   (참여·피처링·소속 밴드 음반이 첫 발매일을 앞당기는 문제, 2026-11-28). --ids-file 로 번호 목록을 다시 받을 수 있다.
+- 받은 프로필에서 새 장르 태그를 처음 본 날을 data/raw/state/genre_first_seen.json 에 남긴다
+  ({멜론 번호: {artist_text, genres: {태그: 처음 본 날}}} — '확인된 장르 = 사후 수집 편향' 대책, scripts/genre_seen.py 가 읽음).
 - 형식: docs/csv_spec.md / scripts/csv_schema.py raw_artist_profile
 """
 import argparse
@@ -39,12 +41,14 @@ from melon_names import MATCHES as MATCH_STATE
 from melon_names import MISSES as MISSES_STATE     # {이름: {kind empty|mismatch, date, candidates}} — 못 찾은 이유
 from melon_names import due_for_search             # 검색할 이름 고르기: 처음 보는 이름 + 못 찾고 RETRY_DAYS 지난 이름
 from csv_schema import TABLES
+from genre_seen import merge_genre_seen               # 장르 처음 본 날 상태 갱신 (docs/methods.md '확인된 장르 = 사후 수집 편향')
 from normalize import artist_key
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"
 STATE = RAW_DIR / "state" / "artist_profile_seen.json"
 REFRESH_STATE = RAW_DIR / "state" / "profile_refreshed.json"   # --refresh 로 다시 받은 날 {멜론 번호: 날짜}
+GENRE_SEEN_STATE = RAW_DIR / "state" / "genre_first_seen.json"   # 장르 태그를 처음 본 날 {멜론 번호: {artist_text, genres}}
 REFRESH_DAYS = 7
 REFRESH_LIMIT = 300         # 한 번 실행에 다시 받을 최대 팀 수 (7일 규칙이라 매일 돌리면 보통 하루 수십 팀)
 LAB_DIR = ROOT / "docs" / "lab" / "data"
@@ -330,6 +334,16 @@ def search_artists(names):
     return out, failed
 
 
+def record_genre_seen(rows, path=None):
+    """받은 프로필 줄들의 장르 태그 중 처음 보는 것에 날짜(collected_at)를 남긴다. 새로 본 태그 수를 돌려준다."""
+    path = Path(path or GENRE_SEEN_STATE)
+    new, added = merge_genre_seen(_load_json(path, {}), rows)
+    if added or not path.exists():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(new, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+    return added
+
+
 def fetch_profiles(ids):
     out = {}
     for i in range(0, len(ids), BATCH):
@@ -360,6 +374,7 @@ def collect(limit):
     pages = fetch_profiles(ids)
     rows = [r for r in (to_row(i, parse_melon_artist(pages.get(i, {})), now.isoformat()) for i in ids) if r]
     path = write_csv(rows, RAW_DIR, f"{now:%Y-%m-%d}") if rows else None
+    record_genre_seen(rows)
     STATE.parent.mkdir(parents=True, exist_ok=True)
     STATE.write_text(json.dumps(seen + [r["artist_source_id"] for r in rows]), encoding="utf-8")  # 못 읽은 팀은 다음에 다시
     return path, len(ids), len(rows)
@@ -445,6 +460,7 @@ def collect_from_outcomes(limit, names=None, today=None):
         rows = [r for r in (to_row(i, parse_melon_artist(pages.get(i, {})), now.isoformat()) for i in chunk) if r]
         if rows:
             path = write_csv(rows, RAW_DIR, f"{now:%Y-%m-%d}")
+            record_genre_seen(rows)
             seen |= {r["artist_source_id"] for r in rows}
             STATE.write_text(json.dumps(sorted(seen)), encoding="utf-8")
             total += len(rows)
@@ -481,8 +497,10 @@ def due_for_refresh(ids, last, today, days=REFRESH_DAYS):
 
 
 def refresh_profiles(ids, fetch=None, out_dir=RAW_DIR, state_path=REFRESH_STATE, today=None, now=None):
-    """SAVE_EVERY 팀마다 저장하고 profile_refreshed.json 을 갱신한다 (끊겨도 받은 만큼 남게). 받은 팀 수를 돌려준다."""
+    """SAVE_EVERY 팀마다 저장하고 profile_refreshed.json 을 갱신한다 (끊겨도 받은 만큼 남게). 받은 팀 수를 돌려준다.
+    장르 처음 본 날은 state_path 와 같은 폴더의 genre_first_seen.json 에 (기본값이면 GENRE_SEEN_STATE)."""
     fetch = fetch or fetch_profiles
+    genre_path = GENRE_SEEN_STATE if Path(state_path) == REFRESH_STATE else Path(state_path).parent / GENRE_SEEN_STATE.name
     state = _load_json(state_path, {})
     total = 0
     for k in range(0, len(ids), SAVE_EVERY):
@@ -494,6 +512,7 @@ def refresh_profiles(ids, fetch=None, out_dir=RAW_DIR, state_path=REFRESH_STATE,
         if not rows:
             continue
         write_csv(rows, out_dir, day)
+        record_genre_seen(rows, genre_path)
         state.update({r["artist_source_id"]: day for r in rows})
         state_path.parent.mkdir(parents=True, exist_ok=True)
         state_path.write_text(json.dumps(state, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")

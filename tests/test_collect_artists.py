@@ -21,6 +21,7 @@ def setUpModule():
     global _MODULE_TMP
     _MODULE_TMP = tempfile.TemporaryDirectory()
     _MODULE_PATCHES[:] = [mock.patch.object(ca, "MISSES_STATE", Path(_MODULE_TMP.name) / "misses.json"),
+                          mock.patch.object(ca, "GENRE_SEEN_STATE", Path(_MODULE_TMP.name) / "genre_first_seen.json"),
                           mock.patch.object(ca, "_known_melon_ids", return_value={})]
     for p in _MODULE_PATCHES:
         p.start()
@@ -446,3 +447,28 @@ class RefreshTest(unittest.TestCase):
             self.assertEqual(seen_path.read_text(encoding="utf-8"), '["1"]')
             self.assertEqual(ca._load_json(state_path, {}), {"1": "2026-11-27"})
             self.assertEqual(len(list(d.glob("raw_artist_profile_*_melon*.csv"))), 1)
+
+class GenreFirstSeenTest(unittest.TestCase):
+    """확인된 장르 = 사후 수집 편향(docs/methods.md) 대책: 프로필에서 새 장르 태그를 처음 본 날을 상태 파일에 남긴다
+    (data/raw/state/genre_first_seen.json, {멜론 번호: {artist_text, genres: {태그: 날짜}}} — scripts/genre_seen.py 가 읽음)."""
+
+    def test_record_genre_seen_keeps_first_date(self):
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "genre_first_seen.json"
+            row = ca.to_row("1", ca.parse_melon_artist(PAGE), AT)
+            self.assertEqual(ca.record_genre_seen([row], path), 3)          # 인디음악·발라드·록/메탈
+            later = dict(row, collected_at="2026-11-30T10:00:00+09:00", genre="록/메탈|포크/블루스")
+            self.assertEqual(ca.record_genre_seen([later], path), 1)        # 포크/블루스만 새로
+            genres = ca._load_json(path, {})["1"]["genres"]
+            self.assertEqual(genres["록/메탈"], "2026-11-26")
+            self.assertEqual(genres["포크/블루스"], "2026-11-30")
+
+    def test_refresh_records_genres_next_to_its_state(self):
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            state_path = d / "refreshed.json"
+            ca.refresh_profiles(["1"], fetch=lambda ids: {i: PAGE for i in ids}, out_dir=d,
+                                state_path=state_path, today="2026-11-26", now=AT)
+            seen = ca._load_json(d / "genre_first_seen.json", {})
+            self.assertEqual(seen["1"]["genres"], {"인디음악": "2026-11-26", "발라드": "2026-11-26", "록/메탈": "2026-11-26"})
+
