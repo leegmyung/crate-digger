@@ -710,7 +710,7 @@
    "name": "광복레코드",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "event_showcase",
    "genre": "mixed"
   },
   {
@@ -1350,7 +1350,7 @@
    "name": "Fiction Seoul",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -1366,7 +1366,7 @@
    "name": "SoundSupply_Service",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "artist",
    "genre": "experimental"
   },
   {
@@ -1574,7 +1574,7 @@
    "name": "Junction Forest",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -1958,7 +1958,7 @@
    "name": "WHITE LUNAR MUSIC",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "label_showcase",
    "genre": "club"
   },
   {
@@ -2158,7 +2158,7 @@
    "name": "STAMINA",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
