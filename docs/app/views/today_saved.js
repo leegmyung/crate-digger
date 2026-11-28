@@ -17,7 +17,7 @@ export function renderSavedCardShellHtml() {
       <section class="block today-saved-block is-empty" aria-label="저장 필터">
         <div class="today-saved-empty">
           <strong>필터 저장하기</strong>
-          <span class="small muted">발굴 화면에서 조건을 고른 뒤 '+ 이 필터 저장'을 누르면, 매주 여기서 그 조건에 새로 맞는 팀을 알려 줍니다.</span>
+          <span class="small muted">발굴 화면에서 조건을 고른 뒤 '☆ 이 조건 담기'를 누르면, 매주 여기서 그 조건에 새로 맞는 팀을 알려 줍니다.</span>
           <a class="btn btn-sm" href="#/discover">발굴에서 저장 →</a>
         </div>
       </section>`;

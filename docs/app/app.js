@@ -11,7 +11,7 @@ import { applyKeyAliases, parseAliasCsv, remapHash } from './key_aliases.js';
 import {
   buildWeeklySummaryText, cssVar, escapeHtml,
   fmtInt, friendlySqlError, getWatchlistAlerts, hideRowHoverPreview,
-  renderViewSkeleton,
+  renderViewSkeleton, WATCH_LABELS,
 } from './ui.js';
 import { initGlobalSearch } from './components/global_search.js';
 import { initMiniPlayer } from './components/mini_player.js';
@@ -531,6 +531,21 @@ function wireGlobalEvents() {
     }
   });
 
+  // '⋯ 더보기' 메뉴(.ux-more): 안의 링크·단추를 누르거나 바깥을 누르거나 Esc → 닫기 (docs/ux_simplify_2026-11-28.md)
+  document.addEventListener('click', e => {
+    const inMenuAction = e.target.closest('.ux-more-menu a, .ux-more-menu button:not(.density-btn)');
+    document.querySelectorAll('details.ux-more[open]').forEach(d => {
+      if (inMenuAction ? d.contains(inMenuAction) : !d.contains(e.target)) d.removeAttribute('open');
+    });
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    document.querySelectorAll('details.ux-more[open]').forEach(d => {
+      d.removeAttribute('open');
+      d.querySelector('summary')?.focus();
+    });
+  });
+
   // Delegated watch button click inside any view
   document.getElementById('viewRoot')?.addEventListener('click', e => {
     const btn = e.target.closest('button[data-watch-key]');
@@ -538,15 +553,18 @@ function wireGlobalEvents() {
     e.stopPropagation();
     const added = toggleWatch(btn.dataset.watchKey, btn.dataset.watchName);
     btn.classList.toggle('btn-active', added);
+    btn.setAttribute('aria-pressed', String(added));
+    const label = added ? WATCH_LABELS.on : WATCH_LABELS.off;
     const fullLbl = btn.querySelector('.watch-lbl-full');
     const shortLbl = btn.querySelector('.watch-lbl-short');
     if (fullLbl || shortLbl) {
-      if (fullLbl) fullLbl.textContent = added ? '관심 중' : '관심 추가';
+      if (fullLbl) fullLbl.textContent = label;
       if (shortLbl) shortLbl.textContent = added ? '★' : '☆';
-      btn.setAttribute('aria-label', `${btn.dataset.watchName || ''} ${added ? '관심 중' : '관심 추가'}`.trim());
+      btn.setAttribute('aria-label', `${btn.dataset.watchName || ''} ${label}`.trim());
     } else {
-      btn.textContent = added ? '★ 관심 중' : '☆ 관심 추가';
+      btn.textContent = `${added ? '★' : '☆'} ${label}`;
     }
+    if (added) showToast('내 목록에 담았어요 · 새 소식이 홈·알림에 모여요');
     updateNavActive();
     if (appState.route === 'today') renderCurrentView();
   });

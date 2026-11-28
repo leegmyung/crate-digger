@@ -13,30 +13,35 @@ export const RELEASE_MONTH_OPTIONS = [6, 12, 18, 24, 36];
 export const CAND_PRESETS = [
   {
     id: 'debut12',
+    desc: '첫 발매 1년 안',
     label: '갓 데뷔 (12개월)',
     tipTitle: '갓 데뷔 (12개월)',
     tip: INFO_TIPS.preset_debut12,
   },
   {
     id: 'blank',
+    desc: '아직 남의 언급 없음',
     label: '백지 신인',
     tipTitle: '백지 신인',
     tip: INFO_TIPS.preset_blank,
   },
   {
     id: 'selected',
+    desc: '선정·수상 후보 단계',
     label: '선정 직후',
     tipTitle: '선정 직후',
     tip: INFO_TIPS.preset_selected,
   },
   {
     id: 'regional',
+    desc: '서울 밖에서 활동',
     label: '지방 씬',
     tipTitle: '지방 씬',
     tip: INFO_TIPS.preset_regional,
   },
   {
     id: 'rising',
+    desc: '최근 30일 언급 늘어남',
     label: '떠오르는 팀',
     tipTitle: '떠오르는 팀',
     tip: INFO_TIPS.preset_rising,
@@ -45,6 +50,51 @@ export const CAND_PRESETS = [
 
 // 첫 발매 N개월 규칙은 저장 필터와 같은 규칙을 쓰려고 saved_match.js 한 곳에 둔다
 export { matchesReleaseMonths, subtractMonthsIso } from './saved_match.js';
+
+/** 발굴 ↔ 차트 역할 (docs/ux_simplify_2026-11-28.md ④) — 머리말에 한 줄씩 */
+export const ROLE_LINES = Object.freeze({
+  discover: '발굴 = 내 조건으로 신인 후보를 거르는 도구 (프리셋은 자주 쓰는 조건 묶음)',
+  charts: '차트 = 정의가 고정된 순위표 · 매주 지난주와 비교 · 필터 없음',
+});
+
+// 차트 탭과 이름이 겹치는 프리셋 → 같은 정의의 차트 탭
+const PRESET_CHART = {
+  rising: { href: '#/charts/rising', label: '떠오르는', same: true },
+  debut12: { href: '#/charts/debut', label: '갓 데뷔', same: false },
+};
+
+/** 차트와 겹치는 프리셋을 골랐을 때 '조건 vs 순위' 안내 한 줄 (아니면 '') */
+export function presetChartNoteHtml(presetId) {
+  const c = PRESET_CHART[presetId];
+  if (!c) return '';
+  const rel = c.same
+    ? `차트의 '${c.label}'과 같은 조건입니다 — 여기선 다른 조건을 더 걸 수 있고, 차트는 순위와 지난주 대비를 보여 줍니다`
+    : `차트의 '${c.label}'은 아직 언급 없는 신인만 따로 매긴 순위입니다 — 여기선 첫 발매 1년 안의 모든 후보를 조건으로 거릅니다`;
+  return `<p class="disc-preset-note small" role="note">${escapeHtml(rel)} · <a href="${c.href}">차트에서 순위로 보기 →</a></p>`;
+}
+
+/**
+ * 발굴 프리셋 줄 (docs/ux_simplify_2026-11-28.md ③) — 자주 쓰는 조합 5개 + 내가 담은 조건(저장 필터).
+ * 누르면 조건이 걸리고, 다시 누르면 풀린다. 버튼 data- 는 예전 패널 프리셋과 같다(candidates.js 연결 그대로).
+ */
+export function renderPresetRowHtml({ appState, counts, saved = [], currentHash = '' }) {
+  const activeId = activePresetOf(appState);
+  const cards = CAND_PRESETS.map((p) => {
+    const cnt = counts?.presets?.[p.id];
+    const on = activeId === p.id;
+    const cntHtml = cnt !== null && cnt !== undefined ? `<span class="disc-preset-cnt">${fmtInt(cnt)}</span>` : '';
+    return `<span class="disc-preset-item"><button type="button" class="disc-preset${on ? ' is-active' : ''}" data-cand-preset="${p.id}" aria-pressed="${on ? 'true' : 'false'}"><span class="disc-preset-top"><span class="disc-preset-lbl">${escapeHtml(p.label)}</span>${cntHtml}</span><span class="disc-preset-desc">${escapeHtml(p.desc || '')}</span></button>${infoTip(p.tipTitle, p.tip, { compact: true })}</span>`;
+  }).join('');
+  const mine = saved.map((it) => {
+    const on = currentHash && it.hash === currentHash;
+    return `<button type="button" class="disc-saved${on ? ' is-active' : ''}" data-saved-apply="${escapeHtml(it.id)}" aria-pressed="${on ? 'true' : 'false'}" title="담은 조건 적용 — 이름 바꾸기·지우기는 내 목록 › 저장한 필터">★ ${escapeHtml(it.name)}</button>`;
+  }).join('');
+  return `
+    <div class="disc-presets" role="group" aria-label="자주 쓰는 조건">
+      <div class="disc-preset-list">${cards}</div>
+      <div class="disc-saved-list"><span class="disc-saved-lbl">내 조건</span>${mine || '<span class="small muted">아직 없음 — 조건을 고른 뒤 ☆ 이 조건 담기</span>'}${saved.length ? '<a class="small disc-saved-manage" href="#/mine?tab=filters">관리</a>' : ''}</div>
+    </div>`;
+}
 
 /** 현재 적용된 필터들을 제거 가능한 꼬리표 목록으로 만든다(숨은 조건 없음). */
 export function buildActiveFilterChips(appState) {
@@ -113,7 +163,7 @@ export function buildActiveFilterChips(appState) {
 
 const TIER_OPTIONS = [['S', 'S만 (~150명)'], ['M', 'M 이하 (~400명)'], ['L', 'L 이하 (~1,000명)']];
 
-function activePresetOf(appState) {
+export function activePresetOf(appState) {
   return appState.candPreset
     || (Number(appState.candReleaseMonths) === 12 && !appState.candStage && !appState.candRegion ? 'debut12'
       : appState.candStage === '0' && !appState.candReleaseMonths && !appState.candRegion ? 'blank'
@@ -132,18 +182,12 @@ function group(title, body, open = true, tipHtml = '') {
 }
 
 /**
- * 발굴(#/discover) 왼쪽 필터 패널 — 프리셋 + 팀(장르·추정 장르·지역·도시) · 단계(발굴 단계·첫 발매 N개월) ·
- * 신호(갈래·가장 큰 무대 체급) · 변화(최근 활동·새로 들어옴/상승/예정 공연·떠오르는 팀) · 세부 기준.
+ * 발굴(#/discover) 필터 패널('+ 필터 추가'로 여닫음, 기본 닫힘) — 팀(장르·추정 장르·지역·도시) · 단계(발굴 단계·첫 발매 N개월) ·
+ * 신호(갈래·가장 큰 무대 체급) · 변화(최근 활동·새로 들어옴/상승/예정 공연) · 세부 기준. 프리셋은 결과 위 프리셋 줄(renderPresetRowHtml).
  * 버튼·입력의 data-·id 는 예전 필터 줄과 같아 candidates.js 의 연결을 그대로 쓴다. 항목마다 해당 팀 수.
  */
 export function renderCandPanelHtml({ appState, counts }) {
   const c = appState.cfg;
-  const activePresetId = activePresetOf(appState);
-  const presetsHtml = CAND_PRESETS.map(p => {
-    const cnt = counts.presets?.[p.id];
-    const isActive = activePresetId === p.id;
-    return `<span class="cf-preset-item"><button type="button" class="cf-preset-btn${isActive ? ' is-active' : ''}" data-cand-preset="${p.id}" aria-pressed="${isActive ? 'true' : 'false'}"><span>${escapeHtml(p.label)}</span>${cnt !== null && cnt !== undefined ? `<span class="cf-preset-cnt">${fmtInt(cnt)}</span>` : ''}</button>${infoTip(p.tipTitle, p.tip, { compact: true })}</span>`;
-  }).join('');
 
   const genres = [optBtn('data-set-genre', '', '전체 장르', counts.total, !c.genre),
     ...appState.validGenres.slice(0, 14).map(g => optBtn('data-set-genre', g, g, counts.genres.get(g) || 0, c.genre === g))].join('');
@@ -180,7 +224,7 @@ export function renderCandPanelHtml({ appState, counts }) {
     </select>`;
   const changeBody = `<div class="dp-label">최근 활동 (마지막 신호)</div>${periodSel}
     <div class="dp-label">변화</div><div class="cf-pop-opts">${moves}</div>
-    <div class="dp-label">떠오르는 팀 조건</div><div class="cf-pop-opts">${optBtn('data-cand-preset', 'rising', '떠오르는 팀만 (최근 30일 언급 ↑)', counts.presets?.rising ?? null, appState.candPreset === 'rising')}</div>`;
+    <p class="small muted dp-sub">'떠오르는 팀'은 위 프리셋 줄에 있습니다</p>`;
 
   const criteriaBody = `<div class="cf-pop-criteria">
       <label class="cf-crit-row"><span>신인 기준(년)</span><input type="number" id="candNewcomerInp" class="input input-num" min="1" max="15" value="${c.newcomer_years}"></label>
@@ -190,7 +234,6 @@ export function renderCandPanelHtml({ appState, counts }) {
     </div>`;
 
   return `
-    <div class="dp-presets"><div class="dp-label">프리셋</div><div class="cf-presets-list">${presetsHtml}</div></div>
     ${group('팀', teamBody)}
     ${group('단계', stageBody)}
     ${group('신호', signalBody)}
@@ -199,8 +242,8 @@ export function renderCandPanelHtml({ appState, counts }) {
     <p class="small muted dp-foot">조건은 주소에 남습니다 · 발굴 단계 4(졸업)는 기본 숨김</p>`;
 }
 
-/** 발굴 결과 위 줄 — 조건 꼬리표(ⓧ) · 모두 지우기 · 검색 · 보기 [표 | 색 지도] · (휴대폰) 필터 열기 */
-export function renderCandResultsBarHtml({ appState }) {
+/** 발굴 결과 위 줄 — [+ 필터 추가](패널 여닫기) · 검색 · 보기 [표 | 색 지도] · 조건 꼬리표(ⓧ) · 모두 지우기 */
+export function renderCandResultsBarHtml({ appState, panelOpen = false }) {
   const activeChips = buildActiveFilterChips(appState);
   const removableCount = activeChips.filter(ch => ch.removable).length;
   const isHeat = appState.candView === 'heat';
@@ -209,7 +252,7 @@ export function renderCandResultsBarHtml({ appState }) {
     : `<span class="cf-chip is-derived" title="프리셋에 포함된 조건입니다">${escapeHtml(ch.label)}</span>`)).join('');
   return `
     <div class="dr-bar">
-      <button type="button" class="btn btn-sm dr-filter-toggle" id="candMobileFilterToggle" aria-controls="candPanel">필터${removableCount ? ` <span class="cf-count-num">${removableCount}</span>` : ''}</button>
+      <button type="button" class="btn btn-sm dr-filter-toggle${panelOpen ? ' is-active' : ''}" id="candMobileFilterToggle" aria-controls="candPanel" aria-expanded="${panelOpen ? 'true' : 'false'}">${panelOpen ? '필터 닫기 ▴' : '+ 필터 추가 ▾'}${removableCount ? ` <span class="cf-count-num">${removableCount}</span>` : ''}</button>
       <input type="search" id="candFilterInput" class="input dr-search" value="${escapeHtml(appState.candQuery || '')}" placeholder="팀·장르·이유 검색..." aria-label="결과 안에서 팀 검색">
       <div class="cf-view-switch" role="group" aria-label="보기 전환">
         <button type="button" class="cf-view-btn${isHeat ? '' : ' is-active'}" data-cand-view="" aria-pressed="${isHeat ? 'false' : 'true'}">표</button>

@@ -65,6 +65,18 @@ export function renderKeyStatsHtml({ scored, rc, videos, links, displayName }) {
   return `<div class="team-keystats" aria-label="핵심 숫자">${tileHtml}${platHtml}</div>`;
 }
 
+/**
+ * 팀 머리 단추: 자주 쓰는 2개(듣기·담기)만 보이고 나머지(유튜브·비교·색 지도·인쇄)는 '⋯ 더보기' 안에
+ * (docs/ux_simplify_2026-11-28.md ② 원리 6). 빈 항목은 뺀다. 더보기가 비면 메뉴를 만들지 않는다.
+ * @param {{ primary: string[], more: string[] }} p
+ */
+export function teamHeadActionsHtml({ primary = [], more = [] }) {
+  const front = primary.filter(Boolean).join('');
+  const rest = more.filter(Boolean);
+  if (!rest.length) return front;
+  return `${front}<details class="ux-more"><summary class="btn" aria-label="더보기 — 유튜브·비교·인쇄">⋯ 더보기</summary><div class="ux-more-menu">${rest.join('')}</div></details>`;
+}
+
 /** '비교' = 같은 장르 후보들 사이에서 색 지도로 보기 (장르를 모르면 전체 후보) */
 export function compareButtonHtml(genre) {
   const g = genre && genre !== '미분류' ? genre : '';

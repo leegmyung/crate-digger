@@ -1,5 +1,5 @@
 /**
- * 홈 '차트 맛보기'(떠오르는 5 · 갓 데뷔 5) 한 줄 — 사진 · 이름·장르 · ▶ 바로 듣기 · 핵심 숫자 · 관심 추가.
+ * 홈 '차트 맛보기'(떠오르는 5 · 갓 데뷔 5) 한 줄 — 사진 · 이름·장르 · ▶ 바로 듣기 · 핵심 숫자 · ☆ 담기.
  * 다른 팀 목록과 같이 ▶를 둔다 (docs/ui_review_2026-11-28.md).
  */
 import { avatarHtml, escapeHtml, playButtonHtml, watchButtonHtml } from './ui.js';

@@ -9,8 +9,9 @@ import {
   setWatchlistViewMode, setWatchStatus, syncHash, toggleWatch, WATCH_STATUSES,
 } from '../state.js';
 import {
-  ensureVideosLoaded, loadAlertsJson, queryDiscoveryStages, queryUpcomingGigs, queryWatchlistEnriched,
+  ensureVideosLoaded, loadAlertsJson, queryCandidates, queryDiscoveryStages, queryUpcomingGigs, queryWatchlistEnriched,
 } from '../db.js';
+import { pickWeeklyTeams, weeklyPicksHtml } from '../home_picks.js';
 import { watchSummary, watchSummaryLine } from '../watch_summary.js';
 import { loadEventStars } from '../db_team_extras.js';
 import { listSavedFilters } from '../saved_filters.js';
@@ -116,6 +117,7 @@ export async function renderWatchlistView(root) {
   let alertsData = null;
   let eventStarsMap = null;
   let summary = null;
+  let picks = [];   // 비었을 때 추천 (이번 주 볼 신인 5팀 — 홈과 같은 규칙)
 
   async function loadAll() {
     const raw = getWatchlist();
@@ -131,6 +133,11 @@ export async function renderWatchlistView(root) {
     alertsData = alerts;
     eventStarsMap = stars;
     summary = null;
+    picks = [];
+    if (!rows.length) {
+      const cands = await queryCandidates().catch(() => []);
+      picks = pickWeeklyTeams(cands, alertsData?.alerts || [], appState.cfg.as_of || appState.dataEnd);
+    }
     if (rows.length) {
       const asOf = appState.cfg.as_of || appState.dataEnd;
       const [stageData, upcoming] = await Promise.all([
@@ -191,13 +198,16 @@ export async function renderWatchlistView(root) {
 
   function buildWatchPanelHtml() {
     if (!rows.length) {
-      return renderEmptyState({
-        title: '관심 팀이 비어 있습니다',
-        message: '홈·발굴·팀 페이지에서 ☆ 관심 추가를 누르면 최근 7일 새 신호와 순위 변동을 한곳에 모아 봅니다.',
+      // ⑦ 빈 내 목록 = 할 일: 추천 5팀을 바로 담거나, 발굴 프리셋으로 찾기
+      return `${renderEmptyState({
+        title: '아직 담은 팀이 없어요',
+        message: '팀·공연장·발굴 조건 어디서든 ☆ 담기를 누르면 여기와 홈·알림에 모입니다. 아래 추천 팀을 바로 담아 보세요.',
         showReset: false,
-        actionLabel: '발굴에서 팀 고르기',
+        actionLabel: '발굴 프리셋으로 찾기',
         actionHref: '#/discover',
-      });
+      })}
+      ${picks.length ? `${weeklyPicksHtml(picks)}
+        <p class="mine-picks-all"><button type="button" class="btn btn-sm btn-primary" id="btnWatchAllPicks">☆ 추천 ${fmtInt(picks.length)}팀 모두 담기</button></p>` : ''}`;
     }
 
     const weeklySummaryHtml = renderWatchWeeklySummaryHtml(
@@ -323,7 +333,7 @@ export async function renderWatchlistView(root) {
     if (activeTab === 'watch') {
       leadHtml = rows.length
         ? `관심 팀 <strong>${fmtInt(rows.length)}팀</strong> 중 최근 7일 새 신호가 들어온 팀은 <strong>${fmtInt(recentActive)}팀</strong>입니다.`
-        : '관심 팀·구독 공연장·저장한 필터를 한곳에 모아 관리합니다.';
+        : '☆ 담기로 담은 팀(관심 팀)·공연장(구독)·발굴 조건(저장한 필터)을 한곳에 모읍니다.';
       buttonsHtml = rows.length
         ? `<div class="view-mode-switch" role="group" aria-label="보기 방식">
             <button type="button" class="btn btn-sm ${viewMode === 'table' ? 'btn-active' : ''}" data-wmode="table">표</button>
@@ -390,6 +400,12 @@ export async function renderWatchlistView(root) {
       wireAvatarFallbacks(root);
       wireSpotifyButtons(root);
 
+      root.querySelector('#btnWatchAllPicks')?.addEventListener('click', () => {
+        // 하나씩 담으면 app:watchlist 로 다시 그려짐 — 마지막 한 번만 그리도록 담은 뒤 직접 불러옴
+        picks.forEach(p => toggleWatch(p.team_key, p.display_name || p.team_key));
+        window.dispatchEvent(new CustomEvent('app:toast', { detail: `내 목록에 ${picks.length}팀 담았어요` }));
+      });
+
       root.querySelector('#btnWatchCsv')?.addEventListener('click', () => {
         triggerTableCsvExport(syncWatchExport());
       });
@@ -445,16 +461,20 @@ export async function renderWatchlistView(root) {
 
   paint();
 
-  const onExternalChange = async () => {
+  // 바뀜이 연달아 오면(추천 모두 담기 = 5번) 한 번만 불러와 그린다
+  let changeTimer = null;
+  const onExternalChange = () => {
     const host = root.querySelector('#minePageRoot');
     if (!host || !host.isConnected) {
       window.removeEventListener('app:watchlist', onExternalChange);
       window.removeEventListener('app:venue-subs', onExternalChange);
       return;
     }
-    await loadAll();
-    if (!host.isConnected) return;
-    paint();
+    clearTimeout(changeTimer);
+    changeTimer = setTimeout(async () => {
+      await loadAll();
+      if (host.isConnected) paint();
+    }, 0);
   };
   window.addEventListener('app:watchlist', onExternalChange);
   window.addEventListener('app:venue-subs', onExternalChange);

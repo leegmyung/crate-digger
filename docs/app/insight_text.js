@@ -118,6 +118,71 @@ export function alertForecastText({ total, weekly, cap = 0 }) {
 export function venueSubForecastText(counts, labels = {}) {
   const entries = Object.entries(counts || {}).filter(([, n]) => isNum(n) && n > 0).sort((a, b) => b[1] - a[1]);
   const total = entries.reduce((s, [, n]) => s + n, 0);
-  if (!total) return '이번 주 알림 중 이 공연장 관련은 없어요 — 구독해도 조용할 수 있어요';
-  return `구독하면 이번 주 알림 기준 ${total}건 (${entries.map(([k, n]) => `${labels[k] || k} ${n}`).join(' · ')})`;
+  if (!total) return '이번 주 알림 중 이 공연장 관련은 없어요 — 담아도 조용할 수 있어요';
+  return `담으면 이번 주 알림 기준 ${total}건 (${entries.map(([k, n]) => `${labels[k] || k} ${n}`).join(' · ')})`;
+}
+
+// ---------- 공연장 질문형 요약 (docs/ux_simplify_2026-11-28.md ⑩) ----------
+const TIER_RANK = { S: 1, M: 2, L: 3, XL: 4 };
+const TIER_WORD = { S: '소형', M: '중형', L: '대형', XL: '초대형' };
+const SHARE_OFTEN = 0.25;   // 첫 무대 신인 비율 이 이상 → '신인을 자주 세우는 곳'
+const SHARE_RARE = 0.10;    // 이 미만 → '경력 팀이 주로'
+const AFTER_SHOWN = 2;
+
+function pct(x) {
+  return `${Math.round(x * 100)}%`;
+}
+
+function earlyAnswer(p) {
+  const teams = Number(p.teams_1y) || 0;
+  if (!teams) return '최근 1년 출연 기록이 없어 아직 판단할 수 없어요';
+  const share = Number(p.first_timer_share_1y);
+  const firsts = Number(p.first_timers_1y) || 0;
+  const tail = `최근 1년 ${teams}팀 중 ${firsts}팀(${isNum(share) ? pct(share) : '—'})이 여기서 첫 무대`;
+  if (!isNum(share)) return tail;
+  if (share >= SHARE_OFTEN) return `신인을 자주 세우는 곳 — ${tail}`;
+  if (share < SHARE_RARE) return `경력 팀이 주로 서는 곳 — ${tail}`;
+  return `신인과 경력 팀이 섞여 서는 곳 — ${tail}`;
+}
+
+function wentAnswer(p, tierOf) {
+  const parts = [];
+  const winners = Number(p.later_winners_total) || 0;
+  const latest = [...(Array.isArray(p.later_winners) ? p.later_winners : [])]
+    .sort((a, b) => String(b.outcome_date || '').localeCompare(String(a.outcome_date || '')))[0];
+  if (winners) {
+    parts.push(`나중에 수상·선정된 팀 ${winners}팀${latest ? ` (최근: ${latest.name || latest.team_key} — ${latest.outcome || '수상·선정'}${latest.outcome_date ? ` ${String(latest.outcome_date).slice(0, 7)}` : ''})` : ''}`);
+  }
+  const after = (Array.isArray(p.after) ? p.after : []).filter(a => Array.isArray(a) && a[0]);
+  if (after.length) {
+    const myRank = TIER_RANK[String(p.tier || '').toUpperCase()] || 0;
+    const biggest = [...after].sort((a, b) => (TIER_RANK[tierOf.get(b[0])] || 0) - (TIER_RANK[tierOf.get(a[0])] || 0))[0];
+    const bigTier = tierOf.get(biggest[0]);
+    const top = after.slice(0, AFTER_SHOWN).map(([n, k]) => `${n}(${k}팀)`).join(' · ');
+    const step = bigTier && (TIER_RANK[bigTier] || 0) > myRank ? ` · 가장 큰 다음 무대 ${biggest[0]}(${TIER_WORD[bigTier] || bigTier})` : '';
+    parts.push(`다음으로 많이 선 곳 ${top}${step}`);
+  }
+  return parts.length ? parts.join(' · ') : '여기 선 뒤의 기록이 아직 모이지 않았어요';
+}
+
+function nowAnswer(p) {
+  const cands = Array.isArray(p.top_candidates) ? p.top_candidates : [];
+  if (!cands.length) return '최근 3년 여기 선 팀 중 지금 후보 순위권 팀은 없어요';
+  const names = cands.slice(0, 3).map(c => `${c.name || c.team_key}${c.rank ? `(후보 ${c.rank}위)` : ''}`).join(' · ');
+  return `여기 선 지금 후보 ${cands.length}팀 — ${names}`;
+}
+
+/**
+ * 공연장 첫 화면 질문 3개와 답 (모든 공연장 같은 순서·같은 자리 — 자료가 없어도 답 자리를 비우지 않음).
+ * @param {object|null} profile venue_profiles.json 한 공연장
+ * @param {{ tierOf?: Map<string,string> }} [opts] 공연장 이름 → 체급(S·M·L·XL)
+ * @returns {{ id: string, q: string, a: string }[]}
+ */
+export function venueQuestions(profile, { tierOf = new Map() } = {}) {
+  if (!profile || typeof profile !== 'object') return [];
+  return [
+    { id: 'early', q: '신인을 일찍 세우는 곳인가?', a: earlyAnswer(profile) },
+    { id: 'went', q: '여기서 공연한 신인이 어디까지 갔나?', a: wentAnswer(profile, tierOf) },
+    { id: 'now', q: '지금 여기서 볼 만한 팀은?', a: nowAnswer(profile) },
+  ];
 }

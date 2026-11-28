@@ -19,6 +19,7 @@ import { attachTeamPeek, peekKeyFromHash } from '../components/team_peek.js';
 import { compareToggleHtml } from '../components/compare_tray.js';
 import { entityCellHtml } from '../components/entity_cell.js';
 import { collapseRows } from '../list_more.js';
+import { ROLE_LINES } from '../components/cand_filters.js';
 
 const CHART_SIZE = 50;
 const POOL = 300; // 도시 차트는 전체 상위 300 안에서 고른다
@@ -33,12 +34,16 @@ const DEFINITIONS = {
 };
 const TAB_LABELS = { all: '전체', genre: '장르별', city: '도시별', rising: '떠오르는', debut: '갓 데뷔' };
 
-/** 차트 탭 줄 + 정의 상자 (갓 데뷔 화면도 같이 씀) */
+/** 차트 탭 줄 + 정의 상자 (갓 데뷔 화면도 같이 씀) · 역할 문장과 '발굴에서 바꿔 보기'는 머리에 (docs/ux_simplify_2026-11-28.md ④) */
 export function renderChartTabsHtml(kind, param = '') {
   const href = k => (k === 'all' ? '#/charts' : `#/charts/${k}`);
   return `
     <div class="chart-head">
-      <h1 class="discover-title">차트</h1>
+      <div class="chart-head-top">
+        <h1 class="discover-title">차트</h1>
+        <a class="btn btn-sm chart-to-discover" href="${discoverHref(kind, param)}" title="차트는 정의가 고정돼 필터를 바꿀 수 없어요 — 발굴에서 같은 조건으로 열고 조건을 더 걸어 보세요">이 조건을 발굴에서 바꿔 보기 →</a>
+      </div>
+      <p class="small muted chart-role">${escapeHtml(ROLE_LINES.charts)} · 내 조건으로 거르기는 <a href="#/discover">발굴</a></p>
       <nav class="chart-tabs" aria-label="차트 종류">
         ${Object.keys(TAB_LABELS).map(k => `<a class="chart-tab${k === kind ? ' is-active' : ''}" href="${href(k)}"${k === kind ? ' aria-current="page"' : ''}>${TAB_LABELS[k]}${k === kind && param ? ` · ${escapeHtml(param)}` : ''}</a>`).join('')}
       </nav>
@@ -82,9 +87,10 @@ function pickerHtml(kind, param, cities) {
 }
 
 function discoverHref(kind, param) {
-  if (kind === 'genre') return `#/discover?genre=${encodeURIComponent(param)}`;
-  if (kind === 'city') return `#/discover?hcity=${encodeURIComponent(param)}`;
+  if (kind === 'genre' && param) return `#/discover?genre=${encodeURIComponent(param)}`;
+  if (kind === 'city' && param) return `#/discover?hcity=${encodeURIComponent(param)}`;
   if (kind === 'rising') return '#/discover?preset=rising';
+  if (kind === 'debut') return '#/discover?rm=12';
   return '#/discover';
 }
 
@@ -145,7 +151,6 @@ export async function renderChartsView(root) {
     <div class="chart-toolbar">
       ${pickerHtml(kind, param, cities)}
       <span class="small muted">기준 ${escapeHtml(asOf)} · ▲▼ = 지난주(${escapeHtml(prevAsOf || '')}) 같은 정의 순위와 비교 · 상위 ${fmtInt(CHART_SIZE)}팀</span>
-      <a class="btn btn-sm" href="${discoverHref(kind, param)}">이 조건으로 발굴에서 열기 →</a>
     </div>
     <section class="block" style="padding:0;overflow:hidden;">
       ${top.length ? `
@@ -156,7 +161,7 @@ export async function renderChartsView(root) {
           </table>
         </div>` : `<div style="padding:16px;">${naCell(kind === 'city' && !appState.teamCitiesByTeam.size ? '팀별 활동 도시 자료(team_cities.csv)가 아직 없습니다' : '이 정의에 맞는 팀이 없습니다', { block: true })}</div>`}
     </section>
-    <p class="small muted place-evidence">근거: 점수 정의는 <a href="#/verify/backtest">검증 › 점수 신뢰도</a> · 차트는 정의가 고정돼 필터를 바꿀 수 없습니다 — 바꾸려면 '발굴에서 열기'</p>`;
+    <p class="small muted place-evidence">근거: 점수 정의는 <a href="#/verify/backtest">검증 › 점수 신뢰도</a> · 차트는 정의가 고정돼 필터를 바꿀 수 없습니다 — 바꾸려면 위 '발굴에서 바꿔 보기'</p>`;
 
   wireAvatarFallbacks(root);
   collapseRows(root.querySelector('.chart-table tbody'));   // 처음 20줄 + '더 보기' (docs/ux_simplify_2026-11-28.md ⑧)

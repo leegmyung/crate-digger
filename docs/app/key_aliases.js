@@ -5,6 +5,7 @@
  */
 import { COMPARE_STORAGE_KEY } from './compare_list.js';
 import { WATCH_KEY } from './state.js';
+import { MINE_KEY } from './mine_store.js';
 
 /**
  * @param {string|null} text 'old_key,new_key' CSV
@@ -92,8 +93,20 @@ function moveJson(storage, key, fn) {
   return true;
 }
 
+/** '내 목록' 한 칸(mine_store.js)의 관심 팀(teams)만 바꿈 */
+function moveMineTeams(storage, map) {
+  const raw = storage.getItem(MINE_KEY);
+  if (!raw) return false;
+  const before = JSON.parse(raw);
+  if (!before || typeof before !== 'object' || !Array.isArray(before.teams)) return false;
+  const teams = remapWatchItems(before.teams.filter(i => i && typeof i.team_key === 'string'), map);
+  if (JSON.stringify(teams) === JSON.stringify(before.teams)) return false;
+  storage.setItem(MINE_KEY, JSON.stringify({ ...before, teams }));
+  return true;
+}
+
 /**
- * 저장된 관심 팀·비교 담기를 새 키로 옮긴다. 저장소가 막혀 있으면 아무것도 안 함.
+ * 저장된 관심 팀(옛 칸 + '내 목록' 한 칸)·비교 담기를 새 키로 옮긴다. 저장소가 막혀 있으면 아무것도 안 함.
  * @param {Map<string,string>} map
  * @param {{getItem:Function,setItem:Function}} [storage]
  * @returns {{watch:number, compare:number}} 옮긴 저장값 수(0·1)
@@ -102,7 +115,9 @@ export function applyKeyAliases(map, storage = globalThis.localStorage) {
   const res = { watch: 0, compare: 0 };
   if (!map?.size || !storage) return res;
   try {
-    res.watch = moveJson(storage, WATCH_KEY, list => remapWatchItems(list.filter(i => i && typeof i.team_key === 'string'), map)) ? 1 : 0;
+    const movedLegacy = moveJson(storage, WATCH_KEY, list => remapWatchItems(list.filter(i => i && typeof i.team_key === 'string'), map));
+    const movedMine = moveMineTeams(storage, map);
+    res.watch = movedLegacy || movedMine ? 1 : 0;
     res.compare = moveJson(storage, COMPARE_STORAGE_KEY, list => remapKeyList(list.filter(k => typeof k === 'string'), map)) ? 1 : 0;
   } catch (_) {
     return { watch: 0, compare: 0 };

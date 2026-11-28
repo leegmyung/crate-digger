@@ -1,4 +1,5 @@
 import { compareHash, compareKeysFromQuery } from './compare_list.js';
+import { readMineSection, writeMineSection } from './mine_store.js';
 export const ALL_BRANCHES = ['공연', '선정·지원', '발매', '큐레이션'];
 export const PRESET_CUTOFFS = ['2022-01-01', '2023-01-01', '2024-01-01', '2024-07-01', '2025-01-01', '2025-07-01'];
 export const PRESET_KS = [10, 20, 30, 50, 100, 200];
@@ -40,6 +41,9 @@ export const LEGACY_ROUTES = {
   signals: 'verify/signals',
   evidence: 'verify/evidence',
   scorecard: 'verify/scorecard',
+  // 순위표는 차트에만 (docs/ux_simplify_2026-11-28.md ④) — 발굴은 조건으로 찾기
+  debut: 'charts/debut',
+  rising: 'charts/rising',
 };
 
 export const VERIFY_TABS = ['backtest', 'scorecard', 'grades', 'signals', 'evidence'];
@@ -368,6 +372,9 @@ export function legacyToNew(pathPart, queryPart) {
     next = LEGACY_ROUTES[head];
   } else if (head === 'candidates') {
     next = (segs[1] === 'debut' || p.get('ctab') === 'debut') ? 'charts/debut' : 'discover';
+    p.delete('ctab');
+  } else if (head === 'discover' && (segs[1] === 'debut' || segs[1] === 'rising' || p.get('ctab') === 'debut')) {
+    next = segs[1] === 'rising' ? 'charts/rising' : 'charts/debut';   // 발굴 안의 순위 화면 → 차트
     p.delete('ctab');
   } else if (head === 'venues' && (p.has('vmode') || p.get('tab') === 'city' || p.get('tab') === 'festival' || segs[1] === 'city' || segs[1] === 'festival')) {
     const tabParam = p.get('tab') === 'city' || p.get('tab') === 'festival' ? p.get('tab') : '';
@@ -803,23 +810,15 @@ function normalizeWatchItem(item) {
 }
 
 export function getWatchlist() {
-  try {
-    const raw = window.localStorage.getItem(WATCH_KEY);
-    if (!raw) return memWatchlist.map(normalizeWatchItem);
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) {
-      memWatchlist = parsed.filter(item => item && typeof item.team_key === 'string').map(normalizeWatchItem);
-      return [...memWatchlist];
-    }
-  } catch (_) {}
-  return memWatchlist.map(normalizeWatchItem);
+  // '내 목록' 한 칸(mine_store.js) — 옛 키(WATCH_KEY)는 처음 읽을 때 옮겨짐
+  const list = readMineSection('teams');
+  memWatchlist = list.filter(item => item && typeof item.team_key === 'string').map(normalizeWatchItem);
+  return [...memWatchlist];
 }
 
 function saveWatchlist(list) {
   memWatchlist = list.map(normalizeWatchItem);
-  try {
-    window.localStorage.setItem(WATCH_KEY, JSON.stringify(memWatchlist));
-  } catch (_) {}
+  writeMineSection('teams', memWatchlist);
   window.dispatchEvent(new CustomEvent('app:watchlist'));
 }
 

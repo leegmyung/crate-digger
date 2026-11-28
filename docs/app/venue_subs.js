@@ -1,35 +1,18 @@
 /**
- * 5-5 공연장 구독 — 브라우저 저장(localStorage). 막혀 있으면 이 탭 안에서만 기억한다.
+ * 5-5 공연장 구독 — '내 목록' 한 칸(mine_store.js)에 저장. 막혀 있으면 이 탭 안에서만 기억한다.
  * 구독한 공연장의 소식(여기 처음 선 신인·큰 공연장 첫 무대·새 공연)은 alerts.json 근거의 공연장 이름으로 고른다.
  */
-const KEY = 'cd_venue_subs_v1';
+import { readMineSection, writeMineSection } from './mine_store.js';
+
 const MAX_SUBS = 30;
-let memory = [];
-let writeBlocked = false;
+// 저장은 '내 목록' 한 칸(mine_store.js 의 venues) — 옛 키 cd_venue_subs_v1 은 처음 읽을 때 옮겨짐
 
 export function listVenueSubs() {
-  if (writeBlocked) return [...memory];
-  try {
-    const raw = window.localStorage.getItem(KEY);
-    if (raw) {
-      const arr = JSON.parse(raw);
-      if (Array.isArray(arr)) memory = arr.filter(v => typeof v === 'string' && v.trim()).slice(0, MAX_SUBS);
-    }
-  } catch (_) {
-    // 막혔거나 깨짐 → 메모리 값
-  }
-  return [...memory];
+  return readMineSection('venues').filter(v => typeof v === 'string' && v.trim()).slice(0, MAX_SUBS);
 }
 
 function persist(list) {
-  memory = list.slice(0, MAX_SUBS);
-  try {
-    window.localStorage.setItem(KEY, JSON.stringify(memory));
-    return true;
-  } catch (_) {
-    writeBlocked = true;
-    return false;
-  }
+  return writeMineSection('venues', list.slice(0, MAX_SUBS));
 }
 
 export function isVenueSubscribed(venue) {

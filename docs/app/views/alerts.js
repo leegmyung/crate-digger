@@ -380,7 +380,7 @@ export async function renderAlertsView(root) {
         `
         : renderEmptyState({
             title: '저장한 필터 알림이 없습니다',
-            message: '발굴 화면에서 조건을 고르고 "+ 이 필터 저장"을 누르면 매주 새로 맞는 팀을 알려 줍니다.',
+            message: '발굴 화면에서 조건을 고르고 "☆ 이 조건 담기"를 누르면 매주 새로 맞는 팀을 알려 줍니다.',
             showReset: false,
             actionLabel: '발굴에서 필터 저장',
             actionHref: '#/discover',

@@ -19,9 +19,10 @@ import {
 } from '../ui.js';
 import { compareToggleHtml } from '../components/compare_tray.js';
 import {
-  formatRankDeltaHtml, matchesReleaseMonths, RELEASE_MONTH_OPTIONS,
-  renderCandPanelHtml, renderCandResultsBarHtml,
+  activePresetOf, formatRankDeltaHtml, matchesReleaseMonths, presetChartNoteHtml, RELEASE_MONTH_OPTIONS, ROLE_LINES,
+  renderCandPanelHtml, renderCandResultsBarHtml, renderPresetRowHtml,
 } from '../components/cand_filters.js';
+import { applySavedFilter, listSavedFilters } from '../saved_filters.js';
 import { loadVenueLadder } from '../db_venue.js';
 import { renderChartTabsHtml } from './charts.js';
 import { attachTeamPeek, peekKeyFromHash } from '../components/team_peek.js';
@@ -32,6 +33,10 @@ import { wireSavedRow } from './cand_saved.js';
 const DEBUT_MIN_SAMPLE = 5;
 const HEAT_MIN_ROWS = 25; // 색 지도는 촘촘해서 한 화면 25줄부터
 let candDocListeners = null; // 후보 필터 묶음 메뉴의 문서 단위 듣기(다시 그릴 때 끊음)
+// 쉬운 화면 ③: 필터 패널은 기본 접힘('+ 필터 추가'로 엶) · 채움 숫자(51/100팀)·장르 순위 칸은 '고급 보기'에서만.
+// 조건을 바꾸면 화면을 다시 그리므로 이 탭이 열려 있는 동안 상태를 기억한다.
+let discoverPanelOpen = false;
+let discoverAdvanced = false;
 const DEBUT_DOC_URL = 'https://github.com/leegmyung/crate-digger/blob/main/docs/debut_cohort.md';
 const VALID_SORT_COLS = new Set(['score', 'display_name', 'next_gig_sort', 'momentum_pct', 'genre_rank']);
 const VALID_DEBUT_SORT_COLS = new Set(['score', 'first_release', 'display_name', 'mentions']);
@@ -851,19 +856,16 @@ export async function renderCandidatesView(root) {
   let expandedTeamKey = null;
   let lastCandCsvSpec = null;
   let popoverOpen = false;
-  let mobileFilterOpen = false;
   let density = getTableDensity();
   let heatSort = { col: 'rank', dir: 'asc' };
   let peerData = null; // 색 지도용 이웃 비교 (처음 색 지도로 바꿀 때 한 번 불러옴)
   let peerLoading = false;
 
   const topName = defaultRows[0] ? `${defaultRows[0].display_name} (${fmtNum(defaultRows[0].score, 2)}점)` : '없음';
-  const bannerHtml = renderActionBanner({
-    title: '요약',
-    lead: defaultRows.length
-      ? `신인 후보 상위 <strong>${fmtInt(defaultRows.length)}팀</strong> 중 1위는 <strong>${escapeHtml(topName)}</strong>이며, 예정 공연이 잡힌 팀은 <strong>${fmtInt(upcomingCount)}팀</strong>입니다.`
-      : '현재 조건에 맞는 신인 후보가 없습니다.',
-  });
+  // 예전 '요약' 상자 → 머리 아래 한 줄 (세로 공간을 표에 양보)
+  const summaryLineHtml = defaultRows.length
+    ? `후보 상위 <strong>${fmtInt(defaultRows.length)}팀</strong> · 1위 <strong>${escapeHtml(topName)}</strong> · 예정 공연 잡힌 팀 <strong>${fmtInt(upcomingCount)}팀</strong>`
+    : '현재 조건에 맞는 신인 후보가 없습니다.';
 
   const deltaRefLabel = rankChangeData?.monthDate
     ? `지난달(${rankChangeData.monthDate})`
@@ -872,36 +874,43 @@ export async function renderCandidatesView(root) {
   root.innerHTML = `
     <div class="discover-head">
       <h1 class="discover-title">발굴</h1>
-      <p class="small muted">왼쪽 조건으로 내 기준의 신인 후보를 찾습니다 · 정해진 순위표는 <a href="#/charts">차트</a> · 점수가 얼마나 맞았는지는 <a href="#/verify/backtest">검증</a></p>
+      <p class="small muted disc-role">${escapeHtml(ROLE_LINES.discover)} · 정해진 순위표는 <a href="#/charts">차트</a> · 점수가 얼마나 맞았는지는 <a href="#/verify/backtest">검증</a></p>
+      <p class="small disc-summary">${summaryLineHtml}</p>
     </div>
-    ${bannerHtml}
-    <div class="discover-layout" id="candFilterBarHost">
-    <aside class="discover-panel" id="candPanel" aria-label="발굴 필터">
+    <div id="candPresetHost"></div>
+    <div id="candPresetNote"></div>
+    <div class="discover-layout${discoverPanelOpen ? '' : ' is-panel-closed'}" id="candFilterBarHost">
+    <aside class="discover-panel${discoverPanelOpen ? ' is-open' : ''}" id="candPanel" aria-label="발굴 필터"${discoverPanelOpen ? '' : ' hidden'}>
       <div class="dp-head"><strong>필터</strong><button type="button" class="btn btn-sm dp-close" id="candPanelClose" aria-label="필터 닫기">닫기</button></div>
-      <div id="candSavedHost"></div>
       <div id="candPanelHost"></div>
     </aside>
     <div class="discover-results">
-    <div id="candResultsBar"></div>
+    <div class="disc-toolrow"><div id="candResultsBar"></div><div id="candSavedHost" class="disc-save-host"></div></div>
 
     <div class="block" style="padding:0;overflow:hidden;">
       <div class="table-bar">
         <div class="table-bar-left">
           <strong id="candTableBarTitle">신인 후보 목록</strong>
           <span class="small muted" id="candCountText"></span>
-          <span class="table-kb-hint">↑↓ 이동 · Enter 미리보기 · → 표 안 펼치기</span>
+          ${infoTip('단축키', { what: '↑↓ 줄 이동 · Enter 오른쪽 빠른 보기 · → 표 안에서 펼치기 · ← 접기' }, { compact: true })}
         </div>
         <div class="table-bar-right">
-          <div class="density-switch" role="group" aria-label="표 밀도">
-            <button type="button" class="density-btn${density === 'compact' ? ' is-active' : ''}" data-density="compact" aria-pressed="${density === 'compact' ? 'true' : 'false'}">촘촘</button>
-            <button type="button" class="density-btn${density === 'comfortable' ? ' is-active' : ''}" data-density="comfortable" aria-pressed="${density === 'comfortable' ? 'true' : 'false'}">편하게</button>
-          </div>
-          ${renderTableCsvBtn('btnCandCsv', 'CSV 내려받기')}
+          <details class="ux-more disc-view-more">
+            <summary class="btn btn-sm" aria-label="보기 설정 — 고급 보기·표 밀도·CSV">보기 설정 ▾</summary>
+            <div class="ux-more-menu">
+              <label class="cf-crit-check"><input type="checkbox" id="candAdvancedChk"${discoverAdvanced ? ' checked' : ''}><span>고급 보기 (장르 순위 칸·칸마다 채움 숫자)</span></label>
+              <div class="density-switch" role="group" aria-label="표 밀도">
+                <button type="button" class="density-btn${density === 'compact' ? ' is-active' : ''}" data-density="compact" aria-pressed="${density === 'compact' ? 'true' : 'false'}">촘촘</button>
+                <button type="button" class="density-btn${density === 'comfortable' ? ' is-active' : ''}" data-density="comfortable" aria-pressed="${density === 'comfortable' ? 'true' : 'false'}">편하게</button>
+              </div>
+              ${renderTableCsvBtn('btnCandCsv', 'CSV 내려받기')}
+            </div>
+          </details>
         </div>
       </div>
       <div id="candHeatHost" class="heat-host" hidden></div>
       <div class="table-wrap table-sticky" id="candTableWrap">
-        <table class="data-table cand-table is-density-${density}" id="candTable">
+        <table class="data-table cand-table is-density-${density}${discoverAdvanced ? ' is-advanced' : ''}" id="candTable">
           <thead>
             <tr>
               <th class="num cand-rank-th">#${infoTip(`순위 변동 (${deltaRefLabel})`, INFO_TIPS.rank_change, { compact: true })}<span class="th-coverage" data-cov="rank"></span></th>
@@ -912,7 +921,7 @@ export async function renderCandidatesView(root) {
               <th class="num nowrap sortable cand-activity-col" data-sort="momentum_pct">최근 활동${infoTip('최근 활동', INFO_TIPS.recent_activity, { compact: true })}<span class="th-coverage" data-cov="activity"></span></th>
               <th class="num sortable cand-score-col" data-sort="score">점수${infoTip('종합 점수', INFO_TIPS.score, { compact: true })}<span class="th-coverage" data-cov="score"></span></th>
               <th class="nowrap cand-listen-col">듣기<span class="th-coverage" data-cov="listen"></span></th>
-              <th class="nowrap cand-watch-col">관심<span class="th-coverage" data-cov="watch"></span></th>
+              <th class="nowrap cand-watch-col">담기<span class="th-coverage" data-cov="watch"></span></th>
             </tr>
           </thead>
           <tbody id="candTbody"></tbody>
@@ -1297,6 +1306,18 @@ export async function renderCandidatesView(root) {
 
   const host = root.querySelector('#candFilterBarHost');
 
+  // 프리셋 줄(자주 쓰는 조건 5개 + 내가 담은 조건) · 차트와 겹치는 프리셋 안내 (docs/ux_simplify_2026-11-28.md ③④)
+  function paintPresetRow() {
+    const presetHost = root.querySelector('#candPresetHost');
+    if (presetHost) {
+      presetHost.innerHTML = renderPresetRowHtml({
+        appState, counts: filterCounts, saved: listSavedFilters(), currentHash: window.location.hash,
+      });
+    }
+    const noteHost = root.querySelector('#candPresetNote');
+    if (noteHost) noteHost.innerHTML = presetChartNoteHtml(activePresetOf(appState));
+  }
+
   function renderFilterBar({ focusId = '', caret = null } = {}) {
     if (!host) return;
     const panelHost = host.querySelector('#candPanelHost');
@@ -1309,8 +1330,14 @@ export async function renderCandidatesView(root) {
         if (closed.includes(sm.textContent.trim())) sm.parentElement.removeAttribute('open');
       });
     }
-    if (barHost) barHost.innerHTML = renderCandResultsBarHtml({ appState });
-    host.querySelector('#candPanel')?.classList.toggle('is-open', mobileFilterOpen);
+    if (barHost) barHost.innerHTML = renderCandResultsBarHtml({ appState, panelOpen: discoverPanelOpen });
+    const panel = host.querySelector('#candPanel');
+    if (panel) {
+      panel.classList.toggle('is-open', discoverPanelOpen);
+      panel.hidden = !discoverPanelOpen;
+    }
+    host.classList.toggle('is-panel-closed', !discoverPanelOpen);
+    paintPresetRow();
     if (focusId) {
       const el = host.querySelector(`#${focusId}`);
       if (el) {
@@ -1342,7 +1369,7 @@ export async function renderCandidatesView(root) {
 
   function applyPreset(id) {
     const wasRising = appState.candPreset === 'rising';
-    const isActive = host?.querySelector(`[data-cand-preset="${id}"]`)?.classList.contains('is-active');
+    const isActive = activePresetOf(appState) === id;
     appState.candReleaseMonths = 0;
     appState.candStage = '';
     appState.candRegion = '';
@@ -1426,8 +1453,10 @@ export async function renderCandidatesView(root) {
       return refreshLocal();
     }
     if (t.id === 'candPanelClose') {
-      mobileFilterOpen = false;
-      return renderFilterBar();
+      discoverPanelOpen = false;
+      renderFilterBar();
+      host.querySelector('#candMobileFilterToggle')?.focus();
+      return undefined;
     }
     if (d.setRegion !== undefined) {
       appState.candRegion = d.setRegion || '';
@@ -1451,8 +1480,8 @@ export async function renderCandidatesView(root) {
       return renderFilterBar();
     }
     if (t.id === 'candMobileFilterToggle') {
-      mobileFilterOpen = !mobileFilterOpen;
-      return renderFilterBar();
+      discoverPanelOpen = !discoverPanelOpen;
+      return renderFilterBar({ focusId: 'candMobileFilterToggle' });
     }
     return undefined;
   });
@@ -1533,7 +1562,24 @@ export async function renderCandidatesView(root) {
   });
 
   renderFilterBar();
-  wireSavedRow(root.querySelector('#candSavedHost'));
+  wireSavedRow(root.querySelector('#candSavedHost'), { onChange: paintPresetRow });
+  root.querySelector('#candPresetHost')?.addEventListener('click', (e) => {
+    if (e.target.closest('.cd-infotip')) return;
+    const b = e.target.closest('button');
+    if (!b) return;
+    if (b.dataset.candPreset) {
+      applyPreset(b.dataset.candPreset);
+      return;
+    }
+    if (b.dataset.savedApply) {
+      const it = listSavedFilters().find(x => x.id === b.dataset.savedApply);
+      if (it) applySavedFilter(it);
+    }
+  });
+  root.querySelector('#candAdvancedChk')?.addEventListener('change', (e) => {
+    discoverAdvanced = e.target.checked;
+    root.querySelector('#candTable')?.classList.toggle('is-advanced', discoverAdvanced);
+  });
 
   const heatHostEl = root.querySelector('#candHeatHost');
   const onHeatActivate = (target) => {

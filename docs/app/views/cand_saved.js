@@ -1,5 +1,7 @@
 /**
- * 5-1 후보 목록 '저장한 필터' 줄 — 필터 줄 위. 문장 이름으로 저장·적용·이름 바꾸기·지우기.
+ * 5-1 발굴 '☆ 이 조건 담기' — 지금 조건을 문장 이름으로 내 목록에 담는다 (docs/ux_simplify_2026-11-28.md ⑦ '담기' 하나로).
+ * 담은 조건 적용은 프리셋 줄(cand_filters.js renderPresetRowHtml), 이름 바꾸기·지우기는 내 목록 › 저장한 필터(mine.js).
+ * (예전처럼 이 줄 안에서 이름 바꾸기·지우기도 그대로 동작 — renamingId 등)
  * 저장할 때 '알림 규칙 미리보기'(지금 맞는 팀 수 · 최근 4주 주마다 새로 걸린 팀 수 → 한 주 평균 알림 수)를
  * 브리핑 카드와 같은 규칙(db_saved.js)으로 보여 준다 — Chartmetric 알림 만들기의 '알림 예측'처럼.
  */
@@ -43,7 +45,7 @@ function newFormHtml() {
   return `
     <form class="saved-form saved-new-form" data-saved-new-form="1">
       <input class="input saved-input" name="name" value="${escapeHtml(currentName())}" maxlength="60" aria-label="저장할 필터 이름">
-      <button type="submit" class="btn btn-sm btn-primary">저장</button>
+      <button type="submit" class="btn btn-sm btn-primary">담기</button>
       <button type="button" class="btn btn-sm" data-saved-cancel="1">취소</button>
       <span class="saved-preview small muted" aria-live="polite">${escapeHtml(ui.preview || '이 규칙이면 알림이 얼마나 올지 계산 중…')}</span>
     </form>`;
@@ -53,13 +55,11 @@ export function renderSavedRowHtml() {
   const list = listSavedFilters();
   const currentHash = window.location.hash;
   const full = list.length >= SAVED_MAX;
+  const renaming = ui.renamingId ? list.filter(it => it.id === ui.renamingId) : [];
   return `
-    <section class="saved-row" aria-label="저장한 필터">
-      <span class="saved-lbl">저장한 필터</span>
-      <div class="saved-list">
-        ${list.length ? list.map(it => chipHtml(it, currentHash)).join('') : '<span class="small muted">아직 없음 — 지금 조건을 저장하면 홈에서 새로 맞는 팀을 알려 줍니다</span>'}
-      </div>
-      ${ui.saving ? newFormHtml() : `<button type="button" class="cf-add-btn" data-saved-new="1"${full ? ` disabled title="저장 필터는 ${SAVED_MAX}개까지입니다"` : ''}>+ 이 필터 저장</button>`}
+    <section class="saved-row is-compact" aria-label="지금 조건 담기">
+      ${renaming.length ? `<div class="saved-list">${renaming.map(it => chipHtml(it, currentHash)).join('')}</div>` : ''}
+      ${ui.saving ? newFormHtml() : `<button type="button" class="btn btn-sm" data-saved-new="1" title="지금 조건을 내 목록에 담기 — 새로 맞는 팀이 홈·알림에 모여요"${full ? ` disabled title="담은 조건은 ${SAVED_MAX}개까지입니다"` : ''}>☆ 이 조건 담기</button>`}
       ${ui.notice ? `<p class="saved-notice small muted" role="status">${escapeHtml(ui.notice)}</p>` : ''}
     </section>`;
 }
@@ -79,7 +79,7 @@ async function loadPreview(host) {
 }
 
 /** @param {HTMLElement} host '#candSavedHost' */
-export function wireSavedRow(host) {
+export function wireSavedRow(host, { onChange = () => {} } = {}) {
   if (!host) return;
   const repaint = (focusSel = '') => {
     host.innerHTML = renderSavedRowHtml();
@@ -110,6 +110,7 @@ export function wireSavedRow(host) {
       const ok = removeSavedFilter(d.savedRemove);
       ui.notice = `'${it?.name || ''}' 필터를 지웠습니다${ok ? '' : ' (브라우저 저장이 막혀 이 탭에서만 반영)'}`;
       repaint();
+      onChange();
       return;
     }
     if (d.savedCancel) {
@@ -124,8 +125,8 @@ export function wireSavedRow(host) {
     if (form.dataset.savedNewForm) {
       const res = addSavedFilter({ name, hash: buildHashUrl('candidates', ''), spec: specFromState(appState) });
       ui.notice = !res.ok ? res.reason
-        : (res.persisted ? `'${res.item.name}' 저장 — 홈에서 새로 맞는 팀을 보여 줍니다`
-          : `'${res.item.name}' 저장 — 브라우저 저장이 막혀 이 탭을 닫으면 사라집니다`);
+        : (res.persisted ? `'${res.item.name}' 내 목록에 담았어요 — 새로 맞는 팀이 홈·알림에 모여요`
+          : `'${res.item.name}' 담음 — 브라우저 저장이 막혀 이 탭을 닫으면 사라집니다`);
       ui.saving = false;
     } else if (form.dataset.savedRenameForm) {
       const ok = renameSavedFilter(form.dataset.savedRenameForm, name);
@@ -133,6 +134,7 @@ export function wireSavedRow(host) {
       ui.renamingId = '';
     }
     repaint();
+    onChange();
   });
   repaint();
 }

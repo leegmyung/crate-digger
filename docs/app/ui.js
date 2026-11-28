@@ -438,14 +438,18 @@ export function spotifyButtonHtml(teamKey, small = false, opts = {}) {
 /** 옛 이름 유지: 재생 버튼은 문서 전체에서 한 번에 받으므로(mini_player.js) 화면마다 연결할 것이 없다. */
 export function wireSpotifyButtons() {}
 
+/** '담기' 하나로 (docs/ux_simplify_2026-11-28.md ⑦) — 팀·공연장·발굴 조건 모두 같은 이름. 담은 것은 내 목록에 모인다. */
+export const WATCH_LABELS = Object.freeze({ off: '담기', on: '담음', tip: '내 목록에 담기 — 새 소식이 홈·알림에 모여요' });
+
 export function watchButtonHtml(teamKey, displayName, small = true, reveal = false) {
   const on = isWatched(teamKey);
   const cls = `btn ${small ? 'btn-sm' : ''} ${on ? 'btn-active' : ''} ${reveal ? 'watch-reveal' : ''}`.trim();
-  const label = on ? '관심 중' : '관심 추가';
+  const label = on ? WATCH_LABELS.on : WATCH_LABELS.off;
+  const attrs = `data-watch-key="${escapeHtml(teamKey)}" data-watch-name="${escapeHtml(displayName)}" aria-pressed="${on}" title="${escapeHtml(WATCH_LABELS.tip)}"`;
   if (reveal) {
-    return `<button type="button" class="${cls}" data-watch-key="${escapeHtml(teamKey)}" data-watch-name="${escapeHtml(displayName)}" aria-label="${escapeHtml(displayName)} ${label}"><span class="watch-lbl-full">${label}</span><span class="watch-lbl-short" aria-hidden="true">${on ? '★' : '☆'}</span></button>`;
+    return `<button type="button" class="${cls}" ${attrs} aria-label="${escapeHtml(displayName)} ${label}"><span class="watch-lbl-full">${label}</span><span class="watch-lbl-short" aria-hidden="true">${on ? '★' : '☆'}</span></button>`;
   }
-  return `<button type="button" class="${cls}" data-watch-key="${escapeHtml(teamKey)}" data-watch-name="${escapeHtml(displayName)}">${on ? '★ 관심 중' : '☆ 관심 추가'}</button>`;
+  return `<button type="button" class="${cls}" ${attrs}>${on ? '★' : '☆'} ${label}</button>`;
 }
 
 export function buildWeeklySummaryText({

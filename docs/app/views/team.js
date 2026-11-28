@@ -18,7 +18,7 @@ import {
   routeBackLabel, STAGE_META,
 } from '../ui.js';
 import { mountTeamGraphBlock } from './graph.js';
-import { compareButtonHtml, renderKeyStatsHtml, renderTeamFactsHtml, teamWhyHtml } from './team_head.js';
+import { compareButtonHtml, renderKeyStatsHtml, renderTeamFactsHtml, teamHeadActionsHtml, teamWhyHtml } from './team_head.js';
 import { compareToggleHtml } from '../components/compare_tray.js';
 import { timelineAnomaly } from '../insight_text.js';
 import { renderSimilarHtml } from './team_similar.js';
@@ -42,14 +42,15 @@ import {
  * - 유튜브: 공식 채널이 있으면 채널로, 없으면 아래 '영상' 블록으로 이동
  */
 function renderListenButtons(teamKey, displayName, linksMap, hasVideos) {
-  const parts = [spotifyButtonHtml(teamKey, false, { teamName: displayName })];
+  return { listen: spotifyButtonHtml(teamKey, false, { teamName: displayName }) || '', video: videoLinkHtml(linksMap, hasVideos) };
+}
+
+function videoLinkHtml(linksMap, hasVideos) {
   const yt = linksMap && linksMap.get('youtube');
   if (yt && yt.startsWith('https://www.youtube.com/')) {
-    parts.push(`<a class="btn" href="${escapeHtml(yt)}" target="_blank" rel="noopener noreferrer">유튜브 채널</a>`);
-  } else if (hasVideos) {
-    parts.push('<a class="btn" href="#teamVideosBlock" data-scroll-videos>무대 영상</a>');
+    return `<a class="btn" href="${escapeHtml(yt)}" target="_blank" rel="noopener noreferrer">유튜브 채널 ↗</a>`;
   }
-  return parts.filter(Boolean).join('');
+  return hasVideos ? '<a class="btn" href="#teamVideosBlock" data-scroll-videos>무대 영상</a>' : '';
 }
 
 function resolveSignalName(s) {
@@ -675,6 +676,7 @@ export async function renderTeamView(root, teamKey) {
   const activeTab = activeTeamTab();
   const tabsHtml = renderTeamTabsHtml(teamKey, activeTab, { videos: videos.length || 0 });
 
+  const headBtns = renderListenButtons(teamKey, displayName, links, videos.length > 0);   // 머리 단추: 듣기·담기 + ⋯ 더보기 (ux ②)
   // 정보 구조 v2: 고정 머리 + 탭 7개 (개요·점수·사건·공연·관계·영상·선례) — docs/app_structure_v2.md 2-3
   root.innerHTML = `
     <div class="team-back-bar">
@@ -702,11 +704,15 @@ export async function renderTeamView(root, teamKey) {
         </div>
       </div>
       <div class="action-banner-btns">
-        ${renderListenButtons(teamKey, displayName, links, videos.length > 0)}
-        ${watchButtonHtml(teamKey, displayName, false)}
-        ${compareToggleHtml(teamKey, displayName)}
-        ${compareButtonHtml(genre)}
-        <button type="button" class="btn" id="btnTeamPrint" title="팀 머리·핵심 숫자·발굴 단계·최근 사건 5개·공연 5개를 한 장으로 인쇄 (인쇄 창에서 'PDF로 저장' 가능)">한 장 요약 인쇄</button>
+        ${teamHeadActionsHtml({
+          primary: [headBtns.listen, watchButtonHtml(teamKey, displayName, false)],
+          more: [
+            headBtns.video,
+            compareToggleHtml(teamKey, displayName),
+            compareButtonHtml(genre),
+            '<button type="button" class="btn" id="btnTeamPrint" title="팀 머리·핵심 숫자·발굴 단계·최근 사건 5개·공연 5개를 한 장으로 인쇄 (인쇄 창에서 \'PDF로 저장\' 가능)">한 장 요약 인쇄</button>',
+          ],
+        })}
       </div>
     </div>
     ${renderKeyStatsHtml({ scored, rc: rcRow, videos, links, displayName })}

@@ -85,7 +85,7 @@ test('알림 규칙 미리보기: 표 한도(limit)에 닿으면 "n팀 이상"',
 test('공연장 구독 미리보기: 종류별 건수(많은 순) → 한 줄, 없으면 조용하다고', () => {
   const labels = { new_gig: '새 공연', big_venue_first: '큰 공연장 첫 출연', blank_first_mention: '백지 신인 첫 언급' };
   assert.equal(venueSubForecastText({ new_gig: 5, big_venue_first: 1 }, labels),
-    '구독하면 이번 주 알림 기준 6건 (새 공연 5 · 큰 공연장 첫 출연 1)');
-  assert.equal(venueSubForecastText({}, labels), '이번 주 알림 중 이 공연장 관련은 없어요 — 구독해도 조용할 수 있어요');
-  assert.equal(venueSubForecastText({ odd_type: 2 }, labels), '구독하면 이번 주 알림 기준 2건 (odd_type 2)');
+    '담으면 이번 주 알림 기준 6건 (새 공연 5 · 큰 공연장 첫 출연 1)');
+  assert.equal(venueSubForecastText({}, labels), '이번 주 알림 중 이 공연장 관련은 없어요 — 담아도 조용할 수 있어요');
+  assert.equal(venueSubForecastText({ odd_type: 2 }, labels), '담으면 이번 주 알림 기준 2건 (odd_type 2)');
 });

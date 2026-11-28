@@ -1,13 +1,12 @@
 /**
- * 5-1 저장 필터 — 브라우저 저장(localStorage). 막혀 있으면(사생활 보호 창 등) 이 탭 안에서만 기억한다.
+ * 5-1 저장 필터 — '내 목록' 한 칸(mine_store.js)에 저장. 막혀 있으면(사생활 보호 창 등) 이 탭 안에서만 기억한다.
  * 한 항목: { id, name, hash, spec, created }  — hash 는 후보 목록 주소, spec 은 components/saved_match.js 규격.
  */
 import { appState, cloneDefaults, parseHash, resetViewFilters } from './state.js';
+import { readMineSection, writeMineSection } from './mine_store.js';
 
-const KEY = 'cd_saved_filters_v1';
 export const SAVED_MAX = 10;
-let memory = [];
-let writeBlocked = false; // 한 번이라도 쓰기가 막히면 이 탭에선 메모리 값을 믿는다(읽기만 되는 저장소 대비)
+// 저장은 '내 목록' 한 칸(mine_store.js 의 filters) — 옛 키 cd_saved_filters_v1 은 처음 읽을 때 옮겨짐
 
 function validItem(it) {
   return it && typeof it === 'object' && typeof it.id === 'string' && typeof it.name === 'string'
@@ -16,31 +15,12 @@ function validItem(it) {
 }
 
 export function listSavedFilters() {
-  if (writeBlocked) return [...memory];
-  try {
-    const raw = window.localStorage.getItem(KEY);
-    if (raw) {
-      const arr = JSON.parse(raw);
-      if (Array.isArray(arr)) {
-        memory = arr.filter(validItem).slice(0, SAVED_MAX);
-        return [...memory];
-      }
-    }
-  } catch (_) {
-    // 저장소가 막혔거나 깨짐 → 메모리 값 사용
-  }
-  return [...memory];
+  return readMineSection('filters').filter(validItem).slice(0, SAVED_MAX);
 }
 
+/** @returns {boolean} 브라우저에 저장됐으면 true (막혔으면 이 탭에서만 기억) */
 function persist(list) {
-  memory = list.slice(0, SAVED_MAX);
-  try {
-    window.localStorage.setItem(KEY, JSON.stringify(memory));
-    return true;
-  } catch (_) {
-    writeBlocked = true;
-    return false; // 화면은 그대로 동작(이 탭 안에서만 기억)
-  }
+  return writeMineSection('filters', list.slice(0, SAVED_MAX));
 }
 
 /** @returns {{ ok: boolean, persisted: boolean, item?: object, reason?: string }} */

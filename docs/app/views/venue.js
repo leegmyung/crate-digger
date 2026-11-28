@@ -8,7 +8,7 @@ import { buildVenueFlow } from '../components/venue_flow.js';
 import { mountVenueTables } from './venue_tables.js';
 import { entityCellHtml } from '../components/entity_cell.js';
 import { alertsForSubscribedVenues, isVenueSubscribed, toggleVenueSub } from '../venue_subs.js';
-import { venueSubForecastText } from '../insight_text.js';
+import { venueQuestions, venueSubForecastText } from '../insight_text.js';
 import { confidenceLabel, venueStatusBadge, venueTypeLabel } from '../components/venue_info.js';
 import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, gradeBadgeHtml,
@@ -370,7 +370,7 @@ export async function renderVenueView(root, venueName) {
   const subOn = isVenueSubscribed(cleanVenue);
   const actionsHtml = `
     <div class="venue-hero-actions">
-      <button type="button" class="btn btn-sm${subOn ? ' btn-active' : ''}" id="btnVenueSub" aria-pressed="${subOn}" title="여기 처음 선 신인·큰 공연장 첫 무대·새 공연을 내 목록과 홈에서 알려 줍니다">${subOn ? '★ 구독 중' : '☆ 이 공연장 구독'}</button>
+      <button type="button" class="btn btn-sm${subOn ? ' btn-active' : ''}" id="btnVenueSub" aria-pressed="${subOn}" title="내 목록에 담기 — 여기 처음 선 신인·큰 공연장 첫 무대·새 공연을 홈·알림에 모아 줍니다">${subOn ? '★ 담음' : '☆ 담기'}</button>
       <span class="small muted venue-sub-preview" id="venueSubPreview" aria-live="polite"></span>
       <a class="team-report-link" href="${escapeHtml(reportUrl)}" target="_blank" rel="noopener noreferrer" title="공개 저장소 이슈로 접수돼요 — 개인 연락처는 적지 마세요">정보가 틀려요 ↗</a>
     </div>`;
@@ -438,6 +438,17 @@ export async function renderVenueView(root, venueName) {
   if (profile?.first_night && profile?.last_night) metaParts.push(`공연 기록 ${profile.first_night} ~ ${profile.last_night}`);
   if (profile) metaParts.push(`누적 ${fmtInt(profile.nights || 0)}일`);
 
+  // ⑩ 질문형 요약 — 모든 공연장 같은 자리·같은 질문 (프로필이 없어도 자리 유지)
+  const questions = profile
+    ? venueQuestions(profile, { tierOf })
+    : [{ q: '신인을 일찍 세우는 곳인가?' }, { q: '여기서 공연한 신인이 어디까지 갔나?' }, { q: '지금 여기서 볼 만한 팀은?' }]
+      .map(x => ({ ...x, a: '공연장 프로필이 아직 없어 답할 수 없어요 — 출연 팀·공연 탭에서 기록을 볼 수 있어요' }));
+  const qaHtml = `
+    <div class="venue-qa" aria-label="이 공연장 요약 질문">
+      ${questions.map((x, i) => `<div class="venue-qa-item${i === 1 ? ' is-lead' : ''}"><p class="venue-qa-q">${i === 1 ? '💡 ' : ''}${escapeHtml(x.q)}</p><p class="venue-qa-a">${escapeHtml(x.a)}</p></div>`).join('')}
+    </div>`;
+  const metaSummary = [profile?.city, profile && Number(profile.capacity) > 0 ? `수용 약 ${fmtInt(profile.capacity)}명` : '', profile?.first_night ? `공연 기록 ${String(profile.first_night).slice(0, 4)}~` : ''].filter(Boolean).join(' · ');
+
   const headHtml = `
     <div class="venue-sticky">
       <div class="venue-sticky-row">
@@ -450,10 +461,7 @@ export async function renderVenueView(root, venueName) {
       ${tabsHtml}
     </div>
     <section class="venue-head">
-      ${metaParts.length ? `<p class="venue-hero-meta">${escapeHtml(metaParts.join(' · '))}</p>` : ''}
-      ${capacityLineHtml}
-      ${aliasLineHtml}
-      ${profile ? `<p class="venue-hero-geo">${geoLine}</p>` : ''}
+      ${qaHtml}
       ${profile ? `
         <div class="venue-kpi-strip">
           <div class="venue-kpi-card">
@@ -475,6 +483,14 @@ export async function renderVenueView(root, venueName) {
         </div>` : `
         <p class="venue-hero-meta">${showGroups.length ? `수집된 공연 날짜 ${fmtInt(showGroups.length)}일 · 마지막 기록 ${escapeHtml(showGroups[0].date)}` : '이 공연장의 공연 기록이 아직 없습니다.'}</p>`}
       ${actionsHtml}
+      ${profile ? `
+        <details class="venue-meta-fold">
+          <summary>기본 정보${metaSummary ? ` — ${escapeHtml(metaSummary)}` : ''}</summary>
+          ${metaParts.length ? `<p class="venue-hero-meta">${escapeHtml(metaParts.join(' · '))}</p>` : ''}
+          ${capacityLineHtml}
+          ${aliasLineHtml}
+          <p class="venue-hero-geo">${geoLine}</p>
+        </details>` : ''}
     </section>`;
 
   const prepNotice = profile ? '' : `
@@ -516,6 +532,7 @@ export async function renderVenueView(root, venueName) {
 
   const bodyByTab = {
     overview: profile ? `
+      ${upcomingHtml}
       <div class="venue-overview-grid">
         <section class="block venue-overview-card">${renderVenueMonthlyBarsHtml(profile.monthly, effectiveAsOf, notes.nights || '')}</section>
         <section class="block venue-overview-card">${renderFirstTimerCardHtml(profile, notes.first_timers_1y || '')}</section>
@@ -523,8 +540,7 @@ export async function renderVenueView(root, venueName) {
       <div class="venue-roster-grid">
         <section class="block" id="venueWinnersBlock"></section>
         <section class="block" id="venueCandidatesBlock">${renderTopCandidatesInner()}</section>
-      </div>
-      ${upcomingHtml}` : `${prepNotice}${upcomingHtml}`,
+      </div>` : `${prepNotice}${upcomingHtml}`,
     teams: '<section class="block" id="venueTeamsBlock"></section>',
     gigs: '<section class="block" id="venueRecentShowsBlock"></section>',
     flow: flowHtml,
@@ -581,8 +597,9 @@ export async function renderVenueView(root, venueName) {
     const res = toggleVenueSub(cleanVenue);
     btn.classList.toggle('btn-active', res.subscribed);
     btn.setAttribute('aria-pressed', String(res.subscribed));
-    btn.textContent = res.subscribed ? '★ 구독 중' : '☆ 이 공연장 구독';
-    if (!res.persisted) btn.title = '브라우저 저장이 막혀 이 탭을 닫으면 구독이 사라집니다';
+    btn.textContent = res.subscribed ? '★ 담음' : '☆ 담기';
+    if (!res.persisted) btn.title = '브라우저 저장이 막혀 이 탭을 닫으면 담은 공연장이 사라집니다';
+    if (res.subscribed) window.dispatchEvent(new CustomEvent('app:toast', { detail: '내 목록에 담았어요 · 이 공연장 새 소식이 홈·알림에 모여요' }));
   });
   wireAvatarFallbacks(root);
   wireSpotifyButtons(root, '#venueCandPlayerSlot');
