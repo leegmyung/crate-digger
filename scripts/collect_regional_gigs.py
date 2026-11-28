@@ -42,7 +42,7 @@ from csv_schema import TABLES
 ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"
 KST = timezone(timedelta(hours=9))
-USER_AGENT = "crate-digger/0.1 (+https://github.com/leegmyung/crate-digger)"
+USER_AGENT = "gigle-research/0.1 (+https://github.com/leegmyung/gigle-research)"
 COLUMNS = [f.name for f in TABLES["raw_kr_gig"]["fields"]]
 KEY = TABLES["raw_kr_gig"]["key"]
 SOURCE = "regional"          # csv_schema.GIG_SOURCES

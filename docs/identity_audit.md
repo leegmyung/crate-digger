@@ -79,7 +79,7 @@ _자동 생성: `.venv/bin/python scripts/identity_audit.py` (계산만 — 연�
 
 Viberate는 사용자 제보를 큐레이터가 승인/거절하고, Songstats는 '숫자가 틀렸다' 양식(프로필·플랫폼 주소·지표·기대값)을 둡니다. 우리 앱은 서버 없는 정적 페이지라 **GitHub 이슈**가 가장 단순합니다.
 
-- **어디에**: 팀 상세 머리(단계 배지 옆)에 작은 링크 '정보가 틀려요'. 누르면 `https://github.com/leegmyung/crate-digger/issues/new?template=identity.yml&title=[신원] 팀이름&labels=identity` 처럼 팀 이름·대표 키·화면 주소를 미리 채운 새 이슈 화면이 열린다.
+- **어디에**: 팀 상세 머리(단계 배지 옆)에 작은 링크 '정보가 틀려요'. 누르면 `https://github.com/leegmyung/gigle-research/issues/new?template=identity.yml&title=[신원] 팀이름&labels=identity` 처럼 팀 이름·대표 키·화면 주소를 미리 채운 새 이슈 화면이 열린다.
 - **양식 칸** (`.github/ISSUE_TEMPLATE/identity.yml`, 이슈 양식): 종류(다른 팀이 섞임 / 같은 팀이 갈라짐 / 번호가 틀림 / 인스타 계정이 틀림 / 팀이 아님), 대표 키(자동), 근거 링크(멜론·스포티파이·인스타 공개 주소), 설명. **개인 연락처·이메일을 적지 말라**는 안내를 맨 위에.
 - **처리**: 코디네이터가 근거를 확인해 `config/artist_aliases.json`(aliases·distinct·platform_ids·non_artist_handles)에 이유·근거·확인 날짜와 함께 적고 이슈를 닫는다 → 다음 날 연결표·점수에 반영. 거절은 이유를 이슈에 남긴다(Viberate의 '거절 사유 안내').
 - **주의**: 공개 저장소라 이슈도 공개된다. GitHub 계정이 있어야 신고할 수 있다(장벽이자 스팸 방지). 신고 수가 적어도 '고칠 길이 있다'는 신뢰를 준다.

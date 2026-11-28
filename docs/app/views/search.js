@@ -10,7 +10,7 @@ import {
 
 const PAGE_LIMIT = 20;          // 종류마다 처음 보여 줄 개수 (더 보기로 전부)
 const ALL_LIMIT = 500;
-const REPORT_URL = 'https://github.com/leegmyung/crate-digger/issues/new?template=identity.yml';
+const REPORT_URL = 'https://github.com/leegmyung/gigle-research/issues/new?template=identity.yml';
 const DEBOUNCE_MS = 200;
 
 function teamRow({ t, rank, st, lastSeen }) {

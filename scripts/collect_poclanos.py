@@ -25,7 +25,7 @@ from normalize import artist_key, title_key
 
 ROOT = Path(__file__).resolve().parent.parent
 API = "https://poclanos.com/wp-json/wp/v2/download"
-USER_AGENT = "crate-digger/0.1 (+https://github.com/leegmyung/crate-digger)"
+USER_AGENT = "gigle-research/0.1 (+https://github.com/leegmyung/gigle-research)"
 KST = timezone(timedelta(hours=9))
 PER_PAGE = 100
 MAX_PAGES = 10

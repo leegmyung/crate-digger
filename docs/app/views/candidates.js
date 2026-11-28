@@ -37,7 +37,7 @@ let candDocListeners = null; // 후보 필터 묶음 메뉴의 문서 단위 듣
 // 조건을 바꾸면 화면을 다시 그리므로 이 탭이 열려 있는 동안 상태를 기억한다.
 let discoverPanelOpen = false;
 let discoverAdvanced = false;
-const DEBUT_DOC_URL = 'https://github.com/leegmyung/crate-digger/blob/main/docs/debut_cohort.md';
+const DEBUT_DOC_URL = 'https://github.com/leegmyung/gigle-research/blob/main/docs/debut_cohort.md';
 const VALID_SORT_COLS = new Set(['score', 'display_name', 'next_gig_sort', 'momentum_pct', 'genre_rank']);
 const VALID_DEBUT_SORT_COLS = new Set(['score', 'first_release', 'display_name', 'mentions']);
 

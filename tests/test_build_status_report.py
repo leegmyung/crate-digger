@@ -217,6 +217,6 @@ class OpsLinesTest(unittest.TestCase):
             rep = sr.collect_report(self._root(Path(t)), today="2026-11-28")
         rep["validation"]["ops"][0]["text"] = "<b>x</b>"
         html = sr.render_html(rep)
-        self.assertIn('href="https://github.com/leegmyung/crate-digger/blob/main/docs/data_checks.md"', html)
+        self.assertIn('href="https://github.com/leegmyung/gigle-research/blob/main/docs/data_checks.md"', html)
         self.assertIn("&lt;b&gt;x&lt;/b&gt;", html)
         self.assertIn("앱 보조 데이터 3개", html)

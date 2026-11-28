@@ -2,7 +2,7 @@
 
 > 공연·선정·발매·매체 소개 데이터를 매일 모아, 나중에 신인상·주요 신인 프로그램(정답)을 받을 팀을 **미리** 골라낼 수 있는지 SQL로 검증하는 프로젝트입니다.
 
-**바로 보기** · [진행판](https://leegmyung.github.io/crate-digger/) · [앱(대시보드)](https://leegmyung.github.io/crate-digger/dashboard.html) · [SQL 결과](docs/sql/README.md) · [방법론](docs/methods.md) · [용어집](docs/glossary.md)
+**바로 보기** · [진행판](https://leegmyung.github.io/gigle-research/) · [앱(대시보드)](https://leegmyung.github.io/gigle-research/dashboard.html) · [SQL 결과](docs/sql/README.md) · [방법론](docs/methods.md) · [용어집](docs/glossary.md)
 
 ---
 
@@ -16,8 +16,8 @@
 
 | 결과물 | 무엇 | 바로 가기 |
 |---|---|---|
-| 앱 (대시보드) | 메뉴 홈 / 찾기(발굴·차트·공연장·도시·페스티벌) / 내 것(알림·내 목록) / 검증. 위쪽 검색(`/`)으로 팀·공연장·도시·페스티벌을 바로 찾고, 팀 페이지는 탭 7개(개요·점수·사건·공연·관계·영상·선례), 모든 탭 아래 '근거' 줄이 검증 화면으로 이어짐 (브라우저 안 DuckDB로 가중치를 바꿔 직접 확인). 아래 '앱 화면' 절 참고 | [열기](https://leegmyung.github.io/crate-digger/dashboard.html) · [사용 안내](https://leegmyung.github.io/crate-digger/dashboard.html#/help) |
-| 주간 엑셀 | 요약·후보 TOP100·이번 주 변화·다가오는 공연·출처 성적표·점수 검증·정의 7시트 (앱과 같은 숫자) | [docs/report/crate-digger_weekly.xlsx](docs/report/crate-digger_weekly.xlsx) |
+| 앱 (대시보드) | 메뉴 홈 / 찾기(발굴·차트·공연장·도시·페스티벌) / 내 것(알림·내 목록) / 검증. 위쪽 검색(`/`)으로 팀·공연장·도시·페스티벌을 바로 찾고, 팀 페이지는 탭 7개(개요·점수·사건·공연·관계·영상·선례), 모든 탭 아래 '근거' 줄이 검증 화면으로 이어짐 (브라우저 안 DuckDB로 가중치를 바꿔 직접 확인). 아래 '앱 화면' 절 참고 | [열기](https://leegmyung.github.io/gigle-research/dashboard.html) · [사용 안내](https://leegmyung.github.io/gigle-research/dashboard.html#/help) |
+| 주간 엑셀 | 요약·후보 TOP100·이번 주 변화·다가오는 공연·출처 성적표·점수 검증·정의 7시트 (앱과 같은 숫자) | [docs/report/gigle-research_weekly.xlsx](docs/report/gigle-research_weekly.xlsx) |
 | Tableau 추출 | 바로 올릴 긴 형식 CSV 4개 + 시트·계산 필드 설계서 | [docs/tableau/](docs/tableau/README.md) |
 | 사운드 지도 | 같은 무대 공동 출연으로 나눈 씬 묶음 244개, 묶음별 대표 공연장·상위 후보 | [docs/scene_map.md](docs/scene_map.md) |
 | 서비스 기획 | 음악 스트리밍 서비스에 적용하는 3가지 안, A/B 실험 설계(지표·표본 크기·가드레일) | [docs/service_plan.md](docs/service_plan.md) |

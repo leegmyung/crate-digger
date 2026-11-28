@@ -1,9 +1,9 @@
 # CLAUDE.md
 
-**Gigle Research (기글 리서치)** — 국내 인디 신인 발굴 대시보드 프로젝트 (2026-11-27 이름 변경, 옛 이름 Crate Digger · 저장소 이름은 crate-digger 그대로). 자세한 내용은 `PROJECT.md`(방향·결정·할 일), `README.md`(실행 방법), `HISTORY.md`(진행 기록)를 먼저 읽는다.
+**Gigle Research (기글 리서치)** — 국내 인디 신인 발굴 대시보드 프로젝트 (2026-11-27 이름 변경, 옛 이름 Crate Digger · 2026-11-28 저장소 이름도 gigle-research로 변경, 내 컴퓨터 폴더 이름은 crate-digger 그대로). 자세한 내용은 `PROJECT.md`(방향·결정·할 일), `README.md`(실행 방법), `HISTORY.md`(진행 기록)를 먼저 읽는다.
 - **세션을 시작하면 `PROJECT.md`의 '0. 재개 지점'부터 확인하고, 멈춘 작업을 이어서 한다** (사용량 한도·인터넷 끊김 대비). 큰 작업 단위가 끝날 때마다 그 칸을 갱신한다.
 
-- GitHub 저장소: https://github.com/leegmyung/crate-digger (공개)
+- GitHub 저장소: https://github.com/leegmyung/gigle-research (공개)
 - 응답과 문서는 한국어로. 사용자는 개발에 익숙하지 않으니 기술 용어는 쉽게 풀어서 설명한다.
 
 ## 커밋 규칙
@@ -25,7 +25,7 @@
 ## 작업 방식 (2026-11-26 정함)
 
 - **파이프라인을 그대로 따르지 않는다.** 단계마다 부족하거나 미흡한 점을 찾아 채우고, 찾은 빈틈과 보완은 `docs/data/board.json`(진행판)에 기록한다.
-- 단계를 진행할 때마다 파이프라인 지도에서 **지금 위치를 다시 보여주고**, 결과물(진행판 https://leegmyung.github.io/crate-digger/ 등)을 보여준다.
+- 단계를 진행할 때마다 파이프라인 지도에서 **지금 위치를 다시 보여주고**, 결과물(진행판 https://leegmyung.github.io/gigle-research/ 등)을 보여준다.
 - **디깅 풀은 넓게 본다.** 발매 / 공연 / 선정·지원 / 큐레이션 4갈래. 새 소스는 후보 신호(작고 이른 단계)와 정답(크고 경쟁 센 단계) 중 한쪽으로만 분류한다.
 - **웹 확인·수집은 aside로.** aside 안의 AI(`aside exec`)는 사용량 한도가 있으니 브라우저 조종(`aside repl`)을 쓴다. 공개 API가 있고 robots.txt가 허용하면 스크립트로 수집한다. robots.txt가 막은 곳은 aside로 그냥 읽는다 — 일부러 쉬는 시간은 두지 않고 페이지가 뜰 때까지만 기다린다 (2026-11-26 사용자 지시). 수집은 하루 1번, 원본은 `data/raw/`(커밋 안 함). 인스타가 로그인 요구로 막히면 그때만 늦춘다.
 - 새 코드는 테스트 먼저 (`python3 -m unittest discover -s tests`).

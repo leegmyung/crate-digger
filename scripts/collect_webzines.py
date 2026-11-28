@@ -41,7 +41,7 @@ REVIEW_DIR = RAW_DIR / "review"
 GENRE_REF = RAW_DIR / "reference" / "press_genres.csv"   # 이미 받은 글의 장르 (--genre-backfill, 주소 → 장르)
 GENRE_SOURCES = ("musicy", "overtone", "visla")           # 리뷰에 장르 표시가 있는 매체
 GENRE_REF_FIELDS = ["url", "source", "genre", "checked_at"]
-USER_AGENT = "crate-digger/0.1 (+https://github.com/leegmyung/crate-digger)"
+USER_AGENT = "gigle-research/0.1 (+https://github.com/leegmyung/gigle-research)"
 KST = timezone(timedelta(hours=9))
 COLUMNS = [f.name for f in TABLES["raw_press"]["fields"]]
 TIMEOUT_SEC = 30

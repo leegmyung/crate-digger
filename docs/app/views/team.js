@@ -655,7 +655,7 @@ export async function renderTeamView(root, teamKey) {
   }
 
   const reportUrl =
-    'https://github.com/leegmyung/crate-digger/issues/new?template=identity.yml'
+    'https://github.com/leegmyung/gigle-research/issues/new?template=identity.yml'
     + `&title=${encodeURIComponent(`[팀 정보] ${displayName}`)}`
     + `&team=${encodeURIComponent(displayName)}`
     + `&team_key=${encodeURIComponent(teamKey)}`

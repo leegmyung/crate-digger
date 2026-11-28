@@ -25,7 +25,7 @@ import artist_xref as ax  # noqa: E402
 ROOT = ax.ROOT
 OUT = ROOT / "docs" / "identity_audit.md"
 LAB_DATA = ROOT / "docs" / "lab" / "data"
-REPO_URL = "https://github.com/leegmyung/crate-digger"
+REPO_URL = "https://github.com/leegmyung/gigle-research"
 PLATFORMS = ax.PLATFORMS                      # ("melon", "spotify")
 CONF_RANK = ax.CONF_RANK                      # high 3 · mid 2 · low 1
 LINKED_IG = ("high", "mid")                   # 다른 소스와 이어진 인스타 계정만 '보유'로 셈

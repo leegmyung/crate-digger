@@ -55,7 +55,7 @@
 
 - 2026-11-27 저녁 결정: 유명 판정은 검증(과거 기준일)에선 안 씀 — features.sql fame_known_from() 2026-11-26 (커밋 0ec766d, 교차 검증 0.787/0.779).
 - 2026-11-27 저녁 결정: '같은 집안' 강한 짝 3개 적용(config same_house, 커밋 3daeaa0). 작업자 A 트랙제로 수집은 멜론 프로필 수집이 끝나면 알려 주기로 함(멜론 IP 차단 우려).
-- 2026-11-27 저녁 결정(앞): 이름 Gigle Research(저장소·주소는 crate-digger 그대로), 후보 제외 목록 candidate_rules, 멜론 프로필 하루 한도 없앰(MAX_PROFILES_PER_RUN 1000).
+- 2026-11-27 저녁 결정(앞): 이름 Gigle Research(2026-11-28 저장소·주소도 gigle-research로), 후보 제외 목록 candidate_rules, 멜론 프로필 하루 한도 없앰(MAX_PROFILES_PER_RUN 1000).
 
 **2026-11-27 밤 갱신 (재개 시 여기부터 — 아래 '저녁 중단 지점'보다 우선)**
 - ✅ 데이터 역할 정제: `config/source_roles.json`(발굴·맥락·제외·검증 대기 + 정답 등급 S3·A2·B1), 문서 `docs/source_roles.md`, 출처 성적표 `docs/lab/sql/source_scorecard.sql`, 누락 방지 테스트 `tests/test_source_roles.py` + 일일 기록 경고. 검증 대기 출처는 기록 3개월 뒤 재평가.
@@ -122,7 +122,7 @@
 | 숫자 정확도, 원인 끝까지 찾기 | CSV 자동 검사기, 중복·누락 점검, 같은 프로그램 적중 제외 같은 검증 함정 차단 |
 | 음악·팬덤 도메인 이해 | 국내 인디 유통·지원사업·공연 생태계 47곳 조사 결과 정리 |
 
-## 2. 파이프라인 (2026-11-26 다시 정리, 2026-11-28 진행 표시 갱신 · 진행판 https://leegmyung.github.io/crate-digger/)
+## 2. 파이프라인 (2026-11-26 다시 정리, 2026-11-28 진행 표시 갱신 · 진행판 https://leegmyung.github.io/gigle-research/)
 국내 먼저, 해외(Bandcamp)는 국내가 돌아간 뒤. 모든 소스는 **후보 신호**(작고 이른 단계)와 **정답**(크고 경쟁 센 단계) 중 한쪽으로만 분류한다.
 
 ```
@@ -315,7 +315,7 @@ python3 scripts/build_site_data.py             # 진행판 공개 데이터 docs
 python3 scripts/daily_note.py                  # 일일 기록 docs/log/ + 엑셀 자동 줄
 python3 -m unittest discover -s tests          # 테스트
 ```
-형식은 `docs/csv_spec.md`. 진행판: https://leegmyung.github.io/crate-digger/
+형식은 `docs/csv_spec.md`. 진행판: https://leegmyung.github.io/gigle-research/
 
 ## 10. 다시 만들기 (예전 판매 대시보드)
 ```bash

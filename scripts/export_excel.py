@@ -1,4 +1,4 @@
-"""주간 엑셀 보고서 → docs/report/crate-digger_weekly.xlsx (공개 가능: 팀 이름·공개 출처 숫자만)
+"""주간 엑셀 보고서 → docs/report/gigle-research_weekly.xlsx (공개 가능: 팀 이름·공개 출처 숫자만)
 
     .venv/bin/python scripts/export_excel.py
 
@@ -22,7 +22,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import lab_sql  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "docs" / "report" / "crate-digger_weekly.xlsx"
+OUT = ROOT / "docs" / "report" / "gigle-research_weekly.xlsx"
 TUNING = ROOT / "docs" / "score_tuning.md"
 DEBUT_DOC = ROOT / "docs" / "debut_cohort.md"           # 데뷔 코호트 '언급 없음' 비율 (요약 한 줄)
 MISSED_DOC = ROOT / "docs" / "missed_analysis.md"       # 놓친 정답 '상위 100 안' 비율 (요약 한 줄)

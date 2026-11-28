@@ -28,7 +28,7 @@ DROP_MIN_PREV = 20
 DROP_RATIO = 0.3
 PENDING_REVIEW_DAYS = 90  # 검증 대기 출처는 기록 시작 90일 뒤 재평가 (scripts/source_review.py 와 같은 기준)
 LOG_DAYS = 7
-REPO_BLOB = "https://github.com/leegmyung/crate-digger/blob/main/"
+REPO_BLOB = "https://github.com/leegmyung/gigle-research/blob/main/"
 STATE_KO = {"ok": "정상", "warn": "주의", "bad": "이상", "check": "확인 필요"}
 
 

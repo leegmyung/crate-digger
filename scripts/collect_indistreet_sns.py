@@ -39,7 +39,7 @@ KST = timezone(timedelta(hours=9))
 PAGE_PREFIX = "https://indistreet.com/artists/"
 RECHECK_DAYS = 30
 TIMEOUT_SEC = 20
-USER_AGENT = "Mozilla/5.0 (compatible; GigleResearch/1.0; +https://github.com/leegmyung/crate-digger)"
+USER_AGENT = "Mozilla/5.0 (compatible; GigleResearch/1.0; +https://github.com/leegmyung/gigle-research)"
 LD_JSON = re.compile(r'<script[^>]+type="application/ld\+json"[^>]*>(.*?)</script>', re.S)
 INSTA = re.compile(r"^https?://(?:www\.)?instagram\.com/([A-Za-z0-9._]+)/?(?:\?.*)?$")
 INSTA_NOT_ACCOUNT = {"p", "reel", "reels", "explore", "stories", "tv"}

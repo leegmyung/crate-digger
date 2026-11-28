@@ -364,7 +364,7 @@ export async function renderVenueView(root, venueName) {
   }
 
   // 4-1 머리 상자 보탬: 발굴 주목도 · 좌표 · 구독(5-5) · '정보가 틀려요'
-  const reportUrl = 'https://github.com/leegmyung/crate-digger/issues/new?template=venue.yml'
+  const reportUrl = 'https://github.com/leegmyung/gigle-research/issues/new?template=venue.yml'
     + `&title=${encodeURIComponent(`[공연장 정보] ${cleanVenue}`)}`
     + `&venue=${encodeURIComponent(cleanVenue)}`
     + `&page=${encodeURIComponent(window.location.href)}`;

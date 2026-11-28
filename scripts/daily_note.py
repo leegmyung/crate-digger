@@ -96,7 +96,7 @@ def render_note(day, commits, runs, board, new_sources=None, review=None, score_
     lines += score_review_section(day, score_review)
     lines += ["", "## 아직 정할 것"]
     lines += [f"- {q}" for q in open_q] or ["- 없음"]
-    lines += ["", "진행판: https://leegmyung.github.io/crate-digger/", ""]
+    lines += ["", "진행판: https://leegmyung.github.io/gigle-research/", ""]
     return "\n".join(lines)
 
 

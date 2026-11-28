@@ -95,8 +95,8 @@ export async function renderHelpView(root) {
         </dl>
       </section>
 
-      <p class="muted small">더 자세히: <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/glossary.md" target="_blank" rel="noopener noreferrer">용어 정리</a> ·
-        <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/methods.md" target="_blank" rel="noopener noreferrer">방법론</a> ·
-        <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/app_structure_v2.md" target="_blank" rel="noopener noreferrer">화면 구조</a></p>
+      <p class="muted small">더 자세히: <a href="https://github.com/leegmyung/gigle-research/blob/main/docs/glossary.md" target="_blank" rel="noopener noreferrer">용어 정리</a> ·
+        <a href="https://github.com/leegmyung/gigle-research/blob/main/docs/methods.md" target="_blank" rel="noopener noreferrer">방법론</a> ·
+        <a href="https://github.com/leegmyung/gigle-research/blob/main/docs/app_structure_v2.md" target="_blank" rel="noopener noreferrer">화면 구조</a></p>
     </section>`;
 }
