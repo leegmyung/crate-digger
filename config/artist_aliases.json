@@ -940,6 +940,272 @@
       "reason": "같은 팀 — 악센트(é) 유무만 다름",
       "evidence": ["우리 데이터(teams.csv): 'shallow levée'·'Shallow Levee'"],
       "checked": "2026-11-28"
+    },
+    {
+      "main": "리셋터즈",
+      "aliases": ["더리셋터즈", "The Reseters"],
+      "reason": "같은 밴드 — 앞에 '더'만 붙은 표기, 같은 인스타(the_reseters_official), 같은 날 같은 공연장 4번(2026-02-28 채널1969 등)",
+      "evidence": ["https://www.instagram.com/the_reseters_official/", "https://www.indiego.co.kr/events/311-good-4-u", "우리 데이터(docs/lab/data/links.csv): 두 이름에 같은 인스타 주소"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "리츄얼리티",
+      "aliases": ["리추얼리티", "Rituality"],
+      "reason": "같은 밴드 Rituality — 츄/추 표기 흔들림, 같은 날 같은 공연장(2026-04-11 A.O.R 1집 발매 공연)",
+      "evidence": ["https://www.indiego.co.kr/events/170-rituality-1st-album-release-concert", "https://indistreet.com/gigs/nl4789mfd51g54uah5f7zcjx"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "메디엑스피",
+      "aliases": ["매디엑스피"],
+      "reason": "같은 팀 — 메/매 표기 흔들림, 같은 날 같은 공연장(2026-10-10 채널1969)",
+      "evidence": ["https://www.indiego.co.kr/events/108-m-a-d-d-o-l", "https://indistreet.com/programs/block-party-2026-wsaurubclnufgkrq65qrpaqs"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "넉살X까데호",
+      "aliases": ["넉살 까데호", "넉살＆까데호"],
+      "reason": "같은 협업 — 넉살과 까데호의 합작 앨범 [당신께]·투어 'TRIP'의 두 표기",
+      "evidence": ["https://hiphople.com/news_kr/23216337", "https://www.sangsangmadang.com/show/detail/2166"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "릴체리X골드부다",
+      "aliases": ["릴 체리 & 골드부다", "릴 체리 ＆ 골드부다"],
+      "reason": "같은 협업 듀오 — X와 &만 다른 표기",
+      "evidence": ["https://hiphople.com/news_kr/33715393", "https://hiphople.com/news_kr/23018602"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "워크맨십 Maalib",
+      "aliases": ["워크맨쉽 Maalib"],
+      "reason": "같은 협업 — 말립×워크맨십(Maalib×WRKMS), 십/쉽 표기 흔들림 (음악취향Y 싱글 리뷰 두 편)",
+      "evidence": ["http://musicy.kr/?c=review&s=1&gbn=view&ix=6964", "http://musicy.kr/?c=review&s=1&gbn=view&ix=8524"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "플랫폼 스테레오",
+      "aliases": ["플렛폼 스테레오"],
+      "reason": "같은 부산 밴드 Platform Stereo — '플렛폼'은 오타 (부산음악창작소 게시판 '404 Digest Showcase')",
+      "evidence": ["https://indistreet.com/gigs/2026-05-30-new-world-pmi14yghw4tyylotb8g1db7n", "https://www.musiclabbusan.com/board/photo"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "킬카이저",
+      "aliases": ["킬카이져", "Killkaiser"],
+      "reason": "같은 밴드 Killkaiser — 저/져 표기 흔들림",
+      "evidence": ["http://musicy.kr/?c=review&s=1&gbn=view&ix=7226", "https://indistreet.com/gigs/2026-11-27-vomitory-live-%EC%84%9C%EC%9A%B8-vub0abnc7s5by5ouqfqm4cqr"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "포보틀스",
+      "aliases": ["포보틀즈"],
+      "reason": "같은 펑크 밴드 — 스/즈 표기 흔들림 (부산 리얼라이즈 라이브·PUNX ATTACK)",
+      "evidence": ["https://indistreet.com/gigs/fpykwuuunvyyki0n1uph02h1", "https://www.indiego.co.kr/events/156-punx-attack-vol-6"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "플레이버대시",
+      "aliases": ["플레이버대쉬"],
+      "reason": "같은 래퍼 — 시/쉬 표기 흔들림 (힙합엘이 기사 두 편)",
+      "evidence": ["https://hiphople.com/news_kr/24304249", "https://hiphople.com/news_kr/26470548"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "모싸이코",
+      "aliases": ["모사이코", "Mo Psycho"],
+      "reason": "같은 래퍼 Mo Psycho — 싸/사 표기 흔들림 (힙합엘이 기사 두 편)",
+      "evidence": ["https://hiphople.com/news_kr/21600695", "https://hiphople.com/news_kr/23449622"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "마인드애틱",
+      "aliases": ["마인드에틱"],
+      "reason": "같은 밴드 — 애/에 표기 흔들림 (경록절·스팀펑크락라이브펍 공연)",
+      "evidence": ["https://indistreet.com/gigs/bwntn0wiefcyox2m1b353ivg", "https://indistreet.com/gigs/2025-11-23-%EC%8A%A4%ED%8C%80%ED%8E%91%ED%81%AC%EB%9D%BD%EB%9D%BC%EC%9D%B4%EB%B8%8C%ED%8E%8D-live-25.11.23sun-pmtusy5jlxm7yrv9aalhvw5b"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "스테리웨이브",
+      "aliases": ["스태리웨이브"],
+      "reason": "같은 팀 Starry Wave — 테/태 표기 흔들림",
+      "evidence": ["https://indistreet.com/gigs/dsocj6vn3ad3go5fyva1zxfh", "https://indistreet.com/gigs/2026-10-31-delrium-presents-decadence-act.2-pfj90mxwljen11xslfg2vwip"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "The Henz Club",
+      "aliases": ["Henz Club", "thehenzclub"],
+      "reason": "같은 팀 — 앞의 The 유무만 다름 (VISLA 기사·레이블 컴필레이션 글)",
+      "evidence": ["https://visla.kr/article/music/169000/", "https://www.instagram.com/hausofmatters/p/DgP4HJpEhhw/"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "13CHILDREN",
+      "aliases": ["서틴칠드런"],
+      "reason": "같은 팀 — 영문/한글 표기, 같은 인스타",
+      "evidence": ["https://www.instagram.com/13.children/", "우리 데이터(docs/lab/data/links.csv): 두 이름에 같은 인스타 주소"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "디나이",
+      "aliases": ["DENY"],
+      "reason": "같은 밴드 — 영문/한글 표기, 같은 인스타",
+      "evidence": ["https://www.instagram.com/band.deny/", "우리 데이터(docs/lab/data/links.csv): 두 이름에 같은 인스타 주소"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "지옥",
+      "aliases": ["G.I.O.K"],
+      "reason": "같은 팀 — G.I.O.K = 지옥, 같은 인스타(giok666)",
+      "evidence": ["https://www.instagram.com/giok666/", "우리 데이터(docs/lab/data/links.csv): 두 이름에 같은 인스타 주소"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "히민",
+      "aliases": ["Himinn"],
+      "reason": "같은 팀 — 영문/한글 표기, 같은 인스타",
+      "evidence": ["https://www.instagram.com/himinn___/", "우리 데이터(docs/lab/data/links.csv): 두 이름에 같은 인스타 주소"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "하우캔아이",
+      "aliases": ["HOWCANI"],
+      "reason": "같은 밴드 — 영문/한글 표기, 같은 인스타, 같은 날 같은 공연장 2번(2026-07-03 Club Victim 등)",
+      "evidence": ["https://www.instagram.com/official_howcani/", "우리 데이터(docs/lab/data/links.csv): 두 이름에 같은 인스타 주소"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "Lucy Valentine",
+      "aliases": ["루시 발렌타인"],
+      "reason": "같은 밴드 — 영문/한글 표기, 같은 인스타, 같은 날 같은 공연장 2번(2026-06-13 클럽샤프 등)",
+      "evidence": ["https://www.instagram.com/lucyvalentineband/", "우리 데이터(docs/lab/data/links.csv): 두 이름에 같은 인스타 주소"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "마이베리엔드",
+      "aliases": ["MY VERY END"],
+      "reason": "같은 밴드 — 영문/한글 표기, 같은 인스타",
+      "evidence": ["https://www.instagram.com/bandmyveryend/", "우리 데이터(docs/lab/data/links.csv): 두 이름에 같은 인스타 주소"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "오미일곱",
+      "aliases": ["omilgop"],
+      "reason": "같은 팀 — 한글/로마자 표기, 같은 인스타",
+      "evidence": ["https://www.instagram.com/omimimimimimimi7/", "우리 데이터(docs/lab/data/links.csv): 두 이름에 같은 인스타 주소"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "룬",
+      "aliases": ["roon"],
+      "reason": "같은 팀 — 한글/영문 표기, 같은 인스타(roon916), 같은 날 같은 공연장 3번(2026-07-24 카페 언플러그드 홍대점 등)",
+      "evidence": ["https://www.instagram.com/roon916/", "우리 데이터(docs/lab/data/links.csv): 두 이름에 같은 인스타 주소"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "스칼렛킴 밴드",
+      "aliases": ["SCARLETKIM BAND"],
+      "reason": "같은 밴드 — 영문/한글 표기, 같은 인스타",
+      "evidence": ["https://www.instagram.com/scarletkim_band_official/", "우리 데이터(docs/lab/data/links.csv): 두 이름에 같은 인스타 주소"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "웨이킹 선스",
+      "aliases": ["Waking Suns"],
+      "reason": "같은 밴드 — 영문/한글 표기, 같은 인스타",
+      "evidence": ["https://www.instagram.com/wakingsuns.seoul/", "우리 데이터(docs/lab/data/links.csv): 두 이름에 같은 인스타 주소"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "나르샤",
+      "aliases": ["나르샤 (Brown Eyed Girls)", "나르샤 (브라운아이드걸스)"],
+      "reason": "같은 사람 — 그룹 이름을 괄호로 붙인 표기, 같은 멜론 아티스트 번호. 그룹(브라운아이드걸스)과는 묶지 않음",
+      "evidence": ["https://www.melon.com/artist/detail.htm?artistId=261744"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "나미카이",
+      "aliases": ["NAMIKAI"],
+      "reason": "같은 팀 — 한글/영문 표기, 같은 날 같은 공연장(2026-10-17 베이비돌 LoudCarnival extra)",
+      "evidence": ["https://indistreet.com/gigs/2026-10-17-loudcarnival-extra-any-noise-wq8pzqaxh68y9p9u612tn1v5", "https://indistreet.com/gigs/2026-11-18-azito-play-%EA%B0%B8%EB%A3%A8-aejsaofp2c81zy01zs24q7ho"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "모하니",
+      "aliases": ["Mohani"],
+      "reason": "같은 팀 — 한글/영문 표기, 같은 공연(2026-03-27 채널1969 '이잔치 Vol.4')이 인디고·인디스트릿에 따로 적힘",
+      "evidence": ["https://www.indiego.co.kr/events/208-이잔치-vol-4", "https://indistreet.com/gigs/2026-03-27-%EC%9D%B4%EC%9E%94%EC%B9%98-vol.4-powc8gawz7rs7yjmapdkwai9"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "사케비",
+      "aliases": ["SAKEBI"],
+      "reason": "같은 팀 — 한글/영문 표기, 같은 공연(2026-08-30 클럽샤프 'STAND ALONE COMPLEX Vol.4')이 인디고·인디스트릿에 따로 적힘",
+      "evidence": ["https://www.indiego.co.kr/events/1067-stand-alone-complex-vol-4", "https://indistreet.com/gigs/2026-08-30-stand-alonecomplex-vol.4-kwqpnm2p4gqnu7fcnxj7esf5"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "로얄 44",
+      "aliases": ["Royal 44"],
+      "reason": "같은 래퍼 — 한글/영문 표기 (힙합엘이 신보 기사·메들리메들리 2026)",
+      "evidence": ["https://hiphople.com/news_kr/33634454", "https://indistreet.com/programs/%EB%A9%94%EB%93%A4%EB%A6%AC%EB%A9%94%EB%93%A4%EB%A6%AC-2026-vadze34tfcwzcr08jk48uucl"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "디디 한",
+      "aliases": ["Didi Han"],
+      "reason": "같은 사람 — 한글/영문 표기 (힙합엘이 데뷔 EP 기사, 멜론 '국내 일렉트로닉 아티스트')",
+      "evidence": ["https://hiphople.com/news_kr/20855624", "https://m.live.melon.com/musicstory/detail.htm?mstorySeq=16022"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "해로이키",
+      "aliases": ["Haeroiki"],
+      "reason": "같은 팀 — 한글/영문 표기 (인디스트릿 공연 두 곳)",
+      "evidence": ["https://indistreet.com/gigs/2026-05-07-%EC%96%B8%ED%94%8C%EB%9F%AC%EA%B7%B8%EB%93%9C-%EC%98%A4%ED%94%88%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80-tkuez077h4u2rslrxpv1xg27", "https://indistreet.com/gigs/2026-10-18-%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4%ED%95%9C%EA%B0%95-%EB%9D%BC%EC%9D%B4%EB%B8%8C-%EA%B3%B5%EC%97%B0-trfqudwb9b7itz0ditozwdbq"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "송요다",
+      "aliases": ["songyoda"],
+      "reason": "같은 사람 — 한글/로마자 표기 (인디고 'Stoned Party', 라인업 인스타 글)",
+      "evidence": ["https://www.indiego.co.kr/events/1123-stoned-party", "https://www.instagram.com/w4ckids/p/DWnjW9tFIHk/"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "욘욘",
+      "aliases": ["YonYon"],
+      "reason": "같은 DJ·프로듀서 YonYon — 한글/영문 표기 (힙합엘이·멜론 매거진)",
+      "evidence": ["https://hiphople.com/news_kr/25930391", "https://m.live.melon.com/musicstory/detail.htm?mstorySeq=16678"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "포져군단",
+      "aliases": ["포쳐군단"],
+      "reason": "같은 펑크 밴드 — 인천 펜타 슈퍼루키 2026 TOP10 기사에 '포쳐군단'(오타)으로 적힘. 기사 소개 '한국 1세대 펑크 신의 사운드와 정신을 재해석'이 우리 데이터의 포져군단(펑크, Club Victim 공연, 인스타 poseridiott = poser idiot)과 같음",
+      "evidence": ["https://www.kyeonggi.com/article/20260518580603", "https://www.instagram.com/poseridiott/"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "스윔래빗",
+      "aliases": ["swimrabbit", "스윔레빗"],
+      "reason": "같은 일렉트로닉 팀 Swimrabbit — 한대음 2021 장르 부문 후보 '스윔레빗(swimrabbit)', 우리 데이터의 IZM '스윔래빗'·트랙제로/VISLA 'swimrabbit'",
+      "evidence": ["https://www.hankookilbo.com/news/article/A2021012613540005605", "우리 데이터(signals.csv): swimrabbit 트랙제로 2022-05·VISLA 2024-06, 스윔래빗 IZM 2020-05"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "9001",
+      "aliases": ["나인티오원"],
+      "reason": "같은 팀 — 뮤콘 2023 선정 '나인티오원(9001)', 우리 데이터 '9001'(2021~ 롤링홀 등 공연)",
+      "evidence": ["https://www.kocca.kr/kocca/bbs/view/B0000137/2003159.do?menuNo=204201", "우리 데이터(signals.csv): 9001 공연 19건"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "Two Tone Shape",
+      "aliases": ["투톤쉐이프", "투 톤 쉐이프"],
+      "reason": "같은 일렉트로닉 팀 — 한대음 2021 장르 부문 후보 '투 톤 쉐이프(Two Tone Shape)', 우리 데이터 포크라노스 발매·VISLA 'Two Tone Shape'",
+      "evidence": ["https://www.hankookilbo.com/news/article/A2021012613540005605", "우리 데이터(signals.csv): twotoneshape 포크라노스 발매 2020-11~"],
+      "checked": "2026-11-28"
     }
   ],
   "distinct": [
@@ -1112,6 +1378,12 @@
       "names": ["라이스", "라이즈"],
       "reason": "다른 팀 — 라이즈(RIIZE, 아이돌)와 라이스",
       "evidence": ["https://namu.wiki/w/RIIZE"],
+      "checked": "2026-11-28"
+    },
+    {
+      "names": ["변하은", "변하은과하이에나"],
+      "reason": "같은 사람이 이끌지만 다른 활동 이름 — 변하은 개인과 밴드 '변하은과 하이에나'는 따로 셈 (인스타는 같음 hilltown501)",
+      "evidence": ["https://www.instagram.com/hilltown501/"],
       "checked": "2026-11-28"
     }
   ],
