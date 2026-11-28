@@ -430,3 +430,47 @@ tr[data-team-key].clickable {
     min-height: 44px;
   }
 }
+
+/* ---------- 발굴·갓 데뷔 표 정렬 (docs/layout_rules.md) ----------
+   이름 줄·아래 줄은 한 줄 고정(꼬리표가 쌓여 줄 높이가 들쭉날쭉하지 않게),
+   순위 변동 ▲▼는 순위 숫자 옆이 아니라 아래 줄에(순위 숫자가 줄마다 같은 자리). */
+:is(.cand-table, .debut-table) .row-team-name {
+  display: flex;
+  flex-wrap: nowrap;
+  max-width: 100%;
+}
+
+:is(.cand-table, .debut-table) .row-team-name > :not(strong) {
+  flex: none;
+}
+
+:is(.cand-table, .debut-table) .row-team-sub {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+:is(.cand-table, .debut-table) .row-team-sub > * {
+  flex: none;
+}
+
+.cand-table td.cand-rank-col .rank-delta {
+  display: block;
+  margin-left: 0;
+  line-height: 1.2;
+}
+
+table.data-table.is-density-compact {
+  --row-h: 44px;
+}
+
+table.data-table.is-density-comfortable {
+  --row-h: 56px;
+}
+
+/* 주목 이유 칸: 남는 폭만 쓰고 한 줄 말줄임(전체 글은 title) */
+.cand-table td.why-cell {
+  max-width: 0;
+  min-width: 180px;
+}

@@ -17,6 +17,7 @@ import {
 } from '../ui.js';
 import { attachTeamPeek, peekKeyFromHash } from '../components/team_peek.js';
 import { compareToggleHtml } from '../components/compare_tray.js';
+import { entityCellHtml } from '../components/entity_cell.js';
 
 const CHART_SIZE = 50;
 const POOL = 300; // 도시 차트는 전체 상위 300 안에서 고른다
@@ -89,7 +90,7 @@ function discoverHref(kind, param) {
 function rowHtml(r, i, prevPos, stageByTeam, kind) {
   const stage = stageByTeam.get(r.team_key);
   const name = r.display_name || r.team_key;
-  const genre = r.primary_genre ? `<span class="small muted">${escapeHtml(r.primary_genre)}</span>${genreConfidenceBadgeHtml(r.team_key)}` : '';
+  const genre = r.primary_genre ? `<span>${escapeHtml(r.primary_genre)}</span>${genreConfidenceBadgeHtml(r.team_key)}` : '';
   const nums = kind === 'rising'
     ? `<td class="num" data-label="최근 30일">${fmtInt(r.recent_n)}건</td><td class="num" data-label="직전 30일">${fmtInt(r.prev_n)}건</td>`
     : `<td class="num" data-label="갈래">${fmtInt(r.n_branch)}</td><td class="num" data-label="공연장">${fmtInt(r.venues)}곳</td>`;
@@ -98,13 +99,19 @@ function rowHtml(r, i, prevPos, stageByTeam, kind) {
     : plainWhyLine(r);
   return `
     <tr class="clickable" tabindex="0" data-team-key="${escapeHtml(r.team_key)}">
-      <td class="num chart-rank" data-label="순위"><strong>${i + 1}</strong></td>
-      <td class="nowrap" data-label="지난주 대비">${deltaHtml(i + 1, prevPos)}</td>
-      <td data-label="팀"><span class="team-cell-inline">${avatarHtml(r.team_key, name, 28, { shape: 'circle', genre: r.primary_genre })}<span><a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(name)}</strong></a> ${genre}</span>${playButtonHtml(r.team_key, name, { variant: 'icon' })}${compareToggleHtml(r.team_key, name, { variant: 'icon' })}</span></td>
-      <td data-label="단계">${stage !== undefined ? stageBadgeHtml(stage, { short: true }) : naCell('발굴 단계를 계산하지 않은 팀입니다', { label: '—' })}</td>
+      <td class="num col-fit chart-rank" data-label="순위"><strong>${i + 1}</strong></td>
+      <td class="col-fit center" data-label="지난주 대비">${deltaHtml(i + 1, prevPos)}</td>
+      <td data-label="팀" class="col-name">${entityCellHtml({
+        avatar: avatarHtml(r.team_key, name, 28, { shape: 'circle', genre: r.primary_genre }),
+        name: `<a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(name)}</strong></a>`,
+        title: name,
+        sub: genre,
+        actions: `${playButtonHtml(r.team_key, name, { variant: 'icon' })}${compareToggleHtml(r.team_key, name, { variant: 'icon' })}`,
+      })}</td>
+      <td class="col-fit" data-label="단계">${stage !== undefined ? stageBadgeHtml(stage, { short: true }) : naCell('발굴 단계를 계산하지 않은 팀입니다', { label: '—' })}</td>
       <td class="num" data-label="점수">${r.score !== null && r.score !== undefined ? fmtNum(Number(r.score), 2) : '—'}</td>
       ${nums}
-      <td class="chart-why" data-label="근거">${escapeHtml(why || '')}</td>
+      <td class="chart-why col-clip" data-label="근거" title="${escapeHtml(why || '')}">${escapeHtml(why || '')}</td>
     </tr>`;
 }
 
@@ -143,7 +150,7 @@ export async function renderChartsView(root) {
       ${top.length ? `
         <div class="table-wrap">
           <table class="data-table stack-table chart-table" aria-label="${escapeHtml(TAB_LABELS[kind])} 차트">
-            <thead><tr><th class="num">#</th><th>지난주</th><th>팀</th><th>단계${infoTip('발굴 단계', INFO_TIPS.status_stage, { compact: true })}</th><th class="num">점수${infoTip('종합 점수', INFO_TIPS.score, { compact: true })}</th>${numHeads}<th>근거</th></tr></thead>
+            <thead><tr><th class="num col-fit">#</th><th class="col-fit center">지난주</th><th>팀</th><th class="col-fit">단계${infoTip('발굴 단계', INFO_TIPS.status_stage, { compact: true })}</th><th class="num">점수${infoTip('종합 점수', INFO_TIPS.score, { compact: true })}</th>${numHeads}<th class="col-clip">근거</th></tr></thead>
             <tbody>${top.map((r, i) => rowHtml(r, i, prevPos.get(r.team_key), stageByTeam, kind)).join('')}</tbody>
           </table>
         </div>` : `<div style="padding:16px;">${naCell(kind === 'city' && !appState.teamCitiesByTeam.size ? '팀별 활동 도시 자료(team_cities.csv)가 아직 없습니다' : '이 정의에 맞는 팀이 없습니다', { block: true })}</div>`}

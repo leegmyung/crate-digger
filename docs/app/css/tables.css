@@ -1,0 +1,315 @@
+/* ================================================================
+   공통 표·목록 정렬 (docs/layout_rules.md) — style.css 맨 위에서 @import 로 먼저 읽힌다.
+   화면별 CSS(style.css 뒷부분·css/*.css)는 이 위에 칸 너비 같은 '덧칠'만 한다.
+   ================================================================ */
+
+/* ---------- 1. 표 바탕: 행 높이 통일 · 세로 가운데 ---------- */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-table);
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;   /* 날짜·숫자 자릿수가 줄마다 같은 폭 */
+}
+
+table.data-table th,
+table.data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* 표 칸의 height 는 '최소 높이'로 동작 — 사진·배지 유무로 줄 높이가 들쭉날쭉하지 않게 */
+table.data-table tbody td {
+  height: var(--row-h, 48px);
+}
+
+table.data-table th {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--ink-muted);
+  background: var(--surface-alt);
+  white-space: nowrap;
+}
+
+table.data-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+table.data-table th.sortable:hover {
+  color: var(--ink);
+}
+
+/* ---------- 2. 숫자: 오른쪽 정렬 + 고정 폭 숫자, 머리글도 같은 쪽 ---------- */
+table.data-table th.num,
+table.data-table td.num {
+  text-align: right;
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* 숫자 뒤 꼬리(#12 · +예정 2): 폭을 고정해 앞 숫자가 줄마다 같은 자리에 오게 */
+.num-suffix {
+  display: inline-block;
+  min-width: 3.4em;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+}
+
+table.data-table th.center,
+table.data-table td.center {
+  text-align: center;
+}
+
+table.data-table .mono {
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+
+table.data-table tbody tr.clickable { cursor: pointer; }
+table.data-table tbody tr.clickable:hover,
+table.data-table tbody tr.clickable:focus-visible { background: var(--surface-alt); }
+table.data-table tbody tr.low-n td { opacity: 0.62; }
+table.data-table tbody tr.summary-row td {
+  font-weight: 700;
+  background: var(--surface-alt);
+  border-top: 2px solid var(--line-strong);
+}
+table.data-table tbody tr.baseline-row td {
+  font-weight: 600;
+  background: var(--surface-alt);
+}
+
+/* ---------- 3. 칸 너비 도우미 ---------- */
+/* 내용만큼만(순위·날짜·배지·버튼 칸) */
+table.data-table .col-fit {
+  width: 1%;
+  white-space: nowrap;
+}
+
+/* 남는 폭을 다 쓰고, 넘치면 한 줄 말줄임(근거·설명 칸). 전체 글은 title 로 */
+table.data-table .col-clip {
+  width: var(--clip-w, 36%);   /* 표 폭의 이만큼을 목표로(나머지는 이름 칸) */
+}
+
+table.data-table td.col-clip {
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 이름 칸: 너무 좁아지지 않게(말줄임은 .cell-entity-name 이 맡음) */
+table.data-table .col-name {
+  min-width: 10em;
+}
+
+/* 표 안 배지·꼬리표는 글자 중간에서 줄바꿈하지 않음 */
+table.data-table td :is([class*="-pill"], [class*="-chip"], [class*="-badge"], .tag, .badge) {
+  white-space: nowrap;
+}
+
+/* 사진은 글자 기준선이 아니라 가운데에 — 사진 있는 줄만 키가 커지는 것 막기 */
+.avatar {
+  vertical-align: middle;
+}
+
+/* ---------- 4. 이름 칸: [사진] [이름 / 아래 줄] [오른쪽 버튼] ---------- */
+.cell-entity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.cell-entity > .avatar {
+  flex: none;
+}
+
+.cell-entity-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.cell-entity-name {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.35;
+}
+
+.cell-entity-sub {
+  display: flex;
+  align-items: center;
+  gap: 4px 6px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: var(--text-xs);
+  line-height: 1.35;
+  color: var(--ink-muted);
+}
+
+.cell-entity-sub > * {
+  flex: none;
+}
+
+/* 아래 줄 안 꼬리표는 한 줄 높이에 맞게 작게 */
+.cell-entity-sub :is([class*="-pill"], [class*="-badge"], [class*="-chip"]) {
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 1.45;
+}
+
+.cell-entity-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  flex: none;
+}
+
+/* ---------- 5. 알림 목록 한 줄: 칸 위치 고정 [종류] [별] [사진·이름·▶] [내용] [날짜] ---------- */
+.alert-row > details > summary {
+  display: grid;
+  grid-template-columns: var(--alert-stars-w, 64px) minmax(0, var(--alert-who-w, 13em)) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px var(--space-3);
+  padding: 7px 0;
+  min-height: 40px;
+  cursor: pointer;
+}
+
+.alert-row.has-chip > details > summary {
+  grid-template-columns: var(--alert-chip-w, 112px) var(--alert-stars-w, 64px) minmax(0, var(--alert-who-w, 13em)) minmax(0, 1fr) auto;
+}
+
+/* 목록 전체에 별이 하나도 없으면(구독 공연장 소식 등) 별 칸을 빼서 왼쪽이 비지 않게 */
+.today-alerts-list:not(:has(.alert-stars)) .alert-stars-slot {
+  display: none;
+}
+
+.today-alerts-list:not(:has(.alert-stars)) .alert-row > details > summary {
+  grid-template-columns: minmax(0, var(--alert-who-w, 13em)) minmax(0, 1fr) auto;
+}
+
+.today-alerts-list:not(:has(.alert-stars)) .alert-row.has-chip > details > summary {
+  grid-template-columns: var(--alert-chip-w, 112px) minmax(0, var(--alert-who-w, 13em)) minmax(0, 1fr) auto;
+}
+
+.alert-row .alert-kind-chip {
+  justify-self: start;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.alert-who {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.alert-who > .today-alert-team {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.alert-who > :not(.today-alert-team) {
+  flex: none;
+}
+
+/* ▶ 는 이름 바로 뒤(멀리 밀면 이름과 ▶ 사이가 벌어져 흩어져 보임). 줄마다 맞추는 건 '내용'이 시작하는 세로줄 */
+
+.alert-row .today-alert-meta {
+  justify-self: end;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 6. 휴대폰(≤640px) ---------- */
+@media (max-width: 640px) {
+  /* 표 → 쌓인 줄(칸 이름은 data-label) */
+  table.stack-table,
+  table.stack-table tbody,
+  table.stack-table tr,
+  table.data-table.stack-table td {
+    display: block;
+    width: 100%;
+  }
+
+  table.stack-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  table.stack-table tr {
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  table.data-table.stack-table td {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    height: auto;
+    max-width: none;
+    padding: 3px 0;
+    border: 0;
+    text-align: left;
+    white-space: normal;
+  }
+
+  table.data-table.stack-table td::before {
+    content: attr(data-label);
+    flex: 0 0 76px;
+    color: var(--ink-subtle);
+    font-size: var(--text-xs);
+    text-align: left;
+  }
+
+  table.data-table.stack-table td.num {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  table.data-table.stack-table td > .cell-entity {
+    flex: 1 1 auto;
+  }
+
+  /* 알림 한 줄: [종류][별] / 사진·이름 / 내용 / 날짜 */
+  .alert-row > details > summary,
+  .alert-row.has-chip > details > summary,
+  .today-alerts-list:not(:has(.alert-stars)) .alert-row > details > summary,
+  .today-alerts-list:not(:has(.alert-stars)) .alert-row.has-chip > details > summary {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .alert-row > details > summary > :is(.alert-who, .today-alert-text, .today-alert-meta) {
+    grid-column: 1 / -1;
+  }
+
+  .alert-row .today-alert-meta {
+    justify-self: start;
+  }
+}

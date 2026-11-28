@@ -6,6 +6,7 @@
 import { appState } from '../state.js';
 import { isInstaAccountName, matchesVenueQuery, UNKNOWN_TYPE, venueTypeLabel, venueTypeOptions, venueStatusBadge } from '../components/venue_info.js';
 import { loadVenueProfiles } from '../db.js';
+import { entityCellHtml } from '../components/entity_cell.js';
 import {
   escapeHtml, fmtInt, fmtNum, INFO_TIPS, infoTip, naCell,
 } from '../ui.js';
@@ -189,11 +190,16 @@ function rowHtml(v, months) {
   const disc = v.discovery?.score;
   return `
     <tr>
-      <td data-label="공연장"><a href="#/venue/${encodeURIComponent(v.name)}"><strong>${escapeHtml(v.name)}</strong></a> ${venueStatusBadge(v, escapeHtml)}${Number(v.upcoming_nights) > 0 ? ` <span class="venue-upcoming-pill">예정 ${fmtInt(v.upcoming_nights)}일</span>` : ''}</td>
-      <td data-label="도시">${escapeHtml(v.city || '모름')}</td>
-      <td data-label="종류"><span title="${escapeHtml(v.type_basis || '종류 근거 없음')}">${escapeHtml(venueTypeLabel(v))}</span></td>
-      <td data-label="체급">${TIER_LABEL[tierKey(v)]}${v.capacity ? ` <span class="small muted">~${fmtInt(v.capacity)}명</span>` : ''}</td>
-      <td data-label="최근 12개월" class="vl-row-months">${monthBarsHtml(v, months)}<span class="small muted">${fmtInt(v.discovery?.nights_12m ?? sumLast12(v))}일</span></td>
+      <td data-label="공연장" class="col-name">${entityCellHtml({
+        name: `<a href="#/venue/${encodeURIComponent(v.name)}"><strong>${escapeHtml(v.name)}</strong></a>`,
+        title: v.name,
+        sub: venueStatusBadge(v, escapeHtml),
+      })}</td>
+      <td class="num col-fit" data-label="예정">${Number(v.upcoming_nights) > 0 ? `<span class="venue-upcoming-pill">${fmtInt(v.upcoming_nights)}일</span>` : '<span class="muted">—</span>'}</td>
+      <td class="col-fit" data-label="도시">${escapeHtml(v.city || '모름')}</td>
+      <td class="col-fit" data-label="종류"><span title="${escapeHtml(v.type_basis || '종류 근거 없음')}">${escapeHtml(venueTypeLabel(v))}</span></td>
+      <td class="col-fit" data-label="체급">${TIER_LABEL[tierKey(v)]}${v.capacity ? ` <span class="small muted">~${fmtInt(v.capacity)}명</span>` : ''}</td>
+      <td data-label="최근 12개월" class="col-fit"><div class="vl-row-months">${monthBarsHtml(v, months)}<span class="small muted vl-row-nights">${fmtInt(v.discovery?.nights_12m ?? sumLast12(v))}일</span></div></td>
       <td class="num" data-label="첫 무대 신인">${share !== null && share !== undefined ? `${Math.round(share * 100)}%` : '—'}</td>
       <td class="num" data-label="정답 전">${fmtInt(v.later_winners_total || 0)}팀</td>
       <td class="num" data-label="발굴 주목도"><strong>${disc !== undefined && disc !== null ? fmtNum(disc, 1) : '—'}</strong></td>
@@ -229,7 +235,7 @@ export async function renderVenueListTab(host) {
     const tableHtml = shown.length ? `
       <div class="table-wrap">
         <table class="data-table stack-table vl-table">
-          <thead><tr><th>공연장</th><th>도시</th><th>종류</th><th>체급</th><th>최근 12개월${infoTip('최근 12개월 공연', INFO_TIPS.venue_nights_12m, { compact: true })}</th><th class="num">첫 무대 신인${infoTip('첫 무대 신인 비율', INFO_TIPS.first_timer_share, { compact: true })}</th><th class="num">정답 전${infoTip('정답 전에 선 팀', INFO_TIPS.venue_pre_outcome, { compact: true })}</th><th class="num">발굴 주목도${infoTip('발굴 주목도', INFO_TIPS.venue_discovery, { compact: true })}</th></tr></thead>
+          <thead><tr><th>공연장</th><th class="num col-fit">예정${infoTip('예정 공연', { what: '이 공연장에 앞으로 잡힌 공연 날짜 수', period: '기준일 다음 날부터' }, { compact: true })}</th><th class="col-fit">도시</th><th class="col-fit">종류</th><th class="col-fit">체급</th><th>최근 12개월${infoTip('최근 12개월 공연', INFO_TIPS.venue_nights_12m, { compact: true })}</th><th class="num">첫 무대 신인${infoTip('첫 무대 신인 비율', INFO_TIPS.first_timer_share, { compact: true })}</th><th class="num">정답 전${infoTip('정답 전에 선 팀', INFO_TIPS.venue_pre_outcome, { compact: true })}</th><th class="num">발굴 주목도${infoTip('발굴 주목도', INFO_TIPS.venue_discovery, { compact: true })}</th></tr></thead>
           <tbody>${shown.map(v => rowHtml(v, months)).join('')}</tbody>
         </table>
       </div>` : empty;

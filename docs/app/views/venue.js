@@ -1,10 +1,12 @@
 import { appState, navigateTo, setExportContext, VENUE_TABS } from '../state.js';
+import { backTarget } from '../back_nav.js';
 import {
   loadAlertsJson, loadVenueProfiles, queryCandidates, queryDiscoveryStages, queryVenueRecentShows,
 } from '../db.js';
 import { loadVenueLadder, queryVenueTeams } from '../db_venue.js';
 import { buildVenueFlow } from '../components/venue_flow.js';
 import { mountVenueTables } from './venue_tables.js';
+import { entityCellHtml } from '../components/entity_cell.js';
 import { alertsForSubscribedVenues, isVenueSubscribed, toggleVenueSub } from '../venue_subs.js';
 import { venueSubForecastText } from '../insight_text.js';
 import { confidenceLabel, venueStatusBadge, venueTypeLabel } from '../components/venue_info.js';
@@ -236,9 +238,10 @@ export async function renderVenueView(root, venueName) {
   const showGroups = groupRecentShows(recentShowRows, effectiveAsOf);
 
   // 이전 화면 이름(메뉴 이름) — 모르면 공연장 목록
-  const backRoute = appState.prevRoute && routeBackLabel(appState.prevRoute) && appState.prevRoute !== 'venue' ? appState.prevRoute : 'venues';
-  const backParam = backRoute === 'team' ? (appState.prevParam || '') : '';
-  const backLabel = routeBackLabel(backRoute) || '공연장';
+  // 앱 안에서 왔으면 그 화면으로(브라우저 뒤로 — 필터·주소 그대로), 주소로 바로 열었으면 공연장 목록 (docs/ux_simplify_2026-11-28.md ⑨)
+  const back = backTarget({ prevRoute: appState.prevRoute, prevParam: appState.prevParam, selfRoute: 'venue',
+                            fallbackRoute: 'venues', label: routeBackLabel });
+  const backLabel = back.label || '공연장';
 
   const showsCsvSpec = showGroups.length ? {
     filename: `crate_digger_venue_${cleanVenue.replace(/[^a-zA-Z0-9가-힣_-]+/g, '_')}_${effectiveAsOf}.csv`,
@@ -291,12 +294,11 @@ export async function renderVenueView(root, venueName) {
                   : '—';
                 return `
                   <tr>
-                    <td>
-                      <a class="row-team-cell" href="#/team/${encodeURIComponent(w.team_key)}">
-                        ${avatarHtml(w.team_key, w.name || w.team_key, 24, { shape: 'circle' })}
-                        <strong>${escapeHtml(w.name || w.team_key)}</strong>
-                      </a>
-                    </td>
+                    <td class="col-name">${entityCellHtml({
+                      avatar: avatarHtml(w.team_key, w.name || w.team_key, 28, { shape: 'circle' }),
+                      name: `<a href="#/team/${encodeURIComponent(w.team_key)}"><strong>${escapeHtml(w.name || w.team_key)}</strong></a>`,
+                      title: w.name || w.team_key,
+                    })}</td>
                     <td>
                       <div class="venue-winner-outcome">
                         ${w.grade ? gradeBadgeHtml(w.grade) : ''}
@@ -586,6 +588,7 @@ export async function renderVenueView(root, venueName) {
   wireSpotifyButtons(root, '#venueCandPlayerSlot');
 
   root.querySelector('#btnVenueBack')?.addEventListener('click', () => {
-    navigateTo(backRoute, backParam);
+    if (back.useHistory && window.history.length > 1) window.history.back();
+    else navigateTo(back.route, back.param);
   });
 }

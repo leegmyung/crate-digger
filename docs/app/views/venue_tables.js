@@ -7,6 +7,7 @@ import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, gradeBadgeHtml, naCell, playButtonHtml, renderTableCsvBtn, SOURCE_LABELS,
   STAGE_META, stageBadgeHtml, triggerTableCsvExport, updateSortHeaders, wireAvatarFallbacks,
 } from '../ui.js';
+import { entityCellHtml } from '../components/entity_cell.js';
 
 const TEAMS_FIRST = 20;
 const SHOWS_FIRST = 15;
@@ -44,12 +45,18 @@ export function venueTeamRowHtml(r) {
   const name = r.display_name || r.team_key;
   return `
     <tr>
-      <td data-label="팀"><span class="team-cell-inline">${avatarHtml(r.team_key, name, 28, { shape: 'circle', genre: r.primary_genre })}<a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(name)}</strong></a>${playButtonHtml(r.team_key, name, { variant: 'icon' })}</span>${r.primary_genre ? ` <span class="small muted">${escapeHtml(r.primary_genre)}</span>` : ''}</td>
+      <td data-label="팀" class="col-name">${entityCellHtml({
+        avatar: avatarHtml(r.team_key, name, 28, { shape: 'circle', genre: r.primary_genre }),
+        name: `<a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(name)}</strong></a>`,
+        title: name,
+        sub: r.primary_genre ? escapeHtml(r.primary_genre) : '',
+        actions: playButtonHtml(r.team_key, name, { variant: 'icon' }),
+      })}</td>
       <td class="num" data-label="공연 수">${fmtInt(r.gigs)}회${r.upcoming ? ` <span class="small muted">+예정 ${fmtInt(r.upcoming)}</span>` : ''}</td>
-      <td class="mono nowrap" data-label="첫 출연">${escapeHtml(r.first_here || '—')}</td>
-      <td class="mono nowrap" data-label="마지막">${escapeHtml(r.last_here || '—')}</td>
-      <td class="num" data-label="후보 점수">${r.score !== null && r.score !== undefined ? `${fmtNum(r.score, 2)} <span class="small muted">#${fmtInt(r.rank)}</span>` : naCell('지금 후보 상위 300팀 밖입니다', { label: '—' })}</td>
-      <td data-label="발굴 단계">${r.stage !== null && r.stage !== undefined ? stageBadgeHtml(r.stage, { short: true }) : naCell('발굴 단계를 계산하지 않은 팀입니다', { label: '—' })}</td>
+      <td class="mono col-fit" data-label="첫 출연">${escapeHtml(r.first_here || '—')}</td>
+      <td class="mono col-fit" data-label="마지막">${escapeHtml(r.last_here || '—')}</td>
+      <td class="num" data-label="후보 점수">${r.score !== null && r.score !== undefined ? `${fmtNum(r.score, 2)} <span class="small muted num-suffix">#${fmtInt(r.rank)}</span>` : naCell('지금 후보 상위 300팀 밖입니다', { label: '—' })}</td>
+      <td class="col-fit" data-label="발굴 단계">${r.stage !== null && r.stage !== undefined ? stageBadgeHtml(r.stage, { short: true }) : naCell('발굴 단계를 계산하지 않은 팀입니다', { label: '—' })}</td>
       <td data-label="정답">${outcomeCell(r)}</td>
     </tr>`;
 }
@@ -61,7 +68,7 @@ function sourceLabels(teams) {
 function showRowHtml(g) {
   return `
     <tr class="${g.isUpcoming ? 'is-upcoming' : ''}">
-      <td class="mono nowrap" data-label="날짜">${escapeHtml(g.date)}${g.isUpcoming ? ' <span class="venue-upcoming-pill">예정</span>' : ''}</td>
+      <td class="mono col-fit" data-label="날짜">${escapeHtml(g.date)}${g.isUpcoming ? ' <span class="venue-upcoming-pill">예정</span>' : ''}</td>
       <td data-label="출연진">${g.teams.map(t => `<a class="venue-show-team-link" href="#/team/${encodeURIComponent(t.team_key)}">${escapeHtml(t.display_name)}</a>`).join(' · ')} <span class="small muted">(${fmtInt(g.teams.length)}팀)</span></td>
       <td data-label="출처">${escapeHtml(sourceLabels(g.teams) || '—')}</td>
     </tr>`;
@@ -113,7 +120,7 @@ export function mountVenueTables(root, ctx) {
       ${teams.length ? `
         <div class="table-wrap">
           <table class="data-table stack-table venue-teams-table" id="venueTeamsTable">
-            <thead><tr>${th('name', '팀')}${th('gigs', '공연 수', 'num')}${th('first_here', '첫 출연')}${th('last_here', '마지막')}${th('score', '후보 점수', 'num')}${th('stage', '발굴 단계')}${th('grade', '정답')}</tr></thead>
+            <thead><tr>${th('name', '팀')}${th('gigs', '공연 수', 'num')}${th('first_here', '첫 출연', 'col-fit')}${th('last_here', '마지막', 'col-fit')}${th('score', '후보 점수', 'num')}${th('stage', '발굴 단계', 'col-fit')}${th('grade', '정답')}</tr></thead>
             <tbody>${shown.map(venueTeamRowHtml).join('')}</tbody>
           </table>
         </div>

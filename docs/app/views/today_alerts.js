@@ -101,15 +101,17 @@ export function alertRowHtml({ a, stars }, { isWatch = false, isSubVenue = false
     ? '<span class="alert-rel-tag">관심</span>'
     : (isSubVenue ? '<span class="alert-rel-tag">구독 공연장</span>' : '');
   return `
-    <li class="alert-row${isWatch ? ' is-watch' : ''}">
+    <li class="alert-row${isWatch ? ' is-watch' : ''}${chipHtml ? ' has-chip' : ''}">
       <details>
         <summary>
           ${chipHtml}
-          ${starsMini(stars)}
-          ${avatarHtml(a.team_key, a.name || a.team_key, 22, { shape: 'circle' })}
-          <a class="today-alert-team" href="${alertTeamHref(a)}"><strong>${escapeHtml(a.name || a.team_key)}</strong></a>
-          ${playButtonHtml(a.team_key, a.name || a.team_key, { variant: 'icon' })}
-          ${relBadge}
+          <span class="alert-stars-slot">${starsMini(stars)}</span>
+          <span class="alert-who">
+            ${avatarHtml(a.team_key, a.name || a.team_key, 22, { shape: 'circle' })}
+            <a class="today-alert-team" href="${alertTeamHref(a)}" title="${escapeHtml(a.name || a.team_key)}"><strong>${escapeHtml(a.name || a.team_key)}</strong></a>
+            ${relBadge}
+            ${playButtonHtml(a.team_key, a.name || a.team_key, { variant: 'icon' })}
+          </span>
           <span class="today-alert-text${textCls}">${escapeHtml(a.text)}</span>
           <span class="today-alert-meta mono">${escapeHtml(alertDateText(a))}</span>
         </summary>
