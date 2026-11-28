@@ -150,7 +150,7 @@ export function querySimilarTeams(teamKey, asOf) {
     similarMemo.set(key, (async () => {
       const tpl = await getSqlTemplate('similar_teams');
       if (!tpl) return [];
-      const res = await runRawSql(fillTemplate(tpl, { team_key: sqlStringLiteral(teamKey), as_of: `DATE '${asOf}'` }));
+      const res = await runRawSql(fillTemplate(tpl, { team_key: sqlStringLiteral(teamKey), as_of: `DATE '${asOf}'`, sim_limit: '12' }));
       return res.rows;
     })().catch(() => []));
   }

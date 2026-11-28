@@ -6,6 +6,7 @@
 --   같은 장르 0.20  확인된 장르(멜론 프로필·보도)가 같으면 1 — 추정·리뷰 장르는 분석에 안 씀(peer_compare.sql 과 같은 규칙)
 --   비슷한 체급 0.15  첫 신호 시기(1년 안 1, 2년 안 0.5)와 신호 갈래 수 차이(1 − 차이/3)의 평균
 -- 후보 = 같은 무대나 같은 출처가 하나라도 있는 팀. 제외(excluded) 역할 신호와 기준일 뒤 신호는 세지 않는다.
+-- {{sim_limit}} = 최대 행 수(앱 12). f_stage·f_source·f_level 은 0~1 원재료 — 가중치 검증(scripts/similar_validate.py, docs/similar_teams.md)용.
 WITH params AS (
     SELECT {{team_key}} AS me, {{as_of}} AS as_of
 ),
@@ -90,8 +91,9 @@ SELECT f.other AS related_team,
        CAST(ROUND(100 * 0.25 * f.f_source) AS INTEGER) AS part_source,
        CASE WHEN f.same_genre THEN 20 ELSE 0 END AS part_genre,
        CAST(ROUND(100 * 0.15 * COALESCE(f.f_level, 0)) AS INTEGER) AS part_level,
-       f.shared_stages, f.last_shared, f.shared_sources, f.source_names, f.same_genre
+       f.shared_stages, f.last_shared, f.shared_sources, f.source_names, f.same_genre,
+       ROUND(f.f_stage, 4) AS f_stage, ROUND(f.f_source, 4) AS f_source, ROUND(COALESCE(f.f_level, 0), 4) AS f_level
 FROM feat f
 LEFT JOIN teams t ON t.team_key = f.other
 ORDER BY sim_pct DESC, f.shared_stages DESC, f.shared_sources DESC, f.other
-LIMIT 12;
+LIMIT {{sim_limit}};

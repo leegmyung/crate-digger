@@ -35,6 +35,7 @@ DEFAULTS: Dict[str, str] = {
     "venue_years": "2",   # 공연장 수를 세는 기간(년) — features.sql lab_scored 기본값과 같게 (2026-11-28 사용자 결정, docs/dormant_check.md)
     "k_list": "[20,50,100,200]", "only_no_outcome": "true", "limit": "100",
     # 이웃 비교·떠오르는 팀 (docs/peer_rising.md)
+    "sim_limit": "12",   # 비슷한 팀 최대 행 수 (similar_teams.sql, 앱과 같게)
     "team": "''", "min_peers": "30", "window_days": "30", "min_recent": "2", "max_tier": "'M'", "max_fans": "10000",
 }
 V0_WEIGHTS: Dict[str, str] = {"w_branch": "2", "w_stage": "1", "w_peer": "1", "w_dmz": "0.5", "w_gigs": "0.5",

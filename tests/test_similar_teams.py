@@ -59,6 +59,15 @@ class SimilarTeamsTest(unittest.TestCase):
         after, _ = similar(self.con)                         # 정답 표가 없어도 같은 결과
         self.assertEqual({k: v["sim_pct"] for k, v in before.items()}, {k: v["sim_pct"] for k, v in after.items()})
 
+    def test_raw_factors_for_reweighting_and_limit(self):
+        """검증(scripts/similar_validate.py)이 가중치를 바꿔 보려고 0~1 원재료를 같이 내보낸다."""
+        by, _ = similar(self.con)
+        self.assertAlmostEqual(by["b"]["f_stage"], 1 / 3, places=3)
+        self.assertAlmostEqual(by["g"]["f_source"], 0.5, places=3)
+        self.assertAlmostEqual(by["b"]["f_level"], (1 + 1 / 3) / 2, places=3)
+        one = rows(self.con, "similar_teams.sql", team_key="'a'", as_of="DATE '2026-11-28'", sim_limit="1")
+        self.assertEqual(len(one), 1)
+
     def test_excluded_role_signals_do_not_count(self):
         self.con.execute("UPDATE signals SET role = 'excluded' WHERE team_key = 'g' AND branch = '선정·지원'")
         _, order = similar(self.con)
