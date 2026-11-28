@@ -1,8 +1,10 @@
 """인디스트릿 아티스트 페이지 → 팀 공식 SNS(인스타 등) → data/raw/state/indistreet_sns.json (비공개)
 
-    .venv/bin/python scripts/collect_indistreet_sns.py            # 관찰 팀(followers_watch.json) 중 아직 안 본 / 30일 지난 팀
+    .venv/bin/python scripts/collect_indistreet_sns.py            # 대상 중 아직 안 본 / 30일 지난 팀 (기본 최대 300페이지)
     .venv/bin/python scripts/collect_indistreet_sns.py --all      # 인디스트릿 공연에 나온 모든 팀
-    .venv/bin/python scripts/collect_indistreet_sns.py --limit 50
+    .venv/bin/python scripts/collect_indistreet_sns.py --limit 400   # 첫 회는 나눠 돌린다 (이어서 하면 안 본 팀부터)
+
+대상(기본): coverage_targets.json 의 오늘 점수 상위 500 + 정답 팀 → 인디스트릿 공연 기록이 최근 2년 안에 있는 팀 전체(최근 공연 순).
 
 왜: 팔로워 30일 변화(docs/followers_plan.md)를 보려면 팀 ↔ 인스타 계정이 있어야 하는데, 관찰 300팀 중 links.csv 에 인스타가
 있는 팀이 15팀뿐이다. 인디스트릿 아티스트 페이지의 구조화 데이터(JSON-LD MusicGroup)의 sameAs 에는 팀이 직접 적은 공식
@@ -31,6 +33,8 @@ ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"
 STATE = RAW_DIR / "state" / "indistreet_sns.json"
 WATCH = RAW_DIR / "state" / "followers_watch.json"
+COVERAGE = RAW_DIR / "state" / "coverage_targets.json"
+RECENT_YEARS = 2
 KST = timezone(timedelta(hours=9))
 PAGE_PREFIX = "https://indistreet.com/artists/"
 RECHECK_DAYS = 30
@@ -81,6 +85,23 @@ def team_pages(rows: Iterable[Mapping], key_of: Callable[[str], str]) -> Dict[st
     return {k: next(iter(v)) for k, v in pages.items() if k and len(v) == 1}
 
 
+def target_keys(pages: Mapping[str, str], coverage: Sequence[Mapping], gig_rows: Iterable[Mapping],
+                key_of: Callable[[str], str], today: str, years: int = RECENT_YEARS) -> List[str]:
+    """볼 팀 순서: coverage_targets(상위 순위 → 정답 팀) 중 페이지가 있는 팀 → 최근 years 년 안 인디스트릿 공연 팀(최근 공연 순)."""
+    since = (date.fromisoformat(today) - timedelta(days=365 * years)).isoformat()
+    first = [t["team_key"] for t in sorted(coverage, key=lambda t: (t.get("rank") is None, t.get("rank") or 0))
+             if t.get("team_key") in pages]
+    last_gig: Dict[str, str] = {}
+    for r in gig_rows:
+        d = (r.get("gig_date") or "")[:10]
+        if d >= since and (r.get("artist_text") or "").strip():
+            k = key_of(r["artist_text"])
+            if k in pages and d > last_gig.get(k, ""):
+                last_gig[k] = d
+    recent = sorted(last_gig, key=lambda k: last_gig[k], reverse=True)
+    return list(dict.fromkeys(first + recent))
+
+
 def due(keys: Sequence[str], state: Mapping[str, Mapping], today: str, days: int = RECHECK_DAYS) -> List[str]:
     """안 본 팀 먼저, 그다음 마지막으로 본 지 days 일 지난 팀(오래된 순)."""
     cut = (date.fromisoformat(today) - timedelta(days=days)).isoformat()
@@ -115,16 +136,21 @@ def _load(path: Path) -> dict:
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     ap = argparse.ArgumentParser(description="인디스트릿 아티스트 페이지 공식 SNS")
-    ap.add_argument("--all", action="store_true", help="관찰 팀만이 아니라 인디스트릿 공연에 나온 모든 팀")
+    ap.add_argument("--all", action="store_true", help="상위·정답·최근 2년 팀만이 아니라 인디스트릿 공연에 나온 모든 팀")
     ap.add_argument("--limit", type=int, default=300)
     args = ap.parse_args(argv)
     from artist_xref import canonical_key, load_xref
 
     index = load_xref()
-    pages = team_pages(_gig_rows(), key_of=lambda n: canonical_key(n, index))
-    keys = list(pages) if args.all else [t["team_key"] for t in _load(WATCH).get("teams", []) if t["team_key"] in pages]
-    state = _load(STATE)
+    rows = _gig_rows()
+    pages = team_pages(rows, key_of=lambda n: canonical_key(n, index))   # 페이지 하나뿐인 팀만
     today = f"{datetime.now(KST):%Y-%m-%d}"
+    if args.all:
+        keys = list(pages)
+    else:
+        coverage = _load(COVERAGE).get("teams", []) + _load(WATCH).get("teams", [])   # 관찰 목록(관심 팀 포함)도 앞에
+        keys = target_keys(pages, coverage, rows, key_of=lambda n: canonical_key(n, index), today=today)
+    state = _load(STATE)
     todo = due(keys, state, today)[:args.limit]
     found = failed = 0
     STATE.parent.mkdir(parents=True, exist_ok=True)

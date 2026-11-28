@@ -39,6 +39,14 @@ class TargetTest(unittest.TestCase):
         got = cis.team_pages(rows, key_of=lambda name: {"에이": "a", "비": "b", "씨": "c"}[name])
         self.assertEqual(got, {"a": "https://indistreet.com/artists/a"})
 
+    def test_targets_coverage_first_then_recent_gig_teams(self):
+        pages = {"a": "u/a", "b": "u/b", "c": "u/c", "d": "u/d", "e": "u/e"}
+        coverage = [{"team_key": "c", "rank": 1}, {"team_key": "x", "rank": 2}, {"team_key": "a", "rank": None}]
+        rows = [{"artist_text": "B", "gig_date": "2026-01-10"}, {"artist_text": "D", "gig_date": "2023-01-01"},
+                {"artist_text": "E", "gig_date": "2025-06-01"}, {"artist_text": "C", "gig_date": "2026-02-01"}]
+        got = cis.target_keys(pages, coverage, rows, key_of=str.lower, today="2026-11-28")
+        self.assertEqual(got, ["c", "a", "b", "e"])          # 상위·정답 팀(페이지 있는 것) → 최근 2년 공연 팀(최근 순), d 는 2년 넘음
+
     def test_due_recheck_after_30_days(self):
         state = {"a": {"checked": "2026-11-01"}, "b": {"checked": "2026-11-20"}}
         self.assertEqual(cis.due(["a", "b", "c"], state, "2026-12-05"), ["c", "a"])
