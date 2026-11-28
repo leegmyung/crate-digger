@@ -793,12 +793,16 @@
    "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
   },
   "숲세권 라이브 카인드스퀘어점": {
-   "rank": 64,
-   "events": 6,
-   "capacity": null,
-   "tier": null,
-   "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "rank": 170,
+   "events": 5,
+   "capacity": 120,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 120,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC005062",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '숲세권 라이브 카인드스퀘어점' 등록 객석 120석 (2026년 개관, 사직로 8 지하1층) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
   },
   "얼라이브홀": {
    "rank": 65,
@@ -877,12 +881,16 @@
    "checked": "2026-11-27"
   },
   "베리어스 재즈클럽": {
-   "rank": 72,
+   "rank": 185,
    "events": 4,
-   "capacity": null,
-   "tier": null,
-   "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "capacity": 250,
+   "tier": "M",
+   "checked": "2026-11-28",
+   "seats": 250,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002030",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '베리어스 재즈클럽' 베리어스 콘서트홀 등록 객석 250석 (2018년 개관) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
   },
   "현대카드 언더스테이지": {
    "rank": 73,
@@ -1109,12 +1117,16 @@
    "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
   },
   "인천맥주호랑이": {
-   "rank": 95,
+   "rank": 229,
    "events": 3,
-   "capacity": null,
-   "tier": null,
-   "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "capacity": 40,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 40,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC001310",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '인천아트플랫폼' 안 '인천맥주호랑이 (H동)' 등록 객석 40석 — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
   },
   "클럽 온에어": {
    "rank": 39,
@@ -1607,6 +1619,189 @@
    "not_venue": true,
    "checked": "2026-11-28",
    "note": "공연장이 아니라 인스타그램 라이브 온라인 중계 — 공연장 짝·체급 판정에서 뺌"
+  },
+  "스페이스홍": {
+   "rank": 132,
+   "events": 7,
+   "capacity": 100,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 100,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002793",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '스페이스 홍(구.오아스페이스)' 등록 객석 100석 (2020년 개관, 동교로 144 B1) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
+  },
+  "인천아트플랫폼": {
+   "rank": 133,
+   "events": 7,
+   "capacity": 30,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 30,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC001310",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '인천아트플랫폼' 공연장(C동) 등록 객석 30석 (시설 전체 2개 공간 70석 중 C동 공연장) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
+  },
+  "정동극장": {
+   "rank": 151,
+   "events": 6,
+   "capacity": 326,
+   "tier": "M",
+   "checked": "2026-11-28",
+   "seats": 326,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC000006",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '국립정동극장' 본관 등록 객석 326석 (시설 2개: 본관 326석·정동마루 50석 — 어느 쪽 공연인지 기록이 없어 본관 기준) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
+  },
+  "세종예술의전당": {
+   "rank": 149,
+   "events": 6,
+   "capacity": 1071,
+   "tier": "XL",
+   "checked": "2026-11-28",
+   "seats": 1071,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002877",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '세종예술의전당' 대공연장 등록 객석 1071석 (중·소공연장은 객석 수 미기재 — 어느 공연장인지 기록이 없어 대공연장 기준) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "low"
+  },
+  "그림라이브하우스": {
+   "rank": 164,
+   "events": 5,
+   "capacity": 300,
+   "tier": "M",
+   "checked": "2026-11-28",
+   "seats": 300,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC005192",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '그림라이브하우스' 등록 객석 300석 (연희로 14) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
+  },
+  "서강대학교 메리홀 대극장": {
+   "rank": 169,
+   "events": 5,
+   "capacity": 428,
+   "tier": "L",
+   "checked": "2026-11-28",
+   "seats": 428,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC001216",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '서강대 메리홀' 대극장 등록 객석 428석 (소극장 100석 따로) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "high"
+  },
+  "숲세권": {
+   "rank": 187,
+   "events": 4,
+   "capacity": 65,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 65,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC003092",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '숲세권 라이브' 등록 객석 65석 (2025년 개관, 문래동 도림로126길 1 지하1층) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
+  },
+  "재미공작소": {
+   "rank": 191,
+   "events": 4,
+   "capacity": 25,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 25,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002058",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '재미공작소' 등록 객석 25석 (2011년 개관) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
+  },
+  "SPACE SODA2002": {
+   "rank": 209,
+   "events": 3,
+   "capacity": 70,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 70,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC003806",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 'SPACE SODA2002' 등록 객석 70석 (희우정로5길 29 1층) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
+  },
+  "사운드마인드": {
+   "rank": 222,
+   "events": 3,
+   "capacity": 60,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 60,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC004092",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '사운드마인드' 등록 객석 60석 (낙성대로 14 지하1층) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
+  },
+  "플랫폼창동61": {
+   "rank": 231,
+   "events": 3,
+   "capacity": 150,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 150,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC001583",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '플랫폼 창동 61 (폐관)' 레드박스 등록 객석 150석 (2016년 개관) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
+  },
+  "올림픽공원 올림픽홀": {
+   "rank": 227,
+   "events": 3,
+   "capacity": 2452,
+   "tier": "XL",
+   "checked": "2026-11-28",
+   "seats": 2452,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC001247",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '올림픽공원' 올림픽홀 등록 객석 2452석 (공원 안 12개 공연장 중 올림픽홀) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "high"
+  },
+  "게토얼라이브": {
+   "rank": 247,
+   "events": 2,
+   "capacity": 75,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 75,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002304",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '게토얼라이브' 등록 객석 75석 — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
+  },
+  "달서아트센터 청룡홀": {
+   "rank": 256,
+   "events": 2,
+   "capacity": 455,
+   "tier": "L",
+   "checked": "2026-11-28",
+   "seats": 455,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC000183",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '달서아트센터' 청룡홀 등록 객석 455석 (와룡홀 212석 따로) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "high"
+  },
+  "노들섬라이브하우스": {
+   "rank": 253,
+   "events": 2,
+   "capacity": 708,
+   "tier": "L",
+   "checked": "2026-11-28",
+   "seats": 456,
+   "standing": 708,
+   "source": "https://nodeul.org/facility/livehouse/",
+   "source_note": "노들섬 공식 시설 안내 '수용인원 지정좌석 456석 / 스탠딩 708석' — 우리 데이터의 '노들섬라이브하우스' 표기도 같은 공연장",
+   "confidence": "high",
+   "other_sources": [
+    "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002122 (KOPIS 라이브하우스 등록 객석 456석)"
+   ]
   }
  }
 }

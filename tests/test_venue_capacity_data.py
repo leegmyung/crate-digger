@@ -40,5 +40,31 @@ class VenueCapacityDataTest(unittest.TestCase):
                 self.assertTrue(self.venues[name].get("tier"))
 
 
+    def test_top200_researched(self):
+        """2026-11-28 2차 조사분(상위 200): KOPIS 공연장별 객석·공식 자료로 확인한 곳."""
+        expected = {"올림픽공원 올림픽홀": "XL", "달서아트센터 청룡홀": "L", "서강대학교 메리홀 대극장": "L",
+                    "그림라이브하우스": "M", "베리어스 재즈클럽": "M", "정동극장": "M", "재미공작소": "S",
+                    "숲세권": "S", "인천맥주호랑이": "S", "노들섬라이브하우스": "L"}
+        for name, tier in expected.items():
+            with self.subTest(venue=name):
+                self.assertEqual(self.venues.get(name, {}).get("tier"), tier)
+
+
+class VenueStatusDataTest(unittest.TestCase):
+    """행정안전부 공연장 인허가(폐업)·KOPIS(폐관)로 확인한 폐업 — 마지막 공연이 폐업 시점보다 앞선 곳만."""
+
+    CLOSED = ("네스트나다", "코리아블루스씨어터", "폼텍 웍스홀", "플랫폼창동61", "맞배집")
+
+    def test_closed_with_evidence(self):
+        venues = {e["name"]: e for e in json.loads((ROOT / "config" / "venues_kr.json").read_text(encoding="utf-8"))["venues"]}
+        for name in self.CLOSED:
+            with self.subTest(venue=name):
+                e = venues[name]
+                self.assertEqual(e["status"], "closed")
+                self.assertRegex(e.get("status_note", ""), r"폐업|폐관")
+                urls = " ".join(s["url"] for s in e.get("sources", []))
+                self.assertRegex(urls, r"data\.go\.kr|kopis\.or\.kr")
+
+
 if __name__ == "__main__":
     unittest.main()

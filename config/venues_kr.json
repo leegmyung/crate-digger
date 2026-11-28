@@ -9936,7 +9936,7 @@
    "city": "서울",
    "district": "강남구",
    "address": "서울 강남구 논현로 508",
-   "type": "",
+   "type": "hall",
    "capacity": null,
    "status": "closed",
    "sources": [
@@ -9956,7 +9956,7 @@
    "checked": "2026-11-28",
    "in_our_data": true,
    "status_note": "역삼동 LG아트센터는 2022년 2월까지 운영, 2022년 10월 마곡으로 옮겨 'LG아트센터 서울'로 개관 (옛 건물은 2025년 GS아트센터로 다시 엶) · 우리 공연 데이터 마지막 공연 2021-06-12 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
-   "type_basis": "",
+   "type_basis": "이름 'LG아트센터'에 '아트센터' → 홀·공연장",
    "moved_to": "LG아트센터 서울",
    "lat": 37.502137,
    "lon": 127.037622,
@@ -10235,7 +10235,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 와우산로29가길 15 1층",
-   "type": "",
+   "type": "cafe",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -10247,7 +10247,7 @@
    "checked": "2026-11-28",
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2022-09-15 — 1년 넘게 기록 없음, 운영 여부 확인 필요 · 같은 주소에 '구름아래소극장'가 있음(이름이 바뀌었거나 문을 닫았을 수 있음)",
-   "type_basis": "",
+   "type_basis": "이름 '구름속에커피집'에 '커피' → 카페·바",
    "lat": 37.554171,
    "lon": 126.928602,
    "geo_confidence": "high",
@@ -10317,7 +10317,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울 마포구 상암동 495-72",
-   "type": "",
+   "type": "festival",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -10329,7 +10329,7 @@
    "checked": "2026-11-28",
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2023-05-27 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
-   "type_basis": "",
+   "type_basis": "이름 '난지한강공원'에 '공원' → 페스티벌·야외",
    "geo_checked": "2026-11-28",
    "lat": 37.566446,
    "lon": 126.876861,
@@ -10345,7 +10345,7 @@
    "city": "수원",
    "district": "팔달구",
    "address": "경기 수원시 팔달구 팔달로3가 103-1",
-   "type": "",
+   "type": "theater",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -10357,7 +10357,7 @@
    "checked": "2026-11-28",
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2022-08-14 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
-   "type_basis": "",
+   "type_basis": "이름 '남문로데오 청소년소극장'에 '소극장' → 소극장",
    "geo_checked": "2026-11-28",
    "added_by": "scripts/add_missing_venues.py"
   },
@@ -10370,16 +10370,20 @@
    "address": "서울 마포구 와우산로29길 15 2층",
    "type": "",
    "capacity": null,
-   "status": "unknown",
+   "status": "closed",
    "sources": [
     {
      "url": "https://indistreet.com/gigs/ww2sp1chgcybnjmz4so39orz",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://www.data.go.kr/data/15045106/fileData.do",
+     "note": "행정안전부_문화_공연장 인허가 자료(localdata, 2026-11-28 내려받음): '네스트 나다' 영업상태 폐업, 폐업일 2023-07-12"
     }
    ],
    "checked": "2026-11-28",
    "in_our_data": true,
-   "status_note": "우리 공연 데이터 마지막 공연 2023-06-30 — 1년 넘게 기록 없음, 운영 여부 확인 필요 · 같은 주소에 '언플러그드 라운지'가 있음(이름이 바뀌었거나 문을 닫았을 수 있음)",
+   "status_note": "행정안전부 공연장 인허가 자료에 '네스트 나다'(와우산로29길 15 2층, 인허가 2021-08-03) 폐업 2023-07-12 — 우리 공연 데이터 마지막 공연 2023-06-30과 맞음 · 같은 주소에 지금 '언플러그드 라운지'가 있음 (2026-11-28 확인)",
    "type_basis": "",
    "lat": 37.554881,
    "lon": 126.928896,
@@ -10422,7 +10426,7 @@
    "city": "대구",
    "district": "달서구",
    "address": "대구 달서구 문화회관길 160",
-   "type": "",
+   "type": "hall",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -10434,7 +10438,7 @@
    "checked": "2026-11-28",
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2022-08-28 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
-   "type_basis": "",
+   "type_basis": "이름 '달서아트센터 청룡홀'에 '아트센터' → 홀·공연장",
    "lat": 35.847189,
    "lon": 128.522329,
    "geo_confidence": "medium",
@@ -10532,16 +10536,20 @@
    "address": "대전 중구 보문로260번길 17 2층",
    "type": "",
    "capacity": null,
-   "status": "unknown",
+   "status": "closed",
    "sources": [
     {
      "url": "https://indistreet.com/gigs/hg1bvd9l9d0wjv09e8e7k0et",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002919",
+     "note": "KOPIS 공연시설 '구. 맞배집 (폐관)' (대전 중구 보문로260번길 17 2층)"
     }
    ],
    "checked": "2026-11-28",
    "in_our_data": true,
-   "status_note": "우리 공연 데이터 마지막 공연 2022-04-22 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "status_note": "공연예술통합전산망(KOPIS) 공연시설 이름이 '구. 맞배집 (폐관)' — 우리 공연 데이터 마지막 공연 2022-04-22 (폐관 날짜는 공개 자료에서 확인 못 함) (2026-11-28 확인)",
    "type_basis": "",
    "lat": 36.32652,
    "lon": 127.424332,
@@ -11305,7 +11313,7 @@
    "city": "서울",
    "district": "마포구",
    "address": "서울시 마포구 합정동 427-14 지하",
-   "type": "",
+   "type": "hall",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -11317,7 +11325,7 @@
    "checked": "2026-11-28",
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2023-12-12 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
-   "type_basis": "",
+   "type_basis": "이름 '아로아로홀'에 '홀' → 홀·공연장",
    "geo_checked": "2026-11-28",
    "added_by": "scripts/add_missing_venues.py"
   },
@@ -11540,7 +11548,7 @@
    "city": "서울",
    "district": "송파구",
    "address": "서울 송파구 올림픽로 424",
-   "type": "",
+   "type": "hall",
    "capacity": null,
    "status": "unknown",
    "sources": [
@@ -11552,7 +11560,7 @@
    "checked": "2026-11-28",
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2022-07-03 — 1년 넘게 기록 없음, 운영 여부 확인 필요 · 같은 주소에 '뮤즈라이브'가 있음(이름이 바뀌었거나 문을 닫았을 수 있음)",
-   "type_basis": "",
+   "type_basis": "수동: KOPIS 올림픽공원 올림픽홀 등록 객석 2,452석 — 401명 이상은 홀 (이름의 '공원'은 공원 안 실내 공연장이라 야외 아님) (2026-11-28 확인)",
    "lat": 37.522741,
    "lon": 127.118711,
    "geo_confidence": "high",
@@ -12510,16 +12518,20 @@
    "address": "서울 용산구 청파로45길 5 지하1층",
    "type": "theater",
    "capacity": null,
-   "status": "unknown",
+   "status": "closed",
    "sources": [
     {
      "url": "https://indistreet.com/gigs/xfxxnwu8t2jptiwpqz25n3zc",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://www.data.go.kr/data/15045106/fileData.do",
+     "note": "행정안전부_문화_공연장 인허가 자료(localdata, 2026-11-28 내려받음): '코리아블루스씨어터' 영업상태 폐업, 폐업일 2023-11-15"
     }
    ],
    "checked": "2026-11-28",
    "in_our_data": true,
-   "status_note": "우리 공연 데이터 마지막 공연 2023-05-16 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "status_note": "행정안전부 공연장 인허가 자료에 '코리아블루스씨어터'(청파로45길 5 지층, 인허가 2019-06-07) 폐업 2023-11-15 — 우리 공연 데이터 마지막 공연 2023-05-16과 맞음 (2026-11-28 확인)",
    "type_basis": "이름 '코리아블루스씨어터'에 '씨어터' → 소극장",
    "lat": 37.544438,
    "lon": 126.969243,
@@ -12694,16 +12706,20 @@
    "address": "서울 마포구 잔다리로3길 34 스페이스맘 빌딩 1층",
    "type": "hall",
    "capacity": null,
-   "status": "unknown",
+   "status": "closed",
    "sources": [
     {
      "url": "https://indistreet.com/gigs/ypwkuas30apdffm3sm9vzrzi",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://www.data.go.kr/data/15045106/fileData.do",
+     "note": "행정안전부_문화_공연장 인허가 자료(localdata, 2026-11-28 내려받음): '폼텍 웍스홀' 영업상태 폐업, 폐업일 2023-07-31"
     }
    ],
    "checked": "2026-11-28",
    "in_our_data": true,
-   "status_note": "우리 공연 데이터 마지막 공연 2023-04-29 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "status_note": "행정안전부 공연장 인허가 자료에 '폼텍 웍스홀'(잔다리로3길 34 1층, 인허가 2021-09-03) 폐업 2023-07-31 — 우리 공연 데이터 마지막 공연 2023-04-29와 맞음 (2026-11-28 확인)",
    "type_basis": "이름 '폼텍 웍스홀'에 '홀' → 홀·공연장",
    "lat": 37.550679,
    "lon": 126.917879,
@@ -12721,16 +12737,20 @@
    "address": "서울 도봉구 마들로11길 74",
    "type": "",
    "capacity": null,
-   "status": "unknown",
+   "status": "closed",
    "sources": [
     {
      "url": "https://indistreet.com/gigs/o4uqqytg30a7jcwizx4bfn7y",
      "note": "우리 공연 데이터 원본 공연 페이지(공연장·주소)"
+    },
+    {
+     "url": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC001583",
+     "note": "KOPIS 공연시설 '플랫폼 창동 61 (폐관)' (2016년 개관, 레드박스 150석)"
     }
    ],
    "checked": "2026-11-28",
    "in_our_data": true,
-   "status_note": "우리 공연 데이터 마지막 공연 2021-11-21 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
+   "status_note": "공연예술통합전산망(KOPIS) 공연시설 이름이 '플랫폼 창동 61 (폐관)' — 우리 공연 데이터 마지막 공연 2021-11-21 (폐관 날짜는 공개 자료에서 확인 못 함) (2026-11-28 확인)",
    "type_basis": "",
    "lat": 37.653609,
    "lon": 127.048963,
