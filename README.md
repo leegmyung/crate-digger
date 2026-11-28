@@ -139,7 +139,7 @@ PostgreSQL(17)과 `.env`(유튜브·스포티파이 키, 커밋 안 됨)는 수�
 | 5. 랩·결과물 | `collect_artist_images` · `export_lab_data` · `source_roles_doc`(월요일, [출처 분류](docs/source_roles.md) 성적표 표) · `source_review` · `score_review`(월요일) · `collect_video_stats` · `export_video_momentum` · `export_excel`(월요일) · `lab_snapshot` · `build_scene_map` | `docs/lab/data/`, 주간 엑셀, 사운드 지도 |
 | 6. 기록 | `daily_note` · `build_status_report` → 커밋·push | `docs/log/<날짜>.md`, 진행 점검표 |
 
-사진·바로 듣기 보강 ([규칙](docs/media_coverage.md)): `coverage_targets`(후보 상위 500 → 정답 팀 대상·커버리지, .venv) · `collect_musicbrainz`(공식 유튜브·스포티파이·인스타 링크) · `collect_yt_channels`(공식 채널 아바타·최신 영상) → `export_lab_data`가 `images.csv`(스포티파이 → 유튜브 아바타)·`players.csv`(팀별 스포티파이 + 대표 유튜브 영상)를 만든다.
+사진·바로 듣기 보강 ([규칙](docs/media_coverage.md)): `coverage_targets`(후보 상위 500 → 정답 팀 대상·커버리지, .venv) · `collect_musicbrainz`(공식 유튜브·스포티파이·인스타 링크) · `collect_yt_channels`(공식 채널 아바타·최신 영상) · `yt_channel_search`(하루 20번 채널 검색) · `collect_itunes`(30초 미리듣기, 확인된 것만) → `export_lab_data`가 `images.csv`(스포티파이 → 유튜브 아바타)·`players.csv`(팀별 스포티파이 + 대표 유튜브 영상)를 만든다.
 
 손으로 가끔 돌리는 수집기: `collect_gigs_history`(인디스트릿 지난 공연) · `collect_webzines`(웹진 과거 기록) · `collect_ig_artists` · `collect_ssm_shows` · `collect_trackzero`(멜론 트랙제로) · `collect_hiphople --backfill`(과거 기록, 21~23시 제외).
 

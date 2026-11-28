@@ -67,6 +67,8 @@ class PlayerRowsTest(unittest.TestCase):
         self.assertEqual(rows[2]["channel_title"], "딩고 뮤직")
         self.assertEqual(rows[0]["source"], "spotify")
         self.assertEqual(set(rows[0]), set(pl.PLAYER_FIELDS))
+        self.assertEqual(rows[0]["page_url"], "https://open.spotify.com/artist/" + "A" * 22)
+        self.assertEqual(rows[1]["page_url"], "https://www.youtube.com/watch?v=STAGE000001")
 
     def test_first_spotify_link_wins(self):
         links = [{"team_key": "a", "platform": "spotify", "url": "https://open.spotify.com/artist/" + "A" * 22},

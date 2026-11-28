@@ -6,6 +6,7 @@
 - 채널 주소를 '확인된 곳'에서만 모은다 (핸들 추측 안 함 — 2026-11-28 시험: 아는 59팀 중 4팀만 맞음):
   1) docs/lab/data/links.csv 의 youtube 줄  2) MusicBrainz 공식 링크(collect_musicbrainz)
   3) 팀 인스타 소개란의 유튜브 채널 링크(data/raw/state/ig_artist_links.json, 인스타 계정 → 팀은 links.csv·MusicBrainz).
+  4) 채널 검색(yt_channel_search, 하루 20번, 상위 300 중 링크 없는 팀)으로 찾은 채널.
 - 비용(YouTube Data API v3): channels.list 1단위(snippet: 제목·아바타, contentDetails: 업로드 목록),
   links.csv 에 없는 채널만 playlistItems.list 1단위로 최신 영상 10개 (links.csv 채널은 collect_videos 가 매일 받는다).
   search.list(100단위)는 쓰지 않는다.
@@ -20,6 +21,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import re
 import sys
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -35,6 +37,7 @@ STATE_FILE = ROOT / "data" / "raw" / "state" / "yt_channels.json"
 LINKS_FILE = ROOT / "docs" / "lab" / "data" / "links.csv"
 MUSICBRAINZ_FILE = ROOT / "data" / "raw" / "state" / "musicbrainz.json"
 IG_LINKS_FILE = ROOT / "data" / "raw" / "state" / "ig_artist_links.json"
+YT_SEARCH_FILE = ROOT / "data" / "raw" / "state" / "yt_search.json"   # yt_channel_search
 RAW_DIR = ROOT / "data" / "raw"
 DEFAULT_BUDGET = 400
 REFRESH_DAYS = 30
@@ -59,8 +62,9 @@ def _insta_handle(url: str) -> str:
     return parts[0].lower() if p.netloc in INSTAGRAM_HOSTS and len(parts) == 1 else ""
 
 
-def candidate_channels(links: List[dict], musicbrainz: dict, ig_links: dict) -> Dict[str, Tuple[str, str]]:
-    """팀 → (채널 주소, 출처). 출처 우선순위 links > musicbrainz > instagram, 같은 출처 안에서는 처음 것."""
+def candidate_channels(links: List[dict], musicbrainz: dict, ig_links: dict,
+                       yt_search: Optional[dict] = None) -> Dict[str, Tuple[str, str]]:
+    """팀 → (채널 주소, 출처). 출처 우선순위 links > musicbrainz > instagram > yt_search, 같은 출처 안에서는 처음 것."""
     out: Dict[str, Tuple[str, str]] = {}
     for r in links:
         url = _clean_channel_url(r.get("url") or "") if r.get("platform") == "youtube" else None
@@ -87,6 +91,10 @@ def candidate_channels(links: List[dict], musicbrainz: dict, ig_links: dict) -> 
             url = _clean_channel_url(link.get("url") or "") if link.get("kind") == "youtube" else None
             if url:
                 out.setdefault(team, (url, "instagram"))
+    for team, entry in sorted((yt_search or {}).items()):        # yt_channel_search: 채널 검색으로 찾은 것
+        cid = (entry or {}).get("channel_id") or ""
+        if re.fullmatch(r"UC[A-Za-z0-9_-]{22}", cid):
+            out.setdefault(team, (f"https://www.youtube.com/channel/{cid}", "yt_search"))
     return out
 
 
@@ -202,7 +210,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 0
     with open(LINKS_FILE, encoding="utf-8") as f:
         links = list(csv.DictReader(f))
-    candidates = candidate_channels(links, _read_json(MUSICBRAINZ_FILE), _read_json(IG_LINKS_FILE))
+    candidates = candidate_channels(links, _read_json(MUSICBRAINZ_FILE), _read_json(IG_LINKS_FILE), _read_json(YT_SEARCH_FILE))
     linked = {k for k, (_, src) in candidates.items() if src == "links"}
     env = cv.load_env(cv.ENV_FILE)
     try:

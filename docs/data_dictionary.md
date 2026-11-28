@@ -121,18 +121,19 @@ _자동 생성: `python3 scripts/build_data_dictionary.py` — 칸 이름은 코
 ### `players`
 
 - 위치: `docs/lab/data/players.csv` · 공개
-- 출처: 바로 듣기: 팀마다 스포티파이 1줄 + 대표 유튜브 영상 1줄 (scripts/players.py) · 갈래/쓰임: 보조 · 갱신: 매일 21시 (export_lab_data.py)
+- 출처: 바로 듣기: 팀마다 스포티파이·대표 유튜브 영상·확인된 iTunes 미리듣기 각 1줄 (scripts/players.py·collect_itunes.py) · 갈래/쓰임: 보조 · 갱신: 매일 21시 (export_lab_data.py)
 
 | 칸 | 뜻·단위 | 형식 |
 |---|---|---|
 | `team_key` | 팀 대표 키 (아티스트 연결표로 같은 팀의 여러 표기를 하나로) | — |
-| `kind` | 재생 종류 (spotify 아티스트 삽입 재생 / youtube 영상 삽입 재생) | — |
-| `id` | 재생 번호 (spotify: 'artist:<22자>', youtube: 영상 번호 11자) | — |
+| `kind` | 재생 종류 (spotify 아티스트 삽입 재생 / youtube 영상 삽입 재생 / itunes 30초 미리듣기 오디오) | — |
+| `id` | 재생 번호 (spotify: 'artist:<22자>', youtube: 영상 번호 11자, itunes: https 미리듣기 주소) | — |
 | `title` | 영상 제목 (spotify 는 빈칸) | — |
 | `channel_title` | 영상 올린 채널 (spotify 는 빈칸) | — |
-| `source` | 고른 근거 (spotify / official 팀 공식 채널 / stage 무대 채널 / search 검색) | — |
+| `source` | 고른 근거 (spotify / official 팀 공식 채널 / stage 무대 채널 / search 검색 / itunes) | — |
 | `published_at` | 영상 올린 날 YYYY-MM-DD (spotify 는 빈칸) | — |
 | `view_count` | 가장 최근 조회수 (모르면 빈칸) | — |
+| `page_url` | 원래 페이지 (스포티파이 아티스트·유튜브 영상·Apple Music 곡) — iTunes 는 약관상 링크 필수 | — |
 
 ### `videos`
 

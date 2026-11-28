@@ -25,6 +25,7 @@ from build_dashboard_data import PROGRAM_NAMES, _has_xref_table, psql_csv  # noq
 from csv_schema import OUTCOME_TIER  # noqa: E402
 import genre as genre_mod  # noqa: E402
 import genre_fill  # noqa: E402
+import collect_itunes  # noqa: E402
 import players as players_mod  # noqa: E402
 import video_match  # noqa: E402
 
@@ -421,10 +422,35 @@ def musicbrainz_refs(state: dict) -> List[dict]:
     return refs
 
 
+SAME_AS_YOUTUBE = re.compile(r"^https://(?:www\.)?youtube\.com/(channel/UC[\w-]{22}|@[\w.\-%]+|c/[\w.\-%]+|user/[\w.\-%]+)/?(?:\?.*)?$")
+SAME_AS_SPOTIFY = re.compile(r"^https://open\.spotify\.com/(?:intl-[a-z-]+/)?artist/([A-Za-z0-9]{22})/?(?:\?.*)?$")
+
+
+def _same_as_one(same_as: List[str], pattern: "re.Pattern[str]") -> str | None:
+    """sameAs 중 pattern 에 맞는 값이 정확히 하나면 그 값(첫 묶음), 없거나 둘 이상이면 None (어느 쪽이 팀 것인지 모름)."""
+    found = list(dict.fromkeys(m.group(1) for u in same_as if isinstance(u, str) and (m := pattern.match(u.strip()))))
+    return found[0] if len(found) == 1 else None
+
+
 def indistreet_sns_refs(state: dict, key_of: Callable[[str], str] = lambda n: n) -> List[dict]:
-    """collect_indistreet_sns 상태 → 인스타 연결. 인디스트릿 페이지 sameAs에 인스타가 하나뿐일 때만 들어 있다(팀이 직접 적은 계정)."""
-    return [{"team_key": key_of(name), "platform": "instagram", "ref": entry["instagram"]}
-            for name, entry in sorted(state.items()) if isinstance(entry, dict) and entry.get("instagram")]
+    """collect_indistreet_sns 상태 → 연결 (팀이 인디스트릿 페이지 sameAs 에 직접 적은 공식 채널).
+    인스타 = 수집기가 고른 하나뿐인 계정, 유튜브 = 채널 주소(@이름·channel/UC…·c/…·user/…)가 하나뿐일 때,
+    스포티파이 = 아티스트 주소가 하나뿐일 때 번호로. 영상·앨범·유튜브 뮤직 주소는 쓰지 않는다. 주소 검사는 link_rows 가 한다."""
+    refs: List[dict] = []
+    for name, entry in sorted(state.items()):
+        if not isinstance(entry, dict):
+            continue
+        team = key_of(name)
+        same_as = entry.get("same_as") or []
+        if entry.get("instagram"):
+            refs.append({"team_key": team, "platform": "instagram", "ref": entry["instagram"]})
+        yt = _same_as_one(same_as, SAME_AS_YOUTUBE)
+        if yt:
+            refs.append({"team_key": team, "platform": "youtube", "ref": f"https://www.youtube.com/{yt}"})
+        sp = _same_as_one(same_as, SAME_AS_SPOTIFY)
+        if sp:
+            refs.append({"team_key": team, "platform": "spotify", "ref": sp})
+    return refs
 
 
 def _extra_refs() -> List[dict]:
@@ -532,6 +558,10 @@ def fresh_channels(teams: dict, today: str, days: int = YT_KEEP_DAYS) -> dict:
 
 def _yt_channels() -> dict:
     return fresh_channels(_read_json_dict(YT_CHANNELS).get("teams") or {}, date.today().isoformat())
+
+
+def _itunes_state() -> dict:
+    return _read_json_dict(collect_itunes.STATE_FILE)
 
 
 def _video_views() -> Dict[str, int]:
@@ -649,6 +679,7 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
            image_cache: Callable[[], dict] | None = _image_cache,
            yt_channels: Callable[[], dict] | None = _yt_channels,
            video_views: Callable[[], Dict[str, int]] | None = _video_views,
+           itunes_state: Callable[[], dict] | None = _itunes_state,
            raw_collabs: Callable[[], tuple] | None = _raw_collabs,
            press_genre_ref: Callable[[], Dict[str, str]] | None = _press_genre_ref) -> dict:
     use_xref = _has_xref_table(run)
@@ -681,6 +712,9 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
     _write_csv(out_dir / "videos.csv", VIDEO_FIELDS, videos)
     # 바로 듣기 표: 팀마다 스포티파이 1줄 + 대표 유튜브 영상 1줄 (규칙: scripts/players.py)
     players = players_mod.player_rows(links, all_videos, video_views() if video_views else {})
+    # iTunes 30초 미리듣기 — 확인된(제목 겹침·첫 발매 연도) 것만 (규칙: scripts/collect_itunes.py)
+    players = sorted(players + collect_itunes.player_rows(itunes_state() if itunes_state else {}),
+                     key=lambda r: (r["team_key"], ("spotify", "youtube", "itunes").index(r["kind"])))
     _write_csv(out_dir / "players.csv", players_mod.PLAYER_FIELDS, players)
     images = image_rows(image_cache() if image_cache else {}, yt_channels() if yt_channels else {})
     _write_csv(out_dir / "images.csv", IMAGE_FIELDS, images)

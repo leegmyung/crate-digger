@@ -1,18 +1,18 @@
 /**
  * 화면 아래 고정 미니 플레이어 — 어느 화면에서든 '▶ 듣기'(data-play-team)를 누르면 여기서 재생.
  * #viewRoot 바깥(body 끝)에 한 번만 만들기 때문에 다른 페이지로 옮겨도 소리가 이어진다 (Chartmetric·스트리밍 서비스처럼).
- * 무엇을 틀지는 player_pick.js (players.csv → 스포티파이 아티스트 → 무대 영상).
+ * 무엇을 틀지는 player_pick.js (players.csv → 스포티파이 아티스트 → 무대 영상). iTunes 미리듣기는 iframe 대신 <audio>.
  */
 import { appState } from '../state.js';
 import { ensureVideosLoaded } from '../db.js';
-import { embedSrc, playOptionsFor } from '../player_pick.js';
+import { audioSrc, embedSrc, playOptionsFor } from '../player_pick.js';
 import {
   avatarHtml, escapeHtml, playButtonHtml, spotifyIdOf, swapAvatarToInitial, wireAvatarFallbacks,
 } from '../ui.js';
 
 const MAX_TABS = 4;
-const KIND_LABEL = { spotify: '스포티파이', youtube: '유튜브' };
-const TYPE_LABEL = { artist: '인기곡', track: '대표곡', album: '앨범', playlist: '재생 목록', video: '영상' };
+const KIND_LABEL = { spotify: '스포티파이', youtube: '유튜브', itunes: 'iTunes' };
+const TYPE_LABEL = { artist: '인기곡', track: '대표곡', album: '앨범', playlist: '재생 목록', video: '영상', preview: '30초 미리듣기' };
 
 let host = null;
 let current = null;   // { teamKey, name, options, index, expanded }
@@ -34,7 +34,20 @@ function tabLabel(opt, all) {
   return `${KIND_LABEL[opt.kind] || opt.kind} ${TYPE_LABEL[opt.type] || ''}${n}`.trim();
 }
 
+/** iTunes 30초 미리듣기: 스트리밍만(<audio>, 내려받기 버튼 없음) + Apple 조건의 출처 표기·Apple Music 링크. */
+function audioHtml(opt) {
+  const src = audioSrc(opt);
+  if (!src) return '<p class="mp-empty">재생할 수 없는 항목입니다.</p>';
+  const link = opt.pageUrl
+    ? ` · <a href="${escapeHtml(opt.pageUrl)}" target="_blank" rel="noopener noreferrer">Apple Music에서 듣기</a>`
+    : '';
+  return `<audio class="mp-audio" style="width:100%" src="${escapeHtml(src)}" controls autoplay preload="none"
+    controlslist="nodownload" aria-label="${escapeHtml(`${current.name} 30초 미리듣기`)}"></audio>
+    <small class="mp-credit" style="display:block;font-size:11px;opacity:.75">provided courtesy of iTunes${link}</small>`;
+}
+
 function frameHtml(opt) {
+  if (opt.kind === 'itunes') return audioHtml(opt);
   const src = embedSrc(opt, { autoplay: true });
   if (!src) return '<p class="mp-empty">재생할 수 없는 항목입니다.</p>';
   const cls = opt.kind === 'youtube' ? 'mp-frame mp-frame-video' : 'mp-frame mp-frame-audio';

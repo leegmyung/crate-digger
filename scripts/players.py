@@ -1,7 +1,9 @@
 """팀별 '바로 듣기' 재생 대상 고르기 → docs/lab/data/players.csv (export_lab_data 가 부른다)
 
-한 팀에 최대 2줄: kind=spotify (아티스트 삽입 재생, links.csv 의 스포티파이 번호 → id 'artist:<22자>')
-               kind=youtube (대표 영상 1개, id = 유튜브 영상 번호 11자).
+한 팀에 최대 3줄: kind=spotify (아티스트 삽입 재생, links.csv 의 스포티파이 번호 → id 'artist:<22자>')
+               kind=youtube (대표 영상 1개, id = 유튜브 영상 번호 11자)
+               kind=itunes (30초 미리듣기, id = https 오디오 주소 — collect_itunes.player_rows 가 확인된 것만 덧붙임).
+page_url = 원래 페이지(스포티파이 아티스트·유튜브 영상·Apple Music 곡) — iTunes 는 약관상 링크 필수.
 유튜브 대표 영상 순서 — '바로 들었을 때 그 팀 음악이 나올 가능성'이 높은 것부터:
   1) 공식 채널 라이브 (official_live), 최신
   2) 공식 채널 음악 영상 (official 중 제목에 MV·Official Audio·Lyric·Live 등), 최신
@@ -18,7 +20,7 @@ import re
 from pathlib import Path
 from typing import Dict, List, Optional
 
-PLAYER_FIELDS = ["team_key", "kind", "id", "title", "channel_title", "source", "published_at", "view_count"]
+PLAYER_FIELDS = ["team_key", "kind", "id", "title", "channel_title", "source", "published_at", "view_count", "page_url"]
 VIDEO_ID = re.compile(r"[A-Za-z0-9_-]{11}")
 SPOTIFY_ARTIST = re.compile(r"^https://open\.spotify\.com/artist/([A-Za-z0-9]{22})$")
 MUSIC_WORDS = re.compile(r"\bm/?v\b|music video|뮤직비디오|official (?:audio|video|visualizer)|visuali[sz]er|lyric|가사|"
@@ -68,7 +70,8 @@ def _youtube_row(team: str, best: dict, views: Dict[str, int]) -> dict:
     seen = views.get(best["video_id"])
     return {"team_key": team, "kind": "youtube", "id": best["video_id"], "title": best.get("title") or "",
             "channel_title": best.get("channel_title") or "", "source": _source(best),
-            "published_at": (best.get("published_at") or "")[:10], "view_count": "" if seen is None else str(seen)}
+            "published_at": (best.get("published_at") or "")[:10], "view_count": "" if seen is None else str(seen),
+            "page_url": f"https://www.youtube.com/watch?v={best['video_id']}"}
 
 
 def player_rows(links: List[dict], videos: List[dict], views: Dict[str, int]) -> List[dict]:
@@ -82,7 +85,8 @@ def player_rows(links: List[dict], videos: List[dict], views: Dict[str, int]) ->
     for team in sorted(set(spotify) | set(by_team)):
         if team in spotify:
             out.append({"team_key": team, "kind": "spotify", "id": f"artist:{spotify[team]}", "title": "",
-                        "channel_title": "", "source": "spotify", "published_at": "", "view_count": ""})
+                        "channel_title": "", "source": "spotify", "published_at": "", "view_count": "",
+                        "page_url": f"https://open.spotify.com/artist/{spotify[team]}"})
         best = pick_youtube(by_team.get(team, []), views)
         if best:
             out.append(_youtube_row(team, best, views))

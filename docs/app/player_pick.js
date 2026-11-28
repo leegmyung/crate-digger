@@ -1,7 +1,8 @@
 /**
  * 바로 듣기 — 팀마다 '무엇을 틀지' 고르는 순수 함수 (화면·appState 없이 돈다 → tests/js/player_pick.test.mjs).
  * 고르는 순서 (Chartmetric·스트리밍 서비스처럼 누르면 바로 소리):
- *   1) players.csv (team_key·kind(spotify|youtube)·id·title·source) — 다른 작업자가 만드는 '대표곡' 표
+ *   1) players.csv (team_key·kind(spotify|youtube|itunes)·id·title·source·page_url) — export_lab_data 가 만드는 '대표곡' 표
+ *      itunes = 30초 미리듣기(<audio>). Apple 조건: "provided courtesy of iTunes" 표기 + Apple Music 링크(page_url), 스트리밍만.
  *   2) 스포티파이 아티스트 (links.csv) — 인기곡 묶음 플레이어
  *   3) 무대 영상 (videos.csv) — 무대(stage) → 공식 라이브 → 공식 → 검색, 같은 종류면 최신 먼저
  */
@@ -11,6 +12,8 @@ const SPOTIFY_TYPES = new Set(['track', 'artist', 'album', 'playlist', 'episode'
 const YOUTUBE_ID = /^[A-Za-z0-9_-]{11}$/;
 const VIDEO_KIND_ORDER = { stage: 0, official_live: 1, official: 2, search: 3 };
 const DEFAULT_MAX_VIDEOS = 3;
+const ITUNES_AUDIO = /^https:\/\/audio-ssl\.itunes\.apple\.com\/[^\s"'<>]+$/;
+const APPLE_PAGE = /^https:\/\/(?:music|itunes)\.apple\.com\/[^\s"'<>]+$/;
 
 /**
  * 스포티파이 주소(open.spotify.com/...)·URI(spotify:track:...)·'track:ID'·맨 id → { type, id }. type 을 모르면 null.
@@ -56,6 +59,10 @@ export function parsePlayersRows(rows) {
     } else if (kind === 'youtube') {
       const id = parseYoutubeRef(r.id);
       if (id) opt = { kind, type: 'video', id };
+    } else if (kind === 'itunes') {
+      const id = String(r.id || '').trim();
+      const page = String(r.page_url || '').trim();
+      if (ITUNES_AUDIO.test(id)) opt = { kind, type: 'preview', id, pageUrl: APPLE_PAGE.test(page) ? page : '' };
     }
     if (!opt) continue;
     const list = out.get(teamKey) || [];
@@ -90,6 +97,15 @@ export function playOptionsFor({ players = [], spotifyArtistId = null, videos = 
     .slice(0, Math.max(0, maxVideos))
     .map(v => ({ kind: 'youtube', type: 'video', id: v.video_id, title: String(v.title || '').trim(), source: 'videos' }));
   return [...fromPlayers, ...fromArtist, ...fromVideos];
+}
+
+/**
+ * 오디오(<audio>) 주소 — iTunes 30초 미리듣기만. 형식이 틀리면 null.
+ * @param {{ kind: string, id: string }} opt
+ * @returns {string|null}
+ */
+export function audioSrc(opt) {
+  return opt?.kind === 'itunes' && ITUNES_AUDIO.test(String(opt.id || '')) ? opt.id : null;
 }
 
 /**

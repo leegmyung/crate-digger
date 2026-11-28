@@ -32,6 +32,17 @@ class CandidateTest(unittest.TestCase):
         self.assertNotIn("x", got)
 
 
+class YtSearchCandidateTest(unittest.TestCase):
+    def test_search_found_channels_are_lowest_priority_candidates(self):
+        links = [{"team_key": "a", "platform": "youtube", "url": "https://www.youtube.com/@aaa"}]
+        found = {"a": {"checked": "2026-11-28", "channel_id": CID}, "b": {"checked": "2026-11-28", "channel_id": CID},
+                 "c": {"checked": "2026-11-28", "channel_id": ""}}
+        got = yc.candidate_channels(links, {}, {}, found)
+        self.assertEqual(got["a"], ("https://www.youtube.com/@aaa", "links"))
+        self.assertEqual(got["b"], ("https://www.youtube.com/channel/" + CID, "yt_search"))
+        self.assertNotIn("c", got)
+
+
 class AvatarTest(unittest.TestCase):
     def test_prefers_medium_https_google_host(self):
         th = {"default": {"url": "https://yt3.ggpht.com/a=s88"}, "medium": {"url": "https://yt3.ggpht.com/a=s240"},

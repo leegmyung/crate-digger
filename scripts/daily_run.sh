@@ -46,6 +46,7 @@ NEW_RAW="$(find data/raw -maxdepth 1 -name "*.csv" -newer "$RUN_MARK" | sort)"
 [ -n "$NEW_RAW" ] && { "$PY" scripts/validate_csv.py $NEW_RAW || echo "⚠️ 형식 검사에서 오류 발견 (진행판에 실패로 표시됨)"; }
 "$PY" scripts/collect_videos.py || echo "⚠️ 유튜브 무대 영상 수집 일부 실패 (하루 한도에 걸리면 다음 날 이어서)"
 "$PY" scripts/collect_musicbrainz.py --max-requests 600 || echo "⚠️ MusicBrainz 링크 일부 실패"
+"$PY" scripts/yt_channel_search.py --max-searches 20 || echo "⚠️ 유튜브 채널 검색 일부 실패"
 "$PY" scripts/collect_yt_channels.py --budget 400 || echo "⚠️ 유튜브 공식 채널 일부 실패"
 "$PY" scripts/build_site_data.py || echo "⚠️ 진행판 데이터 갱신 실패"
 "$PY" scripts/load_pg.py || echo "⚠️ PostgreSQL 적재 실패 (brew services start postgresql@17 확인)"
@@ -54,6 +55,7 @@ NEW_RAW="$(find data/raw -maxdepth 1 -name "*.csv" -newer "$RUN_MARK" | sort)"
 "$PY" scripts/build_dashboard_data.py || echo "⚠️ 데이터 대시보드 갱신 일부 실패"
 "$PY" scripts/run_pg_queries.py || echo "⚠️ SQL 결과 문서 일부 실패"
 "$PY" scripts/collect_artist_images.py || echo "⚠️ 아티스트 사진 수집 일부 실패"
+"$PY" scripts/collect_itunes.py --max-requests 300 || echo "⚠️ iTunes 미리듣기 일부 실패"   # 약 18분
 "$PY" scripts/export_lab_data.py || echo "⚠️ 랩(설정형 분석 도구) 데이터 갱신 실패"
 "$PY" scripts/genre_seen.py || echo "⚠️ 장르 처음 확인한 날(genre_seen.csv) 갱신 실패"   # 랩 내보내기 뒤(teams·signals 를 읽음), 장르 검증의 기준일 시점 판용
 [ "$(TZ=Asia/Seoul date +%u)" = 1 ] && { "$PY" scripts/source_roles_doc.py || echo "⚠️ 출처 분류 문서 갱신 실패"; }   # 월요일: 출처 성적표 표 자동 갱신

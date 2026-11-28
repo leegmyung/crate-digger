@@ -320,6 +320,29 @@ class IndistreetSnsRefsTest(unittest.TestCase):
         self.assertEqual(refs, [{"team_key": "k_포져군단", "platform": "instagram", "ref": "poseridiott"}])
 
 
+class IndistreetSameAsRefsTest(unittest.TestCase):
+    """sameAs 의 유튜브 채널·스포티파이 아티스트 주소도 연결로 — 채널·아티스트 주소 하나뿐일 때만, link_rows 검사 통과 형식."""
+
+    def test_youtube_channel_and_spotify_artist_from_same_as(self):
+        state = {"팀": {"instagram": None, "same_as": [
+            "https://www.youtube.com/@teamch?si=x", "https://open.spotify.com/intl-ko/artist/4Z8W4fKeB5YxbusRsdQVPb?si=1",
+            "https://music.youtube.com/channel/UCxxxxxxxxxxxxxxxxxxxxxx", "https://www.facebook.com/team"]}}
+        refs = ex.indistreet_sns_refs(state)
+        self.assertIn({"team_key": "팀", "platform": "youtube", "ref": "https://www.youtube.com/@teamch"}, refs)
+        self.assertIn({"team_key": "팀", "platform": "spotify", "ref": "4Z8W4fKeB5YxbusRsdQVPb"}, refs)
+        self.assertEqual(len(refs), 2)                                  # 유튜브 뮤직·페이스북은 안 씀
+        links = ex.link_rows(refs)
+        self.assertEqual({l["url"] for l in links},
+                         {"https://www.youtube.com/@teamch", "https://open.spotify.com/artist/4Z8W4fKeB5YxbusRsdQVPb"})
+
+    def test_videos_albums_and_two_channels_are_skipped(self):
+        state = {"a": {"same_as": ["https://www.youtube.com/watch?v=AAAAAAAAAAA", "https://open.spotify.com/album/4Z8W4fKeB5YxbusRsdQVPb"]},
+                 "b": {"same_as": ["https://www.youtube.com/channel/UC1234567890123456789012", "https://youtube.com/@other"]},
+                 "c": {"same_as": ["https://youtube.com/c/oldname/"]}}
+        refs = ex.indistreet_sns_refs(state)
+        self.assertEqual(refs, [{"team_key": "c", "platform": "youtube", "ref": "https://www.youtube.com/c/oldname"}])
+
+
 class VideoRowsTest(unittest.TestCase):
     def test_drops_interviews_shorts_and_non_live_kbs_clips(self):
         rows = ex.video_rows([
@@ -397,12 +420,24 @@ class PlayersExportTest(unittest.TestCase):
         raw.append(v("OFFICIALMV1", "에이비씨 'Song' Official MV", kind="official", date="2024-01-01T00:00:00Z"))
         with tempfile.TemporaryDirectory() as d:
             meta = ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=lambda: raw,
-                             image_cache=None, video_views=lambda: {})
+                             image_cache=None, video_views=lambda: {}, itunes_state=lambda: {})
             with open(Path(d) / "players.csv", encoding="utf-8") as f:
                 rows = list(csv.DictReader(f))
         self.assertEqual([(r["team_key"], r["kind"], r["id"], r["source"]) for r in rows],
                          [("abc", "youtube", "OFFICIALMV1", "official")])
         self.assertEqual(meta["rows"]["players"], 1)
+
+    def test_confirmed_itunes_previews_are_added(self):
+        itunes = {"abc": {"artist_id": 1, "confidence": "titles", "artist_name": "ABC",
+                          "preview": {"preview_url": "https://audio-ssl.itunes.apple.com/p/a.m4a", "track_name": "곡",
+                                      "track_url": "https://music.apple.com/us/album/x/1?i=7", "release_date": "2025-01-01"}}}
+        with tempfile.TemporaryDirectory() as d:
+            ex.export(Path(d), run=fake_run, today="2026-11-27", extra_refs=None, raw_videos=None, image_cache=None,
+                      video_views=lambda: {}, itunes_state=lambda: itunes)
+            with open(Path(d) / "players.csv", encoding="utf-8") as f:
+                rows = list(csv.DictReader(f))
+        self.assertEqual([(r["team_key"], r["kind"], r["page_url"]) for r in rows],
+                         [("abc", "itunes", "https://music.apple.com/us/album/x/1?i=7")])
 
 
 ROLES = {"default_role": "pending",

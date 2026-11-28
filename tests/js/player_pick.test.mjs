@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  embedSrc, parsePlayersRows, parseSpotifyRef, parseYoutubeRef, playOptionsFor,
+  audioSrc, embedSrc, parsePlayersRows, parseSpotifyRef, parseYoutubeRef, playOptionsFor,
 } from '../../docs/app/player_pick.js';
 
 const ART = '4Z8W4fKeB5YxbusRsdQVPb';   // 22자
@@ -78,4 +78,27 @@ test('삽입 주소: 스포티파이 embed·유튜브 nocookie, 그 밖은 null'
     new RegExp(`^https://www\\.youtube-nocookie\\.com/embed/${VID}\\?.*autoplay=1`));
   assert.equal(embedSrc({ kind: 'spotify', type: 'track', id: 'x' }), null);
   assert.equal(embedSrc({ kind: 'other', id: VID }), null);
+});
+
+const PREVIEW = 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview/x/a.m4a';
+const PAGE = 'https://music.apple.com/us/album/x/1?i=7';
+
+test('iTunes 미리듣기 행: https 애플 오디오 주소만, 원래 페이지 링크 같이', () => {
+  const m = parsePlayersRows([
+    { team_key: 'a', kind: 'itunes', id: PREVIEW, title: '곡', source: 'itunes', page_url: PAGE },
+    { team_key: 'b', kind: 'itunes', id: 'http://audio-ssl.itunes.apple.com/a.m4a' },
+    { team_key: 'c', kind: 'itunes', id: 'https://evil.example/a.m4a' },
+    { team_key: 'd', kind: 'itunes', id: PREVIEW, page_url: 'javascript:alert(1)' },
+  ]);
+  assert.deepEqual([...m.keys()], ['a', 'd']);
+  assert.deepEqual(m.get('a')[0], { kind: 'itunes', type: 'preview', id: PREVIEW, title: '곡', source: 'itunes', pageUrl: PAGE });
+  assert.equal(m.get('d')[0].pageUrl, '');
+});
+
+test('오디오 주소: iTunes 만 audioSrc, iframe 주소는 없음', () => {
+  const opt = { kind: 'itunes', type: 'preview', id: PREVIEW };
+  assert.equal(audioSrc(opt), PREVIEW);
+  assert.equal(embedSrc(opt), null);
+  assert.equal(audioSrc({ kind: 'itunes', id: 'https://evil.example/a.m4a' }), null);
+  assert.equal(audioSrc({ kind: 'youtube', id: VID }), null);
 });
