@@ -26,6 +26,7 @@ import lab_sql  # noqa: E402
 import score_tune as st  # noqa: E402
 
 OUT = lab_sql.ROOT / "docs" / "score_model.md"
+LEAK_AUDIT = lab_sql.ROOT / "docs" / "data" / "score_leak_audit.json"   # 같은 기준 판 (scripts/score_leak_audit.py)
 SNAP_DIR = lab_sql.DATA_DIR / "snapshots"
 L2_GRID = (0.001, 0.01, 0.1, 1.0)
 GD_LR = 0.5
@@ -363,6 +364,28 @@ def change_reason(prev_feat: Optional[dict], cur_feat: Optional[dict],
 
 # ---------- 문서 ----------
 
+def fair_baseline_line(audit: Optional[dict]) -> str:
+    """같은 기준 판 한 줄: 과거 검증의 신인 판정이 정답 팀 위주로 받은 멜론 프로필 첫 발매일을 써서 부푼 몫을 뺀 AUC.
+    결과(score_leak_audit.json)가 없으면 ''."""
+    base, fair = (audit or {}).get("base") or {}, (audit or {}).get("D_untargeted_debut") or {}
+    vals = [base.get("auc_v2"), base.get("auc_cv"), fair.get("auc_v2"), fair.get("auc_cv")]
+    if not all(isinstance(v, (int, float)) for v in vals):
+        return ""
+    b2, bcv, f2, fcv = vals
+    return (f"- **같은 기준 판 {f2:.3f} (교차 검증 {fcv:.3f})** · 지금 판 {b2:.3f} (교차 검증 {bcv:.3f}) — "
+            "지금 판은 신인 확인을 정답 팀 위주로 받은 멜론 프로필 첫 발매일로 해서 나이 많은 정답 팀만 풀에서 빠져 높게 나온다. "
+            "같은 기준 판은 모든 팀의 첫 발매일을 팀을 고르지 않은 발매 원본으로 정했다(점수 정의는 같음, "
+            "[점수 입력 사후 수집 편향 점검](score_leak_audit_2026-11-28.md)).")
+
+
+def _load_audit() -> Optional[dict]:
+    try:
+        import json
+        return json.loads(LEAK_AUDIT.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+
+
 def _fa(v: Optional[float]) -> str:
     return "—" if v is None else f"{v:.3f}"
 
@@ -480,6 +503,7 @@ def section_models(data: Dict[str, List[dict]]) -> Tuple[List[str], dict]:
         "|---|---|---|---|---|---|---|---|---|---|", *rows_md, "",
         f"- **평균 AUC**: 손 공식(교차) **{mean['grid']:.3f}** · 로지스틱 **{mean['lr']:.3f}** · 공연 수만 {mean['g']:.3f} · "
         f"갈래 수만 {mean['b']:.3f} · (참고: v2 고정 {mean['v2']:.3f})",
+        *([fair] if (fair := fair_baseline_line(_load_audit())) else []),
         f"- **상위 20 / 50 적중 합계**: 손 공식(교차) {hits['grid'][0]} / {hits['grid'][1]} · 로지스틱 {hits['lr'][0]} / {hits['lr'][1]} · "
         f"(참고: v2 고정 {hits['v2'][0]} / {hits['v2'][1]})",
         f"- **로지스틱이 이긴 기준일**: 손 공식(교차)보다 {res['wins_lr_grid']}/{len(cutoffs)}, v2 고정보다 {res['wins_lr_v2']}/{len(cutoffs)}",
@@ -528,7 +552,8 @@ def interpret_models(sm_: dict) -> List[str]:
         f"1. **공정 비교 결과**: {verdict}",
         f"2. **v2 숫자는 부풀려져 있다**: 같은 손 공식이라도 고를 때 본 시점에서 채점하면(v2 고정 {mean['v2']:.3f}) "
         f"안 본 시점에서 채점할 때(손 공식 교차 {mean['grid']:.3f})보다 **{optimism:.3f}** 높다. "
-        f"앱·문서의 v2 AUC는 새 시점에서 기대할 실제 성능보다 이만큼 높게 읽어야 한다(실제 기대치는 {mean['grid']:.2f} 안팎).",
+        f"앱·문서의 v2 AUC는 새 시점에서 기대할 실제 성능보다 이만큼 높게 읽어야 한다(실제 기대치는 {mean['grid']:.2f} 안팎). "
+        "여기에 더해 신인 판정을 모든 팀에 같은 기준으로 맞추면 0.04쯤 더 내려간다(1절 '같은 기준 판').",
         f"3. **과적합 위험**: 6개 기준일 정답이 {sm_['pos_total']}행(같은 팀이 여러 기준일에 다시 셈)이고 특징이 10개라 특징 하나당 정답이 10개도 안 된다. "
         f"기준일마다 고른 L2 강도도 {min(l2s):g}~{max(l2s):g}로 크게 흔들렸다. 손 공식 교차 검증에서도 뺀 기준일마다 골라지는 가중치가 달랐다 "
         "(→ [점수 교차 검증](score_tuning.md)). 지금 표본으로는 어느 방법이든 '정확한 가중치'를 찾기 어렵다.",

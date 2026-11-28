@@ -188,5 +188,23 @@ class StabilityTest(unittest.TestCase):
         self.assertEqual(s["abs_q"], (3.75, 8.5, 16.5))
 
 
+
+class FairBaselineTest(unittest.TestCase):
+    """같은 기준 판(docs/score_leak_audit_2026-11-28.md): 신인 판정을 모든 팀에 같은 기준으로 맞춘 AUC를 나란히."""
+
+    AUDIT = {"base": {"auc_v2": 0.8271, "auc_cv": 0.8093}, "D_untargeted_debut": {"auc_v2": 0.7881, "auc_cv": 0.7831}}
+
+    def test_line_has_both_numbers_and_reason(self):
+        line = sm.fair_baseline_line(self.AUDIT)
+        self.assertIn("같은 기준 판 0.788 (교차 검증 0.783)", line)
+        self.assertIn("지금 판 0.827 (교차 검증 0.809)", line)
+        self.assertIn("정답 팀 위주로 받은 멜론 프로필", line)
+        self.assertIn("score_leak_audit_2026-11-28.md", line)
+
+    def test_missing_audit_gives_empty(self):
+        self.assertEqual(sm.fair_baseline_line(None), "")
+        self.assertEqual(sm.fair_baseline_line({"base": {"auc_v2": 0.8}}), "")
+
+
 if __name__ == "__main__":
     unittest.main()

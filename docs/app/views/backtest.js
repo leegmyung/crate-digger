@@ -274,7 +274,9 @@ export async function renderBacktestView(root) {
           <p class="preset-note">
             기본값 v2는 출처 정제 뒤 기준일 빼기 교차 검증으로 고른 가중치입니다${tuningSummary?.aucLine ? ` (${escapeHtml(tuningSummary.aucLine)})` : ' (교차 검증 결과는 문서 참고)'}.
             고정 v2를 전체 기준일에 다시 채점한 수치는 고를 때 본 기준일이 섞여 과장되므로, 고를 때 뺀 기준일 교차 검증 수치를 기준으로 보세요.
+            ${tuningSummary?.fairLine ? `<br><strong>AUC 같은 기준 판:</strong> ${escapeHtml(tuningSummary.fairLine)}` : ''}
             <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/score_tuning.md" target="_blank" rel="noopener noreferrer">선정 과정 보기 ↗</a>
+            <a href="https://github.com/leegmyung/crate-digger/blob/main/docs/score_leak_audit_2026-11-28.md" target="_blank" rel="noopener noreferrer">같은 기준 판 보기 ↗</a>
           </p>
           <div class="slider-grid">${slidersHtml}</div>
         </div>

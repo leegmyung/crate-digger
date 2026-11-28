@@ -1,6 +1,7 @@
 import * as duckdb from 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.32.0/+esm';
 import { ALL_BRANCHES, appState, DEFAULT_WEIGHTS } from './state.js';
 import { parsePlayersRows } from './player_pick.js';
+import { fairnessLine } from './score_fairness.js';
 
 const DUCKDB_CDN = 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.32.0/dist';
 const MANUAL_BUNDLES = {
@@ -2240,14 +2241,14 @@ export async function loadScoreTuningSummary() {
   if (scoreTuningCache !== undefined) return scoreTuningCache;
   if (scoreTuningPromise) return scoreTuningPromise;
   scoreTuningPromise = (async () => {
-    const md = await fetchText('score_tuning.md', true);
-    if (!md) {
-      scoreTuningCache = null;
-      return null;
-    }
-    const aucMatch = md.match(/\*\*평균 AUC[^*]*\*\*:\s*(.+)/);
+    const [md, audit] = await Promise.all([
+      fetchText('score_tuning.md', true),
+      fetchJson('data/score_leak_audit.json', true),   // 같은 기준 판 (docs/score_leak_audit_2026-11-28.md)
+    ]);
+    const aucMatch = md ? md.match(/\*\*평균 AUC[^*]*\*\*:\s*(.+)/) : null;
     const aucLine = aucMatch ? aucMatch[1].trim() : '';
-    scoreTuningCache = aucLine ? { aucLine } : null;
+    const fairLine = fairnessLine(audit);
+    scoreTuningCache = aucLine || fairLine ? { aucLine, fairLine } : null;
     return scoreTuningCache;
   })();
   try {
