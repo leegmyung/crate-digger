@@ -525,7 +525,33 @@ def section_models(data: Dict[str, List[dict]]) -> Tuple[List[str], dict]:
     ]
     summary = {"mean": mean, "hits": hits, "boot_g": boot_g, "boot_v": boot_v, "shares": coefs,
                "l2s": res["l2s"], "pos_total": pos_total, "best_all": grid[best_all]}
+    audit = _load_audit() or {}
+    base_v2 = (audit.get("base") or {}).get("auc_v2")
+    fair_v2 = (audit.get("D_untargeted_debut") or {}).get("auc_v2")
+    if isinstance(base_v2, (int, float)) and isinstance(fair_v2, (int, float)):
+        summary["fair_gap"] = base_v2 - fair_v2
     return lines + interpret_models(summary), summary
+
+
+OPTIMISM_TOL = 0.005   # v2 고정과 교차 검증 차이가 이보다 작으면 '거의 같다'
+
+
+def _optimism_text(mean: dict, optimism: float, fair_gap: Optional[float]) -> str:
+    """해석 2번: v2 고정(고를 때 본 시점) vs 손 공식 교차(안 본 시점) — 방향에 맞게, 같은 기준 판 몫은 결과 파일 값으로."""
+    v2, grid = mean["v2"], mean["grid"]
+    if optimism > OPTIMISM_TOL:
+        head = (f"**v2 숫자는 부풀려져 있다**: 같은 손 공식이라도 고를 때 본 시점에서 채점하면(v2 고정 {v2:.3f}) "
+                f"안 본 시점에서 채점할 때(손 공식 교차 {grid:.3f})보다 **{optimism:.3f}** 높다. "
+                f"앱·문서의 v2 AUC는 새 시점에서 기대할 실제 성능보다 이만큼 높게 읽어야 한다(실제 기대치는 {grid:.2f} 안팎).")
+    elif optimism < -OPTIMISM_TOL:
+        head = (f"**지금 데이터에서는 v2 가중치가 최선이 아니다**: v2 고정({v2:.3f})이 기준일마다 다시 고른 손 공식(교차 {grid:.3f})보다 "
+                f"**{-optimism:.3f}** 낮다 — v2는 이전 데이터로 고른 가중치라, 데이터가 바뀐 뒤엔 새로 고른 가중치가 안 본 시점에서도 더 잘 맞는다"
+                "(→ [점수 재검토](data/score_review.json) 변경 제안). 다만 상위 50 적중은 따로 본다(1절 표).")
+    else:
+        head = f"**v2 고정({v2:.3f})과 손 공식 교차({grid:.3f})가 거의 같다** — 가중치를 다시 골라도 안 본 시점 성적은 비슷하다."
+    tail = (f" 여기에 더해 신인 판정을 모든 팀에 같은 기준으로 맞추면 v2 AUC가 {fair_gap:.3f} 더 내려간다(1절 '같은 기준 판')."
+            if isinstance(fair_gap, (int, float)) else "")
+    return head + tail
 
 
 def interpret_models(sm_: dict) -> List[str]:
@@ -550,10 +576,7 @@ def interpret_models(sm_: dict) -> List[str]:
     return [
         "### 1-3. 해석", "",
         f"1. **공정 비교 결과**: {verdict}",
-        f"2. **v2 숫자는 부풀려져 있다**: 같은 손 공식이라도 고를 때 본 시점에서 채점하면(v2 고정 {mean['v2']:.3f}) "
-        f"안 본 시점에서 채점할 때(손 공식 교차 {mean['grid']:.3f})보다 **{optimism:.3f}** 높다. "
-        f"앱·문서의 v2 AUC는 새 시점에서 기대할 실제 성능보다 이만큼 높게 읽어야 한다(실제 기대치는 {mean['grid']:.2f} 안팎). "
-        "여기에 더해 신인 판정을 모든 팀에 같은 기준으로 맞추면 0.04쯤 더 내려간다(1절 '같은 기준 판').",
+        f"2. {_optimism_text(mean, optimism, sm_.get('fair_gap'))}",
         f"3. **과적합 위험**: 6개 기준일 정답이 {sm_['pos_total']}행(같은 팀이 여러 기준일에 다시 셈)이고 특징이 10개라 특징 하나당 정답이 10개도 안 된다. "
         f"기준일마다 고른 L2 강도도 {min(l2s):g}~{max(l2s):g}로 크게 흔들렸다. 손 공식 교차 검증에서도 뺀 기준일마다 골라지는 가중치가 달랐다 "
         "(→ [점수 교차 검증](score_tuning.md)). 지금 표본으로는 어느 방법이든 '정확한 가중치'를 찾기 어렵다.",

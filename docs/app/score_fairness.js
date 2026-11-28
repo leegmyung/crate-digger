@@ -13,7 +13,7 @@ function pair(v2, cv) {
 }
 
 /**
- * 홈 근거 줄용 짧은 한 줄 — '점수 성적 AUC 0.827 · 같은 기준 0.788 (교차 검증 0.783)'.
+ * 홈 근거 줄용 짧은 한 줄 — '점수 성적 AUC 0.866 · 같은 기준 0.847 (교차 검증 0.856)'.
  * @param {object|null} audit score_leak_audit.json
  * @returns {string}
  */

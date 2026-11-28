@@ -1,153 +1,153 @@
 {
- "generated_at": "2026-11-28T02:28:39+09:00",
+ "generated_at": "2026-11-28T17:45:06+09:00",
  "run_date": "2026-11-28",
  "rules": {
   "change": "교차 검증 평균 가중 AUC가 기본값보다 0.01 이상 높고 기준일 4개 이상에서 앞서면 점수 변경 제안",
   "new_signal": "기준일 전체로 고른 추천 가중치에서 기본값 0인 특징이 0보다 크게 골라지면 새 신호 반영 제안",
   "note": "제안만 한다 — 기본값(scripts/lab_sql.py DEFAULTS) 변경은 사람이 결정"
  },
- "proposals_changed_on": "2026-11-27",
+ "proposals_changed_on": "2026-11-28",
  "per_cutoff": [
   {
    "cutoff": "2023-01-01",
-   "n": 121,
-   "pos": 7,
+   "n": 4457,
+   "pos": 19,
    "picked": {
     "w_branch": 0,
-    "w_stage": 2,
+    "w_stage": 1,
+    "w_peer": 1,
+    "w_dmz": 0,
+    "w_gigs": 0,
+    "w_outlets": 1,
+    "w_recent": 1,
+    "w_venues": 1,
+    "w_winner": 0,
+    "w_context": 0.25,
+    "w_collab": 0
+   },
+   "auc_picked": 0.9003993290270892,
+   "auc_default": 0.9097629062140103
+  },
+  {
+   "cutoff": "2023-07-01",
+   "n": 4554,
+   "pos": 13,
+   "picked": {
+    "w_branch": 0,
+    "w_stage": 1,
     "w_peer": 1,
     "w_dmz": 0,
     "w_gigs": 0,
     "w_outlets": 2,
     "w_recent": 2,
     "w_venues": 1,
-    "w_winner": 1,
-    "w_context": 0,
-    "w_collab": 0
-   },
-   "auc_picked": 0.7199730094466936,
-   "auc_default": 0.7402159244264508
-  },
-  {
-   "cutoff": "2023-07-01",
-   "n": 498,
-   "pos": 6,
-   "picked": {
-    "w_branch": 3,
-    "w_stage": 2,
-    "w_peer": 1,
-    "w_dmz": 0,
-    "w_gigs": 0,
-    "w_outlets": 0.5,
-    "w_recent": 3,
-    "w_venues": 0,
-    "w_winner": 2,
-    "w_context": 0,
-    "w_collab": 0
-   },
-   "auc_picked": 0.7459349593495934,
-   "auc_default": 0.8317073170731708
-  },
-  {
-   "cutoff": "2024-01-01",
-   "n": 769,
-   "pos": 7,
-   "picked": {
-    "w_branch": 2,
-    "w_stage": 2,
-    "w_peer": 1,
-    "w_dmz": 0,
-    "w_gigs": 0,
-    "w_outlets": 1,
-    "w_recent": 3,
-    "w_venues": 1,
-    "w_winner": 2,
+    "w_winner": 0,
     "w_context": 0.5,
     "w_collab": 0
    },
-   "auc_picked": 0.838940586972083,
-   "auc_default": 0.8155571462658077
+   "auc_picked": 0.8769293908029868,
+   "auc_default": 0.8682008368200838
+  },
+  {
+   "cutoff": "2024-01-01",
+   "n": 4571,
+   "pos": 12,
+   "picked": {
+    "w_branch": 0,
+    "w_stage": 1,
+    "w_peer": 1,
+    "w_dmz": 0,
+    "w_gigs": 0,
+    "w_outlets": 1,
+    "w_recent": 1,
+    "w_venues": 1,
+    "w_winner": 0,
+    "w_context": 0.5,
+    "w_collab": 0
+   },
+   "auc_picked": 0.9199286127340526,
+   "auc_default": 0.8427884902989092
   },
   {
    "cutoff": "2024-07-01",
-   "n": 1622,
-   "pos": 21,
+   "n": 4130,
+   "pos": 22,
    "picked": {
-    "w_branch": 2,
-    "w_stage": 2,
+    "w_branch": 0,
+    "w_stage": 1,
     "w_peer": 1,
     "w_dmz": 0,
     "w_gigs": 0,
     "w_outlets": 1,
-    "w_recent": 3,
+    "w_recent": 1,
     "w_venues": 1,
-    "w_winner": 2,
-    "w_context": 0.25,
+    "w_winner": 0,
+    "w_context": 0.5,
     "w_collab": 0
    },
-   "auc_picked": 0.8281966628000356,
-   "auc_default": 0.8470777192825913
+   "auc_picked": 0.8757993631411352,
+   "auc_default": 0.8273967735993052
   },
   {
    "cutoff": "2025-01-01",
-   "n": 2246,
-   "pos": 21,
+   "n": 3918,
+   "pos": 23,
    "picked": {
-    "w_branch": 2,
-    "w_stage": 2,
+    "w_branch": 0,
+    "w_stage": 1,
     "w_peer": 1,
     "w_dmz": 0,
     "w_gigs": 0,
     "w_outlets": 1,
-    "w_recent": 3,
+    "w_recent": 1,
     "w_venues": 1,
-    "w_winner": 2,
-    "w_context": 0,
+    "w_winner": 0,
+    "w_context": 0.25,
     "w_collab": 0
    },
-   "auc_picked": 0.8698377028714108,
-   "auc_default": 0.8650936329588015
+   "auc_picked": 0.8804846739096401,
+   "auc_default": 0.8528006512414289
   },
   {
    "cutoff": "2025-07-01",
-   "n": 2835,
-   "pos": 22,
+   "n": 3429,
+   "pos": 20,
    "picked": {
-    "w_branch": 2,
-    "w_stage": 2,
+    "w_branch": 0,
+    "w_stage": 1,
     "w_peer": 1,
     "w_dmz": 0,
     "w_gigs": 0,
     "w_outlets": 1,
-    "w_recent": 3,
+    "w_recent": 1,
     "w_venues": 1,
-    "w_winner": 2,
+    "w_winner": 0,
     "w_context": 0,
     "w_collab": 0
    },
-   "auc_picked": 0.8494261988751859,
-   "auc_default": 0.8630078299470407
+   "auc_picked": 0.8807654478629235,
+   "auc_default": 0.8927234138008383
   }
  ],
- "mean_pick": 0.8087181867191671,
- "mean_default": 0.8271099283256437,
- "wins": 2,
+ "mean_pick": 0.8890511362463046,
+ "mean_default": 0.8656121786624292,
+ "wins": 4,
  "compared": 6,
  "recommended": {
-  "w_branch": 2,
-  "w_stage": 2,
+  "w_branch": 0,
+  "w_stage": 1,
   "w_peer": 1,
   "w_dmz": 0,
   "w_gigs": 0,
   "w_outlets": 1,
-  "w_recent": 3,
+  "w_recent": 1,
   "w_venues": 1,
-  "w_winner": 2,
-  "w_context": 0,
+  "w_winner": 0,
+  "w_context": 0.25,
   "w_collab": 0
  },
- "recommended_mean": 0.8333196472468828,
- "default_mean_all": 0.8271099283256437,
+ "recommended_mean": 0.8974027522888938,
+ "default_mean_all": 0.8656121786624292,
  "defaults": {
   "w_branch": 1.0,
   "w_stage": 1.0,
@@ -161,5 +161,16 @@
   "w_context": 0.5,
   "w_collab": 0.0
  },
- "proposals": []
+ "proposals": [
+  {
+   "kind": "change",
+   "text": "점수 가중치 변경 제안 (추천 가중치로)",
+   "reason": "교차 검증 평균 가중 AUC 0.889 vs 기본값 0.866 (+0.023), 우세 4/6"
+  },
+  {
+   "kind": "new_signal",
+   "text": "새 신호 반영 제안: w_peer=1, w_recent=1",
+   "reason": "기준일 전체로 고른 추천 가중치(평균 AUC 0.897)가 기본값(0.866)보다 +0.032, 기본값 0인 특징이 0보다 크게 골라짐"
+  }
+ ]
 }

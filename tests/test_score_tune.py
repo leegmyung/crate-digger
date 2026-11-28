@@ -142,8 +142,9 @@ class DataRefreshNoteTest(unittest.TestCase):
     def test_note_has_rows_and_before_after(self):
         note = st.data_refresh_note({"pick": 0.81, "v0": 0.8}, {"pick": 30, "v0": 28}, n_rows=9000, n_pos=150)
         self.assertIn(st.DATA_REFRESH["what"], note)
-        self.assertIn("8,434 → 9,000", note)
-        self.assertIn("81 → 150", note)
+        b = st.DATA_REFRESH   # 전 숫자는 상수에서 (데이터를 다시 갱신해 상수를 바꿔도 테스트가 따라감)
+        self.assertIn(f"{b['rows']:,} → 9,000", note)
+        self.assertIn(f"{b['pos']} → 150", note)
         self.assertIn("→ 0.810", note)
         self.assertIn("→ 30", note)
 

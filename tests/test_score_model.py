@@ -208,3 +208,27 @@ class FairBaselineTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class InterpretTest(unittest.TestCase):
+    """해석 문단 2번은 숫자 방향에 맞게 쓴다 — v2 고정이 교차 검증보다 낮아진 데이터(2026-11-28 오후)에서 '부풀려져 있다'고 쓰지 않게."""
+
+    def _summary(self, v2, grid, fair_gap=None):
+        shares = {n: (0.1, 0.1, 0.1, 0.2) for n, _ in sm.FEATURES}
+        s = {"mean": {"v2": v2, "grid": grid}, "boot_g": (0.0, -0.01, 0.01), "shares": shares,
+             "l2s": [0.01, 0.1], "pos_total": 100, "best_all": {"w_recent": 1}}
+        if fair_gap is not None:
+            s["fair_gap"] = fair_gap
+        return "\n".join(sm.interpret_models(s))
+
+    def test_inflated_when_v2_fixed_above_cross_validation(self):
+        text = self._summary(0.827, 0.809, fair_gap=0.039)
+        self.assertIn("부풀려져 있다", text)
+        self.assertIn("0.039", text)
+
+    def test_not_called_inflated_when_v2_fixed_below_cross_validation(self):
+        text = self._summary(0.866, 0.889, fair_gap=0.019)
+        self.assertNotIn("부풀려져 있다", text)
+        self.assertIn("0.023", text)        # 교차 검증이 v2 고정보다 이만큼 높다
+        self.assertIn("0.019", text)        # 같은 기준 판으로 내려가는 몫은 고정값(0.04)이 아니라 결과 파일에서
+        self.assertNotIn("0.04쯤", text)

@@ -2,7 +2,7 @@
 
 _자동 생성: `.venv/bin/python scripts/score_tune.py`_
 
-**데이터 갱신 (2026-11-28)**: 2021~25 정답 보강 적재(outcomes.csv 723 → 1,272행). 전 → 후: 후보 8,434 → 8,091행, 정답 81 → 84행, 고른 가중치 평균 AUC 0.805 → 0.809, v0 0.799 → 0.819, 상위 50 적중 합계 고른 것 23 → 30, v0 22 → 24.
+**데이터 갱신 (2026-11-28 오후)**: 과거 기록 되짚기(신호 32,244 → 62,079: 인디스트릿 2018~·포크라노스 2020~·웹진 2020~·인스타 옛 글)와 정답 정리(부산록페 본무대에 섞인 신인 경연 39행 제외·기획사 아이돌 제외·펜타 TOP10 탈락 한 등급 아래·음악취향Y 2023·2024 추가, outcomes.csv 1,272 → 1,218행) 적재. 전 → 후: 후보 8,091 → 25,059행, 정답 84 → 109행, 고른 가중치 평균 AUC 0.809 → 0.889, v0 0.819 → 0.867, 상위 50 적중 합계 고른 것 30 → 29, v0 24 → 30.
 
 **순위 규칙 변경 (2026-11-27)**: 동점 처리를 앱 후보 목록과 같게 바꿨다(점수 → 마지막 신호 최근 순 → md5). 전에는 AUC에서 동점을 절반으로, 상위 K에서 팀 이름 순으로 쳐서 문서 숫자가 앱 화면 순위와 달랐다. 같은 데이터(랩 데이터 2026-11-27 20:36)로 전 → 후: 고른 가중치 평균 AUC 0.786 → 0.805, v0 0.783 → 0.799, 상위 50 적중 합계 고른 것 23 → 23, v0 22 → 22.
 
@@ -13,30 +13,30 @@ AUC = 정답 팀 하나와 아닌 팀 하나를 골랐을 때 **앱 순위에서
 
 | 뺀 기준일 | 후보 | 정답 | 고른 가중치(나머지로 고름) | AUC 고른 것 | AUC v0 | AUC 공연 수만 | AUC 갈래 수만 | 상위50 고른 것 | 상위50 v0 |
 |---|---|---|---|---|---|---|---|---|---|
-| 2023-01-01 | 121 | 7 | branch 0 · stage 2 · peer 1 · dmz 0 · gigs 0 · outlets 2 · recent 2 · venues 1 · winner 1 · context 0 · collab 0 | 0.720 | 0.742 | 0.495 | 0.606 | 6 | 6 |
-| 2023-07-01 | 498 | 6 | branch 3 · stage 2 · peer 1 · dmz 0 · gigs 0 · outlets 0.5 · recent 3 · venues 0 · winner 2 · context 0 · collab 0 | 0.746 | 0.835 | 0.426 | 0.298 | 3 | 3 |
-| 2024-01-01 | 769 | 7 | branch 2 · stage 2 · peer 1 · dmz 0 · gigs 0 · outlets 1 · recent 3 · venues 1 · winner 2 · context 0.5 · collab 0 | 0.839 | 0.833 | 0.421 | 0.425 | 2 | 2 |
-| 2024-07-01 | 1,622 | 21 | branch 2 · stage 2 · peer 1 · dmz 0 · gigs 0 · outlets 1 · recent 3 · venues 1 · winner 2 · context 0.25 · collab 0 | 0.828 | 0.812 | 0.769 | 0.763 | 5 | 3 |
-| 2025-01-01 | 2,246 | 21 | branch 2 · stage 2 · peer 1 · dmz 0 · gigs 0 · outlets 1 · recent 3 · venues 1 · winner 2 · context 0 · collab 0 | 0.870 | 0.861 | 0.762 | 0.779 | 7 | 5 |
-| 2025-07-01 | 2,835 | 22 | branch 2 · stage 2 · peer 1 · dmz 0 · gigs 0 · outlets 1 · recent 3 · venues 1 · winner 2 · context 0 · collab 0 | 0.849 | 0.832 | 0.788 | 0.787 | 7 | 5 |
+| 2023-01-01 | 4,457 | 19 | branch 0 · stage 1 · peer 1 · dmz 0 · gigs 0 · outlets 1 · recent 1 · venues 1 · winner 0 · context 0.25 · collab 0 | 0.900 | 0.890 | 0.838 | 0.869 | 6 | 7 |
+| 2023-07-01 | 4,554 | 13 | branch 0 · stage 1 · peer 1 · dmz 0 · gigs 0 · outlets 2 · recent 2 · venues 1 · winner 0 · context 0.5 · collab 0 | 0.877 | 0.841 | 0.856 | 0.830 | 3 | 4 |
+| 2024-01-01 | 4,571 | 12 | branch 0 · stage 1 · peer 1 · dmz 0 · gigs 0 · outlets 1 · recent 1 · venues 1 · winner 0 · context 0.5 · collab 0 | 0.920 | 0.873 | 0.856 | 0.860 | 3 | 3 |
+| 2024-07-01 | 4,130 | 22 | branch 0 · stage 1 · peer 1 · dmz 0 · gigs 0 · outlets 1 · recent 1 · venues 1 · winner 0 · context 0.5 · collab 0 | 0.876 | 0.857 | 0.815 | 0.829 | 5 | 4 |
+| 2025-01-01 | 3,918 | 23 | branch 0 · stage 1 · peer 1 · dmz 0 · gigs 0 · outlets 1 · recent 1 · venues 1 · winner 0 · context 0.25 · collab 0 | 0.880 | 0.857 | 0.815 | 0.822 | 5 | 6 |
+| 2025-07-01 | 3,429 | 20 | branch 0 · stage 1 · peer 1 · dmz 0 · gigs 0 · outlets 1 · recent 1 · venues 1 · winner 0 · context 0 · collab 0 | 0.881 | 0.888 | 0.846 | 0.869 | 7 | 6 |
 
-**평균 AUC (뺀 기준일 기준)**: 고른 가중치 0.809 · v0 0.819 · 공연 수만 0.610 · 갈래 수만 0.610
-**상위 50 적중 합계**: 고른 가중치 30 · v0 24 · 고른 가중치가 v0보다 AUC가 높았던 기준일 4/6
+**평균 AUC (뺀 기준일 기준)**: 고른 가중치 0.889 · v0 0.867 · 공연 수만 0.838 · 갈래 수만 0.847
+**상위 50 적중 합계**: 고른 가중치 29 · v0 30 · 고른 가중치가 v0보다 AUC가 높았던 기준일 5/6
 
 ## 추천 가중치 (기준일 전체로 고름)
 
-`branch 2 · stage 2 · peer 1 · dmz 0 · gigs 0 · outlets 1 · recent 3 · venues 1 · winner 2 · context 0 · collab 0`
+`branch 0 · stage 1 · peer 1 · dmz 0 · gigs 0 · outlets 1 · recent 1 · venues 1 · winner 0 · context 0.25 · collab 0`
 
 교차 검증에서 기준일마다 골라진 가중치의 범위(안정성 확인):
 
-- branch: 0, 2, 3
-- stage: 2
+- branch: 0
+- stage: 1
 - peer: 1
 - dmz: 0
 - gigs: 0
-- outlets: 0.5, 1, 2
-- recent: 2, 3
-- venues: 0, 1
-- winner: 1, 2
+- outlets: 1, 2
+- recent: 1, 2
+- venues: 1
+- winner: 0
 - context: 0, 0.25, 0.5
 - collab: 0
