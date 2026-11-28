@@ -37,5 +37,44 @@ class DailyRunGenreSeenTest(unittest.TestCase):
         self.assertIsNone(re.search(r"data/raw|records/", add))               # 원본·개인 기록은 커밋 안 함
 
 
+class DailyRunCollectorsTest(unittest.TestCase):
+    """수집 전수 점검(docs/source_coverage_2026-11-28.md 7절)에서 빠져 있던 수집기 3개가 매일 돌고, 실패해도 다음 단계로 넘어가는지."""
+
+    def setUp(self):
+        self.lines = SCRIPT.read_text(encoding="utf-8").splitlines()
+
+    def _hits(self, pred):
+        return [i for i, line in enumerate(self.lines) if pred(line) and not line.lstrip().startswith("#")]
+
+    def _one(self, needle):
+        hits = self._hits(lambda line: needle in line)
+        self.assertEqual(len(hits), 1, f"{needle} 줄이 정확히 한 번 있어야 함")
+        return hits[0]
+
+    def test_webzines_and_ssm_shows_run_daily_without_aside_before_validation(self):
+        aside_if = self._one("command -v aside")
+        validate = self._one("scripts/validate_csv.py")
+        for needle in ("scripts/collect_webzines.py", "scripts/collect_ssm_shows.py"):
+            i = self._one(needle)
+            self.assertLess(i, aside_if)                       # 공개 API·JSON이라 aside 묶음 밖(앞)
+            self.assertLess(i, validate)                       # 이번 실행이 만든 원본은 형식 검사를 받는다
+            self.assertFalse(self.lines[i].startswith(" "))    # 요일 조건 안이 아니라 매일
+            self.assertRegex(self.lines[i], r'\|\| echo "⚠️ ')
+
+    def test_ig_artists_new_tags_daily_after_insta_inside_aside_block(self):
+        aside_if = self._one("command -v aside")
+        aside_else = next(i for i in range(aside_if, len(self.lines)) if self.lines[i].strip() == "else")
+        insta = self._one("scripts/collect_insta.py")
+        plain = self._hits(lambda line: "scripts/collect_ig_artists.py" in line and "--handles-file" not in line)
+        self.assertEqual(len(plain), 1, "새로 태그된 계정용 collect_ig_artists.py 줄이 한 번 있어야 함")
+        i = plain[0]
+        self.assertTrue(insta < i < aside_else)                # 그날 인스타 글의 새 태그를 읽고, aside 묶음 안
+        self.assertIn("--limit", self.lines[i])                # 인스타 차단 위험 관리: 하루 상한
+        self.assertRegex(self.lines[i], r'\|\| echo "⚠️ ')
+        monday = self._one('date +%u)" = 1 ]; then   # 월요일: 팔로워')
+        monday_end = next(j for j in range(monday, len(self.lines)) if self.lines[j].strip() == "fi")
+        self.assertFalse(monday < i < monday_end)              # 월요일만이 아니라 매일
+
+
 if __name__ == "__main__":
     unittest.main()

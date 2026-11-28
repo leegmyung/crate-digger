@@ -20,6 +20,8 @@ echo "===== $DAY $(TZ=Asia/Seoul date +%H:%M:%S) 시작"
 "$PY" scripts/collect_superrookie.py || echo "⚠️ 슈퍼루키챌린지 수집 실패"
 "$PY" scripts/collect_regional_gigs.py || echo "⚠️ 지역 공연(세종 누리락 등) 수집 일부 실패"   # 공개 페이지(aside 안 씀)
 "$PY" scripts/collect_trackzero.py || echo "⚠️ 멜론 트랙제로 수집 실패"   # 새 글만, 공개 페이지(aside 안 씀)
+"$PY" scripts/collect_webzines.py || echo "⚠️ 웹 매거진(음악취향Y·IZM·VISLA 등) 수집 실패"   # 새 글만(마지막 실행 14일 전부터), 공개 API·목록(aside 안 씀)
+"$PY" scripts/collect_ssm_shows.py || echo "⚠️ 상상마당 공연 수집 실패"   # 끝난 공연은 상태 파일로 건너뜀, 공개 JSON(aside 안 씀)
 if command -v aside >/dev/null 2>&1; then
   "$PY" scripts/collect_gigs.py --site all --days 7 || echo "⚠️ 공연 수집 일부 실패 (aside 앱이 꺼져 있으면 실패해요)"
   "$PY" scripts/collect_platforms.py --days 3 || echo "⚠️ 음원 플랫폼 신보 수집 전부 실패 (일부 실패는 위 로그에 ⚠️로 표시)"
@@ -36,7 +38,8 @@ if command -v aside >/dev/null 2>&1; then
     [ -s data/raw/state/followers_watch_melon_extra.txt ] && { "$PY" scripts/collect_artists.py --ids-file data/raw/state/followers_watch_melon_extra.txt || echo "⚠️ 관심 팀 멜론 팬 수 다시 받기 실패"; }
     "$PY" scripts/collect_ig_artists.py --handles-file data/raw/state/followers_watch_instagram.txt --limit 220 || echo "⚠️ 관찰 팀 인스타 팔로워 다시 보기 실패"
   fi
-  "$PY" scripts/collect_insta.py || echo "⚠️ 인스타 매거진 수집 실패"   # 가장 오래 걸려서 aside 묶음 맨 뒤 (길어져도 다른 수집이 안 밀리게)
+  "$PY" scripts/collect_insta.py || echo "⚠️ 인스타 매거진 수집 실패"   # 가장 오래 걸려서 aside 묶음 끝쪽 (길어져도 다른 수집이 안 밀리게, 바로 뒤 새 태그 프로필만)
+  "$PY" scripts/collect_ig_artists.py --limit 100 || echo "⚠️ 인스타 아티스트 프로필(새로 태그된 계정) 수집 실패"   # 그날 인스타 글에 새로 태그된 계정, 하루 100개(차단 위험 관리)
 else
   echo "⚠️ aside 명령이 없어 공연·인스타·음원 플랫폼 수집을 건너뜀"
 fi

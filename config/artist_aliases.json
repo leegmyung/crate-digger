@@ -635,9 +635,9 @@
     },
     {
       "main": "안락밴드",
-      "aliases": ["anrock_band"],
-      "reason": "같은 팀 — 안락밴드(AnRock)의 인스타 계정명. '안락'(다른 팀일 수 있음)이 아니라 '안락밴드'로 묶음",
-      "evidence": ["https://www.instagram.com/anrock_band/ (프로필 이름 '안락밴드 AnRock')"],
+      "aliases": ["anrock_band", "안락"],
+      "reason": "같은 팀 — 안락밴드(AnRock)의 인스타 계정명. '안락'도 같은 팀(2026-11-28 추가): 인디고 아티스트 페이지 '안락'(318)이 같은 인스타 계정 @anrock_band 를 걸고, 인디고는 '안락'·인디스트릿은 '안락밴드'로 적음",
+      "evidence": ["https://www.instagram.com/anrock_band/ (프로필 이름 '안락밴드 AnRock')", "https://www.indiego.co.kr/artists/318-안락 (인스타 링크 @anrock_band)"],
       "checked": "2026-11-28"
     },
     {
@@ -652,6 +652,104 @@
       "aliases": ["bandjude_official"],
       "reason": "같은 팀 — 쥬드(JUDE)의 인스타 계정명. 소개글의 공연(11.1 라라라온@오방가르드)이 팀 '쥬드'의 2026-11-01 오방가르드 공연(인디스트릿·인디고)과 같음",
       "evidence": ["https://www.instagram.com/bandjude_official/ (프로필 이름 '쥬드 | JUDE')", "팀 '쥬드' 줄: indistreet·indiego 공연 2026-11-01 오방가르드"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "99' Nasty Kidz",
+      "aliases": ["99내스티키즈", "99네스티키즈"],
+      "reason": "같은 힙합 팀 99' Nasty Kidz(대표 이름을 영문으로 둔 이유: 자동 한영 병기 간선이 두 한글 표기 모두에 걸려 충돌로 버려지는 것을 막으려고) — 힙합엘이 2021-11-23 EP [Nasty Cinema] 소식과 음악취향Y 2021-12-06 같은 음반 리뷰가 표기만 다름(내/네)",
+      "evidence": ["http://musicy.kr/?c=review&s=1&gbn=view&ix=7729", "https://hiphople.com/news_kr/21951032"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "데드보이스",
+      "aliases": ["데드보이즈"],
+      "reason": "같은 팀 Deadbois — 힙합엘이 2021-10-06 '데드보이즈, 컴필레이션 앨범 [Mantra]'와 음악취향Y 2021-10-18 '데드보이스 (Deadbois) 「Mantra」'가 같은 음반",
+      "evidence": ["http://musicy.kr/?c=review&s=1&gbn=view&ix=7670", "https://hiphople.com/news_kr/21554020"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "에코앤더머신",
+      "aliases": ["에코엔더머신"],
+      "reason": "같은 포스트록 밴드 Echo and the Machine — 인디스트릿에 철자만 다른 아티스트 페이지가 둘이고, 둘 다 같은 기획 공연 'Block Party'(2022·2024)에 나옴",
+      "evidence": ["https://indistreet.com/artists/eko-aen-deo-meosin", "https://indistreet.com/artists/ekoendeomeosin"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "케리건메이",
+      "aliases": ["캐리건메이"],
+      "reason": "같은 음악가 Kerrigan May — 포크라노스는 '케리건 메이 (Kerrigan May)', 힙합엘이는 '캐리건메이'(애/에 표기 차이). 영문 이름이 드문 이름이라 같은 사람",
+      "evidence": ["https://poclanos.com/album/sex-like-a-pickle/", "https://hiphople.com/news_kr/26870195"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "란치아",
+      "aliases": ["ranchia"],
+      "reason": "같은 래퍼 — 포크라노스 RANCHIA 앨범 '경고'(2022-09-01, 레이블 D.O.G)와 힙합엘이 같은 날 '란치아 X 메카닉, 합작 EP [No Kids Zone]' 소식",
+      "evidence": ["https://poclanos.com/album/%ea%b2%bd%ea%b3%a0/", "https://hiphople.com/news_kr/23682535"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "마미야",
+      "aliases": ["mamiya"],
+      "reason": "같은 음악가 — 포크라노스 Mamiya 'Dogs Eat Dogs'(2023-09-07)·'Galileo Galilei'(2023-11-21)와 힙합엘이 '마미야' 같은 싱글 소식(2023-09-07·2023-11-22)",
+      "evidence": ["https://poclanos.com/album/dogs-eat-dogs/", "https://hiphople.com/news_kr/26079810"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "소제소",
+      "aliases": ["sojeso"],
+      "reason": "같은 프로듀서 — 힙합엘이 2021-03-25 '소제소 & 우드로우, 합작 EP [DIZZY DAY]'와 VISLA 2021-03-26 '프로듀서 Sojeso, WDRW의 두 번째 협업 EP [Dizzy Day]'가 같은 음반",
+      "evidence": ["https://hiphople.com/news_kr/19955628", "https://visla.kr/article/music/149498/"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "사람12사람",
+      "aliases": ["saram12saram"],
+      "reason": "같은 전자음악 밴드 — 음악취향Y '카날리아×사람12사람 (Kanallia × Saram12Saram)' 리뷰, 인스타 @saram12saram 글에 '#사람12사람'",
+      "evidence": ["http://musicy.kr/?c=review&s=1&gbn=view&ix=8665", "https://www.instagram.com/saram12saram/"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "사카모토류이치",
+      "aliases": ["sakamotoryuichi"],
+      "reason": "같은 사람(일본 음악가 坂本龍一) — VISLA 한글 표기와 overtone 영문 표기. 해외 음악가라 후보로는 의미 없음",
+      "evidence": ["https://visla.kr/article/music/135321/", "https://overtone.kr/full-review/%EC%9D%B8%EC%83%9D%EC%9D%80-%EC%A7%A7%EA%B3%A0-%EC%98%88%EC%88%A0%EC%9D%80-%EA%B8%B8%EB%8B%A4-sakamoto-ryuichi%EC%9D%98-opus"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "소또감바",
+      "aliases": ["sottogamba"],
+      "reason": "같은 밴드 Sotto Gamba — 인디스트릿에 한글·영문 아티스트 페이지가 따로 있고 둘 다 2022년 서브라이엇 해방촌 공연",
+      "evidence": ["https://indistreet.com/artists/soddogamba", "https://indistreet.com/artists/sotto-gamba"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "오발탄",
+      "aliases": ["obaltan"],
+      "reason": "같은 밴드 — 인디스트릿 한글·영문 페이지가 따로 있고, 둘 다 2022-07 Club Sharp 공연('Slant 앨범 발매 공연', '<Aimless Bullet>' = 오발탄의 영문 뜻)",
+      "evidence": ["https://indistreet.com/artists/obaltan-505666", "https://indistreet.com/artists/obaltan"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "지나오킹",
+      "aliases": ["jinaoking"],
+      "reason": "같은 음악가 — 인디스트릿 한글·영문 페이지가 따로 있고, 둘 다 같은 기획 공연 '사사로운 대면의 음악 상담소 — 나의 가사는 너의 이야기'(2021-10·2022-11)",
+      "evidence": ["https://indistreet.com/artists/jinaoking-127583", "https://indistreet.com/artists/jinaoking"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "하세가와요헤이",
+      "aliases": ["hasegawayohei"],
+      "reason": "같은 사람(일본 출신 기타리스트 長谷川陽平) — 인디고·VISLA 한글 표기와 인디스트릿 영문 표기",
+      "evidence": ["https://www.indiego.co.kr/artists/1408-하세가와-요헤이", "https://indistreet.com/artists/hasegawa-yohei"],
+      "checked": "2026-11-28"
+    },
+    {
+      "main": "화분",
+      "aliases": ["hwabun"],
+      "reason": "같은 밴드 — VISLA '밴드 Hwabun의 3집 앨범 [봄, 꽃]'과 인디스트릿·포크라노스 '화분'(꽃마차 레코드, 정규 4집 쇼케이스 2021)",
+      "evidence": ["https://visla.kr/article/music/190932/", "https://indistreet.com/artists/hwabun"],
       "checked": "2026-11-28"
     }
   ],
