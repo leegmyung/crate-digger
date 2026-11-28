@@ -359,12 +359,19 @@
    "confidence": "high"
   },
   "벨르": {
-   "rank": 25,
-   "events": 37,
-   "capacity": null,
-   "tier": null,
-   "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "rank": 49,
+   "events": 40,
+   "capacity": 130,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 123,
+   "standing": 130,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002035",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 'Vel.R 벨르 (구. 벨로주 [홍대])' 등록 객석 123석 (2008년 개관) — 스탠딩 ~130명은 개인 블로그 값",
+   "confidence": "mid",
+   "other_sources": [
+    "https://blog.naver.com/pilmo9raphy/224340945626 (개인 블로그 '다녀왔던 공연장 정리'(2026-07-09): 벨르(벨로주) 스탠딩 ~130명)"
+   ]
   },
   "사운드홀 로비": {
    "rank": 26,
@@ -482,12 +489,20 @@
    "confidence": "low"
   },
   "공상온도": {
-   "rank": 36,
-   "events": 26,
-   "capacity": null,
-   "tier": null,
-   "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "rank": 34,
+   "events": 72,
+   "capacity": 100,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 80,
+   "standing": 100,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002075",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '공상온도' 등록 객석 80석 (2016년 개관) — 스탠딩 ~100명은 개인 블로그 값",
+   "confidence": "mid",
+   "other_sources": [
+    "https://blog.naver.com/pilmo9raphy/224340945626 (개인 블로그 '다녀왔던 공연장 정리'(2026-07-09): 스탠딩 ~100명)",
+    "https://www.indiego.co.kr/venues/3-%EA%B3%B5%EC%83%81%EC%98%A8%EB%8F%84 (인디고 소개 '객석은 80석 규모')"
+   ]
   },
   "KT&G 상상마당 부산 3층 라이브홀": {
    "rank": 37,
@@ -533,12 +548,16 @@
    "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
   },
   "리얼라이즈": {
-   "rank": 41,
-   "events": 20,
-   "capacity": null,
-   "tier": null,
-   "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "rank": 59,
+   "events": 26,
+   "capacity": 150,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 150,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC003523",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '클럽 리얼라이즈 [부산]' 등록 객석 150석 (수영구 감포로8번길 15) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
   },
   "클럽헤비": {
    "rank": 42,
@@ -810,20 +829,28 @@
    "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
   },
   "모래내 극락": {
-   "rank": 68,
-   "events": 5,
-   "capacity": null,
-   "tier": null,
+   "rank": 38,
+   "events": 62,
+   "capacity": 100,
+   "tier": "S",
    "checked": "2026-11-28",
-   "note": "2026-11-28 다시 찾음 — 코리아타임스 'Finding the Scene 7'(2025-07)·Debaser 인터뷰(2025-12)는 모래내시장 안 작은 공연장·바로만 소개, 인원 숫자 없음 · 2026-11-28 aside로 인디고 공연장 페이지·인스타 소개글도 확인 — 인원 숫자 없음"
+   "seats": null,
+   "standing": 100,
+   "source": "https://blog.naver.com/pilmo9raphy/224340945626",
+   "source_note": "개인 블로그 '다녀왔던 공연장 정리'(2026-07-09) '모래내 극락 — 스탠딩 기준 ~100명' — 개인 추정이라 확실도 낮음",
+   "confidence": "low"
   },
   "락캠프": {
-   "rank": 69,
-   "events": 5,
-   "capacity": null,
-   "tier": null,
-   "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "rank": 110,
+   "events": 8,
+   "capacity": 150,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 150,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002662",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '라이브클럽 락캠프' 등록 객석 150석 (부평구 길주로 547 B1) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
   },
   "CJ아지트 광흥창": {
    "rank": 70,
@@ -882,12 +909,16 @@
    "checked": "2026-11-27"
   },
   "부드러운직선": {
-   "rank": 75,
-   "events": 4,
-   "capacity": null,
-   "tier": null,
-   "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "rank": 62,
+   "events": 23,
+   "capacity": 50,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 50,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002298",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '부드러운 직선' 등록 객석 50석 (광주 북구 호동로 22-1) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
   },
   "옥타바리움 라이브홀": {
    "rank": 76,
@@ -927,12 +958,16 @@
    "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
   },
   "긱 라이브 하우스": {
-   "rank": 80,
-   "events": 4,
-   "capacity": null,
-   "tier": null,
-   "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "rank": 69,
+   "events": 17,
+   "capacity": 50,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 50,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC003052",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '긱라이브하우스 [마포]' 등록 객석 50석 (2003년 개관, 신촌로10길 7 지하1층) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
   },
   "제비다방": {
    "rank": 81,
@@ -956,12 +991,16 @@
    "note": "지점 이름만 — 공간(사운드홀·야외·구름다리)을 알 수 없음"
   },
   "고요의 방": {
-   "rank": 83,
-   "events": 4,
-   "capacity": null,
-   "tier": null,
-   "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "rank": 74,
+   "events": 14,
+   "capacity": 20,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 20,
+   "standing": null,
+   "source": "https://blog.naver.com/pilmo9raphy/224340945626",
+   "source_note": "개인 블로그 '다녀왔던 공연장 정리'(2026-07-09) '언플러그드 고요의 방 — 좌석 한정 기준 ~20명' — 개인 추정이라 확실도 낮음",
+   "confidence": "low"
   },
   "감마홀": {
    "rank": 84,
@@ -1001,12 +1040,16 @@
    "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
   },
   "인터플레이": {
-   "rank": 88,
-   "events": 3,
-   "capacity": null,
-   "tier": null,
-   "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "rank": 82,
+   "events": 12,
+   "capacity": 80,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 80,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002318",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '인터플레이 [대전]' 등록 객석 80석 (서구 대덕대로162번길 11) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
   },
   "록집": {
    "rank": 89,
@@ -1038,12 +1081,16 @@
    "confidence": "mid"
   },
   "이들스": {
-   "rank": 92,
-   "events": 3,
-   "capacity": null,
-   "tier": null,
-   "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "rank": 86,
+   "events": 11,
+   "capacity": 150,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 150,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC003913",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '이들스' 등록 객석 150석 (2023년 개관, 2층) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
   },
   "대전 음악창작소": {
    "rank": 93,
@@ -1070,12 +1117,16 @@
    "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
   },
   "클럽 온에어": {
-   "rank": 96,
-   "events": 3,
-   "capacity": null,
-   "tier": null,
-   "checked": "2026-11-27",
-   "note": "공개 자료(공식 사이트·대관 안내·위키·기사)에서 수용 인원을 찾지 못함"
+   "rank": 39,
+   "events": 60,
+   "capacity": 60,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": null,
+   "standing": 60,
+   "source": "https://blog.naver.com/pilmo9raphy/224340945626",
+   "source_note": "개인 블로그 '다녀왔던 공연장 정리'(2026-07-09) '온에어 — 스탠딩 기준 ~60명' — 개인 추정이라 확실도 낮음",
+   "confidence": "low"
   },
   "인피니티클럽": {
    "rank": 97,
@@ -1386,6 +1437,162 @@
    "other_sources": [
     "https://www.koreatimes.co.kr/amp/southkorea/globalcommunity/20240413/finding-the-scene-1-seouls-top-10-live-music-venues (소규모)"
    ]
+  },
+  "네스트나다": {
+   "rank": 6,
+   "events": 360,
+   "capacity": 70,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 70,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC001596",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '네스트나다' 등록 객석 70석 (2012년 개관) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid",
+   "other_sources": [
+    "https://www.data.go.kr/data/15045106/fileData.do (행정안전부 공연장 인허가 자료: '네스트 나다' 서교동 와우산로29길 15 2층, 폐업)"
+   ]
+  },
+  "언플러그드 신촌점": {
+   "rank": 27,
+   "events": 108,
+   "capacity": 40,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 40,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002880",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '언플러그드 [신촌]' 등록 객석 40석 — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
+  },
+  "수상한 창고": {
+   "rank": 35,
+   "events": 70,
+   "capacity": 35,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 35,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC003365",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '수상한창고' 등록 객석 35석 (2021년 개관, 금천구 금하로24길 7 지하1층) — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
+  },
+  "복합문화공간 에무": {
+   "rank": 53,
+   "events": 35,
+   "capacity": 100,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 100,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC001645",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '복합문화공간에무 — 팡타 개라지' 등록 객석 100석 (공간 4개 합계 253석: 팡타 개라지 100·야외 뒷뜰 50·에무시네마 51·52) — 음악 공연이 어느 공간에서 열렸는지 기록이 없어 가장 큰 실내 공연장(팡타 개라지) 기준 — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "low"
+  },
+  "서울 노들섬 라이브하우스": {
+   "rank": 71,
+   "events": 16,
+   "capacity": 708,
+   "tier": "L",
+   "checked": "2026-11-28",
+   "seats": 456,
+   "standing": 708,
+   "source": "https://nodeul.org/facility/livehouse/",
+   "source_note": "노들섬 공식 시설 안내 '수용인원 지정좌석 456석 / 스탠딩 708석'",
+   "confidence": "high",
+   "other_sources": [
+    "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002122 (KOPIS 라이브하우스 등록 객석 456석)"
+   ]
+  },
+  "라디오가가": {
+   "rank": 84,
+   "events": 11,
+   "capacity": 130,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 130,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002128",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '라디오가가홀 — 라이브홀' 등록 객석 130석 — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
+  },
+  "코리아블루스씨어터": {
+   "rank": 99,
+   "events": 9,
+   "capacity": 50,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 50,
+   "standing": null,
+   "source": "https://kopis.or.kr/por/db/prfplc/prfplcView.do?menuId=MNU_00021&mt10Id=FC002101",
+   "source_note": "공연예술통합전산망(KOPIS) 공연시설 '코리아블루스씨어터' 등록 객석 50석 — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
+  },
+  "폼텍 웍스홀": {
+   "rank": 100,
+   "events": 9,
+   "capacity": 100,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 100,
+   "standing": null,
+   "source": "https://www.mapo.go.kr/site/culture/the/culture_onstop_the_view?motSeq=2892",
+   "source_note": "마포구청 문화관광 공연장 안내 '폼텍웍스홀은 100석 규모의 공연장' — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid",
+   "other_sources": [
+    "예스24 티켓 공연장 정보 (폼텍 웍스홀 좌석수 100석)"
+   ]
+  },
+  "문화정원아트홀": {
+   "rank": 45,
+   "events": 47,
+   "capacity": 200,
+   "tier": "M",
+   "checked": "2026-11-28",
+   "seats": null,
+   "standing": 200,
+   "source": "https://www.spacecloud.kr/space/3176",
+   "source_note": "스페이스클라우드 대관 안내 '공간면적 495㎡, 수용인원 최소 20명 ~ 최대 200명'(대관 기준 최대 인원)",
+   "confidence": "mid",
+   "other_sources": [
+    "http://www.cgarthall.co.kr/xe/rentfacility (공식 대관 시설 안내)"
+   ]
+  },
+  "몽향 라이브홀": {
+   "rank": 68,
+   "events": 18,
+   "capacity": 100,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": 100,
+   "standing": null,
+   "source": "https://www.indiego.co.kr/venues/26-%EB%AA%BD%ED%96%A5",
+   "source_note": "인디고 공연장 소개 '연세로5다길 10 지하 1층에 있는 100석 규모의 복합문화공간' — 스탠딩 수는 공개 자료에 없어 좌석 기준",
+   "confidence": "mid"
+  },
+  "홍대 플렉스라운지": {
+   "rank": 70,
+   "events": 17,
+   "capacity": 150,
+   "tier": "S",
+   "checked": "2026-11-28",
+   "seats": null,
+   "standing": 150,
+   "source": "https://blog.naver.com/pilmo9raphy/224340945626",
+   "source_note": "개인 블로그 '다녀왔던 공연장 정리'(2026-07-09) '플렉스 라운지 — 스탠딩 기준 ~150명' — 개인 추정이라 확실도 낮음",
+   "confidence": "low"
+  },
+  "웨스트브릿지": {
+   "rank": 55,
+   "events": 34,
+   "capacity": 300,
+   "tier": "M",
+   "seats": 150,
+   "standing": 300,
+   "source": "https://namu.wiki/w/%EA%B3%B5%EC%97%B0%EC%9E%A5",
+   "source_note": "나무위키 '공연장' 문서 1,000석 미만 표 (2026-11-25 편집본) — 우리 데이터의 '웨스트브릿지' 표기도 같은 공연장(서교동 와우산로25길 6 지하3층)",
+   "confidence": "high",
+   "checked": "2026-11-28"
   }
  }
 }
