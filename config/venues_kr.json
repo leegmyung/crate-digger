@@ -12252,7 +12252,8 @@
    "our_names": [],
    "status_note": "부산음악창작소 공연지원 게시판 장소 '책과 아이들(부산)' — 2018~2022 지원 공연 1회, 지금 운영 여부·주소 확인 필요",
    "checked": "2026-11-28",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "어반플랜트",
@@ -12273,7 +12274,8 @@
    "our_names": [],
    "status_note": "부산음악창작소 공연지원 게시판 장소 '어반플랜트(부산)' — 2018~2022 지원 공연 1회, 지금 운영 여부·주소 확인 필요",
    "checked": "2026-11-28",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "나유타의부엌",
@@ -12294,7 +12296,8 @@
    "our_names": [],
    "status_note": "부산음악창작소 공연지원 게시판 장소 '나유타의부엌(부산)' — 2018~2022 지원 공연 1회, 지금 운영 여부·주소 확인 필요",
    "checked": "2026-11-28",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "전람회의 그림",
@@ -12315,7 +12318,8 @@
    "our_names": [],
    "status_note": "부산음악창작소 공연지원 게시판 장소 '전람회의 그림(부산)' — 2018~2022 지원 공연 1회, 지금 운영 여부·주소 확인 필요",
    "checked": "2026-11-28",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "카페플랜트370",
@@ -12336,7 +12340,8 @@
    "our_names": [],
    "status_note": "부산음악창작소 공연지원 게시판 장소 '카페플랜트370(부산)' — 2018~2022 지원 공연 1회, 지금 운영 여부·주소 확인 필요",
    "checked": "2026-11-28",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "어반305",
@@ -12357,7 +12362,8 @@
    "our_names": [],
    "status_note": "부산음악창작소 공연지원 게시판 장소 '어반305(부산)' — 2018~2022 지원 공연 1회, 지금 운영 여부·주소 확인 필요",
    "checked": "2026-11-28",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "카멜앤오아시스",
@@ -12378,7 +12384,8 @@
    "our_names": [],
    "status_note": "부산음악창작소 공연지원 게시판 장소 '카멜앤오아시스(부산)' — 2018~2022 지원 공연 1회, 지금 운영 여부·주소 확인 필요",
    "checked": "2026-11-28",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "구루요가원",
@@ -12399,7 +12406,8 @@
    "our_names": [],
    "status_note": "부산음악창작소 공연지원 게시판 장소 '구루요가원(부산)' — 2018~2022 지원 공연 1회, 지금 운영 여부·주소 확인 필요",
    "checked": "2026-11-28",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "브로스",
@@ -12420,7 +12428,8 @@
    "our_names": [],
    "status_note": "부산음악창작소 공연지원 게시판 장소 '브로스(부산)' — 2018~2022 지원 공연 1회, 지금 운영 여부·주소 확인 필요",
    "checked": "2026-11-28",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "문달래",
@@ -12441,7 +12450,8 @@
    "our_names": [],
    "status_note": "부산음악창작소 공연지원 게시판 장소 '문달래(부산)' — 2018~2022 지원 공연 1회, 지금 운영 여부·주소 확인 필요",
    "checked": "2026-11-28",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "딥슬립커피",
@@ -12462,7 +12472,8 @@
    "our_names": [],
    "status_note": "부산음악창작소 공연지원 게시판 장소 '딥슬립커피(부산)' — 2018~2022 지원 공연 1회, 지금 운영 여부·주소 확인 필요",
    "checked": "2026-11-28",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "카페륙",
@@ -12637,7 +12648,12 @@
    "status_note": "공연장 인스타 '경남음악창작소 뮤지시스' 라인업 글 — 검색 결과 주소 '경남 김해시 김해대로 2060' (확인 필요)",
    "checked": "2026-11-28",
    "type_basis": "이름 '음악창작소' → 창작소·지원 시설",
-   "instagram": "musisis.gn"
+   "instagram": "musisis.gn",
+   "lat": 35.269812,
+   "lon": 128.860284,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "포항문화예술회관 소공연장",
@@ -12813,7 +12829,8 @@
    "status_note": "공연장 인스타 '전주 야간비행' 라인업 글 (주소 미확인)",
    "checked": "2026-11-28",
    "type_basis": "",
-   "instagram": "night_flight_jeonju"
+   "instagram": "night_flight_jeonju",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "익산 중앙체육공원",
@@ -12993,7 +13010,8 @@
    "status_note": "공연장 인스타 'BBCB: Beton Brut+Concrete Bar' 라인업 글 (주소 미확인)",
    "checked": "2026-11-28",
    "type_basis": "수동: 계정 이름 'Concrete Bar' — 바",
-   "instagram": "bbcb.seoul"
+   "instagram": "bbcb.seoul",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "반쥴 스테이지",
@@ -13015,7 +13033,8 @@
    "status_note": "공연장 인스타 '반쥴 스테이지' 라인업 글 — OpenStreetMap '반쥴'(종로구 관철동 삼일대로17길) 같은 곳으로 보임, 확인 필요",
    "checked": "2026-11-28",
    "type_basis": "",
-   "instagram": "banjul_stage"
+   "instagram": "banjul_stage",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "스튜디오로그",
@@ -13036,7 +13055,8 @@
    "our_names": [],
    "status_note": "부산음악창작소 공연지원 게시판 장소 '스튜디오로그(서울)'(2018-12·2019-09 우주왕복선싸이드미러 공연) — 주소 미확인",
    "checked": "2026-11-28",
-   "type_basis": ""
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
   },
   {
    "name": "프리즘플러스",
@@ -13057,7 +13077,12 @@
    "our_names": [],
    "status_note": "부산음악창작소 공연지원 게시판 장소 '프리즘플러스(서울)'(2020-11 교류전) — 검색 결과 주소 '서울 마포구 양화로12길 6' (확인 필요)",
    "checked": "2026-11-28",
-   "type_basis": ""
+   "type_basis": "",
+   "lat": 37.551654,
+   "lon": 126.91751,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
   }
  ]
 }
