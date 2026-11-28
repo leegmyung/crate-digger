@@ -80,5 +80,32 @@ class MetricTest(unittest.TestCase):
         self.assertEqual(out, {"with_n": 2, "with_rate": 0.5, "without_n": 2, "without_rate": 0.0})
 
 
+
+class PointInTimeGenreTest(unittest.TestCase):
+    """'그때 알 수 있던 장르만'(genre_seen.known_from < 기준일, scripts/genre_seen.py) — 확인된 장르 = 사후 수집 편향 대책."""
+
+    def test_same_genre_kept_only_when_both_known_then(self):
+        rows = [row("b", genre=True), row("c", genre=True), row("d", fs=0.5)]
+        out = sv.pit_genre_rows(rows, "a", known={"a", "b"})
+        self.assertEqual([r["same_genre"] for r in out], [True, False, False])
+        self.assertEqual(rows[1]["same_genre"], True)                          # 원래 줄은 그대로
+        self.assertEqual([r["same_genre"] for r in sv.pit_genre_rows(rows, "z", known={"b", "c"})], [False, False, False])
+
+    def test_evaluate_pit_masks_genre_and_measures_known_pairs(self):
+        genre_only = {"stage": 0.0, "source": 0.0, "genre": 1.0, "level": 0.0}
+        d = {"cutoff": "2024-01-01", "keys": ["a", "b", "c", "d"],
+             "hit": {"a": 1, "b": 1, "c": 0, "d": 0}, "hit_nob": {"a": 1, "b": 1, "c": 0, "d": 0},
+             "known": {"a", "c"},
+             "rows": {"a": [row("b", genre=True), row("c", genre=True)], "b": [row("a", genre=True)],
+                      "c": [row("a", genre=True)], "d": []}}
+        out = sv.evaluate_pit([d], genre_only)
+        # 그때 장르를 안 a·c 만 같은 장르로 이어짐: a→c (c 정답 아님) → 같이 맞힌 쌍 0
+        self.assertEqual((out["hit"]["n"], out["hit"]["both"]), (1, 0))
+        self.assertEqual((out["hit_known_genre"]["n"], out["hit_known_genre"]["both"]), (1, 0))
+        self.assertEqual(out["known_teams"], 2)
+        self.assertEqual(out["known_hits"], 1)
+        self.assertIn("hit_no_burock", out)
+
+
 if __name__ == "__main__":
     unittest.main()

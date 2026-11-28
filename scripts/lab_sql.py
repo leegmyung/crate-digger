@@ -25,6 +25,10 @@ SNAPSHOTS_DDL = "CREATE TABLE snapshots(snap_date DATE, team_key VARCHAR, score 
 TEAM_CITIES_DDL = ("CREATE TABLE team_cities(team_key VARCHAR, home_city VARCHAR, cities INTEGER, first_city VARCHAR, "
                    "first_date VARCHAR, seoul_first_date VARCHAR, months_to_seoul VARCHAR, nights INTEGER)")
 VENUE_TIERS_DDL = "CREATE TABLE venue_tiers(venue VARCHAR, tier VARCHAR)"
+#   genre_seen: docs/lab/data/genre_seen.csv (scripts/genre_seen.py) — 확인된 장르를 처음 본 날(first_seen)·근거 공개일(known_from).
+#     기준일 시점 장르만 쓰는 판은 known_from < 기준일 (docs/methods.md '확인된 장르 = 사후 수집 편향')
+GENRE_SEEN_DDL = ("CREATE TABLE genre_seen(team_key VARCHAR, genre VARCHAR, confidence VARCHAR, first_seen DATE, "
+                  "first_seen_source VARCHAR, known_from DATE, known_from_source VARCHAR, match VARCHAR)")
 
 DEFAULTS: Dict[str, str] = {
     "lookback_years": "3", "newcomer_years": "3", "exclude_famous": "true", "outcome_tier": "'any'",
@@ -72,7 +76,7 @@ def venue_tier_rows(capacity_path: Path = CAPACITY) -> List[tuple]:
 
 
 def load_extras(con, data_dir: Path = DATA_DIR, capacity_path: Optional[Path] = CAPACITY) -> None:
-    """보조 표 snapshots·team_cities·venue_tiers 를 만든다. 원본이 없으면 빈 표."""
+    """보조 표 snapshots·team_cities·venue_tiers·genre_seen 을 만든다. 원본이 없으면 빈 표."""
     con.execute(SNAPSHOTS_DDL)
     snap_dir = data_dir / "snapshots"
     if snap_dir.is_dir() and any(snap_dir.glob("*.csv")):
@@ -89,6 +93,13 @@ def load_extras(con, data_dir: Path = DATA_DIR, capacity_path: Optional[Path] = 
     rows = venue_tier_rows(capacity_path) if capacity_path else []
     if rows:
         con.executemany("INSERT INTO venue_tiers VALUES (?, ?)", rows)
+    con.execute(GENRE_SEEN_DDL)
+    seen = data_dir / "genre_seen.csv"
+    if seen.exists():
+        con.execute(f"""INSERT INTO genre_seen
+            SELECT team_key, genre, confidence, TRY_CAST(NULLIF(first_seen, '') AS DATE), first_seen_source,
+                   TRY_CAST(NULLIF(known_from, '') AS DATE), known_from_source, match
+            FROM read_csv('{_sql_path(seen)}', header=true, all_varchar=true)""")
 
 
 def connect(data_dir: Path = DATA_DIR, capacity_path: Optional[Path] = CAPACITY):

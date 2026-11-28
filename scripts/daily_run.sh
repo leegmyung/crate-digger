@@ -46,6 +46,7 @@ NEW_RAW="$(find data/raw -maxdepth 1 -name "*.csv" -newer "$RUN_MARK" | sort)"
 "$PY" scripts/run_pg_queries.py || echo "⚠️ SQL 결과 문서 일부 실패"
 "$PY" scripts/collect_artist_images.py || echo "⚠️ 아티스트 사진 수집 일부 실패"
 "$PY" scripts/export_lab_data.py || echo "⚠️ 랩(설정형 분석 도구) 데이터 갱신 실패"
+"$PY" scripts/genre_seen.py || echo "⚠️ 장르 처음 확인한 날(genre_seen.csv) 갱신 실패"   # 랩 내보내기 뒤(teams·signals 를 읽음), 장르 검증의 기준일 시점 판용
 [ "$(TZ=Asia/Seoul date +%u)" = 1 ] && { "$PY" scripts/source_roles_doc.py || echo "⚠️ 출처 분류 문서 갱신 실패"; }   # 월요일: 출처 성적표 표 자동 갱신
 "$PY" scripts/source_review.py || echo "⚠️ 출처 재분류 제안 실패"
 if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then "$PY" scripts/score_review.py || echo "⚠️ 점수 재검토 실패"; fi   # 월요일만 (약 3분)

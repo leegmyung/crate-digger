@@ -294,5 +294,44 @@ class TeamSqlTest(unittest.TestCase):
         self.assertEqual(out[-1]["program_label"], "상상마당 밴드 디스커버리")
 
 
+
+@unittest.skipIf(duckdb is None, "duckdb 없음")
+class GenreSeenTableTest(unittest.TestCase):
+    """장르 처음 확인한 날(docs/lab/data/genre_seen.csv, scripts/genre_seen.py)을 genre_seen 표로 — 없으면 빈 표.
+    기준일 시점 장르만 쓰는 판(known_from < 기준일)이 SQL로 돌 수 있게 (docs/methods.md '확인된 장르 = 사후 수집 편향')."""
+
+    @staticmethod
+    def _write_base(d: Path) -> None:
+        (d / "signals.csv").write_text("team_key,branch,source,program,stage_rank,signal_date,venue,role\n"
+                                       "a,공연,x,,,2024-06-01,클럽S,discovery\n", encoding="utf-8")
+        (d / "teams.csv").write_text("team_key,display_name,first_seen,first_release,fan_count,album_count,"
+                                     "profile_status,primary_genre\na,A,2024-06-01,,,,unknown,\n", encoding="utf-8")
+        (d / "outcomes.csv").write_text("team_key,program,program_label,tier,announced_date,counted,grade,weight\n"
+                                        "a,x,x,final,2030-01-01,true,S,3\n", encoding="utf-8")
+        (d / "programs.csv").write_text("program,label,kind\nx,x,signal\n", encoding="utf-8")
+
+    def test_loaded_when_file_exists_and_empty_otherwise(self):
+        import tempfile
+        import lab_sql
+        with tempfile.TemporaryDirectory() as tmp:
+            d = Path(tmp)
+            self._write_base(d)
+            con = lab_sql.connect(d, capacity_path=None)
+            self.assertEqual(con.execute("SELECT COUNT(*) FROM genre_seen").fetchone()[0], 0)
+            cols = [r[0] for r in con.execute("DESCRIBE genre_seen").fetchall()]
+            self.assertEqual(cols, ["team_key", "genre", "confidence", "first_seen", "first_seen_source",
+                                    "known_from", "known_from_source", "match"])
+            (d / "genre_seen.csv").write_text(
+                "team_key,genre,confidence,first_seen,first_seen_source,known_from,known_from_source,match\n"
+                "a,록·밴드,profile,2026-11-27,profile:melon,2019-05-03,release:poclanos,genre\n"
+                "b,재즈,profile,,,,,none\n", encoding="utf-8")
+            con2 = lab_sql.connect(d, capacity_path=None)
+            rows = con2.execute("SELECT team_key, first_seen::VARCHAR, known_from::VARCHAR, match FROM genre_seen "
+                                "ORDER BY team_key").fetchall()
+            self.assertEqual(rows, [("a", "2026-11-27", "2019-05-03", "genre"), ("b", None, None, "none")])
+            known = con2.execute("SELECT team_key FROM genre_seen WHERE known_from < DATE '2024-01-01'").fetchall()
+            self.assertEqual(known, [("a",)])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -16,6 +16,9 @@
        그래서 '확인된 장르가 있는 팀끼리만' 다시 잰다(hit_conf_genre).
      - 2025 부산록페 본무대(burock_main)는 부산 지역 팀을 많이 뽑았다 → 부산 클럽에서 같이 선 팀이 같이 뽑힌 한 번의 일.
        그래서 이 정답을 빼고도 잰다(hit_no_burock).
+  D. 그때 알 수 있던 장르만 (2026-11-28 추가, weights_pit): '같은 장르'를 두 팀 모두 장르 근거가 기준일 전에 공개돼 있을 때만
+     인정한다(genre_seen.known_from < 기준일, scripts/genre_seen.py → lab_sql 의 genre_seen 표). 풀 전체(hit·hit_no_burock)와
+     그때 장르를 알 수 있던 팀끼리(hit_known_genre) 두 가지로 잰다.
 결과 해석: docs/similar_teams.md
 """
 from __future__ import annotations
@@ -82,6 +85,12 @@ def conditional_rate(pairs: Sequence[Tuple[str, str]], labels: Dict[str, int], b
     rate = both / len(hit_pairs) if hit_pairs else None
     lift = (rate / base) if (rate is not None and base) else None
     return {"n": len(hit_pairs), "both": both, "rate": rate, "base": base, "lift": lift}
+
+
+def pit_genre_rows(rows: Iterable[dict], team: str, known: Set[str]) -> List[dict]:
+    """'같은 장르'를 두 팀 모두 그때 장르를 알 수 있었을 때만 남긴 새 줄들 (원래 줄은 안 바꿈)."""
+    mine = team in known
+    return [dict(r, same_genre=bool(r.get("same_genre")) and mine and r["related_team"] in known) for r in rows]
 
 
 def wilson(k: int, n: int, z: float = 1.96) -> Tuple[Optional[float], Optional[float]]:
@@ -167,6 +176,12 @@ def confirmed_genre_teams(con) -> Set[str]:
     return {r[0] for r in con.execute(q).fetchall()}
 
 
+def genre_known_teams(con, cutoff: str) -> Set[str]:
+    """그 기준일 전에 장르 근거가 공개돼 있던 팀 (genre_seen 표 — 없으면 빈 표라 빈 집합)."""
+    q = f"SELECT team_key FROM genre_seen WHERE known_from < DATE '{cutoff}'"
+    return {r[0] for r in con.execute(q).fetchall()}
+
+
 def prior_winners(con, cutoff: str) -> Set[str]:
     q = f"SELECT DISTINCT team_key FROM outcomes WHERE counted AND announced_date <= DATE '{cutoff}'"
     return {r[0] for r in con.execute(q).fetchall()}
@@ -196,6 +211,7 @@ def gather(con) -> List[dict]:
             "up": branch_up(*branch_sets(con, c), keys),
             "hit_nob": {k: int(k in nob) for nob in [hits_excluding(con, c, FAIRNESS_EXCLUDE_PROGRAMS)] for k in keys},
             "conf": [k for k in keys if k in conf],
+            "known": genre_known_teams(con, c),
             "winners": prior_winners(con, c),
             "rows": {k: neighbor_rows(con, sql, k, c) for k in keys},
         })
@@ -250,6 +266,28 @@ def evaluate(data: List[dict], w: Dict[str, float]) -> dict:
     }
 
 
+def evaluate_pit(data: List[dict], w: Dict[str, float]) -> dict:
+    """D. 그때 알 수 있던 장르만: 풀 전체 쌍(hit·hit_no_burock·up)과 그때 장르를 안 팀끼리 쌍(hit_known_genre)."""
+    hit_parts, nob_parts, up_parts, known_parts = [], [], [], []
+    known_teams = known_hits = 0
+    for d in data:
+        allowed, known = set(d["keys"]), d.get("known") or set()
+        rows = {x: pit_genre_rows(d["rows"][x], x, known) for x in d["keys"]}
+        pairs = [(x, y) for x in d["keys"] for y in top_neighbors(rows[x], w, TOP_K, allowed)]
+        hit_parts.append(conditional_rate(pairs, d["hit"], d["keys"]))
+        nob_parts.append(conditional_rate(pairs, d["hit_nob"], d["keys"]))
+        if "up" in d:
+            up_parts.append(conditional_rate(pairs, d["up"], d["keys"]))
+        kkeys = [k for k in d["keys"] if k in known]
+        kset = set(kkeys)
+        kpairs = [(x, y) for x in kkeys for y in top_neighbors(rows[x], w, TOP_K, kset)]
+        known_parts.append(conditional_rate(kpairs, d["hit"], kkeys))
+        known_teams += len(kkeys)
+        known_hits += sum(d["hit"][k] for k in kkeys)
+    return {"hit": _pooled(hit_parts), "hit_no_burock": _pooled(nob_parts), "up": _pooled(up_parts),
+            "hit_known_genre": _pooled(known_parts), "known_teams": known_teams, "known_hits": known_hits}
+
+
 def random_baseline(data: List[dict]) -> dict:
     hit_parts, up_parts, sel_parts, nob_parts = [], [], [], []
     for i, d in enumerate(data):
@@ -282,6 +320,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         "cutoffs": list(CUTOFFS), "horizon_months": HORIZON_MONTHS, "top_k": TOP_K,
         "random": random_baseline(data),
         "weights": {name: {"w": w, **evaluate(data, w)} for name, w in WEIGHTS.items()},
+        "weights_pit": {name: evaluate_pit(data, w) for name, w in WEIGHTS.items()},
         "per_cutoff_base": per_cutoff(data, WEIGHTS["기본"]),
     }
     text = json.dumps(result, ensure_ascii=False, indent=2, default=str)
