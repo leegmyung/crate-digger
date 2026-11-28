@@ -7020,6 +7020,85 @@
    "geo_checked": "2026-11-27"
   },
   {
+   "name": "사직공원 (광주)",
+   "aliases": [
+    "사직공원"
+   ],
+   "province": "광주",
+   "city": "광주",
+   "district": "",
+   "address": "광주광역시 남구",
+   "type": "festival",
+   "capacity": null,
+   "status": "open",
+   "sources": [
+    {
+     "url": "http://www.kjdaily.com/article.php?aid=1789464258686893006",
+     "note": "광주 사운드파크 페스티벌 2025(2025-09-06)·2026(2026-10-10) 야외무대 — 광주드림·광주매일 기사"
+    }
+   ],
+   "our_names": [],
+   "status_note": "광주 사운드파크 페스티벌 2025(2025-09-06)·2026(2026-10-10) 야외무대 — 광주드림·광주매일 기사",
+   "checked": "2026-11-28",
+   "type_basis": "수동: 광주 사운드파크 페스티벌 야외 무대(공원)",
+   "lat": 35.141213,
+   "lon": 126.91315,
+   "geo_confidence": "low",
+   "geo_method": "name",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "김대중컨벤션센터",
+   "aliases": [],
+   "province": "광주",
+   "city": "광주",
+   "district": "",
+   "address": "광주광역시 서구",
+   "type": "hall",
+   "capacity": null,
+   "status": "open",
+   "sources": [
+    {
+     "url": "http://www.gjdream.com/news/articleView.html?idxno=648688",
+     "note": "2024 광주사운드파크페스티벌(2024-09-27) 야외광장 — 광주드림 기사"
+    }
+   ],
+   "our_names": [],
+   "status_note": "2024 광주사운드파크페스티벌(2024-09-27) 야외광장 — 광주드림 기사",
+   "checked": "2026-11-28",
+   "type_basis": "수동: 대형 컨벤션센터 — mainstream",
+   "mainstream": true,
+   "lat": 35.143175,
+   "lon": 126.841362,
+   "geo_confidence": "low",
+   "geo_method": "name",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "CM카페뮤지엄",
+   "aliases": [
+    "카페뮤지엄"
+   ],
+   "province": "광주",
+   "city": "광주",
+   "district": "",
+   "address": "",
+   "type": "cafe",
+   "capacity": null,
+   "status": "open",
+   "sources": [
+    {
+     "url": "http://www.newsworker.co.kr/news/articleView.html?idxno=406159",
+     "note": "제2회 CM SOUND FESTIVAL×PEAKMUSIC(2025-12-13) — '광주 지역을 대표하는 라이브 카페', 1·2층 무대 (뉴스워커 기사)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "2025-12 광주음악창작소 협력 공연 확인",
+   "checked": "2026-11-28",
+   "type_basis": "수동: 기사 '라이브 카페인 CM카페뮤지엄'",
+   "geo_checked": "2026-11-28"
+  },
+  {
    "name": "꼬뮨",
    "aliases": [
     "Communes"
@@ -9738,7 +9817,8 @@
    "lon": 128.577352,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "EBS 스페이스 공감",
@@ -9764,7 +9844,8 @@
    "lon": 126.754664,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "HAROO SPACEBUS",
@@ -9786,7 +9867,8 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2021-05-08 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "KBS 부산홀",
@@ -9812,7 +9894,8 @@
    "lon": 129.108836,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "KBS아레나",
@@ -9838,7 +9921,8 @@
    "lon": 126.848401,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "LG아트센터",
@@ -9873,7 +9957,8 @@
    "lon": 127.037622,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "SKT 서면 센터",
@@ -9899,7 +9984,8 @@
    "lon": 129.060458,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "T팩토리",
@@ -9925,7 +10011,8 @@
    "lon": 126.9224,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "드럼스테이션",
@@ -9951,7 +10038,8 @@
    "lon": 126.921823,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "게토얼라이브",
@@ -9977,7 +10065,8 @@
    "lon": 127.04475,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "고양시 별모래극장",
@@ -10003,7 +10092,8 @@
    "lon": 126.832734,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "고인물",
@@ -10029,7 +10119,8 @@
    "lon": 126.926691,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "골방팩토리",
@@ -10055,7 +10146,8 @@
    "lon": 127.485403,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "공간389",
@@ -10081,7 +10173,8 @@
    "lon": 126.820263,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "공감",
@@ -10103,11 +10196,9 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2023-11-10 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
-   "lat": 37.600892,
-   "lon": 126.658948,
-   "geo_confidence": "low",
-   "geo_method": "name",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "geo_note": "이름 검색 결과가 주소의 구·군과 달라 좌표를 비움",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "구례자연드림파크",
@@ -10129,7 +10220,8 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2022-08-27 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "구름속에커피집",
@@ -10155,7 +10247,8 @@
    "lon": 126.928602,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "구미 선산문화회관",
@@ -10177,7 +10270,13 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2021-10-27 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "geo_note": "이름 검색(넓은 곳·표기 바꿈) — 같은 구·시 안, 위치는 대략",
+   "added_by": "scripts/add_missing_venues.py",
+   "lat": 36.243554,
+   "lon": 128.303958,
+   "geo_confidence": "low",
+   "geo_method": "name"
   },
   {
    "name": "꿈빛극장",
@@ -10203,7 +10302,8 @@
    "lon": 127.022158,
    "geo_confidence": "low",
    "geo_method": "name",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "난지한강공원",
@@ -10225,7 +10325,13 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2023-05-27 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "lat": 37.566446,
+   "lon": 126.876861,
+   "geo_confidence": "low",
+   "geo_method": "name",
+   "geo_note": "이름 검색(넓은 곳·표기 바꿈) — 같은 구·시 안, 위치는 대략",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "남문로데오 청소년소극장",
@@ -10247,7 +10353,8 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2022-08-14 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "네스트나다",
@@ -10273,7 +10380,8 @@
    "lon": 126.928896,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "다대포예술기지",
@@ -10299,7 +10407,8 @@
    "lon": 128.969888,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "달서아트센터 청룡홀",
@@ -10325,7 +10434,8 @@
    "lon": 128.522329,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "대디제이",
@@ -10351,7 +10461,8 @@
    "lon": 127.030549,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "더클리프",
@@ -10377,7 +10488,8 @@
    "lon": 126.415707,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "도킹어라운드",
@@ -10403,7 +10515,8 @@
    "lon": 126.920863,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "맞배집",
@@ -10429,7 +10542,8 @@
    "lon": 127.424332,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "모모",
@@ -10451,11 +10565,9 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2021-03-13 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
-   "lat": 37.493705,
-   "lon": 126.534222,
-   "geo_confidence": "low",
-   "geo_method": "name",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "geo_note": "이름 검색 결과가 주소의 구·군과 달라 좌표를 비움",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "문화정원아트홀",
@@ -10484,7 +10596,8 @@
    "geo_checked": "2026-11-28",
    "our_names": [
     "문화정원아트홀 1층 정원"
-   ]
+   ],
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "벨로주 망원",
@@ -10510,7 +10623,8 @@
    "lon": 126.904275,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "벨롱",
@@ -10536,7 +10650,8 @@
    "lon": 126.909677,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "복합문화공간 야.시.시",
@@ -10562,7 +10677,8 @@
    "lon": 126.929792,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "복합문화공간 에무",
@@ -10588,7 +10704,8 @@
    "lon": 126.969013,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "부산시청자미디어센터 공개홀",
@@ -10614,7 +10731,8 @@
    "lon": 129.129143,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "부평아트센터 달누리극장",
@@ -10640,7 +10758,8 @@
    "lon": 126.703393,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "산타클로스",
@@ -10664,6 +10783,55 @@
    "type_basis": "",
    "lat": 36.363505,
    "lon": 127.353009,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
+  },
+  {
+   "name": "우리들공원",
+   "aliases": [],
+   "province": "대전",
+   "city": "대전",
+   "district": "",
+   "address": "대전광역시 중구 대흥동",
+   "type": "festival",
+   "capacity": null,
+   "status": "open",
+   "sources": [
+    {
+     "url": "https://www.goodmorningcc.com/news/articleView.html?idxno=427255",
+     "note": "제14회 대전인디음악축전(2025-08-08~09) 특설무대 — 굿모닝충청 기사"
+    }
+   ],
+   "our_names": [],
+   "status_note": "제14회 대전인디음악축전(2025-08-08~09) 특설무대 — 굿모닝충청 기사",
+   "checked": "2026-11-28",
+   "type_basis": "수동: 대전인디음악축전 야외 특설무대(공원)",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "테미오래",
+   "aliases": [],
+   "province": "대전",
+   "city": "대전",
+   "district": "",
+   "address": "대전광역시 중구 보문로205번길 13",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.goodmorningcc.com/news/articleView.html?idxno=405044",
+     "note": "제13회 대전인디음악축전 마지막 날(2024-09-22) 무대 3곳 — 굿모닝충청 기사"
+    }
+   ],
+   "our_names": [],
+   "status_note": "제13회 대전인디음악축전 마지막 날(2024-09-22) 무대 3곳 — 굿모닝충청 기사",
+   "checked": "2026-11-28",
+   "type_basis": "",
+   "lat": 36.321191,
+   "lon": 127.422828,
    "geo_confidence": "medium",
    "geo_method": "address",
    "geo_checked": "2026-11-28"
@@ -10692,7 +10860,8 @@
    "lon": 128.689945,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "서교스퀘어",
@@ -10718,7 +10887,8 @@
    "lon": 126.916718,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "서울예술교육센터",
@@ -10744,7 +10914,8 @@
    "lon": 126.966568,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "서피랑공원",
@@ -10766,7 +10937,13 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2022-09-30 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "lat": 34.844573,
+   "lon": 128.420402,
+   "geo_confidence": "low",
+   "geo_method": "name",
+   "geo_note": "이름 검색(넓은 곳·표기 바꿈) — 같은 구·시 안, 위치는 대략",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "세빛섬 예빛무대",
@@ -10788,7 +10965,13 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2021-11-20 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "geo_note": "이름 검색(넓은 곳·표기 바꿈) — 같은 구·시 안, 위치는 대략",
+   "added_by": "scripts/add_missing_venues.py",
+   "lat": 37.511728,
+   "lon": 126.994908,
+   "geo_confidence": "low",
+   "geo_method": "name"
   },
   {
    "name": "세종대학교 대양홀",
@@ -10814,7 +10997,8 @@
    "lon": 127.074607,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "소공연장 Studio SR",
@@ -10840,7 +11024,8 @@
    "lon": 128.589873,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "속초 칠성조선소",
@@ -10862,7 +11047,8 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2021-10-27 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "숏서킷",
@@ -10888,7 +11074,8 @@
    "lon": 126.947791,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "숲길",
@@ -10914,7 +11101,8 @@
    "lon": 126.930208,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "슈퍼스테이지",
@@ -10940,7 +11128,8 @@
    "lon": 128.581465,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "스미스치킨",
@@ -10966,7 +11155,8 @@
    "lon": 128.598159,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "스테레오북스",
@@ -10992,7 +11182,8 @@
    "lon": 129.103026,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "스트링 바",
@@ -11018,7 +11209,8 @@
    "lon": 127.695111,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "스페이스홍",
@@ -11044,7 +11236,8 @@
    "lon": 126.918475,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "신한pLay 스퀘어 라이브홀",
@@ -11070,7 +11263,8 @@
    "lon": 126.913962,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "썬더그라운드",
@@ -11096,7 +11290,8 @@
    "lon": 127.485389,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "아로아로홀",
@@ -11118,7 +11313,8 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2023-12-12 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "아름드리",
@@ -11140,7 +11336,8 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2022-11-19 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "아양아트센터",
@@ -11166,7 +11363,8 @@
    "lon": 128.652077,
    "geo_confidence": "high",
    "geo_method": "name+address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "아트숨비",
@@ -11192,7 +11390,8 @@
    "lon": 126.919772,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "안동문화관광단지",
@@ -11218,7 +11417,8 @@
    "lon": 128.778608,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "애쉬앤블룸",
@@ -11244,7 +11444,8 @@
    "lon": 126.927747,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "어울아트센터",
@@ -11270,7 +11471,8 @@
    "lon": 128.570245,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "언플러그드 신촌점",
@@ -11296,7 +11498,8 @@
    "lon": 126.936697,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "오르디",
@@ -11322,7 +11525,8 @@
    "lon": 128.979304,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "올림픽공원 올림픽홀",
@@ -11348,7 +11552,8 @@
    "lon": 127.118711,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "요이땅삐삐",
@@ -11374,7 +11579,8 @@
    "lon": 126.178522,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "용산아트홀 대극장미르",
@@ -11400,7 +11606,8 @@
    "lon": 126.990086,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "울산문화예술회관",
@@ -11426,7 +11633,8 @@
    "lon": 129.326633,
    "geo_confidence": "high",
    "geo_method": "name+address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "인디스타 C&K",
@@ -11452,7 +11660,8 @@
    "lon": 127.067486,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "인천노크",
@@ -11478,7 +11687,8 @@
    "lon": 126.661389,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "작은물",
@@ -11504,7 +11714,8 @@
    "lon": 126.993506,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "재즈클럽 에반스",
@@ -11530,7 +11741,8 @@
    "lon": 126.922886,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "정동극장",
@@ -11556,7 +11768,8 @@
    "lon": 126.972772,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "제주대학교 아라뮤즈홀",
@@ -11582,6 +11795,33 @@
    "lon": 126.562653,
    "geo_confidence": "high",
    "geo_method": "address",
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
+  },
+  {
+   "name": "탑동해변공연장",
+   "aliases": [],
+   "province": "제주",
+   "city": "제주",
+   "district": "",
+   "address": "제주특별자치도 제주시 탑동",
+   "type": "festival",
+   "capacity": null,
+   "status": "open",
+   "sources": [
+    {
+     "url": "http://www.newsroad.co.kr/news/articleView.html?idxno=47471",
+     "note": "2025 음악실연자 페스티벌(2025-10-24, 제주콘텐츠진흥원 공동) — 뉴스로드 기사"
+    }
+   ],
+   "our_names": [],
+   "status_note": "2025-10 야외 음악 축제 확인",
+   "checked": "2026-11-28",
+   "type_basis": "수동: 해변 야외공연장",
+   "lat": 33.51791,
+   "lon": 126.524259,
+   "geo_confidence": "high",
+   "geo_method": "address",
    "geo_checked": "2026-11-28"
   },
   {
@@ -11604,7 +11844,8 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2022-08-20 — 1년 넘게 기록 없음, 운영 여부 확인 필요 · 같은 주소에 '숲세권'가 있음(이름이 바뀌었거나 문을 닫았을 수 있음)",
    "type_basis": "",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "중구 문화의전당 함월홀",
@@ -11630,7 +11871,8 @@
    "lon": 129.319862,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "카페 몰입",
@@ -11656,6 +11898,337 @@
    "lon": 129.111547,
    "geo_confidence": "medium",
    "geo_method": "address",
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
+  },
+  {
+   "name": "노드",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "",
+   "address": "",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.musiclabbusan.com/board/photo",
+     "note": "부산음악창작소 공연지원 게시판 — 장소 '노드' (마지막 공연 2021-10-31)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "부산음악창작소 지원 공연 기록 마지막 2021-10-31 — 지금 운영 여부 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "노티스",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "",
+   "address": "",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.musiclabbusan.com/board/photo",
+     "note": "부산음악창작소 공연지원 게시판 — 장소 '노티스' (마지막 공연 2020-11-14)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "부산음악창작소 지원 공연 기록 마지막 2020-11-14 — 지금 운영 여부 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "SOMEDAY",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "",
+   "address": "",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.musiclabbusan.com/board/photo",
+     "note": "부산음악창작소 공연지원 게시판 — 장소 'SOMEDAY' (마지막 공연 2018-12-16)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "부산음악창작소 지원 공연 기록 마지막 2018-12-16 — 지금 운영 여부 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "아웃풋",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "",
+   "address": "",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.musiclabbusan.com/board/photo",
+     "note": "부산음악창작소 공연지원 게시판 — 장소 '아웃풋' (마지막 공연 2022-11-19)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "부산음악창작소 지원 공연 기록 마지막 2022-11-19 — 지금 운영 여부 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "051 TRIBE",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "",
+   "address": "",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.musiclabbusan.com/board/photo",
+     "note": "부산음악창작소 공연지원 게시판 — 장소 '051 TRIBE' (마지막 공연 2020-08-15)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "부산음악창작소 지원 공연 기록 마지막 2020-08-15 — 지금 운영 여부 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "무명일기",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "",
+   "address": "",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.musiclabbusan.com/board/photo",
+     "note": "부산음악창작소 공연지원 게시판 — 장소 '무명일기' (마지막 공연 2019-11-25)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "부산음악창작소 지원 공연 기록 마지막 2019-11-25 — 지금 운영 여부 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "레블",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "",
+   "address": "",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.musiclabbusan.com/board/photo",
+     "note": "부산음악창작소 공연지원 게시판 — 장소 '레블' (마지막 공연 2018-12-23)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "부산음악창작소 지원 공연 기록 마지막 2018-12-23 — 지금 운영 여부 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "또따또가",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "",
+   "address": "",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.musiclabbusan.com/board/photo",
+     "note": "부산음악창작소 공연지원 게시판 — 장소 '또따또가' (마지막 공연 2024-11-09)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "부산음악창작소 지원 공연 기록 마지막 2024-11-09 — 지금 운영 여부 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "라움프라다바코",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "",
+   "address": "",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.musiclabbusan.com/board/photo",
+     "note": "부산음악창작소 공연지원 게시판 — 장소 '라움프라다바코' (마지막 공연 2023-11-04)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "부산음악창작소 지원 공연 기록 마지막 2023-11-04 — 지금 운영 여부 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "뎅기피버",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "",
+   "address": "",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.musiclabbusan.com/board/photo",
+     "note": "부산음악창작소 공연지원 게시판 — 장소 '뎅기피버' (마지막 공연 2023-11-04)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "부산음악창작소 지원 공연 기록 마지막 2023-11-04 — 지금 운영 여부 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "메트로라운지",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "",
+   "address": "",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.musiclabbusan.com/board/photo",
+     "note": "부산음악창작소 공연지원 게시판 — 장소 '메트로라운지' (마지막 공연 2025-11-01)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "부산음악창작소 지원 공연 기록 마지막 2025-11-01 — 지금 운영 여부 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "공간 겟츠",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "",
+   "address": "",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.musiclabbusan.com/board/photo",
+     "note": "부산음악창작소 공연지원 게시판 — 장소 '공간 겟츠' (마지막 공연 2024-11-09)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "부산음악창작소 지원 공연 기록 마지막 2024-11-09 — 지금 운영 여부 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "피스 카인드 홈",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "",
+   "address": "",
+   "type": "",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.musiclabbusan.com/board/photo",
+     "note": "부산음악창작소 공연지원 게시판 — 장소 '피스 카인드 홈' (마지막 공연 2025-11-01)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "부산음악창작소 지원 공연 기록 마지막 2025-11-01 — 지금 운영 여부 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "영도문화회관 소극장",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "",
+   "address": "",
+   "type": "theater",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.musiclabbusan.com/board/photo",
+     "note": "부산음악창작소 공연지원 게시판 — 장소 '영도문화회관 소극장' (마지막 공연 2025-09-25)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "부산음악창작소 지원 공연 기록 마지막 2025-09-25 — 지금 운영 여부 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "이름 '영도문화회관 소극장'에 '극장' → 소극장",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "무사이 극장",
+   "aliases": [],
+   "province": "부산",
+   "city": "부산",
+   "district": "",
+   "address": "",
+   "type": "theater",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://www.musiclabbusan.com/board/photo",
+     "note": "부산음악창작소 공연지원 게시판 — 장소 '무사이 극장' (마지막 공연 2023-11-04)"
+    }
+   ],
+   "our_names": [],
+   "status_note": "부산음악창작소 지원 공연 기록 마지막 2023-11-04 — 지금 운영 여부 확인 필요",
+   "checked": "2026-11-28",
+   "type_basis": "이름 '무사이 극장'에 '극장' → 소극장",
    "geo_checked": "2026-11-28"
   },
   {
@@ -11678,7 +12251,8 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2022-10-02 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "코리아블루스씨어터",
@@ -11704,7 +12278,8 @@
    "lon": 126.969243,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "클리프1912 복합문화공간",
@@ -11730,6 +12305,29 @@
    "lon": 128.576918,
    "geo_confidence": "medium",
    "geo_method": "address",
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
+  },
+  {
+   "name": "2.28기념중앙공원",
+   "aliases": [],
+   "province": "대구",
+   "city": "대구",
+   "district": "",
+   "address": "대구광역시 중구",
+   "type": "festival",
+   "capacity": null,
+   "status": "open",
+   "sources": [
+    {
+     "url": "https://www.pn.or.kr/news/articleView.html?idxno=32829",
+     "note": "2025 대구인디싸운드페스티발(2025-11-07~08) 중앙무대 — 평화뉴스 기사"
+    }
+   ],
+   "our_names": [],
+   "status_note": "2025 대구인디싸운드페스티발(2025-11-07~08) 중앙무대 — 평화뉴스 기사",
+   "checked": "2026-11-28",
+   "type_basis": "수동: 야외 공원 무대(대구인디싸운드페스티발)",
    "geo_checked": "2026-11-28"
   },
   {
@@ -11756,7 +12354,8 @@
    "lon": 126.918731,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "통영 삼문당",
@@ -11782,7 +12381,8 @@
    "lon": 128.419764,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "포항문화예술회관 소공연장",
@@ -11808,7 +12408,8 @@
    "lon": 129.365926,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "폼텍 웍스홀",
@@ -11834,7 +12435,8 @@
    "lon": 126.917879,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "플랫폼창동61",
@@ -11860,7 +12462,8 @@
    "lon": 127.048963,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "하루 뮤직바",
@@ -11882,7 +12485,8 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2022-07-17 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "한국소리문화의전당 연지홀",
@@ -11904,6 +12508,56 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2022-07-23 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
+   "geo_checked": "2026-11-28",
+   "geo_note": "이름 검색(넓은 곳·표기 바꿈) — 같은 구·시 안, 위치는 대략",
+   "added_by": "scripts/add_missing_venues.py",
+   "lat": 35.855654,
+   "lon": 127.138493,
+   "geo_confidence": "low",
+   "geo_method": "name"
+  },
+  {
+   "name": "기지제 야외공연장",
+   "aliases": [],
+   "province": "전북",
+   "city": "전주",
+   "district": "",
+   "address": "전북특별자치도 전주시 덕진구",
+   "type": "festival",
+   "capacity": null,
+   "status": "open",
+   "sources": [
+    {
+     "url": "https://www.jcon.or.kr/board/view.php?pageId=C000000016&nttId=4678",
+     "note": "2026 REDCON 라이브 스테이지(2026-11-08) — 전북콘텐츠융합진흥원 공지"
+    }
+   ],
+   "our_names": [],
+   "status_note": "2026 REDCON 라이브 스테이지(2026-11-08) — 전북콘텐츠융합진흥원 공지",
+   "checked": "2026-11-28",
+   "type_basis": "수동: 호수공원 야외공연장",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "익산 중앙체육공원",
+   "aliases": [],
+   "province": "전북",
+   "city": "익산",
+   "district": "",
+   "address": "전북특별자치도 익산시",
+   "type": "festival",
+   "capacity": null,
+   "status": "open",
+   "sources": [
+    {
+     "url": "https://www.jcon.or.kr/board/view.php?pageId=C000000016&nttId=4607",
+     "note": "2026 REDCON 10th SHOWCASE(2026-10-24) 메인무대 — 전북콘텐츠융합진흥원 공지"
+    }
+   ],
+   "our_names": [],
+   "status_note": "2026 REDCON 10th SHOWCASE(2026-10-24) 메인무대 — 전북콘텐츠융합진흥원 공지",
+   "checked": "2026-11-28",
+   "type_basis": "수동: 야외 공원 무대",
    "geo_checked": "2026-11-28"
   },
   {
@@ -11930,7 +12584,8 @@
    "lon": 126.846047,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "홍대 플렉스라운지",
@@ -11952,7 +12607,8 @@
    "in_our_data": true,
    "status_note": "우리 공연 데이터 마지막 공연 2023-12-09 — 1년 넘게 기록 없음, 운영 여부 확인 필요",
    "type_basis": "",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "홍익대 대학로 아트센터 대극장",
@@ -11978,7 +12634,8 @@
    "lon": 127.001604,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "흰물결아트센터",
@@ -12004,7 +12661,8 @@
    "lon": 127.007247,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   },
   {
    "name": "아차산로5길 24-14",
@@ -12030,7 +12688,8 @@
    "lon": 127.054303,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "added_by": "scripts/add_missing_venues.py"
   }
  ]
 }

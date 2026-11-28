@@ -577,3 +577,41 @@
   height: 18px;
   background: radial-gradient(circle, color-mix(in srgb, var(--accent) 70%, transparent), transparent 70%);
 }
+
+/* 독도처럼 면으로는 안 보이는 섬 — 그 시·도 색 점 + 이름 */
+.rm-mark {
+  stroke: var(--ink-muted);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+}
+
+.rm-mark.lv-0 { fill: var(--surface-2); }
+.rm-mark.lv-1 { fill: var(--ramp-1); }
+.rm-mark.lv-2 { fill: var(--ramp-2); }
+.rm-mark.lv-3 { fill: var(--ramp-3); }
+.rm-mark.lv-4 { fill: var(--ramp-4); }
+.rm-mark.lv-5 { fill: var(--ramp-5); }
+
+.rm-svg.is-zoomed .rm-mark {
+  fill: var(--surface);
+}
+
+.rm-mark-label {
+  position: absolute;
+  color: var(--ink-muted);
+  font-size: 10px;
+  line-height: 1;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  text-shadow: 0 0 3px var(--surface), 0 0 2px var(--surface);
+}
+
+/* 공연장 목록 점 지도(views/venues_list.js mapHtml) 밑에 까는 시·도 경계 */
+.vl-map-region {
+  fill: var(--surface-alt);
+  fill-rule: evenodd;
+  stroke: var(--line-strong);
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+}

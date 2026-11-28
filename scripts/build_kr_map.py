@@ -5,6 +5,8 @@
   python3 scripts/build_kr_map.py <받은 geojson> [docs/app/data/kr_sido.json]
 줄이는 방법: 좌표 소수점 셋째 자리(약 100m)로 반올림 · 이어진 같은 점 빼기 · 아주 작은 섬(약 3㎢ 미만) 빼기.
 이웃 시·도의 경계 점이 원본에서 같으니 반올림해도 틈이 생기지 않는다.
+독도: Natural Earth 10m 에는 독도가 없어 공개 좌표(동도 37.2408°N 131.8695°E · 서도 37.2418°N 131.8653°E)로
+  작은 면 둘을 경상북도(울릉군 소속)에 더하고, 너무 작아 안 보이니 marks 에 점+이름 표시 자리를 둔다.
 """
 import json
 import sys
@@ -15,6 +17,13 @@ DEFAULT_OUT = ROOT / "docs" / "app" / "data" / "kr_sido.json"
 DECIMALS = 3
 MIN_ISLAND_AREA = 0.0003  # 제곱 도(°²) — 약 3㎢. 시·도의 가장 큰 땅은 크기와 상관없이 남긴다.
 SOURCE = "Natural Earth 1:10m admin-1 states/provinces (퍼블릭 도메인)"
+
+DOKDO_LON, DOKDO_LAT = 131.867, 37.241   # 동도·서도 가운데 (표시 점·라벨 자리)
+DOKDO_RINGS = (   # 동도·서도 — 실제 크기(각 0.003도 안팎) 그대로라 전국 지도에서는 점으로만 보인다
+    [[131.868, 37.240], [131.871, 37.240], [131.871, 37.242], [131.868, 37.242], [131.868, 37.240]],
+    [[131.864, 37.241], [131.867, 37.241], [131.867, 37.243], [131.864, 37.243], [131.864, 37.241]],
+)
+DOKDO_SIDO_CODE = "KR-47"  # 경상북도 울릉군
 
 SHORT_NAMES = {
     "서울특별시": "서울", "부산광역시": "부산", "대구광역시": "대구", "인천광역시": "인천",
@@ -74,14 +83,31 @@ def build_regions(features: list) -> list:
     return sorted((_region(f) for f in kor), key=lambda r: r["code"])
 
 
+def add_dokdo(regions: list) -> tuple:
+    """경상북도에 독도 면 둘을 더한 새 목록 + 표시 점 목록 (원본은 안 바꿈)."""
+    out = []
+    marks = []
+    for r in regions:
+        if r["code"] != DOKDO_SIDO_CODE:
+            out.append(r)
+            continue
+        rings = r["rings"] + [list(map(list, ring)) for ring in DOKDO_RINGS]
+        xs = [x for ring in DOKDO_RINGS for x, _ in ring]
+        ys = [y for ring in DOKDO_RINGS for _, y in ring]
+        b = r["bbox"]
+        out.append({**r, "rings": rings, "bbox": [min(b[0], *xs), min(b[1], *ys), max(b[2], *xs), max(b[3], *ys)]})
+        marks.append({"name": "독도", "sido": r["name"], "lon": DOKDO_LON, "lat": DOKDO_LAT})
+    return out, marks
+
+
 def main(argv: list) -> None:
     if not argv:
         sys.exit("사용법: python3 scripts/build_kr_map.py <ne_10m_admin_1_states_provinces.geojson> [출력 경로]")
     src = Path(argv[0])
     out = Path(argv[1]) if len(argv) > 1 else DEFAULT_OUT
     features = json.loads(src.read_text(encoding="utf-8"))["features"]
-    regions = build_regions(features)
-    data = {"source": SOURCE, "decimals": DECIMALS, "regions": regions}
+    regions, marks = add_dokdo(build_regions(features))
+    data = {"source": SOURCE, "decimals": DECIMALS, "regions": regions, "marks": marks}
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     pts = sum(len(r) for g in regions for r in g["rings"])

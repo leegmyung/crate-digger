@@ -7,6 +7,8 @@ import { appState } from '../state.js';
 import { isInstaAccountName, matchesVenueQuery, UNKNOWN_TYPE, venueTypeLabel, venueTypeOptions, venueStatusBadge } from '../components/venue_info.js';
 import { loadVenueProfiles } from '../db.js';
 import { entityCellHtml } from '../components/entity_cell.js';
+import { alignMatrix, boundaryPaths } from '../components/region_map.js';
+import { loadKrMap } from './city_page.js';
 import {
   escapeHtml, fmtInt, fmtNum, INFO_TIPS, infoTip, naCell,
 } from '../ui.js';
@@ -125,7 +127,10 @@ function filtersHtml(all) {
     ${tierBarsHtml(all.filter(v => (!st.city || v.city === st.city)))}`;
 }
 
-/** 위경도 → SVG 좌표(위도 36도 기준 경도 줄임). 고른 점들 범위에 맞춤 */
+let vlMapGeo = null; // 시·도 경계(app/data/kr_sido.json) — 처음 그릴 때 받아 두고 다시 씀
+let vlMapSeq = 0;
+
+/** 위경도 → SVG 좌표(위도 36도 기준 경도 줄임). 고른 점들 범위에 맞춤. 밑에 시·도 경계(components/region_map.js)를 깐다 */
 function mapHtml(list) {
   const hasNum = x => x !== null && x !== undefined && x !== '' && Number.isFinite(Number(x)); // Number(null) 은 0 이라 따로 거름
   const pts = list.filter(v => hasNum(v.lat) && hasNum(v.lon));
@@ -141,6 +146,17 @@ function mapHtml(list) {
   const scale = (Math.min(W, H) - PAD * 2) / span;
   const px = v => PAD + (Number(v.lon) * k - x0) * scale;
   const py = v => H - PAD - (Number(v.lat) - y0) * scale;
+  const toXY = (lon, lat) => [PAD + (lon * k - x0) * scale, H - PAD - (lat - y0) * scale];
+  const bgId = `vlMapBg${(vlMapSeq += 1)}`;
+  const bgHtml = geo => `<g transform="matrix(${alignMatrix(toXY).map(n => n.toFixed(4)).join(' ')})">${boundaryPaths(geo)
+    .map(b => `<path class="vl-map-region" d="${b.d}"><title>${escapeHtml(b.full)}</title></path>`).join('')}</g>`;
+  if (!vlMapGeo) {
+    loadKrMap().then(geo => {
+      vlMapGeo = geo;
+      const el = geo && document.getElementById(bgId);
+      if (el) el.innerHTML = bgHtml(geo);
+    }).catch(() => { /* 경계가 없어도 점 지도는 그대로 */ });
+  }
   const dots = pts
     .sort((a, b) => (a.discovery?.score ?? 0) - (b.discovery?.score ?? 0))
     .map(v => {
@@ -150,8 +166,8 @@ function mapHtml(list) {
   const noGeo = list.length - pts.length;
   return `
     <figure class="vl-map">
-      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="공연장 위치 점 지도 (${fmtInt(pts.length)}곳)">${dots}</svg>
-      <figcaption class="small muted">점 = 공연장(크기 = 최근 12개월 공연일, 색 = 체급) · 지도 바탕 없이 좌표만${noGeo ? ` · 좌표 없는 ${fmtInt(noGeo)}곳 빠짐` : ''}</figcaption>
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="공연장 위치 점 지도 (${fmtInt(pts.length)}곳)"><g class="vl-map-bg" id="${bgId}" aria-hidden="true">${vlMapGeo ? bgHtml(vlMapGeo) : ''}</g>${dots}</svg>
+      <figcaption class="small muted">점 = 공연장(크기 = 최근 12개월 공연일, 색 = 체급) · 바탕 = 시·도 경계(Natural Earth)${noGeo ? ` · 좌표 없는 ${fmtInt(noGeo)}곳 빠짐` : ''}</figcaption>
     </figure>`;
 }
 

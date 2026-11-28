@@ -57,6 +57,18 @@ class BuildKrMapTest(unittest.TestCase):
         regions = bkm.build_regions([feature("경기도", "KR-41", [[outer, hole]])])
         self.assertEqual(len(regions[0]["rings"]), 2)
 
+    def test_add_dokdo_to_gyeongbuk(self):
+        gb = {"code": "KR-47", "name": "경북", "full": "경상북도", "bbox": [128.0, 35.5, 130.9, 37.5],
+              "rings": [square(128.0, 35.5, 1.0)]}
+        other = {"code": "KR-11", "name": "서울", "full": "서울특별시", "bbox": [126.8, 37.4, 127.1, 37.7], "rings": []}
+        regions, marks = bkm.add_dokdo([other, gb])
+        out_gb = regions[1]
+        self.assertEqual(len(out_gb["rings"]), 3)          # 동도·서도
+        self.assertGreaterEqual(out_gb["bbox"][2], 131.86)
+        self.assertEqual(marks, [{"name": "독도", "sido": "경북", "lon": bkm.DOKDO_LON, "lat": bkm.DOKDO_LAT}])
+        self.assertEqual(len(gb["rings"]), 1)              # 원본은 그대로
+        self.assertEqual(regions[0], other)
+
     @unittest.skipUnless(OUT.exists(), "지도 자료가 아직 없음")
     def test_built_file_is_small_and_complete(self):
         self.assertLess(OUT.stat().st_size, 120_000)
@@ -64,6 +76,9 @@ class BuildKrMapTest(unittest.TestCase):
         self.assertIn("Natural Earth", data["source"])
         self.assertEqual(len(data["regions"]), 17)
         self.assertEqual(sorted(r["name"] for r in data["regions"]), sorted(bkm.SHORT_NAMES.values()))
+        gb = next(r for r in data["regions"] if r["code"] == "KR-47")
+        self.assertGreaterEqual(gb["bbox"][2], 131.86)      # 독도 포함
+        self.assertEqual([m["name"] for m in data["marks"]], ["독도"])
 
     def test_main_writes_json(self):
         with tempfile.TemporaryDirectory() as d:

@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   CITY_TO_SIDO, METRICS, aggregateBySido, colorLevel, fitViewBox, pointInRings, project, ringsPath,
-  sidoOfCity, sidoOfVenue, sumRecentMonths, venuesInSido, regionMapHtml,
+  alignMatrix, boundaryPaths, zoomBbox, sidoOfCity, sidoOfVenue, sumRecentMonths, venuesInSido, regionMapHtml,
 } from '../../docs/app/components/region_map.js';
 
 const square = (x, y, s) => [[x, y], [x + s, y], [x + s, y + s], [x, y + s], [x, y]];
@@ -104,4 +104,36 @@ test('지도 HTML: 시·도마다 누를 수 있는 면 + 숫자 라벨, 고르�
   assert.match(html, /aria-pressed="true"[^>]*>공연장 수/);
   assert.match(html, /class="rm-label-num"[^>]*>3</);
   assert.ok(!/<script/i.test(regionMapHtml({ geo: { regions: [{ ...geo.regions[0], name: '<script>' }] }, bySido, metric: 'venues' })));
+});
+
+test('독도: 경북 색 점 + 이름 라벨, 누르면 경북으로', () => {
+  const g = { ...geo, regions: [...geo.regions, { code: 'KR-47', name: '경북', full: '경상북도', bbox: [128, 35.5, 131.9, 37.5], rings: [square(128, 35.5, 1)] }],
+    marks: [{ name: '독도', sido: '경북', lon: 131.867, lat: 37.241 }] };
+  const { bySido } = aggregateBySido({ 포항: { venues_with_gigs: 4, teams_1y: 1, monthly: {} } }, '2026-11-28');
+  const html = regionMapHtml({ geo: g, bySido, metric: 'venues' });
+  assert.match(html, /<circle class="rm-mark lv-5" data-sido="경북"/);
+  assert.match(html, /class="rm-mark-label"[^>]*>독도</);
+});
+
+test('다른 지도 위에 경계 깔기: 같은 투영이면 확대·이동 행렬 하나로 맞는다', () => {
+  const k = Math.cos((36 * Math.PI) / 180);
+  const toXY = (lon, lat) => [18 + (lon * k - 101.2) * 900, 342 - (lat - 37.4) * 900];  // venues_list 점 지도 같은 꼴
+  const [a, , , d, e, f] = alignMatrix(toXY);
+  for (const [lon, lat] of [[126.9, 37.55], [129.0, 35.1], [126.5, 33.4]]) {
+    const [x, y] = project(lon, lat);
+    const [ex, ey] = toXY(lon, lat);
+    assert.ok(Math.abs(a * x + e - ex) < 1e-6 && Math.abs(d * y + f - ey) < 1e-6);
+  }
+  const paths = boundaryPaths(geo);
+  assert.equal(paths.length, 3);
+  assert.equal(paths[0].name, '서울');
+  assert.match(paths[0].d, /^M/);
+  assert.equal(boundaryPaths(geo), paths);  // 같은 자료면 다시 계산하지 않음
+});
+
+test('확대 범위: 가장 큰 땅 + 그 시·도 공연장 점 (멀리 떨어진 작은 섬은 빼서 본토가 작아지지 않게)', () => {
+  const gb = { name: '경북', bbox: [128, 35.5, 131.9, 37.5],
+    rings: [square(128, 35.5, 1.5), square(130.8, 37.4, 0.1), square(131.86, 37.24, 0.003)] };
+  assert.deepEqual(zoomBbox(gb, []), [128, 35.5, 129.5, 37]);
+  assert.deepEqual(zoomBbox(gb, [{ lon: 129.6, lat: 36.0 }]), [128, 35.5, 129.6, 37]);
 });

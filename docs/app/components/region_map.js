@@ -59,6 +59,28 @@ export function ringsPath(rings) {
   return rings.map(r => `M${r.map(([x, y]) => project(x, y).map(r1).join(',')).join('L')}Z`).join('');
 }
 
+const pathCache = new WeakMap();
+/** 시·도 경계 경로 [{ name, full, d }] — 같은 자료(geo)면 한 번만 계산 */
+export function boundaryPaths(geo) {
+  if (!geo?.regions) return [];
+  if (!pathCache.has(geo)) pathCache.set(geo, geo.regions.map(r => ({ name: r.name, full: r.full, d: ringsPath(r.rings) })));
+  return pathCache.get(geo);
+}
+
+/**
+ * 다른 지도(같은 위도 36도 등장방형, 축척·자리만 다름)의 좌표 함수 toXY(경도, 위도) → [x, y] 에
+ * 이 모듈 좌표(project)를 맞추는 SVG matrix(a, 0, 0, d, e, f). 경계 경로를 다시 계산하지 않고 transform 으로 깐다.
+ */
+export function alignMatrix(toXY) {
+  const [p1x, p1y] = project(126, 37);
+  const [p2x, p2y] = project(129, 35);
+  const [q1x, q1y] = toXY(126, 37);
+  const [q2x, q2y] = toXY(129, 35);
+  const a = (q2x - q1x) / (p2x - p1x);
+  const d = (q2y - q1y) / (p2y - p1y);
+  return [a, 0, 0, d, q1x - a * p1x, q1y - d * p1y];
+}
+
 /** 짝·홀 규칙 점-다각형 검사 (구멍 고리도 같이 넘기면 구멍 안은 false) */
 export function pointInRings(lon, lat, rings) {
   let inside = false;
@@ -177,10 +199,19 @@ function ringCentroid(ring) {
   return a ? [cx / (3 * a), cy / (3 * a)] : ring[0];
 }
 
+const ringArea = r => Math.abs(r.reduce((s, [x1, y1], i) => (i ? s + r[i - 1][0] * y1 - x1 * r[i - 1][1] : s), 0));
+const biggestRing = region => [...region.rings].sort((p, q) => ringArea(q) - ringArea(p))[0];
+
 function anchorOf(region) {
-  const ringArea = r => Math.abs(r.reduce((s, [x1, y1], i) => (i ? s + r[i - 1][0] * y1 - x1 * r[i - 1][1] : s), 0));
-  const biggest = [...region.rings].sort((p, q) => ringArea(q) - ringArea(p))[0];
-  return ringCentroid(biggest);
+  return ringCentroid(biggestRing(region));
+}
+
+/** 확대할 범위 [서, 남, 동, 북] — 가장 큰 땅 + 그 시·도 공연장 점. 멀리 떨어진 작은 섬(울릉도·독도)까지 넣으면 본토가 너무 작아진다 */
+export function zoomBbox(region, pts = []) {
+  const ring = biggestRing(region);
+  const xs = [...ring.map(([x]) => x), ...pts.map(p => Number(p.lon))];
+  const ys = [...ring.map(([, y]) => y), ...pts.map(p => Number(p.lat))];
+  return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
 }
 
 const metricValue = (bySido, sido, metric) => Number(bySido?.[sido]?.[metric]) || 0;
@@ -202,6 +233,27 @@ function labelsHtml(geo, bySido, metric, vb) {
     const dark = !out && colorLevel(v, max) >= 4;
     return `<button type="button" class="rm-label${out ? ' is-out' : ''}${dark ? ' on-dark' : ''}${v ? '' : ' is-zero'}" data-sido="${esc(r.name)}"
       style="left:${r1(lx)}%;top:${r1(ly)}%" tabindex="-1" aria-hidden="true"><span class="rm-label-name">${esc(r.name)}</span><span class="rm-label-num" data-num>${v ? fmt(v) : '—'}</span></button>`;
+  }).join('');
+}
+
+const MARK_R = 2.6; // 독도 같은 아주 작은 섬 표시 점 반지름(단위)
+const MARK_LABEL_DY = 2.4; // 점 아래 라벨 자리(%)
+
+/** 너무 작아 면으로는 안 보이는 섬(독도) — 그 시·도 색 점 */
+function marksSvg(geo, bySido, metric) {
+  const max = maxOf(bySido, metric);
+  return (geo.marks || []).map(m => {
+    const [x, y] = project(m.lon, m.lat);
+    return `<circle class="rm-mark lv-${colorLevel(metricValue(bySido, m.sido, metric), max)}" data-sido="${esc(m.sido)}" data-mark="${esc(m.name)}" cx="${r1(x)}" cy="${r1(y)}" r="${MARK_R}"/>`;
+  }).join('');
+}
+
+function markLabelsHtml(geo, vb) {
+  return (geo.marks || []).map(m => {
+    const [x, y] = project(m.lon, m.lat);
+    const left = ((x - vb[0]) / vb[2]) * 100;
+    const top = ((y - vb[1]) / vb[3]) * 100 + MARK_LABEL_DY;
+    return `<span class="rm-mark-label" style="left:${r1(left)}%;top:${r1(top)}%" aria-hidden="true">${esc(m.name)}</span>`;
   }).join('');
 }
 
@@ -244,10 +296,11 @@ export function regionMapHtml({ geo, bySido, metric = 'venues', uid = 'rm' }) {
         <defs><filter id="${uid}-blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur data-map-blur stdDeviation="4"/></filter></defs>
         <g class="rm-regions">${paths}</g>
         <g class="rm-leaders">${leadersSvg(geo)}</g>
+        <g class="rm-marks" data-map-marks>${marksSvg(geo, bySido, metric)}</g>
         <g class="rm-heat" data-map-heat filter="url(#${uid}-blur)"></g>
         <g class="rm-dots" data-map-dots></g>
       </svg>
-      <div class="rm-labels" data-map-labels>${labelsHtml(geo, bySido, metric, vb)}</div>
+      <div class="rm-labels" data-map-labels>${labelsHtml(geo, bySido, metric, vb)}${markLabelsHtml(geo, vb)}</div>
       <div class="rm-tip" data-map-tip role="tooltip" hidden></div>
     </div>
     <div class="rm-legend small" data-map-legend>${legendHtml(bySido, metric)}</div>
@@ -355,10 +408,12 @@ export function mountRegionMap(host, opts) {
       <ol class="rm-venue-list">${top.map(v => `<li><a class="inline-venue-link" href="#/venue/${encodeURIComponent(v.name)}">${esc(v.name)}</a> <span class="small muted">${fmt(v.nights12)}일</span></li>`).join('')}</ol>`;
   };
 
+  const regionTarget = region => fitViewBox(zoomBbox(region, venuesInSido(venues, region.name, geo)), aspect, 0.06);
+
   const zoomTo = sido => {
     const region = sido ? byName.get(sido) : null;
     st.sido = region ? region.name : null;
-    const target = region ? fitViewBox(region.bbox, aspect, 0.06) : nationVb;
+    const target = region ? regionTarget(region) : nationVb;
     svg.classList.toggle('is-zoomed', Boolean(region));
     host.querySelectorAll('.rm-region').forEach(p => p.classList.toggle('is-on', p.dataset.sido === st.sido));
     q('[data-map-labels]').hidden = Boolean(region);
@@ -390,7 +445,8 @@ export function mountRegionMap(host, opts) {
       p.setAttribute('class', `rm-region lv-${colorLevel(metricValue(bySido, r.name, metric), max)}${p.dataset.sido === st.sido ? ' is-on' : ''}`);
       p.setAttribute('aria-label', regionAria(r, bySido, metric));
     });
-    q('[data-map-labels]').innerHTML = labelsHtml(geo, bySido, metric, nationVb);
+    q('[data-map-labels]').innerHTML = labelsHtml(geo, bySido, metric, nationVb) + markLabelsHtml(geo, nationVb);
+    q('[data-map-marks]').innerHTML = marksSvg(geo, bySido, metric);
     q('[data-map-legend]').innerHTML = st.sido ? ZOOM_LEGEND : legendHtml(bySido, metric);
     host.querySelectorAll('[data-map-metric]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mapMetric === metric)));
     if (onMetric) onMetric(metric);
@@ -425,6 +481,11 @@ export function mountRegionMap(host, opts) {
     if (e.pointerType === 'touch') return;
     const dot = e.target.closest('[data-venue]');
     if (dot) { showTip(venueTipHtml(venueByName.get(dot.dataset.venue) || { name: dot.dataset.venue }), e); return; }
+    const mark = e.target.closest('[data-mark]');
+    if (mark && byName.get(mark.dataset.sido)) {
+      showTip(`<strong>${esc(mark.dataset.mark)}</strong><span>${esc(byName.get(mark.dataset.sido).full)} 울릉군</span><span class="muted">눌러서 ${esc(mark.dataset.sido)} 확대</span>`, e);
+      return;
+    }
     const r = e.target.closest('[data-sido]');
     if (r && byName.get(r.dataset.sido)) { showTip(regionTipHtml(byName.get(r.dataset.sido), bySido), e); return; }
     hideTip();
@@ -432,7 +493,7 @@ export function mountRegionMap(host, opts) {
   stage.addEventListener('pointerleave', hideTip);
 
   if (opts.initial && byName.has(opts.initial)) {
-    const target = fitViewBox(byName.get(opts.initial).bbox, aspect, 0.06);
+    const target = regionTarget(byName.get(opts.initial));
     zoomTo(opts.initial);
     cancelAnimationFrame(st.raf);
     setVb(target); // 처음 열 때는 움직이지 않고 바로 확대된 모습
