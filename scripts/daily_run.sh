@@ -30,6 +30,8 @@ if command -v aside >/dev/null 2>&1; then
   "$PY" scripts/melon_names.py || echo "⚠️ 멜론 보강 명단 만들기 실패"
   NAMES="$(ls -t data/raw/review/melon_names_*.txt 2>/dev/null | head -1)"   # 후보·수상 팀 프로필 보강 (한도 없이 명단 전체)
   [ -n "$NAMES" ] && { "$PY" scripts/collect_artists.py --names-file "$NAMES" || echo "⚠️ 후보 팀 멜론 프로필 보강 실패"; }
+  "$PY" scripts/profile_queue.py || echo "⚠️ 멜론 고른 큐 만들기 실패"   # 후보 풀 전체를 정답 여부 안 보고 (팀 키 해시 순)
+  "$PY" scripts/collect_artists.py --names-file data/raw/state/profile_queue.txt --limit 250 || echo "⚠️ 멜론 고른 큐 프로필 실패"   # 하루 250팀 (검색 막힘 대비)
   "$PY" scripts/collect_artists.py --refresh || echo "⚠️ 멜론 팬 수 다시 받기 실패"   # 관찰 팀 팬 수 7일마다 (팬 수 날짜별 기록용)
   if [ "$(TZ=Asia/Seoul date +%u)" = 1 ]; then   # 월요일: 팔로워 관찰 목록 다시 보기 (docs/followers_plan.md)
     "$PY" scripts/collect_indistreet_sns.py || echo "⚠️ 인디스트릿 공식 SNS 실패"   # 30일 지난 팀만 (약 1~2분)

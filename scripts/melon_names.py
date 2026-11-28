@@ -11,8 +11,9 @@
   ① 최신 점수 스냅샷(docs/lab/data/snapshots/<날짜>.csv) 상위 300팀 — 점수 순
   ①' 발매 신호만 있고 첫 발매일이 없는 팀 중 최근 RELEASE_DAYS일 안에 발매한 팀 — 최근 발매 순
      (프로필로 첫 발매일이 생기면 '갓 데뷔 > 아직 언급 없음' 팀이 보이기 시작함, docs/debut_cohort.md)
-  ② 센 정답(counted)을 받은 팀 — 정답 팀의 연차를 알아야 신인 기준을 검증할 수 있음
-  ③ 다가오는 공연(오늘 이후)이 있는 팀 — 공연 날짜가 가까운 순
+  ② 다가오는 공연(오늘 이후)이 있는 팀 — 공연 날짜가 가까운 순
+  (예전 '센 정답을 받은 팀' 단계는 2026-11-28에 뺐다 — 정답 팀만 먼저 프로필을 받으면 신인 판정이 정답 쪽으로 기울어
+   과거 성적이 부풀었다, docs/score_leak_audit_2026-11-28.md. 후보 풀 전체는 scripts/profile_queue.py 가 정답을 안 보는 순서로 받는다)
 이미 찾아본 이름(data/raw/state/outcome_melon_match.json)은 뺀다. 못 찾았던 이름(값 null)은 마지막 시도가
 재시도 기간 지났을 때만 다시 넣는다 — 검색 결과 0건이면 EMPTY_RETRY_DAYS(7일), 결과는 있는데 이름이 안 맞았으면 RETRY_DAYS(30일)
 (시도 날짜를 모르면 뺀다 — 날짜: melon_match_attempts.json, 못 찾은 이유: melon_search_misses.json).
@@ -111,7 +112,7 @@ def no_release_top(snapshot: List[dict], teams: List[dict], top: int = CANDIDATE
     return [r["team_key"] for r in rows if r["team_key"] in info and no_release(info[r["team_key"]])]
 
 
-def build_names(snapshot: List[dict], teams: List[dict], outcomes: List[dict], signals: List[dict],
+def build_names(snapshot: List[dict], teams: List[dict], signals: List[dict],
                 matches: dict, today: str, attempts: Optional[dict] = None,
                 snapshot_top: int = SNAPSHOT_TOP, limit: int = LIMIT,
                 priority: Optional[List[str]] = None, profiled: Optional[set] = None,
@@ -133,7 +134,6 @@ def build_names(snapshot: List[dict], teams: List[dict], outcomes: List[dict], s
         rows = sorted(snapshot, key=lambda r: -float(r.get("score") or 0))[:snapshot_top]
         return [r["team_key"] for r in rows]
 
-    winners = [o["team_key"] for o in outcomes if str(o.get("counted", "")).lower() == "true"]
     upcoming: Dict[str, str] = {}
     for s in signals:
         if s.get("branch") == "공연" and (s.get("signal_date") or "") >= today:
@@ -144,7 +144,7 @@ def build_names(snapshot: List[dict], teams: List[dict], outcomes: List[dict], s
     out: List[str] = []
     seen = set()
     order = [*priority, *no_release_top(snapshot, teams, candidate_top), *ranked_snapshot(),
-             *release_only_recent(signals, teams, today), *winners, *gigs]
+             *release_only_recent(signals, teams, today), *gigs]   # 정답 여부는 보지 않음
     for key in order:
         t = info.get(key)
         name = (t or {}).get("display_name", "").strip()
@@ -216,8 +216,8 @@ def main() -> int:
     except (OSError, ValueError):
         profiled = set()
     press = [r for p in sorted(RAW_DIR.glob("raw_press_*.csv")) for r in _csv(p)]
-    names = build_names(_csv(latest_snapshot()), _csv(LAB / "teams.csv"), _csv(LAB / "outcomes.csv"),
-                        _csv(LAB / "signals.csv"), _json(MATCHES), today, _json(ATTEMPTS),
+    names = build_names(_csv(latest_snapshot()), _csv(LAB / "teams.csv"), _csv(LAB / "signals.csv"),
+                        _json(MATCHES), today, _json(ATTEMPTS),
                         priority=priority, profiled=profiled, misses=_json(MISSES), english=english_aliases(press))
     path = write_names(OUT_DIR, today, names)
     removed = prune_old(OUT_DIR)

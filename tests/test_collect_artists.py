@@ -143,6 +143,15 @@ class SearchIdTest(unittest.TestCase):
         js = ca._search_js(["12BH"])
         self.assertIn("goArtistDetail\\(", js)                          # 첫 숫자가 아니라 goArtistDetail( 뒤 숫자
 
+    def test_search_uses_total_search_artist_section(self):
+        # 2026-11-28 멜론 아티스트 검색(search/artist)이 '페이지를 찾을 수 없습니다'로 바뀜 → 통합검색의 아티스트 칸만 읽음.
+        # 첫 결과의 유사·관련 아티스트·멤버 목록(dd 안 링크)은 후보로 안 셈 (동명 팀 수가 흐려지지 않게)
+        js = ca._search_js(["장호일"])
+        self.assertIn("/search/total/index.htm", js)
+        self.assertNotIn("/search/artist/index.htm", js)
+        self.assertIn(".section_atist", js)
+        self.assertIn("closest('dd')", js)
+
     def test_match_candidate_ignores_short_ids(self):
         self.assertIsNone(ca.match_candidate("12BH", [["12", "12BH", ""]]))
         self.assertEqual(ca.match_candidate("12BH", [["12", "12BH", ""], ["3201955", "12BH", ""]])["id"], "3201955")
@@ -223,6 +232,17 @@ class ResilienceTest(unittest.TestCase):
             found, failed = ca.search_artists(names)
         self.assertEqual(sorted(found), ["팀1", "팀3"])
         self.assertEqual(failed, ["팀2"])
+
+    def test_error_page_counts_as_failed_not_empty(self):
+        # 멜론이 '페이지를 찾을 수 없습니다'를 주면(검색 JS가 null) 결과 0건이 아니라 검색 실패 → 시도로 안 치고 다음에 다시
+        from unittest import mock
+        with mock.patch.object(ca, "_run_batch", return_value={"팀1": None, "팀2": [], "팀3": [["3000003", "팀3", ""]]}):
+            found, failed = ca.search_artists(["팀1", "팀2", "팀3"])
+        self.assertEqual(failed, ["팀1"])
+        self.assertEqual(found, {"팀2": [], "팀3": [["3000003", "팀3", ""]]})
+
+    def test_search_js_returns_null_on_error_page(self):
+        self.assertIn("페이지를 찾을 수 없습니다", ca._search_js(["팀"]))
 
 
 class KnownIdSeedTest(unittest.TestCase):
@@ -351,6 +371,32 @@ class RetryTest(unittest.TestCase):
                 matches, _ = self.run_collect(["칩포스트갱"], {"칩포스트갱": None}, {"칩포스트갱": "2026-11-27"}, "2026-11-28")
         self.assertEqual(self.searched, [])
         self.assertEqual((matches["칩포스트갱"]["id"], matches["칩포스트갱"]["source"]), ("4627173", "trackzero"))
+
+    def test_search_state_saved_per_chunk_so_crash_keeps_earlier_results(self):
+        # 긴 검색(하루 500팀, 30분 넘음)이 중간에 끊겨도 앞 묶음의 검색 결과·시도 날짜는 남아야 한다 (2026-11-28)
+        import json
+        from unittest import mock
+        calls = []
+
+        def fake_search(qs):
+            calls.append(list(qs))
+            if len(calls) == 2:
+                raise KeyboardInterrupt("끊김")
+            return ({q: [["300000" + str(len(calls)), q, ""]] for q in qs}, [])
+        with tempfile.TemporaryDirectory() as d:
+            m, a, st = Path(d) / "m.json", Path(d) / "a.json", Path(d) / "seen.json"
+            m.write_text("{}", encoding="utf-8")
+            with mock.patch.object(ca, "MATCH_STATE", m), mock.patch.object(ca, "ATTEMPTS_STATE", a), \
+                    mock.patch.object(ca, "STATE", st), mock.patch.object(ca, "SEARCH_SAVE_EVERY", 2), \
+                    mock.patch.object(ca, "search_artists", side_effect=fake_search), \
+                    mock.patch.object(ca, "fetch_profiles", return_value={}):
+                with self.assertRaises(KeyboardInterrupt):
+                    ca.collect_from_outcomes(10, ["가", "나", "다", "라"], today="2026-11-28")
+            matches = json.loads(m.read_text(encoding="utf-8"))
+            attempts = json.loads(a.read_text(encoding="utf-8"))
+        self.assertEqual(calls[0], ["가", "나"])
+        self.assertEqual(sorted(matches), ["가", "나"])
+        self.assertEqual(attempts, {"가": "2026-11-28", "나": "2026-11-28"})
 
     def test_alias_search_also_records_attempt(self):
         matches, attempts = self.run_collect(["피치트럭(Peach Truck)"], {}, None, "2026-11-28",

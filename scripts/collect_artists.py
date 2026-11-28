@@ -64,6 +64,7 @@ ARTIST_FALLBACK_URL = "https://www.melon.com/artist/timeline.htm?artistId={id}"
 ALBUM_URL = "https://www.melon.com/artist/album.htm?artistId={id}"
 BATCH = 10
 DEFAULT_LIMIT = 200
+SEARCH_SAVE_EVERY = 50     # 이름 검색 이만큼마다 검색 상태 저장 (하루 500팀 검색은 30분 넘게 걸림)
 SAVE_EVERY = 20             # 프로필 이만큼 받을 때마다 저장·상태 갱신 (긴 수집이 끊겨도 받은 만큼 남게)
 MAX_PROFILES_PER_RUN = 1000  # 프로필 페이지 읽기 상한 — 사용자 지시(2026-11-27)로 하루 100팀 한도를 없애고 밀린 것을 한 번에 받음
 REPL_TIMEOUT_SEC = 300
@@ -291,7 +292,9 @@ def _known_melon_ids() -> dict:
                            _blocked_ids())
 
 
-SEARCH_URL = "https://www.melon.com/search/artist/index.htm?q="
+# 2026-11-28부터 아티스트 검색(search/artist/index.htm)이 멜론 쪽에서 '페이지를 찾을 수 없습니다'로 나와(멜론 자체 탭도 같음)
+# 통합검색의 아티스트 칸(.section_atist)을 읽는다. 첫 결과의 유사·관련 아티스트·멤버 목록(dd 안 링크)은 빼고 본다.
+SEARCH_URL = "https://www.melon.com/search/total/index.htm?q="
 
 
 def _search_js(names):
@@ -302,7 +305,10 @@ def _search_js(names):
       const t = await openTab({json.dumps(SEARCH_URL)} + encodeURIComponent(n)); await sleep({PAGE_WAIT_MS});
       out[n] = await t.evaluate(() => {{
         const seen = new Set(); const res = [];
-        for (const a of document.querySelectorAll('a[href*="goArtistDetail"]')) {{
+        if ((document.body ? document.body.innerText : '').includes('페이지를 찾을 수 없습니다')) return null;   // 오류 페이지 = 검색 실패
+        const root = document.querySelector('.section_atist'); if (!root) return [];
+        for (const a of root.querySelectorAll('a[href*="goArtistDetail"]')) {{
+          if (a.closest('dd')) continue;
           const mm = (a.getAttribute('href') || '').match(/goArtistDetail\\(['"]?(\\d+)/); const id = mm && Number(mm[1]) >= {MIN_MELON_ID} ? mm[1] : ''; const name = a.innerText.trim();
           if (!id || !name || seen.has(id)) continue; seen.add(id);
           const box = a.closest('li, div'); res.push([id, name, box ? box.innerText.replace(/\\s+/g, ' ').slice(0, 160) : '']);
@@ -327,10 +333,16 @@ def search_artists(names):
     for i in range(0, len(names), BATCH):
         batch = names[i:i + BATCH]
         try:
-            out.update(_run_batch(_search_js(batch)))
+            got = _run_batch(_search_js(batch))
         except (RuntimeError, subprocess.TimeoutExpired) as e:
             failed.extend(batch)
             print(f"  ⚠️ 검색 묶음 실패 ({len(batch)}팀, 다음 실행 때 다시): {str(e)[:80]}", file=sys.stderr)
+            continue
+        error_pages = [n for n in batch if n in got and got[n] is None]   # 멜론 오류 페이지 → 결과 0건이 아니라 실패
+        if error_pages:
+            failed.extend(error_pages)
+            print(f"  ⚠️ 멜론 '페이지를 찾을 수 없습니다' {len(error_pages)}팀 (다음 실행 때 다시)", file=sys.stderr)
+        out.update({n: v for n, v in got.items() if v is not None})
     return out, failed
 
 
@@ -387,29 +399,16 @@ def _load_json(path, default):
         return default
 
 
-def collect_from_outcomes(limit, names=None, today=None):
-    """팀 이름 목록 → 멜론 검색으로 번호 찾기 → 프로필. names가 없으면 정답(raw_outcome) 팀 (백테스트용).
-    후보 팀의 유명도(팬 수·연차) 판별에도 쓴다 (--names-file).
-    짝 맞춘 결과(동명 팀 수 포함)는 data/raw/state/outcome_melon_match.json 에 남겨 2단계 검수에서 확인한다.
-    검색할 때마다 data/raw/state/melon_match_attempts.json 에 {이름: 마지막 시도 날짜}를 남기고, 못 찾은 이름(null)은
-    melon_names.RETRY_DAYS(30일) 지나면 다시 검색한다 (멜론에 새로 등록됐을 수 있음). 검색 자체가 실패하면 시도로 안 침."""
-    if names is None:
-        names = []
-        for f in sorted(glob.glob(str(RAW_DIR / "raw_outcome_*.csv"))):
-            with open(f, encoding="utf-8") as fh:
-                names.extend(r["artist_text"] for r in csv.DictReader(fh))
-    today = today or f"{datetime.now(KST):%Y-%m-%d}"
-    matches = _load_json(MATCH_STATE, {})
-    attempts = _load_json(ATTEMPTS_STATE, {})
-    misses = _load_json(MISSES_STATE, {})
-    matches, seeded = seed_known_ids(matches, names, _known_melon_ids())   # 이미 가진 번호(트랙제로·링크) → 검색 없이
-    if seeded:
-        print(f"  이미 가진 멜론 번호로 매칭: {len(seeded)}팀 (트랙제로 연관 아티스트·링크)")
-    for n, m in matches.items():          # 날짜 기록 전의 '못 찾음'은 오늘로만 적고 30일 뒤부터 재시도 (한꺼번에 몰리지 않게)
-        if m is None and n not in attempts:
-            attempts[n] = today
-    todo = [n for n in dict.fromkeys(names) if n and due_for_search(n, matches, attempts, today, misses)][:limit]
-    # 1차: 괄호 앞 이름으로, 2차: 못 찾은 팀은 괄호 속 별칭으로 검색 ('피치트럭 하이재커스(Peach Truck Hijackers)')
+def _save_search_state(matches: dict, attempts: dict, misses: dict) -> None:
+    MATCH_STATE.parent.mkdir(parents=True, exist_ok=True)
+    MATCH_STATE.write_text(json.dumps(matches, ensure_ascii=False, indent=1), encoding="utf-8")
+    ATTEMPTS_STATE.write_text(json.dumps(attempts, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+    MISSES_STATE.write_text(json.dumps(misses, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+
+
+def _search_and_match(todo, matches: dict, attempts: dict, misses: dict, today: str) -> None:
+    """이름 묶음을 멜론에서 찾아 matches·attempts·misses 를 채운다 (그 자리에서 고침 — 큰 상태 사전이라 복사 안 함).
+    1차: 괄호 앞 이름으로, 2차: 못 찾은 팀은 괄호 속 별칭으로 검색 ('피치트럭 하이재커스(Peach Truck Hijackers)')."""
     first = {n: re.sub(r"\s*[\(\[][^\)\]]*[\)\]]\s*$", "", n) or n for n in todo}
     found, failed = search_artists(sorted(set(first.values()))) if todo else ({}, [])
     failed = set(failed)
@@ -439,10 +438,35 @@ def collect_from_outcomes(limit, names=None, today=None):
                 if bare and bare != n and matches.get(bare, "") is None:   # 영문으로 찾으면 한글 이름 기록도 채움
                     matches[bare] = matches[n]
                     misses.pop(bare, None)
-    MATCH_STATE.parent.mkdir(parents=True, exist_ok=True)
-    MATCH_STATE.write_text(json.dumps(matches, ensure_ascii=False, indent=1), encoding="utf-8")
-    ATTEMPTS_STATE.write_text(json.dumps(attempts, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
-    MISSES_STATE.write_text(json.dumps(misses, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+
+
+def collect_from_outcomes(limit, names=None, today=None):
+    """팀 이름 목록 → 멜론 검색으로 번호 찾기 → 프로필. names가 없으면 정답(raw_outcome) 팀 (백테스트용).
+    후보 팀의 유명도(팬 수·연차) 판별에도 쓴다 (--names-file).
+    짝 맞춘 결과(동명 팀 수 포함)는 data/raw/state/outcome_melon_match.json 에 남겨 2단계 검수에서 확인한다.
+    검색할 때마다 data/raw/state/melon_match_attempts.json 에 {이름: 마지막 시도 날짜}를 남기고, 못 찾은 이름(null)은
+    melon_names.RETRY_DAYS(30일) 지나면 다시 검색한다 (멜론에 새로 등록됐을 수 있음). 검색 자체가 실패하면 시도로 안 침."""
+    if names is None:
+        names = []
+        for f in sorted(glob.glob(str(RAW_DIR / "raw_outcome_*.csv"))):
+            with open(f, encoding="utf-8") as fh:
+                names.extend(r["artist_text"] for r in csv.DictReader(fh))
+    today = today or f"{datetime.now(KST):%Y-%m-%d}"
+    matches = _load_json(MATCH_STATE, {})
+    attempts = _load_json(ATTEMPTS_STATE, {})
+    misses = _load_json(MISSES_STATE, {})
+    matches, seeded = seed_known_ids(matches, names, _known_melon_ids())   # 이미 가진 번호(트랙제로·링크) → 검색 없이
+    if seeded:
+        print(f"  이미 가진 멜론 번호로 매칭: {len(seeded)}팀 (트랙제로 연관 아티스트·링크)")
+    for n, m in matches.items():          # 날짜 기록 전의 '못 찾음'은 오늘로만 적고 30일 뒤부터 재시도 (한꺼번에 몰리지 않게)
+        if m is None and n not in attempts:
+            attempts[n] = today
+    todo = [n for n in dict.fromkeys(names) if n and due_for_search(n, matches, attempts, today, misses)][:limit]
+    _save_search_state(matches, attempts, misses)          # 이미 가진 번호 매칭·날짜 보정부터 남김
+    for k in range(0, len(todo), SEARCH_SAVE_EVERY):        # 묶음마다 저장 → 긴 검색이 끊겨도 앞 묶음 결과는 남음
+        _search_and_match(todo[k:k + SEARCH_SAVE_EVERY], matches, attempts, misses, today)
+        _save_search_state(matches, attempts, misses)
+        print(f"  검색 {min(k + SEARCH_SAVE_EVERY, len(todo))}/{len(todo)} ({datetime.now(KST):%H:%M:%S})", flush=True)
     try:
         seen = set(json.loads(STATE.read_text(encoding="utf-8")))
     except (OSError, json.JSONDecodeError):

@@ -14,29 +14,33 @@ TEAMS = [{"team_key": k, "display_name": n, "profile_status": s} for k, n, s in 
     ("e", "이", "unknown"), ("f", "에프", "unknown"), ("g", "지", "famous"), ("h", "에이치", "unknown")]]
 SNAP = [{"team_key": "c", "score": "9", "rank": "1"}, {"team_key": "b", "score": "8", "rank": "2"},
         {"team_key": "a", "score": "7", "rank": "3"}, {"team_key": "zz", "score": "6", "rank": "4"}]
-OUTCOMES = [{"team_key": "d", "counted": "true"}, {"team_key": "e", "counted": "false"},
-            {"team_key": "a", "counted": "true"}]
 SIGNALS = [{"team_key": "f", "branch": "공연", "signal_date": "2026-12-05"},
            {"team_key": "h", "branch": "공연", "signal_date": "2026-12-01"},
            {"team_key": "e", "branch": "공연", "signal_date": "2026-11-01"},   # 지난 공연
            {"team_key": "g", "branch": "공연", "signal_date": "2026-12-02"},   # 유명 → 이미 알고 있음
-           {"team_key": "e", "branch": "큐레이션", "signal_date": "2026-12-09"}]
+           {"team_key": "e", "branch": "큐레이션", "signal_date": "2026-12-09"},
+           {"team_key": "d", "branch": "공연", "signal_date": "2026-12-10"}]   # 디: 가장 먼 공연 (정답 팀이어도 앞당기지 않음)
 
 
 def build(**kw):
-    args = dict(snapshot=SNAP, teams=TEAMS, outcomes=OUTCOMES, signals=SIGNALS, matches={}, today="2026-11-27")
+    args = dict(snapshot=SNAP, teams=TEAMS, signals=SIGNALS, matches={}, today="2026-11-27")
     args.update(kw)
     return mn.build_names(**args)
 
 
 class OrderTest(unittest.TestCase):
-    def test_priority_snapshot_then_outcomes_then_upcoming_gigs(self):
-        # ① 점수 상위 중 unknown (씨, 에이) ② 센 정답 unknown (디; 에이는 이미 있음) ③ 다가오는 공연 unknown (가까운 순: 에이치, 에프)
-        self.assertEqual(build(), ["씨", "에이", "디", "에이치", "에프"])
+    def test_priority_snapshot_then_upcoming_gigs(self):
+        # ① 점수 상위 중 unknown (씨, 에이) ② 다가오는 공연 unknown (가까운 순: 에이치, 에프, 디). 정답 여부는 순서에 안 씀
+        self.assertEqual(build(), ["씨", "에이", "에이치", "에프", "디"])
+
+    def test_no_outcome_input(self):
+        # 정답 팀만 먼저 프로필을 받는 일이 다시 생기지 않게 — 명단은 정답 명단을 받지 않는다 (2026-11-28)
+        import inspect
+        self.assertNotIn("outcomes", inspect.signature(mn.build_names).parameters)
 
     def test_limit_and_top_n_of_snapshot(self):
         self.assertEqual(build(limit=2), ["씨", "에이"])
-        self.assertEqual(build(snapshot_top=1, candidate_top=0)[:2], ["씨", "디"])     # 스냅샷은 상위 1팀만 봄 (새 단계는 끔)
+        self.assertEqual(build(snapshot_top=1, candidate_top=0)[:2], ["씨", "에이치"])     # 스냅샷은 상위 1팀만 봄 (새 단계는 끔)
 
     def test_already_tried_names_are_skipped(self):
         got = build(matches={"씨": {"id": "1"}, "디": None})
@@ -63,7 +67,7 @@ class AuditPriorityTest(unittest.TestCase):
     """후보 점검 (b) '기성인데 프로필이 없어 신인으로 잡힘' 팀을 명단 맨 앞(0순위)에 — 첫 발매일로 신인 판정되게."""
 
     def test_audit_teams_come_first(self):
-        self.assertEqual(build(priority=["h", "a"]), ["에이치", "에이", "씨", "디", "에프"])
+        self.assertEqual(build(priority=["h", "a"]), ["에이치", "에이", "씨", "에프", "디"])
 
     def test_priority_team_already_matched_but_without_profile_is_included(self):
         # 멜론 번호는 찾았지만 프로필을 아직 못 받은 팀 → 명단에 넣어야 수집기가 그 프로필을 먼저 받음
@@ -101,9 +105,9 @@ class ReleaseOnlyTest(unittest.TestCase):
         self.assertEqual(mn.release_only_recent(self.SIGNALS, self.TEAMS, "2026-11-27"), ["r2", "r1"])   # 최근 발매 순
         self.assertEqual(mn.release_only_recent(self.SIGNALS, self.TEAMS, "2026-11-27", days=365), ["r2", "r1", "r3"])
 
-    def test_order_after_snapshot_before_outcomes(self):
+    def test_order_after_snapshot_before_gigs(self):
         got = build(teams=self.TEAMS, signals=self.SIGNALS)
-        self.assertEqual(got, ["씨", "에이", "알투", "알원", "디", "에이치", "에프"])
+        self.assertEqual(got, ["씨", "에이", "알투", "알원", "에이치", "에프", "디"])
 
     def test_not_found_recently_is_still_skipped(self):
         got = build(teams=self.TEAMS, signals=self.SIGNALS, matches={"알투": None}, attempts={"알투": "2026-11-20"})
@@ -129,11 +133,11 @@ class NoReleaseTopTest(unittest.TestCase):
         self.assertEqual(mn.no_release_top(self.SNAP, teams, top=4), ["p", "q"])   # 더블유는 verified → 뺌
 
     def test_no_release_top_comes_right_after_priority(self):
-        got = build(snapshot=self.SNAP, teams=self.TEAMS, outcomes=[], signals=[], priority=["o"], candidate_top=4)
+        got = build(snapshot=self.SNAP, teams=self.TEAMS, signals=[], priority=["o"], candidate_top=4)
         self.assertEqual(got, ["오", "더블유", "피", "큐", "브이"])   # 0순위 → 상위 4 중 첫 발매 없음 → 나머지(점수 순)
 
     def test_not_found_rule_still_applies_to_new_tier(self):
-        got = build(snapshot=self.SNAP, teams=self.TEAMS, outcomes=[], signals=[], candidate_top=4,
+        got = build(snapshot=self.SNAP, teams=self.TEAMS, signals=[], candidate_top=4,
                     matches={"피": None}, attempts={"피": "2026-11-20"})
         self.assertNotIn("피", got)
 
@@ -161,7 +165,7 @@ class MissRetryAndEnglishTest(unittest.TestCase):
         snap = [{"team_key": "c", "score": "9"}, {"team_key": "d", "score": "8"}]
         m = {"칩포스트갱": None, "하즈": None, "하즈 (HASE)": None}
         a = {"칩포스트갱": "2026-11-20", "하즈": "2026-11-20", "하즈 (HASE)": "2026-11-20"}
-        got = build(snapshot=snap, teams=teams, outcomes=[], signals=[], matches=m, attempts=a,
+        got = build(snapshot=snap, teams=teams, signals=[], matches=m, attempts=a,
                     english={"칩포스트갱": "Chip Post Gang", "하즈": "HASE"})
         self.assertEqual(got, ["칩포스트갱 (Chip Post Gang)"])   # 하즈는 영문으로도 이미 찾아봄
 
