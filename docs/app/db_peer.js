@@ -3,7 +3,9 @@
  * db.js 가 이미 커서, 이 질의만 따로 둔다.
  */
 import { appState } from './state.js';
-import { buildParams, fillTemplate, getSqlTemplate, runRawSql } from './db.js';
+import {
+  buildParams, fetchText, fillTemplate, getSqlTemplate, labExtraListed, parseCsvObjects, runRawSql, sqlStringLiteral,
+} from './db.js';
 
 export const MIN_PEERS = 30; // peer_compare.sql 기본값(이웃이 이보다 적으면 '비교군 작음')
 const CACHE_MAX = 6;
@@ -15,6 +17,7 @@ const CHOSEN_LINE = "WHERE scope = '단계'   -- 기본 비교군";
 const SCOPE_LINES = {
   stage: "WHERE scope = '단계'",          // 같은 발굴 단계 전체
   genre: "WHERE scope = '단계+장르'",      // 같은 단계 + 같은 장르(profile·press 장르 팀만, 추정 장르 제외)
+  genre_then: "WHERE scope = '단계+장르(그때)'", // 기준일에 알 수 있던 장르만 (genre_seen.known_from < 기준일)
 };
 
 const PCT_KEYS = [
@@ -40,6 +43,39 @@ function normalizeRow(r) {
   return out;
 }
 
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const INSERT_BATCH = 200;
+let genreSeenPromise = null;
+
+/**
+ * peer_compare.sql 이 읽는 genre_seen 표(장르 근거 공개일, docs/lab/data/genre_seen.csv)를 한 번 만든다.
+ * 파일이 보조 목록(meta.json extras)에 없으면 빈 표 — 그래도 SQL 은 돈다('단계+장르(그때)' 판만 비게 됨).
+ */
+function ensureGenreSeenTable() {
+  if (!genreSeenPromise) {
+    genreSeenPromise = (async () => {
+      await runRawSql('CREATE TABLE IF NOT EXISTS genre_seen(team_key VARCHAR, genre VARCHAR, confidence VARCHAR, '
+        + 'first_seen DATE, first_seen_source VARCHAR, known_from DATE, known_from_source VARCHAR, match VARCHAR)');
+      if (!labExtraListed('genre_seen')) return;
+      const txt = await fetchText('lab/data/genre_seen.csv', true);
+      const rows = parseCsvObjects(txt || '').filter(r => r.team_key && DATE_RE.test(String(r.known_from || '')));
+      const dateOrNull = v => (DATE_RE.test(String(v || '')) ? `DATE '${v}'` : 'NULL');
+      for (let i = 0; i < rows.length; i += INSERT_BATCH) {
+        const values = rows.slice(i, i + INSERT_BATCH).map(r => `(${[
+          sqlStringLiteral(r.team_key), sqlStringLiteral(r.genre), sqlStringLiteral(r.confidence),
+          dateOrNull(r.first_seen), sqlStringLiteral(r.first_seen_source), dateOrNull(r.known_from),
+          sqlStringLiteral(r.known_from_source), sqlStringLiteral(r.match),
+        ].join(', ')})`).join(', ');
+        await runRawSql(`INSERT INTO genre_seen VALUES ${values}`);
+      }
+    })().catch((err) => {
+      genreSeenPromise = null;   // 다음 호출 때 다시
+      throw err;
+    });
+  }
+  return genreSeenPromise;
+}
+
 /**
  * 기준일 기준 이웃 비교 전체(또는 한 팀). 실패하거나 템플릿이 없으면 빈 결과.
  * @param {{ as_of?: string, team_key?: string, scope?: 'auto'|'stage'|'genre' }} [overrides]
@@ -50,6 +86,11 @@ export async function queryPeerCompare(overrides = {}) {
   const empty = { rows: [], byTeam: new Map(), error: '' };
   const tpl = await getSqlTemplate('peer_compare');
   if (!tpl) return { ...empty, error: 'peer_compare.sql 을 불러오지 못했습니다' };
+  try {
+    await ensureGenreSeenTable();
+  } catch (err) {
+    return { ...empty, error: String(err?.message || err) };
+  }
   const params = buildParams({ as_of: overrides.as_of, team_key: overrides.team_key });
   let sql = fillTemplate(tpl, {
     ...params,

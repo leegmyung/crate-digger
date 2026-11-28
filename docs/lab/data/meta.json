@@ -27,6 +27,7 @@
     "city_profiles",
     "event_stars",
     "festival_profiles",
+    "genre_seen",
     "lineup_roles",
     "players",
     "team_cities",
@@ -38,6 +39,7 @@
     "city_profiles.json": true,
     "event_stars.csv": 14126,
     "festival_profiles.json": true,
+    "genre_seen.csv": 783,
     "lineup_roles.csv": 7423,
     "players.csv": 1565,
     "team_cities.csv": 5783,
@@ -45,5 +47,5 @@
     "venue_profiles.json": true,
     "venue_tiers.csv": 60
   },
-  "extras_updated_at": "2026-11-28T13:28:11+09:00"
+  "extras_updated_at": "2026-11-28T13:33:23+09:00"
 }

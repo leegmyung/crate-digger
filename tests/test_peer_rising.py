@@ -22,6 +22,11 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import lab_sql  # noqa: E402
 from lab_sql import COLLABS_DDL, SNAPSHOTS_DDL, TEAM_CITIES_DDL, VENUE_TIERS_DDL, fill, read_sql  # noqa: E402
 
+# 장르 처음 확인한 날 표 (lab_sql.GENRE_SEEN_DDL 과 같은 모양 — 옛 lab_sql 에도 돌게 여기 둔다)
+GENRE_SEEN_DDL = getattr(lab_sql, "GENRE_SEEN_DDL", (
+    "CREATE TABLE genre_seen(team_key VARCHAR, genre VARCHAR, confidence VARCHAR, first_seen DATE, "
+    "first_seen_source VARCHAR, known_from DATE, known_from_source VARCHAR, match VARCHAR)"))
+
 TEAM_COLS = ("team_key VARCHAR, display_name VARCHAR, first_seen DATE, first_release DATE, fan_count INTEGER, "
              "album_count INTEGER, profile_status VARCHAR, primary_genre VARCHAR, newcomer_check VARCHAR, "
              "genre_confidence VARCHAR")
@@ -38,7 +43,7 @@ def base_db(teams, signals, outcomes=()):
     con.execute(f"CREATE TABLE signals({SIGNAL_COLS})")
     con.execute(f"CREATE TABLE outcomes({OUTCOME_COLS})")
     con.execute("CREATE TABLE programs(program VARCHAR, label VARCHAR, kind VARCHAR)")
-    for ddl in (COLLABS_DDL, SNAPSHOTS_DDL, TEAM_CITIES_DDL, VENUE_TIERS_DDL):
+    for ddl in (COLLABS_DDL, SNAPSHOTS_DDL, TEAM_CITIES_DDL, VENUE_TIERS_DDL, GENRE_SEEN_DDL):
         con.execute(ddl)
     if teams:
         con.executemany("INSERT INTO teams VALUES (?,?,?,?,?,?,?,?,?,?)", list(teams))
@@ -127,6 +132,20 @@ class PeerCompareTest(unittest.TestCase):
         self.assertEqual(r["g1"]["peer_scope"], "단계+장르")
         self.assertEqual(r["g1"]["peer_n"], 2)              # g1·g2 — 추정·리뷰 장르 팀(inf·low·rev)은 장르 무리에 안 들어감
         self.assertEqual(r["g1"]["grade"], "비교군 작음")
+
+    def test_genre_scope_then_uses_only_genres_known_before_as_of(self):
+        """'단계+장르(그때)': genre_seen.known_from < 기준일 인 확인 장르만 장르 이웃으로 (사후 수집 편향 막기)."""
+        self.con.execute("INSERT INTO genre_seen VALUES ('g1','록·밴드','profile','2026-11-26','x','2024-03-01','y','genre'),"
+                         "('g2','록·밴드','profile','2026-11-26','x','2025-06-01','y','genre')")
+        sql = fill(read_sql("peer_compare.sql"), as_of=self.AS_OF, min_peers="3")
+        cur = self.con.execute(sql.replace("WHERE scope = '단계'   -- 기본 비교군", "WHERE scope = '단계+장르(그때)'"))
+        cols = [d[0] for d in cur.description]
+        r = {row[0]: dict(zip(cols, row)) for row in cur.fetchall()}
+        self.assertEqual(r["g1"]["peer_scope"], "단계+장르(그때)")
+        self.assertEqual(r["g1"]["peer_n"], 1)               # g2 는 기준일(2025-01-01) 뒤에야 근거가 공개됨
+        self.assertNotIn("g2", r)
+        default = self.rows(min_peers="3")                    # 기본(단계)은 그대로
+        self.assertEqual(default["g1"]["peer_n"], 16)
 
     def test_grades_by_rank_share(self):
         r = self.rows(min_peers="3")

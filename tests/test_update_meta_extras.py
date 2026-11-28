@@ -43,6 +43,10 @@ class ScanTest(unittest.TestCase):
         self.assertEqual(got["players.csv"], 1)
         self.assertIn("players", um.app_list(got))
 
+    def test_genre_seen_listed(self):
+        """장르 처음 확인한 날(genre_seen.csv)도 보조 파일 — 앱 동료 비교 '그때 장르' 판이 읽는다."""
+        self.assertIn("genre_seen.csv", um.EXTRAS)
+
     def test_quoted_newlines_not_counted_as_rows(self):
         with tempfile.TemporaryDirectory() as d:
             (Path(d) / "event_stars.csv").write_text('a,b\n1,"두\n줄"\n2,x\n', encoding="utf-8")

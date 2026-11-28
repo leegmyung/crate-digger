@@ -152,6 +152,45 @@ class ConfirmedCompositionTest(unittest.TestCase):
         self.assertIn("최소", text)                       # 비례 2팀 < 4팀이라 최소를 썼다는 설명
 
 
+class PointInTimeGenreTest(unittest.TestCase):
+    """'그때 알 수 있던 장르만' 판: genre_seen.known_from < 기준일 인 확인 장르만 장르로 (docs/methods.md)."""
+
+    def test_point_in_time_genres_per_cutoff(self):
+        data = {"2024-01-01": [_r("a", "록·밴드", 1), _r("b", "포크", 1), _r("c", "미분류", 1)],
+                "2025-01-01": [_r("a", "록·밴드", 1), _r("b", "포크", 1)]}
+        seen = {"a": "2023-05-01", "b": "2024-06-01", "c": "2020-01-01"}
+        out = gb.point_in_time(data, seen)
+        self.assertEqual([r["genre"] for r in out["2024-01-01"]], ["록·밴드", gb.UNCLASSIFIED, gb.UNCLASSIFIED])
+        self.assertEqual([r["genre"] for r in out["2025-01-01"]], ["록·밴드", "포크"])
+        self.assertEqual(data["2024-01-01"][1]["genre"], "포크")       # 원본은 그대로
+
+    def test_known_from_equal_to_cutoff_is_not_known(self):
+        out = gb.point_in_time({"2024-01-01": [_r("a", "록·밴드", 1)]}, {"a": "2024-01-01"})
+        self.assertEqual(out["2024-01-01"][0]["genre"], gb.UNCLASSIFIED)
+
+    def test_load_genre_seen_falls_back_to_csv(self):
+        import tempfile
+        from pathlib import Path as P
+
+        class NoTable:
+            def execute(self, *_):
+                raise RuntimeError("no genre_seen")
+        with tempfile.TemporaryDirectory() as d:
+            f = P(d) / "genre_seen.csv"
+            f.write_text("team_key,genre,confidence,first_seen,first_seen_source,known_from,known_from_source,match\n"
+                         "a,록,profile,2026-11-26,x,2024-05-01,y,genre\nb,포크,press,2026-11-26,x,,y,genre\n", encoding="utf-8")
+            self.assertEqual(gb.load_genre_seen(NoTable(), f), {"a": "2024-05-01"})
+
+    def test_seen_section_text(self):
+        t = [{"genre": "록·밴드", "n": 10, "pos": 2, "base_rate": 0.2, "auc": None, "small": True, "hit_share": 1.0,
+              "top_count": 3, "top_hits": 2, "top_recall": 1.0, "pool_share": 0.5, "top_share": 0.6, "bias": 1.2}]
+        summary = {"hits": 10, "others": 100, "hit_share_confirmed": 0.14, "other_share_confirmed": 0.01}
+        text = "\n".join(gb.section_backtest_seen(t, summary, {"n": 10, "pos": 2, "base_rate": 0.2, "auc": 0.7}))
+        self.assertIn("그때 알 수 있던 장르만", text)
+        self.assertIn("14.0%", text)
+        self.assertIn("| 록·밴드 | 10 | 2 |", text)
+
+
 class TopTest(unittest.TestCase):
     def test_top_indices_tie_break_like_app(self):
         # 앱 순서: 마지막 신호 없으면 md5(team_key) 순 (md5('c') < md5('b'))

@@ -26,7 +26,8 @@ import lab_sql  # noqa: E402
 
 EXTRAS = ("team_cities.csv", "venue_tiers.csv", "venue_profiles.json", "city_profiles.json",
           "festival_profiles.json", "lineup_roles.csv", "event_stars.csv", "venue_ladder.json",
-          "players.csv")   # players.csv = 바로 듣기 표(team_key·kind·id·title·source)
+          "players.csv",   # players.csv = 바로 듣기 표(team_key·kind·id·title·source)
+          "genre_seen.csv")   # 장르 처음 확인한 날 (scripts/genre_seen.py) — 앱 동료 비교 '그때 장르' 판
 
 Count = Union[int, bool]
 

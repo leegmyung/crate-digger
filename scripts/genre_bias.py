@@ -309,12 +309,49 @@ def relabel(by_cutoff: Dict[str, List[dict]], genres: Dict[str, Optional[str]]) 
     return {c: [{**r, "genre": genre_label(genres.get(r["team_key"]))} for r in rows] for c, rows in by_cutoff.items()}
 
 
+def point_in_time(by_cutoff: Dict[str, List[dict]], seen: Dict[str, str]) -> Dict[str, List[dict]]:
+    """'그때 알 수 있던 장르만': 기준일보다 먼저 근거가 공개된(genre_seen.known_from < 기준일) 확인 장르만 남기고 나머지는 미분류.
+    (원본은 그대로 — docs/methods.md '확인된 장르 = 사후 수집 편향')"""
+    out = {}
+    for c, rows in by_cutoff.items():
+        out[c] = [{**r, "genre": r["genre"] if r["genre"] != UNCLASSIFIED and seen.get(r["team_key"], "9999") < c
+                   else UNCLASSIFIED} for r in rows]
+    return out
+
+
+def known_share(by_cutoff: Dict[str, List[dict]]) -> dict:
+    """정답 행·정답 아닌 행 중 장르(미분류 아님)가 붙은 비율 — 0절 표와 같은 뜻."""
+    rows = [r for rs in by_cutoff.values() for r in rs]
+    hits = [r for r in rows if int(r["is_hit"])]
+    others = [r for r in rows if not int(r["is_hit"])]
+    known = lambda rs: sum(1 for r in rs if r["genre"] != UNCLASSIFIED)  # noqa: E731
+    return {"hits": len(hits), "others": len(others),
+            "hit_share_confirmed": known(hits) / len(hits) if hits else 0.0,
+            "other_share_confirmed": known(others) / len(others) if others else 0.0}
+
+
 def display_genre(g: str) -> str:
     """표에 보일 이름: 분석용 '미분류'는 장르 공백이 아니라 대부분 '프로필을 아직 안 받은' 팀이다 (0절)."""
     return "미분류 (프로필 미수집·추정 장르)" if g == UNCLASSIFIED else g
 
 
 # ---------- 데이터 ----------
+
+def load_genre_seen(con, path: Optional[Path] = None) -> Dict[str, str]:
+    """팀 → 장르 근거 공개일(known_from, 'YYYY-MM-DD'). lab_sql 의 genre_seen 표를 먼저, 없거나 비면 CSV 를 직접 읽는다."""
+    path = path or (lab_sql.DATA_DIR / "genre_seen.csv")
+    try:
+        rows = con.execute("SELECT team_key, CAST(known_from AS VARCHAR) FROM genre_seen WHERE known_from IS NOT NULL").fetchall()
+        if rows:
+            return {k: str(d)[:10] for k, d in rows}
+    except Exception:  # noqa: BLE001 — 옛 lab_sql 에는 표가 없다
+        pass
+    if not path.exists():
+        return {}
+    import csv as _csv
+    with open(path, encoding="utf-8", newline="") as f:
+        return {r["team_key"]: r["known_from"][:10] for r in _csv.DictReader(f) if (r.get("known_from") or "").strip()}
+
 
 def team_genres(con) -> Dict[str, str]:
     """팀 → 분석용 장르 (추정 장르는 미분류). teams 에 genre_confidence 칸이 있어야 한다(lab_sql.connect 가 없으면 만듦)."""
@@ -443,6 +480,23 @@ def section_backtest_all(table: List[dict]) -> List[str]:
     return lines
 
 
+def section_backtest_seen(table: List[dict], summary: dict, confirmed: Optional[dict] = None) -> List[str]:
+    """1-3절: 그때 알 수 있던 장르만 판 — 같은 후보·점수, 장르는 기준일 전에 근거가 공개된 확인 장르만."""
+    base = "" if not confirmed or confirmed.get("auc") is None else f" 확인된 장르 팀끼리 AUC 기준선은 **{confirmed['auc']:.3f}**({confirmed['n']:,}행)."
+    lines = ["### 1-3. 그때 알 수 있던 장르만 판 (genre_seen.known_from < 기준일)", "",
+             f"장르 근거(발매일·출처 신호 날짜·프로필을 본 날)가 기준일보다 먼저 공개된 확인 장르만 장르로 쳤다. 이러면 정답 행 중 장르가 붙은 비율이 "
+             f"**{_pct(summary['hit_share_confirmed'])}**, 정답 아닌 행은 **{_pct(summary['other_share_confirmed'])}** — 0절(지금 기준)의 몰림이 "
+             f"얼마나 줄었는지가 사후 수집 편향의 크기다.{base} 장르가 붙은 행이 적어 숫자는 방향만 본다.", "",
+             "| 장르 | 후보(행) | 정답 | 기준율* | 장르 안 AUC* | 정답 중 비율 | 상위 100 안 정답 (포착률) | 쏠림 지수* |",
+             "|---|---|---|---|---|---|---|---|"]
+    for t in table:
+        auc = "표본 부족" if t["small"] else ("—" if t["auc"] is None else f"{t['auc']:.3f}")
+        name = "그때 장르 모름" if t["genre"] == UNCLASSIFIED else t["genre"]
+        lines.append(f"| {name} | {t['n']:,} | {t['pos']} | {_pct(t['base_rate'])} | {auc} | {_pct(t['hit_share'])} | "
+                     f"{t['top_hits']} ({'—' if t['top_recall'] is None else _pct(t['top_recall'])}) | {_fb(t['bias'])} |")
+    return lines
+
+
 def section_current_confirmed(comp: List[dict], n_top: int, n_pool: int, top_n: int, n_all: int) -> List[str]:
     """2-2절: 확인된 장르 팀끼리 판 (상위 N 을 풀 크기 비례로)."""
     prop = round(top_n * n_pool / n_all) if n_all else 0
@@ -508,11 +562,20 @@ def main() -> int:
     split_rows, split_summary = confirmation_split(data, conf, raw)
     lines = build_doc(day, table, overall, comp, rows, shares, note, cov,
                       section_confirmation(split_rows, split_summary), confirmed_row(data),
-                      genre_table(relabel(data, raw)), composition_confirmed(rows)) + card_lines
+                      genre_table(relabel(data, raw)), composition_confirmed(rows), seen_section(con, data)) + card_lines
     OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))
     print(f"✅ → {OUT.relative_to(lab_sql.ROOT)}")
     return 0
+
+
+def seen_section(con, data: Dict[str, List[dict]]) -> List[str]:
+    """1-3절을 만든다. genre_seen 이 없으면(옛 데이터) 빈 목록."""
+    seen = load_genre_seen(con)
+    if not seen:
+        return []
+    pit = point_in_time(data, seen)
+    return section_backtest_seen(genre_table(pit), known_share(pit), confirmed_row(pit))
 
 
 def section_scorecard(con, data: Dict[str, List[dict]]) -> Tuple[List[str], dict]:
@@ -610,7 +673,8 @@ def build_doc(day: str, table: List[dict], overall: dict, comp: List[dict], rows
               shares: Dict[str, Dict[str, float]], note: Dict[str, int], cov: Optional[dict] = None,
               confirmation: Optional[List[str]] = None, confirmed: Optional[dict] = None,
               table_all: Optional[List[dict]] = None,
-              comp_conf: Optional[Tuple[List[dict], int, int]] = None) -> List[str]:
+              comp_conf: Optional[Tuple[List[dict], int, int]] = None,
+              seen_lines: Optional[List[str]] = None) -> List[str]:
     return ["# 장르별 편향 점검 (점수 v2)", "",
             "_자동 생성: `.venv/bin/python scripts/genre_bias.py`_", "",
             *(confirmation or []),
@@ -620,6 +684,7 @@ def build_doc(day: str, table: List[dict], overall: dict, comp: List[dict], rows
             f"쏠림 지수 = 상위 {TOP_N} 안 비율 ÷ 후보군 비율(기준일마다 상위 {TOP_N}을 뽑아 합산). 1보다 크면 점수가 그 장르를 위로 몰고, 작으면 아래로 민다.", "",
             *section_backtest(table, overall, confirmed), "",
             *(section_backtest_all(table_all) if table_all else []), *([""] if table_all else []),
+            *(seen_lines or []), *([""] if seen_lines else []),
             f"## 2. 지금({day}) 후보 상위 {TOP_N}의 장르 구성", "",
             f"앱 '후보 목록'과 같은 계산(candidates.sql, 이미 정답 받은 팀 제외). 후보 전체 {len(rows):,}팀.", "",
             *section_current(comp, rows, shares), "",

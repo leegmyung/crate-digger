@@ -7,6 +7,8 @@
 --      위주로 받아 붙은 것이라 장르 이웃에 이미 주목받은 팀이 몰린다 — 그 팀들 등급이 평균 상위 56%로 단계만(27%)보다
 --      크게 낮게 나왔다. docs/methods.md '확인된 장르 = 사후 수집 편향', docs/genre_bias_audit_2026-11-28.md)
 --   '단계+장르'      = 앱 '같은 장르 이웃' 단추로만(docs/app/db_peer.js 가 기본 줄을 바꿔 씀) — 참고용
+--   '단계+장르(그때)' = 기준일에 알 수 있던 장르만: genre_seen.known_from(그 장르 근거가 공개된 가장 이른 날) < 기준일
+--                      (genre_seen 표 = docs/lab/data/genre_seen.csv, scripts/genre_seen.py — 없으면 빈 표로 만들어 둘 것)
 --   추정·리뷰 장르(teams.genre_confidence = inferred·review·inferred_low: 같은 무대 다수결·공연장 성향·약한 힌트·매체 리뷰·같은 무대 1표) = 빈칸처럼 단계로만
 --   (2026-11-27 결정: 비교·분석은 profile·press 장르만, 앱 필터·표시는 추정까지 '추정' 꼬리표 — docs/genre_fill.md)
 --   (장르 오분류 위험: 장르를 모르는 팀을 억지로 한 장르에 넣지 않는다. 외부 장르 표기는 쓰지 않는다.)
@@ -41,6 +43,9 @@ ment AS (
            COALESCE(MAX(CASE WHEN branch = '선정·지원' THEN stage_rank END), 0) AS best_selection
     FROM mention GROUP BY team_key
 ),
+seen AS (                                       -- 장르 근거 공개일 (팀마다 가장 이른 날)
+    SELECT team_key, MIN(known_from) AS known_from FROM genre_seen WHERE known_from IS NOT NULL GROUP BY team_key
+),
 past_out AS (
     SELECT o.team_key, MAX(CASE o.grade WHEN 'S' THEN 3 WHEN 'A' THEN 2 WHEN 'B' THEN 1 ELSE 0 END) AS best_grade_rank
     FROM outcomes o, params p
@@ -59,18 +64,25 @@ base AS (
            END AS stage,
            CASE WHEN TRIM(COALESCE(sc.primary_genre, '')) IN ('', '미분류')
                   OR COALESCE(t.genre_confidence, '') NOT IN ('', 'profile', 'press') THEN NULL   -- 추정·리뷰(inferred·review·inferred_low)는 비교에 안 씀
-                ELSE TRIM(sc.primary_genre) END AS genre_key
+                ELSE TRIM(sc.primary_genre) END AS genre_key,
+           CASE WHEN TRIM(COALESCE(sc.primary_genre, '')) IN ('', '미분류')
+                  OR COALESCE(t.genre_confidence, '') NOT IN ('', 'profile', 'press')
+                  OR gs.known_from IS NULL OR gs.known_from >= p.d THEN NULL
+                ELSE TRIM(sc.primary_genre) END AS genre_key_then          -- 기준일에 알 수 있던 장르만
     FROM scored sc
     JOIN teams t USING (team_key)
     CROSS JOIN params p
     LEFT JOIN ment m USING (team_key)
     LEFT JOIN past_out po USING (team_key)
+    LEFT JOIN seen gs USING (team_key)
 ),
 -- ↑ 발굴 단계 끝
 levels AS (                                     -- 비교군 두 층: 단계 전체(모든 팀) · 단계+장르(장르 아는 팀만)
     SELECT *, '단계' AS scope, CAST(stage AS VARCHAR) AS grp FROM base
     UNION ALL
     SELECT *, '단계+장르' AS scope, CAST(stage AS VARCHAR) || '|' || genre_key AS grp FROM base WHERE genre_key IS NOT NULL
+    UNION ALL
+    SELECT *, '단계+장르(그때)' AS scope, CAST(stage AS VARCHAR) || '|' || genre_key_then AS grp FROM base WHERE genre_key_then IS NOT NULL
 ),
 ranked AS (
     SELECT *,
