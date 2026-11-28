@@ -9411,31 +9411,43 @@
   {
    "name": "클럽 인디 제주",
    "aliases": [
-    "Club Indie"
+    "Club Indie",
+    "인디제주",
+    "제주 인디"
    ],
    "province": "제주",
    "city": "제주",
    "district": "",
-   "address": "",
+   "address": "제주특별자치도 제주시 광양11길 10 2층",
    "type": "live_club",
    "capacity": null,
-   "status": "unknown",
+   "status": "open",
    "sources": [
     {
      "url": "https://au.trip.com/restaurant/south%20korea/jeju/detail/Club%20Indie-143655514",
      "note": "여행 사이트 장소 정보 — 제주시 이도2동"
     },
     {
-     "url": "https://m.search.naver.com/search.naver?query=%ED%81%B4%EB%9F%BD%20%EC%9D%B8%EB%94%94%20%EC%A0%9C%EC%A3%BC%20%EC%A0%9C%EC%A3%BC",
-     "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 근거 못 찾음"
+     "url": "https://www.instagram.com/indie_jeju_zero/",
+     "note": "공연장 공식 인스타그램"
+    },
+    {
+     "url": "https://www.indiego.co.kr/venues/135-%EC%A0%9C%EC%A3%BC-%EC%9D%B8%EB%94%94",
+     "note": "인디고 공연장 페이지('제주 인디')"
     }
    ],
-   "checked": "2026-11-27",
+   "checked": "2026-11-28",
    "our_venue": null,
    "in_our_data": false,
    "type_basis": "이름 '클럽 인디 제주'에 '클럽' → 라이브클럽",
-   "geo_checked": "2026-11-27",
-   "status_note": "근거 못 찾음 (2026-11-28 네이버 검색 확인)"
+   "geo_checked": "2026-11-28",
+   "status_note": "인스타 글 2026-11-13·HWAL-GI PROJECT 11-21 공연 공지 (2026-11-28 확인) — 2013년부터 운영(인스타 소개)",
+   "instagram": "indie_jeju_zero",
+   "indiego_url": "https://www.indiego.co.kr/venues/135-%EC%A0%9C%EC%A3%BC-%EC%9D%B8%EB%94%94",
+   "lat": 33.499553,
+   "lon": 126.53156,
+   "geo_confidence": "medium",
+   "geo_method": "address"
   },
   {
    "name": "골목다방",
@@ -13104,6 +13116,173 @@
    "lat": 37.551654,
    "lon": 126.91751,
    "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "달빛산책",
+   "aliases": [
+    "Moonlight Walk"
+   ],
+   "province": "충남",
+   "city": "천안",
+   "district": "동남구",
+   "address": "충남 천안시 동남구 청수11로 26 205호",
+   "type": "cafe",
+   "capacity": null,
+   "status": "open",
+   "sources": [
+    {
+     "url": "https://blog.naver.com/moonlight_walk_bar",
+     "note": "공연장 공식 블로그('천안 공연장 & 라이브 대관 | 뮤직바', 공연 영상·일정)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "our_venue": null,
+   "in_our_data": false,
+   "status_note": "공식 블로그 'Live Stage' 공연 게시물 2026-11-14 (2026-11-28 확인) — 뮤직바 겸 공연장·대관",
+   "type_basis": "수동: 공연 무대가 있는 뮤직바(공식 블로그 소개)",
+   "added_by": "지역 공연장 조사 2026-11-28 (인디고·인스타·네이버 블로그·카카오맵)",
+   "blog": "moonlight_walk_bar",
+   "lat": 36.782494,
+   "lon": 127.155202,
+   "geo_confidence": "high",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "커먼 뮤직 펍",
+   "aliases": [
+    "커먼 Com'On 뮤직 펍",
+    "커먼펍",
+    "Com'On Music Pub"
+   ],
+   "province": "울산",
+   "city": "울산",
+   "district": "남구",
+   "address": "울산 남구 왕생로40번길 24-1 2층",
+   "type": "cafe",
+   "capacity": null,
+   "status": "open",
+   "sources": [
+    {
+     "url": "https://www.indiego.co.kr/venues/212-%EC%BB%A4%EB%A8%BC-%EB%AE%A4%EC%A7%81-%ED%8E%8D",
+     "note": "인디고 공연장 페이지"
+    },
+    {
+     "url": "https://www.instagram.com/comonmusicpub/",
+     "note": "공연장 공식 인스타그램"
+    }
+   ],
+   "checked": "2026-11-28",
+   "our_venue": null,
+   "in_our_data": false,
+   "status_note": "인스타 공연 후기 2026-10-23 · 12-19 파티 예정 (2026-11-28 확인) — 밴드 공연·디제잉",
+   "type_basis": "수동: 밴드 공연 무대가 있는 펍(인스타 소개 '밴드공연ㅣ디제잉')",
+   "added_by": "지역 공연장 조사 2026-11-28 (인디고·인스타·네이버 블로그·카카오맵)",
+   "instagram": "comonmusicpub",
+   "indiego_url": "https://www.indiego.co.kr/venues/212-%EC%BB%A4%EB%A8%BC-%EB%AE%A4%EC%A7%81-%ED%8E%8D",
+   "lat": 35.537468,
+   "lon": 129.333767,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "우주파",
+   "aliases": [
+    "UZUPA",
+    "우주파 UZUPA"
+   ],
+   "province": "제주",
+   "city": "제주",
+   "district": "",
+   "address": "제주 제주시 탑동로 81 1층",
+   "type": "cafe",
+   "capacity": null,
+   "status": "open",
+   "sources": [
+    {
+     "url": "https://www.indiego.co.kr/venues/57-%EC%9A%B0%EC%A3%BC%ED%8C%8C",
+     "note": "인디고 공연장 페이지"
+    },
+    {
+     "url": "https://www.instagram.com/uzupa_theuniversewave/",
+     "note": "공연장 공식 인스타그램"
+    }
+   ],
+   "checked": "2026-11-28",
+   "our_venue": null,
+   "in_our_data": false,
+   "status_note": "인스타 단독공연 공지(11-28 사우스카니발·12-12 hey 1996·12-19 키타, 2026-11-28 확인) — 인디 음악 라이브 펍",
+   "type_basis": "수동: 인디 음악 라이브 펍(인스타 소개 '인디음악라이브 … 비스트로펍')",
+   "added_by": "지역 공연장 조사 2026-11-28 (인디고·인스타·네이버 블로그·카카오맵)",
+   "instagram": "uzupa_theuniversewave",
+   "indiego_url": "https://www.indiego.co.kr/venues/57-%EC%9A%B0%EC%A3%BC%ED%8C%8C",
+   "lat": 33.516503,
+   "lon": 126.516679,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "강릉스톤",
+   "aliases": [
+    "스톤",
+    "Gangneung Stone"
+   ],
+   "province": "강원",
+   "city": "강릉",
+   "district": "",
+   "address": "강원특별자치도 강릉시 중앙시장2길 14 1층",
+   "type": "cafe",
+   "capacity": null,
+   "status": "open",
+   "sources": [
+    {
+     "url": "https://www.instagram.com/gnstone22/",
+     "note": "공연장 공식 인스타그램"
+    }
+   ],
+   "checked": "2026-11-28",
+   "our_venue": null,
+   "in_our_data": false,
+   "status_note": "인스타 공연 공지(2026-11-27 BKB 밴드·11-28 블루스톤 밴드·12-28 강산에밴드, 2026-11-28 확인) — 뮤직바·펍",
+   "type_basis": "수동: 밴드 공연이 있는 뮤직바·펍(인스타 소개 'Music Bar & Pub')",
+   "added_by": "지역 공연장 조사 2026-11-28 (인디고·인스타·네이버 블로그·카카오맵)",
+   "instagram": "gnstone22",
+   "lat": 37.752764,
+   "lon": 128.898145,
+   "geo_confidence": "medium",
+   "geo_method": "address",
+   "geo_checked": "2026-11-28"
+  },
+  {
+   "name": "작은공연장 단",
+   "aliases": [],
+   "province": "강원",
+   "city": "강릉",
+   "district": "",
+   "address": "강원특별자치도 강릉시 경강로2046번길 5",
+   "type": "theater",
+   "capacity": null,
+   "status": "unknown",
+   "sources": [
+    {
+     "url": "https://state.gwd.go.kr/portal/partinfo/culturePhysical/culture/theater",
+     "note": "강원도 등록공연장 목록(공공, 2013 개관)"
+    }
+   ],
+   "checked": "2026-11-28",
+   "our_venue": null,
+   "in_our_data": false,
+   "status_note": "공공 소극장(옛 강릉제일교회, 2013 개관·음악·연극) — 최근 1년 음악 공연은 확인 못함",
+   "type_basis": "수동: 등록 공공 소극장",
+   "added_by": "지역 공연장 조사 2026-11-28 (인디고·인스타·네이버 블로그·카카오맵)",
+   "mainstream": true,
+   "lat": 37.750935,
+   "lon": 128.892954,
+   "geo_confidence": "medium",
    "geo_method": "address",
    "geo_checked": "2026-11-28"
   }
