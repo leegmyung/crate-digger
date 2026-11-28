@@ -232,6 +232,8 @@ export const appState = {
   linksByTeam: new Map(),
   videosByTeam: new Map(),
   imagesByTeam: new Map(), // team_key → 사진 주소 (lab/data/images.csv)
+  videosLoaded: false, // 무대 영상 표(videos.csv)를 받았나 — 받기 전엔 '▶ 듣기' 자리만 잡아 두고 받은 뒤 채운다
+  playersByTeam: new Map(), // team_key → 바로 듣기 후보 [{kind,type,id,title,source}] (lab/data/players.csv, 없으면 빈 표)
   imageMetaByTeam: new Map(), // team_key → { url, source }
   newcomerCheckByTeam: new Map(), // team_key → 'verified' | 'unverified' | 'first_seen' (optional column)
   firstReleaseByTeam: new Map(), // team_key → 'YYYY-MM-DD'

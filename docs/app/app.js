@@ -13,6 +13,7 @@ import {
   renderViewSkeleton,
 } from './ui.js';
 import { initGlobalSearch } from './components/global_search.js';
+import { initMiniPlayer } from './components/mini_player.js';
 
 const ADVANCED_ROUTES = new Set(['verify', 'backtest', 'signals', 'evidence', 'scorecard', 'quality', 'sql']);
 
@@ -585,6 +586,7 @@ function wireGlobalEvents() {
 async function boot() {
   initTheme();
   initGlobalSearch();
+  initMiniPlayer();
   initExportMenu();
   wireGlobalEvents();
   parseHash();

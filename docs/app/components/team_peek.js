@@ -11,7 +11,7 @@ import {
 import { queryScenePeerWinners, renderTeamStatusBarsHtml } from '../views/team_pulse.js';
 import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText, genreConfidenceBadgeHtml,
-  stageBadgeHtml, watchButtonHtml, wireAvatarFallbacks,
+  playButtonHtml, stageBadgeHtml, watchButtonHtml, wireAvatarFallbacks,
 } from '../ui.js';
 
 const PANEL_ID = 'teamPeek';
@@ -166,6 +166,7 @@ async function render(key) {
     </div>
     <div class="peek-actions">
       <a class="btn btn-primary" href="#/team/${encodeURIComponent(key)}">팀 페이지 열기 →</a>
+      ${playButtonHtml(key, name, { variant: 'sm' })}
       ${watchButtonHtml(key, name, false)}
     </div>`;
   wireAvatarFallbacks(body);

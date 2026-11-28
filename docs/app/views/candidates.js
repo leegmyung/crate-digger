@@ -8,13 +8,13 @@ import {
   queryTopPrecedent, queryUpcomingGigs,
 } from '../db.js';
 import {
-  avatarHtml, dormantBadgeHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText,
+  avatarHtml, canPlayTeam, dormantBadgeHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText,
   formatRecentActivityCell, formatSourceKey, genreConfidenceBadgeHtml, isWeakGenreConfidence,
   gradeBadgeHtml, INFO_TIPS, infoTip, isDormantTeam, naCell,
-  newcomerUnverifiedBadgeHtml, plainWhyLine, renderActionBanner,
-  renderEmptyState, renderTableCsvBtn, scorePartsLine, spotifyButtonHtml,
+  newcomerUnverifiedBadgeHtml, plainWhyLine, playButtonHtml, renderActionBanner,
+  renderEmptyState, renderTableCsvBtn, scorePartsLine,
   STAGE_META, STAGE_ORDER, stageBadgeHtml, TERMS, triggerTableCsvExport,
-  updateSortHeaders, watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
+  updateSortHeaders, watchButtonHtml, wireAvatarFallbacks,
   wireTableKeyboardNav, wireTableRowHoverPreview, youtubeQuickInfo,
 } from '../ui.js';
 import {
@@ -81,21 +81,19 @@ function sortRows(rows, col, dir) {
 }
 
 function hasRowListenLink(r) {
-  const sp = spotifyButtonHtml(r.team_key, true, { iconOnly: true, mode: 'table-row' });
-  if (sp) return true;
+  if (canPlayTeam(r.team_key)) return true;
   const yt = youtubeQuickInfo(r.team_key);
   return Boolean(yt && (yt.kind === 'channel' || yt.kind === 'video'));
 }
 
+/** '▶' = 화면 아래 미니 플레이어에서 바로 듣기. 틀 거리가 없고 유튜브 채널만 있으면 채널 링크. */
 function renderRowListenControl(r) {
-  const sp = spotifyButtonHtml(r.team_key, true, {
-    iconOnly: true,
-    mode: 'table-row',
-    teamName: r.display_name || r.team_key,
-  });
-  if (sp) return sp;
-
+  const name = r.display_name || r.team_key;
   const yt = youtubeQuickInfo(r.team_key);
+  if (canPlayTeam(r.team_key) || !(yt && yt.kind === 'channel')) {
+    const play = playButtonHtml(r.team_key, name, { variant: 'icon' });
+    if (play) return play;
+  }
   if (yt && yt.kind === 'channel') {
     return `<a class="btn btn-icon btn-yt-mini" href="${escapeHtml(yt.url)}" target="_blank" rel="noopener noreferrer" title="유튜브 공식 채널" aria-label="${escapeHtml(r.display_name || r.team_key)} 유튜브 공식 채널">YT</a>`;
   }
@@ -451,7 +449,6 @@ async function renderDebutCandidatesView(root) {
         `;
       }).join('');
       wireAvatarFallbacks(tbody);
-      wireSpotifyButtons(tbody);
       if (expandedDebutKey) {
         const targetTr = [...tbody.querySelectorAll('tr[data-nav-row]')].find(el => el.dataset.teamKey === expandedDebutKey);
         if (targetTr) openDebutPreviewRow(expandedDebutKey, targetTr);
@@ -1208,7 +1205,6 @@ export async function renderCandidatesView(root) {
     }).join('');
 
     wireAvatarFallbacks(tbody);
-    wireSpotifyButtons(tbody);
 
     if (expandedTeamKey) {
       const targetTr = [...tbody.querySelectorAll('tr[data-nav-row]')].find(el => el.dataset.teamKey === expandedTeamKey);

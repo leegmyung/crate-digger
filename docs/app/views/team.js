@@ -13,11 +13,11 @@ import {
   renderNoRecordLine, renderScoreBar,
   renderTableCsvBtn, roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml,
   spotifyUrlOf, summarizeWhyTeam, TERMS, triggerTableCsvExport,
-  watchButtonHtml, wireAvatarFallbacks, wireSpotifyButtons,
+  watchButtonHtml, wireAvatarFallbacks,
   routeBackLabel,
 } from '../ui.js';
 import { mountTeamGraphBlock } from './graph.js';
-import { compareButtonHtml, renderTeamFactsHtml } from './team_head.js';
+import { compareButtonHtml, renderKeyStatsHtml, renderTeamFactsHtml } from './team_head.js';
 import { activeTeamTab, renderTeamTabsHtml, teamPanelHtml, wireTeamTabs } from './team_tabs.js';
 import {
   queryScenePeerWinners, renderChangeRowHtml, renderTeamStatusBarsHtml, wireChangeRow,
@@ -694,7 +694,7 @@ export async function renderTeamView(root, teamKey) {
         ${compareButtonHtml(genre)}
       </div>
     </div>
-    <div class="player-slot" id="teamPlayerSlot" data-player-slot></div>
+    ${renderKeyStatsHtml({ scored, rc: rcRow, videos, links, displayName })}
 
     ${tabsHtml}
 
@@ -740,7 +740,6 @@ export async function renderTeamView(root, teamKey) {
   `;
 
   wireAvatarFallbacks(root);
-  wireSpotifyButtons(root, root.querySelector('#teamPlayerSlot'));
   wireChangeRow(root, pulseCtx);
   wireScoreBlock(root, scoreCtx);
 

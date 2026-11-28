@@ -1,7 +1,9 @@
 // 검색 결과 화면 #/search?q= — 팀·공연장·도시·페스티벌을 종류별로 묶어 보여 준다 (정보 구조 v2 묶음 B).
 // 색인·맞추기 규칙은 위쪽 검색 드롭다운과 같은 search_index.js 를 쓴다.
 import { appState, navigateTo } from '../state.js';
-import { avatarHtml, escapeHtml, STAGE_META, wireAvatarFallbacks } from '../ui.js';
+import {
+  avatarHtml, escapeHtml, playButtonHtml, STAGE_META, wireAvatarFallbacks,
+} from '../ui.js';
 import {
   TIER_KO, loadSearchIndex, searchAll, cityHash, festivalHash, searchPageHash,
 } from '../search_index.js';
@@ -26,6 +28,7 @@ function teamRow({ t, rank, st, lastSeen }) {
           ${lastSeen ? `<span>최근 신호 ${escapeHtml(lastSeen)}</span>` : ''}
         </span>
       </a>
+      ${playButtonHtml(t.team_key, t.display_name || t.team_key, { variant: 'icon' })}
     </li>`;
 }
 

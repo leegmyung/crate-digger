@@ -364,149 +364,72 @@ export function avatarHtml(teamKey, displayName, size = 40, opts = {}) {
   return `<span class="avatar avatar-initial ${shape} ${tone}" aria-hidden="true" style="width:${size}px;height:${size}px;font-size:${fontSize}px">${initial}</span>`;
 }
 
-/** 이미지 로드 실패 시 깨짐 아이콘 대신 첫 글자 모노그램으로 즉시 치환한다. */
-export function wireAvatarFallbacks(root) {
-  if (!root) return;
-  root.querySelectorAll('img.avatar[data-av-initial]').forEach(img => {
-    const swapToInitial = () => {
-      const size = Number(img.dataset.avSize) || 40;
-      const span = document.createElement('span');
-      span.className = `avatar avatar-initial ${img.dataset.avShape || 'avatar-circle'} ${img.dataset.avTone || 'av-default'}`;
-      span.setAttribute('aria-hidden', 'true');
-      span.style.width = `${size}px`;
-      span.style.height = `${size}px`;
-      span.style.fontSize = `${Math.max(11, Math.round(size * 0.42))}px`;
-      span.textContent = img.dataset.avInitial || '?';
-      img.replaceWith(span);
-    };
-    if (img.complete && img.naturalWidth === 0) {
-      swapToInitial();
-    } else {
-      img.addEventListener('error', swapToInitial, { once: true });
-    }
-  });
-}
-
-/** '▶ 듣기' 버튼: 누르면 같은 자리에 스포티파이 공식 임베드 플레이어를 만든다(wireSpotifyButtons로 연결). */
-export function spotifyButtonHtml(teamKey, small = false, opts = {}) {
-  const id = spotifyIdOf(teamKey);
-  if (!id) return '';
-  const iconOnly = Boolean(opts.iconOnly);
-  const mode = opts.mode ? `data-spotify-mode="${escapeHtml(opts.mode)}"` : '';
-  const nameAttr = opts.teamName ? `data-spotify-name="${escapeHtml(opts.teamName)}"` : '';
-  const slotAttr = opts.slotId ? `data-spotify-slot="${escapeHtml(opts.slotId)}"` : '';
-  const cls = iconOnly
-    ? 'btn btn-icon spotify-play'
-    : `btn ${small ? 'btn-sm' : 'btn-primary'} spotify-play`;
-  const label = iconOnly ? '▶' : '▶ 듣기';
-  return `<button type="button" class="${cls}" data-spotify-id="${id}" ${mode} ${nameAttr} ${slotAttr}
-            aria-label="${escapeHtml(opts.teamName || teamKey)} 스포티파이 미리 듣기" title="스포티파이로 미리 듣기">${label}</button>`;
-}
-
-function buildSpotifyEmbedBox(id, teamName, onClose) {
-  const box = document.createElement('div');
-  box.className = 'spotify-embed-box';
-  if (teamName) {
-    const head = document.createElement('div');
-    head.className = 'spotify-embed-head';
-    head.innerHTML = `<span class="small"><strong>${escapeHtml(teamName)}</strong> · Spotify 미리 듣기</span>`;
-    const closeBtn = document.createElement('button');
-    closeBtn.type = 'button';
-    closeBtn.className = 'btn btn-sm';
-    closeBtn.textContent = '닫기';
-    closeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      onClose();
-    });
-    head.appendChild(closeBtn);
-    box.appendChild(head);
-  }
-  const frame = document.createElement('iframe');
-  frame.className = 'spotify-embed';
-  frame.src = `https://open.spotify.com/embed/artist/${id}?utm_source=generator&theme=0`;
-  frame.height = '152';
-  frame.loading = 'lazy';
-  frame.title = `${teamName || ''} 스포티파이 미리 듣기`.trim();
-  frame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
-  box.appendChild(frame);
-  return box;
+/** 사진 하나를 첫 글자 모노그램으로 바꾼다 (주소가 깨졌을 때). */
+export function swapAvatarToInitial(img) {
+  if (!img?.isConnected || !img.dataset?.avInitial) return;
+  const size = Number(img.dataset.avSize) || 40;
+  const span = document.createElement('span');
+  span.className = `avatar avatar-initial ${img.dataset.avShape || 'avatar-circle'} ${img.dataset.avTone || 'av-default'}`;
+  span.setAttribute('aria-hidden', 'true');
+  span.style.width = `${size}px`;
+  span.style.height = `${size}px`;
+  span.style.fontSize = `${Math.max(11, Math.round(size * 0.42))}px`;
+  span.textContent = img.dataset.avInitial || '?';
+  img.replaceWith(span);
 }
 
 /**
- * root 안의 '▶ 듣기' 버튼마다 클릭 시 플레이어 생성 (단일 활성 슬롯 + 토글 닫기 지원).
- * - data-spotify-slot="<id>": 지정된 공유 슬롯에 표시 (5장 카드 그리드 높이 균형 유지)
- * - data-spotify-mode="table-row": 표 행 바로 아래 확장 tr에 표시
- * - 기본: 가장 가까운 [data-player-slot] 또는 target
+ * 이미지 로드 실패 시 깨짐 아이콘 대신 첫 글자 모노그램으로 즉시 치환한다.
+ * (앱 전체에서 깨진 사진은 mini_player.js 의 문서 단위 오류 받기가 처리하므로, 여기서는 이미 실패한 것만 바로 바꾼다)
  */
-export function wireSpotifyButtons(root, defaultTarget = null) {
+export function wireAvatarFallbacks(root) {
   if (!root) return;
-  let activeBtn = null;
-  let activeCleanup = null;
-
-  const resetBtnLabel = (btn) => {
-    if (!btn) return;
-    btn.classList.remove('btn-active', 'is-playing');
-    btn.textContent = btn.classList.contains('btn-icon') ? '▶' : '▶ 듣기';
-  };
-
-  const closeActive = () => {
-    if (activeCleanup) {
-      activeCleanup();
-      activeCleanup = null;
-    }
-    if (activeBtn) {
-      resetBtnLabel(activeBtn);
-      activeBtn = null;
-    }
-  };
-
-  root.querySelectorAll('.spotify-play[data-spotify-id]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const id = btn.dataset.spotifyId;
-      if (!/^[A-Za-z0-9]{22}$/.test(id)) return;
-
-      const wasSame = activeBtn === btn;
-      closeActive();
-      if (wasSame) return;
-
-      const teamName = btn.dataset.spotifyName || '';
-      const mode = btn.dataset.spotifyMode || '';
-      const slotId = btn.dataset.spotifySlot || '';
-
-      btn.classList.add('btn-active', 'is-playing');
-      btn.textContent = btn.classList.contains('btn-icon') ? '■' : '■ 닫기';
-      activeBtn = btn;
-
-      if (mode === 'table-row') {
-        const tr = btn.closest('tr');
-        if (tr && tr.parentElement) {
-          const colCount = tr.children.length || 8;
-          const expTr = document.createElement('tr');
-          expTr.className = 'player-expand-row';
-          const td = document.createElement('td');
-          td.colSpan = colCount;
-          td.appendChild(buildSpotifyEmbedBox(id, teamName, closeActive));
-          expTr.appendChild(td);
-          tr.insertAdjacentElement('afterend', expTr);
-          activeCleanup = () => expTr.remove();
-          return;
-        }
-      }
-
-      let host = slotId ? root.querySelector(`#${CSS.escape(slotId)}`) : defaultTarget;
-      for (let el = btn.parentElement; !host && el && el !== root.parentElement; el = el.parentElement) {
-        host = el.querySelector(':scope > [data-player-slot]');
-      }
-      host = host || btn.parentElement;
-      host.innerHTML = '';
-      const box = buildSpotifyEmbedBox(id, teamName, closeActive);
-      host.appendChild(box);
-      activeCleanup = () => { host.innerHTML = ''; };
-    });
+  root.querySelectorAll('img.avatar[data-av-initial]').forEach(img => {
+    if (img.complete && img.naturalWidth === 0) swapAvatarToInitial(img);
+    else img.addEventListener('error', () => swapAvatarToInitial(img), { once: true });
   });
 }
+
+/**
+ * 이 팀에 바로 틀 거리가 있나: players.csv · 스포티파이 아티스트 링크 · (받아 둔) 무대 영상.
+ * 무대 영상 표는 쓰는 화면에서 늦게 받으므로, 받기 전에는 앞의 둘만 본다.
+ */
+export function canPlayTeam(teamKey) {
+  if (!teamKey) return false;
+  return Boolean(appState.playersByTeam?.get(teamKey)?.length
+    || spotifyIdOf(teamKey)
+    || appState.videosByTeam?.get(teamKey)?.length);
+}
+
+/**
+ * '▶ 듣기' 버튼 — 누르면 화면 아래 고정 미니 플레이어에서 재생(components/mini_player.js 가 문서 전체에서 받음).
+ * 페이지를 옮겨도 소리가 끊기지 않는다 (Chartmetric·스트리밍 서비스처럼).
+ * @param {string} teamKey
+ * @param {string} [teamName]
+ * @param {{ variant?: 'icon'|'sm'|'primary' }} [opts]
+ */
+export function playButtonHtml(teamKey, teamName = '', opts = {}) {
+  const variant = opts.variant || 'sm';
+  const name = teamName || teamKey;
+  if (!canPlayTeam(teamKey)) {
+    // 무대 영상 표를 받기 전이면 자리만 잡아 둔다 → 받은 뒤 mini_player.js 가 버튼으로 바꾸거나 지운다
+    return teamKey && !appState.videosLoaded
+      ? `<span class="play-slot" data-play-slot="${escapeHtml(teamKey)}" data-play-name="${escapeHtml(name)}" data-play-variant="${escapeHtml(variant)}" hidden></span>`
+      : '';
+  }
+  const cls = variant === 'icon' ? 'btn btn-icon play-btn' : `btn ${variant === 'primary' ? 'btn-primary' : 'btn-sm'} play-btn`;
+  const label = variant === 'icon' ? '<span aria-hidden="true">▶</span>' : '<span aria-hidden="true">▶</span> 듣기';
+  return `<button type="button" class="${cls}" data-play-team="${escapeHtml(teamKey)}" data-play-name="${escapeHtml(name)}" aria-label="${escapeHtml(name)} 바로 듣기" title="바로 듣기 — 화면 아래 플레이어에서 재생">${label}</button>`;
+}
+
+/** 옛 이름 유지: 예전 '스포티파이 듣기' 자리도 이제 미니 플레이어로 튼다. (small·mode·slotId 는 더 쓰지 않음) */
+export function spotifyButtonHtml(teamKey, small = false, opts = {}) {
+  const variant = opts.iconOnly ? 'icon' : (small ? 'sm' : 'primary');
+  return playButtonHtml(teamKey, opts.teamName || '', { variant });
+}
+
+/** 옛 이름 유지: 재생 버튼은 문서 전체에서 한 번에 받으므로(mini_player.js) 화면마다 연결할 것이 없다. */
+export function wireSpotifyButtons() {}
 
 export function watchButtonHtml(teamKey, displayName, small = true, reveal = false) {
   const on = isWatched(teamKey);

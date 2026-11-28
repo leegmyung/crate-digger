@@ -5,7 +5,9 @@
  * watchlist.js 의 관심 팀 주간 요약도 여기 함수를 같이 쓴다.
  */
 import { appState } from '../state.js';
-import { escapeHtml, fmtInt, formatAlertBaselineNote, SOURCE_LABELS } from '../ui.js';
+import {
+  avatarHtml, escapeHtml, fmtInt, formatAlertBaselineNote, playButtonHtml, SOURCE_LABELS,
+} from '../ui.js';
 
 const GROUP_FIRST = 5;
 /** 알림 종류 → 팀 페이지 탭 (정보 구조 v2: 알림·사건에서 팀으로 갈 땐 해당 탭으로) */
@@ -87,7 +89,9 @@ export function alertRowHtml({ a, stars }, { isWatch = false, isSubVenue = false
         <summary>
           ${chipHtml}
           ${starsMini(stars)}
+          ${avatarHtml(a.team_key, a.name || a.team_key, 22, { shape: 'circle' })}
           <a class="today-alert-team" href="${alertTeamHref(a)}"><strong>${escapeHtml(a.name || a.team_key)}</strong></a>
+          ${playButtonHtml(a.team_key, a.name || a.team_key, { variant: 'icon' })}
           ${relBadge}
           <span class="today-alert-text${textCls}">${escapeHtml(a.text)}</span>
           <span class="today-alert-meta mono">${escapeHtml(a.date || '')}</span>

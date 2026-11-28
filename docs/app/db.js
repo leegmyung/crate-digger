@@ -1,5 +1,6 @@
 import * as duckdb from 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.32.0/+esm';
 import { ALL_BRANCHES, appState, DEFAULT_WEIGHTS } from './state.js';
+import { parsePlayersRows } from './player_pick.js';
 
 const DUCKDB_CDN = 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.32.0/dist';
 const MANUAL_BUNDLES = {
@@ -45,6 +46,7 @@ export function ensureVideosLoaded() {
   if (videosReady) return Promise.resolve(appState.videosByTeam);
   if (!videosAvailable) {
     videosReady = true;
+    appState.videosLoaded = true;
     return Promise.resolve(appState.videosByTeam);
   }
   if (!videosPromise) {
@@ -56,6 +58,8 @@ export function ensureVideosLoaded() {
       rawAuxCsv = { ...rawAuxCsv, videos: txt };
       appState.videosByTeam = indexVideosRows(parseCsvObjects(txt));
       videosReady = true;
+      appState.videosLoaded = true;
+      window.dispatchEvent(new CustomEvent('app:videos-loaded'));
       return appState.videosByTeam;
     });
   }
@@ -445,23 +449,22 @@ async function initEngine() {
 const VIDEO_ID_RE = /^[A-Za-z0-9_-]{11}$/;
 const VIDEO_KIND_ORDER = { stage: 0, official_live: 1, official: 2, search: 3 };
 
+const IMAGE_URL_RE = /^https:\/\/(?:i\.scdn\.co|i\.ytimg\.com|yt3\.ggpht\.com|yt3\.googleusercontent\.com)\/[^\s,"]+$/;
+
 /**
  * images.csv(team_key,url,source) → { urlMap, metaMap }.
- * 스포티파이 아티스트 사진(i.scdn.co)만 허용하며, 없으면 화면에서 모노그램으로 표시한다.
+ * 스포티파이 아티스트 사진(i.scdn.co)·유튜브 채널 썸네일(ytimg·ggpht)만 허용하며, 없으면 화면에서 모노그램으로 표시한다.
  */
 function parseImagesCsv(text) {
   const urlMap = new Map();
   const metaMap = new Map();
   if (!text) return { urlMap, metaMap };
-  const lines = text.trim().split(/\r?\n/).slice(1);
-  const row = /^(.*),(https:\/\/i\.scdn\.co\/[^\s,]+),([^,]*)$/;
-  for (const line of lines) {
-    const m = line.match(row);
-    if (!m) continue;
-    const teamKey = m[1].replace(/^"(.*)"$/, '$1').replace(/""/g, '"');
-    const url = m[2];
-    const source = (m[3] || '').trim().toLowerCase() || 'spotify';
-    if (!teamKey || urlMap.has(teamKey)) continue;
+  // 칸 이름으로 읽는다 (page_url 같은 칸이 뒤에 붙어도 깨지지 않게)
+  for (const r of parseCsvObjects(text)) {
+    const teamKey = String(r.team_key || '').trim();
+    const url = String(r.url || '').trim();
+    if (!teamKey || !IMAGE_URL_RE.test(url) || urlMap.has(teamKey)) continue;
+    const source = String(r.source || '').trim().toLowerCase() || 'spotify';
     urlMap.set(teamKey, url);
     metaMap.set(teamKey, { url, source });
   }
@@ -817,7 +820,13 @@ export async function bootstrapData(onStatus = () => {}) {
   videosAvailable = Boolean(meta?.rows && Number(meta.rows.videos) > 0);
   videosPromise = null;
   videosReady = false;
+  appState.videosLoaded = false;
   const hasImagesMeta = Boolean(meta?.rows && Number(meta.rows.images) > 0);
+  // 바로 듣기 표(players.csv, 작은 파일)는 보조 파일 목록에 있을 때만 받는다 — 없는 파일 404 를 내지 않게
+  const metaExtras = Array.isArray(meta?.extras) ? meta.extras : [];
+  const playersPromise = metaExtras.includes('players') || metaExtras.includes('players.csv')
+    ? fetchText('lab/data/players.csv', true)
+    : Promise.resolve(null);
 
   // Chain snapshot CSV fetches right after snapshots/index.json so there is no post-DB waterfall
   const snapBundlePromise = fetchJson('lab/data/snapshots/index.json', true).then(async (snapIdx) => {
@@ -956,6 +965,7 @@ export async function bootstrapData(onStatus = () => {}) {
   const parsedImgs = parseImagesCsv(imagesCsv);
   appState.imagesByTeam = parsedImgs.urlMap;
   appState.imageMetaByTeam = parsedImgs.metaMap;
+  appState.playersByTeam = parsePlayersRows(parseCsvObjects(await playersPromise));
   appState.snapshots = {
     dates: snapBundle.snapDates,
     reconstructed: snapBundle.snapReconstructed,

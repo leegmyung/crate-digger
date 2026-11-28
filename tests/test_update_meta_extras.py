@@ -32,6 +32,17 @@ class ScanTest(unittest.TestCase):
         self.assertNotIn("city_profiles.json", got)          # 깨진 JSON
         self.assertNotIn("event_stars.csv", got)             # 없는 파일
 
+    def test_players_listed_when_present(self):
+        """바로 듣기 표(players.csv)도 보조 파일 — 행이 있으면 앱이 받고, 없으면 404 를 내지 않게 목록에서 빠진다."""
+        self.assertIn("players.csv", um.EXTRAS)
+        with tempfile.TemporaryDirectory() as d:
+            _setup(Path(d))
+            (Path(d) / "players.csv").write_text("team_key,kind,id,title,source\na,youtube,abcdefghijk,t,s\n",
+                                                 encoding="utf-8")
+            got = um.scan(Path(d))
+        self.assertEqual(got["players.csv"], 1)
+        self.assertIn("players", um.app_list(got))
+
     def test_quoted_newlines_not_counted_as_rows(self):
         with tempfile.TemporaryDirectory() as d:
             (Path(d) / "event_stars.csv").write_text('a,b\n1,"두\n줄"\n2,x\n', encoding="utf-8")

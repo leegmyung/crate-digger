@@ -1,0 +1,144 @@
+/* 바로 듣기 — 화면 아래 고정 미니 플레이어 + 팀 머리 '핵심 숫자 4개' 줄 (components/mini_player.js, views/team_head.js) */
+
+.mini-player {
+  position: fixed;
+  left: var(--nav-w);
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  background: var(--surface);
+  border-top: 1px solid var(--line-strong);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+  color: var(--ink);
+}
+.mini-player[hidden] { display: none; }
+.mp-inner {
+  display: grid;
+  grid-template-columns: minmax(160px, 240px) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.mp-team {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+.mp-team:hover .mp-name { text-decoration: underline; }
+.mp-text { display: flex; flex-direction: column; min-width: 0; }
+.mp-name, .mp-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mp-name { font-size: var(--text-sm); }
+.mp-sub { font-size: var(--text-xs); color: var(--ink-muted); }
+.mp-stage { min-width: 0; display: flex; align-items: center; }
+.mp-frame { border: 0; display: block; border-radius: 8px; background: var(--surface-alt); }
+.mp-frame-audio { width: 100%; height: 80px; }
+.mp-frame-video { width: 142px; height: 80px; }
+.mini-player.is-expanded .mp-frame-video { width: 356px; height: 200px; }
+.mp-empty { margin: 0; font-size: var(--text-sm); color: var(--ink-muted); }
+.mp-side { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.mp-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.mp-tab {
+  font: inherit;
+  font-size: var(--text-xs);
+  padding: 4px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+.mp-tab.is-active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.mp-ctrl { display: flex; gap: 4px; }
+
+/* 플레이어가 열려 있으면 본문 끝·알림 상자가 가려지지 않게 */
+body.has-mini-player .view-main { padding-bottom: 120px; }
+body.has-mini-player .app-toast { bottom: 116px; }
+
+/* 재생 중인 팀 버튼 */
+.play-btn.is-playing { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+@media (max-width: 960px) {
+  .mini-player { left: 0; }
+}
+@media (max-width: 600px) {
+  .mp-inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "team ctrl" "stage stage" "tabs tabs";
+    gap: 6px 8px;
+    padding: 6px 12px 8px;
+  }
+  .mp-team { grid-area: team; }
+  .mp-side { display: contents; }
+  .mp-ctrl { grid-area: ctrl; }
+  .mp-stage { grid-area: stage; }
+  .mp-tabs { grid-area: tabs; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .mp-tab { flex: 0 0 auto; }
+  .mp-frame-video, .mini-player.is-expanded .mp-frame-video { width: 100%; height: auto; aspect-ratio: 16 / 9; max-height: 200px; }
+  .mini-player:not(.is-expanded) .mp-frame-video { max-height: 80px; width: 142px; }
+  body.has-mini-player .view-main { padding-bottom: 200px; }
+  body.has-mini-player .app-toast { bottom: 190px; }
+}
+
+/* 표 안 팀 칸: 사진 · 이름 · ▶ (차트·알림·검색) */
+.team-cell-inline { display: inline-flex; align-items: center; gap: 8px; min-width: 0; }
+.team-cell-inline > .avatar { flex: 0 0 auto; }
+.team-cell-inline > .play-btn { flex: 0 0 auto; }
+.sr-row:has(> .play-btn) { display: flex; align-items: center; gap: 8px; }
+.sr-row:has(> .play-btn) > .sr-link { flex: 1 1 auto; min-width: 0; }
+
+/* 팀 머리 '핵심 숫자 4개 + 출처 아이콘' (Chartmetric 아티스트 머리 지표 타일처럼) */
+.team-keystats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+  gap: 8px;
+  align-items: stretch;
+  margin: 12px 0 4px;
+}
+.ks-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  min-width: 0;
+}
+.ks-label { display: flex; align-items: center; gap: 6px; font-size: var(--text-xs); color: var(--ink-muted); }
+.ks-src {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 20px; height: 18px; padding: 0 4px;
+  border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.02em;
+  background: var(--surface-2); color: var(--ink);
+}
+.ks-src-score { background: var(--accent); color: var(--accent-ink); }
+.ks-src-videos { background: #c4302b; color: #fff; }
+.ks-value { font-size: var(--text-xl); font-variant-numeric: tabular-nums; line-height: 1.2; }
+.ks-sub { font-size: var(--text-xs); color: var(--ink-subtle); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ks-plats { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; padding: 0 4px; }
+.ks-plat {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; border-radius: 50%;
+  font-size: 11px; font-weight: 700; text-decoration: none;
+  border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink);
+}
+.ks-plat:hover, .ks-plat:focus-visible { border-color: var(--accent); color: var(--accent); }
+.ks-plat-spotify { background: #1db954; border-color: #1db954; color: #000; }
+.ks-plat-youtube { background: #c4302b; border-color: #c4302b; color: #fff; }
+.ks-plat-melon { background: #00cd3c; border-color: #00cd3c; color: #000; }
+.ks-plat-spotify:hover, .ks-plat-spotify:focus-visible, .ks-plat-melon:hover, .ks-plat-melon:focus-visible { color: #000; filter: brightness(1.08); }
+.ks-plat-youtube:hover, .ks-plat-youtube:focus-visible { color: #fff; filter: brightness(1.08); }
+@media (max-width: 960px) {
+  .team-keystats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ks-plats { grid-column: 1 / -1; padding: 2px 0; }
+}
+
+/* 색 지도 팀 칸: 순위 · 사진 · 이름 · ▶ (Chartmetric Rising Index 행처럼) */
+.heat-team .avatar { vertical-align: middle; margin-right: 6px; }
+.heat-team .play-btn { margin-left: 4px; vertical-align: middle; }
+.heat-team { max-width: 240px; }

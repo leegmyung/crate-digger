@@ -5,6 +5,7 @@
 import {
   escapeHtml, fmtInt, genreConfidenceBadgeHtml, naCell, stageBadgeHtml,
 } from '../ui.js';
+import { keyStatTiles, platformLinks } from '../team_keystats.js';
 
 let tocObserver = null; // 다시 그릴 때 이전 관찰을 끊는다
 
@@ -38,6 +39,27 @@ export function renderTeamFactsHtml(f) {
     items.push(`<span class="team-fact"><span class="team-fact-lbl">장르</span>${escapeHtml(f.genre)}${genreConfidenceBadgeHtml(f.teamKey)}</span>`);
   }
   return `<div class="team-facts" aria-label="팀 요약 정보">${items.join('')}</div>`;
+}
+
+/**
+ * Chartmetric 아티스트 머리처럼 '핵심 숫자 4개 + 출처 아이콘' 줄.
+ * @param {{ scored: object|null, rc: object|null, videos: object[], links: Map<string,string>|null, displayName: string }} p
+ */
+export function renderKeyStatsHtml({ scored, rc, videos, links, displayName }) {
+  const tiles = keyStatTiles({ scored, rank: rc?.rank ?? null, weekChange: rc?.week_change ?? 0, videos });
+  const plats = platformLinks(links);
+  const tileHtml = tiles.map(t => `
+    <div class="ks-tile" title="${escapeHtml(t.tip)}">
+      <span class="ks-label"><span class="ks-src ks-src-${escapeHtml(t.key)}" aria-hidden="true">${escapeHtml(t.src)}</span>${escapeHtml(t.label)}</span>
+      <strong class="ks-value">${t.value === null ? naCell(t.tip, { label: '—' }) : escapeHtml(t.value)}</strong>
+      <span class="ks-sub">${escapeHtml(t.sub)}</span>
+    </div>`).join('');
+  const platHtml = plats.length
+    ? `<div class="ks-plats" aria-label="연결된 플랫폼">
+        ${plats.map(p => `<a class="ks-plat ks-plat-${escapeHtml(p.key)}" href="${escapeHtml(p.url)}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(`${displayName} · ${p.label}`)}" aria-label="${escapeHtml(`${displayName} ${p.label}에서 열기`)}">${escapeHtml(p.abbr)}</a>`).join('')}
+      </div>`
+    : '<div class="ks-plats ks-plats-empty small muted">연결된 플랫폼 없음</div>';
+  return `<div class="team-keystats" aria-label="핵심 숫자">${tileHtml}${platHtml}</div>`;
 }
 
 /** '비교' = 같은 장르 후보들 사이에서 색 지도로 보기 (장르를 모르면 전체 후보) */

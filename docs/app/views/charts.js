@@ -12,8 +12,8 @@ import {
 import { loadCityProfiles } from '../db_venue.js';
 import { isoMinusDays } from '../components/team_metrics.js';
 import {
-  escapeHtml, fmtInt, fmtNum, genreConfidenceBadgeHtml, INFO_TIPS, infoTip, naCell, plainWhyLine,
-  stageBadgeHtml,
+  avatarHtml, escapeHtml, fmtInt, fmtNum, genreConfidenceBadgeHtml, INFO_TIPS, infoTip, naCell, plainWhyLine,
+  playButtonHtml, stageBadgeHtml, wireAvatarFallbacks,
 } from '../ui.js';
 import { attachTeamPeek, peekKeyFromHash } from '../components/team_peek.js';
 
@@ -99,7 +99,7 @@ function rowHtml(r, i, prevPos, stageByTeam, kind) {
     <tr class="clickable" tabindex="0" data-team-key="${escapeHtml(r.team_key)}">
       <td class="num chart-rank" data-label="순위"><strong>${i + 1}</strong></td>
       <td class="nowrap" data-label="지난주 대비">${deltaHtml(i + 1, prevPos)}</td>
-      <td data-label="팀"><a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(name)}</strong></a> ${genre}</td>
+      <td data-label="팀"><span class="team-cell-inline">${avatarHtml(r.team_key, name, 28, { shape: 'circle', genre: r.primary_genre })}<span><a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(name)}</strong></a> ${genre}</span>${playButtonHtml(r.team_key, name, { variant: 'icon' })}</span></td>
       <td data-label="단계">${stage !== undefined ? stageBadgeHtml(stage, { short: true }) : naCell('발굴 단계를 계산하지 않은 팀입니다', { label: '—' })}</td>
       <td class="num" data-label="점수">${r.score !== null && r.score !== undefined ? fmtNum(Number(r.score), 2) : '—'}</td>
       ${nums}
@@ -149,6 +149,7 @@ export async function renderChartsView(root) {
     </section>
     <p class="small muted place-evidence">근거: 점수 정의는 <a href="#/verify/backtest">검증 › 점수 신뢰도</a> · 차트는 정의가 고정돼 필터를 바꿀 수 없습니다 — 바꾸려면 '발굴에서 열기'</p>`;
 
+  wireAvatarFallbacks(root);
   // 줄을 누르거나 Enter → 오른쪽 미리보기(팀 이름 링크는 그대로 팀 페이지로)
   const openPeek = attachTeamPeek(root, { initialKey: initialPeek });
   const tbody = root.querySelector('.chart-table tbody');

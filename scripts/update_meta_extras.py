@@ -25,7 +25,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import lab_sql  # noqa: E402
 
 EXTRAS = ("team_cities.csv", "venue_tiers.csv", "venue_profiles.json", "city_profiles.json",
-          "festival_profiles.json", "lineup_roles.csv", "event_stars.csv", "venue_ladder.json")
+          "festival_profiles.json", "lineup_roles.csv", "event_stars.csv", "venue_ladder.json",
+          "players.csv")   # players.csv = 바로 듣기 표(team_key·kind·id·title·source)
 
 Count = Union[int, bool]
 

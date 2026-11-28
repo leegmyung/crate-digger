@@ -5,7 +5,9 @@
  *       이웃 비교에 없는 열(최근 언급·지역 수)이나 이웃 비교에 없는 팀은 '지금 표 안' 백분위를 쓴다.
  */
 import { heatLevel, percentRanks } from '../components/heat_scale.js';
-import { escapeHtml, fmtInt, INFO_TIPS, infoTip, naCell } from '../ui.js';
+import {
+  avatarHtml, escapeHtml, fmtInt, INFO_TIPS, infoTip, naCell, playButtonHtml,
+} from '../ui.js';
 
 const yesNo = v => (Number(v) > 0 ? '있음' : '없음');
 
@@ -140,7 +142,7 @@ export function renderHeatmapHtml(allRows, { sort, limit, loading = false, error
   const sorted = sortHeatRows(allRows, sort).slice(0, limit);
   const body = sorted.map(r => `
     <tr class="clickable" tabindex="0" data-nav-row="1" data-team-key="${escapeHtml(r.team_key)}">
-      <th scope="row" class="heat-team"><span class="heat-rank">${fmtInt(r.rank)}</span><span class="heat-name" title="${escapeHtml(r.display_name)}">${escapeHtml(r.display_name)}</span></th>
+      <th scope="row" class="heat-team"><span class="heat-rank">${fmtInt(r.rank)}</span>${avatarHtml(r.team_key, r.display_name, 22, { shape: 'circle' })}<span class="heat-name" title="${escapeHtml(r.display_name)}">${escapeHtml(r.display_name)}</span>${playButtonHtml(r.team_key, r.display_name, { variant: 'icon' })}</th>
       ${HEAT_COLUMNS.map((col, ci) => renderCell(col, r.cells[ci], r.peer)).join('')}
     </tr>`).join('');
   return `${legend}
