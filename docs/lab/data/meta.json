@@ -9,15 +9,15 @@
     "images": 241,
     "collabs": 0
   },
-  "generated_at": "2026-11-28T14:26:38+09:00",
+  "generated_at": "2026-11-28T14:31:52+09:00",
   "data_end": "2026-11-28",
   "uses_artist_xref": true,
   "rows": {
-    "signals": 32841,
-    "teams": 10497,
+    "signals": 32244,
+    "teams": 9981,
     "outcomes": 1272,
     "programs": 19,
-    "links": 3778,
+    "links": 3787,
     "videos": 5090,
     "images": 421,
     "players": 1682,
@@ -37,15 +37,15 @@
   ],
   "extras_rows": {
     "city_profiles.json": true,
-    "event_stars.csv": 14126,
+    "event_stars.csv": 13612,
     "festival_profiles.json": true,
     "genre_seen.csv": 783,
-    "lineup_roles.csv": 7423,
+    "lineup_roles.csv": 7408,
     "players.csv": 1682,
-    "team_cities.csv": 5783,
+    "team_cities.csv": 5395,
     "venue_ladder.json": true,
     "venue_profiles.json": true,
     "venue_tiers.csv": 60
   },
-  "extras_updated_at": "2026-11-28T14:26:41+09:00"
+  "extras_updated_at": "2026-11-28T14:31:55+09:00"
 }
