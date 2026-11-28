@@ -10,7 +10,7 @@ import { loadFestivalProfiles } from '../db_venue.js';
 import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, gradeBadgeHtml, INFO_TIPS, infoTip, naCell, playButtonHtml, stageBadgeHtml,
 } from '../ui.js';
-import { editionRowHtml, pctText } from './festivals.js';
+import { editionRowHtml, festivalKindLabel, pctText } from './festivals.js';
 import { entityCellHtml } from '../components/entity_cell.js';
 import { festivalQuestions } from '../insight_text.js';
 import { easyText } from '../easy_terms.js';
@@ -134,7 +134,7 @@ export async function renderFestivalPage(host, name) {
     <section class="place-head">
       <div class="place-head-row">
         <h1 class="place-title">${escapeHtml(f.label || key)}</h1>
-        <span class="place-badge">${f.kind === 'outcome' ? '수상·선정 프로그램' : '신호(라인업)'}</span>
+        <span class="place-badge">${festivalKindLabel(f.kind)}</span>
       </div>
       <p class="small muted">회차 ${fmtInt(eds.length)}개 · 누적 ${fmtInt(f.teams_total || 0)}팀${fp.as_of ? ` · 기준 ${escapeHtml(fp.as_of)}` : ''}</p>
       ${sameHouse ? `<p class="fest-same-house">⚠️ 같은 주최 — ${escapeHtml(easyText(f.same_house?.note) || '수상·선정 프로그램과 같은 행사라 그 수상·선정은 \'그 뒤 수상·선정\'에서 뺐습니다')}</p>` : ''}

@@ -69,6 +69,11 @@ table.data-table td.num {
   font-variant-numeric: tabular-nums;
 }
 
+/* 꼬리가 긴 경우('/ 공식 58') — 꼬리가 없는 줄도 같은 폭을 비워 숫자 자리를 맞춤 */
+.num-suffix.is-wide {
+  min-width: 5.6em;
+}
+
 table.data-table th.center,
 table.data-table td.center {
   text-align: center;

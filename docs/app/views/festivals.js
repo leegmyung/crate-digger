@@ -5,25 +5,10 @@
  * 자료: festival_profiles.json
  */
 import { loadFestivalProfiles } from '../db_venue.js';
-import { escapeHtml, fmtInt, gradeBadgeHtml, naCell } from '../ui.js';
+import { escapeHtml, fmtInt, naCell } from '../ui.js';
+import { festivalKindLabel, pctText } from './festival_rows.js';
 
-export function pctText(v) {
-  return v === null || v === undefined ? '—' : `${Math.round(Number(v) * 100)}%`;
-}
-
-/** 회차표 한 줄: 회차 · 라인업 · 새 팀 · 첫 페스티벌 · 그 뒤 정답 */
-export function editionRowHtml(year, e) {
-  const winners = Array.isArray(e.later_winners) ? e.later_winners : [];
-  const names = winners.slice(0, 4).map(w => `<a href="#/team/${encodeURIComponent(w.team_key)}">${escapeHtml(w.name)}</a> ${gradeBadgeHtml(w.grade)}`).join(' · ');
-  return `
-    <tr>
-      <td class="mono" data-label="회차">${escapeHtml(year)}${e.upcoming ? ' <span class="venue-upcoming-pill">예정</span>' : ''}</td>
-      <td class="num" data-label="라인업">${fmtInt(e.lineup)}팀</td>
-      <td class="num" data-label="새 팀">${pctText(e.new_to_festival_share)}</td>
-      <td class="num" data-label="첫 페스티벌">${pctText(e.first_festival_share)}</td>
-      <td data-label="그 뒤 수상·선정">${e.upcoming ? naCell('아직 열리지 않은 회차라 세지 않습니다', { label: '—' }) : `<span><strong>${fmtInt(e.later_winners_total || 0)}팀</strong>${names ? ` <span class="small">${names}</span>` : ''}${winners.length > 4 ? ` <span class="small muted">외 ${fmtInt(winners.length - 4)}</span>` : ''}</span>`}</td>
-    </tr>`;
-}
+export { editionRowHtml, festivalKindLabel, pctText } from './festival_rows.js';
 
 function cardHtml(key, f) {
   const eds = Object.entries(f.editions || {}).sort((a, b) => a[0].localeCompare(b[0]));
@@ -36,7 +21,7 @@ function cardHtml(key, f) {
       <a class="place-card-link" href="#/festival/${encodeURIComponent(key)}">
         <div class="place-card-head">
           <strong class="place-card-name">${escapeHtml(f.label || key)}</strong>
-          <span class="place-badge">${f.kind === 'outcome' ? '수상·선정 프로그램' : '신호'}</span>
+          <span class="place-badge">${festivalKindLabel(f.kind)}</span>
         </div>
         <p class="small muted place-card-sub">${escapeHtml(years)} · 회차 ${fmtInt(eds.length)}개 · 누적 ${fmtInt(f.teams_total || 0)}팀</p>
         <div class="place-card-kpis small">

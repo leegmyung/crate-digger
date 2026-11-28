@@ -29,7 +29,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
-from typing import Dict, Iterable, List, NamedTuple, Optional, Sequence, Tuple
+from typing import Callable, Dict, Iterable, List, NamedTuple, Optional, Sequence, Tuple
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import lab_sql  # noqa: E402
@@ -50,16 +50,23 @@ class Festival:
     program: str                     # outcomes.program 또는 signals.program
     results: Tuple[str, ...] = ()    # outcome 일 때 라인업으로 볼 result (빈칸 = 전부)
     same_house: Tuple[str, ...] = ()  # 같은 행사의 정답 프로그램
+    lineup: str = ""                 # config/festival_lineups.json 의 페스티벌 키 (라인업 표로 출연 보탬, 국내 팀만)
 
 
 FESTIVALS: Tuple[Festival, ...] = (
-    Festival("burock_main", "부산국제록페스티벌 본무대", "outcome", "burock_main", (), ("burock_main",)),
+    Festival("burock_main", "부산국제록페스티벌 본무대", "outcome", "burock_main", (), ("burock_main",), "burock"),
     Festival("burock_rookies", "부산록페 루키즈", "signal", "burock_rookies", (), ("burock_main",)),
     Festival("penta_superrookie", "펜타포트 슈퍼루키", "outcome", "penta_superrookie", ("selected", "winner"),
              ("penta_superrookie",)),
-    Festival("dmz", "DMZ 피스트레인", "signal", "dmz_lineup"),
+    Festival("dmz", "DMZ 피스트레인", "signal", "dmz_lineup", lineup="dmz"),
     Festival("liveclubday", "라이브클럽데이", "signal", "@liveclubday"),
+    # 라인업 표만으로 보는 페스티벌 (config/festival_lineups.json, 2026-11-28 — 나무위키 연도별 라인업 표 옮김)
+    Festival("penta_main", "인천 펜타포트 락 페스티벌", "lineup", "", (), ("penta_superrookie",), "penta"),
+    Festival("gmf", "그랜드 민트 페스티벌", "lineup", "", lineup="gmf"),
+    Festival("bml", "뷰티풀 민트 라이프", "lineup", "", lineup="bml"),
 )
+LINEUPS = lab_sql.ROOT / "config" / "festival_lineups.json"
+XREF = lab_sql.ROOT / "data" / "raw" / "state" / "artist_xref.json"
 BY_KEY = {f.key: f for f in FESTIVALS}
 
 
@@ -82,8 +89,10 @@ def _day(v) -> Optional[date]:
 
 
 def collect_appearances(signals: Iterable[dict], outcomes: Iterable[dict],
-                        festivals: Sequence[Festival] = FESTIVALS) -> List[Appearance]:
-    """신호·정답 표 → 페스티벌 출연 목록 (같은 페스티벌·팀·날짜는 1번)."""
+                        festivals: Sequence[Festival] = FESTIVALS, lineups: Optional[dict] = None,
+                        key_of: Optional[Callable[[str], str]] = None) -> List[Appearance]:
+    """신호·정답 표 (+ 라인업 표) → 페스티벌 출연 목록 (같은 페스티벌·팀·날짜는 1번).
+    라인업 표(config/festival_lineups.json)는 korean=true 팀만 — 해외 팀은 팀 목록·비율 계산에 넣지 않는다."""
     by_sig = {f.program: f for f in festivals if f.kind == "signal"}
     by_out = {f.program: f for f in festivals if f.kind == "outcome"}
     seen = {}
@@ -99,7 +108,45 @@ def collect_appearances(signals: Iterable[dict], outcomes: Iterable[dict],
             key = (f.key, o["team_key"], d)
             if seen.get(key) != "winner":
                 seen[key] = o.get("result") or "lineup"
+    if lineups:
+        key_of = key_of or (lambda n: n)
+        by_line = {f.lineup: f for f in festivals if f.lineup}
+        have = {(k[0], k[1], k[2].year) for k in seen}     # 같은 해 이미 다른 표로 잡힌 팀은 날짜만 다른 중복이라 뺌
+        for lk, lf in lineups.get("festivals", {}).items():
+            f = by_line.get(lk)
+            if not f:
+                continue
+            for e in lf.get("editions", {}).values():
+                for a in e.get("acts", []):
+                    d = _day(a.get("day"))
+                    team = key_of(a.get("name", ""))
+                    if a.get("rookie_stage"):          # 부산록페 히든 스테이지 신인 경연 — 본무대 아님(정답 규칙과 같게)
+                        continue
+                    if a.get("korean") and d and team and (f.key, team, d.year) not in have:
+                        seen.setdefault((f.key, team, d), "lineup")
     return sorted(Appearance(k[0], k[1], k[2], role) for k, role in seen.items())
+
+
+def official_totals(lineups: Optional[dict], festivals: Sequence[Festival] = FESTIVALS) -> Dict[Tuple[str, str], int]:
+    """(페스티벌 키, 연도) → 공식 라인업 전체 팀 수(해외 팀 포함, 라인업 표 기준)."""
+    by_line = {f.lineup: f.key for f in festivals if f.lineup}
+    out = {}
+    for lk, lf in (lineups or {}).get("festivals", {}).items():
+        for y, e in lf.get("editions", {}).items():
+            if lk in by_line and e.get("official_total"):
+                out[(by_line[lk], y)] = e["official_total"]
+    return out
+
+
+def make_key_of(xref_path: Path = XREF) -> Callable[[str], str]:
+    """이름 → 팀 키 (공연 원본이 팀 키를 만드는 것과 같은 규칙: 이름 키 → artist_xref 대표 키, 없으면 이름 키)."""
+    import normalize as nz
+    key2team: Dict[str, str] = {}
+    if xref_path.exists():
+        for e in json.loads(xref_path.read_text(encoding="utf-8")):
+            for k in [*e.get("keys", []), e["artist_key"]]:
+                key2team.setdefault(k, e["artist_key"])
+    return lambda name: key2team.get(nz.artist_key(name), nz.artist_key(name))
 
 
 def _first_signal_days(signals: Iterable[dict], festivals: Sequence[Festival]) -> Dict[str, date]:
@@ -264,6 +311,7 @@ def payload(profiles: Dict[str, dict], flows: List[dict], as_of: date) -> dict:
             "later_winners_incl_same_house": "같은 집안을 빼지 않고 센 수 (비교용)",
             "bill_order": "포스터 순서 — 원본에 없어 null",
             "upcoming": "회차 날짜가 기준일 뒤 (정답 세지 않음)",
+            "official_lineup": "공식 라인업 전체 팀 수(해외 팀 포함, config/festival_lineups.json 라인업 표) — lineup 은 그중 국내 팀만",
             "date": "회차 날짜 = 그 해 라인업 행 중 가장 이른 날짜(정답 표는 발표일, 신호 표는 공연·발표일)",
         },
         "festivals": profiles,
@@ -353,8 +401,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ap.add_argument("--no-doc", action="store_true")
     args = ap.parse_args(argv)
     signals, outcomes, teams, snap, as_of = load(args.data_dir)
-    apps = collect_appearances(signals, outcomes)
+    lineups = json.loads(LINEUPS.read_text(encoding="utf-8")) if LINEUPS.exists() else None
+    apps = collect_appearances(signals, outcomes, lineups=lineups, key_of=make_key_of())
     prof = build_profiles(apps, signals, outcomes, teams, snap, as_of)
+    for (fk, y), n in official_totals(lineups).items():          # 회차마다 공식 라인업 전체 수(해외 포함)
+        if y in prof.get(fk, {}).get("editions", {}):
+            prof[fk]["editions"][y]["official_lineup"] = n
     data = payload(prof, festival_flows(apps), as_of)
     args.out.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     if not args.no_doc:
