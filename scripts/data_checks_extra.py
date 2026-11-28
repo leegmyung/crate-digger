@@ -8,7 +8,7 @@ from __future__ import annotations
 import sys
 from collections import Counter
 from pathlib import Path
-from typing import Callable, Dict, List
+from typing import Callable, Dict, Iterable, List
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from data_checks import (GIG_FUTURE_MAX_DAYS, Check, _days, _examples, _level, _pct,  # noqa: E402
@@ -56,11 +56,16 @@ def check_venue_coverage(signals: List[dict], profiles: Dict[str, dict]) -> Chec
     return Check("venue_coverage", name, rule, value, ("pass", "warn", "fail")[worst], fix)
 
 
-def check_venue_master(signals: List[dict], match: Callable[[List[str]], dict]) -> Check:
+def check_venue_master(signals: List[dict], match: Callable[[List[str]], dict], skip: Iterable[str] = ()) -> Check:
+    """skip = 공연장이 아닌 이름(소문자 비교) — 기획·레이블·행사 인스타 '@계정', venue_capacity.json not_venue (_non_venue_skip)."""
     name = "공연장 목록(venues_kr) 짝 못 찾은 곳"
-    rule = f"짝 없는 공연장의 공연 밤이 {int(VENUE_MASTER_WARN * 100)}% 넘으면 경고 ('공연장 미정' 제외)"
+    rule = (f"짝 없는 공연장의 공연 밤이 {int(VENUE_MASTER_WARN * 100)}% 넘으면 경고 "
+            "('공연장 미정'·기획/레이블/행사 인스타 계정·not_venue 이름 제외)")
     fix = "config/venues_kr.json에 공연장(aliases 포함)을 추가하거나, 인스타 계정명(@…)이면 공연장 연결표에 대표 이름으로 묶는다"
-    nights = _gig_nights(signals)
+    skip_set = {str(n).lower() for n in skip}
+    all_nights = _gig_nights(signals)
+    nights = Counter({v: n for v, n in all_nights.items() if str(v).lower() not in skip_set})
+    skipped = sum(all_nights.values()) - sum(nights.values())
     total = sum(nights.values())
     if not total:
         return Check("venue_master", name, rule, "공연 기록 없음", "skip", fix)
@@ -68,6 +73,8 @@ def check_venue_master(signals: List[dict], match: Callable[[List[str]], dict]) 
     missing = sorted((v for v in nights if v not in found), key=lambda v: (-nights[v], v))
     lost = sum(nights[v] for v in missing)
     value = f"{len(missing)}곳 · 공연 밤 {lost:,}/{total:,} ({_pct(lost, total)})"
+    if skipped:
+        value += f" · 공연장 아님 {skipped:,}밤 뺌"
     if missing:
         value += " — " + _examples(f"{v} {nights[v]}" for v in missing)
     return Check("venue_master", name, rule, value, "warn" if lost / total > VENUE_MASTER_WARN else "pass", fix)
@@ -136,6 +143,18 @@ def _venue_matcher(root: Path) -> Callable[[List[str]], dict]:
     return lambda names: venues_kr.match_our_venues(master, names)
 
 
+def _non_venue_skip(root: Path) -> set:
+    """공연장이 아닌 이름: 기획·레이블·행사 인스타 계정('@계정', venues_kr.NON_VENUE_ROLES)
+    + config/venue_capacity.json 의 not_venue (venues_kr.gig_stats 와 같은 규칙). 파일이 없으면 빈 집합."""
+    import venues_kr
+    accounts = _read_json(root / "config" / "insta_accounts.json").get("accounts") or []
+    handles = {"@" + str(a["handle"]).lower() for a in accounts
+               if a.get("handle") and a.get("role") in venues_kr.NON_VENUE_ROLES}
+    caps = _read_json(root / "config" / "venue_capacity.json").get("venues") or {}
+    names = {str(n).lower() for n, v in caps.items() if isinstance(v, dict) and v.get("not_venue")}
+    return handles | names
+
+
 def extra_checks(root: Path, lab: Path, meta: dict, tables: Dict[str, List[dict]]) -> List[Check]:
     """data_checks.run_all 이 기존 검사 뒤에 붙이는 순서 그대로."""
     venues = (_read_json(lab / "venue_profiles.json").get("venues") or {})
@@ -144,7 +163,7 @@ def extra_checks(root: Path, lab: Path, meta: dict, tables: Dict[str, List[dict]
         check_team_labels(tables["teams"]),
         check_alerts(_read_json(root / "docs" / "data" / "alerts.json")),
         check_venue_coverage(tables["signals"], venues if isinstance(venues, dict) else {}),
-        check_venue_master(tables["signals"], _venue_matcher(root)),
+        check_venue_master(tables["signals"], _venue_matcher(root), _non_venue_skip(root)),
     ]
 
 

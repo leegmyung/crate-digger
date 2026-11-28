@@ -838,7 +838,7 @@
    "name": "연세대학교 중앙밴드동아리 울림터",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "promoter_showcase",
    "genre": "indie_rock"
   },
   {
@@ -854,7 +854,7 @@
    "name": "FESTIVAL THE SUB 페스티벌 더 서브",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "event_showcase",
    "genre": "indie_rock"
   },
   {
@@ -1094,7 +1094,7 @@
    "name": "부산국제록페스티벌",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "event_showcase",
    "genre": "indie_rock"
   },
   {
@@ -1406,7 +1406,7 @@
    "name": "서울풋워크 Seoul Footwork",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "event_showcase",
    "genre": "club"
   },
   {
@@ -1670,7 +1670,7 @@
    "name": "Block Party",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "promoter_showcase",
    "genre": "mixed"
   },
   {
@@ -1734,7 +1734,7 @@
    "name": "bulbit",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -1846,7 +1846,7 @@
    "name": "Kimchi Factory Homies",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -2062,7 +2062,7 @@
    "name": "UNLUCKYME",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "promoter_showcase",
    "genre": "club"
   },
   {
@@ -2110,7 +2110,7 @@
    "name": "Gorani Festival 고라니 페스티벌",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "event_showcase",
    "genre": "experimental"
   },
   {
@@ -2767,7 +2767,7 @@
    "name": "UGS 언더그라운드사운드",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "promoter_showcase",
    "genre": "hiphop"
   },
   {
@@ -2831,7 +2831,7 @@
    "name": "GROOVL1N",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "promoter_showcase",
    "genre": "hiphop"
   },
   {
@@ -3138,7 +3138,7 @@
    "name": "“Wegun Is My DJ”",
    "tier": "venue",
    "every_days": 4,
-   "role": "venue_showcase",
+   "role": "promoter_showcase",
    "genre": "hiphop"
   },
   {

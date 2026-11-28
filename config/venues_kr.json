@@ -5215,7 +5215,10 @@
    "lon": 126.990521,
    "geo_confidence": "high",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "our_names": [
+    "축제 (을지로)"
+   ]
   },
   {
    "name": "카페 아이다호",

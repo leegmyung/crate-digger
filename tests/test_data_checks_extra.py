@@ -39,6 +39,28 @@ class NewDataTest(unittest.TestCase):
         self.assertIn("클럽B", c.value)
         self.assertEqual(dx.check_venue_master(self.gigs(), lambda names: {n: 0 for n in names}).status, "pass")
 
+    def test_venue_master_skips_non_venue_names(self):
+        """기획·레이블·행사 인스타 계정('@계정')과 not_venue 이름은 분모·분자 모두에서 뺀다 (대소문자 무시)."""
+        gigs = self.gigs() + [sig("d", "공연", date="2026-11-05") | {"venue": "@Promo_Crew"},
+                              sig("e", "공연", date="2026-11-06") | {"venue": "온라인 중계"}]
+        match = lambda names: {n: 0 for n in names if n == "클럽A"}
+        c = dx.check_venue_master(gigs, match, skip={"@promo_crew", "온라인 중계"})
+        self.assertIn("1/2", c.value)                   # 클럽B 1밤 / (클럽A·클럽B 2밤) — 빠진 2밤은 안 셈
+        self.assertNotIn("Promo_Crew", c.value)
+        self.assertIn("공연장 아님 2밤 뺌", c.value)
+
+    def test_non_venue_skip_names_from_config(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "config").mkdir()
+            (root / "config" / "insta_accounts.json").write_text(
+                '{"accounts": [{"handle": "Promo_Crew", "role": "promoter_showcase"},'
+                ' {"handle": "club_x", "role": "venue_showcase"}]}', encoding="utf-8")
+            (root / "config" / "venue_capacity.json").write_text(
+                '{"venues": {"온라인 중계": {"not_venue": true}, "클럽A": {"capacity": 100}}}', encoding="utf-8")
+            self.assertEqual(dx._non_venue_skip(root), {"@promo_crew", "온라인 중계"})
+            self.assertEqual(dx._non_venue_skip(Path(tmp) / "none"), set())
+
     def test_extras_all_present(self):
         with tempfile.TemporaryDirectory() as tmp:
             lab = Path(tmp)
