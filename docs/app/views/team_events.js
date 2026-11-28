@@ -17,21 +17,34 @@ function starsHtml(n) {
   return `<span class="event-stars" role="img" aria-label="별 ${n}개">${full}<span class="event-stars-empty">${empty}</span></span>`;
 }
 
-function cell(v) {
-  return v === null || v === undefined ? '—' : fmtInt(v);
+const isNum = v => v !== null && v !== undefined && Number.isFinite(Number(v));
+
+/** 칸 하나: 숫자 + 칸 안 막대(그 줄 큰 값 = 100%, 0부터). 전 = 비교 회색, 후 = 늘었을 때만 주인공 색 (css/graph.css 그림 규칙) */
+function cell(v, max, side, up = false) {
+  if (!isNum(v)) return '<td>—</td>';
+  const w = max > 0 ? Math.round((Number(v) / max) * 100) : 0;
+  const cls = `ew-bar is-${side}${up ? ' is-up' : ''}`;
+  return `<td><span class="ew-cell"><span class="ew-v">${fmtInt(v)}</span><i class="${cls}" style="--w:${w}%" aria-hidden="true"></i></span></td>`;
 }
 
-function windowTableHtml(ev) {
+function windowRow(label, before, after) {
+  const max = Math.max(isNum(before) ? Number(before) : 0, isNum(after) ? Number(after) : 0);
+  const up = isNum(before) && isNum(after) && Number(after) > Number(before);
+  return `<tr><th scope="row">${label}</th>${cell(before, max, 'before')}${cell(after, max, 'after', up)}</tr>`;
+}
+
+/** 큰 사건 전후 28일 작은 표 (시험용으로 내보냄) */
+export function windowTableHtml(ev) {
   if (!WINDOW_KINDS.has(ev.kind)) return '';
   if (ev.gigs_before === null && ev.mentions_before === null) return '';
-  const partial = ev.after_days !== null && ev.after_days < WINDOW_DAYS;
+  const partial = ev.after_days !== null && ev.after_days !== undefined && ev.after_days < WINDOW_DAYS;
   const afterHead = partial ? `후 ${fmtInt(ev.after_days)}일(진행 중)` : `후 ${WINDOW_DAYS}일`;
   return `
     <table class="event-window" aria-label="사건 전후 ${WINDOW_DAYS}일">
       <thead><tr><th></th><th>전 ${WINDOW_DAYS}일</th><th>${escapeHtml(afterHead)}</th></tr></thead>
       <tbody>
-        <tr><th scope="row">공연</th><td>${cell(ev.gigs_before)}</td><td>${cell(ev.gigs_after)}</td></tr>
-        <tr><th scope="row">언급</th><td>${cell(ev.mentions_before)}</td><td>${cell(ev.mentions_after)}</td></tr>
+        ${windowRow('공연', ev.gigs_before, ev.gigs_after)}
+        ${windowRow('언급', ev.mentions_before, ev.mentions_after)}
       </tbody>
     </table>`;
 }

@@ -9,7 +9,7 @@ import {
 } from './db.js';
 import { applyKeyAliases, parseAliasCsv, remapHash } from './key_aliases.js';
 import {
-  buildWeeklySummaryText, cssVar, escapeHtml,
+  buildWeeklySummaryText, escapeHtml,
   fmtInt, friendlySqlError, getWatchlistAlerts, hideRowHoverPreview,
   renderViewSkeleton, WATCH_LABELS,
 } from './ui.js';
@@ -17,6 +17,7 @@ import { initGlobalSearch } from './components/global_search.js';
 import { initMiniPlayer } from './components/mini_player.js';
 import { initCompareTray } from './components/compare_tray.js';
 import { initChartPng } from './chart_png.js';
+import { applyChartDefaults } from './chart_theme.js';
 
 const ADVANCED_ROUTES = new Set(['verify', 'backtest', 'signals', 'evidence', 'scorecard', 'quality', 'sql']);
 
@@ -349,20 +350,8 @@ const THEME_STORAGE_KEY = 'crate_digger_theme';
 const VALID_THEME_PREFS = ['light', 'dark', 'system'];
 
 function syncChartThemeDefaults() {
-  if (!window.Chart) return;
-  const ink = cssVar('--ink');
-  const inkMuted = cssVar('--ink-muted');
-  const line = cssVar('--line');
-  const surface = cssVar('--surface');
-  window.Chart.defaults.color = inkMuted || ink;
-  window.Chart.defaults.borderColor = line;
-  if (window.Chart.defaults.plugins?.tooltip) {
-    window.Chart.defaults.plugins.tooltip.backgroundColor = surface;
-    window.Chart.defaults.plugins.tooltip.titleColor = ink;
-    window.Chart.defaults.plugins.tooltip.bodyColor = ink;
-    window.Chart.defaults.plugins.tooltip.borderColor = line;
-    window.Chart.defaults.plugins.tooltip.borderWidth = 1;
-  }
+  // 테마가 바뀌면 그림 색 토큰(--viz-*)을 다시 읽어 Chart.js 기본값에 덮는다 (chart_theme.js)
+  if (window.Chart) applyChartDefaults(window.Chart);
 }
 
 function resolveTheme(pref) {

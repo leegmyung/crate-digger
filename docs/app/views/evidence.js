@@ -1,6 +1,7 @@
 import { appState, registerChart } from '../state.js';
 import { loadDashboardJson } from '../db.js';
-import { cssVar, ensureChartJs, escapeHtml, fmtInt, fmtNum, renderActionBanner } from '../ui.js';
+import { ensureChartJs, escapeHtml, fmtInt, fmtNum, renderActionBanner } from '../ui.js';
+import { readVizTokens, roleColor, vizBar, vizScales } from '../chart_theme.js';
 
 export async function renderEvidenceView(root) {
   await Promise.all([
@@ -108,45 +109,29 @@ export async function renderEvidenceView(root) {
   `;
 
   if (window.Chart) {
-    const inkMuted = cssVar('--ink-muted');
-    const lineColor = cssVar('--line');
+    // 색 = 의미: 머리 글줄이 말하는 구간(1년+ 선행 · 3년 이내)만 주인공 색, 나머지는 중립 — chart_theme.js
+    const t = readVizTokens();
+    const LEAD_FOCUS = new Set(['12~24개월', '24~36개월', '36개월 이상']);
+    const CAREER_FOCUS = new Set(['1년 차 이내', '1~3년 차']);
+    const bucketChart = (cv, rows, focusSet) => registerChart(new window.Chart(cv.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: rows.map(r => r.bucket),
+        datasets: [vizBar('팀 수', rows.map(r => Number(r.teams) || 0), 'neutral', t, {
+          backgroundColor: rows.map(r => roleColor(focusSet.has(r.bucket) ? 'focus' : 'neutral', t)),
+        })],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: it => `${it.formattedValue}팀` } } },
+        scales: vizScales(t, { precision: 0, valueFmt: v => `${v}팀` }),
+      },
+    }));
 
     const leadCv = root.querySelector('#evLeadChart');
-    if (leadCv && leadRows.length) {
-      registerChart(new window.Chart(leadCv.getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels: leadRows.map(r => r.bucket),
-          datasets: [{ label: '팀 수', data: leadRows.map(r => Number(r.teams) || 0), backgroundColor: cssVar('--bar-score'), borderRadius: 2 }],
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false, animation: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { ticks: { color: inkMuted }, grid: { display: false } },
-            y: { beginAtZero: true, ticks: { color: inkMuted, precision: 0 }, grid: { color: lineColor } },
-          },
-        },
-      }));
-    }
-
+    if (leadCv && leadRows.length) bucketChart(leadCv, leadRows, LEAD_FOCUS);
     const carCv = root.querySelector('#evCareerChart');
-    if (carCv && careerRows.length) {
-      registerChart(new window.Chart(carCv.getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels: careerRows.map(r => r.bucket),
-          datasets: [{ label: '팀 수', data: careerRows.map(r => Number(r.teams) || 0), backgroundColor: cssVar('--bar-branch'), borderRadius: 2 }],
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false, animation: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { ticks: { color: inkMuted }, grid: { display: false } },
-            y: { beginAtZero: true, ticks: { color: inkMuted, precision: 0 }, grid: { color: lineColor } },
-          },
-        },
-      }));
-    }
+    if (carCv && careerRows.length) bucketChart(carCv, careerRows, CAREER_FOCUS);
   }
 }

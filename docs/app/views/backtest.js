@@ -4,10 +4,11 @@ import {
 } from '../state.js';
 import { loadScoreTuningSummary, queryBacktestAll } from '../db.js';
 import {
-  cssVar, ensureChartJs, escapeHtml, fmtInt, fmtNum,
+  ensureChartJs, escapeHtml, fmtInt, fmtNum,
   horizontalBaselinePlugin, renderActionBanner, renderTableCsvBtn,
   triggerTableCsvExport,
 } from '../ui.js';
+import { BASELINE_OUTSIDE_PAD, readVizTokens, vizBar, vizLegend, vizScales } from '../chart_theme.js';
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -316,35 +317,32 @@ export async function renderBacktestView(root) {
 
   // Render charts
   if (window.Chart && blocks.length) {
-    const inkMuted = cssVar('--ink-muted');
-    const lineColor = cssVar('--line');
+    // 색 = 의미: 점수(주인공) · 갈래 수만 · 공연 수만(비교 기준 회색 두 단계) · 무작위 기대(기준선) — chart_theme.js
+    const t = readVizTokens();
+    const series = (pick) => [
+      ['점수', 'focus'], ['갈래 수만', 'compare'], ['공연 수만', 'compare2'],
+    ].map(([label, role]) => vizBar(label, pick(label), role, t));
 
     // Summary chart across cutoffs + total
     const sumCanvas = root.querySelector('#btSummaryChart');
     if (sumCanvas) {
       const labels = [...summaryRows.map(r => r.cutoff), '합계'];
+      const byLabel = {
+        점수: [...summaryRows.map(r => r.scoreHits), totScoreHits],
+        '갈래 수만': [...summaryRows.map(r => r.branchHits), totBranchHits],
+        '공연 수만': [...summaryRows.map(r => r.gigsHits), totGigsHits],
+      };
       registerChart(new window.Chart(sumCanvas.getContext('2d'), {
         type: 'bar',
-        data: {
-          labels,
-          datasets: [
-            { label: '점수', data: [...summaryRows.map(r => r.scoreHits), totScoreHits], backgroundColor: cssVar('--bar-score'), borderRadius: 2 },
-            { label: '갈래 수만', data: [...summaryRows.map(r => r.branchHits), totBranchHits], backgroundColor: cssVar('--bar-branch'), borderRadius: 2 },
-            { label: '공연 수만', data: [...summaryRows.map(r => r.gigsHits), totGigsHits], backgroundColor: cssVar('--bar-gigs'), borderRadius: 2 },
-          ],
-        },
+        data: { labels, datasets: series(label => byLabel[label]) },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          animation: false,
           plugins: {
-            legend: { position: 'top', align: 'start', labels: { color: inkMuted, boxWidth: 12, font: { size: 12 } } },
+            legend: vizLegend(t, 3),
             tooltip: { callbacks: { label: it => `${it.dataset.label}: ${it.formattedValue}팀` } },
           },
-          scales: {
-            x: { ticks: { color: inkMuted, font: { size: 12 } }, grid: { display: false } },
-            y: { beginAtZero: true, ticks: { color: inkMuted, precision: 0, callback: v => `${v}팀` }, grid: { color: lineColor } },
-          },
+          scales: vizScales(t, { precision: 0, valueFmt: v => `${v}팀` }),
         },
       }));
     }
@@ -364,18 +362,13 @@ export async function renderBacktestView(root) {
         type: 'bar',
         data: {
           labels: ks.map(k => `상위 ${k}`),
-          datasets: [
-            { label: '점수', data: ks.map(k => Number(byKey.get(`${k}|점수`)?.hit_rate ?? 0)), backgroundColor: cssVar('--bar-score'), borderRadius: 2 },
-            { label: '갈래 수만', data: ks.map(k => Number(byKey.get(`${k}|갈래 수만`)?.hit_rate ?? 0)), backgroundColor: cssVar('--bar-branch'), borderRadius: 2 },
-            { label: '공연 수만', data: ks.map(k => Number(byKey.get(`${k}|공연 수만`)?.hit_rate ?? 0)), backgroundColor: cssVar('--bar-gigs'), borderRadius: 2 },
-          ],
+          datasets: series(label => ks.map(k => Number(byKey.get(`${k}|${label}`)?.hit_rate ?? 0))),
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          animation: false,
           plugins: {
-            legend: { position: 'top', align: 'start', labels: { color: inkMuted, boxWidth: 12, font: { size: 12 } } },
+            legend: vizLegend(t, 3),
             tooltip: {
               callbacks: {
                 label: it => {
@@ -390,15 +383,14 @@ export async function renderBacktestView(root) {
             },
             horizontalBaseline: {
               value: baseRate,
-              color: cssVar('--bar-ref'),
-              bgColor: cssVar('--bg'),
+              color: t.ref,
+              bgColor: t.surface,
               label: `무작위 기대 ${baseRate.toFixed(1)}%`,
+              outside: true,
             },
           },
-          scales: {
-            x: { ticks: { color: inkMuted, font: { size: 12 } }, grid: { display: false } },
-            y: { beginAtZero: true, ticks: { color: inkMuted, callback: v => `${v}%` }, grid: { color: lineColor } },
-          },
+          layout: { padding: { right: BASELINE_OUTSIDE_PAD } },
+          scales: vizScales(t, { valueFmt: v => `${v}%` }),
         },
         plugins: [horizontalBaselinePlugin],
       }));

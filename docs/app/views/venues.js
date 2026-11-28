@@ -4,11 +4,12 @@ import {
   queryMonthlyNewcomerVenues, queryUpcomingGigs,
 } from '../db.js';
 import {
-  avatarHtml, cssVar, ensureChartJs, ensureD3, escapeHtml, fmtInt, fmtNum, formatKoreanShortDate,
+  avatarHtml, ensureChartJs, ensureD3, escapeHtml, fmtInt, fmtNum, formatKoreanShortDate,
   formatNextGigText, plainWhyLine, renderActionBanner, renderTableCsvBtn, spotifyButtonHtml,
   triggerTableCsvExport, wireAvatarFallbacks, wireSpotifyButtons,
 } from '../ui.js';
 import { mountSceneNetworkBlock } from './graph.js';
+import { readVizTokens, vizBar, vizLegend, vizScales } from '../chart_theme.js';
 import { renderVenueListPage, renderVenueViewSwitch, wireVenueViewSwitch } from './venues_list.js';
 import { renderCitiesList } from './city.js';
 import { renderCityPage } from './city_page.js';
@@ -280,29 +281,26 @@ export async function renderVenuesView(root) {
       chartRendered = false;
       return;
     }
-    const inkMuted = cssVar('--ink-muted');
-    const lineColor = cssVar('--line');
+    // 후보 팀은 출연 팀의 일부 → 나란히 말고 겹쳐서(안쪽 좁은 막대 = 후보, 주인공 색) — chart_theme.js
+    const t = readVizTokens();
     registerChart(new ChartCtor(cv.getContext('2d'), {
       type: 'bar',
       data: {
         labels: allTimeVenues.map(v => v.venue),
         datasets: [
-          { label: '출연 팀', data: allTimeVenues.map(v => Number(v.teams) || 0), backgroundColor: cssVar('--bar-gigs'), borderRadius: 2 },
-          { label: '후보 팀', data: allTimeVenues.map(v => Number(v.candidate_teams) || 0), backgroundColor: cssVar('--bar-score'), borderRadius: 2 },
+          vizBar('후보 팀', allTimeVenues.map(v => Number(v.candidate_teams) || 0), 'focus', t, { grouped: false, barPercentage: 0.5, categoryPercentage: 0.9, order: 0 }),
+          vizBar('출연 팀', allTimeVenues.map(v => Number(v.teams) || 0), 'compare2', t, { grouped: false, barPercentage: 0.9, categoryPercentage: 0.9, order: 1 }),
         ],
       },
       options: {
         indexAxis: 'y',
         responsive: true,
         maintainAspectRatio: false,
-        animation: false,
         plugins: {
-          legend: { position: 'top', align: 'start', labels: { color: inkMuted, boxWidth: 12, font: { size: 12 } } },
+          legend: vizLegend(t, 2),
+          tooltip: { mode: 'index', intersect: false, callbacks: { label: it => `${it.dataset.label}: ${fmtInt(it.raw)}팀` } },
         },
-        scales: {
-          x: { beginAtZero: true, ticks: { color: inkMuted }, grid: { color: lineColor } },
-          y: { ticks: { color: inkMuted, font: { size: 11.5 } }, grid: { display: false } },
-        },
+        scales: vizScales(t, { horizontal: true, precision: 0, allCategories: true }),
       },
     }));
   }

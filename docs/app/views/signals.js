@@ -1,10 +1,11 @@
 import { appState, registerChart, setExportContext, syncHash } from '../state.js';
 import { querySignalHits } from '../db.js';
 import {
-  cssVar, ensureChartJs, escapeHtml, fmtInt, fmtNum,
+  ensureChartJs, escapeHtml, fmtInt, fmtNum,
   renderActionBanner, renderEmptyState, renderTableCsvBtn,
   signalWhiskerPlugin, triggerTableCsvExport,
 } from '../ui.js';
+import { readVizTokens, roleColor, vizBar, vizScales } from '../chart_theme.js';
 
 export async function renderSignalsView(root) {
   const cutoffs = [...new Set([...appState.cfg.cutoffs, ...appState.knownCutoffs])].sort();
@@ -123,31 +124,29 @@ export async function renderSignalsView(root) {
 
   if (rows.length && window.Chart) {
     const cv = root.querySelector('#sigHitsChart');
-    const inkMuted = cssVar('--ink-muted');
-    const lineColor = cssVar('--line');
+    // 색 = 의미: 기준선 줄은 비교 회색, 표본 10팀 미만은 흐리게, 나머지는 주인공 색 — chart_theme.js
+    const t = readVizTokens();
     const maxVal = Math.max(15, ...rows.map(r => Number(r.ci_high) || Number(r.rate) || 0));
+    const roleOf = (r) => {
+      if (String(r.program || '').startsWith('(기준선)')) return 'compare';
+      return Number(r.teams) < 10 ? 'weak' : 'focus';
+    };
 
     registerChart(new window.Chart(cv.getContext('2d'), {
       type: 'bar',
       data: {
         labels: rows.map(r => r.label || r.program),
-        datasets: [{
-          label: '적중률 (%)',
-          data: rows.map(r => Number(r.rate) || 0),
-          backgroundColor: rows.map(r => {
-            if (String(r.program || '').startsWith('(기준선)')) return cssVar('--bar-branch');
-            if (Number(r.teams) < 10) return cssVar('--bar-gigs');
-            return cssVar('--bar-score');
-          }),
-          borderRadius: 2,
-          barThickness: 16,
-        }],
+        datasets: [vizBar('적중률 (%)', rows.map(r => Number(r.rate) || 0), 'focus', t, {
+          backgroundColor: rows.map(r => roleColor(roleOf(r), t)),
+          maxBarThickness: 16,
+          categoryPercentage: 0.8,
+          barPercentage: 0.9,
+        })],
       },
       options: {
         indexAxis: 'y',
         responsive: true,
         maintainAspectRatio: false,
-        animation: false,
         plugins: {
           legend: { display: false },
           tooltip: {
@@ -162,20 +161,16 @@ export async function renderSignalsView(root) {
           signalWhisker: {
             rows,
             baseline: baseRate,
-            baselineColor: cssVar('--bar-ref'),
-            whiskerColor: cssVar('--ink'),
-            bgColor: cssVar('--bg'),
+            baselineColor: t.ref,
+            whiskerColor: t.label,
+            bgColor: t.surface,
           },
         },
-        scales: {
-          x: {
-            beginAtZero: true,
-            suggestedMax: Math.min(100, Math.ceil(maxVal / 5) * 5 + 5),
-            ticks: { color: inkMuted, callback: v => `${v}%` },
-            grid: { color: lineColor },
-          },
-          y: { ticks: { color: inkMuted }, grid: { display: false } },
-        },
+        scales: vizScales(t, {
+          horizontal: true,
+          suggestedMax: Math.min(100, Math.ceil(maxVal / 5) * 5 + 5),
+          valueFmt: v => `${v}%`,
+        }),
       },
       plugins: [signalWhiskerPlugin],
     }));

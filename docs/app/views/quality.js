@@ -1,10 +1,11 @@
 import { appState, registerChart, setExportContext } from '../state.js';
 import { COLLECT_TABLE_LABELS, DROP_CHECK_TABLES, isRunDropped, loadDashboardJson } from '../db.js';
 import {
-  cssVar, ensureChartJs, escapeHtml, fmtInt,
+  ensureChartJs, escapeHtml, fmtInt,
   renderActionBanner, renderTableCsvBtn, SOURCE_LABELS, triggerTableCsvExport,
 } from '../ui.js';
 import { renderVerifyNavHtml } from './verify.js';
+import { readVizTokens, roleColor, vizBar, vizScales } from '../chart_theme.js';
 
 function formatDeltaText(cur, prev) {
   if (prev === null || prev === undefined || prev === '') return '';
@@ -239,21 +240,27 @@ export async function renderQualityView(root) {
 
   if (window.Chart && gigsMonth.length) {
     const cv = root.querySelector('#qualGigsChart');
-    const inkMuted = cssVar('--ink-muted');
-    const lineColor = cssVar('--line');
+    // 색 = 의미: 지난달까지는 중립, 가장 최근 달(지금 모으는 중)만 주인공 색 — chart_theme.js
+    const t = readVizTokens();
+    const last = gigsMonth.length - 1;
     registerChart(new window.Chart(cv.getContext('2d'), {
       type: 'bar',
       data: {
         labels: gigsMonth.map(g => g.month),
-        datasets: [{ label: '공연 건수', data: gigsMonth.map(g => Number(g.gigs) || 0), backgroundColor: cssVar('--bar-score'), borderRadius: 2 }],
+        datasets: [vizBar('공연 건수', gigsMonth.map(g => Number(g.gigs) || 0), 'neutral', t, {
+          backgroundColor: gigsMonth.map((_, i) => roleColor(i === last ? 'focus' : 'neutral', t)),
+          categoryPercentage: 0.84,
+          barPercentage: 0.9,
+        })],
       },
       options: {
-        responsive: true, maintainAspectRatio: false, animation: false,
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { ticks: { color: inkMuted, maxTicksLimit: 12 }, grid: { display: false } },
-          y: { beginAtZero: true, ticks: { color: inkMuted }, grid: { color: lineColor } },
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: it => `${fmtInt(it.raw)}건${it.dataIndex === last ? ' (가장 최근 달)' : ''}` } },
         },
+        scales: vizScales(t, { precision: 0, maxCategoryTicks: 12 }),
       },
     }));
   }

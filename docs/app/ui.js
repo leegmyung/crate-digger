@@ -2,6 +2,8 @@ import { appState, exportTableToCsv, isWatched } from './state.js';
 import { INFO_TIPS, infoTip, wireInfoTips, closeInfoTip } from './components/infotip.js';
 export { INFO_TIPS, infoTip, wireInfoTips, closeInfoTip };
 export { itemBar, itemBarList, peerBar, statusBar } from './components/bars.js';
+export { horizontalBaselinePlugin, signalWhiskerPlugin } from './chart_theme.js';
+import { applyChartDefaults } from './chart_theme.js';
 export { naCell, periodSwitch, wirePeriodSwitch } from './components/controls.js';
 
 export const TERMS = {
@@ -18,6 +20,7 @@ export const TERMS = {
 export const SOURCE_LABELS = {
   indistreet: '인디스트릿',
   indiego: '인디고',
+  festival: '큰 페스티벌 라인업',
   sangsangmadang_live: '상상마당 라이브',
   sangsangmadang: '상상마당 라이브',
   band_discovery: '상상마당 밴드 디스커버리',
@@ -644,92 +647,7 @@ export function renderViewSkeleton() {
 
 // ---------- Shared Chart.js Plugins ----------
 
-export const horizontalBaselinePlugin = {
-  id: 'horizontalBaseline',
-  afterDatasetsDraw(chart, _args, opts) {
-    if (!opts || opts.value === null || opts.value === undefined) return;
-    const { ctx, chartArea, scales } = chart;
-    const y = scales.y.getPixelForValue(opts.value);
-    if (y < chartArea.top || y > chartArea.bottom) return;
-    ctx.save();
-    ctx.strokeStyle = opts.color || '#111827';
-    ctx.lineWidth = 1.5;
-    ctx.setLineDash([5, 4]);
-    ctx.beginPath();
-    ctx.moveTo(chartArea.left, y);
-    ctx.lineTo(chartArea.right, y);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    const lbl = opts.label || '';
-    if (lbl) {
-      ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
-      const padX = 5;
-      const tw = ctx.measureText(lbl).width;
-      const tx = chartArea.right - 4;
-      const ty = Math.max(chartArea.top + 15, y - 6);
-      ctx.fillStyle = opts.bgColor || '#ffffff';
-      ctx.fillRect(tx - tw - padX, ty - 12, tw + padX * 2, 16);
-      ctx.fillStyle = opts.color || '#111827';
-      ctx.textAlign = 'right';
-      ctx.fillText(lbl, tx, ty);
-    }
-    ctx.restore();
-  },
-};
 
-export const signalWhiskerPlugin = {
-  id: 'signalWhisker',
-  afterDatasetsDraw(chart, _args, opts) {
-    const { ctx, chartArea, scales } = chart;
-    if (!opts) return;
-    ctx.save();
-    if (typeof opts.baseline === 'number') {
-      const bx = scales.x.getPixelForValue(opts.baseline);
-      if (bx >= chartArea.left && bx <= chartArea.right) {
-        ctx.strokeStyle = opts.baselineColor || '#111827';
-        ctx.lineWidth = 1.5;
-        ctx.setLineDash([4, 4]);
-        ctx.beginPath();
-        ctx.moveTo(bx, chartArea.top);
-        ctx.lineTo(bx, chartArea.bottom);
-        ctx.stroke();
-        ctx.setLineDash([]);
-        const lbl = `기준선 ${opts.baseline.toFixed(1)}%`;
-        ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
-        const tw = ctx.measureText(lbl).width;
-        const tx = Math.min(chartArea.right - tw - 6, bx + 5);
-        const ty = chartArea.top + 14;
-        ctx.fillStyle = opts.bgColor || '#ffffff';
-        ctx.fillRect(tx - 3, ty - 12, tw + 6, 15);
-        ctx.fillStyle = opts.baselineColor || '#111827';
-        ctx.textAlign = 'left';
-        ctx.fillText(lbl, tx, ty);
-      }
-    }
-    const meta = chart.getDatasetMeta(0);
-    const rows = opts.rows || [];
-    ctx.strokeStyle = opts.whiskerColor || '#525866';
-    ctx.lineWidth = 1.5;
-    for (let i = 0; i < rows.length; i++) {
-      const el = meta.data[i];
-      if (!el) continue;
-      const r = rows[i];
-      const xLow = scales.x.getPixelForValue(Number(r.ci_low) || 0);
-      const xHigh = scales.x.getPixelForValue(Number(r.ci_high) || 0);
-      const y = el.y;
-      ctx.globalAlpha = Number(r.teams) < 10 ? 0.45 : 0.9;
-      ctx.beginPath();
-      ctx.moveTo(xLow, y);
-      ctx.lineTo(xHigh, y);
-      ctx.moveTo(xLow, y - 4);
-      ctx.lineTo(xLow, y + 4);
-      ctx.moveTo(xHigh, y - 4);
-      ctx.lineTo(xHigh, y + 4);
-      ctx.stroke();
-    }
-    ctx.restore();
-  },
-};
 
 const RESULT_KO = {
   nominee: '후보',
@@ -919,21 +837,7 @@ const D3_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js';
 export async function ensureChartJs() {
   if (window.Chart) return window.Chart;
   await loadExternalScript(CHART_JS_URL);
-  if (window.Chart) {
-    const ink = cssVar('--ink') || '#18181b';
-    const inkMuted = cssVar('--ink-muted') || '#6b7280';
-    const line = cssVar('--line') || '#e4e4e7';
-    const surface = cssVar('--surface') || '#ffffff';
-    window.Chart.defaults.color = inkMuted || ink;
-    window.Chart.defaults.borderColor = line;
-    if (window.Chart.defaults.plugins?.tooltip) {
-      window.Chart.defaults.plugins.tooltip.backgroundColor = surface;
-      window.Chart.defaults.plugins.tooltip.titleColor = ink;
-      window.Chart.defaults.plugins.tooltip.bodyColor = ink;
-      window.Chart.defaults.plugins.tooltip.borderColor = line;
-      window.Chart.defaults.plugins.tooltip.borderWidth = 1;
-    }
-  }
+  applyChartDefaults(window.Chart);   // 색·글자·말풍선·범례·축 — chart_theme.js (그림 규칙)
   return window.Chart || null;
 }
 
