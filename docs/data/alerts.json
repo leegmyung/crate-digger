@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-28T17:18:18+09:00",
+ "generated_at": "2026-11-28T17:26:26+09:00",
  "as_of": "2026-11-28",
  "baseline": {
   "kind": "state",
@@ -34,14 +34,14 @@
  },
  "counts_found": {
   "new_outcome": 24,
-  "new_selection": 41,
+  "new_selection": 49,
   "blank_first_mention": 1,
   "stage_up": 98,
   "big_venue_first": 40,
-  "peer_winner": 358,
+  "peer_winner": 359,
   "spike": 9,
   "new_gig": 365,
-  "rank_jump": 45
+  "rank_jump": 44
  },
  "counts_shown": {
   "new_outcome": 20,
@@ -632,7 +632,7 @@
    "team_key": "비제로",
    "name": "비제로",
    "date": "2026-11-29",
-   "text": "같은 무대에 선 수상 팀: 세일러허니문, 모스힐, 향우회 외 3팀",
+   "text": "같은 무대에 선 수상 팀: 세일러허니문, 향우회, 컨파인드화이트 외 2팀",
    "evidence": [
     {
      "branch": "공연",
@@ -641,8 +641,8 @@
     },
     {
      "branch": "공연",
-     "date": "2026-11-29",
-     "venue": "클럽 프리버드"
+     "date": "2026-11-21",
+     "venue": "@delay_relay"
     },
     {
      "branch": "공연",
@@ -653,7 +653,6 @@
    "importance": 85,
    "winners": [
     "세일러허니문",
-    "모스힐",
     "향우회",
     "컨파인드화이트",
     "릴리잇머신",
@@ -896,7 +895,7 @@
    ],
    "importance": 75,
    "stage": 2,
-   "rank": 240,
+   "rank": 239,
    "also": [
     "peer_winner"
    ],
@@ -933,7 +932,7 @@
    ],
    "importance": 75,
    "stage": 2,
-   "rank": 245,
+   "rank": 244,
    "also": [
     "peer_winner"
    ],
@@ -964,7 +963,7 @@
    ],
    "importance": 75,
    "stage": 2,
-   "rank": 144,
+   "rank": 142,
    "also": [
     "peer_winner"
    ],
@@ -1000,7 +999,7 @@
    ],
    "importance": 75,
    "stage": 2,
-   "rank": 167,
+   "rank": 166,
    "also": [
     "new_gig"
    ],
@@ -1054,7 +1053,7 @@
    ],
    "importance": 75,
    "stage": 2,
-   "rank": 198,
+   "rank": 197,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -1270,7 +1269,7 @@
    "team_key": "테트라포드",
    "name": "테트라포드",
    "date": "2026-11-28",
-   "text": "287위 → 95위 (+192)",
+   "text": "287위 → 94위 (+193)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1279,8 +1278,8 @@
    ],
    "importance": 74,
    "rank_before": 287,
-   "rank_now": 95,
-   "rank": 95,
+   "rank_now": 94,
+   "rank": 94,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -1364,29 +1363,6 @@
    "rank": 90,
    "also": [
     "peer_winner",
-    "new_gig"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
-   "team_key": "정도기",
-   "name": "정도기",
-   "date": "2026-12-02",
-   "text": "큰 공연장 첫 출연 — KT&G 상상마당 부산 3층 라이브홀 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-12-02",
-     "venue": "KT&G 상상마당 부산 3층 라이브홀"
-    }
-   ],
-   "importance": 70,
-   "rank": 134,
-   "also": [
     "new_gig"
    ],
    "stars": null,
@@ -1521,7 +1497,7 @@
     "mombrimz",
     "기나이직"
    ],
-   "rank": 182,
+   "rank": 181,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -1556,7 +1532,7 @@
     "리프",
     "기나이직"
    ],
-   "rank": 226,
+   "rank": 225,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -1591,7 +1567,7 @@
     "리프",
     "기나이직"
    ],
-   "rank": 180,
+   "rank": 179,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -1763,7 +1739,7 @@
    ],
    "importance": 70,
    "late": true,
-   "rank": 120,
+   "rank": 119,
    "also": [
     "peer_winner"
    ],
@@ -1902,7 +1878,7 @@
     "핍핍",
     "mombrimz"
    ],
-   "rank": 141,
+   "rank": 139,
    "also": [
     "new_gig"
    ],
@@ -2071,10 +2047,10 @@
   {
    "type": "rank_jump",
    "type_label": "순위 급상승",
-   "team_key": "안락밴드",
-   "name": "안락밴드",
+   "team_key": "일루반",
+   "name": "일루반",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (91위, 2026-11-20엔 300위 밖)",
+   "text": "193위 → 91위 (+102)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -2082,10 +2058,13 @@
     }
    ],
    "importance": 65,
-   "rank_before": null,
+   "rank_before": 193,
    "rank_now": 91,
    "rank": 91,
-   "also": [],
+   "also": [
+    "peer_winner",
+    "new_gig"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -2748,6 +2727,29 @@
   {
    "type": "big_venue_first",
    "type_label": "큰 공연장 첫 출연",
+   "team_key": "정도기",
+   "name": "정도기",
+   "date": "2026-12-02",
+   "text": "큰 공연장 첫 출연 — KT&G 상상마당 부산 3층 라이브홀 (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-12-02",
+     "venue": "KT&G 상상마당 부산 3층 라이브홀"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [
+    "new_gig"
+   ],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
    "team_key": "manh",
    "name": "Mỹ Anh",
    "date": "2026-11-26",
@@ -3303,28 +3305,6 @@
   {
    "type": "new_selection",
    "type_label": "새 선정·지원",
-   "team_key": "오아",
-   "name": "오아!",
-   "date": "2025-09-26",
-   "text": "부산록페 루키즈 선정 (늦게 확인 — 2025-09-26 일)",
-   "evidence": [
-    {
-     "branch": "선정·지원",
-     "source": "busanrock",
-     "program": "burock_rookies",
-     "date": "2025-09-26"
-    }
-   ],
-   "importance": 55,
-   "late": true,
-   "rank": null,
-   "also": [],
-   "stars": 2,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_selection",
-   "type_label": "새 선정·지원",
    "team_key": "유인원",
    "name": "유인원",
    "date": "2025-09-26",
@@ -3409,7 +3389,32 @@
    "late": true,
    "rank": null,
    "also": [],
-   "stars": 1,
+   "stars": 2,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_selection",
+   "type_label": "새 선정·지원",
+   "team_key": "감귤서리단",
+   "name": "감귤서리단",
+   "date": "2024-08-28",
+   "text": "부산록페 루키즈 선정 (늦게 확인 — 2024-08-28 일)",
+   "evidence": [
+    {
+     "branch": "선정·지원",
+     "source": "busanrock",
+     "program": "burock_rookies",
+     "date": "2024-08-28"
+    }
+   ],
+   "importance": 55,
+   "late": true,
+   "rank": null,
+   "also": [
+    "peer_winner",
+    "new_gig"
+   ],
+   "stars": 4,
    "found_on": "2026-11-28"
   },
   {
@@ -3912,7 +3917,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 109,
+   "rank": 108,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -4040,7 +4045,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 167,
+   "rank": 166,
    "also": [
     "stage_up"
    ],
@@ -4185,7 +4190,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 175,
+   "rank": 174,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -4244,7 +4249,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 177,
+   "rank": 176,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -4272,7 +4277,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 122,
+   "rank": 121,
    "also": [
     "peer_winner"
    ],
@@ -4354,7 +4359,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 185,
+   "rank": 184,
    "also": [
     "peer_winner"
    ],
@@ -4403,7 +4408,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 194,
+   "rank": 193,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -4461,34 +4466,10 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 92,
+   "rank": 91,
    "also": [
     "peer_winner",
     "rank_jump"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "정도기",
-   "name": "정도기",
-   "date": "2026-12-02",
-   "text": "예정 공연 2026-12-02 KT&G 상상마당 부산 3층 라이브홀",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-12-02",
-     "venue": "KT&G 상상마당 부산 3층 라이브홀"
-    }
-   ],
-   "importance": 30,
-   "upcoming": true,
-   "rank": 134,
-   "also": [
-    "big_venue_first"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -4510,7 +4491,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 200,
+   "rank": 199,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -4568,7 +4549,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 202,
+   "rank": 201,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -4590,7 +4571,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 140,
+   "rank": 138,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -4640,7 +4621,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 141,
+   "rank": 139,
    "also": [
     "peer_winner"
    ],
@@ -4670,7 +4651,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 142,
+   "rank": 140,
    "also": [
     "peer_winner"
    ],
@@ -5987,7 +5968,9 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [],
+   "also": [
+    "new_selection"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -8223,7 +8206,10 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [],
+   "also": [
+    "new_selection",
+    "peer_winner"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -8987,7 +8973,9 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [],
+   "also": [
+    "new_selection"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -10846,6 +10834,34 @@
      "source": "indistreet",
      "date": "2026-11-28",
      "venue": "언드"
+    }
+   ],
+   "importance": 15,
+   "upcoming": true,
+   "rank": null,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
+   "team_key": "이르미",
+   "name": "이르미",
+   "date": "2026-12-03",
+   "text": "예정 공연 2026-12-03 우주정거장",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indiego",
+     "date": "2026-12-03",
+     "venue": "우주정거장"
+    },
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-12-03",
+     "venue": "우주정거장"
     }
    ],
    "importance": 15,

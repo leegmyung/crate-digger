@@ -1,13 +1,13 @@
 {
  "today": "2026-11-28",
- "generated": "2026-11-28T17:18+09:00",
+ "generated": "2026-11-28T17:26+09:00",
  "summary": "통과 22 · 경고 5 · 실패 0",
  "checks": [
   {
    "key": "meta_fresh",
    "name": "랩 데이터 갱신 시각",
    "rule": "1일 넘게 안 바뀌면 실패",
-   "value": "2026-11-28 17:18 (0일 전)",
+   "value": "2026-11-28 17:26 (0일 전)",
    "status": "pass",
    "fix": "daily_run.sh의 export_lab_data.py 줄이 실패했는지 records/daily_run.log 확인",
    "details": []
@@ -25,7 +25,7 @@
    "key": "row_change",
    "name": "전날 대비 행 수",
    "rule": "어제 20행 이상인 표가 30% 넘게 줄면 실패, 50% 넘게 늘면 경고",
-   "value": "급증: signals 26,534→62,069, teams 9,096→15,334, outcomes 723→1,249, links 1,100→3,864, videos 1,736→5,156, images 241→437",
+   "value": "급증: signals 26,534→62,079, teams 9,096→15,334, outcomes 723→1,218, links 1,100→3,864, videos 1,736→5,180, images 241→441",
    "status": "warn",
    "fix": "줄었으면 그날 수집·적재 로그 확인(수집 실패·연결표 오류), 늘었으면 같은 행이 두 번 들어갔는지 확인",
    "details": []
@@ -61,7 +61,7 @@
    "key": "orphan_signals",
    "name": "신호의 팀이 팀 표에 있나",
    "rule": "제외 목록 팀 말고 팀 표에 없는 신호가 있으면 실패",
-   "value": "없는 팀 신호 0건 / 62,069건 (제외 목록 팀 신호 371건은 정상)",
+   "value": "없는 팀 신호 0건 / 62,079건 (제외 목록 팀 신호 371건은 정상)",
    "status": "pass",
    "fix": "export_lab_data.py의 signals·teams 쿼리가 같은 sig 조건을 쓰는지 확인 (한쪽만 거르면 생김)",
    "details": []
@@ -70,7 +70,7 @@
    "key": "orphan_side",
    "name": "링크·사진·영상의 팀이 팀 표에 있나",
    "rule": "표마다 팀 표에 없는 팀 비율이 15% 넘으면 경고",
-   "value": "links 108/3,864 (2.8%) · images 18/437 (4.1%) · videos 193/5,156 (3.7%)",
+   "value": "links 108/3,864 (2.8%) · images 18/441 (4.1%) · videos 193/5,180 (3.7%)",
    "status": "pass",
    "fix": "신호 없이 프로필만 받은 팀(멜론 보강 명단)인지, 팀 키 표기가 달라 못 이은 것인지 몇 개 열어 본다",
    "details": []
@@ -289,7 +289,7 @@
    "key": "counted",
    "name": "정답 '셈' 판정 일관성",
    "rule": "기성 팀이 섞인 정답(burock_main, hello_rookie, kma_genre, mucon)은 첫 발매 5년 이내만 셈, 나머지는 모두 셈 — 다르면 실패",
-   "value": "불일치 0건 · 확인 못 함 95건(팀 표에 없음) / 정답 1249행",
+   "value": "불일치 0건 · 확인 못 함 83건(팀 표에 없음) / 정답 1218행",
    "status": "pass",
    "fix": "sql/kr/00_core_views.sql의 v_outcome·v_team_profile과 export_lab_data.py의 팀 표 첫 발매 규칙이 같은지 확인",
    "details": []
@@ -307,7 +307,7 @@
    "key": "same_house",
    "name": "'같은 집안' 표시",
    "rule": "점수 출처 표시(same_house_scored)는 집안 출처가 있을 때만 — 어긋나면 실패, 규칙이 켜졌는데 표시 0건이면 경고",
-   "value": "표시 47건 (점수 출처 포함 9건) · 켜진 짝 3개",
+   "value": "표시 50건 (점수 출처 포함 9건) · 켜진 짝 3개",
    "status": "pass",
    "fix": "export_lab_data.same_house_flags와 config same_house(apply=true) 짝을 확인",
    "details": []
@@ -334,7 +334,7 @@
    "key": "url_shapes",
    "name": "링크·사진 주소 모양",
    "rule": "https가 아니거나 플랫폼 주소가 아니면 이상 — 하나라도 있으면 경고, 2% 넘으면 실패 (주소를 실제로 열어 보지는 않음)",
-   "value": "이상 0건 / 4,301건 (0.0%)",
+   "value": "이상 0건 / 4,305건 (0.0%)",
    "status": "pass",
    "fix": "export_lab_data._link_url·image_rows의 주소 규칙(URL_TEMPLATES·IMAGE_CACHE_HOSTS)을 확인",
    "details": []
@@ -343,7 +343,7 @@
    "key": "top_profile",
    "name": "점수 상위 100팀 중 프로필 없음",
    "rule": "프로필(멜론·스포티파이)이 없는 팀 비율이 30% 넘으면 경고, 80% 넘으면 실패 — 프로필이 없으면 신인인지 기성인지 모름",
-   "value": "34/100팀 (34.0%) — 상위부터: 포져군단, 천둥오리, 최춘목밴드, 직사광선, 한이 외 29",
+   "value": "33/100팀 (33.0%) — 상위부터: 포져군단, 천둥오리, 최춘목밴드, 직사광선, 한이 외 28",
    "status": "warn",
    "fix": "scripts/melon_names.py 보강 명단에 점수 상위 팀을 먼저 넣는다 (멜론 상세 페이지 차단이면 스포티파이로)",
    "details": []
@@ -361,7 +361,7 @@
    "key": "extras",
    "name": "앱 보조 데이터 8개",
    "rule": "meta.json extras 목록에 다 있고, 파일이 있고 비어 있지 않아야 함 — 하나라도 빠지면 실패",
-   "value": "모두 있음 (갱신 2026-11-28 17:18)",
+   "value": "모두 있음 (갱신 2026-11-28 17:26)",
    "status": "pass",
    "fix": "daily_run.sh의 앱 보조 데이터 묶음(build_app_extras.sh)이 실패했는지 records/daily_run.log 확인 후 다시 돌린다",
    "details": []
@@ -388,7 +388,7 @@
    "key": "venue_coverage",
    "name": "공연장 좌표·체급 보유율 (공연 밤 기준)",
    "rule": "좌표 85% 밑 경고·60% 밑 실패, 체급 70% 밑 경고·40% 밑 실패 ('공연장 미정' 제외)",
-   "value": "좌표 10,452/11,218 (93.2%) · 체급 8,909/11,218 (79.4%) — 체급 빠진 곳(밤 많은 순): 펫사운즈 339, 카페 아이다호 189, Hukez 128, 고인물 125, 서브라이엇 해방촌 85, 세종 음악창작소 누리락 55, KT&G 상상마당 춘천 55, 꼬뮨 52 외 363",
+   "value": "좌표 10,455/11,218 (93.2%) · 체급 8,911/11,218 (79.4%) — 체급 빠진 곳(밤 많은 순): 펫사운즈 339, 카페 아이다호 189, Hukez 128, 고인물 125, 서브라이엇 해방촌 85, 세종 음악창작소 누리락 55, KT&G 상상마당 춘천 55, 꼬뮨 52 외 361",
    "status": "pass",
    "fix": "공연 많은 공연장부터 config/venue_capacity.json(체급)·좌표 캐시를 채운다 — 아래 값의 '빠진 곳'부터",
    "details": []
@@ -396,8 +396,8 @@
   {
    "key": "venue_master",
    "name": "공연장 목록(venues_kr) 짝 못 찾은 곳",
-   "rule": "짝 없는 공연장의 공연 밤이 10% 넘으면 경고 ('공연장 미정' 제외)",
-   "value": "88곳 · 공연 밤 352/11,218 (3.1%) — 축제 (을지로) 13, @vibecampus.kr 11, @yngandrichrecords 10, @galactique_seoul 9, @more_breaks_kr 9, @seoulfootwork2025 9, @bulbit.seoul 8, @ceilingservice 8 외 80",
+   "rule": "짝 없는 공연장의 공연 밤이 10% 넘으면 경고 ('공연장 미정'·기획/레이블/행사 인스타 계정·not_venue 이름 제외)",
+   "value": "13곳 · 공연 밤 57/10,948 (0.5%) · 공연장 아님 270밤 뺌 — 축제 (을지로) 13, @junctionseoul 8, @fictionseoul 7, @stamina_375ml 7, @soundsupply_service 6, @whitelunarmusic 6, @gwangbok_record 4, GBN LIVEHOUSE 1 외 5",
    "status": "pass",
    "fix": "config/venues_kr.json에 공연장(aliases 포함)을 추가하거나, 인스타 계정명(@…)이면 공연장 연결표에 대표 이름으로 묶는다",
    "details": []
@@ -406,7 +406,7 @@
    "key": "pg_sync",
    "name": "DB 신호 수 = 랩 신호 수",
    "rule": "차이가 1% 넘으면 경고",
-   "value": "DB 62,069행 · 랩 62,069행",
+   "value": "DB 62,079행 · 랩 62,079행",
    "status": "pass",
    "fix": "적재(load_pg.py) 뒤 export_lab_data.py가 안 돌았거나 실패한 것 — 다시 돌린다",
    "details": []
@@ -424,7 +424,7 @@
    "key": "pg_no_artist",
    "name": "팀 이름·날짜 없는 신호",
    "rule": "합쳐서 1% 넘으면 경고 (랩에서 빠짐)",
-   "value": "팀 없음 21건 · 날짜 없음 0건 / 62,125건 (0.0%)",
+   "value": "팀 없음 21건 · 날짜 없음 0건 / 62,135건 (0.0%)",
    "status": "pass",
    "fix": "그 출처 수집기의 이름·날짜 읽기를 확인",
    "details": []

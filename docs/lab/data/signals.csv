@@ -7918,6 +7918,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 더픽스,공연,indistreet,,,2022-05-21,구름아래소극장,discovery
 더픽스,공연,indistreet,,,2022-08-30,KT&G 상상마당 홍대 라이브홀,discovery
 더픽스,공연,sangsangmadang,,,2022-08-30,KT&G 상상마당 홍대 라이브홀,discovery
+더픽스,선정·지원,busanrock,burock_rookies,3,2023-09-22,,pending
 더픽스,공연,indistreet,,,2023-11-16,웨스트브릿지,discovery
 더픽스,공연,indistreet,,,2023-12-22,이들스,discovery
 더픽스,큐레이션,trackzero,멜론 트랙제로,,2026-02-09,,pending
@@ -13382,6 +13383,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 모스피란,공연,indiego,,,2026-11-21,채널1969,pending
 모스힐,공연,indistreet,,,2023-05-27,KT&G 상상마당 홍대 라이브홀,discovery
 모스힐,공연,indistreet,,,2023-07-29,오방가르드,discovery
+모스힐,선정·지원,busanrock,burock_rookies,3,2023-09-22,,pending
 모스힐,공연,indistreet,,,2024-02-24,언드,discovery
 모스힐,공연,indistreet,,,2024-03-09,오방가르드,discovery
 모스힐,공연,indistreet,,,2024-05-03,오방가르드,discovery
@@ -19867,6 +19869,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 서울부인,공연,indistreet,,,2023-03-11,오방가르드,discovery
 서울부인,공연,indistreet,,,2023-05-04,오방가르드,discovery
 서울부인,공연,indistreet,,,2023-05-05,오방가르드,discovery
+서울부인,선정·지원,busanrock,burock_rookies,3,2023-09-22,,pending
 서울부인,공연,indistreet,,,2024-01-19,Club FF,discovery
 서울부인,공연,indistreet,,,2024-03-16,오방가르드,discovery
 서울부인,공연,indistreet,,,2024-05-04,Club FF,discovery
@@ -25964,6 +25967,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 앤드오어,공연,indistreet,,,2023-04-22,네스트나다,discovery
 앤드오어,공연,indistreet,,,2023-08-12,Club FF,discovery
 앤드오어,공연,indistreet,,,2023-09-08,Club FF,discovery
+앤드오어,선정·지원,busanrock,burock_rookies,3,2023-09-22,,pending
 앤드오어,공연,indistreet,,,2023-10-14,Club FF,discovery
 앤드오어,공연,indistreet,,,2023-11-03,롤링홀,discovery
 앤드오어,공연,indistreet,,,2023-12-18,클럽 온에어,discovery
@@ -28341,6 +28345,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 오아,공연,indistreet,,,2023-07-23,Club FF,discovery
 오아,공연,indistreet,,,2023-08-11,Club FF,discovery
 오아,공연,indistreet,,,2023-09-17,Club FF,discovery
+오아,선정·지원,busanrock,burock_rookies,3,2023-09-22,,pending
 오아,공연,indistreet,,,2023-10-14,Club FF,discovery
 오아,공연,indistreet,,,2024-11-23,Club FF,discovery
 오아,선정·지원,busanrock,burock_rookies,3,2025-09-26,,pending
@@ -32558,6 +32563,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 이무이,공연,indistreet,,,2023-03-08,Club 빵,discovery
 이무이,공연,indistreet,,,2023-04-12,Club 빵,discovery
 이무이,공연,indistreet,,,2023-05-10,Club 빵,discovery
+이무이,선정·지원,busanrock,burock_rookies,3,2023-09-22,,pending
 이무이,공연,indistreet,,,2023-10-11,카페 언플러그드 홍대점,discovery
 이무이,발매,poclanos,,,2023-10-11,,pending
 이무이,발매,poclanos,,,2023-12-14,,pending
@@ -35997,7 +36003,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 제네더질라,큐레이션,trackzero,멜론 트랙제로,,2025-01-23,,pending
 제네더질라,큐레이션,rhythmer,리드머,,2025-10-09,,context
 제네더질라,큐레이션,musicy,음악취향Y,,2026-01-26,,discovery
-제네더질라,공연,instagram,@flex.lounge,,2026-06-19,@flex.lounge,pending
+제네더질라,공연,instagram,@flex.lounge,,2026-06-19,홍대 플렉스라운지,pending
 제네더질라,큐레이션,izm,IZM,,2026-07-15,,context
 제네더질라,공연,indistreet,,,2026-07-25,무신사개러지,discovery
 제네더질라,공연,indistreet,,,2026-09-05,,discovery
@@ -41880,7 +41886,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 템트,공연,indistreet,,,2021-10-09,프리즘홀,discovery
 토끼발,공연,indiego,,,2026-11-11,Club 빵,pending
 토끼발,공연,indistreet,,,2026-11-11,Club 빵,discovery
-토너,공연,instagram,@musisis.gn,,2026-11-23,@musisis.gn,pending
+토너,공연,instagram,@musisis.gn,,2026-11-23,경남음악창작소 뮤지시스,pending
 토니베넷,큐레이션,izm,IZM,,2023-07-01,,context
 토닥토닥,공연,indistreet,,,2022-03-06,살롱문보우,discovery
 토드,공연,indistreet,,,2022-02-18,우주정거장,discovery
@@ -43398,6 +43404,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 페이스투웨이즈,공연,indistreet,,,2023-04-29,네스트나다,discovery
 페이스투웨이즈,공연,indistreet,,,2023-06-04,네스트나다,discovery
 페이스투웨이즈,공연,indistreet,,,2023-07-14,Club FF,discovery
+페이스투웨이즈,선정·지원,busanrock,burock_rookies,3,2023-09-22,,pending
 페이스투웨이즈,공연,indistreet,,,2023-10-14,Club FF,discovery
 페이스투웨이즈,공연,indistreet,,,2023-10-27,스페이스 한강,discovery
 페이스투웨이즈,공연,indistreet,,,2023-11-03,Club FF,discovery
@@ -45713,7 +45720,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 해서웨이,공연,indistreet,,,2025-10-03,언드,discovery
 해서웨이,공연,regional,,,2025-10-24,KT&G 상상마당 부산 3층 라이브홀,pending
 해서웨이,공연,sangsangmadang,,,2025-10-24,KT&G 상상마당 부산 3층 라이브홀,discovery
-해서웨이,공연,regional,,,2025-11-01,롤링홀 홍대,pending
+해서웨이,공연,regional,,,2025-11-01,롤링홀,pending
 해서웨이,공연,indistreet,,,2026-02-22,오방가르드,discovery
 해서웨이,공연,indistreet,,,2026-03-28,오방가르드,discovery
 해서웨이,공연,indistreet,,,2026-03-29,오방가르드,discovery
@@ -48147,7 +48154,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 58d,공연,indistreet,,,2023-10-14,인터플레이,discovery
 5dnr,공연,indistreet,,,2022-10-28,우주정거장,discovery
 5kms5,공연,instagram,@gorani.festival,,2026-10-10,@gorani.festival,pending
-5kms5,공연,instagram,@banjul_stage,,2026-11-07,@banjul_stage,pending
+5kms5,공연,instagram,@banjul_stage,,2026-11-07,반쥴 스테이지,pending
 5space,공연,instagram,@ceilingservice,,2026-09-07,@ceilingservice,pending
 615,공연,indistreet,,,2021-07-08,카페 언플러그드 홍대점,discovery
 615,큐레이션,trackzero,멜론 트랙제로,,2024-07-25,,pending
@@ -48199,9 +48206,9 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 7anhee,발매,poclanos,,,2022-10-20,,pending
 7ip7o3,큐레이션,visla,VISLA,,2021-09-03,,context
 7ip7o3,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-7ip7o3,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-7ip7o3,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-7ip7o3,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+7ip7o3,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+7ip7o3,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+7ip7o3,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 7ip7o3,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 7ip7o3,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 7ip7o3,공연,instagram,@blanksite_seoul,,2026-11-05,Blank Site Seoul,pending
@@ -48260,6 +48267,7 @@ team_key,branch,source,program,stage_rank,signal_date,venue,role
 828,공연,indistreet,,,2023-04-14,네스트나다,discovery
 828,공연,indistreet,,,2023-05-19,네스트나다,discovery
 828,공연,indistreet,,,2023-06-11,네스트나다,discovery
+828,선정·지원,busanrock,burock_rookies,3,2023-09-22,,pending
 828,공연,indistreet,,,2023-11-04,Bender,discovery
 828,공연,indistreet,,,2024-02-29,Club FF,discovery
 828,공연,indistreet,,,2024-03-23,Hukez,discovery
@@ -49263,9 +49271,9 @@ balancequeen69,공연,indistreet,,,2026-04-25,채널1969,discovery
 balancequeen69,공연,instagram,@fictionseoul,,2026-09-14,@fictionseoul,pending
 balancequeen69,공연,instagram,@fictionseoul,,2026-09-17,@fictionseoul,pending
 balancequeen69,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-balancequeen69,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-balancequeen69,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-balancequeen69,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+balancequeen69,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+balancequeen69,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+balancequeen69,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 balancequeen69,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 balancequeen69,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 balancequeen69,공연,indistreet,,,2026-11-22,ACS,discovery
@@ -49917,9 +49925,9 @@ catchthespring,공연,instagram,@unplugged_stage,,2026-11-20,카페 언플러그
 catchthespring,큐레이션,instagram,@cafeunplugged,,2026-11-20,,pending
 catdogchildren,공연,indistreet,,,2026-10-30,Club Victim,discovery
 cathylachoi,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-cathylachoi,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-cathylachoi,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-cathylachoi,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+cathylachoi,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+cathylachoi,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+cathylachoi,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 cathylachoi,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 cathylachoi,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 catpower,큐레이션,visla,VISLA,,2022-04-26,,context
@@ -50551,9 +50559,9 @@ damesgood,공연,instagram,@rosso_seoul,,2026-10-26,ROSSO,pending
 damesgood,공연,instagram,@rosso_seoul,,2026-11-01,ROSSO,pending
 damesgood,공연,instagram,@rosso_seoul,,2026-11-08,ROSSO,pending
 damie,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-damie,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-damie,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-damie,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+damie,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+damie,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+damie,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 damie,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 damie,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 damonalbarn,큐레이션,visla,VISLA,,2025-01-09,,context
@@ -53039,9 +53047,9 @@ hyung,발매,poclanos,,,2023-03-21,,pending
 hyunhahn,큐레이션,instagram,@pub.mag,,2026-11-11,,pending
 hyunhxee,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
 hyunhxee,큐레이션,instagram,@visla.fm,,2026-10-14,,pending
-hyunhxee,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-hyunhxee,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-hyunhxee,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+hyunhxee,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+hyunhxee,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+hyunhxee,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 hyunhxee,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 hyunhxee,공연,instagram,@stamina_375ml,,2026-10-29,@stamina_375ml,pending
 hyunhxee,큐레이션,instagram,@visla.fm,,2026-10-29,,pending
@@ -53458,7 +53466,7 @@ jazzieon,큐레이션,trackzero,멜론 트랙제로,,2025-11-20,,pending
 jazzieon,큐레이션,trackzero,멜론 트랙제로,,2025-12-17,,pending
 jazzman,공연,indistreet,,,2026-10-10,채널1969,discovery
 jazzphai,공연,instagram,@azito_livehall,,2026-11-24,아지토 라이브 홀,pending
-jazzpia1,공연,instagram,@night_flight_jeonju,,2026-09-02,@night_flight_jeonju,pending
+jazzpia1,공연,instagram,@night_flight_jeonju,,2026-09-02,전주 야간비행,pending
 jazzpocket,공연,indistreet,,,2026-05-16,로컬다움 롴돰,discovery
 jazzpresso,공연,instagram,@jazzpresso_record,,2026-11-05,재즈프레소 레코드 바,pending
 jazzrefreshed,큐레이션,visla,VISLA,,2025-03-26,,context
@@ -54037,9 +54045,9 @@ kanyewest,큐레이션,visla,VISLA,,2021-07-19,,context
 kanyewest,큐레이션,visla,VISLA,,2021-08-30,,context
 kanyewest,큐레이션,visla,VISLA,,2022-07-06,,context
 kanyewest,큐레이션,izm,IZM,,2025-08-07,,context
-kaptainshin,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-kaptainshin,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-kaptainshin,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+kaptainshin,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+kaptainshin,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+kaptainshin,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 kaptainshin,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 kaptainshin,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 karima,발매,poclanos,,,2022-06-24,,pending
@@ -54179,7 +54187,7 @@ kihwamusic,공연,instagram,@gorani.festival,,2026-10-07,@gorani.festival,pendin
 kihwamusic,공연,instagram,@gorani.festival,,2026-10-10,@gorani.festival,pending
 kihwamusic,공연,instagram,@gorani.festival,,2026-10-11,@gorani.festival,pending
 kihwamusic,공연,instagram,@gorani.festival,,2026-10-19,@gorani.festival,pending
-kihwamusic,공연,instagram,@banjul_stage,,2026-11-27,@banjul_stage,pending
+kihwamusic,공연,instagram,@banjul_stage,,2026-11-27,반쥴 스테이지,pending
 kijoside,공연,instagram,@younggiftedwack,,2026-08-25,@younggiftedwack,pending
 kijoside,공연,instagram,@younggiftedwack,,2026-09-11,@younggiftedwack,pending
 kijoside,공연,instagram,@younggiftedwack,,2026-11-20,@younggiftedwack,pending
@@ -54257,9 +54265,9 @@ kingshe,공연,instagram,@seoulfootwork2025,,2026-06-19,@seoulfootwork2025,pendi
 kingshe,공연,instagram,@fictionseoul,,2026-09-14,@fictionseoul,pending
 kingshe,공연,instagram,@fictionseoul,,2026-09-17,@fictionseoul,pending
 kingshe,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-kingshe,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-kingshe,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-kingshe,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+kingshe,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+kingshe,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+kingshe,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 kingshe,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 kingshe,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 kingshe,공연,instagram,@blanksite_seoul,,2026-11-05,Blank Site Seoul,pending
@@ -54296,9 +54304,9 @@ kisewa,공연,indiego,,,2026-11-13,채널1969,pending
 kisewa,공연,indistreet,,,2026-11-13,채널1969,discovery
 kisewang,공연,instagram,@fictionseoul,,2026-09-14,@fictionseoul,pending
 kisewang,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-kisewang,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-kisewang,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-kisewang,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+kisewang,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+kisewang,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+kisewang,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 kisewang,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 kisewang,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 kisewang,공연,instagram,@blanksite_seoul,,2026-11-05,Blank Site Seoul,pending
@@ -54698,9 +54706,9 @@ ligrye,큐레이션,instagram,@notesfromcake,,2026-09-16,,pending
 ligrye,공연,instagram,@fictionseoul,,2026-09-17,@fictionseoul,pending
 ligrye,공연,instagram,@lvhs.kr,,2026-09-28,LoveHaus,pending
 ligrye,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-ligrye,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-ligrye,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-ligrye,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+ligrye,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+ligrye,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+ligrye,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 ligrye,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 ligrye,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 ligrye,공연,instagram,@blanksite_seoul,,2026-11-05,Blank Site Seoul,pending
@@ -55271,9 +55279,9 @@ maze,공연,indistreet,,,2022-07-24,홍대 플렉스라운지,discovery
 mazefromfar,공연,instagram,@fictionseoul,,2026-09-14,@fictionseoul,pending
 mazefromfar,공연,instagram,@fictionseoul,,2026-09-17,@fictionseoul,pending
 mazefromfar,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-mazefromfar,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-mazefromfar,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-mazefromfar,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+mazefromfar,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+mazefromfar,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+mazefromfar,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 mazefromfar,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 mazefromfar,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 mazefromfar,큐레이션,instagram,@visla.fm,,2026-11-13,,pending
@@ -55610,9 +55618,9 @@ mogwaa,큐레이션,instagram,@mixmixtv,,2026-11-25,,pending
 mohani,공연,indistreet,,,2026-03-27,채널1969,discovery
 mohozzarella,공연,instagram,@fictionseoul,,2026-09-14,@fictionseoul,pending
 mohozzarella,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-mohozzarella,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-mohozzarella,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-mohozzarella,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+mohozzarella,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+mohozzarella,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+mohozzarella,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 mohozzarella,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 mohozzarella,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 mohozzarella,공연,instagram,@galactique_seoul,,2026-11-09,@galactique_seoul,pending
@@ -55698,6 +55706,7 @@ mondayoffwithbluesy,공연,indistreet,,,2023-06-11,네스트나다,discovery
 mondayoffwithbluesy,공연,indistreet,,,2023-06-19,공상온도,discovery
 mondayoffwithbluesy,발매,poclanos,,,2023-08-23,,pending
 mondayoffwithbluesy,공연,indistreet,,,2023-09-17,Club FF,discovery
+mondayoffwithbluesy,선정·지원,busanrock,burock_rookies,3,2023-09-22,,pending
 mondayoffwithbluesy,공연,indistreet,,,2023-10-21,카페 언플러그드 홍대점,discovery
 mondayoffwithbluesy,발매,poclanos,,,2023-10-31,,pending
 mondayoffwithbluesy,공연,indistreet,,,2023-11-13,클럽 온에어,discovery
@@ -55756,9 +55765,9 @@ moongoamerica,큐레이션,instagram,@localbody.blog,,2026-11-21,,pending
 moongoamerica,공연,instagram,@pistilseoul,,2026-11-24,Pistil,pending
 moonhaneul,발매,genie,,,2026-11-25,,pending
 moonisjoey,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-moonisjoey,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-moonisjoey,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-moonisjoey,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+moonisjoey,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+moonisjoey,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+moonisjoey,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 moonisjoey,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 moonisjoey,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 moonki,공연,indistreet,,,2026-09-27,신도시,discovery
@@ -56030,9 +56039,9 @@ nakenmi,공연,indiego,,,2026-07-24,인피니티클럽,pending
 nalasinephro,큐레이션,visla,VISLA,,2024-09-15,,context
 nalasinephro,큐레이션,overtone,overtone,,2024-09-20,,context
 namaenoa,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-namaenoa,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-namaenoa,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-namaenoa,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+namaenoa,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+namaenoa,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+namaenoa,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 namaenoa,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 namaenoa,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 namaenoa,공연,instagram,@blanksite_seoul,,2026-11-05,Blank Site Seoul,pending
@@ -56715,9 +56724,9 @@ ohjifl,공연,instagram,@art_space_sla,,2026-11-19,석촌호수 아뜰리에,pen
 ohmyflowerbomb,공연,instagram,@fictionseoul,,2026-09-14,@fictionseoul,pending
 ohmyflowerbomb,공연,instagram,@fictionseoul,,2026-09-17,@fictionseoul,pending
 ohmyflowerbomb,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-ohmyflowerbomb,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-ohmyflowerbomb,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-ohmyflowerbomb,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+ohmyflowerbomb,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+ohmyflowerbomb,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+ohmyflowerbomb,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 ohmyflowerbomb,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 ohmyflowerbomb,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 ohno,큐레이션,visla,VISLA,,2023-05-09,,context
@@ -57130,7 +57139,7 @@ palezze,발매,poclanos,,,2020-12-22,,pending
 palezze,발매,poclanos,,,2021-04-12,,pending
 palmiris,공연,instagram,@seoul_electronic_records,,2026-11-23,@seoul_electronic_records,pending
 팔로알토paloalto요시,큐레이션,trackzero,멜론 트랙제로,,2026-07-09,,pending
-paloaltongue,공연,instagram,@flex.lounge,,2026-06-19,@flex.lounge,pending
+paloaltongue,공연,instagram,@flex.lounge,,2026-06-19,홍대 플렉스라운지,pending
 paloaltongue,큐레이션,instagram,@webzineizm,,2026-10-29,,pending
 pam,공연,indistreet,,,2024-04-06,무대륙,discovery
 pami,공연,indistreet,,,2026-09-06,예스24 원더로크홀,discovery
@@ -57147,9 +57156,9 @@ pandoaku,공연,indistreet,,,2026-11-25,아지토 라이브 홀,discovery
 panthaduprince,큐레이션,visla,VISLA,,2022-08-29,,context
 pantheon3niti,공연,instagram,@blanksite_seoul,,2026-11-14,Blank Site Seoul,pending
 pantsb0y,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-pantsb0y,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-pantsb0y,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-pantsb0y,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+pantsb0y,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+pantsb0y,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+pantsb0y,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 pantsb0y,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 pantsb0y,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 paolalaf,공연,instagram,@soundsupply_service,,2026-09-06,@soundsupply_service,pending
@@ -57178,9 +57187,9 @@ paridepignotti,발매,poclanos,,,2024-08-30,,pending
 parisfagette,공연,instagram,@fictionseoul,,2026-09-14,@fictionseoul,pending
 parisfagette,공연,instagram,@fictionseoul,,2026-09-17,@fictionseoul,pending
 parisfagette,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-parisfagette,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-parisfagette,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-parisfagette,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+parisfagette,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+parisfagette,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+parisfagette,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 parisfagette,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 parisfagette,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 parkheyli,공연,instagram,@gwangbok_record,,2026-10-10,@gwangbok_record,pending
@@ -57987,6 +57996,7 @@ redc,공연,indistreet,,,2023-08-18,Club FF,discovery
 redc,공연,indistreet,,,2023-08-25,펫사운즈,discovery
 redc,공연,indistreet,,,2023-09-01,서브라이엇 해방촌,discovery
 redc,공연,indistreet,,,2023-09-22,Club 빵,discovery
+redc,선정·지원,busanrock,burock_rookies,3,2023-09-22,,pending
 redc,공연,indistreet,,,2023-10-13,Club FF,discovery
 redc,공연,indistreet,,,2023-10-20,Club 빵,discovery
 redc,공연,indistreet,,,2023-11-04,서브라이엇 해방촌,discovery
@@ -59292,12 +59302,12 @@ speednoisehell,공연,indistreet,,,2023-03-03,클럽샤프,discovery
 spellling,큐레이션,overtone,overtone,,2025-04-10,,context
 spensr,공연,indistreet,,,2024-11-02,무대륙,discovery
 sphereofnihil,공연,indiego,,,2026-10-10,클럽 딥퍼플,pending
-spiceseoul,공연,instagram,@bbcb.seoul,,2026-09-29,@bbcb.seoul,pending
-spiceseoul,공연,instagram,@bbcb.seoul,,2026-10-08,@bbcb.seoul,pending
+spiceseoul,공연,instagram,@bbcb.seoul,,2026-09-29,BBCB,pending
+spiceseoul,공연,instagram,@bbcb.seoul,,2026-10-08,BBCB,pending
 spiceseoul,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-spiceseoul,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-spiceseoul,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-spiceseoul,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+spiceseoul,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+spiceseoul,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+spiceseoul,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 spiceseoul,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 spiceseoul,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 spiceseoul,공연,instagram,@fictionseoul,,2026-11-03,@fictionseoul,pending
@@ -61443,9 +61453,9 @@ x8tmrg,공연,instagram,@blanksite_seoul,,2026-11-05,Blank Site Seoul,pending
 xanexx,큐레이션,visla,VISLA,,2022-05-03,,context
 xanexx,큐레이션,visla,VISLA,,2024-08-02,,context
 xanexx,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-xanexx,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-xanexx,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-xanexx,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+xanexx,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+xanexx,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+xanexx,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 xanexx,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 xanexx,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 xaoil,공연,indistreet,,,2026-11-21,생기스튜디오,discovery
@@ -61943,9 +61953,9 @@ yvngvash,공연,instagram,@clubnasub,,2026-11-05,CLUB NASUB,pending
 yxxnhxx,공연,instagram,@pistilseoul,,2026-11-04,Pistil,pending
 yxxnjeongmin,공연,instagram,@fictionseoul,,2026-09-14,@fictionseoul,pending
 yxxnjeongmin,공연,instagram,@fictionseoul,,2026-10-13,@fictionseoul,pending
-yxxnjeongmin,공연,instagram,@bbcb.seoul,,2026-10-25,@bbcb.seoul,pending
-yxxnjeongmin,공연,instagram,@bbcb.seoul,,2026-10-26,@bbcb.seoul,pending
-yxxnjeongmin,공연,instagram,@bbcb.seoul,,2026-10-27,@bbcb.seoul,pending
+yxxnjeongmin,공연,instagram,@bbcb.seoul,,2026-10-25,BBCB,pending
+yxxnjeongmin,공연,instagram,@bbcb.seoul,,2026-10-26,BBCB,pending
+yxxnjeongmin,공연,instagram,@bbcb.seoul,,2026-10-27,BBCB,pending
 yxxnjeongmin,공연,instagram,@fictionseoul,,2026-10-29,@fictionseoul,pending
 yxxnjeongmin,공연,instagram,@fictionseoul,,2026-10-30,@fictionseoul,pending
 yxxnjeongmin,공연,instagram,@tool.seoul,,2026-11-10,TOOL Records & Bar,pending
