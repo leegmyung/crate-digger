@@ -34,7 +34,7 @@ function cardHtml(name, c, asOf, flow) {
           <span>공연 <strong>${fmtInt(c.nights || 0)}</strong>일</span>
           <span>첫 무대 신인 <strong>${fmtInt(c.first_stage_teams_1y || 0)}</strong>팀<span class="muted">/1년</span></span>
         </div>
-        <p class="small muted place-card-sub">${escapeHtml(flowTxt)}${c.later_winners_total ? ` · 나중 정답 ${fmtInt(c.later_winners_total)}팀` : ''}</p>
+        <p class="small muted place-card-sub">${escapeHtml(flowTxt)}${c.later_winners_total ? ` · 나중에 상 받은 팀 ${fmtInt(c.later_winners_total)}팀` : ''}</p>
       </a>
     </li>`;
 }

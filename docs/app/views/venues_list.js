@@ -91,7 +91,7 @@ function tierBarsHtml(list) {
   const counts = Object.fromEntries(TIERS.map(t => [t, 0]));
   for (const v of list) counts[tierKey(v)] += 1;
   const max = Math.max(1, ...Object.values(counts));
-  return `<div class="vl-tier-bars" role="group" aria-label="체급으로 고르기">
+  return `<div class="vl-tier-bars" role="group" aria-label="공연장 크기로 고르기">
     ${TIERS.map(t => `
       <button type="button" class="vl-tier-btn${st.tiers.has(t) ? ' is-active' : ''}" data-vl-tier="${t}" aria-pressed="${st.tiers.has(t)}">
         <span class="vl-tier-name">${TIER_LABEL[t]}</span>
@@ -161,13 +161,13 @@ function mapHtml(list) {
     .sort((a, b) => (a.discovery?.score ?? 0) - (b.discovery?.score ?? 0))
     .map(v => {
       const r = 3 + Math.min(6, Math.sqrt(Number(v.discovery?.nights_12m) || 0) / 2.2);
-      return `<a href="#/venue/${encodeURIComponent(v.name)}" aria-label="${escapeHtml(v.name)}"><circle class="vl-dot tier-${tierKey(v) === '?' ? 'u' : tierKey(v).toLowerCase()}" cx="${px(v).toFixed(1)}" cy="${py(v).toFixed(1)}" r="${r.toFixed(1)}"><title>${escapeHtml(`${v.name} · ${v.city || ''} · 체급 ${TIER_LABEL[tierKey(v)]}${v.discovery?.score !== undefined ? ` · 주목도 ${fmtNum(v.discovery.score, 1)}` : ''}`)}</title></circle></a>`;
+      return `<a href="#/venue/${encodeURIComponent(v.name)}" aria-label="${escapeHtml(v.name)}"><circle class="vl-dot tier-${tierKey(v) === '?' ? 'u' : tierKey(v).toLowerCase()}" cx="${px(v).toFixed(1)}" cy="${py(v).toFixed(1)}" r="${r.toFixed(1)}"><title>${escapeHtml(`${v.name} · ${v.city || ''} · 크기 ${TIER_LABEL[tierKey(v)]}${v.discovery?.score !== undefined ? ` · 주목도 ${fmtNum(v.discovery.score, 1)}` : ''}`)}</title></circle></a>`;
     }).join('');
   const noGeo = list.length - pts.length;
   return `
     <figure class="vl-map">
       <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="공연장 위치 점 지도 (${fmtInt(pts.length)}곳)"><g class="vl-map-bg" id="${bgId}" aria-hidden="true">${vlMapGeo ? bgHtml(vlMapGeo) : ''}</g>${dots}</svg>
-      <figcaption class="small muted">점 = 공연장(크기 = 최근 12개월 공연일, 색 = 체급) · 바탕 = 시·도 경계(Natural Earth)${noGeo ? ` · 좌표 없는 ${fmtInt(noGeo)}곳 빠짐` : ''}</figcaption>
+      <figcaption class="small muted">점 = 공연장(크기 = 최근 12개월 공연일, 색 = 공연장 크기) · 바탕 = 시·도 경계(Natural Earth)${noGeo ? ` · 좌표 없는 ${fmtInt(noGeo)}곳 빠짐` : ''}</figcaption>
     </figure>`;
 }
 
@@ -189,14 +189,14 @@ function cardHtml(v, months) {
         <span class="vl-card-disc" title="발굴 주목도 0~100">${disc !== undefined && disc !== null ? fmtNum(disc, 1) : '—'}</span>
       </div>
       <div class="vl-card-meta small muted">
-        ${escapeHtml(v.city || '도시 모름')} · 체급 ${TIER_LABEL[tierKey(v)]}${v.capacity ? ` (~${fmtInt(v.capacity)}명)` : ''} · <span title="${escapeHtml(v.type_basis || '종류 근거 없음')}">${escapeHtml(venueTypeLabel(v))}</span>
+        ${escapeHtml(v.city || '도시 모름')} · 크기 ${TIER_LABEL[tierKey(v)]}${v.capacity ? ` (~${fmtInt(v.capacity)}명)` : ''} · <span title="${escapeHtml(v.type_basis || '종류 근거 없음')}">${escapeHtml(venueTypeLabel(v))}</span>
         ${Number(v.upcoming_nights) > 0 ? `<span class="venue-upcoming-pill">예정 ${fmtInt(v.upcoming_nights)}일</span>` : ''}
       </div>
       ${monthBarsHtml(v, months)}
       <div class="vl-card-kpis small">
         <span>12개월 <strong>${fmtInt(v.discovery?.nights_12m ?? sumLast12(v))}</strong>일</span>
         <span>첫 출연 <strong>${share !== null && share !== undefined ? `${Math.round(share * 100)}%` : '—'}</strong></span>
-        <span>정답 전 <strong>${fmtInt(v.later_winners_total || 0)}</strong>팀</span>
+        <span>수상·선정 전 <strong>${fmtInt(v.later_winners_total || 0)}</strong>팀</span>
       </div>
     </li>`;
 }
@@ -214,10 +214,10 @@ function rowHtml(v, months) {
       <td class="num col-fit" data-label="예정">${Number(v.upcoming_nights) > 0 ? `<span class="venue-upcoming-pill">${fmtInt(v.upcoming_nights)}일</span>` : '<span class="muted">—</span>'}</td>
       <td class="col-fit" data-label="도시">${escapeHtml(v.city || '모름')}</td>
       <td class="col-fit" data-label="종류"><span title="${escapeHtml(v.type_basis || '종류 근거 없음')}">${escapeHtml(venueTypeLabel(v))}</span></td>
-      <td class="col-fit" data-label="체급">${TIER_LABEL[tierKey(v)]}${v.capacity ? ` <span class="small muted">~${fmtInt(v.capacity)}명</span>` : ''}</td>
+      <td class="col-fit" data-label="크기">${TIER_LABEL[tierKey(v)]}${v.capacity ? ` <span class="small muted">~${fmtInt(v.capacity)}명</span>` : ''}</td>
       <td data-label="최근 12개월" class="col-fit"><div class="vl-row-months">${monthBarsHtml(v, months)}<span class="small muted vl-row-nights">${fmtInt(v.discovery?.nights_12m ?? sumLast12(v))}일</span></div></td>
       <td class="num" data-label="첫 무대 신인">${share !== null && share !== undefined ? `${Math.round(share * 100)}%` : '—'}</td>
-      <td class="num" data-label="정답 전">${fmtInt(v.later_winners_total || 0)}팀</td>
+      <td class="num" data-label="수상·선정 전">${fmtInt(v.later_winners_total || 0)}팀</td>
       <td class="num" data-label="발굴 주목도"><strong>${disc !== undefined && disc !== null ? fmtNum(disc, 1) : '—'}</strong></td>
     </tr>`;
 }
@@ -251,7 +251,7 @@ export async function renderVenueListTab(host) {
     const tableHtml = shown.length ? `
       <div class="table-wrap">
         <table class="data-table stack-table vl-table">
-          <thead><tr><th>공연장</th><th class="num col-fit">예정${infoTip('예정 공연', { what: '이 공연장에 앞으로 잡힌 공연 날짜 수', period: '기준일 다음 날부터' }, { compact: true })}</th><th class="col-fit">도시</th><th class="col-fit">종류</th><th class="col-fit">체급</th><th>최근 12개월${infoTip('최근 12개월 공연', INFO_TIPS.venue_nights_12m, { compact: true })}</th><th class="num">첫 무대 신인${infoTip('첫 무대 신인 비율', INFO_TIPS.first_timer_share, { compact: true })}</th><th class="num">정답 전${infoTip('정답 전에 선 팀', INFO_TIPS.venue_pre_outcome, { compact: true })}</th><th class="num">발굴 주목도${infoTip('발굴 주목도', INFO_TIPS.venue_discovery, { compact: true })}</th></tr></thead>
+          <thead><tr><th>공연장</th><th class="num col-fit">예정${infoTip('예정 공연', { what: '이 공연장에 앞으로 잡힌 공연 날짜 수', period: '기준일 다음 날부터' }, { compact: true })}</th><th class="col-fit">도시</th><th class="col-fit">종류</th><th class="col-fit">크기</th><th>최근 12개월${infoTip('최근 12개월 공연', INFO_TIPS.venue_nights_12m, { compact: true })}</th><th class="num">첫 무대 신인${infoTip('첫 무대 신인 비율', INFO_TIPS.first_timer_share, { compact: true })}</th><th class="num">수상·선정 전${infoTip('수상·선정 전에 선 팀', INFO_TIPS.venue_pre_outcome, { compact: true })}</th><th class="num">발굴 주목도${infoTip('발굴 주목도', INFO_TIPS.venue_discovery, { compact: true })}</th></tr></thead>
           <tbody>${shown.map(v => rowHtml(v, months)).join('')}</tbody>
         </table>
       </div>` : empty;

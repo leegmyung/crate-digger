@@ -27,7 +27,7 @@ TERMS = {
 SKIP_FILES = {
     "views/verify.js", "views/backtest.js", "views/scorecard.js", "views/quality.js", "views/sql.js",
     "views/signals.js", "views/evidence.js", "db.js", "score_fairness.js",
-    "components/region_map.js", "views/venues_list.js", "views/city.js",
+    "components/region_map.js",
     "easy_terms.js",   # 옛 말 → 쉬운 말 바꾸기 표 자체
 }
 SKIP_PREFIX = ("views/graph", "data/")
