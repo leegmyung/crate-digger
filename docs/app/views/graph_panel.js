@@ -2,7 +2,7 @@
 import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, josa, playButtonHtml, ROLE_META, roleBadgeHtml, TERMS,
 } from '../ui.js';
-import { kindOrder, REL_KINDS, relationKindOf } from './graph_model.js';
+import { endId, kindOrder, REL_KINDS, relationKindOf } from './graph_model.js';
 
 /** 관계 종류 이름 (필터 칩 = 범례) */
 export const KIND_LABELS = {
@@ -28,7 +28,6 @@ export const TYPE_LABELS = {
 };
 
 const NEIGHBOR_LIST_MAX = 8;
-const endId = v => (v && typeof v === 'object' ? v.id : v);
 
 /** 출처 노드의 쓰임(ROLE_META 키) — 점수에 안 쓰는 출처 표시용 */
 export function nodeSignalRole(node) {

@@ -6,7 +6,7 @@ import { appState, registerChart, syncHash } from '../state.js';
 import { queryEgoNetwork, queryNodeExpansion } from '../db.js';
 import { ensureD3, fmtInt, formatSourceKey, wireAvatarFallbacks } from '../ui.js';
 import {
-  buildAdjacency, edgeWidthFor, estimateLabelWidth, filterGraph, importanceOf, labelBudget, labelFontSize,
+  buildAdjacency, edgeWidthFor, endId, estimateLabelWidth, filterGraph, importanceOf, labelBudget, labelFontSize,
   labelPriority, nodeRadiusFor, pickVisibleLabels, relationKindOf, rowToGraphParts, shortLabel,
 } from './graph_model.js';
 import {
@@ -34,7 +34,6 @@ const RING_BY_KIND = { agency: 95, co_stage: 150, venue: 225, outcome: 195, prog
 /** 선 길이 기본값 (양 끝 반지름을 더함) */
 const DIST_BY_KIND = { agency: 38, co_stage: 52, venue: 70, outcome: 60, program: 62, outlet: 70, scene: 80 };
 
-const endId = v => (v && typeof v === 'object' ? v.id : v);
 const edgeKey = (a, b) => (a < b ? `${a}__${b}` : `${b}__${a}`);
 
 /**

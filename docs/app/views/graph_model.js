@@ -131,7 +131,7 @@ export function pickVisibleLabels(items, { budget, pinned = new Set(), pad = 3 }
   return on;
 }
 
-const endId = v => (v && typeof v === 'object' ? v.id : v);
+export const endId = v => (v && typeof v === 'object' ? v.id : v);
 
 /** 이웃 표: id → Set(이웃 id) */
 export function buildAdjacency(links) {

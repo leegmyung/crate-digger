@@ -7,7 +7,7 @@ import { appState } from '../state.js';
 import { ensureVideosLoaded } from '../db.js';
 import { audioSrc, embedSrc, playOptionsFor } from '../player_pick.js';
 import {
-  avatarHtml, escapeHtml, playButtonHtml, spotifyIdOf, swapAvatarToInitial, wireAvatarFallbacks,
+  avatarHtml, emitToast as toast, escapeHtml, playButtonHtml, spotifyIdOf, swapAvatarToInitial, wireAvatarFallbacks,
 } from '../ui.js';
 
 const MAX_TABS = 4;
@@ -113,10 +113,6 @@ function markButtons() {
 
 function scheduleMark() {
   if (!markRaf) markRaf = requestAnimationFrame(markButtons);
-}
-
-function toast(msg) {
-  window.dispatchEvent(new CustomEvent('app:toast', { detail: msg }));
 }
 
 /**

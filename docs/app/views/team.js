@@ -1,17 +1,17 @@
 import { appState, navigateTo, setExportContext } from '../state.js';
 import { backTarget } from '../back_nav.js';
 import {
-  ensureTeamCitiesLoaded, getTeamExternalLinks, loadAlertsJson, loadDashboardJson, loadSceneMap,
+  ensureTeamCitiesLoaded, getTeamExternalLinks, loadAlertsJson, loadSceneMap,
   loadSourceRoles, queryDiscoveryStages, queryRankChange, queryTeamDetail,
 } from '../db.js';
 import {
-  alertKindChipHtml, avatarHtml, avatarSourceOf, dormantBadgeHtml, ensureD3,
+  alertKindChipHtml, avatarHtml, avatarSourceOf, dormantBadgeHtml,
   escapeHtml, fmtInt, fmtNum, formatAlertEvidenceText, formatNextGigText,
   formatSignalDate, gradeBadgeHtml, INFO_TIPS, infoTip,
   isDormantTeam, isLoweredOutcomeResult, isWeakGenreConfidence, lookupSourceRoleMeta,
   newcomerUnverifiedBadgeHtml, PROFILE_LABELS,
   renderActionBanner, renderCompactGradeSummary, renderEmptyState,
-  renderNoRecordLine, renderScoreBar,
+  renderNoRecordLine, renderScoreBar, recentMonths,
   renderTableCsvBtn, roleBadgeHtml, SOURCE_LABELS, spotifyButtonHtml,
   spotifyUrlOf, summarizeWhyTeam, TERMS, triggerTableCsvExport,
   watchButtonHtml, wireAvatarFallbacks,
@@ -23,6 +23,7 @@ import { compareToggleHtml } from '../components/compare_tray.js';
 import { timelineAnomaly } from '../insight_text.js';
 import { renderSimilarHtml } from './team_similar.js';
 import { printSheetHtml, recentEvents, recentGigs } from '../team_print.js';
+import { embedSrc } from '../player_pick.js';
 import { spikeSentence } from './today_alerts.js';
 import { activeTeamTab, renderTeamTabsHtml, teamPanelHtml, wireTeamTabs } from './team_tabs.js';
 import {
@@ -107,19 +108,13 @@ function renderVideosInnerHtml(videos, showAll) {
 }
 
 function renderMonthlyBarsHtml(timeline, endDateStr) {
-  const [ey, em] = String(endDateStr || '2026-11-27').split('-').map(Number);
   const monthBuckets = [];
   const bucketMap = new Map();
-  if (Number.isFinite(ey) && Number.isFinite(em)) {
-    for (let offset = 11; offset >= 0; offset--) {
-      const d = new Date(Date.UTC(ey, em - 1 - offset, 1));
-      const y = d.getUTCFullYear();
-      const mo = d.getUTCMonth() + 1;
-      const ym = `${y}-${String(mo).padStart(2, '0')}`;
-      const item = { ym, shortLabel: `${mo}월`, gig: 0, sel: 0, other: 0, total: 0 };
-      monthBuckets.push(item);
-      bucketMap.set(ym, item);
-    }
+  for (const ym of recentMonths(endDateStr || '2026-11-27', 12)) {
+    const mo = Number(ym.slice(5, 7));
+    const item = { ym, shortLabel: `${mo}월`, gig: 0, sel: 0, other: 0, total: 0 };
+    monthBuckets.push(item);
+    bucketMap.set(ym, item);
   }
   for (const s of timeline) {
     if (s.role === 'excluded') continue;
@@ -215,8 +210,6 @@ export async function renderTeamView(root, teamKey) {
     loadVenueMeta(),
     queryTeamGigActs(teamKey),
     ensureTeamCitiesLoaded().catch(() => null),
-    loadDashboardJson().catch(() => null),
-    ensureD3().catch(() => null),
   ]);
   const { profile, scored, timeline, outcomes, precedents, related, links, videos } = data;
   const sceneComm = sceneMap?.teamToCommunity?.get(teamKey) || null;
@@ -810,11 +803,11 @@ export async function renderTeamView(root, teamKey) {
     el.innerHTML = renderVideosInnerHtml(videos, showAllVideos);
     el.querySelectorAll('.video-frame[data-video-id]').forEach(btn => {
       btn.addEventListener('click', () => {
-        const vid = btn.dataset.videoId;
-        if (!/^[A-Za-z0-9_-]{11}$/.test(vid)) return;
+        const src = embedSrc({ kind: 'youtube', id: btn.dataset.videoId }, { autoplay: true });
+        if (!src) return;
         const wrap = document.createElement('div');
         wrap.className = 'video-frame';
-        wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${vid}?autoplay=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="무대 영상"></iframe>`;
+        wrap.innerHTML = `<iframe src="${escapeHtml(src)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="무대 영상"></iframe>`;
         btn.replaceWith(wrap);
       });
     });
@@ -826,14 +819,17 @@ export async function renderTeamView(root, teamKey) {
 
   paintRelatedBody();
   paintActivity();
-  if (eventStarsCache === undefined) {
-    loadEventStars().then(m => {
+  // 사건 별점(event_stars.csv 약 3.3MB)은 '사건' 탭이 처음 보일 때·인쇄할 때만 받는다 (첫 진입 속도 점검 2026-11-28)
+  const ensureEventStars = () => {
+    if (eventStarsCache !== undefined) return Promise.resolve(eventStarsCache);
+    return loadEventStars().then(m => {
       eventStarsCache = m || null;
-      if (!m || !root.isConnected || appState.routeParam !== teamKey) return;
+      if (!m || !root.isConnected || appState.routeParam !== teamKey) return eventStarsCache;
       teamEvents = m.get(teamKey) || [];
       paintActivity();
-    }).catch(() => { eventStarsCache = null; });
-  }
+      return eventStarsCache;
+    }).catch(() => { eventStarsCache = null; return null; });
+  };
   paintPrecedents();
   paintVideos();
 
@@ -856,6 +852,7 @@ export async function renderTeamView(root, teamKey) {
 
   // 관계망 그림은 '관계' 탭이 처음 보일 때 그린다 (숨은 칸에서 그리면 크기가 0이 됨)
   const tabs = wireTeamTabs(root, (tab) => {
+    if (tab === 'events') ensureEventStars();
     if (tab !== 'network') return;
     const graphHost = root.querySelector('#teamGraphHost');
     if (graphHost) {
@@ -874,7 +871,8 @@ export async function renderTeamView(root, teamKey) {
     return out;
   };
   // 한 장 요약 인쇄 (team_print.js · css/print.css): 인쇄할 때만 보이는 칸을 채우고 브라우저 인쇄 창을 연다
-  root.querySelector('#btnTeamPrint')?.addEventListener('click', () => {
+  root.querySelector('#btnTeamPrint')?.addEventListener('click', async () => {
+    await ensureEventStars();   // 인쇄 칸의 '최근 사건'용
     let host = document.getElementById('teamPrintSheet');
     if (!host) {
       host = document.createElement('div');

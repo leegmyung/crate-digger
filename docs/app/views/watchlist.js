@@ -23,7 +23,7 @@ import {
   wireMineFiltersPanel, wireMineVenuesPanel,
 } from './mine.js';
 import {
-  avatarHtml, clampDateDisplay, escapeHtml, fmtInt, fmtNum, naCell, STAGE_META,
+  avatarHtml, clampDateDisplay, emitToast, escapeHtml, fmtInt, fmtNum, naCell, STAGE_META,
   renderActionBanner, renderEmptyState, renderNoRecordLine, renderTableCsvBtn,
   spotifyButtonHtml, triggerTableCsvExport, wireAvatarFallbacks,
   wireSpotifyButtons, youtubeQuickInfo,
@@ -403,7 +403,7 @@ export async function renderWatchlistView(root) {
       root.querySelector('#btnWatchAllPicks')?.addEventListener('click', () => {
         // 하나씩 담으면 app:watchlist 로 다시 그려짐 — 마지막 한 번만 그리도록 담은 뒤 직접 불러옴
         picks.forEach(p => toggleWatch(p.team_key, p.display_name || p.team_key));
-        window.dispatchEvent(new CustomEvent('app:toast', { detail: `내 목록에 ${picks.length}팀 담았어요` }));
+        emitToast(`내 목록에 ${picks.length}팀 담았어요`);
       });
 
       root.querySelector('#btnWatchCsv')?.addEventListener('click', () => {

@@ -3,7 +3,7 @@
  * (Chartmetric '비교' 담기처럼. 미니 플레이어처럼 #viewRoot 바깥에 한 번만 만든다)
  */
 import { appState } from '../state.js';
-import { escapeHtml } from '../ui.js';
+import { emitToast as toast, escapeHtml } from '../ui.js';
 import {
   COMPARE_MAX, compareHash, getCompareList, setCompareList, toggleCompareKey,
 } from '../compare_list.js';
@@ -11,10 +11,6 @@ import {
 let tray = null;
 let markRaf = 0;
 const names = new Map();   // 팀 키 → 화면에 보인 이름 (띠에 쓰려고)
-
-function toast(msg) {
-  window.dispatchEvent(new CustomEvent('app:toast', { detail: msg }));
-}
 
 function labelFor(on, icon) {
   if (icon) return on ? '✓' : '⇄';

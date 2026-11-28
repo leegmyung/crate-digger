@@ -3,13 +3,11 @@
  * 고르기·그리기는 순수 함수 (tests/js/team_print.test.mjs). 인쇄 단추는 views/team.js, 인쇄 모양은 css/print.css.
  */
 
+import { escapeHtml as esc } from './util.js';
+
 const MAX_UPCOMING = 2;
 const DEFAULT_N = 5;
 const NO_VENUE = '공연장 미정';
-
-function esc(s) {
-  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-}
 
 /**
  * 공연 n개: 같은 날·같은 공연장은 한 번, 예정 공연(최대 2개, 가까운 순) 먼저, 나머지는 최근 순.

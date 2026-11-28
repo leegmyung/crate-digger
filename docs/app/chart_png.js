@@ -7,6 +7,8 @@
  * 순수 부분(파일 이름·크기)은 tests/js/team_print.test.mjs.
  */
 
+import { downloadBlob, emitToast } from './util.js';
+
 const SCALE = 2;                       // 선명하게 2배로
 const SVG_TARGETS = 'svg.graph-svg, svg.vf-svg, .venue-map svg, svg[data-png]';
 const STYLE_PROPS = ['fill', 'fill-opacity', 'stroke', 'stroke-width', 'stroke-opacity', 'stroke-dasharray', 'opacity',
@@ -24,17 +26,6 @@ export function pngSize(rect, scale = SCALE, fallback = { width: 600, height: 40
   const w = rect?.width > 0 ? rect.width : fallback.width;
   const h = rect?.height > 0 ? rect.height : fallback.height;
   return { width: Math.round(w * scale), height: Math.round(h * scale) };
-}
-
-function download(blob, filename) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 function backgroundColor() {
@@ -75,9 +66,9 @@ function svgToPng(svg, filename) {
     ctx.fillStyle = backgroundColor();
     ctx.fillRect(0, 0, size.width, size.height);
     ctx.drawImage(img, 0, 0, size.width, size.height);
-    canvas.toBlob(b => { if (b) download(b, filename); }, 'image/png');
+    canvas.toBlob(b => { if (b) downloadBlob(b, filename); }, 'image/png');
   };
-  img.onerror = () => window.dispatchEvent(new CustomEvent('app:toast', { detail: 'PNG로 바꾸지 못했습니다' }));
+  img.onerror = () => emitToast('PNG로 바꾸지 못했습니다');
   img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(markup)}`;
 }
 
@@ -89,7 +80,7 @@ function canvasToPng(src, filename) {
   ctx.fillStyle = backgroundColor();
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(src, 0, 0);
-  canvas.toBlob(b => { if (b) download(b, filename); }, 'image/png');
+  canvas.toBlob(b => { if (b) downloadBlob(b, filename); }, 'image/png');
 }
 
 function labelOf(el) {

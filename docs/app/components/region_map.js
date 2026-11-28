@@ -6,6 +6,8 @@
  * 다른 앱 모듈을 부르지 않는다(node 로 순수 함수 검사: tests/js/region_map.test.mjs).
  */
 
+import { escapeHtml as esc } from '../util.js';
+
 /** 공연장 목록의 도시 → 시·도 짧은 이름. 없는 도시는 좌표로 찾는다(sidoOfVenue). */
 export const CITY_TO_SIDO = Object.freeze({
   서울: '서울', 부산: '부산', 대구: '대구', 인천: '인천', 광주: '광주', 대전: '대전', 울산: '울산', 세종: '세종',
@@ -46,7 +48,6 @@ const LABEL_POS = Object.freeze({ 경기: [127.48, 37.62], 충남: [126.72, 36.4
 
 const hasNum = v => v !== null && v !== undefined && v !== '' && Number.isFinite(Number(v));
 const r1 = n => Math.round(n * 10) / 10;
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const fmt = n => Number(n || 0).toLocaleString('ko-KR');
 
 /** [경도, 위도] → SVG 좌표 [x, y] (북쪽이 위) */

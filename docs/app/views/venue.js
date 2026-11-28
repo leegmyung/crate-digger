@@ -12,8 +12,8 @@ import { venueQuestions, venueSubForecastText } from '../insight_text.js';
 import { placeQaHtml } from '../components/place_qa.js';
 import { confidenceLabel, venueStatusBadge, venueTypeLabel } from '../components/venue_info.js';
 import {
-  avatarHtml, escapeHtml, fmtInt, fmtNum, gradeBadgeHtml,
-  INFO_TIPS, infoTip, renderActionBanner, spotifyButtonHtml,
+  avatarHtml, emitToast, escapeHtml, fmtInt, fmtNum, gradeBadgeHtml,
+  INFO_TIPS, infoTip, recentMonths, renderActionBanner, spotifyButtonHtml,
   wireAvatarFallbacks, wireSpotifyButtons,
   routeBackLabel,
 } from '../ui.js';
@@ -42,22 +42,14 @@ function buildMonthlyWindow(monthlyObj, anchorDate) {
     : '2026-11';
   const latestDataYm = entries.length ? entries[entries.length - 1][0] : fallbackYm;
 
-  const makeMonths = (endYmStr) => {
-    const [ey, em] = endYmStr.split('-').map(Number);
-    const out = [];
-    for (let i = 11; i >= 0; i--) {
-      const d = new Date(Date.UTC(ey, em - 1 - i, 1));
-      const y = d.getUTCFullYear();
-      const m = d.getUTCMonth() + 1;
-      const ym = `${y}-${String(m).padStart(2, '0')}`;
-      out.push({
-        ym,
-        shortLabel: (i === 11 || m === 1) ? `${String(y).slice(2)}.${m}` : `${m}`,
-        count: Number(monthlyObj?.[ym] || 0),
-      });
-    }
-    return out;
-  };
+  const makeMonths = (endYmStr) => recentMonths(endYmStr, 12).map((ym, idx) => {
+    const m = Number(ym.slice(5, 7));
+    return {
+      ym,
+      shortLabel: (idx === 0 || m === 1) ? `${ym.slice(2, 4)}.${m}` : `${m}`,
+      count: Number(monthlyObj?.[ym] || 0),
+    };
+  });
 
   let months = makeMonths(fallbackYm);
   const sumDefault = months.reduce((acc, m) => acc + m.count, 0);
@@ -597,7 +589,7 @@ export async function renderVenueView(root, venueName) {
     btn.setAttribute('aria-pressed', String(res.subscribed));
     btn.textContent = res.subscribed ? '★ 담음' : '☆ 담기';
     if (!res.persisted) btn.title = '브라우저 저장이 막혀 이 탭을 닫으면 담은 공연장이 사라집니다';
-    if (res.subscribed) window.dispatchEvent(new CustomEvent('app:toast', { detail: '내 목록에 담았어요 · 이 공연장 새 소식이 홈·알림에 모여요' }));
+    if (res.subscribed) emitToast('내 목록에 담았어요 · 이 공연장 새 소식이 홈·알림에 모여요');
   });
   wireAvatarFallbacks(root);
   wireSpotifyButtons(root, '#venueCandPlayerSlot');

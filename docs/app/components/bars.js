@@ -4,14 +4,7 @@
  * - 값이 없으면 --na-bg 회색 막대 + '자료 없음'으로 0과 '모름'을 명확히 구분
  */
 
-function esc(s) {
-  return String(s ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
+import { escapeHtml as esc } from '../util.js';
 
 function clampPct(n) {
   if (!Number.isFinite(n)) return 0;

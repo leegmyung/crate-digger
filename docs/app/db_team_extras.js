@@ -10,6 +10,7 @@ import {
   fetchText, fillTemplate, getSqlTemplate, labExtraListed, loadVenueProfiles, parseCsvObjects, runRawSql,
   sqlStringLiteral,
 } from './db.js';
+import { toNumOrNull as num } from './util.js';
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const VALID_TIERS = new Set(['S', 'M', 'L', 'XL']);
@@ -18,12 +19,6 @@ const memo = new Map(); // 이름 -> Promise
 function once(name, fn) {
   if (!memo.has(name)) memo.set(name, fn().catch(() => null));
   return memo.get(name);
-}
-
-function num(v) {
-  if (v === null || v === undefined || v === '') return null;
-  const n = Number(v);
-  return Number.isFinite(n) ? n : null;
 }
 
 async function loadCsvIfListed(file) {

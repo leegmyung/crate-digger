@@ -3,6 +3,7 @@
  * db.js 가 이미 커서, 이 질의만 따로 둔다.
  */
 import { appState } from './state.js';
+import { toNumOrNull } from './util.js';
 import {
   buildParams, fetchText, fillTemplate, getSqlTemplate, labExtraListed, parseCsvObjects, runRawSql, sqlStringLiteral,
 } from './db.js';
@@ -24,12 +25,6 @@ const PCT_KEYS = [
   'score_pct', 'branch_pct', 'stage_pct', 'outlets_pct', 'venues_pct',
   'winner_pct', 'context_pct', 'gigs_pct', 'top_share',
 ];
-
-function toNumOrNull(v) {
-  if (v === null || v === undefined || v === '') return null;
-  const n = Number(v);
-  return Number.isFinite(n) ? n : null;
-}
 
 function normalizeRow(r) {
   const out = {

@@ -5,6 +5,8 @@
  * 표본(처음 선 팀) 5팀 미만이면 그림 대신 문장, 20팀 미만이면 앞뒤 상위 3곳만.
  */
 
+import { escapeHtml as esc } from '../util.js';
+
 export const TIER_COLUMNS = [
   { key: 'S', label: 'S ~150명' },
   { key: 'M', label: 'M ~400명' },
@@ -31,10 +33,6 @@ const SIZES = {
   wide: { width: 760, sideBudget: 250, maxBar: 48, leftX: 250, centerX: 371, rightX: 500, nameMax: 14, centerMax: 14, fs: 12.5 },
   compact: { width: 360, sideBudget: 220, maxBar: 40, leftX: 122, centerX: 171, rightX: 228, nameMax: 7, centerMax: 9, fs: 12 },
 };
-
-function esc(s) {
-  return String(s ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
-}
 
 function short(name, max = 9) {
   const arr = Array.from(String(name));

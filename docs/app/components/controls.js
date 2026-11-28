@@ -4,14 +4,7 @@
  * - periodSwitch(options): 네모 분절 탭, 선택 = 강조색 밑줄, 좌우 화살표 키보드 이동 + aria-selected
  */
 
-function esc(s) {
-  return String(s ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
+import { escapeHtml as esc } from '../util.js';
 
 /**
  * 표 칸 또는 블록용 '자료 없음' 표시.

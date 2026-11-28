@@ -5,14 +5,7 @@
  * - position: fixed 뷰포트 클램프로 어떤 컨테이너(표·overflow:hidden) 안에서도 화면 밖으로 넘치지 않음
  */
 
-function esc(s) {
-  return String(s ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
+import { escapeHtml as esc } from '../util.js';
 
 export const INFO_TIPS = {
   score: {

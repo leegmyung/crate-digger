@@ -1,5 +1,6 @@
 import { compareHash, compareKeysFromQuery } from './compare_list.js';
 import { readMineSection, writeMineSection } from './mine_store.js';
+import { downloadBlob } from './util.js';
 export const ALL_BRANCHES = ['공연', '선정·지원', '발매', '큐레이션'];
 export const PRESET_CUTOFFS = ['2022-01-01', '2023-01-01', '2024-01-01', '2024-07-01', '2025-01-01', '2025-07-01'];
 export const PRESET_KS = [10, 20, 30, 50, 100, 200];
@@ -881,14 +882,7 @@ export function exportTableToCsv(filename, headers, rows) {
     lines.push(row.map(esc).join(','));
   }
   const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
+  downloadBlob(blob, filename);
 }
 
 // ---------- Table Density (2-6: compact default | comfortable) ----------

@@ -1,4 +1,6 @@
 import { appState, exportTableToCsv, isWatched } from './state.js';
+import { downloadBlob, emitToast, escapeHtml, recentMonths, toNumOrNull } from './util.js';
+export { downloadBlob, emitToast, escapeHtml, recentMonths, toNumOrNull };
 import { INFO_TIPS, infoTip, wireInfoTips, closeInfoTip } from './components/infotip.js';
 export { INFO_TIPS, infoTip, wireInfoTips, closeInfoTip };
 export { itemBar, itemBarList, peerBar, statusBar } from './components/bars.js';
@@ -167,15 +169,6 @@ export const PROFILE_LABELS = {
   famous: '유명 팀',
   unknown: '수집 전',
 };
-
-export function escapeHtml(s) {
-  return String(s ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
 
 export function fmtInt(n) {
   if (n === null || n === undefined || Number.isNaN(Number(n))) return '-';
@@ -1081,11 +1074,11 @@ export function renderTableCsvBtn(id = '', label = 'CSV 내려받기') {
 
 export function triggerTableCsvExport({ filename, headers, rows } = {}) {
   if (!headers || !headers.length || !rows || !rows.length) {
-    window.dispatchEvent(new CustomEvent('app:toast', { detail: '내려받을 행이 없습니다.' }));
+    emitToast('내려받을 행이 없습니다.');
     return false;
   }
   exportTableToCsv(filename || `crate_digger_${appState.dataEnd || 'export'}.csv`, headers, rows);
-  window.dispatchEvent(new CustomEvent('app:toast', { detail: 'CSV 파일을 내려받았습니다.' }));
+  emitToast('CSV 파일을 내려받았습니다.');
   return true;
 }
 

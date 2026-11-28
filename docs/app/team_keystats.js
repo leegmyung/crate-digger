@@ -5,6 +5,8 @@
  *   (신호 갈래는 바로 아래 '상태' 4칸 카드에 있어 여기서는 겹치지 않게 뺌)
  */
 
+import { toNumOrNull as num } from './util.js';
+
 /** 링크 칸 이름 → 아이콘 글자·이름 (상표 그림 대신 글자 동그라미) */
 const PLATFORMS = [
   { key: 'spotify', label: '스포티파이', abbr: 'S' },
@@ -14,11 +16,6 @@ const PLATFORMS = [
   { key: 'bugs', label: '벅스', abbr: 'B' },
   { key: 'genie', label: '지니', abbr: 'G' },
 ];
-
-function num(v) {
-  const n = Number(v);
-  return v === null || v === undefined || v === '' || !Number.isFinite(n) ? null : n;
-}
 
 function rankSub(rank, weekChange) {
   const r = num(rank);
