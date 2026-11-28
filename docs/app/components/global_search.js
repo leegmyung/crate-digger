@@ -7,7 +7,7 @@ import {
   TIER_KO, loadSearchIndex, searchAll, cityHash, festivalHash, searchPageHash,
 } from '../search_index.js';
 import {
-  avatarHtml, escapeHtml, STAGE_META, wireAvatarFallbacks,
+  avatarHtml, escapeHtml, playButtonHtml, STAGE_META, wireAvatarFallbacks,
 } from '../ui.js';
 
 function isEditableTarget(el) {
@@ -128,7 +128,9 @@ export function initGlobalSearch() {
         const id = `gsOpt${optSeq++}`;
         const stageLbl = st ? (STAGE_META[Number(st.stage)]?.label || st.stage_label || '') : '';
         const stageCls = st !== null && st !== undefined ? `stage-s${st.stage}` : '';
+        // ▶ 는 고르기(option) 버튼 옆 형제로 둔다 — 버튼 안에 버튼을 넣지 않게. 누르면 드롭다운은 그대로, 아래 플레이어에서 재생
         return `
+          <div class="f-search-row" role="presentation">
           <button type="button" id="${id}" class="f-search-opt" role="option" aria-selected="false" data-pick-team="${escapeHtml(t.team_key)}">
             <span class="f-search-opt-left">
               ${avatarHtml(t.team_key, t.display_name || t.team_key, 24, { shape: 'rounded', genre: t.primary_genre })}
@@ -140,6 +142,8 @@ export function initGlobalSearch() {
               ${lastSeen ? `<span class="f-search-date">${escapeHtml(lastSeen.slice(2))}</span>` : (t.primary_genre ? `<span class="f-search-date">${escapeHtml(t.primary_genre)}</span>` : '')}
             </span>
           </button>
+          ${playButtonHtml(t.team_key, t.display_name || t.team_key, { variant: 'icon' }).replace('<button ', '<button tabindex="-1" ')}
+          </div>
         `;
       }).join('');
       sections.push(`<div class="f-search-group-label" role="presentation">팀</div>${itemsHtml}`);

@@ -1,5 +1,5 @@
 // 앱 화면 점검 (수동·선택 실행, 파이썬 unittest 와 별개)
-// 메뉴 16곳 × 화이트·블랙 × 1280·1920·375px 마다: 콘솔 오류 0, 가로 넘침 0, 빈 화면 없음, 시간 제한 안에 그려짐.
+// 메뉴 17곳(팀 나란히 비교 포함) × 화이트·블랙 × 1280·1920·375px 마다: 콘솔 오류 0, 가로 넘침 0, 빈 화면 없음, 시간 제한 안에 그려짐.
 // 앱을 한 번 띄운 뒤 주소(#/...)·테마·폭만 바꿔 가며 본다. 크롬은 헤드리스로 따로 띄운다(내 브라우저와 무관).
 //
 //   node tests/e2e/route_check.mjs --base http://127.0.0.1:8792/dashboard.html \
@@ -18,6 +18,7 @@ const ROUTES = [
   'home', 'discover', 'charts', 'venues', 'cities', 'festivals', 'alerts', 'mine',
   'verify/backtest', 'verify/signals', 'verify/evidence', 'verify/scorecard', 'verify/grades', 'verify/quality', 'verify/sql',
   `team/${encodeURIComponent('포져군단')}`,
+  `compare?teams=${encodeURIComponent('포져군단')},pcr`,
 ];
 const WIDTHS = [1280, 1920, 375];
 const THEMES = ['light', 'dark'];

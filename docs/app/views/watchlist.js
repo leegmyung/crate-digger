@@ -8,7 +8,10 @@ import {
   appState, getWatchlist, getWatchlistViewMode, setExportContext,
   setWatchlistViewMode, setWatchStatus, syncHash, toggleWatch, WATCH_STATUSES,
 } from '../state.js';
-import { ensureVideosLoaded, loadAlertsJson, queryWatchlistEnriched } from '../db.js';
+import {
+  ensureVideosLoaded, loadAlertsJson, queryDiscoveryStages, queryUpcomingGigs, queryWatchlistEnriched,
+} from '../db.js';
+import { watchSummary, watchSummaryLine } from '../watch_summary.js';
 import { loadEventStars } from '../db_team_extras.js';
 import { listSavedFilters } from '../saved_filters.js';
 import { listVenueSubs } from '../venue_subs.js';
@@ -19,11 +22,58 @@ import {
   wireMineFiltersPanel, wireMineVenuesPanel,
 } from './mine.js';
 import {
-  avatarHtml, clampDateDisplay, escapeHtml, fmtInt, fmtNum, naCell,
+  avatarHtml, clampDateDisplay, escapeHtml, fmtInt, fmtNum, naCell, STAGE_META,
   renderActionBanner, renderEmptyState, renderNoRecordLine, renderTableCsvBtn,
   spotifyButtonHtml, triggerTableCsvExport, wireAvatarFallbacks,
   wireSpotifyButtons, youtubeQuickInfo,
 } from '../ui.js';
+
+const UPCOMING_DAYS = 30;
+
+/** 내 목록 분석 카드 — 단계 분포 막대 · 최근 움직임 · 다가오는 공연 · 장르 (watch_summary.js) */
+function renderWatchAnalysisHtml(sum) {
+  if (!sum.total) return '';
+  const seg = (n) => `${Math.max(2, Math.round((n / sum.total) * 100))}%`;
+  const bar = [
+    ...sum.stages.map(s => `<span class="wa-seg wa-seg-s${s.stage}" style="width:${seg(s.n)}" title="${escapeHtml(`${s.label} ${s.n}팀`)}"></span>`),
+    sum.noStage ? `<span class="wa-seg wa-seg-none" style="width:${seg(sum.noStage)}" title="${escapeHtml(`단계 계산 안 됨 ${sum.noStage}팀`)}"></span>` : '',
+  ].join('');
+  const legend = [
+    ...sum.stages.map(s => `<span class="wa-leg"><i class="wa-dot wa-seg-s${s.stage}"></i>${escapeHtml(s.label)} ${fmtInt(s.n)}</span>`),
+    sum.noStage ? `<span class="wa-leg"><i class="wa-dot wa-seg-none"></i>계산 안 됨 ${fmtInt(sum.noStage)}</span>` : '',
+  ].join('');
+  const gigs = sum.nextGigs.length
+    ? `<ul class="wa-gigs">${sum.nextGigs.map(g => `<li><span class="mono small">${escapeHtml(g.date.slice(5))}</span> <a href="#/team/${encodeURIComponent(g.team_key)}/gigs">${escapeHtml(g.name)}</a> <span class="small muted">${escapeHtml(g.venue)}</span></li>`).join('')}</ul>
+       ${sum.upcomingTotal > sum.nextGigs.length ? `<p class="small muted">외 ${fmtInt(sum.upcomingTotal - sum.nextGigs.length)}회</p>` : ''}`
+    : '<p class="small muted">잡힌 공연 없음</p>';
+  return `
+    <section class="block watch-analysis" aria-label="내 목록 분석">
+      <div class="block-head"><h2>목록 분석</h2><span class="small muted">${escapeHtml(watchSummaryLine(sum, UPCOMING_DAYS))}</span></div>
+      <div class="wa-grid">
+        <div class="wa-cell">
+          <h3>발굴 단계</h3>
+          <div class="wa-bar" role="img" aria-label="${escapeHtml(sum.stages.map(s => `${s.label} ${s.n}팀`).join(', '))}">${bar}</div>
+          <div class="wa-legend">${legend}</div>
+        </div>
+        <div class="wa-cell">
+          <h3>최근 움직임</h3>
+          <div class="wa-nums">
+            <span><strong>${fmtInt(sum.active7d)}</strong><small>7일 새 신호</small></span>
+            <span class="is-up"><strong>▲${fmtInt(sum.rankUp)}</strong><small>순위 오름</small></span>
+            <span class="is-down"><strong>▼${fmtInt(sum.rankDown)}</strong><small>순위 내림</small></span>
+          </div>
+        </div>
+        <div class="wa-cell">
+          <h3>다가오는 공연 (${UPCOMING_DAYS}일)</h3>
+          ${gigs}
+        </div>
+        <div class="wa-cell">
+          <h3>장르</h3>
+          ${sum.topGenres.length ? `<p class="small">${sum.topGenres.map(g => `${escapeHtml(g.genre)} ${fmtInt(g.n)}`).join(' · ')}</p>` : '<p class="small muted">장르 모름</p>'}
+        </div>
+      </div>
+    </section>`;
+}
 
 function statusSelectHtml(teamKey, curStatus) {
   return `
@@ -65,6 +115,7 @@ export async function renderWatchlistView(root) {
   let rows = [];
   let alertsData = null;
   let eventStarsMap = null;
+  let summary = null;
 
   async function loadAll() {
     const raw = getWatchlist();
@@ -79,6 +130,20 @@ export async function renderWatchlistView(root) {
     rows = enriched;
     alertsData = alerts;
     eventStarsMap = stars;
+    summary = null;
+    if (rows.length) {
+      const asOf = appState.cfg.as_of || appState.dataEnd;
+      const [stageData, upcoming] = await Promise.all([
+        queryDiscoveryStages({ as_of: asOf }).catch(() => null),
+        queryUpcomingGigs({ asOf, days: UPCOMING_DAYS }).catch(() => []),
+      ]);
+      summary = watchSummary({
+        teams: rows,
+        stageByTeam: new Map((stageData?.rows || []).map(s => [s.team_key, s.stage])),
+        stageLabels: Object.fromEntries(Object.entries(STAGE_META).map(([k, v]) => [k, v.label])),
+        upcoming,
+      });
+    }
   }
 
   await loadAll();
@@ -240,6 +305,7 @@ export async function renderWatchlistView(root) {
       `;
 
     return `
+      ${summary ? renderWatchAnalysisHtml(summary) : ''}
       ${weeklySummaryHtml}
       ${contentHtml}
       ${hasAnyImg ? '<p class="photo-credit">아티스트 사진 출처: Spotify</p>' : ''}

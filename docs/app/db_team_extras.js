@@ -7,7 +7,8 @@
  *   venue_profiles.json 의 city → 공연장 도시
  */
 import {
-  fetchText, labExtraListed, loadVenueProfiles, parseCsvObjects, runRawSql, sqlStringLiteral,
+  fetchText, fillTemplate, getSqlTemplate, labExtraListed, loadVenueProfiles, parseCsvObjects, runRawSql,
+  sqlStringLiteral,
 } from './db.js';
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -134,4 +135,24 @@ export async function queryTeamGigActs(teamKey) {
   } catch (_) {
     return [];
   }
+}
+
+const similarMemo = new Map(); // team|asOf -> Promise<rows>
+
+/**
+ * 비슷한 팀 (docs/lab/sql/similar_teams.sql — 같은 무대·같은 출처·같은 장르·비슷한 체급, 정답 정보는 안 씀).
+ * @returns {Promise<object[]>} 유사도 높은 순 최대 12팀, 실패하면 []
+ */
+export function querySimilarTeams(teamKey, asOf) {
+  if (!teamKey || !DATE_RE.test(String(asOf || ''))) return Promise.resolve([]);
+  const key = `${teamKey}|${asOf}`;
+  if (!similarMemo.has(key)) {
+    similarMemo.set(key, (async () => {
+      const tpl = await getSqlTemplate('similar_teams');
+      if (!tpl) return [];
+      const res = await runRawSql(fillTemplate(tpl, { team_key: sqlStringLiteral(teamKey), as_of: `DATE '${asOf}'` }));
+      return res.rows;
+    })().catch(() => []));
+  }
+  return similarMemo.get(key);
 }

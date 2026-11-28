@@ -79,3 +79,54 @@ body.has-compare-tray.has-mini-player .app-toast { bottom: 176px; }
   background: var(--surface-alt); border: 1px solid var(--line); border-radius: var(--radius-card);
 }
 .event-after { margin: 4px 0 2px; color: var(--ink-muted); }
+
+/* 팀 '관계' 탭 '비슷한 팀' (views/team_similar.js) */
+.sim-list { list-style: none; margin: 0; padding: 0; }
+.sim-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 1.2fr) 150px minmax(0, 2fr) auto;
+  gap: 8px 14px; align-items: center;
+  padding: 8px 0; border-top: 1px solid var(--line);
+}
+.sim-row:first-child { border-top: 0; }
+.sim-team { min-width: 0; }
+.sim-team a { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sim-famous { font-size: var(--text-xs); color: var(--ink-muted); border: 1px solid var(--line-strong); border-radius: 4px; padding: 0 4px; }
+.sim-score { display: flex; align-items: center; gap: 8px; font-variant-numeric: tabular-nums; }
+.sim-bar { flex: 1 1 auto; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.sim-bar > span { display: block; height: 100%; background: var(--accent); }
+.sim-chips { display: flex; flex-wrap: wrap; gap: 4px; min-width: 0; }
+.sim-chip { font-size: var(--text-xs); padding: 2px 8px; border-radius: 999px; background: var(--surface-alt); border: 1px solid var(--line); color: var(--ink-muted); }
+.sim-actions { display: inline-flex; gap: 4px; }
+@media (max-width: 760px) {
+  .sim-row { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "team actions" "score score" "chips chips"; }
+  .sim-team { grid-area: team; }
+  .sim-actions { grid-area: actions; }
+  .sim-score { grid-area: score; }
+  .sim-chips { grid-area: chips; }
+}
+
+/* 내 목록 분석 카드 (views/watchlist.js, watch_summary.js) */
+.wa-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.wa-cell h3 { margin: 0 0 6px; font-size: var(--text-sm); color: var(--ink-muted); font-weight: 600; }
+.wa-bar { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: var(--surface-2); }
+.wa-seg { display: block; height: 100%; }
+.wa-seg-s0 { background: var(--ramp-1); }
+.wa-seg-s1 { background: var(--ramp-2); }
+.wa-seg-s2 { background: var(--ramp-3); }
+.wa-seg-s3 { background: var(--ramp-5); }
+.wa-seg-s4 { background: var(--ink-muted); }
+.wa-seg-none { background: var(--line-strong); }
+.wa-legend { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 6px; font-size: var(--text-xs); color: var(--ink-muted); }
+.wa-leg { display: inline-flex; align-items: center; gap: 4px; }
+.wa-dot { display: inline-block; width: 9px; height: 9px; border-radius: 2px; }
+.wa-nums { display: flex; gap: 14px; }
+.wa-nums > span { display: flex; flex-direction: column; }
+.wa-nums strong { font-size: var(--text-xl); font-variant-numeric: tabular-nums; }
+.wa-nums small { font-size: var(--text-xs); color: var(--ink-muted); }
+.wa-nums .is-up strong { color: var(--up, #1f7a3a); }
+.wa-nums .is-down strong { color: var(--down, #b3261e); }
+.wa-gigs { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; font-size: var(--text-sm); }
+.wa-cell p { margin: 0; }
+@media (max-width: 960px) { .wa-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .wa-grid { grid-template-columns: minmax(0, 1fr); } }

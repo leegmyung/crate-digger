@@ -24,3 +24,7 @@
 @media (max-width: 480px) {
   .sr-meta { margin-left: 36px; width: 100%; }
 }
+/* 검색 드롭다운 팀 줄: 고르기 버튼 + ▶ (components/global_search.js) */
+.f-search-row { display: flex; align-items: center; border-bottom: 1px solid var(--line); }
+.f-search-row > .f-search-opt { flex: 1 1 auto; min-width: 0; border-bottom: 0; }
+.f-search-row > .play-btn { flex: 0 0 auto; margin: 0 8px 0 2px; }

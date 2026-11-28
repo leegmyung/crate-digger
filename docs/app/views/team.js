@@ -20,6 +20,7 @@ import { mountTeamGraphBlock } from './graph.js';
 import { compareButtonHtml, renderKeyStatsHtml, renderTeamFactsHtml } from './team_head.js';
 import { compareToggleHtml } from '../components/compare_tray.js';
 import { timelineAnomaly } from '../insight_text.js';
+import { renderSimilarHtml } from './team_similar.js';
 import { spikeSentence } from './today_alerts.js';
 import { activeTeamTab, renderTeamTabsHtml, teamPanelHtml, wireTeamTabs } from './team_tabs.js';
 import {
@@ -30,7 +31,7 @@ import { renderEventLogHtml } from './team_events.js';
 import { renderGigBlockHtml } from './team_gigs.js';
 import { queryPeerCompare } from '../db_peer.js';
 import {
-  loadEventStars, loadLineupRoles, loadVenueMeta, queryTeamGigActs,
+  loadEventStars, loadLineupRoles, loadVenueMeta, querySimilarTeams, queryTeamGigActs,
 } from '../db_team_extras.js';
 
 /**
@@ -728,6 +729,7 @@ export async function renderTeamView(root, teamKey) {
     })}</section>`)}
 
     ${teamPanelHtml('network', activeTab, `
+      <section class="block team-similar" id="teamSimilarBlock">${renderSimilarHtml(null)}</section>
       <div id="teamGraphSection" class="team-graph-section">
         <div id="teamGraphHost" class="team-graph-host"></div>
         ${related.length ? `
@@ -824,6 +826,23 @@ export async function renderTeamView(root, teamKey) {
   }
   paintPrecedents();
   paintVideos();
+
+  // 비슷한 팀 (관계 탭 맨 위) — similar_teams.sql, 정답 정보는 안 씀
+  let similarRows = null;
+  let similarAll = false;
+  const paintSimilar = () => {
+    const el = root.querySelector('#teamSimilarBlock');
+    if (el) el.innerHTML = renderSimilarHtml(similarRows, similarAll);
+  };
+  root.querySelector('#teamSimilarBlock')?.addEventListener('click', (e) => {
+    if (!e.target.closest('[data-sim-more]')) return;
+    similarAll = true;
+    paintSimilar();
+  });
+  querySimilarTeams(teamKey, asOf).then((rows) => {
+    similarRows = rows;
+    paintSimilar();
+  });
 
   // 관계망 그림은 '관계' 탭이 처음 보일 때 그린다 (숨은 칸에서 그리면 크기가 0이 됨)
   const tabs = wireTeamTabs(root, (tab) => {
