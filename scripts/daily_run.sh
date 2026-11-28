@@ -38,6 +38,7 @@ if command -v aside >/dev/null 2>&1; then
     [ -s data/raw/state/followers_watch_melon_extra.txt ] && { "$PY" scripts/collect_artists.py --ids-file data/raw/state/followers_watch_melon_extra.txt || echo "⚠️ 관심 팀 멜론 팬 수 다시 받기 실패"; }
     "$PY" scripts/collect_ig_artists.py --handles-file data/raw/state/followers_watch_instagram.txt --limit 220 || echo "⚠️ 관찰 팀 인스타 팔로워 다시 보기 실패"
   fi
+  [ "$(TZ=Asia/Seoul date +%d)" = 01 ] && { "$PY" scripts/collect_moonlight_walk.py --pages 2 || echo "⚠️ 천안 달빛산책 블로그 실패"; }   # 매달 1일 (aside, 약 5초)
   "$PY" scripts/collect_insta.py || echo "⚠️ 인스타 매거진 수집 실패"   # 가장 오래 걸려서 aside 묶음 끝쪽 (길어져도 다른 수집이 안 밀리게, 바로 뒤 새 태그 프로필만)
   "$PY" scripts/collect_ig_artists.py --limit 100 || echo "⚠️ 인스타 아티스트 프로필(새로 태그된 계정) 수집 실패"   # 그날 인스타 글에 새로 태그된 계정, 하루 100개(차단 위험 관리)
 else

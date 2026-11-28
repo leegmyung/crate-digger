@@ -8717,6 +8717,10 @@
     {
      "url": "https://www.koreatimes.co.kr/southkorea/globalcommunity/20240616/finding-the-scene-4-live-music-venues-all-around-korea",
      "note": "Korea Times Finding the Scene 4 전국 (2024-06)"
+    },
+    {
+     "url": "https://www.instagram.com/kim.anchor/",
+     "note": "공연장 공식 인스타그램"
     }
    ],
    "indiego_url": "https://www.indiego.co.kr/venues/180-%EB%A1%9C%EC%96%84%EC%95%B5%EC%BB%A4",
@@ -8726,7 +8730,8 @@
    "in_our_data": true,
    "status_note": "인디고 최근 공연 2026-11-07 (2026-11-27 확인)",
    "type_basis": "이전 조사에서 정한 값(이름 짐작과 다름) — 근거 링크(sources) 참고",
-   "geo_checked": "2026-11-27"
+   "geo_checked": "2026-11-27",
+   "instagram": "kim.anchor"
   },
   {
    "name": "AMP MUSIC",
@@ -9469,6 +9474,10 @@
     {
      "url": "https://m.search.naver.com/search.naver?query=%EA%B3%A8%EB%AA%A9%EB%8B%A4%EB%B0%A9%20%EC%B2%AD%EC%A3%BC",
      "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 네이버 플레이스 라이브카페(청주 상당구 사직대로361번길 8-14)"
+    },
+    {
+     "url": "https://www.instagram.com/live_cafe_golvang_kendama/",
+     "note": "공연장 공식 인스타그램"
     }
    ],
    "status_note": "네이버 플레이스 라이브카페(청주 상당구 사직대로361번길 8-14) (2026-11-28 확인)",
@@ -9480,7 +9489,8 @@
    "lon": 127.487494,
    "geo_confidence": "medium",
    "geo_method": "address",
-   "geo_checked": "2026-11-28"
+   "geo_checked": "2026-11-28",
+   "instagram": "live_cafe_golvang_kendama"
   },
   {
    "name": "로드킹 (청주)",
@@ -9540,6 +9550,10 @@
     {
      "url": "https://m.search.naver.com/search.naver?query=%EC%A7%80%EC%A7%81%20%EC%B2%AD%EC%A3%BC",
      "note": "네이버 검색 결과(장소 정보·최근 글, 2026-11-28 aside 확인) — 2026-04 공연 글, 공연장 정보"
+    },
+    {
+     "url": "https://www.instagram.com/jijik.kr/",
+     "note": "공연장 공식 인스타그램"
     }
    ],
    "our_names": [],
@@ -9552,7 +9566,8 @@
    "lat": 36.636888,
    "lon": 127.487255,
    "geo_confidence": "medium",
-   "geo_method": "address"
+   "geo_method": "address",
+   "instagram": "jijik.kr"
   },
   {
    "name": "뮤지트 (충주 음악창작소)",

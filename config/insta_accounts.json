@@ -3984,6 +3984,56 @@
    "tier": "venue",
    "every_days": 4,
    "role": "venue_showcase"
+  },
+  {
+   "handle": "comonmusicpub",
+   "name": "커먼 뮤직 펍",
+   "tier": "venue",
+   "every_days": 4,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "uzupa_theuniversewave",
+   "name": "우주파",
+   "tier": "venue",
+   "every_days": 4,
+   "role": "venue_showcase",
+   "genre": "indie_rock"
+  },
+  {
+   "handle": "gnstone22",
+   "name": "강릉스톤",
+   "tier": "venue",
+   "every_days": 4,
+   "role": "venue_showcase",
+   "genre": "mixed"
+  },
+  {
+   "handle": "kim.anchor",
+   "name": "로얄앵커",
+   "tier": "venue",
+   "every_days": 4,
+   "role": "venue_showcase",
+   "genre": "jazz"
+  },
+  {
+   "handle": "jijik.kr",
+   "name": "지직",
+   "tier": "venue",
+   "every_days": 4,
+   "role": "venue_showcase",
+   "genre": "punk_metal",
+   "note": "2019-02 뒤로 새 글 없음(2026-11-28 확인) — 0행이 이어지면 collect_insta 가 주기를 늘림"
+  },
+  {
+   "handle": "live_cafe_golvang_kendama",
+   "name": "골목다방",
+   "tier": "venue",
+   "every_days": 4,
+   "role": "venue_showcase",
+   "genre": "punk_metal",
+   "note": "가게 계정. 사장 개인 계정 golvang(밴드 SINK TO RISE 보컬)은 팀 본인 글이 섞여 넣지 않음"
   }
  ]
 }
