@@ -12,6 +12,8 @@ import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText, gradeBadgeHtml, INFO_TIPS, infoTip, naCell, playButtonHtml,
 } from '../ui.js';
 import { isInstaAccountName } from '../components/venue_info.js';
+import { cityQuestions } from '../insight_text.js';
+import { placeQaHtml } from '../components/place_qa.js';
 import { aggregateBySido, mountRegionMap, sidoOfCity, sumRecentMonths } from '../components/region_map.js';
 
 const RECENT_DAYS = 90;
@@ -148,6 +150,22 @@ export async function renderCityPage(host, city) {
     byGig.get(k).teams.push(g);
   }
 
+  // 공연장·페스티벌과 같은 블록 순서: 머리 → 질문 3개 → 숫자 줄 → 다가오는 공연 → 나머지 (docs/ux_simplify_2026-11-28.md ⑩)
+  const seoulFlow = city === '서울' ? null : (cp.seoul_flow?.by_first_city?.[city] || null);
+  const qaHtml = placeQaHtml(cityQuestions(c, { seoulFlow }), `${city} 요약 질문`);
+  const kpiHtml = `
+      <div class="city-kpis">
+        ${kpi('공연장', `${fmtInt(c.venues_with_gigs || 0)}곳`, `명부 ${fmtInt(c.venues_master || 0)}곳 중 기록 있음`)}
+        ${kpi('공연 날짜', `${fmtInt(c.nights || 0)}일`, `예정 ${fmtInt(c.upcoming_nights || 0)}일`)}
+        ${kpi('최근 1년 출연', `${fmtInt(c.teams_1y || 0)}팀`, '이 도시 무대에 선 팀')}
+        ${kpi('첫 무대 신인', `${fmtInt(c.first_stage_teams_1y || 0)}팀`, `최근 1년 · 누적 ${fmtInt(c.first_stage_teams || 0)}팀`)}
+        ${kpi('나중에 상 받은 팀', `${fmtInt(c.later_winners_total || 0)}팀`, '수상·선정 전에 이 도시에서 공연')}
+      </div>`;
+  const upcomingHtml = `
+    <section class="block"><div class="block-head"><h2>다가오는 공연 (${UPCOMING_DAYS}일)</h2><span class="block-meta">${fmtInt(byGig.size)}건</span></div>
+      ${listOrEmpty([...byGig.values()].sort((a, b) => a.signal_date.localeCompare(b.signal_date)), '30일 안에 잡힌 공연 기록이 없습니다.', g => `<li><span class="mono small">${escapeHtml(formatNextGigText(g))}</span> — ${g.teams.slice(0, 4).map(t => `<span class="team-cell-inline">${avatarHtml(t.team_key, t.display_name, 18, { shape: 'circle' })}${teamLink(t.team_key, t.display_name)}</span>`).join(' · ')}${g.teams.length > 4 ? ` <span class="small muted">외 ${fmtInt(g.teams.length - 4)}</span>` : ''}</li>`)}
+    </section>`;
+
   host.innerHTML = `
     ${back}
     <section class="place-head">
@@ -156,15 +174,11 @@ export async function renderCityPage(host, city) {
         <span class="place-badge${low ? ' is-low' : ''}">${low ? '우리 기록 적음' : '우리 기록 많음'}</span>
       </div>
       <p class="small muted">청취자(스트리밍 지역) 자료는 없어 공연 기록만으로 봅니다${cp.as_of ? ` · 기준 ${escapeHtml(cp.as_of)}` : ''}</p>
-      <div class="city-kpis">
-        ${kpi('공연장', `${fmtInt(c.venues_with_gigs || 0)}곳`, `명부 ${fmtInt(c.venues_master || 0)}곳 중 기록 있음`)}
-        ${kpi('공연 날짜', `${fmtInt(c.nights || 0)}일`, `예정 ${fmtInt(c.upcoming_nights || 0)}일`)}
-        ${kpi('최근 1년 출연', `${fmtInt(c.teams_1y || 0)}팀`, '이 도시 무대에 선 팀')}
-        ${kpi('첫 무대 신인', `${fmtInt(c.first_stage_teams_1y || 0)}팀`, `최근 1년 · 누적 ${fmtInt(c.first_stage_teams || 0)}팀`)}
-        ${kpi('나중에 상 받은 팀', `${fmtInt(c.later_winners_total || 0)}팀`, '정답 전에 이 도시에서 공연')}
-      </div>
+      ${qaHtml}
+      ${kpiHtml}
       ${low ? '<p class="city-low-coverage">⚠️ 우리 기록 적음 — 이 도시는 수집된 공연이 적어 아래 목록이 실제보다 비어 보일 수 있습니다.</p>' : ''}
     </section>
+    ${upcomingHtml}
     <section class="block">
       <div class="block-head"><h2>지도</h2><span class="block-meta">${sidoOfCity(city) ? `${escapeHtml(sidoOfCity(city))} 공연장 · 진한 점 = ${escapeHtml(city)}` : '전국'} · 점을 누르면 공연장 페이지</span></div>
       <div id="cityRegionMap"></div>
@@ -181,9 +195,6 @@ export async function renderCityPage(host, city) {
         ${listOrEmpty(homeCands, appState.teamCitiesByTeam.size ? '이 도시를 활동 도시로 둔 후보가 없습니다.' : '팀별 활동 도시 자료(team_cities.csv)가 아직 없습니다.', r => `<li>${teamItem(r.team_key, r.display_name)} <span class="small muted">#${fmtInt(r.rank)} · ${fmtNum(r.score, 2)}점</span></li>`)}
       </section>
       <section class="block"><div class="block-head"><h3>최근 3개월 이 도시에서 첫 무대를 연 신인</h3><span class="block-meta" id="cityFirstMeta">계산 중…</span></div><div id="cityFirstBody"><p class="small muted">계산 중…</p></div></section>
-      <section class="block"><div class="block-head"><h3>다가오는 공연 (${UPCOMING_DAYS}일)</h3><span class="block-meta">${fmtInt(byGig.size)}건</span></div>
-        ${listOrEmpty([...byGig.values()].sort((a, b) => a.signal_date.localeCompare(b.signal_date)), '30일 안에 잡힌 공연 기록이 없습니다.', g => `<li><span class="mono small">${escapeHtml(formatNextGigText(g))}</span> — ${g.teams.slice(0, 4).map(t => `<span class="team-cell-inline">${avatarHtml(t.team_key, t.display_name, 18, { shape: 'circle' })}${teamLink(t.team_key, t.display_name)}</span>`).join(' · ')}${g.teams.length > 4 ? ` <span class="small muted">외 ${fmtInt(g.teams.length - 4)}</span>` : ''}</li>`)}
-      </section>
       <section class="block"><div class="block-head"><h3>대표 공연장</h3><span class="block-meta">공연 날짜 많은 순</span></div>
         ${listOrEmpty(c.top_venues || [], '공연장 기록이 없습니다.', ([v, n]) => `<li><a class="inline-venue-link" href="#/venue/${encodeURIComponent(v)}">${escapeHtml(v)}</a> <span class="small muted">${fmtInt(n)}일</span></li>`)}
       </section>

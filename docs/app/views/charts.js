@@ -26,11 +26,11 @@ const POOL = 300; // 도시 차트는 전체 상위 300 안에서 고른다
 const WEEK = 7;
 
 const DEFINITIONS = {
-  all: "전체 = 신인 후보 점수(v2) 순위 — 기준일 전 3년 신호 · 신인 3년 이내 · 유명 팀과 이미 정답 받은 팀 제외 · 기본 가중치(공연장 수는 최근 2년). 내 필터·가중치와 상관없이 고정.",
+  all: "전체 = 신인 후보 점수(v2) 순위 — 기준일 전 3년 신호 · 신인 3년 이내 · 유명 팀과 이미 수상·선정된 팀 제외 · 기본 가중치(공연장 수는 최근 2년). 내 필터·가중치와 상관없이 고정.",
   genre: "장르별 = '전체'와 같은 정의에서 대표 장르가 이 장르인 팀(추정 장르 포함 — 이름 옆 '추정' 꼬리표).",
   city: "도시별 = '전체' 정의의 상위 300팀 중 활동 도시(공연 날짜가 가장 많은 도시)가 이 도시인 팀.",
-  rising: '떠오르는 = 유명 제외 · 공연장 체급 M 이하 · 멜론 팬 1만 이하 · 최근 30일 남의 언급이 그 전 30일보다 많은 팀, 증가 폭 순.',
-  debut: '갓 데뷔 = 기준일 전 12개월 안에 첫 발매했고 그 전 신호가 없던 백지 신인만 따로 매긴 순위.',
+  rising: '떠오르는 = 유명 제외 · 공연장 크기 M 이하 · 멜론 팬 1만 이하 · 최근 30일 남의 언급이 그 전 30일보다 많은 팀, 증가 폭 순.',
+  debut: '갓 데뷔 = 기준일 전 12개월 안에 첫 발매했고 그 전 신호가 없던 신인만 따로 매긴 순위.',
 };
 const TAB_LABELS = { all: '전체', genre: '장르별', city: '도시별', rising: '떠오르는', debut: '갓 데뷔' };
 
@@ -100,9 +100,9 @@ function rowHtml(r, i, prevPos, stageByTeam, kind) {
   const genre = r.primary_genre ? `<span>${escapeHtml(r.primary_genre)}</span>${genreConfidenceBadgeHtml(r.team_key)}` : '';
   const nums = kind === 'rising'
     ? `<td class="num" data-label="최근 30일">${fmtInt(r.recent_n)}건</td><td class="num" data-label="직전 30일">${fmtInt(r.prev_n)}건</td>`
-    : `<td class="num" data-label="갈래">${fmtInt(r.n_branch)}</td><td class="num" data-label="공연장">${fmtInt(r.venues)}곳</td>`;
+    : `<td class="num" data-label="신호 종류">${fmtInt(r.n_branch)}</td><td class="num" data-label="공연장">${fmtInt(r.venues)}곳</td>`;
   const why = kind === 'rising'
-    ? `${fmtInt(r.recent_branches)}개 갈래에서 언급`
+    ? `신호 ${fmtInt(r.recent_branches)}종류에서 언급`
     : plainWhyLine(r);
   return `
     <tr class="clickable" tabindex="0" data-team-key="${escapeHtml(r.team_key)}">
@@ -144,7 +144,7 @@ export async function renderChartsView(root) {
   const top = rows.slice(0, CHART_SIZE);
   const prevPos = new Map(prevRows.slice(0, CHART_SIZE).map((r, i) => [r.team_key, i + 1]));
   const stageByTeam = new Map((stageData?.rows || []).map(r => [r.team_key, r.stage]));
-  const numHeads = kind === 'rising' ? '<th class="num">최근 30일</th><th class="num">직전 30일</th>' : '<th class="num">갈래</th><th class="num">공연장(2년)</th>';
+  const numHeads = kind === 'rising' ? '<th class="num">최근 30일</th><th class="num">직전 30일</th>' : '<th class="num">신호 종류</th><th class="num">공연장(2년)</th>';
 
   root.innerHTML = `
     ${renderChartTabsHtml(kind, kind === 'genre' || kind === 'city' ? param : '')}

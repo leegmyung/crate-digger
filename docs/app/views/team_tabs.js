@@ -22,13 +22,13 @@ export const TEAM_TAB_DEFS = {
   },
   gigs: {
     label: '공연',
-    evidence: [['공연 근거', '#/verify/evidence'], ['공연장 체급 출처·수집 상태', '#/verify/quality']],
+    evidence: [['공연 근거', '#/verify/evidence'], ['공연장 크기 출처·수집 상태', '#/verify/quality']],
     note: '공연은 인디스트릿·상상마당·인디고·공연장 인스타 기록',
   },
   network: {
     label: '관계',
     evidence: [['정답(수상) 근거', '#/verify/evidence'], ['출처 성적표', '#/verify/scorecard']],
-    note: '같은 무대·같은 소속사 연결 — 같은 집안 정답은 검증에서 뺌',
+    note: '같은 무대·같은 소속사 연결 — 같은 주최 수상·선정은 검증에서 뺌',
   },
   videos: {
     label: '영상',

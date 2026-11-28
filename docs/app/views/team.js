@@ -145,14 +145,14 @@ function renderMonthlyBarsHtml(timeline, endDateStr) {
     <div class="team-activity-bars">
       <div class="team-activity-bars-head">
         <span class="small muted">최근 12개월 활동 흐름 (${escapeHtml(monthBuckets[0]?.ym || '')} ~ ${escapeHtml(monthBuckets[monthBuckets.length - 1]?.ym || '')} · 총 ${fmtInt(total12m)}건)</span>
-        <div class="monthly-legend" aria-label="갈래 범례">
+        <div class="monthly-legend" aria-label="신호 종류 범례">
           <span class="monthly-leg-item"><i class="monthly-dot is-gig"></i>공연</span>
           <span class="monthly-leg-item"><i class="monthly-dot is-sel"></i>선정·지원</span>
           <span class="monthly-leg-item"><i class="monthly-dot is-other"></i>발매·큐레이션</span>
         </div>
       </div>
       ${total12m > 0 ? `
-        <div class="monthly-bars-grid" role="img" aria-label="최근 12개월 갈래별 활동 막대 그래프">
+        <div class="monthly-bars-grid" role="img" aria-label="최근 12개월 신호 종류별 활동 막대 그래프">
           ${monthBuckets.map(m => {
             const barPct = m.total > 0 ? Math.max(8, Math.round((m.total / max12m) * 100)) : 0;
             const gigPct = m.total > 0 ? (m.gig / m.total) * 100 : 0;
@@ -326,7 +326,7 @@ export async function renderTeamView(root, teamKey) {
   // Register team timeline CSV with unified export dropdown
   const teamTlCsvSpec = mergedTimeline.length ? {
     filename: `crate_digger_team_${teamKey.replace(/[^a-zA-Z0-9가-힣_-]+/g, '_')}_${appState.dataEnd || 'export'}.csv`,
-    headers: ['날짜', '갈래', '역할/등급', '내용'],
+    headers: ['날짜', '신호 종류', '역할/등급', '내용'],
     rows: mergedTimeline.map(m => [m.dateDisp, m.branch, m.isOutcome ? (m.grade || '') : (m.role || ''), m.text]),
   } : null;
 
@@ -473,7 +473,7 @@ export async function renderTeamView(root, teamKey) {
         <div id="teamScoreBody">${renderScoreBodyHtml(scoreCtx)}</div>
       ` : renderNoRecordLine('현재 필터·기간 조건 안의 점수가 없습니다')}
       <p class="score-role-note">
-        점수에는 발굴 출처만, 맥락 매체는 약하게 반영합니다. 검증 대기·제외 출처는 아래 활동 기록에서 참고용으로만 보여 줍니다.
+        점수에는 발굴 출처만, 큰 매거진은 약하게 반영합니다. 검증 대기·제외 출처는 아래 활동 기록에서 참고용으로만 보여 줍니다.
         <a href="#/verify/scorecard">출처 성적표 보기 ↗</a>
       </p>
     </section>

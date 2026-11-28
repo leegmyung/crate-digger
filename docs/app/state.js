@@ -103,13 +103,13 @@ export const WEIGHT_PRESETS = {
 export const DEFAULT_WEIGHTS = { ...WEIGHT_PRESETS.v2 };
 
 export const WEIGHT_FIELDS = [
-  { key: 'w_branch', label: '갈래 수 (갈래−1)', min: 0, max: 5, step: 0.5, isInt: false },
+  { key: 'w_branch', label: '신호 종류 수 (종류−1)', min: 0, max: 5, step: 0.5, isInt: false },
   { key: 'w_stage', label: '선정 최고 단계 (0~4)', min: 0, max: 3, step: 0.5, isInt: false },
   { key: 'w_venues', label: '최근 2년 서로 다른 공연장 수', min: 0, max: 3, step: 0.5, isInt: false },
   { key: 'w_recent', label: '최근 6개월 활동', min: 0, max: 3, step: 0.5, isInt: false },
   { key: 'w_winner', label: '이미 상 받은 팀과 같은 무대', min: 0, max: 3, step: 0.5, isInt: false },
-  { key: 'w_outlets', label: '발굴 매체 수', min: 0, max: 3, step: 0.5, isInt: false },
-  { key: 'w_context', label: '맥락 매체 수 (약하게)', min: 0, max: 3, step: 0.1, isInt: false },
+  { key: 'w_outlets', label: '신인 소개 매체 수', min: 0, max: 3, step: 0.5, isInt: false },
+  { key: 'w_context', label: '큰 매거진 수 (약하게)', min: 0, max: 3, step: 0.1, isInt: false },
   { key: 'outlet_cap', label: '매체 수 상한', min: 1, max: 6, step: 1, isInt: true },
   { key: 'w_peer', label: '선정 팀과 같은 무대', min: 0, max: 3, step: 0.5, isInt: false },
   { key: 'w_dmz', label: 'DMZ 출연', min: 0, max: 3, step: 0.5, isInt: false },
@@ -257,7 +257,7 @@ export const appState = {
   candPreset: '', // '' | 'debut12' | 'blank' | 'selected' | 'regional' | 'rising'
   candView: '', // '' (표) | 'heat' (색 지도)
   candCity: '', // 발굴: 활동 도시(team_cities home_city) — 주소 hcity
-  candTier: '', // 발굴: 가장 큰 무대 체급 상한 '' | 'S' | 'M' | 'L' — 주소 maxtier
+  candTier: '', // 발굴: 가장 큰 무대 크기 상한 '' | 'S' | 'M' | 'L' — 주소 maxtier
   candGenreInf: '', // 발굴: '' = 추정 장르 포함 | 'exclude' = 장르 고를 때 추정 장르 팀 빼기 — 주소 ginf=0
   scFilter: 'all', // 'all' | 'discovery' | 'context' | 'excluded' | 'pending' | 'mismatch'
   scSort: { col: 'winners_seen', dir: 'desc' },
@@ -308,7 +308,7 @@ export function getActiveFilterSummary(cfg = appState.cfg) {
     changedKeys.add('genre');
   }
   if (cfg.branches.length !== ALL_BRANCHES.length) {
-    items.push({ key: 'branches', label: `갈래: ${cfg.branches.join(', ') || '없음'}` });
+    items.push({ key: 'branches', label: `신호 종류: ${cfg.branches.join(', ') || '없음'}` });
     changedKeys.add('branches');
   }
   if (Number(cfg.period_days) > 0) {

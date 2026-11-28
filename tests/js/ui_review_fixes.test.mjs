@@ -31,6 +31,6 @@ test('새로 진입은 영어 NEW 대신 "새로"', () => {
 });
 
 test('공연장 머리 숫자 말풍선: 정답 전에 선 팀 · 최근 12개월 공연', () => {
-  assert.match(INFO_TIPS.venue_pre_outcome.what, /정답/);
+  assert.match(INFO_TIPS.venue_pre_outcome.what, /수상·선정/);
   assert.match(INFO_TIPS.venue_nights_12m.what, /공연/);
 });

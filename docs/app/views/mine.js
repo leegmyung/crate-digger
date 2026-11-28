@@ -37,9 +37,9 @@ export function summarizeFilterSpec(spec) {
   if (spec.region === 'non_seoul') parts.push('서울 외 지역');
   if (Number(spec.periodDays) > 0) parts.push(`최근 ${Number(spec.periodDays)}일`);
   if (Array.isArray(cfg.branches) && cfg.branches.length > 0 && cfg.branches.length < 4) {
-    parts.push(`갈래: ${cfg.branches.join(', ')}`);
+    parts.push(`신호 종류: ${cfg.branches.join(', ')}`);
   }
-  if (Number(cfg.min_branches) > 1) parts.push(`최소 ${Number(cfg.min_branches)}갈래`);
+  if (Number(cfg.min_branches) > 1) parts.push(`최소 ${Number(cfg.min_branches)}종류`);
   if (spec.query) parts.push(`검색: "${spec.query}"`);
   if (spec.moveIgnored) parts.push('변화 조건 제외');
   return parts.length ? parts : ['전체 후보 (기본 조건)'];

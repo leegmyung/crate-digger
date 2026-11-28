@@ -443,7 +443,7 @@ async function renderCurrentView() {
   document.body.dataset.layout = layoutKind();
 
   if (!appState.cfg.branches.length) {
-    setGlobalError('갈래(공연·선정·지원·발매·큐레이션)를 최소 1개 이상 선택해 주세요.');
+    setGlobalError('신호 종류(공연·선정·지원·발매·큐레이션)를 최소 1개 이상 선택해 주세요.');
     setStatus('필터 확인 필요', false);
     return;
   }

@@ -9,6 +9,7 @@ import { mountVenueTables } from './venue_tables.js';
 import { entityCellHtml } from '../components/entity_cell.js';
 import { alertsForSubscribedVenues, isVenueSubscribed, toggleVenueSub } from '../venue_subs.js';
 import { venueQuestions, venueSubForecastText } from '../insight_text.js';
+import { placeQaHtml } from '../components/place_qa.js';
 import { confidenceLabel, venueStatusBadge, venueTypeLabel } from '../components/venue_info.js';
 import {
   avatarHtml, escapeHtml, fmtInt, fmtNum, gradeBadgeHtml,
@@ -18,16 +19,16 @@ import {
 } from '../ui.js';
 
 const TIER_META = {
-  S: { label: '소형 (~150명)', title: '체급 S · 소형 클럽 · 소규모 무대' },
-  M: { label: '중형 (~400명)', title: '체급 M · 중소형 공연장' },
-  L: { label: '대형 (~1,000명)', title: '체급 L · 중대형 홀' },
-  XL: { label: '특대형 (1,000명+)', title: '체급 XL · 대형 홀·아레나' },
+  S: { label: '소형 (~150명)', title: '크기 S · 소형 클럽 · 소규모 무대' },
+  M: { label: '중형 (~400명)', title: '크기 M · 중소형 공연장' },
+  L: { label: '대형 (~1,000명)', title: '크기 L · 중대형 홀' },
+  XL: { label: '특대형 (1,000명+)', title: '크기 XL · 대형 홀·아레나' },
 };
 
 function renderTierBadge(tier) {
   const key = String(tier || '').trim().toUpperCase();
   if (!key) return '';
-  const meta = TIER_META[key] || { label: `체급 ${key}`, title: `공연장 체급 ${key}` };
+  const meta = TIER_META[key] || { label: `크기 ${key}`, title: `공연장 크기 ${key}` };
   return `<span class="venue-tier-badge is-tier-${escapeHtml(key.toLowerCase())}" title="${escapeHtml(meta.title)}">${escapeHtml(meta.label)}</span>`;
 }
 
@@ -215,7 +216,7 @@ export async function renderVenueView(root, venueName) {
     root.innerHTML = renderActionBanner({
       title: '공연장 상세',
       lead: '선택된 공연장이 없습니다.',
-      todo: '공연장 목록에서 공연장을 고르면 체급·출연 팀·공연·전후 흐름을 탭으로 볼 수 있습니다.',
+      todo: '공연장 목록에서 공연장을 고르면 크기·출연 팀·공연·전후 흐름을 탭으로 볼 수 있습니다.',
       buttonsHtml: '<a class="btn" href="#/venues">공연장 목록으로</a>',
     });
     return;
@@ -272,7 +273,7 @@ export async function renderVenueView(root, venueName) {
       <div class="block-head">
         <div>
           <h2>여기 섰다가 나중에 상 받은 팀</h2>
-          <span class="block-meta">${escapeHtml(notes.later_winners || '센 정답 첫 발표일보다 먼저 이 공연장에 선 팀')}</span>
+          <span class="block-meta">${escapeHtml(notes.later_winners || '큰 수상·선정 첫 발표일보다 먼저 이 공연장에 선 팀')}</span>
         </div>
         <span class="badge-new">총 ${fmtInt(total)}팀</span>
       </div>
@@ -443,10 +444,7 @@ export async function renderVenueView(root, venueName) {
     ? venueQuestions(profile, { tierOf })
     : [{ q: '신인을 일찍 세우는 곳인가?' }, { q: '여기서 공연한 신인이 어디까지 갔나?' }, { q: '지금 여기서 볼 만한 팀은?' }]
       .map(x => ({ ...x, a: '공연장 프로필이 아직 없어 답할 수 없어요 — 출연 팀·공연 탭에서 기록을 볼 수 있어요' }));
-  const qaHtml = `
-    <div class="venue-qa" aria-label="이 공연장 요약 질문">
-      ${questions.map((x, i) => `<div class="venue-qa-item${i === 1 ? ' is-lead' : ''}"><p class="venue-qa-q">${i === 1 ? '💡 ' : ''}${escapeHtml(x.q)}</p><p class="venue-qa-a">${escapeHtml(x.a)}</p></div>`).join('')}
-    </div>`;
+  const qaHtml = placeQaHtml(questions, '이 공연장 요약 질문');
   const metaSummary = [profile?.city, profile && Number(profile.capacity) > 0 ? `수용 약 ${fmtInt(profile.capacity)}명` : '', profile?.first_night ? `공연 기록 ${String(profile.first_night).slice(0, 4)}~` : ''].filter(Boolean).join(' · ');
 
   const headHtml = `
@@ -475,7 +473,7 @@ export async function renderVenueView(root, venueName) {
             <span class="venue-kpi-sub">최근 1년 ${fmtInt(profile.teams_1y || 0)}팀 중 ${fmtInt(profile.first_timers_1y || 0)}팀</span>
           </div>
           <div class="venue-kpi-card">
-            <span class="venue-kpi-lbl">정답 전에 선 팀${infoTip('정답 전에 선 팀', INFO_TIPS.venue_pre_outcome, { compact: true })}</span>
+            <span class="venue-kpi-lbl">수상·선정 전에 선 팀${infoTip('수상·선정 전에 선 팀', INFO_TIPS.venue_pre_outcome, { compact: true })}</span>
             <strong class="venue-kpi-val mono">${fmtInt(profile.later_winners_total || 0)}팀</strong>
             <span class="venue-kpi-sub">수상·선정 전에 이곳</span>
           </div>
@@ -521,7 +519,7 @@ export async function renderVenueView(root, venueName) {
         </div>
       </div>
       ${flow ? `<div class="vf-wrap vf-${flow.kind}">${flow.html}</div>
-      <p class="small muted vf-note">위 = 이곳 전에 선 곳(회색), 아래 = 이곳 뒤에 처음 선 곳(강조색), 굵기 = 팀 수 · 체급 상승은 점수에 넣지 않는 참고 자료입니다</p>` : ''}
+      <p class="small muted vf-note">왼쪽 = 이곳 전에 선 곳, 오른쪽 = 이곳 뒤에 처음 선 곳, 굵기 = 팀 수, 색 = 이곳보다 큰 무대인지 · 공연장 크기 상승은 점수에 넣지 않는 참고 자료입니다</p>` : ''}
       <details class="vf-list-fold"><summary class="small">목록으로 보기</summary>
       <div class="venue-flow-grid">
         ${renderFlowColumnHtml('이곳 전에 많이 선 곳', profile.before, '이전 1년 사이 함께 집계된 선행 공연장이 없습니다.')}
@@ -550,9 +548,9 @@ export async function renderVenueView(root, venueName) {
   const evidenceHtml = `
     <section class="venue-evidence" aria-label="근거">
       ${basisFoldHtml}
-      <p class="small muted">체급·수용 인원은 공개 자료 확인값(출처·확실도는 머리에) · 데이터 수집 상태는 <a href="#/verify/quality">검증 › 데이터 품질</a> ·
+      <p class="small muted">크기·수용 인원은 공개 자료 확인값(출처·확실도는 머리에) · 데이터 수집 상태는 <a href="#/verify/quality">검증 › 데이터 품질</a> ·
         후보 점수의 '서로 다른 공연장'은 <strong>최근 2년</strong> 공연만 세고, 이 화면의 첫 무대 신인·흐름·발굴 주목도는 점수에 넣지 않는 참고 자료입니다 ·
-        외부 서비스의 공연장 페이지와 달리 정답(수상·선정) 전에 선 팀을 따로 셉니다 ·
+        외부 서비스의 공연장 페이지와 달리 수상·선정 전에 선 팀을 따로 셉니다 ·
         <a href="${escapeHtml(reportUrl)}" target="_blank" rel="noopener noreferrer">정보가 틀려요 ↗</a></p>
     </section>`;
 

@@ -15,13 +15,13 @@ const EVIDENCE_MAX = 8;
 /** 점수 항목: key → 이웃 백분위 칸(peer_compare.sql) */
 function scoreItemDefs(s) {
   return [
-    { key: 'branch', label: `갈래 수 (${fmtInt(s.n_branch)}개)`, pts: s.pts_branch, pct: 'branch_pct' },
+    { key: 'branch', label: `신호 종류 수 (${fmtInt(s.n_branch)}개)`, pts: s.pts_branch, pct: 'branch_pct' },
     { key: 'stage', label: `선정 최고 단계 (${fmtInt(s.best_stage)})`, pts: s.pts_stage, pct: 'stage_pct' },
     { key: 'venues', label: `최근 2년 서로 다른 공연장 (${fmtInt(s.venues)}곳)`, pts: s.pts_venues, pct: 'venues_pct' },
     { key: 'recent', label: `최근 6개월 활동 (${fmtInt(s.recent180)}건)`, pts: s.pts_recent },
     { key: 'winner', label: '이미 상 받은 팀과 같은 무대', pts: s.pts_winner, pct: 'winner_pct' },
-    { key: 'outlets', label: `발굴 매체 (${fmtInt(s.outlets)}곳)`, pts: s.pts_outlets, pct: 'outlets_pct' },
-    { key: 'context', label: `맥락 매체 (${fmtInt(s.context_outlets ?? 0)}곳)`, pts: s.pts_context, pct: 'context_pct' },
+    { key: 'outlets', label: `신인 소개 매체 (${fmtInt(s.outlets)}곳)`, pts: s.pts_outlets, pct: 'outlets_pct' },
+    { key: 'context', label: `큰 매거진 (${fmtInt(s.context_outlets ?? 0)}곳)`, pts: s.pts_context, pct: 'context_pct' },
     { key: 'collab', label: `협업(기성 아티스트 ${fmtInt(s.collab_est ?? 0)}명)`, pts: s.pts_collab },
     { key: 'peer', label: '선정 팀과 같은 무대', pts: s.pts_peer },
     { key: 'dmz', label: 'DMZ 출연', pts: s.pts_dmz },
@@ -96,7 +96,7 @@ function renderPeerArea(peer, scope, error) {
   }
   const top = topSharePct(peer.top_share);
   const genreNote = scope === 'genre'
-    ? '<p class="small muted score-peer-note">참고용: 확인된 장르는 멜론 프로필을 정답·상위 후보 위주로 받아 붙은 것이라, 같은 장르 이웃에는 이미 주목받은 팀이 몰려 있어 등급이 낮게 나오기 쉽습니다.</p>'
+    ? '<p class="small muted score-peer-note">참고용: 확인된 장르는 멜론 프로필을 수상·선정·상위 후보 위주로 받아 붙은 것이라, 같은 장르 이웃에는 이미 주목받은 팀이 몰려 있어 등급이 낮게 나오기 쉽습니다.</p>'
     : '';
   return genreNote + peerBar({
     label: '종합 점수',

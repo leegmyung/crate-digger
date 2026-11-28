@@ -21,8 +21,8 @@ export const CAND_PRESETS = [
   {
     id: 'blank',
     desc: '아직 남의 언급 없음',
-    label: '백지 신인',
-    tipTitle: '백지 신인',
+    label: '언급 전 신인',
+    tipTitle: '언급 전 신인',
     tip: INFO_TIPS.preset_blank,
   },
   {
@@ -106,7 +106,7 @@ export function buildActiveFilterChips(appState) {
     if (c.exclude_famous) {
       chips.push({ key: 'rising_famous', label: '유명 팀 제외', removable: false, presetCond: true });
     }
-    chips.push({ key: 'rising_tier', label: '공연장 체급 ≤ M', removable: false, presetCond: true });
+    chips.push({ key: 'rising_tier', label: '공연장 크기 ≤ M', removable: false, presetCond: true });
     chips.push({ key: 'rising_fans', label: '멜론 팬 ≤ 10,000', removable: false, presetCond: true });
   }
   if (c.genre) {
@@ -131,7 +131,7 @@ export function buildActiveFilterChips(appState) {
     chips.push({ key: 'move', label: `변화: ${mvLabel}`, removable: true });
   }
   if (c.branches.length < ALL_BRANCHES.length) {
-    chips.push({ key: 'branches', label: `갈래: ${c.branches.join('·')}`, removable: true });
+    chips.push({ key: 'branches', label: `신호 종류: ${c.branches.join('·')}`, removable: true });
   }
   if (Number(c.period_days) > 0) {
     chips.push({ key: 'period', label: `최근 ${c.period_days}일`, removable: true });
@@ -210,12 +210,12 @@ export function renderCandPanelHtml({ appState, counts }) {
 
   const branches = ALL_BRANCHES.map(b => optBtn('data-branch-chip', b, b, counts.branches[b] || 0, c.branches.includes(b))).join('');
   const tiers = counts.hasLadder
-    ? [optBtn('data-set-tier', '', '체급 상관없음', counts.total, !appState.candTier),
+    ? [optBtn('data-set-tier', '', '크기 상관없음', counts.total, !appState.candTier),
       ...TIER_OPTIONS.map(([t, lbl]) => optBtn('data-set-tier', t, lbl, counts.tiers?.[t] ?? 0, appState.candTier === t))].join('')
-    : '<p class="small muted">공연장 체급 사다리 자료(venue_ladder.json)가 아직 없습니다.</p>';
-  const signalBody = `<div class="dp-label">신호 갈래</div><div class="cf-pop-opts">${branches}</div>
-    <div class="dp-label">가장 큰 무대 체급</div><div class="cf-pop-opts">${tiers}</div>
-    <p class="small muted dp-sub">체급을 모르는 공연장만 선 팀은 체급을 고르면 빠집니다</p>`;
+    : '<p class="small muted">공연장 크기 사다리 자료(venue_ladder.json)가 아직 없습니다.</p>';
+  const signalBody = `<div class="dp-label">신호 종류</div><div class="cf-pop-opts">${branches}</div>
+    <div class="dp-label">가장 큰 무대 크기</div><div class="cf-pop-opts">${tiers}</div>
+    <p class="small muted dp-sub">크기를 모르는 공연장만 선 팀은 크기를 고르면 빠집니다</p>`;
 
   const moves = [['new', '새로 들어옴'], ['riser', '상승'], ['upcoming', '예정 공연']]
     .map(([k, lbl]) => optBtn('data-move-chip', k, lbl, counts.moves[k] || 0, appState.candMove === k)).join('');

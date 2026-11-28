@@ -192,8 +192,8 @@ async function renderDebutCandidatesView(root) {
   const bannerHtml = renderActionBanner({
     title: '갓 데뷔',
     lead: debutData.total
-      ? `기준일(${escapeHtml(asOf)}) 전 12개월 내 첫 발매·사전 신호 없는 백지 신인 <strong>${fmtInt(debutData.total)}팀</strong>(언급 있음 ${fmtInt(debutData.mentioned.length)}팀 · 아직 언급 없음 ${fmtInt(debutData.unmentioned.length)}팀)입니다.`
-      : `기준일(${escapeHtml(asOf)}) 전 12개월 내 조건에 맞는 백지 신인이 없습니다.`,
+      ? `기준일(${escapeHtml(asOf)}) 전 12개월 내 첫 발매·그 전 신호 없는 갓 데뷔 신인 <strong>${fmtInt(debutData.total)}팀</strong>(언급 있음 ${fmtInt(debutData.mentioned.length)}팀 · 아직 언급 없음 ${fmtInt(debutData.unmentioned.length)}팀)입니다.`
+      : `기준일(${escapeHtml(asOf)}) 전 12개월 내 조건에 맞는 갓 데뷔 신인이 없습니다.`,
   });
 
   const genreOpts = ['<option value="">전체 장르</option>']
@@ -220,8 +220,8 @@ async function renderDebutCandidatesView(root) {
 
   const unm = debutScorecard.unmentioned;
   const unmOpportunityHtml = unm && debutScorecard.cohortTeams > 0
-    ? `데뷔 코호트 검증 기준 첫 발매 뒤 ${fmtInt(debutScorecard.mentionMonths)}개월 안에 어느 출처에도 안 나온 백지 신인이 <strong>${fmtInt(debutScorecard.unmentionedPct)}%</strong>(${fmtInt(unm.teams)}/${fmtInt(debutScorecard.cohortTeams)}팀, 그중 ${escapeHtml(TERMS.outcome)} ${fmtInt(unm.hits)}팀)입니다 — 아직 언급이 없는 팀이 가장 큰 발굴 기회입니다.`
-    : '아직 어느 출처에도 언급되지 않은 백지 신인은 선행 발굴 후보로 따로 모아 둡니다.';
+    ? `데뷔 코호트 검증 기준 첫 발매 뒤 ${fmtInt(debutScorecard.mentionMonths)}개월 안에 어느 출처에도 안 나온 언급 전 신인이 <strong>${fmtInt(debutScorecard.unmentionedPct)}%</strong>(${fmtInt(unm.teams)}/${fmtInt(debutScorecard.cohortTeams)}팀, 그중 ${escapeHtml(TERMS.outcome)} ${fmtInt(unm.hits)}팀)입니다 — 아직 언급이 없는 팀이 가장 큰 발굴 기회입니다.`
+    : '아직 어느 출처에도 언급되지 않은 언급 전 신인은 선행 발굴 후보로 따로 모아 둡니다.';
 
   root.innerHTML = `
     ${renderChartTabsHtml('debut')}
@@ -247,7 +247,7 @@ async function renderDebutCandidatesView(root) {
             </label>
           </div>
           <p class="small muted" style="margin:8px 0 0 0;">
-            기준일(${escapeHtml(asOf)}) 전 12개월 안에 첫 발매가 있고 첫 발매 이전 외부 신호가 0건인 팀만 모았습니다. 자기 발매(발매 갈래)는 언급으로 세지 않습니다.
+            기준일(${escapeHtml(asOf)}) 전 12개월 안에 첫 발매가 있고 첫 발매 이전 외부 신호가 0건인 팀만 모았습니다. 자기 발매(발매 신호)는 언급으로 세지 않습니다.
           </p>
         </div>
       </details>
@@ -259,7 +259,7 @@ async function renderDebutCandidatesView(root) {
         <div class="debut-cohort-pills">${cohortPillsHtml}</div>
         <a class="debut-doc-link" href="${DEBUT_DOC_URL}" target="_blank" rel="noopener noreferrer">분석 문서 ↗</a>
       </div>
-      <p class="debut-limit-note">한계: 첫 발매일은 멜론·스포티파이 프로필이 있는 팀에만 있어 전체 백지 신인의 일부만 보입니다.</p>
+      <p class="debut-limit-note">한계: 첫 발매일은 멜론·스포티파이 프로필이 있는 팀에만 있어 전체 갓 데뷔 신인의 일부만 보입니다.</p>
     </section>
 
     <div class="block" style="padding:0;overflow:hidden;">
@@ -483,7 +483,7 @@ async function renderDebutCandidatesView(root) {
       `;
       wireAvatarFallbacks(unmBody);
     } else {
-      unmBody.innerHTML = `<p class="small muted" style="margin:6px 0 0 0;">현재 기준일(${escapeHtml(asOf)}) 프로필 보유 백지 신인 중 첫 발매 뒤 언급이 0건인 팀은 없습니다.</p>`;
+      unmBody.innerHTML = `<p class="small muted" style="margin:6px 0 0 0;">현재 기준일(${escapeHtml(asOf)}) 프로필 보유 갓 데뷔 신인 중 첫 발매 뒤 언급이 0건인 팀은 없습니다.</p>`;
     }
 
     const hasAnyImg = [...filteredMentioned, ...filteredUnmentioned].some(r => appState.imagesByTeam.has(r.team_key));
@@ -759,7 +759,7 @@ export async function renderCandidatesView(root) {
     const genre = rr.primary_genre || existing?.primary_genre || '';
     const knownGenre = isKnownGenre(genre);
     // growth 는 ln(1+최근) − ln(1+직전) 이라 '몇 배'가 아니다 → 건수만 평문으로 보여 준다
-    const risingWhy = `최근 30일 ${fmtInt(rr.recent_n)}건 (직전 30일 ${fmtInt(rr.prev_n)}건) · ${fmtInt(rr.recent_branches)}개 갈래`;
+    const risingWhy = `최근 30일 ${fmtInt(rr.recent_n)}건 (직전 30일 ${fmtInt(rr.prev_n)}건) · 신호 ${fmtInt(rr.recent_branches)}종류`;
     const merged = {
       ...(existing || {}),
       team_key: rr.team_key,
@@ -898,7 +898,7 @@ export async function renderCandidatesView(root) {
           <details class="ux-more disc-view-more">
             <summary class="btn btn-sm" aria-label="보기 설정 — 고급 보기·표 밀도·CSV">보기 설정 ▾</summary>
             <div class="ux-more-menu">
-              <label class="cf-crit-check"><input type="checkbox" id="candAdvancedChk"${discoverAdvanced ? ' checked' : ''}><span>고급 보기 (장르 순위 칸·칸마다 채움 숫자)</span></label>
+              <label class="cf-crit-check"><input type="checkbox" id="candAdvancedChk"${discoverAdvanced ? ' checked' : ''}><span>고급 보기 (장르 순위·최근 활동 칸 · 칸마다 채움 숫자)</span></label>
               <div class="density-switch" role="group" aria-label="표 밀도">
                 <button type="button" class="density-btn${density === 'compact' ? ' is-active' : ''}" data-density="compact" aria-pressed="${density === 'compact' ? 'true' : 'false'}">촘촘</button>
                 <button type="button" class="density-btn${density === 'comfortable' ? ' is-active' : ''}" data-density="comfortable" aria-pressed="${density === 'comfortable' ? 'true' : 'false'}">편하게</button>
@@ -1193,7 +1193,7 @@ export async function renderCandidatesView(root) {
                 </div>
                 ${subRowHtml}
                 <div class="cand-mobile-meta">
-                  <span class="cand-mobile-why">${escapeHtml(whyTxt)}</span>
+                  <span class="cand-mobile-why why-clamp" title="${escapeHtml(whyTxt)}">${escapeHtml(whyTxt)}</span>
                   <div class="cand-mobile-chips">
                     ${rankDeltaHtml}
                     ${hasAct ? act.html : ''}
@@ -1204,7 +1204,7 @@ export async function renderCandidatesView(root) {
             </div>
           </td>
           <td class="nowrap cand-genre-rank-col">${genreRankCell}</td>
-          <td class="why-cell" title="${escapeHtml(whyTxt)}">${whyCellHtml}</td>
+          <td class="why-cell" title="${escapeHtml(whyTxt)}"><span class="why-clamp">${whyCellHtml}</span></td>
           <td class="nowrap next-gig-col">${nextGigCell}</td>
           <td class="num nowrap cand-activity-col">${actCellHtml}</td>
           <td class="num cand-score-col">${scoreCellHtml}</td>

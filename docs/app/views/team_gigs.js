@@ -32,13 +32,13 @@ function countCell(s) {
 }
 
 function tierCell(s) {
-  if (!s.tierCounts) return cellHtml('공연장 체급', naCell('공연장 체급 자료(venue_tiers.csv)가 아직 없습니다', { block: true }));
-  if (!s.total12) return cellHtml('공연장 체급', renderNoRecordLine('최근 12개월 공연 없음'));
+  if (!s.tierCounts) return cellHtml('공연장 크기', naCell('공연장 크기 자료(venue_tiers.csv)가 아직 없습니다', { block: true }));
+  if (!s.total12) return cellHtml('공연장 크기', renderNoRecordLine('최근 12개월 공연 없음'));
   const parts = TIER_ORDER.map(([k, label], i) => ({
     label, n: s.tierCounts[k], cls: k === 'unknown' ? 'is-unknown' : `lv${i + 1}`,
   }));
   const unknownPct = pct(s.tierCounts.unknown, s.total12);
-  return cellHtml('공연장 체급', `${stackHtml(parts, s.total12, '공연장 체급 분포')}<div class="small muted">체급 모름 ${unknownPct}%</div>`);
+  return cellHtml('공연장 크기', `${stackHtml(parts, s.total12, '공연장 크기 분포')}<div class="small muted">크기 모름 ${unknownPct}%</div>`);
 }
 
 function venuesCell(s) {

@@ -210,7 +210,7 @@ export async function renderAlertsView(root) {
         });
       } else {
         const typeButtons = [
-          `<button type="button" class="alerts-chip${state.type === 'important' ? ' is-active' : ''}" data-alert-type="important" aria-pressed="${state.type === 'important'}" title="새 공연·이미 뜬 팀의 새 정답을 뺀 발굴 신호">중요한 것 <span class="alerts-chip-n">${fmtInt(baseByPeriodAndMine.filter(isImportantAlert).length)}</span></button>`,
+          `<button type="button" class="alerts-chip${state.type === 'important' ? ' is-active' : ''}" data-alert-type="important" aria-pressed="${state.type === 'important'}" title="새 공연·이미 뜬 팀의 새 수상·선정을 뺀 발굴 신호">중요한 것 <span class="alerts-chip-n">${fmtInt(baseByPeriodAndMine.filter(isImportantAlert).length)}</span></button>`,
           `<button type="button" class="alerts-chip${state.type === 'all' ? ' is-active' : ''}" data-alert-type="all" aria-pressed="${state.type === 'all'}">전체 <span class="alerts-chip-n">${fmtInt(baseByPeriodAndMine.length)}</span></button>`,
           ...typeOrder
             .filter(t => allAlerts.some(a => a.type === t))
@@ -398,7 +398,7 @@ export async function renderAlertsView(root) {
                       <a class="inline-venue-link" href="#/venue/${encodeURIComponent(v)}"><strong>${escapeHtml(v)}</strong></a>
                       <span class="small muted">${list.length ? `이번 주 소식 ${fmtInt(list.length)}건` : '이번 주 소식 없음'}</span>
                     </div>
-                    <p class="small muted" style="margin:2px 0 0;">큰 공연장 첫 출연 · 새 공연 · 백지 신인 첫 언급 · 같은 무대 수상 팀 알림을 모읍니다.</p>
+                    <p class="small muted" style="margin:2px 0 0;">큰 공연장 첫 출연 · 새 공연 · 언급 전 신인 첫 언급 · 같은 무대 수상 팀 알림을 모읍니다.</p>
                   </div>
                   <div class="alerts-rule-actions">
                     <button type="button" class="btn btn-sm" data-rule-unsub="${escapeHtml(v)}">구독 해제</button>
@@ -448,7 +448,7 @@ export async function renderAlertsView(root) {
             <a class="home-more-link" href="#/mine?tab=watch">관심 팀 관리 →</a>
           </div>
           <p class="small muted" style="margin:0;">
-            관심 팀(☆)으로 담아 둔 팀의 새 정답·선정·단계 상승·공연 알림은 별도 규칙 없이 자동으로 모입니다.
+            관심 팀(☆)으로 담아 둔 팀의 새 수상·선정·단계 상승·공연 알림은 별도 규칙 없이 자동으로 모입니다.
             팀별 개별 조건 알림은 준비 중입니다.
           </p>
           ${watchKeys.size > 0 ? `<div style="margin-top:10px;"><button type="button" class="btn btn-sm" id="btnJumpMineAlerts">내 관심·구독 알림만 보기 (${fmtInt(mineTotal)}건)</button></div>` : ''}

@@ -41,13 +41,13 @@ function setPeekParam(key) {
 function scoreLines(s) {
   if (!s) return [];
   const items = [
-    [`갈래 ${fmtInt(s.n_branch)}개`, s.pts_branch],
+    [`신호 종류 ${fmtInt(s.n_branch)}개`, s.pts_branch],
     [`선정 최고 단계 ${fmtInt(s.best_stage)}`, s.pts_stage],
     [`서로 다른 공연장 ${fmtInt(s.venues)}곳(최근 2년)`, s.pts_venues],
     [`최근 6개월 활동 ${fmtInt(s.recent180)}건`, s.pts_recent],
     ['이미 상 받은 팀과 같은 무대', s.pts_winner],
-    [`발굴 매체 ${fmtInt(s.outlets)}곳`, s.pts_outlets],
-    [`맥락 매체 ${fmtInt(s.context_outlets ?? 0)}곳`, s.pts_context],
+    [`신인 소개 매체 ${fmtInt(s.outlets)}곳`, s.pts_outlets],
+    [`큰 매거진 ${fmtInt(s.context_outlets ?? 0)}곳`, s.pts_context],
     ['선정 팀과 같은 무대', s.pts_peer],
     [`최근 1년 공연 ${fmtInt(s.gigs_1y)}일`, s.pts_gigs],
   ];

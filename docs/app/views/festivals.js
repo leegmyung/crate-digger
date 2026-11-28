@@ -21,7 +21,7 @@ export function editionRowHtml(year, e) {
       <td class="num" data-label="라인업">${fmtInt(e.lineup)}팀</td>
       <td class="num" data-label="새 팀">${pctText(e.new_to_festival_share)}</td>
       <td class="num" data-label="첫 페스티벌">${pctText(e.first_festival_share)}</td>
-      <td data-label="그 뒤 정답">${e.upcoming ? naCell('아직 열리지 않은 회차라 세지 않습니다', { label: '—' }) : `<span><strong>${fmtInt(e.later_winners_total || 0)}팀</strong>${names ? ` <span class="small">${names}</span>` : ''}${winners.length > 4 ? ` <span class="small muted">외 ${fmtInt(winners.length - 4)}</span>` : ''}</span>`}</td>
+      <td data-label="그 뒤 수상·선정">${e.upcoming ? naCell('아직 열리지 않은 회차라 세지 않습니다', { label: '—' }) : `<span><strong>${fmtInt(e.later_winners_total || 0)}팀</strong>${names ? ` <span class="small">${names}</span>` : ''}${winners.length > 4 ? ` <span class="small muted">외 ${fmtInt(winners.length - 4)}</span>` : ''}</span>`}</td>
     </tr>`;
 }
 
@@ -36,15 +36,15 @@ function cardHtml(key, f) {
       <a class="place-card-link" href="#/festival/${encodeURIComponent(key)}">
         <div class="place-card-head">
           <strong class="place-card-name">${escapeHtml(f.label || key)}</strong>
-          <span class="place-badge">${f.kind === 'outcome' ? '정답 프로그램' : '신호'}</span>
+          <span class="place-badge">${f.kind === 'outcome' ? '수상·선정 프로그램' : '신호'}</span>
         </div>
         <p class="small muted place-card-sub">${escapeHtml(years)} · 회차 ${fmtInt(eds.length)}개 · 누적 ${fmtInt(f.teams_total || 0)}팀</p>
         <div class="place-card-kpis small">
           <span>최근 라인업 <strong>${latest ? fmtInt(latest.lineup) : '—'}</strong>팀</span>
           <span>새 팀 <strong>${latest ? pctText(latest.new_to_festival_share) : '—'}</strong></span>
-          <span>그 뒤 정답 <strong>${fmtInt(winners)}</strong>팀</span>
+          <span>그 뒤 수상·선정 <strong>${fmtInt(winners)}</strong>팀</span>
         </div>
-        ${sameHouse ? '<p class="small place-card-warn">⚠️ 같은 집안 정답은 \'그 뒤 정답\'에서 뺌</p>' : ''}
+        ${sameHouse ? '<p class="small place-card-warn">⚠️ 같은 주최 수상·선정은 \'그 뒤 수상·선정\'에서 뺌</p>' : ''}
       </a>
     </li>`;
 }
@@ -66,5 +66,5 @@ export async function renderFestivalsList(host) {
       </div>
     </div>
     <ul class="place-cards">${items.map(([k, f]) => cardHtml(k, f)).join('')}</ul>
-    <p class="small muted place-evidence">새 팀 = 이 페스티벌 앞선 회차(우리 데이터)에 없던 팀 · 그 뒤 정답 = 회차 날짜보다 뒤에 받은 센 정답(같은 집안 정답은 뺌) · 라인업은 우리가 모은 기록만이라 실제보다 적을 수 있음</p>`;
+    <p class="small muted place-evidence">새 팀 = 이 페스티벌 앞선 회차(우리 데이터)에 없던 팀 · 그 뒤 수상·선정 = 회차 날짜보다 뒤에 받은 큰 수상·선정(같은 주최 수상·선정은 뺌) · 라인업은 우리가 모은 기록만이라 실제보다 적을 수 있음</p>`;
 }

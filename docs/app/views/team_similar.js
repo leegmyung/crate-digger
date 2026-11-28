@@ -22,14 +22,14 @@ function chipsHtml(r) {
     chips.push(`같은 출처 ${escapeHtml(names.slice(0, 3).join(' · '))}${names.length > 3 ? ` 외 ${names.length - 3}` : ''}`);
   }
   if (r.same_genre) chips.push(`같은 장르 ${escapeHtml(r.primary_genre || '')}`);
-  if (Number(r.part_level) >= 10) chips.push('비슷한 체급');
+  if (Number(r.part_level) >= 10) chips.push('비슷한 공연장 크기');
   return chips.map(c => `<span class="sim-chip">${c}</span>`).join('');
 }
 
 function rowHtml(r) {
   const name = r.display_name || r.related_team;
   const pct = Math.max(0, Math.min(100, Number(r.sim_pct) || 0));
-  const parts = `같은 무대 ${r.part_stage} + 같은 출처 ${r.part_source} + 같은 장르 ${r.part_genre} + 비슷한 체급 ${r.part_level} = ${pct}%`;
+  const parts = `같은 무대 ${r.part_stage} + 같은 출처 ${r.part_source} + 같은 장르 ${r.part_genre} + 비슷한 공연장 크기 ${r.part_level} = ${pct}%`;
   return `
     <li class="sim-row">
       <span class="team-cell-inline sim-team">
@@ -57,7 +57,7 @@ export function renderSimilarHtml(rows, showAll = false) {
   const head = `
     <div class="block-head">
       <h2>비슷한 팀${infoTip('비슷한 팀', INFO_TIPS.similar_teams, { compact: true })}</h2>
-      <span class="small muted">둘러보기용 — 예측력 확인 안 됨 · 유사도 = 같은 무대 40 · 같은 출처 25 · 같은 장르 20 · 비슷한 체급 15 (수상 여부는 안 씀) — % 위에 마우스를 올리면 나눠 보기</span>
+      <span class="small muted">둘러보기용 — 예측력 확인 안 됨 · 유사도 = 같은 무대 40 · 같은 출처 25 · 같은 장르 20 · 비슷한 공연장 크기 15 (수상 여부는 안 씀) — % 위에 마우스를 올리면 나눠 보기</span>
     </div>`;
   if (rows === null) return `${head}<p class="small muted">비슷한 팀 찾는 중…</p>`;
   if (!rows.length) return `${head}${renderNoRecordLine('같은 무대나 같은 출처로 이어진 팀이 아직 없습니다')}`;

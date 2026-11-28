@@ -133,6 +133,19 @@ function pct(x) {
   return `${Math.round(x * 100)}%`;
 }
 
+/** 첫 무대 비율 → '자주 세움 / 섞임 / 경력 팀 위주' 한마디 (공연장·도시·페스티벌 같은 기준) */
+function shareVerdict(share) {
+  if (share >= SHARE_OFTEN) return '신인을 자주 세우는 곳';
+  if (share < SHARE_RARE) return '경력 팀이 주로 서는 곳';
+  return '신인과 경력 팀이 섞여 서는 곳';
+}
+
+function shareAnswer(total, firsts, tail) {
+  if (!total) return '최근 1년 출연 기록이 없어 아직 판단할 수 없어요';
+  const share = firsts / total;
+  return `${shareVerdict(share)} — 최근 1년 ${total}팀 중 ${firsts}팀(${pct(share)})이 ${tail}`;
+}
+
 function earlyAnswer(p) {
   const teams = Number(p.teams_1y) || 0;
   if (!teams) return '최근 1년 출연 기록이 없어 아직 판단할 수 없어요';
@@ -140,19 +153,20 @@ function earlyAnswer(p) {
   const firsts = Number(p.first_timers_1y) || 0;
   const tail = `최근 1년 ${teams}팀 중 ${firsts}팀(${isNum(share) ? pct(share) : '—'})이 여기서 첫 무대`;
   if (!isNum(share)) return tail;
-  if (share >= SHARE_OFTEN) return `신인을 자주 세우는 곳 — ${tail}`;
-  if (share < SHARE_RARE) return `경력 팀이 주로 서는 곳 — ${tail}`;
-  return `신인과 경력 팀이 섞여 서는 곳 — ${tail}`;
+  return `${shareVerdict(share)} — ${tail}`;
+}
+
+function latestWinnerText(winners) {
+  const latest = [...(Array.isArray(winners) ? winners : [])]
+    .sort((a, b) => String(b.outcome_date || '').localeCompare(String(a.outcome_date || '')))[0];
+  if (!latest) return '';
+  return ` (최근: ${latest.name || latest.team_key} — ${latest.outcome || '수상·선정'}${latest.outcome_date ? ` ${String(latest.outcome_date).slice(0, 7)}` : ''})`;
 }
 
 function wentAnswer(p, tierOf) {
   const parts = [];
   const winners = Number(p.later_winners_total) || 0;
-  const latest = [...(Array.isArray(p.later_winners) ? p.later_winners : [])]
-    .sort((a, b) => String(b.outcome_date || '').localeCompare(String(a.outcome_date || '')))[0];
-  if (winners) {
-    parts.push(`나중에 수상·선정된 팀 ${winners}팀${latest ? ` (최근: ${latest.name || latest.team_key} — ${latest.outcome || '수상·선정'}${latest.outcome_date ? ` ${String(latest.outcome_date).slice(0, 7)}` : ''})` : ''}`);
-  }
+  if (winners) parts.push(`나중에 수상·선정된 팀 ${winners}팀${latestWinnerText(p.later_winners)}`);
   const after = (Array.isArray(p.after) ? p.after : []).filter(a => Array.isArray(a) && a[0]);
   if (after.length) {
     const myRank = TIER_RANK[String(p.tier || '').toUpperCase()] || 0;
@@ -184,5 +198,58 @@ export function venueQuestions(profile, { tierOf = new Map() } = {}) {
     { id: 'early', q: '신인을 일찍 세우는 곳인가?', a: earlyAnswer(profile) },
     { id: 'went', q: '여기서 공연한 신인이 어디까지 갔나?', a: wentAnswer(profile, tierOf) },
     { id: 'now', q: '지금 여기서 볼 만한 팀은?', a: nowAnswer(profile) },
+  ];
+}
+
+const WENT_EMPTY = '여기 선 뒤의 기록이 아직 모이지 않았어요';
+
+/**
+ * 도시 페이지 질문 3개 (공연장과 같은 질문·같은 자리).
+ * @param {object|null} c city_profiles.json 한 도시
+ * @param {{ seoulFlow?: {teams:number, reached:number}|null }} [opts] 이 도시에서 첫 무대 → 서울 무대 (서울이면 null)
+ */
+export function cityQuestions(c, { seoulFlow = null } = {}) {
+  if (!c || typeof c !== 'object') return [];
+  const went = [];
+  const winners = Number(c.later_winners_total) || 0;
+  if (winners) went.push(`나중에 수상·선정된 팀 ${winners}팀${latestWinnerText(c.later_winners)}`);
+  if (seoulFlow && Number(seoulFlow.teams) > 0) {
+    went.push(`여기서 첫 무대를 연 ${seoulFlow.teams}팀 중 서울 무대 ${seoulFlow.reached || 0}팀(${pct((seoulFlow.reached || 0) / seoulFlow.teams)})`);
+  }
+  return [
+    { id: 'early', q: '신인을 일찍 세우는 도시인가?', a: shareAnswer(Number(c.teams_1y) || 0, Number(c.first_stage_teams_1y) || 0, '이 도시에서 첫 무대') },
+    { id: 'went', q: '여기서 공연한 신인이 어디까지 갔나?', a: went.length ? went.join(' · ') : WENT_EMPTY },
+    { id: 'now', q: '지금 여기서 볼 만한 팀은?', a: nowAnswer(c) },
+  ];
+}
+
+/**
+ * 페스티벌 페이지 질문 3개 — 가장 최근 끝난 회차 기준, 그 뒤 수상·선정은 끝난 회차 합계.
+ * @param {object|null} f festival_profiles.json 한 페스티벌
+ * @param {{ flowsOut?: {toLabel:string, teams:number}[] }} [opts] 이 페스티벌 → 다른 페스티벌 이동(팀 많은 순)
+ */
+export function festivalQuestions(f, { flowsOut = [] } = {}) {
+  if (!f || typeof f !== 'object') return [];
+  const done = Object.entries(f.editions || {}).filter(([, e]) => e && !e.upcoming).sort((a, b) => b[0].localeCompare(a[0]));
+  const [year, last] = done[0] || ['', null];
+  let early = '끝난 회차 기록이 없어 아직 판단할 수 없어요';
+  if (last && Number(last.lineup) > 0) {
+    const firsts = Number(last.first_festival) || 0;
+    const share = isNum(last.first_festival_share) ? last.first_festival_share : firsts / last.lineup;
+    early = `${shareVerdict(share)} — ${year}년 라인업 ${last.lineup}팀 중 ${firsts}팀(${pct(share)})이 첫 페스티벌`;
+  }
+  const went = [];
+  const total = done.reduce((n, [, e]) => n + (Number(e.later_winners_total) || 0), 0);
+  if (total) went.push(`그 뒤 수상·선정된 팀 ${total}팀${latestWinnerText(done.flatMap(([, e]) => e.later_winners || []))}`);
+  const flows = (flowsOut || []).filter(x => x && Number(x.teams) > 0).sort((a, b) => b.teams - a.teams).slice(0, AFTER_SHOWN);
+  if (flows.length) went.push(`다음으로 많이 간 페스티벌 ${flows.map(x => `${x.toLabel}(${x.teams}팀)`).join(' · ')}`);
+  const cands = Array.isArray(last?.top_candidates) ? last.top_candidates : [];
+  const now = cands.length
+    ? `${year}년 라인업 중 지금 후보 ${cands.length}팀 — ${cands.slice(0, 3).map(c => `${c.name || c.team_key}${c.rank ? `(후보 ${c.rank}위)` : ''}`).join(' · ')}`
+    : '가장 최근 회차 라인업에 지금 후보 순위권 팀은 없어요';
+  return [
+    { id: 'early', q: '신인을 일찍 세우는 페스티벌인가?', a: early },
+    { id: 'went', q: '여기 선 신인이 어디까지 갔나?', a: went.length ? went.join(' · ') : WENT_EMPTY },
+    { id: 'now', q: '지금 여기서 볼 만한 팀은?', a: now },
   ];
 }

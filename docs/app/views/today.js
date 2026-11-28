@@ -32,9 +32,9 @@ import { homeChartRowHtml } from '../home_chart_rows.js';
 import { pickWeeklyTeams, weeklyPicksHtml } from '../home_picks.js';
 
 const HEADLINE_ALERT_TYPES = [
-  ['new_outcome', '새 정답'],
+  ['new_outcome', '새 수상·선정'],
   ['new_selection', '새 선정·지원'],
-  ['blank_first_mention', '백지 신인 첫 언급'],
+  ['blank_first_mention', '언급 전 신인 첫 언급'],
   ['stage_up', '단계 상승'],
 ];
 
@@ -272,7 +272,7 @@ export async function renderTodayView(root) {
             <div class="block-head">
               <div>
                 <h2>갓 데뷔 5</h2>
-                <span class="block-meta">${debutTotal > 0 ? `최근 12개월 첫 발매 ${fmtInt(debutTotal)}팀 · 언급 ${fmtInt(debutMent)}팀` : '최근 12개월 첫 발매 백지 신인'}</span>
+                <span class="block-meta">${debutTotal > 0 ? `최근 12개월 첫 발매 ${fmtInt(debutTotal)}팀 · 언급 ${fmtInt(debutMent)}팀` : '최근 12개월 첫 발매 신인'}</span>
               </div>
               <a class="home-more-link" href="#/charts/debut">전체 보기 →</a>
             </div>

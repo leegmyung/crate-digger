@@ -105,7 +105,7 @@ function tableHtml(teams) {
       return `${v}<span class="cmp-sub">${escapeHtml(tile.sub)}</span>`;
     }), { values: teams.map(t => (t.missing ? null : t.tiles[ti].value)) }));
   });
-  rows.push(rowHtml('신호 갈래', cells(x => (x.d.scored ? `<strong class="cmp-num">${fmtInt(x.d.scored.n_branch)}/4</strong>` : NO_SCORE())),
+  rows.push(rowHtml('신호 종류', cells(x => (x.d.scored ? `<strong class="cmp-num">${fmtInt(x.d.scored.n_branch)}/4</strong>` : NO_SCORE())),
     { values: teams.map(t => (t.missing ? null : t.d.scored?.n_branch ?? null)) }));
   rows.push(rowHtml('점수 근거', cells(x => (x.d.scored ? `<span class="small">${escapeHtml(plainWhyLine(x.d.scored))}</span>` : NO_SCORE()))));
   rows.push(rowHtml('최근 4주 움직임', cells(x => (x.anomaly

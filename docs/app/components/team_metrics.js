@@ -71,7 +71,7 @@ export function branchState(nBranch) {
   const n = validCount(nBranch);
   if (n === null) return null;
   const capped = Math.min(n, ALL_BRANCH_COUNT);
-  return { label: `${capped}개 갈래`, ratio: capped / ALL_BRANCH_COUNT };
+  return { label: `${capped}종류`, ratio: capped / ALL_BRANCH_COUNT };
 }
 
 /** 같은 무대에 선 수상 팀 수 → 상태 이름·막대 위치(로그 눈금) */

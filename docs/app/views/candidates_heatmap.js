@@ -13,10 +13,10 @@ const yesNo = v => (Number(v) > 0 ? '있음' : '없음');
 
 /** 열 정의: raw = 칸에 쓰는 원래 값(없으면 null), peerPct = peer_compare.sql 백분위 칸 */
 export const HEAT_COLUMNS = [
-  { key: 'branch', label: '신호 갈래', unit: '개', raw: r => r.n_branch, peerPct: 'branch_pct' },
+  { key: 'branch', label: '신호 종류', unit: '개', raw: r => r.n_branch, peerPct: 'branch_pct' },
   { key: 'stage', label: '선정 단계', unit: '', raw: r => r.best_stage, peerPct: 'stage_pct' },
   { key: 'venues', label: '최근 2년 공연장 수', unit: '곳', raw: r => r.venues, peerPct: 'venues_pct' },
-  { key: 'outlets', label: '발굴 매체', unit: '곳', raw: r => r.outlets, peerPct: 'outlets_pct' },
+  { key: 'outlets', label: '신인 소개 매체', unit: '곳', raw: r => r.outlets, peerPct: 'outlets_pct' },
   { key: 'winner', label: '수상 팀과 같은 무대', unit: '', raw: r => r.peer_winner, peerPct: 'winner_pct', fmt: yesNo },
   { key: 'gigs', label: '1년 공연', unit: '회', raw: r => r.gigs_1y, peerPct: 'gigs_pct' },
   { key: 'recent', label: '최근 90일 언급', unit: '건', raw: r => r.stage_info?.recent_n },

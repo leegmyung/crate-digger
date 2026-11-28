@@ -35,7 +35,7 @@ function sortBy(rows, col, dir, valueFn) {
 }
 
 function outcomeCell(r) {
-  if (!r.grade) return naCell('수상·선정 정답 기록이 없습니다', { label: '없음' });
+  if (!r.grade) return naCell('수상·선정 기록이 없습니다', { label: '없음' });
   const after = r.first_outcome && r.first_here && r.first_outcome > r.first_here;
   return `<span class="venue-team-outcome">${gradeBadgeHtml(r.grade)}<span class="small muted">${escapeHtml(r.first_outcome || '')}${after ? ' · 이 무대 뒤' : ''}</span></span>`;
 }
@@ -57,7 +57,7 @@ export function venueTeamRowHtml(r) {
       <td class="mono col-fit" data-label="마지막">${escapeHtml(r.last_here || '—')}</td>
       <td class="num" data-label="후보 점수">${r.score !== null && r.score !== undefined ? `${fmtNum(r.score, 2)} <span class="small muted num-suffix">#${fmtInt(r.rank)}</span>` : naCell('지금 후보 상위 300팀 밖입니다', { label: '—' })}</td>
       <td class="col-fit" data-label="발굴 단계">${r.stage !== null && r.stage !== undefined ? stageBadgeHtml(r.stage, { short: true }) : naCell('발굴 단계를 계산하지 않은 팀입니다', { label: '—' })}</td>
-      <td data-label="정답">${outcomeCell(r)}</td>
+      <td data-label="수상·선정">${outcomeCell(r)}</td>
     </tr>`;
 }
 
@@ -94,7 +94,7 @@ export function mountVenueTables(root, ctx) {
 
   const teamsCsv = () => ({
     filename: `crate_digger_venue_teams_${safeName}_${ctx.asOf}.csv`,
-    headers: ['팀', '공연 수', '예정', '첫 출연', '마지막', '후보 점수', '후보 순위', '발굴 단계', '정답 등급', '첫 정답일'],
+    headers: ['팀', '공연 수', '예정', '첫 출연', '마지막', '후보 점수', '후보 순위', '발굴 단계', '수상·선정 등급', '첫 수상·선정일'],
     rows: sortBy(teams, teamSort.col, teamSort.dir, teamSortValue).map(r => [
       r.display_name, r.gigs, r.upcoming, r.first_here, r.last_here,
       r.score ?? '', r.rank ?? '', r.stage !== null ? (STAGE_META[r.stage]?.label || r.stage) : '', r.grade, r.first_outcome,
@@ -120,7 +120,7 @@ export function mountVenueTables(root, ctx) {
       ${teams.length ? `
         <div class="table-wrap">
           <table class="data-table stack-table venue-teams-table" id="venueTeamsTable">
-            <thead><tr>${th('name', '팀')}${th('gigs', '공연 수', 'num')}${th('first_here', '첫 출연', 'col-fit')}${th('last_here', '마지막', 'col-fit')}${th('score', '후보 점수', 'num')}${th('stage', '발굴 단계', 'col-fit')}${th('grade', '정답')}</tr></thead>
+            <thead><tr>${th('name', '팀')}${th('gigs', '공연 수', 'num')}${th('first_here', '첫 출연', 'col-fit')}${th('last_here', '마지막', 'col-fit')}${th('score', '후보 점수', 'num')}${th('stage', '발굴 단계', 'col-fit')}${th('grade', '수상·선정')}</tr></thead>
             <tbody>${shown.map(venueTeamRowHtml).join('')}</tbody>
           </table>
         </div>

@@ -66,7 +66,7 @@ export const ROLE_META = {
     label: '맥락',
     fullLabel: '맥락 (약하게)',
     timelineLabel: '맥락',
-    title: '맥락 매체: 팀 참고용이며 후보 점수에는 약하게만 반영됩니다.',
+    title: '큰 매거진: 팀 참고용이며 후보 점수에는 약하게만 반영됩니다.',
   },
   pending: {
     label: '검증 대기',
@@ -239,13 +239,13 @@ export function renderActionBanner({ title, lead, todo, buttonsHtml = '' }) {
 
 export function scorePartsLine(r) {
   const parts = [];
-  if (Number(r.pts_branch) > 0) parts.push(`갈래 ${r.n_branch}개(+${fmtNum(r.pts_branch, 1)})`);
+  if (Number(r.pts_branch) > 0) parts.push(`신호 종류 ${r.n_branch}개(+${fmtNum(r.pts_branch, 1)})`);
   if (Number(r.pts_stage) > 0) parts.push(`선정 단계 ${r.best_stage}(+${fmtNum(r.pts_stage, 1)})`);
   if (Number(r.pts_venues) > 0) parts.push(`최근 2년 공연장 ${r.venues}곳(+${fmtNum(r.pts_venues, 1)})`);
   if (Number(r.pts_recent) > 0) parts.push(`최근 6개월 ${r.recent180}건(+${fmtNum(r.pts_recent, 1)})`);
   if (Number(r.pts_winner) > 0) parts.push(`수상 팀과 같은 무대(+${fmtNum(r.pts_winner, 1)})`);
-  if (Number(r.pts_outlets) > 0) parts.push(`발굴 매체 ${r.outlets}곳(+${fmtNum(r.pts_outlets, 1)})`);
-  if (Number(r.pts_context) > 0) parts.push(`맥락 매체 ${r.context_outlets ?? 0}곳(+${fmtNum(r.pts_context, 1)})`);
+  if (Number(r.pts_outlets) > 0) parts.push(`신인 소개 매체 ${r.outlets}곳(+${fmtNum(r.pts_outlets, 1)})`);
+  if (Number(r.pts_context) > 0) parts.push(`큰 매거진 ${r.context_outlets ?? 0}곳(+${fmtNum(r.pts_context, 1)})`);
   if (Number(r.pts_peer) > 0) parts.push(`선정 팀과 같은 무대(+${fmtNum(r.pts_peer, 1)})`);
   if (Number(r.pts_dmz) > 0) parts.push(`DMZ(+${fmtNum(r.pts_dmz, 1)})`);
   if (Number(r.pts_gigs) > 0) parts.push(`1년 공연 ${r.gigs_1y}일(+${fmtNum(r.pts_gigs, 2)})`);
@@ -268,13 +268,13 @@ export function plainWhyLine(r) {
 export function renderScoreBar(r, maxScore) {
   const denom = Math.max(1, maxScore);
   const segs = [
-    { key: '갈래', v: Number(r.pts_branch) || 0, color: 'var(--seg-branch)' },
+    { key: '신호 종류', v: Number(r.pts_branch) || 0, color: 'var(--seg-branch)' },
     { key: '선정 단계', v: Number(r.pts_stage) || 0, color: 'var(--seg-stage)' },
     { key: '최근 2년 공연장 수', v: Number(r.pts_venues) || 0, color: 'var(--seg-venues)' },
     { key: '최근 6개월 활동', v: Number(r.pts_recent) || 0, color: 'var(--seg-recent)' },
     { key: '수상 팀과 같은 무대', v: Number(r.pts_winner) || 0, color: 'var(--seg-winner)' },
-    { key: '발굴 매체', v: Number(r.pts_outlets) || 0, color: 'var(--seg-outlets)' },
-    { key: '맥락 매체', v: Number(r.pts_context) || 0, color: 'var(--seg-context)' },
+    { key: '신인 소개 매체', v: Number(r.pts_outlets) || 0, color: 'var(--seg-outlets)' },
+    { key: '큰 매거진', v: Number(r.pts_context) || 0, color: 'var(--seg-context)' },
     { key: '선정 팀과 같은 무대', v: Number(r.pts_peer) || 0, color: 'var(--seg-peer)' },
     { key: 'DMZ', v: Number(r.pts_dmz) || 0, color: 'var(--seg-dmz)' },
     { key: '1년 공연', v: Number(r.pts_gigs) || 0, color: 'var(--seg-gigs)' },
@@ -1216,7 +1216,7 @@ export const STAGE_META = {
     code: 4,
     short: '졸업',
     label: '졸업',
-    next: '최고 단계 도달 (S·A등급 정답 또는 유명 팀)',
+    next: '최고 단계 도달 (S·A등급 수상·선정 또는 유명 팀)',
   },
 };
 
@@ -1241,7 +1241,7 @@ export function nextStageConditionText(stage) {
 export function formatRecentActivityCell(st) {
   if (!st || st.momentum_pct === null || st.momentum_pct === undefined || !Number.isFinite(Number(st.momentum_pct))) {
     const tip = st && Number(st.stage) === 0
-      ? '백지 단계 — 아직 남의 언급 없음'
+      ? '언급 전 단계 — 아직 남의 언급 없음'
       : '최근 활동 비교 데이터 없음';
     return {
       html: `<span class="muted" title="${escapeHtml(tip)}">—</span>`,
@@ -1304,9 +1304,9 @@ export function newcomerUnverifiedBadgeHtml(teamKey, profile = null) {
 // ---------- Alerts (docs/data/alerts.json) helpers ----------
 
 export const ALERT_TYPE_LABELS = {
-  new_outcome: '새 정답',
+  new_outcome: '새 수상·선정',
   new_selection: '새 선정·지원',
-  blank_first_mention: '백지 신인 첫 언급',
+  blank_first_mention: '언급 전 신인 첫 언급',
   stage_up: '단계 상승',
   big_venue_first: '큰 공연장 첫 출연',
   peer_winner: '같은 무대 수상 팀',

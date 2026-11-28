@@ -1,6 +1,7 @@
 import * as duckdb from 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.32.0/+esm';
 import { ALL_BRANCHES, appState, DEFAULT_WEIGHTS } from './state.js';
 import { parsePlayersRows } from './player_pick.js';
+import { easyAlertTypeLabel, easyText } from './easy_terms.js';
 import { fairnessLine, fairnessShort } from './score_fairness.js';
 
 const DUCKDB_CDN = 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.32.0/dist';
@@ -2114,12 +2115,12 @@ export async function loadAlertsJson() {
       .map(a => ({
         ...a,
         type: String(a.type || ''),
-        type_label: String(a.type_label || raw.types?.[a.type] || a.type || ''),
+        type_label: easyAlertTypeLabel(a.type, { ...(raw.types || {}), ...(a.type_label ? { [a.type]: a.type_label } : {}) }),   // 쉬운 말 (easy_terms.js)
         team_key: String(a.team_key),
         name: String(a.name || a.team_key),
         date: String(a.date || ''),
         found_on: String(a.found_on || raw.as_of || ''),
-        text: String(a.text || ''),
+        text: easyText(a.text),
         evidence: Array.isArray(a.evidence) ? a.evidence : [],
         importance: Number(a.importance) || 0,
       }))
@@ -2135,7 +2136,7 @@ export async function loadAlertsJson() {
       generated_at: raw.generated_at || '',
       as_of: String(raw.as_of || ''),
       baseline: raw.baseline && typeof raw.baseline === 'object' ? raw.baseline : null,
-      types: raw.types && typeof raw.types === 'object' ? raw.types : {},
+      types: Object.fromEntries(Object.entries(raw.types && typeof raw.types === 'object' ? raw.types : {}).map(([k, v]) => [k, easyAlertTypeLabel(k, { [k]: v })])),
       counts_found: raw.counts_found && typeof raw.counts_found === 'object' ? raw.counts_found : {},
       counts_shown: raw.counts_shown && typeof raw.counts_shown === 'object' ? raw.counts_shown : {},
       caps: raw.caps && typeof raw.caps === 'object' ? raw.caps : {},

@@ -33,7 +33,7 @@ function teamRow({ t, rank, st, lastSeen }) {
 }
 
 function venueRow({ v }) {
-  const tier = v.tier ? `${v.tier}(${TIER_KO[v.tier] || v.tier})` : '체급 모름';
+  const tier = v.tier ? `${v.tier}(${TIER_KO[v.tier] || v.tier})` : '크기 모름';
   return `
     <li class="sr-row">
       <a class="sr-link" href="#/venue/${encodeURIComponent(v.name)}">
@@ -73,7 +73,7 @@ function festivalRow({ f }) {
         <span class="sr-name">${escapeHtml(f.label)}</span>
         <span class="sr-meta">
           ${span ? `<span>${escapeHtml(span)}</span>` : ''}<span>${f.teams}팀</span>
-          <span>${f.kind === 'outcome' ? '정답 행사' : '신호 행사'}</span>
+          <span>${f.kind === 'outcome' ? '수상·선정 행사' : '신호 행사'}</span>
         </span>
       </a>
     </li>`;
