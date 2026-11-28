@@ -1,0 +1,12 @@
+{
+  "_설명": "틀리거나 애매한 팀 ↔ 계정 연결을 막는 목록 (2026-11-28 시작, 근거: docs/link_audit_2026-11-28.md). scripts/export_lab_data.py 가 links.csv 를 만들기 전에 여기 적힌 연결을 뺀다 → 팀 페이지 링크·사진·바로 듣기·팔로워 관찰에서 모두 빠진다. 원칙: 틀린 연결보다 빈칸이 낫다 — 그 팀인지 확정 못 하면 막는다. 항목마다 team_key(docs/lab/data/teams.csv 의 팀 키), platform(instagram·youtube·spotify·melon 등), ref(계정 이름·번호·주소 어느 꼴이든), reason(이유), checked(확인 날짜)가 모두 있어야 하고 없으면 내보내기가 멈춘다. 다른 출처에서 같은 연결이 다시 들어와도 막힌다. 막았던 연결이 맞다고 확인되면 항목을 지운다.",
+  "blocked": [
+    {
+      "team_key": "허재혁",
+      "platform": "youtube",
+      "ref": "https://www.youtube.com/channel/UCYgqAsGNjmpoHGPfDw9dAKA",
+      "reason": "채널 검색 자동 연결. 유튜브 자동 생성 '허재혁 - Topic' 채널인데 공개 영상 목록이 없어 우리 허재혁(음악취향Y 「Golden Record」)의 음원인지 확인 못 함 — 동명 다른 사람일 수 있음",
+      "checked": "2026-11-28"
+    }
+  ]
+}

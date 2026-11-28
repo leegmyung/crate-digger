@@ -248,6 +248,48 @@ class SameHouseTest(unittest.TestCase):
         self.assertEqual(got["d"], ("", "false"))                    # 표시만 하는 약한 짝은 적용 안 함
 
 
+_BL_OK = {"reason": "시험", "checked": "2026-11-28"}
+
+
+class LinkBlocklistTest(unittest.TestCase):
+    """config/link_blocklist.json — 사람이 틀리거나 애매하다고 본 연결은 내보내기 전에 뺀다 (2026-11-28 연결 점검)."""
+    REFS = [
+        {"team_key": "허재혁", "platform": "youtube", "ref": "https://www.youtube.com/channel/UCYgqAsGNjmpoHGPfDw9dAKA"},
+        {"team_key": "허재혁", "platform": "instagram", "ref": "jaehyukhur_"},
+        {"team_key": "김세정", "platform": "instagram", "ref": "official_kimsejeong"},
+        {"team_key": "다른팀", "platform": "instagram", "ref": "official_kimsejeong"},
+    ]
+
+    def test_blocked_entry_dropped_other_platforms_and_teams_kept(self):
+        blocked = [{"team_key": "허재혁", "platform": "youtube", "ref": "https://youtube.com/channel/UCYgqAsGNjmpoHGPfDw9dAKA/", **_BL_OK},
+                   {"team_key": "김세정", "platform": "instagram", "ref": "@Official_KimSejeong", **_BL_OK}]
+        kept = ex.drop_blocked_links(self.REFS, blocked)
+        self.assertEqual([(r["team_key"], r["platform"]) for r in kept],
+                         [("허재혁", "instagram"), ("다른팀", "instagram")])
+
+    def test_account_or_url_form_both_match(self):
+        blocked = [{"team_key": "김세정", "platform": "instagram", "ref": "https://www.instagram.com/official_kimsejeong/", **_BL_OK}]
+        self.assertNotIn(("김세정", "instagram"), [(r["team_key"], r["platform"]) for r in ex.drop_blocked_links(self.REFS, blocked)])
+
+    def test_empty_list_keeps_everything(self):
+        self.assertEqual(ex.drop_blocked_links(self.REFS, []), self.REFS)
+
+    def test_entry_without_reason_or_checked_stops_export(self):
+        with self.assertRaises(ValueError):
+            ex.drop_blocked_links(self.REFS, [{"team_key": "김세정", "platform": "instagram", "ref": "official_kimsejeong"}])
+
+    def test_blocked_youtube_channel_gives_no_avatar(self):
+        channels = {"허재혁": {"channel_id": "UCYgqAsGNjmpoHGPfDw9dAKA", "avatar": "https://yt3.ggpht.com/x"},
+                    "eosa": {"channel_id": "UCTaO8djLSfFK1eGYJQ9zrjw", "avatar": "https://yt3.ggpht.com/y"}}
+        blocked = [{"team_key": "허재혁", "platform": "youtube", "ref": "https://www.youtube.com/channel/UCYgqAsGNjmpoHGPfDw9dAKA", **_BL_OK}]
+        self.assertEqual(list(ex.drop_blocked_channels(channels, blocked)), ["eosa"])
+
+    def test_config_file_entries_are_complete(self):
+        data = json.loads((Path(__file__).resolve().parent.parent / "config" / "link_blocklist.json").read_text(encoding="utf-8"))
+        for e in data["blocked"]:
+            self.assertTrue(all(e.get(f) for f in ("team_key", "platform", "ref", "reason", "checked")), e)
+
+
 class LinkRowsTest(unittest.TestCase):
     def test_platform_ids_become_artist_page_urls(self):
         rows = ex.link_rows([

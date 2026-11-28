@@ -58,3 +58,18 @@
 
 - `scripts/collect_ig_artists.py` `looks_non_artist` 규칙(+`tests/test_collect_ig_artists.py` 4개).
 - 표본·증거 모으기는 한 번만 쓰는 스크립트(저장소 밖)로 돌렸다 — 유튜브 32단위, 스포티파이 공개 페이지 5개, 인스타 프로필 34개.
+
+## 6. 후속 확인과 차단 목록 (같은 날)
+
+애매 항목을 다시 확인했다 (기준: 그 팀인지 확정 못 하면 막는다 — 틀린 연결보다 빈칸).
+
+| 팀 | 연결 | 다시 본 근거 | 결론 |
+|---|---|---|---|
+| 김세정 | official_kimsejeong 외 MusicBrainz 연결 | 우리 김세정의 신호는 음악취향Y 리뷰 「문 : 門」(2023-09)과 한대음 21회 최우수 팝 음반 후보 — 둘 다 그 가수 본인의 앨범 | **맞음** (동명 의심 취소). 연결은 맞고, 이 팀이 인디 신인 대상인지는 따로 볼 문제 |
+| 윤형준 | hzpotto_ | 소개의 유튜브 링크가 '윤형준' 채널의 「윤형준, 한동규 - Train (Official lyric video)」 | **맞음** |
+| eosa | @eosasoe 채널 | 채널 업로드에 'eosa - asoe [Full Album]', 'eosa - Salvatio [MV]' | **맞음** |
+| 허재혁 | '허재혁 - Topic' 채널 | 공개 영상 목록이 없어(재생목록 비공개) 우리 허재혁(「Golden Record」)인지 확인 불가 | **차단** |
+
+- `config/link_blocklist.json` 을 만들고 첫 항목으로 허재혁 Topic 채널을 넣었다.
+- `export_lab_data.py`: `drop_blocked_links`(연결 표 앞)와 `drop_blocked_channels`(채널 아바타 → 사진 표 앞). 채널 검색 연결은 links.csv 가 아니라 채널 아바타로만 화면에 나가서 둘 다 필요했다. 항목에 이유·확인 날짜가 빠지면 내보내기가 멈춘다.
+- 파이프립스(pipe_lips)·언더월(bandunderwall)은 '애매'가 아니라 '확인 못함'(프로필을 못 읽음)이라 막지 않았다 — 계정 이름이 팀 이름과 바로 맞는다.

@@ -391,6 +391,35 @@ def _norm_url(url: str) -> str:
     return url.rstrip("/").replace("://", "://www.", 1) if "://www." not in url else url.rstrip("/")
 
 
+LINK_BLOCKLIST_FILE = ROOT / "config" / "link_blocklist.json"   # 사람이 틀리거나 애매하다고 본 연결 (docs/link_audit_2026-11-28.md)
+
+
+def drop_blocked_links(refs: List[dict], blocked: List[dict] | None = None) -> List[dict]:
+    """차단 목록(팀 키·플랫폼·계정 또는 주소)에 있는 연결을 뺀다. 계정·주소 어느 꼴로 적어도 같은 주소면 막는다.
+    항목마다 reason·checked 가 없으면 멈춘다. blocked 를 안 주면 config/link_blocklist.json 을 읽는다(없으면 빈 목록)."""
+    if blocked is None:
+        blocked = json.loads(LINK_BLOCKLIST_FILE.read_text(encoding="utf-8")).get("blocked", []) if LINK_BLOCKLIST_FILE.exists() else []
+
+    def key(team: str, platform: str, ref: str):
+        url = _link_url(platform, ref or "")
+        return (team, platform, (_norm_url(url) if url else (ref or "").strip()).lower())
+
+    bad = set()
+    for e in blocked:
+        if not all(e.get(f) for f in ("team_key", "platform", "ref", "reason", "checked")):
+            raise ValueError(f"link_blocklist 항목에 team_key·platform·ref·reason·checked 가 모두 있어야 해요: {e}")
+        bad.add(key(e["team_key"], e["platform"], e["ref"]))
+    return [r for r in refs if key(r.get("team_key"), r.get("platform", ""), r.get("ref") or "") not in bad]
+
+
+def drop_blocked_channels(channels: dict, blocked: List[dict] | None = None) -> dict:
+    """collect_yt_channels 상태(팀 → 채널)에서 차단 목록의 유튜브 채널을 뺀다 → 막은 채널 아바타가 사진으로 안 나간다."""
+    refs = [{"team_key": t, "platform": "youtube", "ref": f"https://www.youtube.com/channel/{(c or {}).get('channel_id') or ''}"}
+            for t, c in channels.items()]
+    keep = {r["team_key"] for r in drop_blocked_links(refs, blocked)}
+    return {t: c for t, c in channels.items() if t in keep}
+
+
 def link_rows(refs: List[dict]) -> List[dict]:
     """(팀, 플랫폼, 번호/주소) → (팀, 플랫폼, 주소). 같은 주소는 하나만."""
     out, seen = [], set()
@@ -706,7 +735,7 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
     teams = genre_fill.fill_genres(teams, signals, genre_fill.weak_hints(team_raw), genre_fill.review_genres(team_raw))
     outcomes = same_house_flags(outcome_rows(_records(run(q["outcomes"])), roles), signals, roles)
     programs = program_rows(signals, outcomes)
-    links = link_rows(_records(run(q["links"])) + (extra_refs() if extra_refs else []))
+    links = link_rows(drop_blocked_links(_records(run(q["links"])) + (extra_refs() if extra_refs else [])))
 
     out_dir.mkdir(parents=True, exist_ok=True)
     _write_csv(out_dir / "signals.csv", SIGNAL_FIELDS, signals)
@@ -725,7 +754,7 @@ def export(out_dir: Path = OUT_DIR, run: Run = psql_csv, today: str | None = Non
     players = sorted(players + collect_itunes.player_rows(itunes_state() if itunes_state else {}),
                      key=lambda r: (r["team_key"], ("spotify", "youtube", "itunes").index(r["kind"])))
     _write_csv(out_dir / "players.csv", players_mod.PLAYER_FIELDS, players)
-    images = image_rows(image_cache() if image_cache else {}, yt_channels() if yt_channels else {})
+    images = image_rows(image_cache() if image_cache else {}, drop_blocked_channels(yt_channels() if yt_channels else {}))
     _write_csv(out_dir / "images.csv", IMAGE_FIELDS, images)
     raw_c, raw_p = raw_collabs() if raw_collabs else ([], [])
     collabs = collab_rows(raw_c, raw_p, teams, outcomes) if raw_c else []
