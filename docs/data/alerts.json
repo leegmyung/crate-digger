@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-28T14:31:55+09:00",
+ "generated_at": "2026-11-28T14:52:29+09:00",
  "as_of": "2026-11-28",
  "baseline": {
   "kind": "state",
@@ -34,24 +34,24 @@
  },
  "counts_found": {
   "new_outcome": 16,
-  "new_selection": 16,
+  "new_selection": 30,
   "blank_first_mention": 1,
-  "stage_up": 65,
-  "big_venue_first": 23,
-  "peer_winner": 267,
-  "spike": 3,
+  "stage_up": 73,
+  "big_venue_first": 39,
+  "peer_winner": 307,
+  "spike": 7,
   "new_gig": 361,
-  "rank_jump": 34
+  "rank_jump": 47
  },
  "counts_shown": {
   "new_outcome": 16,
-  "new_selection": 16,
+  "new_selection": 20,
   "blank_first_mention": 1,
   "stage_up": 20,
   "big_venue_first": 20,
   "peer_winner": 20,
   "rank_jump": 20,
-  "spike": 3,
+  "spike": 7,
   "new_gig": 300
  },
  "alerts": [
@@ -360,7 +360,7 @@
    "importance": 110,
    "rank": null,
    "also": [],
-   "stars": 5,
+   "stars": 3,
    "found_on": "2026-11-28"
   },
   {
@@ -392,7 +392,7 @@
    ],
    "importance": 90,
    "stage": 3,
-   "rank": 11,
+   "rank": 9,
    "also": [
     "new_selection",
     "new_gig"
@@ -429,7 +429,7 @@
    ],
    "importance": 90,
    "stage": 3,
-   "rank": 16,
+   "rank": 14,
    "also": [
     "new_selection",
     "peer_winner",
@@ -492,38 +492,7 @@
    ],
    "importance": 85,
    "stage": 2,
-   "rank": 44,
-   "also": [
-    "peer_winner",
-    "rank_jump"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "stage_up",
-   "type_label": "단계 상승",
-   "team_key": "성하진",
-   "name": "성하진",
-   "date": "2026-11-28",
-   "text": "첫 신호 → 여러 갈래",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-11-21",
-     "venue": "이디홀"
-    },
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-11-21",
-     "venue": "이디홀"
-    }
-   ],
-   "importance": 85,
-   "stage": 2,
-   "rank": 47,
+   "rank": 38,
    "also": [
     "peer_winner",
     "rank_jump"
@@ -563,7 +532,7 @@
     "릴리잇머신",
     "ddbb"
    ],
-   "rank": 7,
+   "rank": 5,
    "also": [
     "new_gig"
    ],
@@ -576,7 +545,7 @@
    "team_key": "포스트이너서클",
    "name": "포스트이너서클",
    "date": "2026-11-28",
-   "text": "200위 → 9위 (+191)",
+   "text": "200위 → 7위 (+193)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -585,8 +554,8 @@
    ],
    "importance": 84,
    "rank_before": 200,
-   "rank_now": 9,
-   "rank": 9,
+   "rank_now": 7,
+   "rank": 7,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -597,19 +566,42 @@
    "team_key": "스웰시티",
    "name": "스웰시티",
    "date": "2026-11-28",
-   "text": "188위 → 19위 (+169)",
+   "text": "188위 → 17위 (+171)",
    "evidence": [
     {
      "source": "점수 스냅샷",
      "date": "2026-11-20"
     }
    ],
-   "importance": 81,
+   "importance": 82,
    "rank_before": 188,
-   "rank_now": 19,
-   "rank": 19,
+   "rank_now": 17,
+   "rank": 17,
    "also": [
     "peer_winner",
+    "new_gig"
+   ],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "rank_jump",
+   "type_label": "순위 급상승",
+   "team_key": "서울스핏",
+   "name": "서울스핏",
+   "date": "2026-11-28",
+   "text": "168위 → 16위 (+152)",
+   "evidence": [
+    {
+     "source": "점수 스냅샷",
+     "date": "2026-11-20"
+    }
+   ],
+   "importance": 80,
+   "rank_before": 168,
+   "rank_now": 16,
+   "rank": 16,
+   "also": [
     "new_gig"
    ],
    "stars": null,
@@ -631,7 +623,7 @@
     }
    ],
    "importance": 80,
-   "rank": 17,
+   "rank": 15,
    "also": [
     "peer_winner"
    ],
@@ -655,7 +647,7 @@
    ],
    "importance": 80,
    "late": true,
-   "rank": 11,
+   "rank": 9,
    "also": [
     "stage_up",
     "new_gig"
@@ -680,7 +672,7 @@
    ],
    "importance": 80,
    "late": true,
-   "rank": 16,
+   "rank": 14,
    "also": [
     "stage_up",
     "peer_winner",
@@ -720,7 +712,7 @@
    "team_key": "imf",
    "name": "I.M.F",
    "date": "2026-11-28",
-   "text": "137위 → 12위 (+125)",
+   "text": "137위 → 10위 (+127)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -729,9 +721,46 @@
    ],
    "importance": 77,
    "rank_before": 137,
-   "rank_now": 12,
-   "rank": 12,
+   "rank_now": 10,
+   "rank": 10,
    "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "stage_up",
+   "type_label": "단계 상승",
+   "team_key": "moongoamerica",
+   "name": "Moon Go America",
+   "date": "2026-11-28",
+   "text": "첫 신호 → 여러 갈래",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@pistilseoul",
+     "date": "2026-11-02",
+     "venue": "Pistil"
+    },
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-11-21",
+     "venue": "축제 (을지로)"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@localbody.blog",
+     "date": "2026-11-21"
+    }
+   ],
+   "importance": 75,
+   "stage": 2,
+   "rank": 245,
+   "also": [
+    "peer_winner"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -745,6 +774,13 @@
    "evidence": [
     {
      "branch": "공연",
+     "source": "instagram",
+     "program": "@senggistudio",
+     "date": "2026-10-29",
+     "venue": "생기스튜디오"
+    },
+    {
+     "branch": "공연",
      "source": "indistreet",
      "date": "2026-11-21",
      "venue": "생기스튜디오"
@@ -752,37 +788,7 @@
    ],
    "importance": 75,
    "stage": 2,
-   "rank": 197,
-   "also": [
-    "peer_winner"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "stage_up",
-   "type_label": "단계 상승",
-   "team_key": "room306",
-   "name": "Room306",
-   "date": "2026-11-28",
-   "text": "첫 신호 → 여러 갈래",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-11-21",
-     "venue": "이디홀"
-    },
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-11-21",
-     "venue": "이디홀"
-    }
-   ],
-   "importance": 75,
-   "stage": 2,
-   "rank": 200,
+   "rank": 144,
    "also": [
     "peer_winner"
    ],
@@ -818,7 +824,7 @@
    ],
    "importance": 75,
    "stage": 2,
-   "rank": 225,
+   "rank": 167,
    "also": [
     "new_gig"
    ],
@@ -828,30 +834,87 @@
   {
    "type": "stage_up",
    "type_label": "단계 상승",
-   "team_key": "해머링",
-   "name": "해머링",
+   "team_key": "일가인",
+   "name": "일가인",
+   "date": "2026-11-28",
+   "text": "첫 신호 → 여러 갈래",
+   "evidence": [
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@koreanindie",
+     "date": "2026-11-09"
+    }
+   ],
+   "importance": 75,
+   "stage": 2,
+   "rank": 199,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "stage_up",
+   "type_label": "단계 상승",
+   "team_key": "정욱",
+   "name": "정욱",
+   "date": "2026-11-28",
+   "text": "첫 신호 → 여러 갈래",
+   "evidence": [
+    {
+     "branch": "큐레이션",
+     "source": "musicy",
+     "program": "음악취향Y",
+     "date": "2026-11-23"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@noir_mardi_mercredi",
+     "date": "2026-11-25"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@nugsmag",
+     "date": "2026-11-25"
+    }
+   ],
+   "importance": 75,
+   "stage": 2,
+   "rank": 290,
+   "also": [
+    "spike"
+   ],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "stage_up",
+   "type_label": "단계 상승",
+   "team_key": "제임스키스",
+   "name": "제임스키스",
    "date": "2026-11-28",
    "text": "첫 신호 → 여러 갈래",
    "evidence": [
     {
      "branch": "공연",
      "source": "indiego",
-     "date": "2026-11-20",
-     "venue": "클럽 프리버드"
+     "date": "2026-11-26",
+     "venue": "Club FF"
     },
     {
      "branch": "공연",
      "source": "indistreet",
-     "date": "2026-11-29",
-     "venue": "제이에스아트홀&뮤직바"
+     "date": "2026-11-26",
+     "venue": "Club FF"
     }
    ],
    "importance": 75,
    "stage": 2,
-   "rank": 299,
+   "rank": 291,
    "also": [
-    "peer_winner",
-    "new_gig"
+    "peer_winner"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -880,7 +943,7 @@
     "향우회",
     "서울부인"
    ],
-   "rank": 10,
+   "rank": 8,
    "also": [
     "new_gig"
    ],
@@ -911,7 +974,7 @@
     "해서웨이",
     "불고기디스코"
    ],
-   "rank": 19,
+   "rank": 17,
    "also": [
     "new_gig",
     "rank_jump"
@@ -936,6 +999,11 @@
      "branch": "공연",
      "date": "2026-12-04",
      "venue": "Club FF"
+    },
+    {
+     "branch": "공연",
+     "date": "2026-11-26",
+     "venue": "Club FF"
     }
    ],
    "importance": 75,
@@ -943,55 +1011,7 @@
     "나타샤",
     "구구"
    ],
-   "rank": 15,
-   "also": [
-    "new_gig",
-    "rank_jump"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "rank_jump",
-   "type_label": "순위 급상승",
-   "team_key": "줄라이원츠모어",
-   "name": "줄라이원츠모어",
-   "date": "2026-11-28",
-   "text": "상위 100 새 진입 (15위, 2026-11-20엔 300위 밖)",
-   "evidence": [
-    {
-     "source": "점수 스냅샷",
-     "date": "2026-11-20"
-    }
-   ],
-   "importance": 75,
-   "rank_before": null,
-   "rank_now": 15,
-   "rank": 15,
-   "also": [
-    "peer_winner",
-    "new_gig"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "rank_jump",
-   "type_label": "순위 급상승",
-   "team_key": "서울스핏",
-   "name": "서울스핏",
-   "date": "2026-11-28",
-   "text": "상위 100 새 진입 (18위, 2026-11-20엔 300위 밖)",
-   "evidence": [
-    {
-     "source": "점수 스냅샷",
-     "date": "2026-11-20"
-    }
-   ],
-   "importance": 75,
-   "rank_before": null,
-   "rank_now": 18,
-   "rank": 18,
+   "rank": 13,
    "also": [
     "new_gig"
    ],
@@ -1004,7 +1024,7 @@
    "team_key": "웬즈데이오프",
    "name": "웬즈데이오프",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (25위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (23위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1013,29 +1033,8 @@
    ],
    "importance": 75,
    "rank_before": null,
-   "rank_now": 25,
-   "rank": 25,
-   "also": [],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "rank_jump",
-   "type_label": "순위 급상승",
-   "team_key": "닙아카이브",
-   "name": "닙아카이브",
-   "date": "2026-11-28",
-   "text": "상위 100 새 진입 (30위, 2026-11-20엔 300위 밖)",
-   "evidence": [
-    {
-     "source": "점수 스냅샷",
-     "date": "2026-11-20"
-    }
-   ],
-   "importance": 75,
-   "rank_before": null,
-   "rank_now": 30,
-   "rank": 30,
+   "rank_now": 23,
+   "rank": 23,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -1046,7 +1045,7 @@
    "team_key": "라이프라디오",
    "name": "라이프라디오",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (44위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (38위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1055,32 +1054,8 @@
    ],
    "importance": 75,
    "rank_before": null,
-   "rank_now": 44,
-   "rank": 44,
-   "also": [
-    "stage_up",
-    "peer_winner"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "rank_jump",
-   "type_label": "순위 급상승",
-   "team_key": "성하진",
-   "name": "성하진",
-   "date": "2026-11-28",
-   "text": "상위 100 새 진입 (47위, 2026-11-20엔 300위 밖)",
-   "evidence": [
-    {
-     "source": "점수 스냅샷",
-     "date": "2026-11-20"
-    }
-   ],
-   "importance": 75,
-   "rank_before": null,
-   "rank_now": 47,
-   "rank": 47,
+   "rank_now": 38,
+   "rank": 38,
    "also": [
     "stage_up",
     "peer_winner"
@@ -1120,21 +1095,128 @@
   {
    "type": "rank_jump",
    "type_label": "순위 급상승",
-   "team_key": "선셋온더브릿지",
-   "name": "선셋 온 더 브릿지",
+   "team_key": "로프리스",
+   "name": "로프리스",
    "date": "2026-11-28",
-   "text": "93위 → 5위 (+88)",
+   "text": "147위 → 49위 (+98)",
    "evidence": [
     {
      "source": "점수 스냅샷",
      "date": "2026-11-20"
     }
    ],
-   "importance": 73,
-   "rank_before": 93,
-   "rank_now": 5,
-   "rank": 5,
+   "importance": 74,
+   "rank_before": 147,
+   "rank_now": 49,
+   "rank": 49,
+   "also": [
+    "new_gig"
+   ],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "rank_jump",
+   "type_label": "순위 급상승",
+   "team_key": "테트라포드",
+   "name": "테트라포드",
+   "date": "2026-11-28",
+   "text": "287위 → 96위 (+191)",
+   "evidence": [
+    {
+     "source": "점수 스냅샷",
+     "date": "2026-11-20"
+    }
+   ],
+   "importance": 74,
+   "rank_before": 287,
+   "rank_now": 96,
+   "rank": 96,
    "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "spike",
+   "type_label": "언급 급증",
+   "team_key": "정욱",
+   "name": "정욱",
+   "date": "2026-11-28",
+   "text": "최근 1주 언급 처음 3건 (지난 12주엔 없음)",
+   "evidence": [
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@noir_mardi_mercredi",
+     "date": "2026-11-25"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@nugsmag",
+     "date": "2026-11-25"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "musicy",
+     "program": "음악취향Y",
+     "date": "2026-11-23"
+    }
+   ],
+   "importance": 71,
+   "ratio": null,
+   "recent": 3,
+   "past_weeks_total": 0,
+   "past_weekly_avg": 0.0,
+   "rank": 290,
+   "also": [
+    "stage_up"
+   ],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "rank_jump",
+   "type_label": "순위 급상승",
+   "team_key": "스모킹리",
+   "name": "스모킹리",
+   "date": "2026-11-28",
+   "text": "254위 → 90위 (+164)",
+   "evidence": [
+    {
+     "source": "점수 스냅샷",
+     "date": "2026-11-20"
+    }
+   ],
+   "importance": 71,
+   "rank_before": 254,
+   "rank_now": 90,
+   "rank": 90,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "rank_jump",
+   "type_label": "순위 급상승",
+   "team_key": "아나키컬쳐",
+   "name": "아나키컬쳐",
+   "date": "2026-11-28",
+   "text": "258위 → 91위 (+167)",
+   "evidence": [
+    {
+     "source": "점수 스냅샷",
+     "date": "2026-11-20"
+    }
+   ],
+   "importance": 71,
+   "rank_before": 258,
+   "rank_now": 91,
+   "rank": 91,
+   "also": [
+    "peer_winner",
+    "new_gig"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -1154,7 +1236,7 @@
     }
    ],
    "importance": 70,
-   "rank": 179,
+   "rank": 134,
    "also": [
     "new_gig"
    ],
@@ -1183,6 +1265,120 @@
    "also": [
     "new_gig"
    ],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "rank_jump",
+   "type_label": "순위 급상승",
+   "team_key": "웰컴투초초랜드",
+   "name": "웰컴투초초랜드",
+   "date": "2026-11-28",
+   "text": "98위 → 46위 (+52)",
+   "evidence": [
+    {
+     "source": "점수 스냅샷",
+     "date": "2026-11-20"
+    }
+   ],
+   "importance": 70,
+   "rank_before": 98,
+   "rank_now": 46,
+   "rank": 46,
+   "also": [
+    "new_gig"
+   ],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "rank_jump",
+   "type_label": "순위 급상승",
+   "team_key": "지베뉴",
+   "name": "지베뉴",
+   "date": "2026-11-28",
+   "text": "100위 → 50위 (+50)",
+   "evidence": [
+    {
+     "source": "점수 스냅샷",
+     "date": "2026-11-20"
+    }
+   ],
+   "importance": 70,
+   "rank_before": 100,
+   "rank_now": 50,
+   "rank": 50,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "peer_winner",
+   "type_label": "같은 무대 수상 팀",
+   "team_key": "비지타큐",
+   "name": "비지타 큐",
+   "date": "2026-11-27",
+   "text": "같은 무대에 선 수상 팀: 다다다, Mombrimz, 기나이직",
+   "evidence": [
+    {
+     "branch": "공연",
+     "date": "2026-11-27",
+     "venue": "생기스튜디오"
+    },
+    {
+     "branch": "공연",
+     "date": "2026-11-27",
+     "venue": "생기스튜디오"
+    },
+    {
+     "branch": "공연",
+     "date": "2026-11-21",
+     "venue": "축제 (을지로)"
+    }
+   ],
+   "importance": 70,
+   "winners": [
+    "다다다",
+    "mombrimz",
+    "기나이직"
+   ],
+   "rank": 182,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "peer_winner",
+   "type_label": "같은 무대 수상 팀",
+   "team_key": "balancequeenputtt",
+   "name": "Balancequeen & Puttt",
+   "date": "2026-11-22",
+   "text": "같은 무대에 선 수상 팀: 피치트럭하이재커스, 리프, 기나이직",
+   "evidence": [
+    {
+     "branch": "공연",
+     "date": "2026-11-22",
+     "venue": "축제 (을지로)"
+    },
+    {
+     "branch": "공연",
+     "date": "2026-11-22",
+     "venue": "축제 (을지로)"
+    },
+    {
+     "branch": "공연",
+     "date": "2026-11-22",
+     "venue": "축제 (을지로)"
+    }
+   ],
+   "importance": 70,
+   "winners": [
+    "피치트럭하이재커스",
+    "리프",
+    "기나이직"
+   ],
+   "rank": 228,
+   "also": [],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -1216,7 +1412,7 @@
     "리프",
     "기나이직"
    ],
-   "rank": 249,
+   "rank": 180,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -1239,33 +1435,7 @@
    "winners": [
     "오이스터즈"
    ],
-   "rank": 44,
-   "also": [
-    "stage_up",
-    "rank_jump"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "peer_winner",
-   "type_label": "같은 무대 수상 팀",
-   "team_key": "성하진",
-   "name": "성하진",
-   "date": "2026-11-21",
-   "text": "같은 무대에 선 수상 팀: 몽돌",
-   "evidence": [
-    {
-     "branch": "공연",
-     "date": "2026-11-21",
-     "venue": "이디홀"
-    }
-   ],
-   "importance": 70,
-   "winners": [
-    "몽돌"
-   ],
-   "rank": 47,
+   "rank": 38,
    "also": [
     "stage_up",
     "rank_jump"
@@ -1302,6 +1472,29 @@
   {
    "type": "peer_winner",
    "type_label": "같은 무대 수상 팀",
+   "team_key": "퍼퓨라",
+   "name": "퍼퓨라",
+   "date": "2026-11-07",
+   "text": "같은 무대에 선 수상 팀: 도그 라스트 페이지",
+   "evidence": [
+    {
+     "branch": "공연",
+     "date": "2026-11-07",
+     "venue": "퍼플홀"
+    }
+   ],
+   "importance": 70,
+   "winners": [
+    "도그라스트페이지"
+   ],
+   "rank": 47,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "peer_winner",
+   "type_label": "같은 무대 수상 팀",
    "team_key": "모우들",
    "name": "모우들",
    "date": "2026-11-01",
@@ -1317,7 +1510,7 @@
    "winners": [
     "핍핍"
    ],
-   "rank": 8,
+   "rank": 6,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -1340,7 +1533,7 @@
    "winners": [
     "핍핍"
    ],
-   "rank": 16,
+   "rank": 14,
    "also": [
     "new_selection",
     "stage_up",
@@ -1367,7 +1560,7 @@
    "winners": [
     "아사달"
    ],
-   "rank": 17,
+   "rank": 15,
    "also": [
     "big_venue_first"
    ],
@@ -1380,17 +1573,17 @@
    "team_key": "murdermartyr",
    "name": "Murdermartyr",
    "date": "2026-11-28",
-   "text": "203위 → 77위 (+126)",
+   "text": "203위 → 65위 (+138)",
    "evidence": [
     {
      "source": "점수 스냅샷",
      "date": "2026-11-20"
     }
    ],
-   "importance": 67,
+   "importance": 68,
    "rank_before": 203,
-   "rank_now": 77,
-   "rank": 77,
+   "rank_now": 65,
+   "rank": 65,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -1442,41 +1635,10 @@
     "우륵과풍각쟁이들",
     "기나이직"
    ],
-   "rank": 76,
+   "rank": 64,
    "also": [
     "new_gig",
     "rank_jump"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "peer_winner",
-   "type_label": "같은 무대 수상 팀",
-   "team_key": "k특급모텔",
-   "name": "K특급모텔",
-   "date": "2026-12-04",
-   "text": "같은 무대에 선 수상 팀: 우륵과 풍각쟁이들, 기나이직",
-   "evidence": [
-    {
-     "branch": "공연",
-     "date": "2026-12-04",
-     "venue": "축제 (을지로)"
-    },
-    {
-     "branch": "공연",
-     "date": "2026-12-04",
-     "venue": "축제 (을지로)"
-    }
-   ],
-   "importance": 65,
-   "winners": [
-    "우륵과풍각쟁이들",
-    "기나이직"
-   ],
-   "rank": 141,
-   "also": [
-    "new_gig"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -1505,9 +1667,10 @@
     "나타샤",
     "구구"
    ],
-   "rank": 101,
+   "rank": 80,
    "also": [
-    "new_gig"
+    "new_gig",
+    "rank_jump"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -1536,7 +1699,7 @@
     "우륵과풍각쟁이들",
     "기나이직"
    ],
-   "rank": 78,
+   "rank": 66,
    "also": [
     "new_gig",
     "rank_jump"
@@ -1561,6 +1724,11 @@
      "branch": "공연",
      "date": "2026-12-04",
      "venue": "Club FF"
+    },
+    {
+     "branch": "공연",
+     "date": "2026-11-26",
+     "venue": "Club FF"
     }
    ],
    "importance": 65,
@@ -1568,7 +1736,7 @@
     "나타샤",
     "구구"
    ],
-   "rank": 155,
+   "rank": 123,
    "also": [
     "new_gig"
    ],
@@ -1604,40 +1772,10 @@
     "나타샤",
     "구구"
    ],
-   "rank": 113,
+   "rank": 91,
    "also": [
-    "new_gig"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "peer_winner",
-   "type_label": "같은 무대 수상 팀",
-   "team_key": "파아란",
-   "name": "파아란",
-   "date": "2026-11-28",
-   "text": "같은 무대에 선 수상 팀: 핍핍, Mombrimz",
-   "evidence": [
-    {
-     "branch": "공연",
-     "date": "2026-11-28",
-     "venue": "카페 언플러그드 홍대점"
-    },
-    {
-     "branch": "공연",
-     "date": "2026-11-28",
-     "venue": "카페 언플러그드 홍대점"
-    }
-   ],
-   "importance": 65,
-   "winners": [
-    "핍핍",
-    "mombrimz"
-   ],
-   "rank": 187,
-   "also": [
-    "new_gig"
+    "new_gig",
+    "rank_jump"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -1648,7 +1786,7 @@
    "team_key": "노백",
    "name": "노백",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (59위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (52위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1657,8 +1795,8 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 59,
-   "rank": 59,
+   "rank_now": 52,
+   "rank": 52,
    "also": [
     "peer_winner",
     "new_gig"
@@ -1672,7 +1810,7 @@
    "team_key": "소여",
    "name": "소여",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (68위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (58위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1681,33 +1819,9 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 68,
-   "rank": 68,
+   "rank_now": 58,
+   "rank": 58,
    "also": [],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "rank_jump",
-   "type_label": "순위 급상승",
-   "team_key": "플릿",
-   "name": "플릿",
-   "date": "2026-11-28",
-   "text": "상위 100 새 진입 (75위, 2026-11-20엔 300위 밖)",
-   "evidence": [
-    {
-     "source": "점수 스냅샷",
-     "date": "2026-11-20"
-    }
-   ],
-   "importance": 65,
-   "rank_before": null,
-   "rank_now": 75,
-   "rank": 75,
-   "also": [
-    "peer_winner",
-    "new_gig"
-   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -1717,7 +1831,7 @@
    "team_key": "rifffool",
    "name": "Riff Fool",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (78위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (66위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1726,8 +1840,8 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 78,
-   "rank": 78,
+   "rank_now": 66,
+   "rank": 66,
    "also": [
     "peer_winner",
     "new_gig"
@@ -1741,7 +1855,7 @@
    "team_key": "공",
    "name": "공",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (80위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (67위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1750,8 +1864,8 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 80,
-   "rank": 80,
+   "rank_now": 67,
+   "rank": 67,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -1762,7 +1876,7 @@
    "team_key": "루즌도어즈",
    "name": "루즌도어즈",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (83위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (70위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1771,8 +1885,8 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 83,
-   "rank": 83,
+   "rank_now": 70,
+   "rank": 70,
    "also": [
     "peer_winner"
    ],
@@ -1785,7 +1899,7 @@
    "team_key": "신서울",
    "name": "신서울",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (87위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (74위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1794,8 +1908,8 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 87,
-   "rank": 87,
+   "rank_now": 74,
+   "rank": 74,
    "also": [
     "peer_winner"
    ],
@@ -1808,7 +1922,7 @@
    "team_key": "exhibita",
    "name": "exhibit a",
    "date": "2026-11-28",
-   "text": "상위 100 새 진입 (99위, 2026-11-20엔 300위 밖)",
+   "text": "상위 100 새 진입 (78위, 2026-11-20엔 300위 밖)",
    "evidence": [
     {
      "source": "점수 스냅샷",
@@ -1817,31 +1931,39 @@
    ],
    "importance": 65,
    "rank_before": null,
-   "rank_now": 99,
-   "rank": 99,
+   "rank_now": 78,
+   "rank": 78,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
   },
   {
-   "type": "rank_jump",
-   "type_label": "순위 급상승",
-   "team_key": "로프리스",
-   "name": "로프리스",
+   "type": "stage_up",
+   "type_label": "단계 상승",
+   "team_key": "abirdofparadiseflower",
+   "name": "abirdofparadiseflower",
    "date": "2026-11-28",
-   "text": "147위 → 56위 (+91)",
+   "text": "새로 나타난 팀 — 바로 여러 갈래",
    "evidence": [
     {
-     "source": "점수 스냅샷",
-     "date": "2026-11-20"
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@koreanindie",
+     "date": "2026-11-02"
+    },
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@blanksite_seoul",
+     "date": "2026-11-05",
+     "venue": "Blank Site Seoul"
     }
    ],
-   "importance": 64,
-   "rank_before": 147,
-   "rank_now": 56,
-   "rank": 56,
+   "importance": 60,
+   "stage": 2,
+   "rank": null,
    "also": [
-    "new_gig"
+    "big_venue_first"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -1878,6 +2000,40 @@
   {
    "type": "stage_up",
    "type_label": "단계 상승",
+   "team_key": "aiweo",
+   "name": "A I W E O",
+   "date": "2026-11-28",
+   "text": "첫 신호 → 여러 갈래",
+   "evidence": [
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@k_indie_chart",
+     "date": "2026-10-30"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@k_indie_chart",
+     "date": "2026-11-09"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@metro_kr",
+     "date": "2026-11-16"
+    }
+   ],
+   "importance": 60,
+   "stage": 2,
+   "rank": null,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "stage_up",
+   "type_label": "단계 상승",
    "team_key": "aya",
    "name": "aya",
    "date": "2026-11-28",
@@ -1889,6 +2045,12 @@
      "program": "@tool.seoul",
      "date": "2026-11-26",
      "venue": "TOOL Records & Bar"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@habokorea",
+     "date": "2026-11-26"
     },
     {
      "branch": "공연",
@@ -1910,16 +2072,16 @@
   {
    "type": "stage_up",
    "type_label": "단계 상승",
-   "team_key": "bababa",
-   "name": "Bababa",
+   "team_key": "billionhappy",
+   "name": "Billionhappy",
    "date": "2026-11-28",
    "text": "첫 신호 → 여러 갈래",
    "evidence": [
     {
      "branch": "큐레이션",
      "source": "instagram",
-     "program": "@localbody.blog",
-     "date": "2026-11-21"
+     "program": "@scr_radio",
+     "date": "2026-11-04"
     }
    ],
    "importance": 60,
@@ -1932,23 +2094,17 @@
   {
    "type": "stage_up",
    "type_label": "단계 상승",
-   "team_key": "blamelobotome",
-   "name": "blamelobotome",
+   "team_key": "caffhrisun",
+   "name": "caffhrisun",
    "date": "2026-11-28",
-   "text": "새로 나타난 팀 — 바로 여러 갈래",
+   "text": "첫 신호 → 여러 갈래",
    "evidence": [
-    {
-     "branch": "큐레이션",
-     "source": "instagram",
-     "program": "@localbody.blog",
-     "date": "2026-11-21"
-    },
     {
      "branch": "공연",
      "source": "instagram",
-     "program": "@pistilseoul",
-     "date": "2026-11-24",
-     "venue": "Pistil"
+     "program": "@senggistudio",
+     "date": "2026-11-09",
+     "venue": "생기스튜디오"
     }
    ],
    "importance": 60,
@@ -1990,11 +2146,39 @@
   {
    "type": "stage_up",
    "type_label": "단계 상승",
+   "team_key": "charitylynn",
+   "name": "Charity Lynn",
+   "date": "2026-11-28",
+   "text": "첫 신호 → 여러 갈래",
+   "evidence": [
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@debasermagazine",
+     "date": "2026-11-03"
+    }
+   ],
+   "importance": 60,
+   "stage": 2,
+   "rank": null,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "stage_up",
+   "type_label": "단계 상승",
    "team_key": "coziest99",
    "name": "coziest99",
    "date": "2026-11-28",
    "text": "첫 신호 → 여러 갈래",
    "evidence": [
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@scr_radio",
+     "date": "2026-11-09"
+    },
     {
      "branch": "큐레이션",
      "source": "instagram",
@@ -2004,9 +2188,9 @@
     {
      "branch": "공연",
      "source": "instagram",
-     "program": "@pistilseoul",
-     "date": "2026-11-24",
-     "venue": "Pistil"
+     "program": "@cakeshopseoul",
+     "date": "2026-11-22",
+     "venue": "Cakeshop"
     }
    ],
    "importance": 60,
@@ -2046,76 +2230,102 @@
    "found_on": "2026-11-28"
   },
   {
-   "type": "stage_up",
-   "type_label": "단계 상승",
-   "team_key": "easthopeman",
-   "name": "easthopeman",
+   "type": "spike",
+   "type_label": "언급 급증",
+   "team_key": "sunx2g",
+   "name": "sunx2g",
    "date": "2026-11-28",
-   "text": "새로 나타난 팀 — 바로 여러 갈래",
+   "text": "최근 1주 언급 처음 3건 (지난 12주엔 없음)",
    "evidence": [
     {
-     "branch": "공연",
+     "branch": "큐레이션",
      "source": "instagram",
-     "program": "@pistilseoul",
-     "date": "2026-11-13",
-     "venue": "Pistil"
+     "program": "@vislamag",
+     "date": "2026-11-26"
     },
     {
      "branch": "큐레이션",
      "source": "instagram",
-     "program": "@visla.fm",
-     "date": "2026-11-13"
+     "program": "@vislamag",
+     "date": "2026-11-25"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@vislamag",
+     "date": "2026-11-23"
     }
    ],
-   "importance": 60,
-   "stage": 2,
+   "importance": 56,
+   "ratio": null,
+   "recent": 3,
+   "past_weeks_total": 0,
+   "past_weekly_avg": 0.0,
    "rank": null,
-   "also": [],
+   "also": [
+    "stage_up"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
   {
-   "type": "stage_up",
-   "type_label": "단계 상승",
-   "team_key": "epilepsy",
-   "name": "EPILEPSY",
+   "type": "spike",
+   "type_label": "언급 급증",
+   "team_key": "teller",
+   "name": "Teller",
    "date": "2026-11-28",
-   "text": "첫 신호 → 여러 갈래",
+   "text": "최근 1주 언급 처음 3건 (지난 12주엔 없음)",
    "evidence": [
     {
      "branch": "큐레이션",
      "source": "instagram",
-     "program": "@underadio_",
-     "date": "2026-11-23"
+     "program": "@habokorea",
+     "date": "2026-11-27"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@mixmag_kr",
+     "date": "2026-11-25"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@mixmag_kr",
+     "date": "2026-11-24"
     }
    ],
-   "importance": 60,
-   "stage": 2,
+   "importance": 56,
+   "ratio": null,
+   "recent": 3,
+   "past_weeks_total": 0,
+   "past_weekly_avg": 0.0,
    "rank": null,
-   "also": [],
+   "also": [
+    "stage_up"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
   {
-   "type": "stage_up",
-   "type_label": "단계 상승",
-   "team_key": "exhibitapunk",
-   "name": "exhibitapunk",
+   "type": "spike",
+   "type_label": "언급 급증",
+   "team_key": "기나이직",
+   "name": "기나이직",
    "date": "2026-11-28",
-   "text": "새로 나타난 팀 — 바로 여러 갈래",
+   "text": "최근 1주 언급 3건 — 지난 12주 4건(평소 주 1건 이하)",
    "evidence": [
     {
      "branch": "큐레이션",
      "source": "instagram",
      "program": "@bcc_session",
-     "date": "2026-11-19"
+     "date": "2026-11-26"
     },
     {
-     "branch": "공연",
+     "branch": "큐레이션",
      "source": "instagram",
-     "program": "@festivalfestivalseoul",
-     "date": "2026-11-22",
-     "venue": "축제 (을지로)"
+     "program": "@habokorea",
+     "date": "2026-11-26"
     },
     {
      "branch": "큐레이션",
@@ -2124,48 +2334,15 @@
      "date": "2026-11-22"
     }
    ],
-   "importance": 60,
-   "stage": 2,
+   "importance": 56,
+   "ratio": null,
+   "recent": 3,
+   "past_weeks_total": 4,
+   "past_weekly_avg": 0.33,
    "rank": null,
    "also": [
-    "peer_winner"
+    "new_gig"
    ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "stage_up",
-   "type_label": "단계 상승",
-   "team_key": "gagyeong",
-   "name": "gagyeong",
-   "date": "2026-11-28",
-   "text": "새로 나타난 팀 — 바로 여러 갈래",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "instagram",
-     "program": "@cakeshopseoul",
-     "date": "2026-11-25",
-     "venue": "Cakeshop"
-    },
-    {
-     "branch": "공연",
-     "source": "instagram",
-     "program": "@dhj.global",
-     "date": "2026-11-25",
-     "venue": "@dhj.global"
-    },
-    {
-     "branch": "큐레이션",
-     "source": "instagram",
-     "program": "@omichive7",
-     "date": "2026-11-26"
-    }
-   ],
-   "importance": 60,
-   "stage": 2,
-   "rank": null,
-   "also": [],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -2211,49 +2388,10 @@
   {
    "type": "spike",
    "type_label": "언급 급증",
-   "team_key": "정욱",
-   "name": "정욱",
-   "date": "2026-11-28",
-   "text": "최근 1주 언급 처음 3건 (지난 12주엔 없음)",
-   "evidence": [
-    {
-     "branch": "큐레이션",
-     "source": "instagram",
-     "program": "@noir_mardi_mercredi",
-     "date": "2026-11-25"
-    },
-    {
-     "branch": "큐레이션",
-     "source": "instagram",
-     "program": "@nugsmag",
-     "date": "2026-11-25"
-    },
-    {
-     "branch": "큐레이션",
-     "source": "musicy",
-     "program": "음악취향Y",
-     "date": "2026-11-23"
-    }
-   ],
-   "importance": 56,
-   "ratio": null,
-   "recent": 3,
-   "past_weeks_total": 0,
-   "past_weekly_avg": 0.0,
-   "rank": null,
-   "also": [
-    "stage_up"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "spike",
-   "type_label": "언급 급증",
    "team_key": "제4집단",
    "name": "제4집단",
    "date": "2026-11-28",
-   "text": "최근 1주 언급 3건 — 지난 12주 1건(평소 주 1건 이하)",
+   "text": "최근 1주 언급 3건 — 지난 12주 3건(평소 주 1건 이하)",
    "evidence": [
     {
      "branch": "큐레이션",
@@ -2277,12 +2415,49 @@
    "importance": 56,
    "ratio": null,
    "recent": 3,
-   "past_weeks_total": 1,
-   "past_weekly_avg": 0.08,
+   "past_weeks_total": 3,
+   "past_weekly_avg": 0.25,
    "rank": null,
    "also": [
     "peer_winner"
    ],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "spike",
+   "type_label": "언급 급증",
+   "team_key": "혁오",
+   "name": "혁오",
+   "date": "2026-11-28",
+   "text": "최근 1주 언급 3건 — 지난 12주 3건(평소 주 1건 이하)",
+   "evidence": [
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@ystrdy.tdy.tmrrw",
+     "date": "2026-11-25"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@muzik.street",
+     "date": "2026-11-24"
+    },
+    {
+     "branch": "큐레이션",
+     "source": "instagram",
+     "program": "@ystrdy.tdy.tmrrw",
+     "date": "2026-11-24"
+    }
+   ],
+   "importance": 56,
+   "ratio": null,
+   "recent": 3,
+   "past_weeks_total": 3,
+   "past_weekly_avg": 0.25,
+   "rank": null,
+   "also": [],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -2376,51 +2551,6 @@
     "peer_winner",
     "new_gig"
    ],
-   "stars": 5,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
-   "team_key": "신설희",
-   "name": "신설희",
-   "date": "2026-11-26",
-   "text": "큰 공연장 첫 출연 — KT&G 상상마당 대치 아트홀 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "instagram",
-     "program": "@ssmadang.official",
-     "date": "2026-11-26",
-     "venue": "KT&G 상상마당 대치 아트홀"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [
-    "peer_winner"
-   ],
-   "stars": 4,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "big_venue_first",
-   "type_label": "큰 공연장 첫 출연",
-   "team_key": "성진",
-   "name": "성진",
-   "date": "2026-11-25",
-   "text": "큰 공연장 첫 출연 — 무신사개러지 (L급)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-11-25",
-     "venue": "무신사개러지"
-    }
-   ],
-   "importance": 55,
-   "rank": null,
-   "also": [],
    "stars": 5,
    "found_on": "2026-11-28"
   },
@@ -2644,8 +2774,8 @@
   {
    "type": "big_venue_first",
    "type_label": "큰 공연장 첫 출연",
-   "team_key": "kt1ty",
-   "name": "kt1ty",
+   "team_key": "kyeongbinjoo",
+   "name": "kyeongbinjoo",
    "date": "2026-11-14",
    "text": "큰 공연장 첫 출연 — Blank Site Seoul (L급)",
    "evidence": [
@@ -2666,8 +2796,54 @@
   {
    "type": "big_venue_first",
    "type_label": "큰 공연장 첫 출연",
-   "team_key": "kyeongbinjoo",
-   "name": "kyeongbinjoo",
+   "team_key": "mazefromfar",
+   "name": "mazefromfar",
+   "date": "2026-11-14",
+   "text": "큰 공연장 첫 출연 — Blank Site Seoul (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@blanksite_seoul",
+     "date": "2026-11-14",
+     "venue": "Blank Site Seoul"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [
+    "stage_up"
+   ],
+   "stars": 3,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
+   "team_key": "metamoksha",
+   "name": "metamoksha",
+   "date": "2026-11-14",
+   "text": "큰 공연장 첫 출연 — Blank Site Seoul (L급)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "instagram",
+     "program": "@blanksite_seoul",
+     "date": "2026-11-14",
+     "venue": "Blank Site Seoul"
+    }
+   ],
+   "importance": 55,
+   "rank": null,
+   "also": [],
+   "stars": 3,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "big_venue_first",
+   "type_label": "큰 공연장 첫 출연",
+   "team_key": "pantheon3niti",
+   "name": "pantheon3niti",
    "date": "2026-11-14",
    "text": "큰 공연장 첫 출연 — Blank Site Seoul (L급)",
    "evidence": [
@@ -2690,28 +2866,6 @@
    "type_label": "새 선정·지원",
    "team_key": "김푸름",
    "name": "김푸름",
-   "date": "2026-08-13",
-   "text": "부산록페 루키즈 선정 (늦게 확인 — 2026-08-13 일)",
-   "evidence": [
-    {
-     "branch": "선정·지원",
-     "source": "busanrock",
-     "program": "burock_rookies",
-     "date": "2026-08-13"
-    }
-   ],
-   "importance": 55,
-   "late": true,
-   "rank": null,
-   "also": [],
-   "stars": 1,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_selection",
-   "type_label": "새 선정·지원",
-   "team_key": "데이네버체인지",
-   "name": "데이네버체인지",
    "date": "2026-08-13",
    "text": "부산록페 루키즈 선정 (늦게 확인 — 2026-08-13 일)",
    "evidence": [
@@ -2844,109 +2998,87 @@
   {
    "type": "new_selection",
    "type_label": "새 선정·지원",
-   "team_key": "슈츠",
-   "name": "슈츠",
-   "date": "2025-05-31",
-   "text": "세종 뮤즈세종 선정 (늦게 확인 — 2025-05-31 일)",
+   "team_key": "김영석밴드",
+   "name": "김영석밴드",
+   "date": "2025-09-26",
+   "text": "부산록페 루키즈 선정 (늦게 확인 — 2025-09-26 일)",
    "evidence": [
     {
      "branch": "선정·지원",
-     "source": "sejong",
-     "program": "muse_sejong",
-     "date": "2025-05-31"
+     "source": "busanrock",
+     "program": "burock_rookies",
+     "date": "2025-09-26"
     }
    ],
    "importance": 55,
    "late": true,
    "rank": null,
    "also": [],
-   "stars": 5,
+   "stars": 2,
    "found_on": "2026-11-28"
   },
   {
    "type": "new_selection",
    "type_label": "새 선정·지원",
-   "team_key": "몽글",
-   "name": "몽글",
-   "date": "2020-12-31",
-   "text": "유재하 음악경연대회 본선 선정 (늦게 확인 — 2020-12-31 일)",
+   "team_key": "까치산",
+   "name": "까치산",
+   "date": "2025-09-26",
+   "text": "부산록페 루키즈 선정 (늦게 확인 — 2025-09-26 일)",
    "evidence": [
     {
      "branch": "선정·지원",
-     "source": "yjh",
-     "program": "yoojaeha_finalist",
-     "date": "2020-12-31"
+     "source": "busanrock",
+     "program": "burock_rookies",
+     "date": "2025-09-26"
     }
    ],
    "importance": 55,
    "late": true,
    "rank": null,
    "also": [],
-   "stars": 5,
+   "stars": 2,
    "found_on": "2026-11-28"
   },
   {
    "type": "new_selection",
    "type_label": "새 선정·지원",
-   "team_key": "강민정",
-   "name": "강민정",
-   "date": "2026-10-15",
-   "text": "슈퍼루키챌린지 라인업·쇼케이스 (늦게 확인 — 2026-10-15 일)",
+   "team_key": "나타샤",
+   "name": "나타샤",
+   "date": "2025-09-26",
+   "text": "부산록페 루키즈 선정 (늦게 확인 — 2025-09-26 일)",
    "evidence": [
     {
      "branch": "선정·지원",
-     "source": "routenote",
-     "program": "superrookie",
-     "date": "2026-10-15"
+     "source": "busanrock",
+     "program": "burock_rookies",
+     "date": "2025-09-26"
     }
    ],
-   "importance": 50,
+   "importance": 55,
    "late": true,
    "rank": null,
    "also": [
-    "stage_up"
+    "new_gig"
    ],
-   "stars": 3,
+   "stars": 2,
    "found_on": "2026-11-28"
   },
   {
    "type": "new_selection",
    "type_label": "새 선정·지원",
-   "team_key": "jiji",
-   "name": "JIJI",
-   "date": "2026-03-24",
-   "text": "슈퍼루키챌린지 라인업·쇼케이스 (늦게 확인 — 2026-03-24 일)",
+   "team_key": "낙원",
+   "name": "낙원",
+   "date": "2025-09-26",
+   "text": "부산록페 루키즈 선정 (늦게 확인 — 2025-09-26 일)",
    "evidence": [
     {
      "branch": "선정·지원",
-     "source": "routenote",
-     "program": "superrookie",
-     "date": "2026-03-24"
+     "source": "busanrock",
+     "program": "burock_rookies",
+     "date": "2025-09-26"
     }
    ],
-   "importance": 50,
-   "late": true,
-   "rank": null,
-   "also": [],
-   "stars": 3,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_selection",
-   "type_label": "새 선정·지원",
-   "team_key": "lushh",
-   "name": "Lushh",
-   "date": "2025-03-13",
-   "text": "슈퍼루키챌린지 라인업·쇼케이스 (늦게 확인 — 2025-03-13 일)",
-   "evidence": [
-    {
-     "branch": "선정·지원",
-     "source": "routenote",
-     "program": "superrookie",
-     "date": "2025-03-13"
-    }
-   ],
-   "importance": 50,
+   "importance": 55,
    "late": true,
    "rank": null,
    "also": [],
@@ -2956,23 +3088,159 @@
   {
    "type": "new_selection",
    "type_label": "새 선정·지원",
-   "team_key": "오버드라이브필로소피",
-   "name": "오버드라이브 필로소피",
-   "date": "2022-10-05",
-   "text": "상상마당 밴드 디스커버리 라인업·쇼케이스 (늦게 확인 — 2022-10-05 일)",
+   "team_key": "다다다",
+   "name": "다다다",
+   "date": "2025-09-26",
+   "text": "부산록페 루키즈 선정 (늦게 확인 — 2025-09-26 일)",
    "evidence": [
     {
      "branch": "선정·지원",
-     "source": "sangsangmadang",
-     "program": "band_discovery",
-     "date": "2022-10-05"
+     "source": "busanrock",
+     "program": "burock_rookies",
+     "date": "2025-09-26"
     }
    ],
-   "importance": 50,
+   "importance": 55,
+   "late": true,
+   "rank": null,
+   "also": [
+    "new_gig"
+   ],
+   "stars": 1,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_selection",
+   "type_label": "새 선정·지원",
+   "team_key": "데이네버체인지",
+   "name": "데이네버체인지",
+   "date": "2025-09-26",
+   "text": "부산록페 루키즈 선정 (늦게 확인 — 2025-09-26 일)",
+   "evidence": [
+    {
+     "branch": "선정·지원",
+     "source": "busanrock",
+     "program": "burock_rookies",
+     "date": "2025-09-26"
+    }
+   ],
+   "importance": 55,
    "late": true,
    "rank": null,
    "also": [],
-   "stars": 4,
+   "stars": 1,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_selection",
+   "type_label": "새 선정·지원",
+   "team_key": "디폴트",
+   "name": "디폴트",
+   "date": "2025-09-26",
+   "text": "부산록페 루키즈 선정 (늦게 확인 — 2025-09-26 일)",
+   "evidence": [
+    {
+     "branch": "선정·지원",
+     "source": "busanrock",
+     "program": "burock_rookies",
+     "date": "2025-09-26"
+    }
+   ],
+   "importance": 55,
+   "late": true,
+   "rank": null,
+   "also": [],
+   "stars": 2,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_selection",
+   "type_label": "새 선정·지원",
+   "team_key": "야자수",
+   "name": "야자수",
+   "date": "2025-09-26",
+   "text": "부산록페 루키즈 선정 (늦게 확인 — 2025-09-26 일)",
+   "evidence": [
+    {
+     "branch": "선정·지원",
+     "source": "busanrock",
+     "program": "burock_rookies",
+     "date": "2025-09-26"
+    }
+   ],
+   "importance": 55,
+   "late": true,
+   "rank": null,
+   "also": [],
+   "stars": 2,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_selection",
+   "type_label": "새 선정·지원",
+   "team_key": "오아",
+   "name": "오아!",
+   "date": "2025-09-26",
+   "text": "부산록페 루키즈 선정 (늦게 확인 — 2025-09-26 일)",
+   "evidence": [
+    {
+     "branch": "선정·지원",
+     "source": "busanrock",
+     "program": "burock_rookies",
+     "date": "2025-09-26"
+    }
+   ],
+   "importance": 55,
+   "late": true,
+   "rank": null,
+   "also": [],
+   "stars": 2,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_selection",
+   "type_label": "새 선정·지원",
+   "team_key": "유인원",
+   "name": "유인원",
+   "date": "2025-09-26",
+   "text": "부산록페 루키즈 선정 (늦게 확인 — 2025-09-26 일)",
+   "evidence": [
+    {
+     "branch": "선정·지원",
+     "source": "busanrock",
+     "program": "burock_rookies",
+     "date": "2025-09-26"
+    }
+   ],
+   "importance": 55,
+   "late": true,
+   "rank": null,
+   "also": [
+    "new_gig"
+   ],
+   "stars": 2,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_selection",
+   "type_label": "새 선정·지원",
+   "team_key": "정필링온더웨이브",
+   "name": "정필링온더웨이브",
+   "date": "2025-09-26",
+   "text": "부산록페 루키즈 선정 (늦게 확인 — 2025-09-26 일)",
+   "evidence": [
+    {
+     "branch": "선정·지원",
+     "source": "busanrock",
+     "program": "burock_rookies",
+     "date": "2025-09-26"
+    }
+   ],
+   "importance": 55,
+   "late": true,
+   "rank": null,
+   "also": [],
+   "stars": 5,
    "found_on": "2026-11-28"
   },
   {
@@ -2998,9 +3266,39 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 10,
+   "rank": 8,
    "also": [
     "peer_winner"
+   ],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
+   "team_key": "로프리스",
+   "name": "로프리스",
+   "date": "2026-12-04",
+   "text": "예정 공연 2026-12-04 클럽 프리버드",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indiego",
+     "date": "2026-12-04",
+     "venue": "클럽 프리버드"
+    },
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-12-04",
+     "venue": "클럽 프리버드"
+    }
+   ],
+   "importance": 40,
+   "upcoming": true,
+   "rank": 49,
+   "also": [
+    "rank_jump"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3028,7 +3326,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 7,
+   "rank": 5,
    "also": [
     "peer_winner"
    ],
@@ -3052,7 +3350,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 7,
+   "rank": 5,
    "also": [
     "peer_winner"
    ],
@@ -3076,7 +3374,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 18,
+   "rank": 16,
    "also": [
     "rank_jump"
    ],
@@ -3106,7 +3404,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 33,
+   "rank": 30,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3128,9 +3426,39 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 19,
+   "rank": 17,
    "also": [
     "peer_winner",
+    "rank_jump"
+   ],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
+   "team_key": "웰컴투초초랜드",
+   "name": "웰컴투초초랜드",
+   "date": "2026-11-28",
+   "text": "예정 공연 2026-11-28 언플러그드 라운지",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indiego",
+     "date": "2026-11-28",
+     "venue": "언플러그드 라운지"
+    },
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-11-28",
+     "venue": "언플러그드 라운지"
+    }
+   ],
+   "importance": 40,
+   "upcoming": true,
+   "rank": 46,
+   "also": [
     "rank_jump"
    ],
    "stars": null,
@@ -3159,10 +3487,9 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 15,
+   "rank": 13,
    "also": [
-    "peer_winner",
-    "rank_jump"
+    "peer_winner"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3190,7 +3517,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 11,
+   "rank": 9,
    "also": [
     "new_selection",
     "stage_up"
@@ -3221,7 +3548,7 @@
    ],
    "importance": 40,
    "upcoming": true,
-   "rank": 16,
+   "rank": 14,
    "also": [
     "new_selection",
     "stage_up",
@@ -3293,30 +3620,6 @@
   {
    "type": "new_gig",
    "type_label": "새 공연",
-   "team_key": "ewe",
-   "name": "EWE (Erøtic Wørms Exhibitiøn)",
-   "date": "2026-11-28",
-   "text": "예정 공연 2026-11-28 꼬뮨",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-11-28",
-     "venue": "꼬뮨"
-    }
-   ],
-   "importance": 30,
-   "upcoming": true,
-   "rank": 98,
-   "also": [
-    "rank_jump"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
    "team_key": "fireflies",
    "name": "Fireflies",
    "date": "2026-12-03",
@@ -3331,7 +3634,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 139,
+   "rank": 110,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3353,34 +3656,10 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 76,
+   "rank": 64,
    "also": [
     "peer_winner",
     "rank_jump"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "k특급모텔",
-   "name": "K특급모텔",
-   "date": "2026-12-04",
-   "text": "예정 공연 2026-12-04 축제 (을지로)",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-12-04",
-     "venue": "축제 (을지로)"
-    }
-   ],
-   "importance": 30,
-   "upcoming": true,
-   "rank": 141,
-   "also": [
-    "peer_winner"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3402,9 +3681,10 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 101,
+   "rank": 80,
    "also": [
-    "peer_winner"
+    "peer_winner",
+    "rank_jump"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3432,7 +3712,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 78,
+   "rank": 66,
    "also": [
     "peer_winner",
     "rank_jump"
@@ -3457,7 +3737,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 78,
+   "rank": 66,
    "also": [
     "peer_winner",
     "rank_jump"
@@ -3482,7 +3762,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 225,
+   "rank": 167,
    "also": [
     "stage_up"
    ],
@@ -3512,9 +3792,10 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 105,
+   "rank": 84,
    "also": [
-    "peer_winner"
+    "peer_winner",
+    "rank_jump"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3536,9 +3817,10 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 81,
+   "rank": 68,
    "also": [
-    "peer_winner"
+    "peer_winner",
+    "rank_jump"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3566,9 +3848,10 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 81,
+   "rank": 68,
    "also": [
-    "peer_winner"
+    "peer_winner",
+    "rank_jump"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3596,7 +3879,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 234,
+   "rank": 175,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3624,7 +3907,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 59,
+   "rank": 52,
    "also": [
     "peer_winner",
     "rank_jump"
@@ -3655,7 +3938,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 237,
+   "rank": 177,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3683,39 +3966,9 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 155,
+   "rank": 123,
    "also": [
     "peer_winner"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "로프리스",
-   "name": "로프리스",
-   "date": "2026-12-04",
-   "text": "예정 공연 2026-12-04 클럽 프리버드",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-12-04",
-     "venue": "클럽 프리버드"
-    },
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-12-04",
-     "venue": "클럽 프리버드"
-    }
-   ],
-   "importance": 30,
-   "upcoming": true,
-   "rank": 56,
-   "also": [
-    "rank_jump"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3743,7 +3996,31 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 109,
+   "rank": 88,
+   "also": [
+    "rank_jump"
+   ],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
+   "team_key": "보이드",
+   "name": "보이드",
+   "date": "2026-11-28",
+   "text": "예정 공연 2026-11-28 숲세권 라이브 카인드스퀘어점",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-11-28",
+     "venue": "숲세권 라이브 카인드스퀘어점"
+    }
+   ],
+   "importance": 30,
+   "upcoming": true,
+   "rank": 273,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3771,7 +4048,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 256,
+   "rank": 185,
    "also": [
     "peer_winner"
    ],
@@ -3795,9 +4072,10 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 113,
+   "rank": 91,
    "also": [
-    "peer_winner"
+    "peer_winner",
+    "rank_jump"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3819,7 +4097,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 271,
+   "rank": 194,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3827,28 +4105,30 @@
   {
    "type": "new_gig",
    "type_label": "새 공연",
-   "team_key": "웰컴투초초랜드",
-   "name": "웰컴투초초랜드",
-   "date": "2026-11-28",
-   "text": "예정 공연 2026-11-28 언플러그드 라운지",
+   "team_key": "유스티나스",
+   "name": "유스티나스",
+   "date": "2026-11-29",
+   "text": "예정 공연 2026-11-29 스트레인지 프룻",
    "evidence": [
     {
      "branch": "공연",
      "source": "indiego",
-     "date": "2026-11-28",
-     "venue": "언플러그드 라운지"
+     "date": "2026-11-29",
+     "venue": "스트레인지 프룻"
     },
     {
      "branch": "공연",
      "source": "indistreet",
-     "date": "2026-11-28",
-     "venue": "언플러그드 라운지"
+     "date": "2026-11-29",
+     "venue": "스트레인지 프룻"
     }
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 53,
-   "also": [],
+   "rank": 286,
+   "also": [
+    "peer_winner"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -3875,33 +4155,10 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 116,
+   "rank": 93,
    "also": [
-    "peer_winner"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "일팔피버스",
-   "name": "일팔피버스",
-   "date": "2026-11-29",
-   "text": "예정 공연 2026-11-29 제이에스아트홀&뮤직바",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-11-29",
-     "venue": "제이에스아트홀&뮤직바"
-    }
-   ],
-   "importance": 30,
-   "upcoming": true,
-   "rank": 72,
-   "also": [
-    "peer_winner"
+    "peer_winner",
+    "rank_jump"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3923,7 +4180,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 179,
+   "rank": 134,
    "also": [
     "big_venue_first"
    ],
@@ -3947,7 +4204,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 283,
+   "rank": 201,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -3975,7 +4232,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 92,
+   "rank": 76,
    "also": [
     "rank_jump"
    ],
@@ -4005,35 +4262,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 287,
-   "also": [],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "코튼스틱",
-   "name": "코튼스틱",
-   "date": "2026-11-29",
-   "text": "예정 공연 2026-11-29 Club Victim",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-11-29",
-     "venue": "Club Victim"
-    },
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-11-29",
-     "venue": "Club Victim"
-    }
-   ],
-   "importance": 30,
-   "upcoming": true,
-   "rank": 95,
+   "rank": 203,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -4055,7 +4284,35 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 185,
+   "rank": 140,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
+   "team_key": "토마토맛",
+   "name": "토마토맛",
+   "date": "2026-12-04",
+   "text": "예정 공연 2026-12-04 베이비돌",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indiego",
+     "date": "2026-12-04",
+     "venue": "베이비돌"
+    },
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-12-04",
+     "venue": "베이비돌"
+    }
+   ],
+   "importance": 30,
+   "upcoming": true,
+   "rank": 295,
    "also": [],
    "stars": null,
    "found_on": "2026-11-28"
@@ -4077,38 +4334,10 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 187,
+   "rank": 141,
    "also": [
     "peer_winner"
    ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "폭음만취",
-   "name": "폭음만취",
-   "date": "2026-11-29",
-   "text": "예정 공연 2026-11-29 Club Victim",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-11-29",
-     "venue": "Club Victim"
-    },
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-11-29",
-     "venue": "Club Victim"
-    }
-   ],
-   "importance": 30,
-   "upcoming": true,
-   "rank": 190,
-   "also": [],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -4135,7 +4364,7 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 191,
+   "rank": 142,
    "also": [
     "peer_winner"
    ],
@@ -4165,35 +4394,10 @@
    ],
    "importance": 30,
    "upcoming": true,
-   "rank": 75,
+   "rank": 63,
    "also": [
     "peer_winner",
     "rank_jump"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "해머링",
-   "name": "해머링",
-   "date": "2026-11-29",
-   "text": "예정 공연 2026-11-29 제이에스아트홀&뮤직바",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-11-29",
-     "venue": "제이에스아트홀&뮤직바"
-    }
-   ],
-   "importance": 30,
-   "upcoming": true,
-   "rank": 299,
-   "also": [
-    "stage_up",
-    "peer_winner"
    ],
    "stars": null,
    "found_on": "2026-11-28"
@@ -4690,6 +4894,28 @@
   {
    "type": "new_gig",
    "type_label": "새 공연",
+   "team_key": "ewe",
+   "name": "EWE (Erøtic Wørms Exhibitiøn)",
+   "date": "2026-11-28",
+   "text": "예정 공연 2026-11-28 꼬뮨",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-11-28",
+     "venue": "꼬뮨"
+    }
+   ],
+   "importance": 15,
+   "upcoming": true,
+   "rank": null,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
    "team_key": "favemotive",
    "name": "FaveMotive",
    "date": "2026-12-04",
@@ -4906,6 +5132,30 @@
      "source": "indistreet",
      "date": "2026-12-04",
      "venue": "프리즘홀"
+    }
+   ],
+   "importance": 15,
+   "upcoming": true,
+   "rank": null,
+   "also": [
+    "peer_winner"
+   ],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
+   "team_key": "k특급모텔",
+   "name": "K특급모텔",
+   "date": "2026-12-04",
+   "text": "예정 공연 2026-12-04 축제 (을지로)",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-12-04",
+     "venue": "축제 (을지로)"
     }
    ],
    "importance": 15,
@@ -6216,7 +6466,9 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [],
+   "also": [
+    "spike"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -6238,7 +6490,9 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [],
+   "also": [
+    "spike"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -6654,7 +6908,9 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [],
+   "also": [
+    "new_selection"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -6676,7 +6932,9 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [],
+   "also": [
+    "new_selection"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -6704,7 +6962,9 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [],
+   "also": [
+    "new_selection"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -6890,7 +7150,9 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [],
+   "also": [
+    "new_selection"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -8218,28 +8480,6 @@
    "also": [
     "peer_winner"
    ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
-   "team_key": "보이드",
-   "name": "보이드",
-   "date": "2026-11-28",
-   "text": "예정 공연 2026-11-28 숲세권 라이브 카인드스퀘어점",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-11-28",
-     "venue": "숲세권 라이브 카인드스퀘어점"
-    }
-   ],
-   "importance": 15,
-   "upcoming": true,
-   "rank": null,
-   "also": [],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -10136,36 +10376,6 @@
   {
    "type": "new_gig",
    "type_label": "새 공연",
-   "team_key": "유스티나스",
-   "name": "유스티나스",
-   "date": "2026-11-29",
-   "text": "예정 공연 2026-11-29 스트레인지 프룻",
-   "evidence": [
-    {
-     "branch": "공연",
-     "source": "indiego",
-     "date": "2026-11-29",
-     "venue": "스트레인지 프룻"
-    },
-    {
-     "branch": "공연",
-     "source": "indistreet",
-     "date": "2026-11-29",
-     "venue": "스트레인지 프룻"
-    }
-   ],
-   "importance": 15,
-   "upcoming": true,
-   "rank": null,
-   "also": [
-    "peer_winner"
-   ],
-   "stars": null,
-   "found_on": "2026-11-28"
-  },
-  {
-   "type": "new_gig",
-   "type_label": "새 공연",
    "team_key": "유인원",
    "name": "유인원",
    "date": "2026-11-29",
@@ -10181,7 +10391,9 @@
    "importance": 15,
    "upcoming": true,
    "rank": null,
-   "also": [],
+   "also": [
+    "new_selection"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   },
@@ -10376,6 +10588,80 @@
    "upcoming": true,
    "rank": null,
    "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
+   "team_key": "이르미",
+   "name": "이르미",
+   "date": "2026-12-03",
+   "text": "예정 공연 2026-12-03 우주정거장",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indiego",
+     "date": "2026-12-03",
+     "venue": "우주정거장"
+    },
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-12-03",
+     "venue": "우주정거장"
+    }
+   ],
+   "importance": 15,
+   "upcoming": true,
+   "rank": null,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
+   "team_key": "이지카이트",
+   "name": "이지카이트",
+   "date": "2026-12-04",
+   "text": "예정 공연 2026-12-04 프리즘홀",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-12-04",
+     "venue": "프리즘홀"
+    }
+   ],
+   "importance": 15,
+   "upcoming": true,
+   "rank": null,
+   "also": [],
+   "stars": null,
+   "found_on": "2026-11-28"
+  },
+  {
+   "type": "new_gig",
+   "type_label": "새 공연",
+   "team_key": "이진석",
+   "name": "이진석",
+   "date": "2026-12-04",
+   "text": "예정 공연 2026-12-04 프리즘홀",
+   "evidence": [
+    {
+     "branch": "공연",
+     "source": "indistreet",
+     "date": "2026-12-04",
+     "venue": "프리즘홀"
+    }
+   ],
+   "importance": 15,
+   "upcoming": true,
+   "rank": null,
+   "also": [
+    "peer_winner"
+   ],
    "stars": null,
    "found_on": "2026-11-28"
   }
