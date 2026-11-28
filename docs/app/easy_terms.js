@@ -39,6 +39,7 @@ export const EASY_ALERT_TYPE_LABELS = Object.freeze({
   rank_jump: '순위 급상승',
   spike: '언급 급증',
   new_gig: '새 공연',
+  past_outcome: '과거 수상·선정 기록 추가',
 });
 
 /**

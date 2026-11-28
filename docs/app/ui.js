@@ -1204,6 +1204,7 @@ export const ALERT_TYPE_LABELS = {
   peer_winner: '같은 무대 수상 팀',
   rank_jump: '순위 급상승',
   new_gig: '새 공연',
+  past_outcome: '과거 수상·선정 기록 추가',
 };
 
 export function alertDedupKey(a) {

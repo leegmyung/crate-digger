@@ -605,8 +605,10 @@ def build_xref(names: list[dict], ig_profiles: list[dict], ig_posts: list[dict],
 
     review[:] = [_settle_conflict(r, g) for r in review]   # 다른 근거(사람 확인 별칭 등)로 결국 한 팀이 된 충돌은 해결로
     ig_links = _link_instagram(cands, g, base, count, spell, review)
+    # 사람이 고른 화면 이름: 별칭 항목에 display=true 면 그 팀은 main 으로 보인다(팀 키는 그대로 — 저장값·주소 안 바뀜)
+    display_main = {artist_key(e["main"]): clean(e["main"]) for e in (manual_aliases or []) if e.get("display") is True}
     ctx = {"g": g, "spell": spell, "tables": tables, "count": count, "base": base,
-           "strong": strong, "evidence": evidence, "ig_links": ig_links, "combined": combined}
+           "strong": strong, "evidence": evidence, "ig_links": ig_links, "combined": combined, "display_main": display_main}
     return _assemble(ctx, platform_ids, review)
 
 
@@ -690,6 +692,8 @@ def _record(root: str, keys: list[str], ctx: dict, pid: dict, review: list[dict]
         spellings.update(spell.get(k, {}))
     top = spell.get(key) or spellings
     display = max(top, key=lambda s: (top[s], -len(s))) if top else key
+    picked = next((ctx.get("display_main", {})[k] for k in sorted(keys) if k in ctx.get("display_main", {})), "")
+    display = picked or display
     srcs = set().union(*(ctx["tables"][k] for k in in_base)) if in_base else set()
     rec = {"artist_key": key, "display_name": display,
            "aliases": [s for s, _ in sorted(spellings.items(), key=lambda kv: (-kv[1], kv[0]))] or [display],

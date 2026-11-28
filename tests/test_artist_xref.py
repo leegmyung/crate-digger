@@ -436,6 +436,21 @@ class ManualAliasTest(unittest.TestCase):
         self.assertTrue(any(r["kind"] == "alias_conflict" and "포스트이너써클" in r["detail"] for r in review))
         self.assertFalse(any({"가나", "포스트이너써클"} <= set(a["keys"]) for a in artists))
 
+    def test_display_true_shows_main_but_keeps_team_key(self):
+        # 공공구(GongGongGoo009): 힙합 매체는 영문을 훨씬 많이 써서 대표 표기가 영문이 됨 — 사람이 display=true 로 한글 이름을 고름.
+        # 팀 키는 그대로(저장된 관심 팀·주소가 안 바뀜), 화면 이름만 main.
+        names = [{"table": "press", "name": "GongGongGoo009", "count": 9}, {"table": "gig", "name": "공공구", "count": 1}]
+        entry = {"main": "공공구", "aliases": ["GongGongGoo009"], "reason": "같은 래퍼", "evidence": ["https://example.com/k"],
+                 "checked": "2026-11-28", "display": True}
+        artists, _ = ax.build_xref(names, [], [], [], manual_aliases=[entry])
+        team = next(a for a in artists if "gonggonggoo009" in a["keys"])
+        self.assertEqual(team["display_name"], "공공구")
+        self.assertEqual(team["artist_key"], "gonggonggoo009")
+        # display 표시가 없으면 예전처럼 가장 많이 쓴 표기
+        plain = {k: v for k, v in entry.items() if k != "display"}
+        artists, _ = ax.build_xref(names, [], [], [], manual_aliases=[plain])
+        self.assertEqual(next(a for a in artists if "gonggonggoo009" in a["keys"])["display_name"], "GongGongGoo009")
+
     def test_load_manual_aliases_validates(self):
         with tempfile.TemporaryDirectory() as d:
             p = Path(d) / "a.json"

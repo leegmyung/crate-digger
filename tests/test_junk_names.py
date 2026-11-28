@@ -31,6 +31,13 @@ class RuleTest(unittest.TestCase):
         self.assertFalse(self.reason("mong_gle", ["yjh"]))
         self.assertFalse(self.reason("DJ co.kr", ["trackzero", "visla"]))
 
+    def test_personal_handle_with_digits_only_when_instagram_only(self):
+        # 'heymeg10'(클럽 파티 DJ 개인 계정) 같은 영문 소문자+숫자 계정명 — 인스타에서만 나오면 팀 아님
+        self.assertTrue(self.reason("heymeg10", ["instagram"]))
+        self.assertFalse(self.reason("heymeg10", ["indistreet", "instagram"]))   # 다른 출처에도 있으면 실제 이름으로 봄
+        for name in ("HUQUEYMSAW", "GongGongGoo009", "0siggy", "se7en", "250"):  # 대문자·숫자 섞인 실제 이름은 그대로
+            self.assertFalse(self.reason(name, ["instagram"]), name)
+
     def test_real_names_kept(self):
         for name in ("0siggy", "250", "109", "pa de haan.", "포져군단", "Moon Go America", "PCR", "Mr.Hong"):
             self.assertFalse(self.reason(name, ["instagram"]), name)

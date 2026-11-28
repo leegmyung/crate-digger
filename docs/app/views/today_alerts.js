@@ -81,7 +81,7 @@ const OLD_DATE_DAYS = 30;   // 발표일이 기록 추가일보다 이만큼 이
  * @returns {string}
  */
 /** 기본 보기에서 뺄 알림 종류: 새 공연(양이 많음)·새 정답(이미 뜬 팀 소식) — docs/ux_simplify_2026-11-28.md ⑤ */
-const NOT_IMPORTANT_TYPES = new Set(['new_gig', 'new_outcome']);
+const NOT_IMPORTANT_TYPES = new Set(['new_gig', 'new_outcome', 'past_outcome']);   // past_outcome = 옛 정답을 오늘 되짚어 넣은 것
 
 /**
  * 알림 화면 기본 보기('중요한 것')에 넣을 알림인가 — 아직 안 뜬 팀의 발굴 신호.
@@ -222,7 +222,8 @@ export function renderHomeAlertsSummaryHtml(alertsData, {
   subVenues = new Set(),
   limit = 5,
 } = {}) {
-  const all = Array.isArray(alertsData?.alerts) ? alertsData.alerts : [];
+  // 옛 정답을 오늘 되짚어 넣은 '과거 기록 추가'는 이번 주 소식이 아니라 홈 요약에서 뺌(알림 센터 '전체'에는 있음)
+  const all = (Array.isArray(alertsData?.alerts) ? alertsData.alerts : []).filter(a => a?.type !== 'past_outcome');
   if (!alertsData) return '';
   const foundTotal = Object.values(alertsData.counts_found || {}).reduce((s, n) => s + (Number(n) || 0), 0) || all.length;
   const head = `

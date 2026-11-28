@@ -114,6 +114,29 @@ class DetectTest(unittest.TestCase):
         got = ba.detect_new_outcomes(outs, known=set(), teams=TEAMS)
         self.assertEqual([x["team_key"] for x in got], ["w"])
 
+    def test_old_outcome_added_late_is_past_record_not_new(self):
+        # 오늘 옛 정답을 되짚어 넣으면(발표 2021) '새 수상'처럼 보이지 않게 — 비교 기준일보다 30일 넘게 앞선 발표는 '과거 기록 추가'
+        outs = [out("w", "cj_tuneup", "2021-05-01"), out("a", "museon_final", "2026-11-26"),
+                out("b", "kma", "2026-10-20"), out("n", "hello", "2026-10-30")]
+        got = {x["team_key"]: x["type"] for x in ba.detect_new_outcomes(outs, known=set(), teams=TEAMS, since="2026-11-27")}
+        self.assertEqual(got, {"w": "past_outcome", "a": "new_outcome", "b": "past_outcome", "n": "new_outcome"})
+        imp = {x["team_key"]: x["importance"] for x in ba.detect_new_outcomes(outs, known=set(), teams=TEAMS, since="2026-11-27")}
+        self.assertLess(imp["w"], ba.BASE["new_gig"] + 1)                         # 등급 가산 없이 중요도 낮게(목록 뒤로)
+        self.assertNotIn("past_outcome", ba.STAR_KINDS)                          # 사건 별점도 안 붙임
+        # since 를 안 주면 예전처럼 모두 새 정답
+        self.assertEqual({x["type"] for x in ba.detect_new_outcomes(outs, known=set(), teams=TEAMS)}, {"new_outcome"})
+
+    def test_build_marks_stale_outcomes_with_past_type(self):
+        data = {"signals": [sig("a", "공연", "2026-12-05", venue="클럽")],
+                "outcomes": [out("w", "cj_tuneup", "2021-05-01"), out("a", "museon_final", "2026-11-26")],
+                "teams": TEAMS, "programs": {}, "capacity": None, "snap_now": {}, "snap_before": {}, "snap_dates": (None, None),
+                "event_stars": {"w": [("outcome", "2021-05-01", 5)]}}
+        doc, _ = ba.build(data, {}, {}, baseline={"as_of": "2026-11-26", "signals": [], "outcomes": [], "pairs": []}, as_of=AS_OF)
+        types = {a["team_key"]: a["type"] for a in doc["alerts"] if a["type"] in ("new_outcome", "past_outcome")}
+        self.assertEqual(types, {"w": "past_outcome", "a": "new_outcome"})
+        self.assertIn("past_outcome", doc["types"])
+        self.assertIsNone(next(a for a in doc["alerts"] if a["team_key"] == "w")["stars"])
+
     def test_blank_first_mention(self):
         new = [sig("n", "선정·지원", "2026-11-26", source="x", program="muse_sejong", stage_rank=1),
                sig("n", "발매", "2026-11-26", source="melon"),

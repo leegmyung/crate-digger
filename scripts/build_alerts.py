@@ -4,7 +4,7 @@
 '오늘 새로 생긴 일'을 찾는다. '새로' = 지난 실행 때 본 상태(data/raw/state/alerts_state.json, 커밋 안 함)에 없던 것.
 상태 파일이 없으면(첫 실행) 기준일 7일 전까지를 이미 본 것으로 친다. 같은 날 두 번 돌려도 같은 알림이 나오게 그날의 기준선을 남긴다.
 
-알림 종류: 단계 상승 · 새 정답 · 새 선정·지원 · 백지 신인 첫 언급 · 순위 급상승(지난주 스냅샷 대비) · 언급 급증(최근 1주 대 지난 12주 평균) · 큰 공연장 첫 출연
+알림 종류: 단계 상승 · 새 정답(발표가 비교 기준일보다 30일 넘게 앞서면 '과거 기록 추가'로 따로) · 새 선정·지원 · 백지 신인 첫 언급 · 순위 급상승(지난주 스냅샷 대비) · 언급 급증(최근 1주 대 지난 12주 평균) · 큰 공연장 첫 출연
 (config/venue_capacity.json 이 있을 때만) · 같은 무대 수상 팀(새 연결) · 새 공연(앱이 관심 목록 팀만 걸러 보임).
 각 알림 = 사건 별점(stars — event_stars.csv, 없으면 null)·종류·팀 키·이름·날짜(그 일이 일어난/일어날 날 — 선정은 기간 끝날이라 미래일 수 있음)·알게 된 날(found_on)·
 한 줄 설명·근거(신호 출처)·중요도·같은 팀의 다른 알림 종류(also). 종류별 상한, 중요도 순. 공개 데이터라 팀 이름까지만 쓴다.
@@ -61,6 +61,7 @@ SPIKE_RECENT_DAYS = 7           # 언급 급증: 최근 1주
 SPIKE_PAST_WEEKS = 12           # 대 그 전 12주 평균
 SPIKE_RATIO = 3.0               # 평균의 이 배 이상이면 급증
 SPIKE_MIN_RECENT = 3            # 1주 언급이 이보다 적으면 알림 안 함 (1~2건은 우연)
+STALE_OUTCOME_DAYS = 30         # 정답 발표일이 비교 기준일보다 이만큼 넘게 앞서면 '새 정답'이 아니라 '과거 기록 추가'
 SPIKE_LOW_AVG = 1.0             # 평소 주 1건 이하인 팀은 배수 대신 '처음 n건'·'평소 m건'으로
 
 STAGE_LABELS = {0: "백지", 1: "첫 신호", 2: "여러 갈래", 3: "선정·중간 정답", 4: "졸업"}
@@ -76,6 +77,7 @@ TYPES = {   # 종류 → (이름, 기본 중요도)
     "rank_jump": ("순위 급상승", 40),
     "spike": ("언급 급증", 50),
     "new_gig": ("새 공연", 10),
+    "past_outcome": ("과거 수상·선정 기록 추가", 5),   # 옛 정답을 오늘 되짚어 넣은 것 — 새 소식 아님(앱 기본 보기에서 빠짐)
 }
 BASE = {k: v[1] for k, v in TYPES.items()}
 
@@ -178,17 +180,23 @@ def detect_new_selection(new_signals: Sequence[Signal], teams: Dict[str, str], p
     return out
 
 
-def detect_new_outcomes(outcomes: Sequence[Dict[str, object]], known: Set[str], teams: Dict[str, str]) -> List[Alert]:
+def detect_new_outcomes(outcomes: Sequence[Dict[str, object]], known: Set[str], teams: Dict[str, str],
+                        since: Optional[str] = None) -> List[Alert]:
+    """새로 들어온 정답. since(비교 기준일 = 지난 실행)가 있으면 그보다 STALE_OUTCOME_DAYS 넘게 앞서 발표된 것은
+    옛 기록을 늦게 넣은 것이라 'past_outcome'(과거 기록 추가)으로 나눈다 — 홈·알림 기본 보기에 '새 수상'으로 뜨지 않게."""
+    stale_before = _shift(since, -STALE_OUTCOME_DAYS) if since else ""
     out = []
     for o in outcomes:
         if not _truthy(o.get("counted")) or outcome_key(o) in known:
             continue
         grade = str(o.get("grade") or "")
         label = o.get("program_label") or o.get("program")
-        out.append(_alert("new_outcome", str(o["team_key"]), teams, str(o.get("announced_date") or ""),
+        day = str(o.get("announced_date") or "")
+        kind = "past_outcome" if stale_before and day and day < stale_before else "new_outcome"
+        out.append(_alert(kind, str(o["team_key"]), teams, day,
                           f"{label} ({grade}등급)" if grade else str(label),
                           [{"program": str(o.get("program") or ""), "date": str(o.get("announced_date") or "")}],
-                          bonus=GRADE_POINTS.get(grade, 0)))
+                          bonus=GRADE_POINTS.get(grade, 0) if kind == "new_outcome" else 0))
     return out
 
 
@@ -488,7 +496,8 @@ def build(data: dict, stages_now: Dict[str, int], stages_before: Dict[str, int],
 
     blank = detect_blank_first_mention(fresh, before, teams, data.get("programs", {}))
     blank_teams = {a["team_key"] for a in blank}
-    found = (detect_new_outcomes(outcomes, known_out, teams)
+    since = base.get("as_of") or _shift(as_of, -WINDOW_DAYS)
+    found = (detect_new_outcomes(outcomes, known_out, teams, since=since)
              + detect_new_selection(new_sigs, teams, data.get("programs", {}), as_of=as_of)
              + blank
              + [a for a in detect_stage_up(stages_now, before, teams, as_of, fresh, first_seen)
