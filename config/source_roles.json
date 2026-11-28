@@ -365,6 +365,15 @@
       "전환문화도시": "지역 문화도시 사업 이름 — 팀 아님 (팀 아닌 계정 점검 2026-11-27)",
       "ktv": "공공 방송 KTV(국민방송) — 팀 아님 (팀 아닌 계정 점검 2026-11-27)",
       "서울커뮤니티라디오": "온라인 방송국 서울커뮤니티라디오(SCR) — 오버톤 '여러 팀 한 칸'을 나누면 팀 이름처럼 생김 (2026-11-27)"
+    },
+    "name_patterns": {
+      "_설명": "팀이 아닌 이름 모양 (2026-11-28). scripts/artist_xref.py 가 원본 이름에 이 규칙을 대 보고, 걸린 이름 키를 '팀 아님'(__non_artist__)으로 보내 core.v_signal 이 신호에서 뺀다 → 팀 표·후보·차트에 안 들어감. only_sources 가 있으면 그 이름이 그 출처에서만 나왔을 때만 적용(인디스트릿·멜론 등 다른 출처에도 같은 이름이 있으면 실제 팀 이름으로 보고 남김). 인스타 연결로 실제 팀에 묶인 계정명은 빼지 않는다. 숫자만인 이름(109·250 등)은 실제 팀이 많아 규칙에 넣지 않음. 점검: docs/ui_review_2026-11-28.md 2-2.",
+      "rules": [
+        {"name": "url", "pattern": "^(?:https?|www)[.:/]|://", "reason": "웹 주소가 팀 이름으로 들어감", "only_sources": null},
+        {"name": "at_handle", "pattern": "^@", "reason": "인스타 계정 표기(@)가 이름 대신 들어감", "only_sources": ["instagram"]},
+        {"name": "domain", "pattern": "\\.(?:com|net|org|co|kr|io|me|tv|fm|xyz|shop|biz|info)(?:\\.[a-z]{2})?$", "reason": "도메인 모양 이름(인스타 계정명)", "only_sources": ["instagram"]},
+        {"name": "handle", "pattern": "^[a-z0-9]+(?:[._][a-z0-9]+)+_?$|^[a-z0-9._]+_$|^_[a-z0-9._]+$", "reason": "인스타 계정 모양 이름(영문 소문자·숫자에 . 또는 _) — 인스타에서만 나옴", "only_sources": ["instagram"]}
+      ]
     }
   },
   "same_house": [

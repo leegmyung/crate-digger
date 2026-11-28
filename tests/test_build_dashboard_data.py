@@ -8,6 +8,21 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import build_dashboard_data as bd  # noqa: E402
 
 
+class ReadableDetailTest(unittest.TestCase):
+    """선정 신호 상세('회차 · 단계')의 영어 단계 코드를 화면용 한국어로 (팀 사건 탭에 '2026 · selected'가 보이던 문제)."""
+
+    def test_stage_codes_to_korean(self):
+        self.assertEqual(bd.readable_detail("2026 · selected"), "2026 · 선정")
+        self.assertEqual(bd.readable_detail("2013 · showcase"), "2013 · 쇼케이스")
+        self.assertEqual(bd.readable_detail("TOP15 · final"), "TOP15 · 결선")
+        self.assertEqual(bd.readable_detail("2025 · lineup"), "2025 · 라인업")
+
+    def test_other_text_kept(self):
+        self.assertEqual(bd.readable_detail("클럽 FF"), "클럽 FF")
+        self.assertEqual(bd.readable_detail("selected works · 2024"), "selected works · 2024")   # 낱말 전체가 코드일 때만
+        self.assertEqual(bd.readable_detail(""), "")
+
+
 class RecordsTest(unittest.TestCase):
     def test_parses_numbers_and_nulls(self):
         rows = bd.records("a,b,c\nfoo,12,0.5\nbar,,\n")

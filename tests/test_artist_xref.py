@@ -500,6 +500,23 @@ class PgRowsTest(unittest.TestCase):
         self.assertEqual(rows["peachtruckhijackers"][1], "피치트럭하이재커스")  # load_pg 의 alias_key
         self.assertEqual(len(rows), len(ax.xref_rows(artists)))  # variant_key 중복 없음
 
+    def test_junk_name_keys_become_non_artist_unless_linked(self):
+        """이름 모양 규칙(junk_names.py)에 걸린 키: 자기 자신으로만 묶인 키(풀리지 않은 계정명)는 '팀 아님'으로,
+        인스타 연결로 실제 팀에 묶인 키는 그대로 둔다."""
+        artists = [{"artist_key": "hiveparkkr", "display_name": "hivepark_kr", "keys": ["hiveparkkr"], "aliases": [],
+                    "confidence": "low", "instagram": []},
+                   {"artist_key": "오이스터즈", "display_name": "오이스터즈", "keys": ["오이스터즈"], "aliases": [],
+                    "confidence": "high", "instagram": [{"handle": "oysters.999", "confidence": "high"}]},
+                   {"artist_key": "포져군단", "display_name": "포져군단", "keys": ["포져군단"], "aliases": [],
+                    "confidence": "high", "instagram": []}]
+        junk = {"hiveparkkr": "인스타 계정 모양", "oysters999": "인스타 계정 모양", "httpsjestercokr": "주소"}
+        rows = {r[0]: r for r in ax.xref_rows(artists, junk=junk)}
+        self.assertEqual(rows["hiveparkkr"][1], ax.NON_ARTIST_KEY)
+        self.assertIn("인스타 계정 모양", rows["hiveparkkr"][2])
+        self.assertEqual(rows["httpsjestercokr"][1], ax.NON_ARTIST_KEY)     # 연결표에 없던 키도 막음
+        self.assertEqual(rows["oysters999"][1], "오이스터즈")                # 실제 팀에 묶인 계정명은 그대로
+        self.assertEqual(rows["포져군단"][1], "포져군단")
+
     def test_linked_instagram_handles_become_variant_keys(self):
         # 인스타 게시물에서 이름 대신 계정명만 잡힌 줄('oysters.999')도 그 팀으로 묶이게
         artists = [{"artist_key": "오이스터즈", "display_name": "오이스터즈", "keys": ["오이스터즈"], "aliases": [],

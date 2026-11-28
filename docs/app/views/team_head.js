@@ -3,7 +3,7 @@
  * team.js 가 이미 커서 따로 둔다.
  */
 import {
-  escapeHtml, fmtInt, genreConfidenceBadgeHtml, naCell, stageBadgeHtml,
+  escapeHtml, fmtInt, genreConfidenceBadgeHtml, infoTip, naCell, stageBadgeHtml,
 } from '../ui.js';
 import { keyStatTiles, platformLinks } from '../team_keystats.js';
 
@@ -50,7 +50,7 @@ export function renderKeyStatsHtml({ scored, rc, videos, links, displayName }) {
   const plats = platformLinks(links);
   const tileHtml = tiles.map(t => `
     <div class="ks-tile" title="${escapeHtml(t.tip)}">
-      <span class="ks-label"><span class="ks-src ks-src-${escapeHtml(t.key)}" aria-hidden="true">${escapeHtml(t.src)}</span>${escapeHtml(t.label)}</span>
+      <span class="ks-label"><span class="ks-src ks-src-${escapeHtml(t.key)}" aria-hidden="true">${escapeHtml(t.src)}</span>${escapeHtml(t.label)}${infoTip(t.label, { what: t.tip }, { compact: true })}</span>
       <strong class="ks-value">${t.value === null ? naCell(t.tip, { label: '—' }) : escapeHtml(t.value)}</strong>
       <span class="ks-sub">${escapeHtml(t.sub)}</span>
     </div>`).join('');

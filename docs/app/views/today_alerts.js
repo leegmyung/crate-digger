@@ -74,6 +74,23 @@ export function safeAlertType(type) {
   return /^[a-z0-9_]+$/.test(String(type || '')) ? String(type) : 'other';
 }
 
+const OLD_DATE_DAYS = 30;   // 발표일이 기록 추가일보다 이만큼 이전이면 둘 다 적는다
+
+/**
+ * 알림 줄의 날짜 글자. '새 정답'처럼 옛 발표가 이번에 새로 기록된 경우 '발표 2022-05-24 · 기록 추가 11-28'
+ * (이번 주에 발표된 것으로 오해하지 않게, docs/ui_review_2026-11-28.md).
+ * @param {{ date?: string, found_on?: string }} a
+ * @returns {string}
+ */
+export function alertDateText(a) {
+  const date = String(a?.date || '').slice(0, 10);
+  const found = String(a?.found_on || '').slice(0, 10);
+  if (!date) return '';
+  if (!found) return date;
+  const gapDays = (Date.parse(found) - Date.parse(date)) / 86400000;
+  return Number.isFinite(gapDays) && gapDays > OLD_DATE_DAYS ? `발표 ${date} · 기록 추가 ${found.slice(5)}` : date;
+}
+
 export function alertRowHtml({ a, stars }, { isWatch = false, isSubVenue = false, typeLabel = '' } = {}) {
   const ev = evidenceItems(a);
   const textCls = UP_TYPES.has(a.type) ? ' is-up' : '';
@@ -94,7 +111,7 @@ export function alertRowHtml({ a, stars }, { isWatch = false, isSubVenue = false
           ${playButtonHtml(a.team_key, a.name || a.team_key, { variant: 'icon' })}
           ${relBadge}
           <span class="today-alert-text${textCls}">${escapeHtml(a.text)}</span>
-          <span class="today-alert-meta mono">${escapeHtml(a.date || '')}</span>
+          <span class="today-alert-meta mono">${escapeHtml(alertDateText(a))}</span>
         </summary>
         <div class="alert-evidence">
           ${ev ? `<ul>${ev}</ul>` : '<p class="small muted">근거 목록이 없습니다.</p>'}

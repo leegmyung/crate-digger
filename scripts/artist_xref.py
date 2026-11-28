@@ -795,8 +795,10 @@ def _own_profile(ig: dict) -> bool:
     return bool(ig.get("from_profile")) or any(str(e).startswith("인스타 프로필 이름") for e in ig.get("evidence") or [])
 
 
-def xref_rows(artists: list[dict], non_artist_handles: list[str] | None = None) -> list[tuple[str, str, str, str]]:
-    """DB ref.artist_xref 행: (variant_key, artist_key, display_name, confidence). variant_key 는 중복 없음."""
+def xref_rows(artists: list[dict], non_artist_handles: list[str] | None = None,
+              junk: dict[str, str] | None = None) -> list[tuple[str, str, str, str]]:
+    """DB ref.artist_xref 행: (variant_key, artist_key, display_name, confidence). variant_key 는 중복 없음.
+    junk = {이름 키: 이유} (junk_names.py 이름 모양 규칙) — 자기 자신으로만 묶인 키(풀리지 않은 계정명·주소)는 '팀 아님'으로."""
     rows: dict[str, tuple] = {}
     for rec in artists:
         for k in _variant_keys(rec):
@@ -816,6 +818,10 @@ def xref_rows(artists: list[dict], non_artist_handles: list[str] | None = None) 
         k = artist_key(h.lstrip("@"))
         if k:
             rows.setdefault(k, (k, NON_ARTIST_KEY, "팀 아님(매거진·공연장·기관 계정)", "high"))
+    for k, reason in (junk or {}).items():      # 이름 모양 규칙: 실제 팀에 묶인 키(인스타 연결·별칭)는 덮어쓰지 않음
+        cur = rows.get(k)
+        if cur is None or (cur[1] == k and name_key(cur[2]) == k):
+            rows[k] = (k, NON_ARTIST_KEY, f"팀 아님({reason})", "high")
     return list(rows.values())
 
 
@@ -854,12 +860,13 @@ def pg_load_script(csv_path: str, blocked_csv: str | None = None) -> str:
     ]) + "\n"
 
 
-def load_pg(artists: list[dict], psql_path: str = PSQL, db: str = DB, blocked: list[tuple] | None = None) -> str:
+def load_pg(artists: list[dict], psql_path: str = PSQL, db: str = DB, blocked: list[tuple] | None = None,
+            junk: dict[str, str] | None = None) -> str:
     """ref.artist_xref 표로 넣기. psql·DB가 없으면 건너뛰고 메시지만 돌려준다.
     넣은 뒤 sql/kr/00_core_views.sql 을 다시 실행해야 뷰의 team_key 에 반영된다."""
     if not Path(psql_path).exists():
         return "PostgreSQL 적재 건너뜀: psql을 찾을 수 없음 (PSQL 환경변수로 위치 지정 가능)"
-    rows = xref_rows(artists, tracked_account_handles())
+    rows = xref_rows(artists, tracked_account_handles(), junk=junk)
     with tempfile.TemporaryDirectory() as d:
         csv_path, sql_path, blocked_path = Path(d) / "artist_xref.csv", Path(d) / "load.sql", Path(d) / "blocked.csv"
         with open(csv_path, "w", encoding="utf-8", newline="") as f:
@@ -1036,8 +1043,11 @@ def main() -> None:
     SUMMARY_MD.write_text(summarize(artists, review, names, handles, manual, cur), encoding="utf-8")
     n_auto = sum(r["kind"] in AUTO_KINDS for r in review)
     print(f"대표 팀 {len(artists):,} · 확인 필요 {len(review) - n_auto:,} (자동 해결 {n_auto}) → {DEFAULT_XREF.relative_to(ROOT)}, {SUMMARY_MD.relative_to(ROOT)}")
+    import junk_names   # 이름 모양 규칙 (config/source_roles.json candidate_rules.name_patterns)
+    junk = junk_names.junk_keys(junk_names.name_sources(RAW_DIR), junk_names.load_name_rules())
+    print(f"팀이 아닌 이름 모양(주소·인스타 계정명 등) {len(junk):,}개 → 팀 아님으로")
     if args.load_pg:
-        print(load_pg(artists, blocked=blocked_profile_rows(cur)))
+        print(load_pg(artists, blocked=blocked_profile_rows(cur), junk=junk))
 
 
 if __name__ == "__main__":

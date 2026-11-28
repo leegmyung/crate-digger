@@ -8,7 +8,7 @@ import { appState } from '../state.js';
 import { queryCandidates, queryDiscoveryStages } from '../db.js';
 import { loadFestivalProfiles } from '../db_venue.js';
 import {
-  avatarHtml, escapeHtml, fmtInt, fmtNum, gradeBadgeHtml, naCell, playButtonHtml, stageBadgeHtml,
+  avatarHtml, escapeHtml, fmtInt, fmtNum, gradeBadgeHtml, INFO_TIPS, infoTip, naCell, playButtonHtml, stageBadgeHtml,
 } from '../ui.js';
 import { editionRowHtml, pctText } from './festivals.js';
 
@@ -46,7 +46,7 @@ function lineupTableHtml(year, e, ctx) {
     </div>
     <div class="table-wrap">
       <table class="data-table stack-table fest-lineup-table" aria-label="${escapeHtml(year)} 라인업">
-        <thead><tr><th>팀</th><th class="num">지금 후보 점수</th><th>발굴 단계</th><th>그 뒤 정답</th></tr></thead>
+        <thead><tr><th>팀</th><th class="num">지금 후보 점수${infoTip('종합 점수', INFO_TIPS.score, { compact: true })}</th><th>발굴 단계${infoTip('발굴 단계', INFO_TIPS.status_stage, { compact: true })}</th><th>그 뒤 정답${infoTip('그 뒤 정답', INFO_TIPS.festival_after_outcome, { compact: true })}</th></tr></thead>
         <tbody>${rows.map(r => `
           <tr>
             <td data-label="팀"><span class="team-cell-inline">${avatarHtml(r.team_key, r.name || r.team_key, 24, { shape: 'circle' })}<a href="#/team/${encodeURIComponent(r.team_key)}"><strong>${escapeHtml(r.name || r.team_key)}</strong></a>${playButtonHtml(r.team_key, r.name || r.team_key, { variant: 'icon' })}</span></td>
@@ -108,7 +108,7 @@ export async function renderFestivalPage(host, name) {
       <div class="block-head"><h2>회차</h2><span class="block-meta">새 팀 = 앞선 회차에 없던 팀 · 첫 페스티벌 = 우리 데이터의 첫 페스티벌 출연</span></div>
       <div class="table-wrap">
         <table class="data-table stack-table fest-table">
-          <thead><tr><th>회차</th><th class="num">라인업</th><th class="num">새 팀</th><th class="num">첫 페스티벌</th><th>그 뒤 정답</th></tr></thead>
+          <thead><tr><th>회차</th><th class="num">라인업</th><th class="num">새 팀${infoTip('새 팀', INFO_TIPS.festival_new_teams, { compact: true })}</th><th class="num">첫 페스티벌${infoTip('첫 페스티벌', INFO_TIPS.festival_first_fest, { compact: true })}</th><th>그 뒤 정답${infoTip('그 뒤 정답', INFO_TIPS.festival_after_outcome, { compact: true })}</th></tr></thead>
           <tbody>${eds.map(([y, e]) => editionRowHtml(y, e)).join('')}</tbody>
         </table>
       </div>

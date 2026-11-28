@@ -1,7 +1,7 @@
 import * as duckdb from 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.32.0/+esm';
 import { ALL_BRANCHES, appState, DEFAULT_WEIGHTS } from './state.js';
 import { parsePlayersRows } from './player_pick.js';
-import { fairnessLine } from './score_fairness.js';
+import { fairnessLine, fairnessShort } from './score_fairness.js';
 
 const DUCKDB_CDN = 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.32.0/dist';
 const MANUAL_BUNDLES = {
@@ -2248,7 +2248,7 @@ export async function loadScoreTuningSummary() {
     const aucMatch = md ? md.match(/\*\*평균 AUC[^*]*\*\*:\s*(.+)/) : null;
     const aucLine = aucMatch ? aucMatch[1].trim() : '';
     const fairLine = fairnessLine(audit);
-    scoreTuningCache = aucLine || fairLine ? { aucLine, fairLine } : null;
+    scoreTuningCache = aucLine || fairLine ? { aucLine, fairLine, fairShort: fairnessShort(audit) } : null;
     return scoreTuningCache;
   })();
   try {

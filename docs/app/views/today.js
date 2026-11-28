@@ -13,7 +13,7 @@ import {
 } from '../state.js';
 import {
   buildNextGigByTeam, getSnapshotDiff, groupUpcomingEvents,
-  loadAlertsJson, queryCandidates, queryDebutCandidates, queryRisingPreset,
+  loadAlertsJson, loadScoreTuningSummary, queryCandidates, queryDebutCandidates, queryRisingPreset,
   queryUpcomingGigs, queryWeeklyDigestExtras,
 } from '../db.js';
 import { loadEventStars } from '../db_team_extras.js';
@@ -119,13 +119,14 @@ let homeEventStars;           // undefined = 아직, null = 없음, Map = 받음
 
 export async function renderTodayView(root) {
   const asOf = appState.cfg.as_of || appState.dataEnd || '2026-11-28';
-  const [candRows, upcomingRaw, risingRows, debutData, alertsData, eventStarsMap] = await Promise.all([
+  const [candRows, upcomingRaw, risingRows, debutData, alertsData, eventStarsMap, tuningSummary] = await Promise.all([
     queryCandidates({ limit: 300 }),
     queryUpcomingGigs({ asOf, days: 14 }),
     queryRisingPreset({ as_of: asOf }).catch(() => []),
     queryDebutCandidates({ as_of: asOf }).catch(() => null),
     loadAlertsJson().catch(() => null),
     Promise.resolve(homeEventStars === undefined ? null : homeEventStars),
+    loadScoreTuningSummary().catch(() => null),   // 근거 줄 '점수 성적' 한 줄 (같은 기준 판 나란히)
   ]);
   // 홈 화면엔 영상이 안 보이므로 영상 표(videos.csv)를 받지 않는다. 브리핑 글의 '새 무대 영상 수'는 복사할 때 채움(app.js digest)
   const extras = await queryWeeklyDigestExtras(candRows, { videos: false });
@@ -374,7 +375,7 @@ export async function renderTodayView(root) {
         ${chartsPreviewHtml}
         ${upcomingHtml}
         ${healthWarnBannerHtml}
-        ${renderEvidenceFooterHtml()}
+        ${renderEvidenceFooterHtml({ extraNote: tuningSummary?.fairShort || '' })}
       </div>
     `;
 

@@ -877,6 +877,17 @@ def apply_manual_exclusions(candidates, excluded_famous, xref=None):
     return kept, excluded
 
 
+# 선정 신호 상세('회차 · 단계')의 단계 코드(csv_schema.STAGE_RANK) → 화면용 한국어
+STAGE_WORDS_KR = {"applied": "지원", "document": "서류 통과", "challenger": "도전", "lineup": "라인업",
+                  "showcase": "쇼케이스", "selected": "선정", "final": "결선"}
+
+
+def readable_detail(detail) -> str:
+    """'2026 · selected' → '2026 · 선정'. ' · '로 나눈 낱말 전체가 단계 코드일 때만 바꾼다."""
+    parts = str(detail or "").split(" · ")
+    return " · ".join(STAGE_WORDS_KR.get(p.strip().lower(), p) for p in parts)
+
+
 def enrich_candidates(candidates, candidate_signals, xref=None, today=None):
     """후보 목록에 점수 v0·분해, 첫 등장 신인 추정, 안전 장르, 날짜 정제 타임라인을 붙이고 점수 v0 순 정렬."""
     today = today or datetime.now(KST).date()
@@ -905,7 +916,7 @@ def enrich_candidates(candidates, candidate_signals, xref=None, today=None):
             "source": ev.get("source") or "",
             "source_label": source_label(ev.get("source")),
             "title": str(title),
-            "detail": str(ev.get("detail") or ""),
+            "detail": readable_detail(ev.get("detail")),
             "url": ev.get("url") or "",
         })
 

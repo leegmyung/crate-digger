@@ -490,7 +490,7 @@ export async function renderVenueView(root, venueName) {
     <section class="block">
       <div class="block-head"><h2>다가오는 공연</h2><span class="block-meta">${fmtInt(showGroups.filter(g => g.isUpcoming).length)}일</span></div>
       ${upcoming.length ? `<ul class="venue-upcoming-list">${upcoming.map(g => `
-        <li><span class="mono">${escapeHtml(g.date)}</span> ${g.teams.map(t => `<a href="#/team/${encodeURIComponent(t.team_key)}">${escapeHtml(t.display_name)}</a>`).join(' · ')}</li>`).join('')}</ul>`
+        <li><span class="mono">${escapeHtml(g.date)}</span> ${g.teams.map(t => `<span class="team-cell-inline">${avatarHtml(t.team_key, t.display_name, 18, { shape: 'circle' })}<a href="#/team/${encodeURIComponent(t.team_key)}">${escapeHtml(t.display_name)}</a></span>`).join(' · ')}</li>`).join('')}</ul>`
         : '<p class="muted small" style="margin:0;">잡힌 공연 기록이 없습니다.</p>'}
     </section>`;
 

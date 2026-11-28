@@ -9,7 +9,7 @@ import {
 } from '../db.js';
 import { loadCityProfiles, queryCityFirstStageTeams } from '../db_venue.js';
 import {
-  avatarHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText, gradeBadgeHtml, naCell, playButtonHtml,
+  avatarHtml, escapeHtml, fmtInt, fmtNum, formatNextGigText, gradeBadgeHtml, INFO_TIPS, infoTip, naCell, playButtonHtml,
 } from '../ui.js';
 import { isInstaAccountName } from '../components/venue_info.js';
 
@@ -63,7 +63,9 @@ function flowHtml(cp, city) {
 }
 
 function kpi(label, value, sub) {
-  return `<div class="venue-kpi-card"><span class="venue-kpi-lbl">${escapeHtml(label)}</span><strong class="venue-kpi-val mono">${value}</strong><span class="venue-kpi-sub">${sub}</span></div>`;
+  const desc = (INFO_TIPS.city_summary.bands || []).find(([k]) => k === label)?.[1] || '';
+  const tip = desc ? infoTip(label, { what: desc, period: INFO_TIPS.city_summary.period, compare: INFO_TIPS.city_summary.compare }, { compact: true }) : '';
+  return `<div class="venue-kpi-card"><span class="venue-kpi-lbl">${escapeHtml(label)}${tip}</span><strong class="venue-kpi-val mono">${value}</strong><span class="venue-kpi-sub">${sub}</span></div>`;
 }
 
 /**
@@ -135,7 +137,7 @@ export async function renderCityPage(host, city) {
       </section>
       <section class="block"><div class="block-head"><h3>최근 3개월 이 도시에서 첫 무대를 연 신인</h3><span class="block-meta" id="cityFirstMeta">계산 중…</span></div><div id="cityFirstBody"><p class="small muted">계산 중…</p></div></section>
       <section class="block"><div class="block-head"><h3>다가오는 공연 (${UPCOMING_DAYS}일)</h3><span class="block-meta">${fmtInt(byGig.size)}건</span></div>
-        ${listOrEmpty([...byGig.values()].sort((a, b) => a.signal_date.localeCompare(b.signal_date)), '30일 안에 잡힌 공연 기록이 없습니다.', g => `<li><span class="mono small">${escapeHtml(formatNextGigText(g))}</span> — ${g.teams.slice(0, 4).map(t => teamLink(t.team_key, t.display_name)).join(' · ')}${g.teams.length > 4 ? ` <span class="small muted">외 ${fmtInt(g.teams.length - 4)}</span>` : ''}</li>`)}
+        ${listOrEmpty([...byGig.values()].sort((a, b) => a.signal_date.localeCompare(b.signal_date)), '30일 안에 잡힌 공연 기록이 없습니다.', g => `<li><span class="mono small">${escapeHtml(formatNextGigText(g))}</span> — ${g.teams.slice(0, 4).map(t => `<span class="team-cell-inline">${avatarHtml(t.team_key, t.display_name, 18, { shape: 'circle' })}${teamLink(t.team_key, t.display_name)}</span>`).join(' · ')}${g.teams.length > 4 ? ` <span class="small muted">외 ${fmtInt(g.teams.length - 4)}</span>` : ''}</li>`)}
       </section>
       <section class="block"><div class="block-head"><h3>대표 공연장</h3><span class="block-meta">공연 날짜 많은 순</span></div>
         ${listOrEmpty(c.top_venues || [], '공연장 기록이 없습니다.', ([v, n]) => `<li><a class="inline-venue-link" href="#/venue/${encodeURIComponent(v)}">${escapeHtml(v)}</a> <span class="small muted">${fmtInt(n)}일</span></li>`)}

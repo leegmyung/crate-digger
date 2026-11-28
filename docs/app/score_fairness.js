@@ -13,6 +13,19 @@ function pair(v2, cv) {
 }
 
 /**
+ * 홈 근거 줄용 짧은 한 줄 — '점수 성적 AUC 0.827 · 같은 기준 0.788 (교차 검증 0.783)'.
+ * @param {object|null} audit score_leak_audit.json
+ * @returns {string}
+ */
+export function fairnessShort(audit) {
+  const baseV2 = num(audit?.base?.auc_v2);
+  const fairV2 = num(audit?.D_untargeted_debut?.auc_v2);
+  if (baseV2 === null || fairV2 === null) return '';
+  const fairCv = num(audit?.D_untargeted_debut?.auc_cv);
+  return `점수 성적 AUC ${baseV2.toFixed(3)} · 같은 기준 ${pair(fairV2, fairCv)}`;
+}
+
+/**
  * @param {object|null} audit score_leak_audit.json
  * @returns {string} 화면 한 줄 (값이 없으면 '')
  */
